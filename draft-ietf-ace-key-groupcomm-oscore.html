@@ -1,0 +1,2269 @@
+<!DOCTYPE html>
+<html lang="en" class="Internet-Draft">
+<head>
+<meta charset="utf-8">
+<meta content="Common,Latin" name="scripts">
+<meta content="initial-scale=1.0" name="viewport">
+<title>Key Management for OSCORE Groups in ACE</title>
+<meta content="Marco Tiloca" name="author">
+<meta content="Jiye Park" name="author">
+<meta content="Francesca Palombini" name="author">
+<meta content="
+       This specification defines an application profile of the ACE framework for Authentication and Authorization, to request and provision keying material in group communication scenarios that are based on CoAP and secured with Group Object Security for Constrained RESTful Environments (OSCORE). This application profile delegates the authentication and authorization of Clients that join an OSCORE group through a Resource Server acting as Group Manager for that group. This application profile leverages protocol-specific transport profiles of ACE to achieve communication security, server authentication and proof-of-possession for a key owned by the Client and bound to an OAuth 2.0 access token. 
+    " name="description">
+<meta content="xml2rfc 2.40.1" name="generator">
+<meta content="Internet-Draft" name="keyword">
+<meta content="draft-ietf-ace-key-groupcomm-oscore-latest" name="ietf.draft">
+<link href="draft-ietf-ace-key-groupcomm-oscore.xml" rel="alternate" type="application/rfc+xml">
+<link href="#copyright" rel="license">
+<style type="text/css">@import url('https://martinthomson.github.io/i-d-template/fonts.css');
+
+html {
+  --background-color: #fff;
+  --text-color: #222;
+  --title-color: #191919;
+  --link-color: #2a6496;
+  --highlight-color: #f9f9f9;
+  --line-color: #eee;
+  --small-font-size: 14.5px;
+}
+body {
+  max-width: 624px;
+  margin: 75px auto;
+  padding: 0 5px;
+  color: var(--text-color);
+  background-color: var(--background-color);
+  font: 16px/22px "Lora", serif;
+  scroll-behavior: smooth;
+}
+
+.ears {
+  display: none;
+}
+
+/* headings */
+#title, h1, h2, h3, h4, h5, h6 {
+  font-family: "Cabin Condensed", sans-serif;
+  font-weight: 600;
+  margin: 0.8em 0 0.3em;
+  font-size-adjust: 0.5;
+  color: var(--title-color);
+}
+#title {
+  padding: 1em 0 0.2em;
+  font-size: 32px;
+  line-height: 40px;
+  clear: both;
+}
+h1, h2, h3 {
+  font-size: 22px;
+  line-height: 26px;
+}
+h4, h5, h6 {
+  font-size: 18px;
+  line-height: 22px;
+}
+
+/* general structure */
+.author {
+  padding-bottom: 0.3em;
+}
+#abstract+p, #abstract+p code, #abstract+p samp, #abstract+p tt {
+  font-size: 18px;
+  line-height: 24px;
+}
+p {
+  padding: 0;
+  margin: 0.5em 0;
+  text-align: left;
+}
+div, span {
+  position: relative;
+}
+div {
+  margin: 0;
+}
+.alignRight.art-text {
+  background-color: var(--highlight-color);
+  border: 1px solid var(--line-color);
+  border-radius: 3px;
+  padding: 0.5em 1em 0;
+  margin-bottom: 0.5em;
+}
+.alignRight.art-text pre {
+  padding: 0;
+  width: auto;
+}
+.alignRight {
+  margin: 1em 0;
+}
+.alignRight > *:first-child {
+  border: none;
+  margin: 0;
+  float: right;
+  clear: both;
+}
+.alignRight > *:nth-child(2) {
+  clear: both;
+  display: block;
+  border: none;
+}
+svg {
+  display: block;
+}
+.alignCenter.art-text {
+  background-color: var(--highlight-color);
+  border: 1px solid var(--line-color);
+  border-radius: 3px;
+  padding: 0.5em 1em 0;
+  margin-bottom: 0.5em;
+}
+.alignCenter.art-text pre {
+  padding: 0;
+  width: auto;
+}
+.alignCenter {
+  margin: 1em 0;
+}
+.alignCenter > *:first-child {
+  border: none;
+  /* this isn't optimal, but it's an existence proof.  PrinceXML doesn't
+     support flexbox yet.
+  */
+  display: table;
+  margin: 0 auto;
+}
+
+/* lists */
+ol, ul {
+  padding: 0;
+  margin: 0 0 1em 2em;
+}
+ol ol, ul ul, ol ul, ul ol {
+  margin-left: 1em;
+}
+li {
+  margin: 0 0 0.25em 0;
+}
+.ulCompact li {
+  margin: 0;
+}
+ul.empty, .ulEmpty {
+  list-style-type: none;
+}
+ul.empty li, .ulEmpty li {
+  margin-top: 0.5em;
+}
+ul.compact, .ulCompact,
+ol.compact, .olCompact {
+  line-height: 100%;
+  margin: 0 0 0 2em;
+}
+
+/* definition lists */
+dl {
+}
+dl > dt {
+  float: left;
+  margin-right: 1em;
+}
+dl > dd {
+  margin-bottom: .8em;
+  min-height: 1.3em;
+}
+dl.compact > dd, .dlCompact > dd {
+  margin-bottom: 0em;
+}
+dl > dd > dl {
+  margin-top: 0.5em;
+  margin-bottom: 0em;
+}
+
+/* links */
+a, a[href].selfRef:hover {
+  text-decoration: none;
+}
+a[href].selfRef {
+  color: var(--text-color);
+}
+a[href] {
+  color: var(--link-color);
+}
+a[href]:hover {
+  text-decoration: underline;
+}
+a[href].selfRef:hover {
+  background-color: var(--highlight-color);
+}
+a.xref {
+  white-space: nowrap;
+}
+
+/* Figures */
+tt, code, pre {
+  background-color: var(--highlight-color);
+  font: 14px/22px 'Oxygen Mono', monospace;
+}
+pre {
+  border: 1px solid var(--line-color);
+  line-height: 17px;
+  margin: 5px;
+  padding: 5px;
+}
+img {
+  max-width: 100%;
+}
+figure {
+  margin: 0.5em 0;
+}
+figure blockquote {
+  margin: 0.8em 0.4em 0.4em;
+}
+figcaption, caption {
+  font-style: italic;
+  margin: 0.5em 1.5em;
+  text-align: left;
+}
+@media screen {
+  pre {
+    display: inline-block;
+    overflow-x: auto;
+    max-width: 100%;
+    width: calc(100% - 22px - 1em);
+  }
+  figure pre {
+    display: block;
+    width: calc(100% - 25px);
+  }
+  pre + .pilcrow {
+    display: inline-block;
+    vertical-align: text-bottom;
+    padding-bottom: 8px;
+  }
+  table {
+    display: inline-block;
+    overflow-x: auto;
+  }
+}
+
+/* aside, blockquote */
+aside, blockquote {
+  margin-left: 0;
+  padding: 0 2em;
+  font-style: italic;
+}
+blockquote {
+  background-color: var(--highlight-color);
+  border: 1px solid var(--line-color);
+  border-radius: 3px;
+  margin: 1em 0;
+}
+cite {
+  display: block;
+  text-align: right;
+  font-style: italic;
+}
+
+/* tables */
+table {
+  width: 100%;
+  margin: 0 0 1em;
+  border-collapse: collapse;
+  border: 1px solid var(--line-color);
+}
+th, td {
+  text-align: left;
+  vertical-align: top;
+  padding: 0.5em 0.75em;
+}
+th {
+  text-align: left;
+  background-color: #eee;
+}
+tr:nth-child(2n) > td {
+  background-color: var(--background-color);
+}
+tr:nth-child(2n+1) > td {
+  background-color: var(--highlight-color);
+}
+thead+tbody tr:nth-child(2n) > td {
+  background-color: var(--highlight-color);
+}
+thead+tbody tr:nth-child(2n+1) > td {
+  background-color: var(--background-color);
+}
+table caption {
+  font-style: italic;
+  margin: 0.3em 0;
+  padding: 0;
+  text-align: left;
+}
+table p {
+  /* XXX to avoid bottom margin on table row signifiers. If paragraphs should
+     be allowed within tables more generally, it would be far better to select on a class. */
+  margin: 0;
+}
+
+/* pilcrow */
+a.pilcrow {
+  margin-left: 3px;
+  visibility: hidden;
+  user-select: none;
+}
+a.pilcrow[href] { color: #ddd; }
+a.pilcrow[href]:hover { text-decoration: none; }
+@media screen {
+  :hover > a.pilcrow {
+    visibility: visible;
+  }
+  a.pilcrow:hover {
+    background-color: transparent;
+  }
+}
+
+/* misc */
+hr {
+  border: 0;
+  border-top: 1px solid var(--line-color);
+}
+.bcp14 {
+  font-variant: small-caps;
+}
+
+.role {
+  font-variant: all-small-caps;
+}
+
+/* info block */
+#identifiers {
+  margin: 0;
+  font-size: var(--small-font-size);
+  line-height: 18px;
+  --identifier-width: 8em;
+}
+#identifiers dt {
+  width: var(--identifier-width);
+  margin: 0;
+  clear: left;
+  float: left;
+  text-align: right;
+}
+#identifiers dd {
+  margin: 0 0 0 calc(1em + var(--identifier-width));
+  min-width: 5em;
+}
+#identifiers .authors .author {
+  display: inline-block;
+  margin-right: 1.5em;
+}
+#identifiers .authors .org {
+  font-style: italic;
+}
+
+/* The prepared/rendered info at the very bottom of the page */
+.docInfo {
+  color: #999;
+  font-size: 0.9em;
+  font-style: italic;
+  margin-top: 2em;
+}
+.docInfo .prepared {
+  float: left;
+}
+.docInfo .prepared {
+  float: right;
+}
+
+/* table of contents */
+#toc {
+  padding: 0.75em 0 2em 0;
+  margin-bottom: 1em;
+}
+#toc nav ul {
+  margin: 0 0.5em 0 0;
+  padding: 0;
+  list-style: none;
+}
+#toc nav li {
+  line-height: 1.3em;
+  margin: 0.75em 0;
+  padding-left: 1.2em;
+  text-indent: -1.2em;
+}
+#toc a.xref {
+  white-space: normal;
+}
+/* references */
+.references dt {
+  text-align: right;
+  font-weight: bold;
+  min-width: 7em;
+}
+.references dd {
+  margin-left: 8em;
+  overflow: auto;
+}
+
+.refInstance {
+  margin-bottom: 1.25em;
+}
+
+.references .ascii {
+  margin-bottom: 0.25em;
+}
+
+/* index */
+.index ul {
+  margin: 0 0 0 1em;
+  padding: 0;
+  list-style: none;
+}
+.index ul ul {
+  margin: 0;
+}
+.index li {
+  margin: 0;
+  text-indent: -2em;
+  padding-left: 2em;
+  padding-bottom: 5px;
+}
+.indexIndex {
+  margin: 0.5em 0 1em;
+}
+.index a {
+  font-weight: 700;
+}
+/* make the index two-column on all but the smallest screens */
+@media (min-width: 600px) {
+  .index ul {
+    column-count: 2;
+    column-gap: 20px;
+  }
+  .index ul ul {
+    column-count: 1;
+    column-gap: 0;
+  }
+}
+
+/* authors */
+address.vcard {
+  font-style: normal;
+  margin: 1em 0;
+}
+address.vcard .nameRole {
+  font-weight: 700;
+  margin-left: 0;
+}
+address.vcard .label {
+  margin: 0.5em 0;
+}
+address.vcard .type {
+  display: none;
+}
+.alternative-contact {
+  margin: 1.5em 0 1em;
+}
+hr.addr {
+  border-top: 1px dashed;
+  margin: 0;
+  color: #ddd;
+  max-width: calc(100% - 16px);
+}
+@media (min-width: 600px) {
+  #authors-addresses > section {
+    display: relative;
+    padding: 32px 0 0;
+    column-count: 2;
+    column-gap: 20px;
+  }
+  #name-authors-address {
+    position: absolute;
+    top: 0px;
+    column-span: all;
+  }
+  /* hack for break-inside: avoid-column */
+  #authors-addresses address {
+    display: inline-block;
+    break-inside: avoid-column;
+  }
+}
+
+/* temporary notes */
+.rfcEditorRemove::before {
+  position: absolute;
+  top: 0.2em;
+  right: 0.2em;
+  padding: 0.2em;
+  content: "The RFC Editor will remove this note";
+  color: #b76427;
+  background-color: rgba(249, 232, 105, 0.3);
+}
+.rfcEditorRemove {
+  position: relative;
+  padding-top: 1.8em;
+  background-color: rgba(249, 232, 105, 0.3);
+  border-radius: 3px;
+}
+.cref {
+  background-color: rgba(249, 232, 105, 0.3);
+  padding: 2px 4px;
+}
+.crefSource {
+  font-style: italic;
+}
+/* alternative layout for smaller screens */
+@media screen and (max-width: 953px) {
+  #toc {
+    position: fixed;
+    z-index: 2;
+    top: 0;
+    right: 0;
+    padding: 0;
+    margin: 0;
+    border-bottom: 1px solid #ccc;
+    opacity: 0.6;
+  }
+  #toc.active {
+      opacity: 1;
+  }
+  #toc h2 {
+    margin: 0;
+    padding: 2px 0 2px 6px;
+    padding-right: 1em;
+    font-size: 18px;
+    line-height: 24px;
+    min-width: 190px;
+    text-align: right;
+    background-color: #444;
+    color: white;
+    cursor: pointer;
+  }
+  #toc h2::before { /* css hamburger */
+    float: right;
+    position: relative;
+    width: 1em;
+    height: 1px;
+    left: -164px;
+    margin: 8px 0 0 0;
+    background: white none repeat scroll 0 0;
+    box-shadow: 0 4px 0 0 white, 0 8px 0 0 white;
+    content: "";
+  }
+  #toc nav {
+    display: none;
+    background-color: var(--background-color);
+    padding: 0.5em 1em 1em;
+    overflow: auto;
+    overscroll-behavior: contain;
+    height: calc(100vh - 48px);
+    border-left: 1px solid #ddd;
+  }
+  #toc.active nav {
+    display: block;
+  }
+  /* Make the collapsed ToC header render white on gray also when it's a link */
+  #toc h2 a,
+  #toc h2 a:link,
+  #toc h2 a:focus,
+  #toc h2 a:hover,
+  #toc a.toplink,
+  #toc a.toplink:hover {
+    color: white;
+    background-color: #444;
+    text-decoration: none;
+  }
+  #toc a.toplink {
+    margin-top: 2px;
+  }
+}
+
+/* alternative layout for wide screens */
+@media screen and (min-width: 954px) {
+  body {
+    padding-right: 380px;
+  }
+  #toc {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    right: calc(50vw - 480px);
+    width: 312px;
+    margin: 0;
+    padding: 0;
+    z-index: 1;
+  }
+  #toc h2 {
+    margin: 0;
+    padding: 0.25em 1em 1em 0;
+  }
+  #toc nav {
+    display: block;
+    height: calc(90vh - 84px);
+    bottom: 0;
+    padding: 0.5em 0 2em;
+    overflow: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+  }
+  #toc nav > ul  {
+    margin-bottom: 2em;
+  }
+  #toc ul {
+    margin: 0 0 0 4px;
+    font-size: var(--small-font-size);
+  }
+  #toc ul p, #toc ul li {
+    margin: 2px 0;
+    line-height: 22px;
+  }
+  img { /* future proofing */
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+/* pagination */
+@media print {
+  body {
+    width: 100%;
+  }
+  p {
+    orphans: 3;
+    widows: 3;
+  }
+  #n-copyright-notice {
+    border-bottom: none;
+  }
+  #toc, #n-introduction {
+    page-break-before: always;
+  }
+  #toc {
+    border-top: none;
+    padding-top: 0;
+  }
+  figure, pre {
+    page-break-inside: avoid;
+  }
+  figure {
+    overflow: scroll;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    page-break-after: avoid;
+  }
+  h2+*, h3+*, h4+*, h5+*, h6+* {
+    page-break-before: avoid;
+  }
+  pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-size: 10pt;
+  }
+  table {
+    border: 1px solid #ddd;
+  }
+  td {
+    border-top: 1px solid #ddd;
+  }
+}
+
+@page :first {
+  padding-top: 0;
+  @top-left {
+    content: normal;
+    border: none;
+  }
+  @top-center {
+    content: normal;
+    border: none;
+  }
+  @top-right {
+    content: normal;
+    border: none;
+  }
+}
+
+@page {
+  size: A4;
+  margin-bottom: 45mm;
+  padding-top: 20px;
+}
+
+/* Changes introduced to fix issues found during implementation */
+
+/* Separate body from document info even without intervening H1 */
+section {
+  clear: both;
+}
+
+/* Top align author divs, to avoid names without organization dropping level with org names */
+.author {
+  vertical-align: top;
+}
+
+/* Style section numbers with more space between number and title */
+.section-number {
+  padding-right: 0.5em;
+}
+
+/* Add styling for a link in the ToC that points to the top of the document */
+a.toplink {
+  float: right;
+  margin: 8px 0.5em 0;
+}
+
+/* Fix the dl styling to match the RFC 7992 attributes */
+dl > dt,
+dl.dlParallel > dt {
+  float: left;
+  margin-right: 1em;
+}
+dl.dlNewline > dt {
+  float: none;
+}
+
+/* Provide styling for table cell text alignment */
+table td.text-left,
+table th.text-left {
+  text-align: left;
+}
+table td.text-center,
+table th.text-center {
+  text-align: center;
+}
+table td.text-right,
+table th.text-right {
+  text-align: right;
+}
+
+/* Make the alternative author contact information look less like just another
+   author, and group it closer with the primary author contact information */
+.alternative-contact {
+  margin: 0.5em 0 0.25em 0;
+}
+address .non-ascii {
+  margin: 0 0 0 2em;
+}
+
+/* With it being possible to set tables with alignment
+  left, center, and right, { width: 100%; } does not make sense */
+table {
+  width: auto;
+}
+
+/* Avoid reference text that sits in a block with very wide left margin,
+   because of a long floating dt label.*/
+.references dd {
+  overflow: visible;
+}
+
+/* Control caption placement */
+caption {
+  caption-side: bottom;
+}
+
+/* Limit the width of the author address vcard, so names in right-to-left
+   script don't end up on the other side of the page. */
+
+address.vcard {
+  max-width: 20em;
+  margin-right: auto;
+}
+
+/* For address alignment dependent on LTR or RTL scripts */
+address div.left {
+  text-align: left;
+}
+address div.right {
+  text-align: right;
+}
+
+/* Provide table alignment support.  We can't use the alignX classes above
+   since they do unwanted things with caption and other styling. */
+table.right {
+ margin-left: auto;
+ margin-right: 0;
+}
+table.center {
+ margin-left: auto;
+ margin-right: auto;
+}
+table.left {
+ margin-left: 0;
+ margin-right: auto;
+}
+
+/* Give the table caption label the same styling as the figcaption */
+
+@media print {
+  .toplink {
+    display: none;
+  }
+
+  /* avoid overwriting the top border line with the ToC header */
+  #toc {
+    padding-top: 1px;
+  }
+
+  /* Avoid page breaks inside dl and author address entries */
+  dd {
+    page-break-before: avoid;
+  }
+  .vcard {
+    page-break-inside: avoid;
+  }
+
+}
+/* Tweak the bcp14 keyword presentation */
+.bcp14 {
+  font-variant: small-caps;
+  font-weight: bold;
+  font-size: 0.9em;
+}
+</style>
+<link href="rfc-local.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<table class="ears">
+<thead><tr>
+<td class="left">Internet-Draft</td>
+<td class="center">Key Management for OSCORE Groups in ACE</td>
+<td class="right">March 2020</td>
+</tr></thead>
+<tfoot><tr>
+<td class="left">Tiloca, et al.</td>
+<td class="center">Expires 11 September 2020</td>
+<td class="right">[Page]</td>
+</tr></tfoot>
+</table>
+<div id="external-metadata" class="document-information"></div>
+<div id="internal-metadata" class="document-information">
+<dl id="identifiers">
+<dt class="label-workgroup">Workgroup:</dt>
+<dd class="workgroup">ACE Working Group</dd>
+<dt class="label-internet-draft">Internet-Draft:</dt>
+<dd class="internet-draft">draft-ietf-ace-key-groupcomm-oscore-latest</dd>
+<dt class="label-published">Published:</dt>
+<dd class="published">
+<time datetime="2020-03-10" class="published">10 March 2020</time>
+    </dd>
+<dt class="label-intended-status">Intended Status:</dt>
+<dd class="intended-status">Standards Track</dd>
+<dt class="label-expires">Expires:</dt>
+<dd class="expires"><time datetime="2020-09-11">11 September 2020</time></dd>
+<dt class="label-authors">Authors:</dt>
+<dd class="authors">
+<div class="author">
+      <div class="author-name">M. Tiloca</div>
+<div class="org">RISE AB</div>
+</div>
+<div class="author">
+      <div class="author-name">J. Park</div>
+<div class="org">Universitaet Duisburg-Essen</div>
+</div>
+<div class="author">
+      <div class="author-name">F. Palombini</div>
+<div class="org">Ericsson AB</div>
+</div>
+</dd>
+</dl>
+</div>
+<h1 id="title">Key Management for OSCORE Groups in ACE</h1>
+<section id="section-abstract">
+      <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
+<p id="section-abstract-1">This specification defines an application profile of the ACE framework for Authentication and Authorization, to request and provision keying material in group communication scenarios that are based on CoAP and secured with Group Object Security for Constrained RESTful Environments (OSCORE). This application profile delegates the authentication and authorization of Clients that join an OSCORE group through a Resource Server acting as Group Manager for that group. This application profile leverages protocol-specific transport profiles of ACE to achieve communication security, server authentication and proof-of-possession for a key owned by the Client and bound to an OAuth 2.0 access token.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
+</section>
+<div id="status-of-memo">
+<section id="section-boilerplate.1">
+        <h2 id="name-status-of-this-memo">
+<a href="#name-status-of-this-memo" class="section-name selfRef">Status of This Memo</a>
+        </h2>
+<p id="section-boilerplate.1-1">
+        This Internet-Draft is submitted in full conformance with the
+        provisions of BCP 78 and BCP 79.<a href="#section-boilerplate.1-1" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-2">
+        Internet-Drafts are working documents of the Internet Engineering Task
+        Force (IETF). Note that other groups may also distribute working
+        documents as Internet-Drafts. The list of current Internet-Drafts is
+        at <span><a href="https://datatracker.ietf.org/drafts/current/">https://datatracker.ietf.org/drafts/current/</a></span>.<a href="#section-boilerplate.1-2" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-3">
+        Internet-Drafts are draft documents valid for a maximum of six months
+        and may be updated, replaced, or obsoleted by other documents at any
+        time. It is inappropriate to use Internet-Drafts as reference
+        material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-4">
+        This Internet-Draft will expire on 11 September 2020.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="copyright">
+<section id="section-boilerplate.2">
+        <h2 id="name-copyright-notice">
+<a href="#name-copyright-notice" class="section-name selfRef">Copyright Notice</a>
+        </h2>
+<p id="section-boilerplate.2-1">
+            Copyright (c) 2020 IETF Trust and the persons identified as the
+            document authors. All rights reserved.<a href="#section-boilerplate.2-1" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.2-2">
+            This document is subject to BCP 78 and the IETF Trust's Legal
+            Provisions Relating to IETF Documents
+            (<span><a href="https://trustee.ietf.org/license-info">https://trustee.ietf.org/license-info</a></span>) in effect on the date of
+            publication of this document. Please review these documents
+            carefully, as they describe your rights and restrictions with
+            respect to this document. Code Components extracted from this
+            document must include Simplified BSD License text as described in
+            Section 4.e of the Trust Legal Provisions and are provided without
+            warranty as described in the Simplified BSD License.<a href="#section-boilerplate.2-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="toc">
+<section id="section-toc.1">
+        <a href="#" onclick="scroll(0,0)" class="toplink">▲</a><h2 id="name-table-of-contents">
+<a href="#name-table-of-contents" class="section-name selfRef">Table of Contents</a>
+        </h2>
+<nav class="toc"><ul class="toc ulEmpty">
+<li class="toc ulEmpty" id="section-toc.1-1.1">
+            <p id="section-toc.1-1.1.1"><a href="#section-1" class="xref">1</a>.  <a href="#name-introduction" class="xref">Introduction</a><a href="#section-toc.1-1.1.1" class="pilcrow">¶</a></p>
+<ul class="toc ulEmpty">
+<li class="toc ulEmpty" id="section-toc.1-1.1.2.1">
+                <p id="section-toc.1-1.1.2.1.1"><a href="#section-1.1" class="xref">1.1</a>.  <a href="#name-terminology" class="xref">Terminology</a><a href="#section-toc.1-1.1.2.1.1" class="pilcrow">¶</a></p>
+</li>
+</ul>
+</li>
+<li class="toc ulEmpty" id="section-toc.1-1.2">
+            <p id="section-toc.1-1.2.1"><a href="#section-2" class="xref">2</a>.  <a href="#name-protocol-overview" class="xref">Protocol Overview</a><a href="#section-toc.1-1.2.1" class="pilcrow">¶</a></p>
+<ul class="toc ulEmpty">
+<li class="toc ulEmpty" id="section-toc.1-1.2.2.1">
+                <p id="section-toc.1-1.2.2.1.1"><a href="#section-2.1" class="xref">2.1</a>.  <a href="#name-overview-of-the-joining-pro" class="xref">Overview of the Joining Process</a><a href="#section-toc.1-1.2.2.1.1" class="pilcrow">¶</a></p>
+</li>
+<li class="toc ulEmpty" id="section-toc.1-1.2.2.2">
+                <p id="section-toc.1-1.2.2.2.1"><a href="#section-2.2" class="xref">2.2</a>.  <a href="#name-overview-of-the-group-rekey" class="xref">Overview of the Group Rekeying Process</a><a href="#section-toc.1-1.2.2.2.1" class="pilcrow">¶</a></p>
+</li>
+</ul>
+</li>
+<li class="toc ulEmpty" id="section-toc.1-1.3">
+            <p id="section-toc.1-1.3.1"><a href="#section-3" class="xref">3</a>.  <a href="#name-joining-node-to-authorizati" class="xref">Joining Node to Authorization Server</a><a href="#section-toc.1-1.3.1" class="pilcrow">¶</a></p>
+<ul class="toc ulEmpty">
+<li class="toc ulEmpty" id="section-toc.1-1.3.2.1">
+                <p id="section-toc.1-1.3.2.1.1"><a href="#section-3.1" class="xref">3.1</a>.  <a href="#name-authorization-request" class="xref">Authorization Request</a><a href="#section-toc.1-1.3.2.1.1" class="pilcrow">¶</a></p>
+</li>
+<li class="toc ulEmpty" id="section-toc.1-1.3.2.2">
+                <p id="section-toc.1-1.3.2.2.1"><a href="#section-3.2" class="xref">3.2</a>.  <a href="#name-authorization-response" class="xref">Authorization Response</a><a href="#section-toc.1-1.3.2.2.1" class="pilcrow">¶</a></p>
+</li>
+</ul>
+</li>
+<li class="toc ulEmpty" id="section-toc.1-1.4">
+            <p id="section-toc.1-1.4.1"><a href="#section-4" class="xref">4</a>.  <a href="#name-interface-at-the-group-mana" class="xref">Interface at the Group Manager</a><a href="#section-toc.1-1.4.1" class="pilcrow">¶</a></p>
+<ul class="toc ulEmpty">
+<li class="toc ulEmpty" id="section-toc.1-1.4.2.1">
+                <p id="section-toc.1-1.4.2.1.1"><a href="#section-4.1" class="xref">4.1</a>.  <a href="#name-get-handler" class="xref">GET Handler</a><a href="#section-toc.1-1.4.2.1.1" class="pilcrow">¶</a></p>
+</li>
+</ul>
+</li>
+<li class="toc ulEmpty" id="section-toc.1-1.5">
+            <p id="section-toc.1-1.5.1"><a href="#section-5" class="xref">5</a>.  <a href="#name-joining-a-group" class="xref">Joining a Group</a><a href="#section-toc.1-1.5.1" class="pilcrow">¶</a></p>
+<ul class="toc ulEmpty">
+<li class="toc ulEmpty" id="section-toc.1-1.5.2.1">
+                <p id="section-toc.1-1.5.2.1.1"><a href="#section-5.1" class="xref">5.1</a>.  <a href="#name-token-post" class="xref">Token Post</a><a href="#section-toc.1-1.5.2.1.1" class="pilcrow">¶</a></p>
+</li>
+<li class="toc ulEmpty" id="section-toc.1-1.5.2.2">
+                <p id="section-toc.1-1.5.2.2.1"><a href="#section-5.2" class="xref">5.2</a>.  <a href="#name-sending-the-joining-request" class="xref">Sending the Joining Request</a><a href="#section-toc.1-1.5.2.2.1" class="pilcrow">¶</a></p>
+<ul class="toc ulEmpty">
+<li class="toc ulEmpty" id="section-toc.1-1.5.2.2.2.1">
+                    <p id="section-toc.1-1.5.2.2.2.1.1"><a href="#section-5.2.1" class="xref">5.2.1</a>.  <a href="#name-value-of-the-n_s-challenge" class="xref">Value of the N_S Challenge</a><a href="#section-toc.1-1.5.2.2.2.1.1" class="pilcrow">¶</a></p>
+</li>
+</ul>
+</li>
+<li class="toc ulEmpty" id="section-toc.1-1.5.2.3">
+                <p id="section-toc.1-1.5.2.3.1"><a href="#section-5.3" class="xref">5.3</a>.  <a href="#name-processing-the-joining-requ" class="xref">Processing the Joining Request</a><a href="#section-toc.1-1.5.2.3.1" class="pilcrow">¶</a></p>
+</li>
+<li class="toc ulEmpty" id="section-toc.1-1.5.2.4">
+                <p id="section-toc.1-1.5.2.4.1"><a href="#section-5.4" class="xref">5.4</a>.  <a href="#name-joining-response" class="xref">Joining Response</a><a href="#section-toc.1-1.5.2.4.1" class="pilcrow">¶</a></p>
+</li>
+</ul>
+</li>
+<li class="toc ulEmpty" id="section-toc.1-1.6">
+            <p id="section-toc.1-1.6.1"><a href="#section-6" class="xref">6</a>.  <a href="#name-public-keys-of-joining-node" class="xref">Public Keys of Joining Nodes</a><a href="#section-toc.1-1.6.1" class="pilcrow">¶</a></p>
+</li>
+<li class="toc ulEmpty" id="section-toc.1-1.7">
+            <p id="section-toc.1-1.7.1"><a href="#section-7" class="xref">7</a>.  <a href="#name-retrieval-of-updated-keying" class="xref">Retrieval of Updated Keying Material</a><a href="#section-toc.1-1.7.1" class="pilcrow">¶</a></p>
+<ul class="toc ulEmpty">
+<li class="toc ulEmpty" id="section-toc.1-1.7.2.1">
+                <p id="section-toc.1-1.7.2.1.1"><a href="#section-7.1" class="xref">7.1</a>.  <a href="#name-retrieval-of-group-keying-m" class="xref">Retrieval of Group Keying Material</a><a href="#section-toc.1-1.7.2.1.1" class="pilcrow">¶</a></p>
+</li>
+<li class="toc ulEmpty" id="section-toc.1-1.7.2.2">
+                <p id="section-toc.1-1.7.2.2.1"><a href="#section-7.2" class="xref">7.2</a>.  <a href="#name-retrieval-of-group-keying-ma" class="xref">Retrieval of Group Keying Material and Sender ID</a><a href="#section-toc.1-1.7.2.2.1" class="pilcrow">¶</a></p>
+</li>
+</ul>
+</li>
+<li class="toc ulEmpty" id="section-toc.1-1.8">
+            <p id="section-toc.1-1.8.1"><a href="#section-8" class="xref">8</a>.  <a href="#name-retrieval-of-new-keying-mat" class="xref">Retrieval of New Keying Material</a><a href="#section-toc.1-1.8.1" class="pilcrow">¶</a></p>
+</li>
+<li class="toc ulEmpty" id="section-toc.1-1.9">
+            <p id="section-toc.1-1.9.1"><a href="#section-9" class="xref">9</a>.  <a href="#name-retrieval-of-public-keys-of" class="xref">Retrieval of Public Keys of Group Members</a><a href="#section-toc.1-1.9.1" class="pilcrow">¶</a></p>
+</li>
+<li class="toc ulEmpty" id="section-toc.1-1.10">
+            <p id="section-toc.1-1.10.1"><a href="#section-10" class="xref">10</a>. <a href="#name-update-of-public-key" class="xref">Update of Public Key</a><a href="#section-toc.1-1.10.1" class="pilcrow">¶</a></p>
+</li>
+<li class="toc ulEmpty" id="section-toc.1-1.11">
+            <p id="section-toc.1-1.11.1"><a href="#section-11" class="xref">11</a>. <a href="#name-retrieval-of-group-policies" class="xref">Retrieval of Group Policies</a><a href="#section-toc.1-1.11.1" class="pilcrow">¶</a></p>
+</li>
+<li class="toc ulEmpty" id="section-toc.1-1.12">
+            <p id="section-toc.1-1.12.1"><a href="#section-12" class="xref">12</a>. <a href="#name-retrieval-of-keying-materia" class="xref">Retrieval of Keying Material Version</a><a href="#section-toc.1-1.12.1" class="pilcrow">¶</a></p>
+</li>
+<li class="toc ulEmpty" id="section-toc.1-1.13">
+            <p id="section-toc.1-1.13.1"><a href="#section-13" class="xref">13</a>. <a href="#name-retrieval-of-group-status" class="xref">Retrieval of Group Status</a><a href="#section-toc.1-1.13.1" class="pilcrow">¶</a></p>
+</li>
+<li class="toc ulEmpty" id="section-toc.1-1.14">
+            <p id="section-toc.1-1.14.1"><a href="#section-14" class="xref">14</a>. <a href="#name-request-to-leave-the-group" class="xref">Request to Leave the Group</a><a href="#section-toc.1-1.14.1" class="pilcrow">¶</a></p>
+</li>
+<li class="toc ulEmpty" id="section-toc.1-1.15">
+            <p id="section-toc.1-1.15.1"><a href="#section-15" class="xref">15</a>. <a href="#name-removal-of-a-group-member" class="xref">Removal of a Group Member</a><a href="#section-toc.1-1.15.1" class="pilcrow">¶</a></p>
+</li>
+<li class="toc ulEmpty" id="section-toc.1-1.16">
+            <p id="section-toc.1-1.16.1"><a href="#section-16" class="xref">16</a>. <a href="#name-group-rekeying-process" class="xref">Group Rekeying Process</a><a href="#section-toc.1-1.16.1" class="pilcrow">¶</a></p>
+</li>
+<li class="toc ulEmpty" id="section-toc.1-1.17">
+            <p id="section-toc.1-1.17.1"><a href="#section-17" class="xref">17</a>. <a href="#name-security-considerations" class="xref">Security Considerations</a><a href="#section-toc.1-1.17.1" class="pilcrow">¶</a></p>
+<ul class="toc ulEmpty">
+<li class="toc ulEmpty" id="section-toc.1-1.17.2.1">
+                <p id="section-toc.1-1.17.2.1.1"><a href="#section-17.1" class="xref">17.1</a>.  <a href="#name-management-of-oscore-groups" class="xref">Management of OSCORE Groups</a><a href="#section-toc.1-1.17.2.1.1" class="pilcrow">¶</a></p>
+</li>
+<li class="toc ulEmpty" id="section-toc.1-1.17.2.2">
+                <p id="section-toc.1-1.17.2.2.1"><a href="#section-17.2" class="xref">17.2</a>.  <a href="#name-size-of-nonces-for-signatur" class="xref">Size of Nonces for Signature Challenge</a><a href="#section-toc.1-1.17.2.2.1" class="pilcrow">¶</a></p>
+</li>
+</ul>
+</li>
+<li class="toc ulEmpty" id="section-toc.1-1.18">
+            <p id="section-toc.1-1.18.1"><a href="#section-18" class="xref">18</a>. <a href="#name-iana-considerations" class="xref">IANA Considerations</a><a href="#section-toc.1-1.18.1" class="pilcrow">¶</a></p>
+<ul class="toc ulEmpty">
+<li class="toc ulEmpty" id="section-toc.1-1.18.2.1">
+                <p id="section-toc.1-1.18.2.1.1"><a href="#section-18.1" class="xref">18.1</a>.  <a href="#name-ace-groupcomm-profile-regis" class="xref">ACE Groupcomm Profile Registry</a><a href="#section-toc.1-1.18.2.1.1" class="pilcrow">¶</a></p>
+</li>
+<li class="toc ulEmpty" id="section-toc.1-1.18.2.2">
+                <p id="section-toc.1-1.18.2.2.1"><a href="#section-18.2" class="xref">18.2</a>.  <a href="#name-ace-groupcomm-key-registry" class="xref">ACE Groupcomm Key Registry</a><a href="#section-toc.1-1.18.2.2.1" class="pilcrow">¶</a></p>
+</li>
+<li class="toc ulEmpty" id="section-toc.1-1.18.2.3">
+                <p id="section-toc.1-1.18.2.3.1"><a href="#section-18.3" class="xref">18.3</a>.  <a href="#name-oscore-security-context-par" class="xref">OSCORE Security Context Parameters Registry</a><a href="#section-toc.1-1.18.2.3.1" class="pilcrow">¶</a></p>
+</li>
+<li class="toc ulEmpty" id="section-toc.1-1.18.2.4">
+                <p id="section-toc.1-1.18.2.4.1"><a href="#section-18.4" class="xref">18.4</a>.  <a href="#name-sequence-number-synchroniza" class="xref">Sequence Number Synchronization Method Registry</a><a href="#section-toc.1-1.18.2.4.1" class="pilcrow">¶</a></p>
+</li>
+<li class="toc ulEmpty" id="section-toc.1-1.18.2.5">
+                <p id="section-toc.1-1.18.2.5.1"><a href="#section-18.5" class="xref">18.5</a>.  <a href="#name-ace-groupcomm-parameters-re" class="xref">ACE Groupcomm Parameters Registry</a><a href="#section-toc.1-1.18.2.5.1" class="pilcrow">¶</a></p>
+</li>
+<li class="toc ulEmpty" id="section-toc.1-1.18.2.6">
+                <p id="section-toc.1-1.18.2.6.1"><a href="#section-18.6" class="xref">18.6</a>.  <a href="#name-tls-exporter-label-registry" class="xref">TLS Exporter Label Registry</a><a href="#section-toc.1-1.18.2.6.1" class="pilcrow">¶</a></p>
+</li>
+</ul>
+</li>
+<li class="toc ulEmpty" id="section-toc.1-1.19">
+            <p id="section-toc.1-1.19.1"><a href="#section-19" class="xref">19</a>. <a href="#name-references" class="xref">References</a><a href="#section-toc.1-1.19.1" class="pilcrow">¶</a></p>
+<ul class="toc ulEmpty">
+<li class="toc ulEmpty" id="section-toc.1-1.19.2.1">
+                <p id="section-toc.1-1.19.2.1.1"><a href="#section-19.1" class="xref">19.1</a>.  <a href="#name-normative-references" class="xref">Normative References</a><a href="#section-toc.1-1.19.2.1.1" class="pilcrow">¶</a></p>
+</li>
+<li class="toc ulEmpty" id="section-toc.1-1.19.2.2">
+                <p id="section-toc.1-1.19.2.2.1"><a href="#section-19.2" class="xref">19.2</a>.  <a href="#name-informative-references" class="xref">Informative References</a><a href="#section-toc.1-1.19.2.2.1" class="pilcrow">¶</a></p>
+</li>
+</ul>
+</li>
+<li class="toc ulEmpty" id="section-toc.1-1.20">
+            <p id="section-toc.1-1.20.1"><a href="#section-appendix.a" class="xref">Appendix A</a>.  <a href="#name-profile-requirements" class="xref">Profile Requirements</a><a href="#section-toc.1-1.20.1" class="pilcrow">¶</a></p>
+</li>
+<li class="toc ulEmpty" id="section-toc.1-1.21">
+            <p id="section-toc.1-1.21.1"><a href="#section-appendix.b" class="xref">Appendix B</a>.  <a href="#name-document-updates" class="xref">Document Updates</a><a href="#section-toc.1-1.21.1" class="pilcrow">¶</a></p>
+<ul class="toc ulEmpty">
+<li class="toc ulEmpty" id="section-toc.1-1.21.2.1">
+                <p id="section-toc.1-1.21.2.1.1"><a href="#section-b.1" class="xref">B.1</a>.  <a href="#name-version-04-to-05" class="xref">Version -04 to -05</a><a href="#section-toc.1-1.21.2.1.1" class="pilcrow">¶</a></p>
+</li>
+<li class="toc ulEmpty" id="section-toc.1-1.21.2.2">
+                <p id="section-toc.1-1.21.2.2.1"><a href="#section-b.2" class="xref">B.2</a>.  <a href="#name-version-03-to-04" class="xref">Version -03 to -04</a><a href="#section-toc.1-1.21.2.2.1" class="pilcrow">¶</a></p>
+</li>
+<li class="toc ulEmpty" id="section-toc.1-1.21.2.3">
+                <p id="section-toc.1-1.21.2.3.1"><a href="#section-b.3" class="xref">B.3</a>.  <a href="#name-version-02-to-03" class="xref">Version -02 to -03</a><a href="#section-toc.1-1.21.2.3.1" class="pilcrow">¶</a></p>
+</li>
+<li class="toc ulEmpty" id="section-toc.1-1.21.2.4">
+                <p id="section-toc.1-1.21.2.4.1"><a href="#section-b.4" class="xref">B.4</a>.  <a href="#name-version-01-to-02" class="xref">Version -01 to -02</a><a href="#section-toc.1-1.21.2.4.1" class="pilcrow">¶</a></p>
+</li>
+<li class="toc ulEmpty" id="section-toc.1-1.21.2.5">
+                <p id="section-toc.1-1.21.2.5.1"><a href="#section-b.5" class="xref">B.5</a>.  <a href="#name-version-00-to-01" class="xref">Version -00 to -01</a><a href="#section-toc.1-1.21.2.5.1" class="pilcrow">¶</a></p>
+</li>
+</ul>
+</li>
+<li class="toc ulEmpty" id="section-toc.1-1.22">
+            <p id="section-toc.1-1.22.1"><a href="#section-appendix.c" class="xref"></a><a href="#name-acknowledgments" class="xref">Acknowledgments</a><a href="#section-toc.1-1.22.1" class="pilcrow">¶</a></p>
+</li>
+<li class="toc ulEmpty" id="section-toc.1-1.23">
+            <p id="section-toc.1-1.23.1"><a href="#section-appendix.d" class="xref"></a><a href="#name-authors-addresses" class="xref">Authors' Addresses</a><a href="#section-toc.1-1.23.1" class="pilcrow">¶</a></p>
+</li>
+</ul>
+</nav>
+</section>
+</div>
+<div id="sec-introduction">
+<section id="section-1">
+      <h2 id="name-introduction">
+<a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
+      </h2>
+<p id="section-1-1">Object Security for Constrained RESTful Environments (OSCORE) <span>[<a href="#RFC8613" class="xref">RFC8613</a>]</span> is a method for application-layer protection of the Constrained Application Protocol (CoAP) <span>[<a href="#RFC7252" class="xref">RFC7252</a>]</span>, using CBOR Object Signing and Encryption (COSE) <span>[<a href="#RFC8152" class="xref">RFC8152</a>]</span> and enabling end-to-end security of CoAP payload and options.<a href="#section-1-1" class="pilcrow">¶</a></p>
+<p id="section-1-2">As described in <span>[<a href="#I-D.ietf-core-oscore-groupcomm" class="xref">I-D.ietf-core-oscore-groupcomm</a>]</span>, Group OSCORE is used to protect CoAP group communication over IP multicast <span>[<a href="#I-D.dijk-core-groupcomm-bis" class="xref">I-D.dijk-core-groupcomm-bis</a>]</span>. This relies on a Group Manager, which is responsible for managing an OSCORE group, where members exchange CoAP messages secured with Group OSCORE. The Group Manager can be responsible for multiple groups, coordinates the joining process of new group members, and is entrusted with the distribution and renewal of group keying material.<a href="#section-1-2" class="pilcrow">¶</a></p>
+<p id="section-1-3">This specification is an application profile of <span>[<a href="#I-D.ietf-ace-key-groupcomm" class="xref">I-D.ietf-ace-key-groupcomm</a>]</span>, which itself builds on the ACE framework for Authentication and Authorization <span>[<a href="#I-D.ietf-ace-oauth-authz" class="xref">I-D.ietf-ace-oauth-authz</a>]</span>. Message exchanges among the participants as well as message formats and processing follow what specified in <span>[<a href="#I-D.ietf-ace-key-groupcomm" class="xref">I-D.ietf-ace-key-groupcomm</a>]</span> for provisioning and renewing keying material in group communication scenarios, where Group OSCORE is used to protect CoAP group communication over IP multicast.<a href="#section-1-3" class="pilcrow">¶</a></p>
+<div id="ssec-terminology">
+<section id="section-1.1">
+        <h3 id="name-terminology">
+<a href="#section-1.1" class="section-number selfRef">1.1. </a><a href="#name-terminology" class="section-name selfRef">Terminology</a>
+        </h3>
+<p id="section-1.1-1">The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in BCP 14 <span>[<a href="#RFC2119" class="xref">RFC2119</a>]</span><span>[<a href="#RFC8174" class="xref">RFC8174</a>]</span> when, and only when, they appear in all capitals, as shown here.<a href="#section-1.1-1" class="pilcrow">¶</a></p>
+<p id="section-1.1-2">Readers are expected to be familiar with:<a href="#section-1.1-2" class="pilcrow">¶</a></p>
+<ul>
+<li id="section-1.1-3.1">The terms and concepts described in the ACE framework for authentication and authorization <span>[<a href="#I-D.ietf-ace-oauth-authz" class="xref">I-D.ietf-ace-oauth-authz</a>]</span>. The terminology for entities in the considered architecture is defined in OAuth 2.0 <span>[<a href="#RFC6749" class="xref">RFC6749</a>]</span>. In particular, this includes Client (C), Resource Server (RS), and Authorization Server (AS).<a href="#section-1.1-3.1" class="pilcrow">¶</a>
+</li>
+<li id="section-1.1-3.2">The terms and concepts related to the CoAP protocol described in <span>[<a href="#RFC7252" class="xref">RFC7252</a>]</span><span>[<a href="#I-D.dijk-core-groupcomm-bis" class="xref">I-D.dijk-core-groupcomm-bis</a>]</span>. Unless otherwise indicated, the term "endpoint" is used here following its OAuth definition, aimed at denoting resources such as /token and /introspect at the AS and /authz-info at the RS. This document does not use the CoAP definition of "endpoint", which is "An entity participating in the CoAP protocol".<a href="#section-1.1-3.2" class="pilcrow">¶</a>
+</li>
+<li id="section-1.1-3.3">The terms and concept related to the message formats and processing specified in <span>[<a href="#I-D.ietf-ace-key-groupcomm" class="xref">I-D.ietf-ace-key-groupcomm</a>]</span>, for provisioning and renewing keying material in group communication scenarios.<a href="#section-1.1-3.3" class="pilcrow">¶</a>
+</li>
+<li id="section-1.1-3.4">The terms and concepts for protection and processing of CoAP messages through OSCORE <span>[<a href="#RFC8613" class="xref">RFC8613</a>]</span> and through Group OSCORE <span>[<a href="#I-D.ietf-core-oscore-groupcomm" class="xref">I-D.ietf-core-oscore-groupcomm</a>]</span> in group communication scenarios. These include the concept of Group Manager, as the entity responsible for a set of groups where communications are secured with Group OSCORE. In this specification, the Group Manager acts as Resource Server.<a href="#section-1.1-3.4" class="pilcrow">¶</a>
+</li>
+</ul>
+<p id="section-1.1-4">Additionally, this document makes use of the following terminology.<a href="#section-1.1-4" class="pilcrow">¶</a></p>
+<ul>
+<li id="section-1.1-5.1">Group name is used as a synonym for group identifier in <span>[<a href="#I-D.ietf-ace-key-groupcomm" class="xref">I-D.ietf-ace-key-groupcomm</a>]</span>.<a href="#section-1.1-5.1" class="pilcrow">¶</a>
+</li>
+<li id="section-1.1-5.2">Requester: member of an OSCORE group that sends request messages to other members of the group.<a href="#section-1.1-5.2" class="pilcrow">¶</a>
+</li>
+<li id="section-1.1-5.3">Responder: member of an OSCORE group that receives request messages from other members of the group. A responder may reply back, by sending a response message to the requester which has sent the request message.<a href="#section-1.1-5.3" class="pilcrow">¶</a>
+</li>
+<li id="section-1.1-5.4">Monitor: member of an OSCORE group that is configured as responder and never replies back to requesters after receiving request messages. This corresponds to the term "silent server" used in <span>[<a href="#I-D.ietf-core-oscore-groupcomm" class="xref">I-D.ietf-core-oscore-groupcomm</a>]</span>.<a href="#section-1.1-5.4" class="pilcrow">¶</a>
+</li>
+</ul>
+</section>
+</div>
+</section>
+</div>
+<div id="sec-protocol-overview">
+<section id="section-2">
+      <h2 id="name-protocol-overview">
+<a href="#section-2" class="section-number selfRef">2. </a><a href="#name-protocol-overview" class="section-name selfRef">Protocol Overview</a>
+      </h2>
+<p id="section-2-1">Group communication for CoAP over IP multicast has been enabled in <span>[<a href="#I-D.dijk-core-groupcomm-bis" class="xref">I-D.dijk-core-groupcomm-bis</a>]</span> and can be secured with Group Object Security for Constrained RESTful Environments (OSCORE) <span>[<a href="#RFC8613" class="xref">RFC8613</a>]</span> as described in <span>[<a href="#I-D.ietf-core-oscore-groupcomm" class="xref">I-D.ietf-core-oscore-groupcomm</a>]</span>. A network node joins an OSCORE group by interacting with the responsible Group Manager. Once registered in the group, the new node can securely exchange messages with other group members.<a href="#section-2-1" class="pilcrow">¶</a></p>
+<p id="section-2-2">This specification describes how to use <span>[<a href="#I-D.ietf-ace-key-groupcomm" class="xref">I-D.ietf-ace-key-groupcomm</a>]</span> and <span>[<a href="#I-D.ietf-ace-oauth-authz" class="xref">I-D.ietf-ace-oauth-authz</a>]</span> to perform a number of authentication, authorization and key distribution actions, as defined in Section 2. of <span>[<a href="#I-D.ietf-ace-key-groupcomm" class="xref">I-D.ietf-ace-key-groupcomm</a>]</span>, for an OSCORE group.<a href="#section-2-2" class="pilcrow">¶</a></p>
+<p id="section-2-3">With reference to <span>[<a href="#I-D.ietf-ace-key-groupcomm" class="xref">I-D.ietf-ace-key-groupcomm</a>]</span>:<a href="#section-2-3" class="pilcrow">¶</a></p>
+<ul>
+<li id="section-2-4.1">The node wishing to joining the OSCORE group, i.e. the joining node, is the Client.<a href="#section-2-4.1" class="pilcrow">¶</a>
+</li>
+<li id="section-2-4.2">The Group Manager is the Key Distribution Center (KDC), acting as a Resource Server.<a href="#section-2-4.2" class="pilcrow">¶</a>
+</li>
+<li id="section-2-4.3">The Authorization Server associated to the Group Manager is the AS.<a href="#section-2-4.3" class="pilcrow">¶</a>
+</li>
+</ul>
+<p id="section-2-5">All communications between the involved entities rely on the CoAP protocol and MUST be secured.<a href="#section-2-5" class="pilcrow">¶</a></p>
+<p id="section-2-6">In particular, communications between the Client and the Group Manager leverage protocol-specific transport profiles of ACE to achieve communication security, proof-of-possession and server authentication. Note that it is expected that in the commonly referred base-case of this specification, the transport profile to use is pre-configured and well-known to nodes participating in constrained applications.<a href="#section-2-6" class="pilcrow">¶</a></p>
+<div id="ssec-overview-join-process">
+<section id="section-2.1">
+        <h3 id="name-overview-of-the-joining-pro">
+<a href="#section-2.1" class="section-number selfRef">2.1. </a><a href="#name-overview-of-the-joining-pro" class="section-name selfRef">Overview of the Joining Process</a>
+        </h3>
+<p id="section-2.1-1">A node performs the steps described in Section 4.2 of <span>[<a href="#I-D.ietf-ace-key-groupcomm" class="xref">I-D.ietf-ace-key-groupcomm</a>]</span> in order to join an OSCORE group. The format and processing of messages exchanged among the participants are further specified in <a href="#sec-joining-node-to-AS" class="xref">Section 3</a> and <a href="#sec-joining-node-to-GM" class="xref">Section 5</a> of this document.<a href="#section-2.1-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="ssec-overview-group-rekeying-process">
+<section id="section-2.2">
+        <h3 id="name-overview-of-the-group-rekey">
+<a href="#section-2.2" class="section-number selfRef">2.2. </a><a href="#name-overview-of-the-group-rekey" class="section-name selfRef">Overview of the Group Rekeying Process</a>
+        </h3>
+<p id="section-2.2-1">If the application requires backward and forward security, the Group Manager MUST generate new keying material and distribute it to the group (rekeying) upon membership changes.<a href="#section-2.2-1" class="pilcrow">¶</a></p>
+<p id="section-2.2-2">That is, the group is rekeyed when a node joins the group as a new member, or after a current member leaves the group. By doing so, a joining node cannot access communications in the group prior its joining, while a leaving node cannot access communications in the group after its leaving.<a href="#section-2.2-2" class="pilcrow">¶</a></p>
+<p id="section-2.2-3">The keying material distributed through a group rekeying MUST include a new Group Identifier (Gid) for the group and a new value for the Master Secret parameter of the OSCORE Common Security Context of that group (see Section 2 of <span>[<a href="#I-D.ietf-core-oscore-groupcomm" class="xref">I-D.ietf-core-oscore-groupcomm</a>]</span>). Also, it MAY include a new value for the Master Salt parameter of the OSCORE Common Security Context of that group.<a href="#section-2.2-3" class="pilcrow">¶</a></p>
+<p id="section-2.2-4">Upon generating the new group keying material and before starting its distribution, the Group Manager MUST increment the version number of the group keying material. When rekeying a group, the Group Manager MUST preserve the current value of the Sender ID of each member in that group.<a href="#section-2.2-4" class="pilcrow">¶</a></p>
+<p id="section-2.2-5">The Group Manager MUST support the Group Rekeying Process described in <a href="#sec-group-rekeying-process" class="xref">Section 16</a>. Future application profiles may define alternative message formats and distribution schemes to perform group rekeying.<a href="#section-2.2-5" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="sec-joining-node-to-AS">
+<section id="section-3">
+      <h2 id="name-joining-node-to-authorizati">
+<a href="#section-3" class="section-number selfRef">3. </a><a href="#name-joining-node-to-authorizati" class="section-name selfRef">Joining Node to Authorization Server</a>
+      </h2>
+<p id="section-3-1">This section describes how the joining node interacts with the AS in order to be authorized to join an OSCORE group under a given Group Manager. In particular, it considers a joining node that intends to contact that Group Manager for the first time.<a href="#section-3-1" class="pilcrow">¶</a></p>
+<p id="section-3-2">The message exchange between the joining node and the AS consists of the messages Authorization Request and Authorization Response defined in Section 3 of <span>[<a href="#I-D.ietf-ace-key-groupcomm" class="xref">I-D.ietf-ace-key-groupcomm</a>]</span>. Note that what is defined in <span>[<a href="#I-D.ietf-ace-key-groupcomm" class="xref">I-D.ietf-ace-key-groupcomm</a>]</span> applies, and only additions or modifications to that specification are defined here.<a href="#section-3-2" class="pilcrow">¶</a></p>
+<div id="ssec-auth-req">
+<section id="section-3.1">
+        <h3 id="name-authorization-request">
+<a href="#section-3.1" class="section-number selfRef">3.1. </a><a href="#name-authorization-request" class="section-name selfRef">Authorization Request</a>
+        </h3>
+<p id="section-3.1-1">The Authorization Request message defined in Section 3.1 of <span>[<a href="#I-D.ietf-ace-key-groupcomm" class="xref">I-D.ietf-ace-key-groupcomm</a>]</span>, with the following additions:<a href="#section-3.1-1" class="pilcrow">¶</a></p>
+<ul>
+<li id="section-3.1-2.1">
+            <p id="section-3.1-2.1.1">The 'scope' parameter MUST be present.<a href="#section-3.1-2.1.1" class="pilcrow">¶</a></p>
+<ul>
+<li id="section-3.1-2.1.2.1">The group name of the OSCORE group to join under the Group Manager is encoded as a CBOR text string (REQ1).<a href="#section-3.1-2.1.2.1" class="pilcrow">¶</a>
+</li>
+<li id="section-3.1-2.1.2.2">Accepted values for role identifiers in the OSCORE group to join are: "requester", "responder", and "monitor" (REQ2). Possible combinations are: ["requester" , "responder"]; ["requester" , "monitor"]. Each role identifier MUST be encoded as a CBOR integer (REQ2), by using for abbreviation the values specified in <a href="#fig-role-cbor-values" class="xref">Figure 1</a> (OPT7).<a href="#section-3.1-2.1.2.2" class="pilcrow">¶</a>
+</li>
+</ul>
+</li>
+</ul>
+<span id="name-cbor-abbreviations-for-role"></span><div id="fig-role-cbor-values">
+<figure id="figure-1">
+          <div class="artwork art-text alignCenter" id="section-3.1-3.1">
+<pre>
++-----------+------------+
+| Name      | CBOR Value |
++-----------+------------+
+| requester |    TBD8    |
+| responder |    TBD9    |
+| monitor   |    TBD10   |
++-----------+------------+
+</pre>
+</div>
+<figcaption><a href="#figure-1" class="selfRef">Figure 1</a>:
+<a href="#name-cbor-abbreviations-for-role" class="selfRef">CBOR Abbreviations for Role Identifiers in the Group</a>
+          </figcaption></figure>
+</div>
+<ul>
+<li id="section-3.1-4.1">The 'audience' parameter MUST be present.<a href="#section-3.1-4.1" class="pilcrow">¶</a>
+</li>
+</ul>
+</section>
+</div>
+<div id="ssec-auth-resp">
+<section id="section-3.2">
+        <h3 id="name-authorization-response">
+<a href="#section-3.2" class="section-number selfRef">3.2. </a><a href="#name-authorization-response" class="section-name selfRef">Authorization Response</a>
+        </h3>
+<p id="section-3.2-1">The Authorization Response message defined in Section 3.2 of <span>[<a href="#I-D.ietf-ace-key-groupcomm" class="xref">I-D.ietf-ace-key-groupcomm</a>]</span>, with the following additions:<a href="#section-3.2-1" class="pilcrow">¶</a></p>
+<ul>
+<li id="section-3.2-2.1">The AS MUST include the 'expires_in' parameter. Other means for the AS to specify the lifetime of Access Tokens are out of the scope of this specification.<a href="#section-3.2-2.1" class="pilcrow">¶</a>
+</li>
+<li id="section-3.2-2.2">The AS MUST include the 'scope' parameter, when the value included in the Access Token differs from the one specified by the joining node in the request. In such a case, the second element of each scope entry MUST be present, and includes the role or CBOR array of roles that the joining node is actually authorized to take in the OSCORE group for that scope entry, encoded as specified in <a href="#ssec-auth-req" class="xref">Section 3.1</a> of this document.<a href="#section-3.2-2.2" class="pilcrow">¶</a>
+</li>
+</ul>
+</section>
+</div>
+</section>
+</div>
+<div id="sec-interface-GM">
+<section id="section-4">
+      <h2 id="name-interface-at-the-group-mana">
+<a href="#section-4" class="section-number selfRef">4. </a><a href="#name-interface-at-the-group-mana" class="section-name selfRef">Interface at the Group Manager</a>
+      </h2>
+<p id="section-4-1">The Group Manager provides the interface defined in Section 4.1 of <span>[<a href="#I-D.ietf-ace-key-groupcomm" class="xref">I-D.ietf-ace-key-groupcomm</a>]</span>, with the following additional resource:<a href="#section-4-1" class="pilcrow">¶</a></p>
+<ul>
+<li id="section-4-2.1">/group-manager/GROUPNAME/active: this sub-resource is fixed and supports the GET method, whose handler is defined in <a href="#active-get" class="xref">Section 4.1</a>.<a href="#section-4-2.1" class="pilcrow">¶</a>
+</li>
+</ul>
+<div id="active-get">
+<section id="section-4.1">
+        <h3 id="name-get-handler">
+<a href="#section-4.1" class="section-number selfRef">4.1. </a><a href="#name-get-handler" class="section-name selfRef">GET Handler</a>
+        </h3>
+<p id="section-4.1-1">The handler expects a GET request.<a href="#section-4.1-1" class="pilcrow">¶</a></p>
+<p id="section-4.1-2">The handler verifies that the group identifier of the /group-manager/GROUPNAME/active path is a subset of the 'scope' stored in the Access Token associated to the requesting client. If verification fails, the Group Manager MUST respond with a 4.01 (Unauthorized) error message.<a href="#section-4.1-2" class="pilcrow">¶</a></p>
+<p id="section-4.1-3">If verification succeeds, the handler returns a 2.05 (Content) message containing the CBOR simple value True if the group is currently active, or the CBOR simple value False otherwise. The group is considered active if it is set to allow new members to join, and if communication within the group is expected.<a href="#section-4.1-3" class="pilcrow">¶</a></p>
+<p id="section-4.1-4">The method to set the current group status, i.e. active or inactive, is out of the scope of this specification, and is defined for the administrator interface of the Group Manager specified in <span>[<a href="#I-D.tiloca-ace-oscore-gm-admin" class="xref">I-D.tiloca-ace-oscore-gm-admin</a>]</span>.<a href="#section-4.1-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="sec-joining-node-to-GM">
+<section id="section-5">
+      <h2 id="name-joining-a-group">
+<a href="#section-5" class="section-number selfRef">5. </a><a href="#name-joining-a-group" class="section-name selfRef">Joining a Group</a>
+      </h2>
+<p id="section-5-1">The following subsections describe the interactions between the joining node and the Group Manager, i.e. the sending of the Access Token and the Request-Response exchange to join the OSCORE group. The message exchange between the joining node and the KDC consists of the messages defined in Section 3.3 and 4.2 of <span>[<a href="#I-D.ietf-ace-key-groupcomm" class="xref">I-D.ietf-ace-key-groupcomm</a>]</span>. Note that what is defined in <span>[<a href="#I-D.ietf-ace-key-groupcomm" class="xref">I-D.ietf-ace-key-groupcomm</a>]</span> applies, and only additions or modifications to that specification are defined here.<a href="#section-5-1" class="pilcrow">¶</a></p>
+<div id="ssec-token-post">
+<section id="section-5.1">
+        <h3 id="name-token-post">
+<a href="#section-5.1" class="section-number selfRef">5.1. </a><a href="#name-token-post" class="section-name selfRef">Token Post</a>
+        </h3>
+<p id="section-5.1-1">The Token post exchange is defined in Section 3.3 of <span>[<a href="#I-D.ietf-ace-key-groupcomm" class="xref">I-D.ietf-ace-key-groupcomm</a>]</span>.<a href="#section-5.1-1" class="pilcrow">¶</a></p>
+<p id="section-5.1-2">Additionally to what defined in <span>[<a href="#I-D.ietf-ace-key-groupcomm" class="xref">I-D.ietf-ace-key-groupcomm</a>]</span>, the following applies.<a href="#section-5.1-2" class="pilcrow">¶</a></p>
+<ul>
+<li id="section-5.1-3.1">The 'rsnonce' parameter contains a dedicated nonce N_S generated by the Group Manager. For the N_S value, it is RECOMMENDED to use a 8-byte long random nonce. The joining node may use this nonce in order to prove the possession of its own private key, upon joining the group (see <a href="#ssec-join-req-sending" class="xref">Section 5.2</a>).<a href="#section-5.1-3.1" class="pilcrow">¶</a>
+</li>
+<li id="section-5.1-3.2">
+            <p id="section-5.1-3.2.1">If 'sign_info' is present in the response:<a href="#section-5.1-3.2.1" class="pilcrow">¶</a></p>
+<p id="section-5.1-3.2.2">
+TODO: have 'sign_info' as an array of arrays, if 'scope' in the Access Token covers multiple groups/topics.<a href="#section-5.1-3.2.2" class="pilcrow">¶</a></p>
+<ul>
+<li id="section-5.1-3.2.3.1">'sign_alg' takes value from Tables 5 and 6 of <span>[<a href="#RFC8152" class="xref">RFC8152</a>]</span>.<a href="#section-5.1-3.2.3.1" class="pilcrow">¶</a>
+</li>
+<li id="section-5.1-3.2.3.2">'sign_parameters' takes values from the "Counter Signature Parameters" Registry (see Section 11.1 of <span>[<a href="#I-D.ietf-core-oscore-groupcomm" class="xref">I-D.ietf-core-oscore-groupcomm</a>]</span>). Its structure depends on the value of 'sign_alg'. If no parameters of the counter signature algorithm are specified, 'sign_parameters' MUST be encoding the CBOR simple value Null.<a href="#section-5.1-3.2.3.2" class="pilcrow">¶</a>
+</li>
+<li id="section-5.1-3.2.3.3">'sign_key_parameters' takes values from the "Counter Signature Key Parameters" Registry (see Section 11.2 of <span>[<a href="#I-D.ietf-core-oscore-groupcomm" class="xref">I-D.ietf-core-oscore-groupcomm</a>]</span>). Its structure depends on the value of 'sign_alg'. If no parameters of the key used with the counter signature algorithm are specified, 'sign_key_parameters' MUST be encoding the CBOR simple value Null.<a href="#section-5.1-3.2.3.3" class="pilcrow">¶</a>
+</li>
+</ul>
+</li>
+</ul>
+<p id="section-5.1-4">TODO: have 'pub_key_enc' as an array of arrays, if 'scope' in the Access Token covers multiple groups/topics.<a href="#section-5.1-4" class="pilcrow">¶</a></p>
+<ul>
+<li id="section-5.1-5.1">If 'pub_key_enc' is present in the response, it takes value 1 ("COSE_Key") from the 'Confirmation Key' column of the "CWT Confirmation Method" Registry defined in <span>[<a href="#I-D.ietf-ace-cwt-proof-of-possession" class="xref">I-D.ietf-ace-cwt-proof-of-possession</a>]</span>, so indicating that public keys in the OSCORE group are encoded as COSE Keys <span>[<a href="#RFC8152" class="xref">RFC8152</a>]</span>. Future specifications may define additional values for this parameter.<a href="#section-5.1-5.1" class="pilcrow">¶</a>
+</li>
+</ul>
+<p id="section-5.1-6">Note that, other than through the above parameters as defined in Section 3.3 of <span>[<a href="#I-D.ietf-ace-key-groupcomm" class="xref">I-D.ietf-ace-key-groupcomm</a>]</span>, the joining node MAY have previously retrieved this information by other means, e.g. by using the approach described in <span>[<a href="#I-D.tiloca-core-oscore-discovery" class="xref">I-D.tiloca-core-oscore-discovery</a>]</span>.<a href="#section-5.1-6" class="pilcrow">¶</a></p>
+<p id="section-5.1-7">Additionally, if allowed by the used transport profile of ACE, the joining node may instead provide the Access Token to the Group Manager by other means, e.g. during a secure session establishment (see Section 3.3.1 of <span>[<a href="#I-D.ietf-ace-dtls-authorize" class="xref">I-D.ietf-ace-dtls-authorize</a>]</span>).<a href="#section-5.1-7" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="ssec-join-req-sending">
+<section id="section-5.2">
+        <h3 id="name-sending-the-joining-request">
+<a href="#section-5.2" class="section-number selfRef">5.2. </a><a href="#name-sending-the-joining-request" class="section-name selfRef">Sending the Joining Request</a>
+        </h3>
+<p id="section-5.2-1">The joining node requests to join the OSCORE group, by sending a Joining Request message to the related group-membership resource at the Group Manager, as per Section 4.2 of <span>[<a href="#I-D.ietf-ace-key-groupcomm" class="xref">I-D.ietf-ace-key-groupcomm</a>]</span>.<a href="#section-5.2-1" class="pilcrow">¶</a></p>
+<p id="section-5.2-2">Additionally to what defined in <span>[<a href="#I-D.ietf-ace-key-groupcomm" class="xref">I-D.ietf-ace-key-groupcomm</a>]</span>, the following applies.<a href="#section-5.2-2" class="pilcrow">¶</a></p>
+<ul>
+<li id="section-5.2-3.1">The string "group-oscore" is used instead of "ace-group" (see Section 4.1 of <span>[<a href="#I-D.ietf-ace-key-groupcomm" class="xref">I-D.ietf-ace-key-groupcomm</a>]</span>) as the top level path to the group-membership resource. The url-path /group-oscore/ is a default name of this specifications: implementations are not required to use this name, and can define their own instead.<a href="#section-5.2-3.1" class="pilcrow">¶</a>
+</li>
+</ul>
+<ul>
+<li id="section-5.2-4.1">The 'scope' parameter MUST be present.<a href="#section-5.2-4.1" class="pilcrow">¶</a>
+</li>
+<li id="section-5.2-4.2">The 'get_pub_keys' parameter is present only if the joining node wants to retrieve the public keys of the group members from the Group Manager during the joining process (see <a href="#sec-public-keys-of-joining-nodes" class="xref">Section 6</a>). Otherwise, this parameter MUST NOT be present.<a href="#section-5.2-4.2" class="pilcrow">¶</a>
+</li>
+</ul>
+<ul>
+<li id="section-5.2-5.1">'cnonce' contains a dedicated nonce N_C generated by the joining node. For the N_C value, it is RECOMMENDED to use a 8-byte long random nonce.<a href="#section-5.2-5.1" class="pilcrow">¶</a>
+</li>
+<li id="section-5.2-5.2">The signature encoded in the 'client_cred_verify' parameter is computed by the joining node by using the same private key and countersignature algorithm it intends to use for signing messages in the OSCORE group. Moreover, N_S is as defined in <a href="#sssec-challenge-value" class="xref">Section 5.2.1</a>.<a href="#section-5.2-5.2" class="pilcrow">¶</a>
+</li>
+</ul>
+<div id="sssec-challenge-value">
+<section id="section-5.2.1">
+          <h4 id="name-value-of-the-n_s-challenge">
+<a href="#section-5.2.1" class="section-number selfRef">5.2.1. </a><a href="#name-value-of-the-n_s-challenge" class="section-name selfRef">Value of the N_S Challenge</a>
+          </h4>
+<p id="section-5.2.1-1">The N_S challenge takes one of the following values.<a href="#section-5.2.1-1" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-5.2.1-2">
+            <li id="section-5.2.1-2.1">If the joining node has posted the Access Token to the /authz-info endpoint of the Group Manager as in <a href="#ssec-token-post" class="xref">Section 5.1</a>, N_S takes the same value of the 'rsnonce' parameter in the 2.01 (Created) response to the Token POST.<a href="#section-5.2.1-2.1" class="pilcrow">¶</a>
+</li>
+<li id="section-5.2.1-2.2">If the Token posting has relied on the DTLS profile of ACE <span>[<a href="#I-D.ietf-ace-dtls-authorize" class="xref">I-D.ietf-ace-dtls-authorize</a>]</span> and the joining node included the Access Token as content of the "psk_identity" field of the ClientKeyExchange message <span>[<a href="#RFC6347" class="xref">RFC6347</a>]</span>, N_S is an exporter value computed as defined in Section 7.5 of <span>[<a href="#RFC8446" class="xref">RFC8446</a>]</span>. Specifically, N_S is exported from the DTLS session between the joining node and the Group Manager, using an empty 'context_value', 32 bytes as 'key_length', and the exporter label "EXPORTER-ACE-Sign-Challenge-coap-group-oscore-app" defined in <a href="#ssec-iana-tls-esporter-label-registry" class="xref">Section 18.6</a> of this specification.<a href="#section-5.2.1-2.2" class="pilcrow">¶</a>
+</li>
+<li id="section-5.2.1-2.3">
+              <p id="section-5.2.1-2.3.1">If the joining node is in fact re-joining the group, without posting again the same and still valid Access Token:<a href="#section-5.2.1-2.3.1" class="pilcrow">¶</a></p>
+<ul>
+<li id="section-5.2.1-2.3.2.1">If the joining node and the Group Manager communicates using DTLS, N_S is an exporter value, computed as described in point (2) above.<a href="#section-5.2.1-2.3.2.1" class="pilcrow">¶</a>
+</li>
+<li id="section-5.2.1-2.3.2.2">If the joining node and the Group Manager communicates using OSCORE <span>[<a href="#RFC8613" class="xref">RFC8613</a>]</span>, the N_S is the output PRK of a HKDF-Extract step <span>[<a href="#RFC5869" class="xref">RFC5869</a>]</span>, i.e. PRK = HMAC-Hash(salt, IKM). In particular, 'salt' takes (x1 | x2), where x1 is the ID Context of the OSCORE Security Context between the joining node and the Group Manager, x2 is the Sender ID of the joining node in that Context, and | denotes byte string concatenation. Also, 'IKM' is the OSCORE Master Secret of the OSCORE Security Context between the joining node and the Group Manager. The HKDF MUST be one of the HMAC-based HKDF <span>[<a href="#RFC5869" class="xref">RFC5869</a>]</span> algorithms defined for COSE <span>[<a href="#RFC8152" class="xref">RFC8152</a>]</span>. HKDF SHA-256 is mandatory to implement.<a href="#section-5.2.1-2.3.2.2" class="pilcrow">¶</a>
+</li>
+</ul>
+</li>
+</ol>
+<p id="section-5.2.1-3">It is up to applications to define how N_S is computed in further alternative settings.<a href="#section-5.2.1-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="ssec-join-req-processing">
+<section id="section-5.3">
+        <h3 id="name-processing-the-joining-requ">
+<a href="#section-5.3" class="section-number selfRef">5.3. </a><a href="#name-processing-the-joining-requ" class="section-name selfRef">Processing the Joining Request</a>
+        </h3>
+<p id="section-5.3-1">The Group Manager processes the Joining Request as defined in Section 4.1.2.1 of <span>[<a href="#I-D.ietf-ace-key-groupcomm" class="xref">I-D.ietf-ace-key-groupcomm</a>]</span>. Additionally, the following applies.<a href="#section-5.3-1" class="pilcrow">¶</a></p>
+<ul>
+<li id="section-5.3-2.1">In case the Joining Request does not include the 'client_cred' parameter, the joining process fails if the Group Manager either: i) does not store a public key with an accepted format for the joining node; or ii) stores multiple public keys with an accepted format for the joining node.<a href="#section-5.3-2.1" class="pilcrow">¶</a>
+</li>
+<li id="section-5.3-2.2">To compute the signature contained in 'client_cred_verify', the GM considers: i) as signed value, N_S concatenated with N_C, where N_S is determined as described in <a href="#sssec-challenge-value" class="xref">Section 5.2.1</a>, while N_C is the nonce provided in the 'cnonce' parameter of the Joining Request; ii) the countersignature algorithm used in the OSCORE group, and possible correponding parameters; and iii) the public key of the joining node, either retrieved from the 'client_cred' parameter, or already stored as acquired from previous interactions with the joining node.<a href="#section-5.3-2.2" class="pilcrow">¶</a>
+</li>
+<li id="section-5.3-2.3">A 4.00 Bad Request response from the Group Manager to the joining node MUST have content format application/ace-group+cbor. The response payload is a CBOR map which MUST contain the 'sign_info' and 'pub_key_enc' parameters. The CBOR map SHOULD additionally contain the 'rsnonce' parameter, specifying a new dedicated 8-byte nonce generated by the Group Manager (see <a href="#ssec-token-post" class="xref">Section 5.1</a>).<a href="#section-5.3-2.3" class="pilcrow">¶</a>
+</li>
+<li id="section-5.3-2.4">The Group Manager MUST return a 4.00 (Bad Request) response in case the Joining Request includes the 'client_cred' parameter but does not include both the 'cnonce' and 'client_cred_verify' parameters.<a href="#section-5.3-2.4" class="pilcrow">¶</a>
+</li>
+<li id="section-5.3-2.5">The Group Manager MUST return a 4.00 (Bad Request) response in case it cannot retrieve a public key with an accepted format for the joining node, either from the 'client_cred' parameter or as already stored.<a href="#section-5.3-2.5" class="pilcrow">¶</a>
+</li>
+<li id="section-5.3-2.6">
+            <p id="section-5.3-2.6.1">When receiving a 4.00 Bad Request response, the joining node SHOULD send a new Joining Request to the Group Manager, where:<a href="#section-5.3-2.6.1" class="pilcrow">¶</a></p>
+<ul>
+<li id="section-5.3-2.6.2.1">The 'cnonce' parameter MUST include a new dedicated nonce N_C generated by the joining node.<a href="#section-5.3-2.6.2.1" class="pilcrow">¶</a>
+</li>
+<li id="section-5.3-2.6.2.2">The 'client_cred' parameter MUST include a public key compatible with the encoding, countersignature algorithm and possible associated parameters indicated by the Group Manager.<a href="#section-5.3-2.6.2.2" class="pilcrow">¶</a>
+</li>
+<li id="section-5.3-2.6.2.3">The 'client_cred_verify' parameter MUST include a signature computed as described in <a href="#ssec-join-req-sending" class="xref">Section 5.2</a>, by using the public key indicated in the current 'client_cred' parameter, with the countersignature algorithm and possible associated parameters indicated by the Group Manager. If the error response from the Group Manager included the 'rsnonce' parameter, the joining node MUST use its content as new N_S challenge to compute the signature.<a href="#section-5.3-2.6.2.3" class="pilcrow">¶</a>
+</li>
+</ul>
+</li>
+</ul>
+</section>
+</div>
+<div id="ssec-join-resp">
+<section id="section-5.4">
+        <h3 id="name-joining-response">
+<a href="#section-5.4" class="section-number selfRef">5.4. </a><a href="#name-joining-response" class="section-name selfRef">Joining Response</a>
+        </h3>
+<p id="section-5.4-1">If the processing of the Joining Request described in <a href="#ssec-join-req-processing" class="xref">Section 5.3</a> is successful, the Group Manager updates the group membership by registering the joining node NODENAME as a new member of the OSCORE group GROUPNAME, as described in Section 4.1.2.1 of <span>[<a href="#I-D.ietf-ace-key-groupcomm" class="xref">I-D.ietf-ace-key-groupcomm</a>]</span>.<a href="#section-5.4-1" class="pilcrow">¶</a></p>
+<p id="section-5.4-2">If the joining node is not exclusively configured as monitor, the Group Manager performs also the following actions.<a href="#section-5.4-2" class="pilcrow">¶</a></p>
+<ul>
+<li id="section-5.4-3.1">The Group Manager selects an available OSCORE Sender ID in the OSCORE group, and exclusively assigns it to the joining node.<a href="#section-5.4-3.1" class="pilcrow">¶</a>
+</li>
+</ul>
+<ul>
+<li id="section-5.4-4.1">The Group Manager stores the association between i) the public key of the joining node; and ii) the Group Identifier (Gid), i.e. the OSCORE ID Context, associated to the OSCORE group together with the OSCORE Sender ID assigned to the joining node in the group. The Group Manager MUST keep this association updated over time.<a href="#section-5.4-4.1" class="pilcrow">¶</a>
+</li>
+</ul>
+<p id="section-5.4-5">Then, the Group Manager replies to the joining node, providing the updated security parameters and keying meterial necessary to participate in the group communication. This success Joining Response is formatted as defined in Section 4.1.2.1 of <span>[<a href="#I-D.ietf-ace-key-groupcomm" class="xref">I-D.ietf-ace-key-groupcomm</a>]</span>, with the following additions:<a href="#section-5.4-5" class="pilcrow">¶</a></p>
+<ul>
+<li id="section-5.4-6.1">The 'gkty' parameter identifies a key of type "Group_OSCORE_Security_Context object", defined in <a href="#ssec-iana-groupcomm-key-registry" class="xref">Section 18.2</a> of this specification.<a href="#section-5.4-6.1" class="pilcrow">¶</a>
+</li>
+<li id="section-5.4-6.2">
+            <p id="section-5.4-6.2.1">The 'key' parameter includes what the joining node needs in order to set up the OSCORE Security Context as per Section 2 of <span>[<a href="#I-D.ietf-core-oscore-groupcomm" class="xref">I-D.ietf-core-oscore-groupcomm</a>]</span>. This parameter has as value a Group_OSCORE_Security_Context object, which is defined in this specification and extends the OSCORE_Security_Context object encoded in CBOR as defined in Section 3.2.1 of <span>[<a href="#I-D.ietf-ace-oscore-profile" class="xref">I-D.ietf-ace-oscore-profile</a>]</span>. In particular, it contains the additional parameters 'cs_alg', 'cs_params', 'cs_key_params' and 'cs_key_enc' defined in <a href="#ssec-iana-security-context-parameter-registry" class="xref">Section 18.3</a> of this specification. More specifically, the 'key' parameter is composed as follows.<a href="#section-5.4-6.2.1" class="pilcrow">¶</a></p>
+<ul>
+<li id="section-5.4-6.2.2.1">The 'ms' parameter MUST be present and includes the OSCORE Master Secret value.<a href="#section-5.4-6.2.2.1" class="pilcrow">¶</a>
+</li>
+<li id="section-5.4-6.2.2.2">The 'clientId' parameter, if present, has as value the OSCORE Sender ID assigned to the joining node by the Group Manager, as described above. This parameter is not present if the node joins the group exclusively as monitor, according to what specified in the Access Token (see <a href="#ssec-auth-resp" class="xref">Section 3.2</a>). In any other case, this parameter MUST be present.<a href="#section-5.4-6.2.2.2" class="pilcrow">¶</a>
+</li>
+<li id="section-5.4-6.2.2.3">The 'hkdf' parameter, if present, has as value the KDF algorithm used in the group.<a href="#section-5.4-6.2.2.3" class="pilcrow">¶</a>
+</li>
+<li id="section-5.4-6.2.2.4">The 'alg' parameter, if present, has as value the AEAD algorithm used in the group.<a href="#section-5.4-6.2.2.4" class="pilcrow">¶</a>
+</li>
+<li id="section-5.4-6.2.2.5">The 'salt' parameter, if present, has as value the OSCORE Master Salt.<a href="#section-5.4-6.2.2.5" class="pilcrow">¶</a>
+</li>
+<li id="section-5.4-6.2.2.6">The 'contextId' parameter MUST be present and has as value the Group Identifier (Gid), i.e. the OSCORE ID Context of the OSCORE group.<a href="#section-5.4-6.2.2.6" class="pilcrow">¶</a>
+</li>
+<li id="section-5.4-6.2.2.7">The 'cs_alg' parameter MUST be present and specifies the algorithm used to countersign messages in the group. This parameter takes values from Tables 5 and 6 of <span>[<a href="#RFC8152" class="xref">RFC8152</a>]</span>.<a href="#section-5.4-6.2.2.7" class="pilcrow">¶</a>
+</li>
+<li id="section-5.4-6.2.2.8">The 'cs_params' parameter MAY be present and specifies the additional parameters for the counter signature algorithm. This parameter is a CBOR map whose content depends on the counter signature algorithm, as specified in Section 2 and Section 11.1 of <span>[<a href="#I-D.ietf-core-oscore-groupcomm" class="xref">I-D.ietf-core-oscore-groupcomm</a>]</span>.<a href="#section-5.4-6.2.2.8" class="pilcrow">¶</a>
+</li>
+<li id="section-5.4-6.2.2.9">The 'cs_key_params' parameter MAY be present and specifies the additional parameters for the key used with the counter signature algorithm. This parameter is a CBOR map whose content depends on the counter signature algorithm, as specified in Section 2 and Section 11.2 of <span>[<a href="#I-D.ietf-core-oscore-groupcomm" class="xref">I-D.ietf-core-oscore-groupcomm</a>]</span>.<a href="#section-5.4-6.2.2.9" class="pilcrow">¶</a>
+</li>
+<li id="section-5.4-6.2.2.10">The 'cs_key_enc' parameter MAY be present and specifies the encoding of the public keys of the group members. This parameter is a CBOR integer, whose value is 1 ("COSE_Key") taken from the 'Confirmation Key' column of the "CWT Confirmation Method" Registry defined in <span>[<a href="#I-D.ietf-ace-cwt-proof-of-possession" class="xref">I-D.ietf-ace-cwt-proof-of-possession</a>]</span>, so indicating that public keys in the OSCORE group are encoded as COSE Keys <span>[<a href="#RFC8152" class="xref">RFC8152</a>]</span>. Future specifications may define additional values for this parameter. If this parameter is not present, 1 ("COSE_Key") MUST be assumed as default value.<a href="#section-5.4-6.2.2.10" class="pilcrow">¶</a>
+</li>
+</ul>
+</li>
+<li id="section-5.4-6.3">The 'num' parameter MUST be present.<a href="#section-5.4-6.3" class="pilcrow">¶</a>
+</li>
+<li id="section-5.4-6.4">The 'ace-groupcomm-profile' parameter MUST be present and has value coap_group_oscore_app (TBD1), which is defined in <a href="#ssec-iana-groupcomm-profile-registry" class="xref">Section 18.1</a> of this specification.<a href="#section-5.4-6.4" class="pilcrow">¶</a>
+</li>
+<li id="section-5.4-6.5">The 'exp' parameter MUST be present.<a href="#section-5.4-6.5" class="pilcrow">¶</a>
+</li>
+<li id="section-5.4-6.6">The 'pub_keys' parameter, if present, includes the public keys of the group members that are relevant to the joining node. That is, it includes: i) the public keys of the responders currently in the group, in case the joining node is configured (also) as requester; and ii) the public keys of the requesters currently in the group, in case the joining node is configured (also) as responder or monitor. If public keys are encoded as COSE_Keys, each of them has as 'kid' the Sender ID that the corresponding owner has in the group, thus used as group member identifier.<a href="#section-5.4-6.6" class="pilcrow">¶</a>
+</li>
+<li id="section-5.4-6.7">The 'group_policies' parameter SHOULD be present, and SHOULD include the elements "Sequence Number Synchronization Method" and "Key Update Check Interval" defined in Section 4.1.2. of <span>[<a href="#I-D.ietf-ace-key-groupcomm" class="xref">I-D.ietf-ace-key-groupcomm</a>]</span>.<a href="#section-5.4-6.7" class="pilcrow">¶</a>
+</li>
+</ul>
+<p id="section-5.4-7">Finally, the joining node uses the information received in the Joining Response to set up the OSCORE Security Context, as described in Section 2 of <span>[<a href="#I-D.ietf-core-oscore-groupcomm" class="xref">I-D.ietf-core-oscore-groupcomm</a>]</span>. In addition, the joining node maintains an association between each public key retrieved from the 'pub_keys' parameter and the role(s) that the corresponding group member has in the group.<a href="#section-5.4-7" class="pilcrow">¶</a></p>
+<p id="section-5.4-8">From then on, the joining node can exchange group messages secured with Group OSCORE as described in <span>[<a href="#I-D.ietf-core-oscore-groupcomm" class="xref">I-D.ietf-core-oscore-groupcomm</a>]</span>. When doing so:<a href="#section-5.4-8" class="pilcrow">¶</a></p>
+<ul>
+<li id="section-5.4-9.1">The joining node MUST NOT process an incoming request message, if signed by a group member whose public key is not associated to the role "Requester".<a href="#section-5.4-9.1" class="pilcrow">¶</a>
+</li>
+<li id="section-5.4-9.2">The joining node MUST NOT process an incoming response message, if signed by a group member whose public key is not associated to the role "Responder".<a href="#section-5.4-9.2" class="pilcrow">¶</a>
+</li>
+</ul>
+<p id="section-5.4-10">If the application requires backward security, the Group Manager MUST generate updated security parameters and group keying material, and provide it to the current group members upon the new node's joining (see <a href="#sec-group-rekeying-process" class="xref">Section 16</a>). As a consequence, the joining node is not able to access secure communication in the group occurred prior its joining.<a href="#section-5.4-10" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="sec-public-keys-of-joining-nodes">
+<section id="section-6">
+      <h2 id="name-public-keys-of-joining-node">
+<a href="#section-6" class="section-number selfRef">6. </a><a href="#name-public-keys-of-joining-node" class="section-name selfRef">Public Keys of Joining Nodes</a>
+      </h2>
+<p id="section-6-1">Source authentication of OSCORE messages exchanged within the group is ensured by means of digital counter signatures (see Sections 2 and 4 of <span>[<a href="#I-D.ietf-core-oscore-groupcomm" class="xref">I-D.ietf-core-oscore-groupcomm</a>]</span>). Therefore, group members must be able to retrieve each other's public key from a trusted key repository, in order to verify source authenticity of incoming group messages.<a href="#section-6-1" class="pilcrow">¶</a></p>
+<p id="section-6-2">As also discussed in <span>[<a href="#I-D.ietf-core-oscore-groupcomm" class="xref">I-D.ietf-core-oscore-groupcomm</a>]</span>, the Group Manager acts as trusted repository of the public keys of the group members, and provides those public keys to group members if requested to. Upon joining an OSCORE group, a joining node is thus expected to provide its own public key to the Group Manager.<a href="#section-6-2" class="pilcrow">¶</a></p>
+<p id="section-6-3">In particular, one of the following four cases can occur when a new node joins an OSCORE group.<a href="#section-6-3" class="pilcrow">¶</a></p>
+<ul>
+<li id="section-6-4.1">The joining node is going to join the group exclusively as monitor. That is, it is not going to send messages to the group, and hence to produce signatures with its own private key. In this case, the joining node is not required to provide its own public key to the Group Manager, which thus does not have to perform any check related to the public key encoding, or to a countersignature algorithm and possible associated parameters for that joining node.<a href="#section-6-4.1" class="pilcrow">¶</a>
+</li>
+<li id="section-6-4.2">The Group Manager already acquired the public key of the joining node during a past joining process. In this case, the joining node MAY choose not to provide again its own public key to the Group Manager, in order to limit the size of the Joining Request. The joining node MUST provide its own public key again if it has provided the Group Manager with multiple public keys during past joining processes, intended for different OSCORE groups. If the joining node provides its own public key, the Group Manager performs consistency checks as per <a href="#ssec-join-req-processing" class="xref">Section 5.3</a> and, in case of success, considers it as the public key associated to the joining node in the OSCORE group.<a href="#section-6-4.2" class="pilcrow">¶</a>
+</li>
+<li id="section-6-4.3">
+          <p id="section-6-4.3.1">The joining node and the Group Manager use an asymmetric proof-of-possession key to establish a secure communication channel. Then, two cases can occur.<a href="#section-6-4.3.1" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-6-4.3.2">
+            <li id="section-6-4.3.2.1">The proof-of-possession key is compatible with the encoding as well as with the counter signature algorithm and possible associated parameters used in the OSCORE group. Then, the Group Manager considers the proof-of-possession key as the public key associated to the joining node in the OSCORE group. If the joining node is aware that the proof-of-possession key is also valid for the OSCORE group, it MAY not provide it again as its own public key to the Group Manager. The joining node MUST provide its own public key again if it has provided the Group Manager with multiple public keys during past joining processes, intended for different OSCORE groups. If the joining node provides its own public key in the 'client_cred' parameter of the Joining Request (see <a href="#ssec-join-req-sending" class="xref">Section 5.2</a>), the Group Manager performs consistency checks as per <a href="#ssec-join-req-processing" class="xref">Section 5.3</a> and, in case of success, considers it as the public key associated to the joining node in the OSCORE group.<a href="#section-6-4.3.2.1" class="pilcrow">¶</a>
+</li>
+<li id="section-6-4.3.2.2">The proof-of-possession key is not compatible with the encoding or with the counter signature algorithm and possible associated parameters used in the OSCORE group. In this case, the joining node MUST provide a different compatible public key to the Group Manager in the 'client_cred' parameter of the Joining Request (see <a href="#ssec-join-req-sending" class="xref">Section 5.2</a>). Then, the Group Manager performs consistency checks on this latest provided public key as per <a href="#ssec-join-req-processing" class="xref">Section 5.3</a> and, in case of success, considers it as the public key associated to the joining node in the OSCORE group.<a href="#section-6-4.3.2.2" class="pilcrow">¶</a>
+</li>
+</ol>
+</li>
+<li id="section-6-4.4">The joining node and the Group Manager use a symmetric proof-of-possession key to establish a secure communication channel. In this case, upon performing a joining process with that Group Manager for the first time, the joining node specifies its own public key in the 'client_cred' parameter of the Joining Request targeting the group-membership endpoint (see <a href="#ssec-join-req-sending" class="xref">Section 5.2</a>).<a href="#section-6-4.4" class="pilcrow">¶</a>
+</li>
+</ul>
+</section>
+</div>
+<div id="sec-updated-key">
+<section id="section-7">
+      <h2 id="name-retrieval-of-updated-keying">
+<a href="#section-7" class="section-number selfRef">7. </a><a href="#name-retrieval-of-updated-keying" class="section-name selfRef">Retrieval of Updated Keying Material</a>
+      </h2>
+<p id="section-7-1">At some point, a group member considers the OSCORE Security Context invalid and to be renewed. This happens, for instance, after a number of unsuccessful security processing of incoming messages from other group members, or when the Security Context expires as specified by the 'exp' parameter of the Joining Response.<a href="#section-7-1" class="pilcrow">¶</a></p>
+<p id="section-7-2">When this happens, the group member retrieves updated security parameters and group keying material. This can occur in the two different ways described below.<a href="#section-7-2" class="pilcrow">¶</a></p>
+<div id="ssec-updated-key-only">
+<section id="section-7.1">
+        <h3 id="name-retrieval-of-group-keying-m">
+<a href="#section-7.1" class="section-number selfRef">7.1. </a><a href="#name-retrieval-of-group-keying-m" class="section-name selfRef">Retrieval of Group Keying Material</a>
+        </h3>
+<p id="section-7.1-1">If the group member wants to retrieve only the latest group keying material, it sends a Key Distribution Request to the Group Manager.<a href="#section-7.1-1" class="pilcrow">¶</a></p>
+<p id="section-7.1-2">In particular, it sends a CoAP GET request to the endpoint /group-oscore/GROUPNAME at the Group Manager.<a href="#section-7.1-2" class="pilcrow">¶</a></p>
+<p id="section-7.1-3">The Group Manager processes the Key Distribution Request according to Section 4.1.2.2 of <span>[<a href="#I-D.ietf-ace-key-groupcomm" class="xref">I-D.ietf-ace-key-groupcomm</a>]</span>. The Key Distribution Response is formatted as defined in Section 4.1.2.2 of <span>[<a href="#I-D.ietf-ace-key-groupcomm" class="xref">I-D.ietf-ace-key-groupcomm</a>]</span>. In particular, the 'key' parameter is formatted as defined in <a href="#ssec-join-resp" class="xref">Section 5.4</a> of this specification, with the difference that it does not include the 'clientId' parameter.<a href="#section-7.1-3" class="pilcrow">¶</a></p>
+<p id="section-7.1-4">Upon receiving the Key Distribution Response, the group member retrieves the updated security parameters and group keying material, and, if they differ from the current ones, use them to set up the new OSCORE Security Context as described in Section 2 of <span>[<a href="#I-D.ietf-core-oscore-groupcomm" class="xref">I-D.ietf-core-oscore-groupcomm</a>]</span>.<a href="#section-7.1-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="ssec-updated-and-individual-key">
+<section id="section-7.2">
+        <h3 id="name-retrieval-of-group-keying-ma">
+<a href="#section-7.2" class="section-number selfRef">7.2. </a><a href="#name-retrieval-of-group-keying-ma" class="section-name selfRef">Retrieval of Group Keying Material and Sender ID</a>
+        </h3>
+<p id="section-7.2-1">If the group member wants to retrieve the latest group keying material as well as the Sender ID that it has in the OSCORE group, it sends a Key Distribution Request to the Group Manager.<a href="#section-7.2-1" class="pilcrow">¶</a></p>
+<p id="section-7.2-2">In particular, it sends a CoAP GET request to the endpoint /group-oscore/GROUPNAME/nodes/NODENAME at the Group Manager.<a href="#section-7.2-2" class="pilcrow">¶</a></p>
+<p id="section-7.2-3">The Group Manager processes the Key Distribution Request according to Section 4.1.6.2 of <span>[<a href="#I-D.ietf-ace-key-groupcomm" class="xref">I-D.ietf-ace-key-groupcomm</a>]</span>. The Key Distribution Response is formatted as defined in Section 4.1.6.2 of <span>[<a href="#I-D.ietf-ace-key-groupcomm" class="xref">I-D.ietf-ace-key-groupcomm</a>]</span>.<a href="#section-7.2-3" class="pilcrow">¶</a></p>
+<p id="section-7.2-4">In particular, the 'key' parameter is formatted as defined in <a href="#ssec-join-resp" class="xref">Section 5.4</a> of this specification, with the difference that if the requesting group member is configured exclusively as monitor, no 'clientId' is specified within the 'key' parameter. Note that, in any other case, the current Sender ID of the group member is not specified as a separate parameter, but rather specified as 'clientId' within the 'key' parameter.<a href="#section-7.2-4" class="pilcrow">¶</a></p>
+<p id="section-7.2-5">Upon receiving the Key Distribution Response, the group member retrieves the updated security parameters, group keying material and Sender ID, and, if they differ from the current ones, use them to set up the new OSCORE Security Context as described in Section 2 of <span>[<a href="#I-D.ietf-core-oscore-groupcomm" class="xref">I-D.ietf-core-oscore-groupcomm</a>]</span>.<a href="#section-7.2-5" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="sec-new-key">
+<section id="section-8">
+      <h2 id="name-retrieval-of-new-keying-mat">
+<a href="#section-8" class="section-number selfRef">8. </a><a href="#name-retrieval-of-new-keying-mat" class="section-name selfRef">Retrieval of New Keying Material</a>
+      </h2>
+<p id="section-8-1">As discussed in Section 2.5 of <span>[<a href="#I-D.ietf-core-oscore-groupcomm" class="xref">I-D.ietf-core-oscore-groupcomm</a>]</span>, a group member may at some point experience a wrap-around of its own Sender Sequence Number in the group.<a href="#section-8-1" class="pilcrow">¶</a></p>
+<p id="section-8-2">When this happens, the group member MUST send a Key Renewal Request message to the Group Manager, as per Section 4.4 of <span>[<a href="#I-D.ietf-ace-key-groupcomm" class="xref">I-D.ietf-ace-key-groupcomm</a>]</span>. In particular, it sends a CoAP PUT request to the endpoint /group-oscore/GROUPNAME/nodes/NODENAME at the Group Manager.<a href="#section-8-2" class="pilcrow">¶</a></p>
+<p id="section-8-3">Upon receiving the Key Renewal Request, the Group Manager processes it as defined in Section 4.1.6.1 of <span>[<a href="#I-D.ietf-ace-key-groupcomm" class="xref">I-D.ietf-ace-key-groupcomm</a>]</span>, and performs one of the following actions.<a href="#section-8-3" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-8-4">
+        <li id="section-8-4.1">If the requesting group member is configured exclusively as monitor, the Group Manager replies with a 4.00 (Bad Request) error response.<a href="#section-8-4.1" class="pilcrow">¶</a>
+</li>
+<li id="section-8-4.2">
+          <p id="section-8-4.2.1">Otherwise, depending on the policies configured (OPT8):<a href="#section-8-4.2.1" class="pilcrow">¶</a></p>
+<p id="section-8-4.2.2">
+a. Either the Group Manager replies to the group member with a 4.00 (Bad Request) error response, and rekeys the whole OSCORE group as discussed in <a href="#sec-group-rekeying-process" class="xref">Section 16</a>;<a href="#section-8-4.2.2" class="pilcrow">¶</a></p>
+<p id="section-8-4.2.3">
+b. Or the Group Manager generates a new Sender ID for that group member and replies with a Key Renewal Response, formatted as defined in Section 4.1.6.1 of <span>[<a href="#I-D.ietf-ace-key-groupcomm" class="xref">I-D.ietf-ace-key-groupcomm</a>]</span>. In particular, the CBOR Map in the response payload includes a single parameter 'clientId' defined in <a href="#ssec-iana-ace-groupcomm-parameters-registry" class="xref">Section 18.5</a> of this document, specifying the new Sender ID of the group member encoded as a CBOR byte string.<a href="#section-8-4.2.3" class="pilcrow">¶</a></p>
+</li>
+</ol>
+</section>
+</div>
+<div id="sec-pub-keys">
+<section id="section-9">
+      <h2 id="name-retrieval-of-public-keys-of">
+<a href="#section-9" class="section-number selfRef">9. </a><a href="#name-retrieval-of-public-keys-of" class="section-name selfRef">Retrieval of Public Keys of Group Members</a>
+      </h2>
+<p id="section-9-1">A group member may need to retrieve the public keys of other group members. To this end, the group member sends a Public Key Request message to the Group Manager, as per Section 4.5 of <span>[<a href="#I-D.ietf-ace-key-groupcomm" class="xref">I-D.ietf-ace-key-groupcomm</a>]</span>. In particular, it sends the request to the endpoint /group-oscore/GROUPNAME/pub-key at the Group Manager.<a href="#section-9-1" class="pilcrow">¶</a></p>
+<p id="section-9-2">If the Public Key Request uses the method FETCH, the Public Key Request is formatted as defined in Section 4.1.3.1 of <span>[<a href="#I-D.ietf-ace-key-groupcomm" class="xref">I-D.ietf-ace-key-groupcomm</a>]</span>. In particular, each element of the 'get_pub_keys' parameter is a CBOR byte string, which encodes the Sender ID of the group member for which the associated public key is requested.<a href="#section-9-2" class="pilcrow">¶</a></p>
+<p id="section-9-3">Upon receiving the Public Key Request, the Group Manager processes it as per Section 4.1.3.1 or 4.1.3.2 of <span>[<a href="#I-D.ietf-ace-key-groupcomm" class="xref">I-D.ietf-ace-key-groupcomm</a>]</span>, depending on the request method being FETCH or GET, respectively. Additionally, if the Public Key Request uses the method FETCH, the Group Manager silently ignores identifiers included in the 'get_pub_keys' parameter of the request that are not associated to any current group member.<a href="#section-9-3" class="pilcrow">¶</a></p>
+<p id="section-9-4">The success Public Key Response is formatted as defined in Section 4.1.3.1 or 4.1.3.2 of <span>[<a href="#I-D.ietf-ace-key-groupcomm" class="xref">I-D.ietf-ace-key-groupcomm</a>]</span>, depending on the request method being FETCH or GET, respectively.<a href="#section-9-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="sec-update-pub-key">
+<section id="section-10">
+      <h2 id="name-update-of-public-key">
+<a href="#section-10" class="section-number selfRef">10. </a><a href="#name-update-of-public-key" class="section-name selfRef">Update of Public Key</a>
+      </h2>
+<p id="section-10-1">A group member may need to provide the Group Manager with its new public key to use in the group from then on, hence replacing the current one. This can be the case, for instance, if the countersignature algorithm and possible associated parameters used in the OSCORE group have been changed, and the current public key is not compatible with them.<a href="#section-10-1" class="pilcrow">¶</a></p>
+<p id="section-10-2">To this end, the group member sends a Public Key Update Request message to the Group Manager, as per Section 4.6 of <span>[<a href="#I-D.ietf-ace-key-groupcomm" class="xref">I-D.ietf-ace-key-groupcomm</a>]</span>. In particular, it sends a CoAP POST request to the endpoint /group-oscore/GROUPNAME/nodes/NODENAME/pub-key at the Group Manager.<a href="#section-10-2" class="pilcrow">¶</a></p>
+<p id="section-10-3">Upon receiving the Group Leaving Request, the Group Manager processes it as per Section 4.1.7.1 of <span>[<a href="#I-D.ietf-ace-key-groupcomm" class="xref">I-D.ietf-ace-key-groupcomm</a>]</span>, with the following additions.<a href="#section-10-3" class="pilcrow">¶</a></p>
+<ul>
+<li id="section-10-4.1">If the requesting group member is configured exclusively as monitor, the Group Manager replies with a 4.00 (Bad request) error response.<a href="#section-10-4.1" class="pilcrow">¶</a>
+</li>
+<li id="section-10-4.2">The N_S signature challenge is computed as per point (3) in <a href="#sssec-challenge-value" class="xref">Section 5.2.1</a> (REQ17).<a href="#section-10-4.2" class="pilcrow">¶</a>
+</li>
+<li id="section-10-4.3">If the request is successfully processed, the Group Manager stores the association between i) the new public key of the group member; and ii) the Group Identifier (Gid), i.e. the OSCORE ID Context, associated to the OSCORE group together with the OSCORE Sender ID assigned to the group member in the group. The Group Manager MUST keep this association updated over time.<a href="#section-10-4.3" class="pilcrow">¶</a>
+</li>
+</ul>
+</section>
+</div>
+<div id="sec-policies">
+<section id="section-11">
+      <h2 id="name-retrieval-of-group-policies">
+<a href="#section-11" class="section-number selfRef">11. </a><a href="#name-retrieval-of-group-policies" class="section-name selfRef">Retrieval of Group Policies</a>
+      </h2>
+<p id="section-11-1">A group member may request the current policies used in the OSCORE group. To this end, the group member sends a Policies Request, as per Section 4.7  of <span>[<a href="#I-D.ietf-ace-key-groupcomm" class="xref">I-D.ietf-ace-key-groupcomm</a>]</span>. In particular, it sends a CoAP GET request to the endpoint /group-oscore/GROUPNAME/policies at the Group Manager, where GROUPNAME is the name of the OSCORE group.<a href="#section-11-1" class="pilcrow">¶</a></p>
+<p id="section-11-2">Upon receiving the Policies Request, the Group Manager processes it as per Section 4.1.4.1 of <span>[<a href="#I-D.ietf-ace-key-groupcomm" class="xref">I-D.ietf-ace-key-groupcomm</a>]</span>. The success Policies Response is formatted as defined in Section 4.1.4.1 of <span>[<a href="#I-D.ietf-ace-key-groupcomm" class="xref">I-D.ietf-ace-key-groupcomm</a>]</span>.<a href="#section-11-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="sec-version">
+<section id="section-12">
+      <h2 id="name-retrieval-of-keying-materia">
+<a href="#section-12" class="section-number selfRef">12. </a><a href="#name-retrieval-of-keying-materia" class="section-name selfRef">Retrieval of Keying Material Version</a>
+      </h2>
+<p id="section-12-1">A group member may request the current version of the keying material used in the OSCORE group. To this end, the group member sends a Version Request, as per Section 4.8 of <span>[<a href="#I-D.ietf-ace-key-groupcomm" class="xref">I-D.ietf-ace-key-groupcomm</a>]</span>. In particular, it sends a CoAP GET request to the endpoint /group-oscore/GROUPNAME/ctx-num at the Group Manager, where GROUPNAME is the name of the OSCORE group.<a href="#section-12-1" class="pilcrow">¶</a></p>
+<p id="section-12-2">Upon receiving the Version Request, the Group Manager processes it as per Section 4.1.5.1 of <span>[<a href="#I-D.ietf-ace-key-groupcomm" class="xref">I-D.ietf-ace-key-groupcomm</a>]</span>. The success Version Response is formatted as defined in Section 4.1.5.1 of <span>[<a href="#I-D.ietf-ace-key-groupcomm" class="xref">I-D.ietf-ace-key-groupcomm</a>]</span>.<a href="#section-12-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="sec-status">
+<section id="section-13">
+      <h2 id="name-retrieval-of-group-status">
+<a href="#section-13" class="section-number selfRef">13. </a><a href="#name-retrieval-of-group-status" class="section-name selfRef">Retrieval of Group Status</a>
+      </h2>
+<p id="section-13-1">A group member may request the current status of the the OSCORE group, i.e. active or inactive. To this end, the group member sends a Group Status Request to the Group Manager.<a href="#section-13-1" class="pilcrow">¶</a></p>
+<p id="section-13-2">In particular, the group member sends a CoAP GET request to the endpoint /group-oscore/GROUPNAME/active at the Group Manager defined in <a href="#sec-interface-GM" class="xref">Section 4</a> of this specification, where GROUPNAME is the name of the OSCORE group. The success Group Version Response is formatted as defined in <a href="#sec-interface-GM" class="xref">Section 4</a> of this specification.<a href="#section-13-2" class="pilcrow">¶</a></p>
+<p id="section-13-3">Upon learning from a 2.05 (Content) response that the group is currently inactive, the group member SHOULD stop taking part in communications within the group, until it becomes active again.<a href="#section-13-3" class="pilcrow">¶</a></p>
+<p id="section-13-4">Upon learning from a 2.05 (Content) response that the group has become active again, the group member can resume taking part in communications within the group.<a href="#section-13-4" class="pilcrow">¶</a></p>
+<p id="section-13-5"><a href="#fig-key-status-req-resp" class="xref">Figure 2</a> gives an overview of the exchange described above.<a href="#section-13-5" class="pilcrow">¶</a></p>
+<span id="name-message-flow-of-group-statu"></span><div id="fig-key-status-req-resp">
+<figure id="figure-2">
+        <div class="artwork art-text alignCenter" id="section-13-6.1">
+<pre>
+ Group                                                         Group
+ Member                                                       Manager
+   |                                                             |
+   |------ Group Status Request: GET ace-group/GID/active ------&gt;|
+   |                                                             |
+   |&lt;---------- Group Status Response: 2.05 (Content) -----------|
+   |                                                             |
+</pre>
+</div>
+<figcaption><a href="#figure-2" class="selfRef">Figure 2</a>:
+<a href="#name-message-flow-of-group-statu" class="selfRef">Message Flow of Group Status Request-Response</a>
+        </figcaption></figure>
+</div>
+</section>
+</div>
+<div id="sec-leave-req">
+<section id="section-14">
+      <h2 id="name-request-to-leave-the-group">
+<a href="#section-14" class="section-number selfRef">14. </a><a href="#name-request-to-leave-the-group" class="section-name selfRef">Request to Leave the Group</a>
+      </h2>
+<p id="section-14-1">A group member may request to leave the OSCORE group. To this end, the group member sends a Group Leaving Request, as per Section 4.9 of <span>[<a href="#I-D.ietf-ace-key-groupcomm" class="xref">I-D.ietf-ace-key-groupcomm</a>]</span>. In particular, it sends a CoAP DELETE request to the endpoint /group-oscore/GROUPNAME/nodes/NODENAME at the Group Manager.<a href="#section-14-1" class="pilcrow">¶</a></p>
+<p id="section-14-2">Upon receiving the Group Leaving Request, the Group Manager processes it as per Section 4.1.6.3 of <span>[<a href="#I-D.ietf-ace-key-groupcomm" class="xref">I-D.ietf-ace-key-groupcomm</a>]</span>.<a href="#section-14-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="sec-leaving">
+<section id="section-15">
+      <h2 id="name-removal-of-a-group-member">
+<a href="#section-15" class="section-number selfRef">15. </a><a href="#name-removal-of-a-group-member" class="section-name selfRef">Removal of a Group Member</a>
+      </h2>
+<p id="section-15-1">Other than after a spontaneous request to the Group Manager as described in <a href="#sec-leave-req" class="xref">Section 14</a>, a node may be forcibly removed from the OSCORE group, e.g. due to expired or revoked authorization.<a href="#section-15-1" class="pilcrow">¶</a></p>
+<p id="section-15-2">In either case, if the leaving node is not configured exclusively as monitor, the Group Manager performs the following actions.<a href="#section-15-2" class="pilcrow">¶</a></p>
+<ul>
+<li id="section-15-3.1">The Group Manager frees the OSCORE Sender ID value of the leaving node, which becomes available for possible upcoming joining nodes.<a href="#section-15-3.1" class="pilcrow">¶</a>
+</li>
+<li id="section-15-3.2">The Group Manager cancels the association between, on one hand, the public key of the leaving node and, on the other hand, the Group Identifier (Gid) associated to the OSCORE group together with the freed OSCORE Sender ID value. The Group Manager deletes the public key of the leaving node, if that public key has no remaining association with any pair (Gid, Sender ID).<a href="#section-15-3.2" class="pilcrow">¶</a>
+</li>
+</ul>
+<p id="section-15-4">If the application requires forward security, the Group Manager MUST generate updated security parameters and group keying material, and provide it to the remaining group members (see <a href="#sec-group-rekeying-process" class="xref">Section 16</a>). As a consequence, the leaving node is not able to acquire the new security parameters and group keying material distributed after its leaving.<a href="#section-15-4" class="pilcrow">¶</a></p>
+<p id="section-15-5">Same considerations in Section 5 of <span>[<a href="#I-D.ietf-ace-key-groupcomm" class="xref">I-D.ietf-ace-key-groupcomm</a>]</span> apply here as well, considering the Group Manager acting as KDC.<a href="#section-15-5" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="sec-group-rekeying-process">
+<section id="section-16">
+      <h2 id="name-group-rekeying-process">
+<a href="#section-16" class="section-number selfRef">16. </a><a href="#name-group-rekeying-process" class="section-name selfRef">Group Rekeying Process</a>
+      </h2>
+<p id="section-16-1">In order to rekey the OSCORE group, the Group Manager distributes a new Group Identifier (Gid), i.e. a new OSCORE ID Context; a new OSCORE Master Secret; and, optionally, a new OSCORE Master Salt for that group. When doing so, the Group Manager MUST increment the version number of the group keying material, before starting its distribution.<a href="#section-16-1" class="pilcrow">¶</a></p>
+<p id="section-16-2">Furthermore, the Group Manager MUST preserve the same unchanged Sender IDs for all group members. This avoids affecting the retrieval of public keys from the Group Manager as well as the verification of message countersignatures.<a href="#section-16-2" class="pilcrow">¶</a></p>
+<p id="section-16-3">The Group Manager MUST support at least the following group rekeying scheme. Future application profiles may define alternative message formats and distribution schemes.<a href="#section-16-3" class="pilcrow">¶</a></p>
+<p id="section-16-4">The Group Manager uses the same format of the Joining Response message in <a href="#ssec-join-resp" class="xref">Section 5.4</a>. In particular:<a href="#section-16-4" class="pilcrow">¶</a></p>
+<ul>
+<li id="section-16-5.1">Only the parameters 'gkty', 'key', 'num', 'ace-groupcomm-profile' and 'exp' are present.<a href="#section-16-5.1" class="pilcrow">¶</a>
+</li>
+<li id="section-16-5.2">The 'ms' parameter of the 'key' parameter specifies the new OSCORE Master Secret value.<a href="#section-16-5.2" class="pilcrow">¶</a>
+</li>
+<li id="section-16-5.3">The 'contextId' parameter of the 'key' parameter specifies the new Group ID.<a href="#section-16-5.3" class="pilcrow">¶</a>
+</li>
+</ul>
+<p id="section-16-6">The Group Manager separately sends a group rekeying message to each group member to be rekeyed.<a href="#section-16-6" class="pilcrow">¶</a></p>
+<p id="section-16-7">Each rekeying message MUST be secured with the pairwise secure communication channel between the Group Manager and the group member used during the joining process. In particular, each rekeying message can target the 'control_path' URI path defined in Section 4.1.2.1 of <span>[<a href="#I-D.ietf-ace-key-groupcomm" class="xref">I-D.ietf-ace-key-groupcomm</a>]</span>, if provided by the intended recipient upon joining the group (see <a href="#ssec-join-req-sending" class="xref">Section 5.2</a>).<a href="#section-16-7" class="pilcrow">¶</a></p>
+<p id="section-16-8">It is RECOMMENDED that the Group Manager gets confirmation of successful distribution from the group members, and admits a maximum number of individual retransmissions to non-confirming group members.<a href="#section-16-8" class="pilcrow">¶</a></p>
+<p id="section-16-9">In case the rekeying terminates and some group members have not received the new keying material, they will not be able to correctly process following secured messages exchanged in the group. These group members will eventually contact the Group Manager, in order to retrieve the current keying material and its version.<a href="#section-16-9" class="pilcrow">¶</a></p>
+<p id="section-16-10">This approach requires group members to act (also) as servers, in order to correctly handle unsolicited group rekeying messages from the Group Manager. In particular, if a group member and the Group Manager use OSCORE <span>[<a href="#RFC8613" class="xref">RFC8613</a>]</span> to secure their pairwise communications, the group member MUST create a Replay Window in its own Recipient Context upon establishing the OSCORE Security Context with the Group Manager, e.g. by means of the OSCORE profile of ACE <span>[<a href="#I-D.ietf-ace-oscore-profile" class="xref">I-D.ietf-ace-oscore-profile</a>]</span>.<a href="#section-16-10" class="pilcrow">¶</a></p>
+<p id="section-16-11">Group members and the Group Manager SHOULD additionally support alternative rekeying approaches that do not require group members to act (also) as servers. A number of such approaches are defined in Section 4.3 of <span>[<a href="#I-D.ietf-ace-key-groupcomm" class="xref">I-D.ietf-ace-key-groupcomm</a>]</span>. In particular, a group member may subscribe for updates to the group-membership resource of the group, at the endpoint /group-oscore/GROUPNAME/nodes/NODENAME of the Group Manager. This can rely on CoAP Observe <span>[<a href="#RFC7641" class="xref">RFC7641</a>]</span> or on a full-fledged Pub-Sub model <span>[<a href="#I-D.ietf-core-coap-pubsub" class="xref">I-D.ietf-core-coap-pubsub</a>]</span> with the Group Manager acting as Broker.<a href="#section-16-11" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="sec-security-considerations">
+<section id="section-17">
+      <h2 id="name-security-considerations">
+<a href="#section-17" class="section-number selfRef">17. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
+      </h2>
+<p id="section-17-1">Security considerations for this profile are inherited from <span>[<a href="#I-D.ietf-ace-key-groupcomm" class="xref">I-D.ietf-ace-key-groupcomm</a>]</span>, the ACE framework for Authentication and Authorization <span>[<a href="#I-D.ietf-ace-oauth-authz" class="xref">I-D.ietf-ace-oauth-authz</a>]</span>, and the specific transport profile of ACE signalled by the AS, such as <span>[<a href="#I-D.ietf-ace-dtls-authorize" class="xref">I-D.ietf-ace-dtls-authorize</a>]</span> and <span>[<a href="#I-D.ietf-ace-oscore-profile" class="xref">I-D.ietf-ace-oscore-profile</a>]</span>.<a href="#section-17-1" class="pilcrow">¶</a></p>
+<p id="section-17-2">The following security considerations also apply for this profile.<a href="#section-17-2" class="pilcrow">¶</a></p>
+<div id="ssec-security-considerations-management">
+<section id="section-17.1">
+        <h3 id="name-management-of-oscore-groups">
+<a href="#section-17.1" class="section-number selfRef">17.1. </a><a href="#name-management-of-oscore-groups" class="section-name selfRef">Management of OSCORE Groups</a>
+        </h3>
+<p id="section-17.1-1">This profile leverages the following management aspects related to OSCORE groups and discussed in the sections of <span>[<a href="#I-D.ietf-core-oscore-groupcomm" class="xref">I-D.ietf-core-oscore-groupcomm</a>]</span> referred below.<a href="#section-17.1-1" class="pilcrow">¶</a></p>
+<ul>
+<li id="section-17.1-2.1">Management of group keying material (see Section 2.4 of <span>[<a href="#I-D.ietf-core-oscore-groupcomm" class="xref">I-D.ietf-core-oscore-groupcomm</a>]</span>). The Group Manager is responsible for the renewal and re-distribution of the keying material in the groups of its competence (rekeying). According to the specific application requirements, this can include rekeying the group upon changes in its membership. In particular, renewing the group keying material is required upon a new node's joining or a current node's leaving, in case backward security and forward security have to be preserved, respectively.<a href="#section-17.1-2.1" class="pilcrow">¶</a>
+</li>
+<li id="section-17.1-2.2">Provisioning and retrieval of public keys (see Section 2 of <span>[<a href="#I-D.ietf-core-oscore-groupcomm" class="xref">I-D.ietf-core-oscore-groupcomm</a>]</span>). The Group Manager acts as key repository of public keys of group members, and provides them upon request.<a href="#section-17.1-2.2" class="pilcrow">¶</a>
+</li>
+<li id="section-17.1-2.3">Synchronization of sequence numbers (see Section 6.1 of <span>[<a href="#I-D.ietf-core-oscore-groupcomm" class="xref">I-D.ietf-core-oscore-groupcomm</a>]</span>). This concerns how a responder node that has just joined an OSCORE group can synchronize with the sequence number of requesters in the same group.<a href="#section-17.1-2.3" class="pilcrow">¶</a>
+</li>
+</ul>
+<p id="section-17.1-3">Before sending the Joining Response, the Group Manager MUST verify that the joining node actually owns the associated private key. To this end, the Group Manager can rely on the proof-of-possession challenge-response defined in <a href="#sec-joining-node-to-GM" class="xref">Section 5</a>. Alternatively, the joining node can use its own public key as asymmetric proof-of-possession key to establish a secure channel with the Group Manager, e.g. as in Section 3.2 of <span>[<a href="#I-D.ietf-ace-dtls-authorize" class="xref">I-D.ietf-ace-dtls-authorize</a>]</span>. However, this requires such proof-of-possession key to be compatible with the encoding as well as with the countersignature algorithm and possible associated parameters used in the OSCORE group.<a href="#section-17.1-3" class="pilcrow">¶</a></p>
+<p id="section-17.1-4">A node may have joined multiple OSCORE groups under different non-synchronized Group Managers. Therefore, it can happen that those OSCORE groups have the same Group Identifier (Gid). It follows that, upon receiving a Group OSCORE message addressed to one of those groups, the node would have multiple Security Contexts matching with the Gid in the incoming message. It is up to the application to decide how to handle such collisions of Group Identifiers, e.g. by trying to process the incoming message using one Security Context at the time until the right one is found.<a href="#section-17.1-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="ssec-security-considerations-challenges">
+<section id="section-17.2">
+        <h3 id="name-size-of-nonces-for-signatur">
+<a href="#section-17.2" class="section-number selfRef">17.2. </a><a href="#name-size-of-nonces-for-signatur" class="section-name selfRef">Size of Nonces for Signature Challenge</a>
+        </h3>
+<p id="section-17.2-1">With reference to the Joining Request message in <a href="#ssec-join-req-sending" class="xref">Section 5.2</a>, the proof-of-possession signature included in 'client_cred_verify' is computed over the challenge N_C | N_S, where | denotes concatenation.<a href="#section-17.2-1" class="pilcrow">¶</a></p>
+<p id="section-17.2-2">For the N_C value, it is RECOMMENDED to use a 8-byte long random nonce. Furthermore, N_C is always conveyed in the 'cnonce' parameter of the Joining Request, which is always sent over the secure communication channel  between the joining node and the Group Manager.<a href="#section-17.2-2" class="pilcrow">¶</a></p>
+<p id="section-17.2-3">As defined in <a href="#sssec-challenge-value" class="xref">Section 5.2.1</a>, the way the N_S value is computed depends on the particular interaction between the joining node and the Group Manager.<a href="#section-17.2-3" class="pilcrow">¶</a></p>
+<ul>
+<li id="section-17.2-4.1">If the Access Token is not explicitly posted to the /authz-info endpoint of the Group Manager, or if the joining node re-joins without re-posting the same still valid Access Token, then N_S is computed as a 32-byte long nonce (see points (2) and (3) of <a href="#sssec-challenge-value" class="xref">Section 5.2.1</a>).<a href="#section-17.2-4.1" class="pilcrow">¶</a>
+</li>
+<li id="section-17.2-4.2">If the Access Token has been explicitly posted to the /authz-info endpoint of the Group Manager, N_S takes the value conveyed in the 'rsnonce' parameter of the 2.01 response to the Token Post (see <a href="#ssec-token-post" class="xref">Section 5.1</a>). Similarly, if a Joining Request is not successfully processed by the Group Manager, the returned error response should also include the 'rsnonce' parameter specifying a new nonce N_S (see <a href="#ssec-join-req-processing" class="xref">Section 5.3</a>). In either case, it is RECOMMENDED to use a 8-byte long random nonce as value for N_S.<a href="#section-17.2-4.2" class="pilcrow">¶</a>
+</li>
+</ul>
+<p id="section-17.2-5">If we consider both N_C and N_S to be 8-byte long nonces, the following considerations hold.<a href="#section-17.2-5" class="pilcrow">¶</a></p>
+<ul>
+<li id="section-17.2-6.1">If both N_C and N_S are random nonces, the average collision for each nonce will happen after 2^32 messages, as per the birthday paradox and as also discussed in Section 7 of <span>[<a href="#I-D.ietf-ace-oscore-profile" class="xref">I-D.ietf-ace-oscore-profile</a>]</span>. This amounts to considerably more token provisionings than the expected new joinings of OSCORE groups under a same Group Manager.<a href="#section-17.2-6.1" class="pilcrow">¶</a>
+</li>
+<li id="section-17.2-6.2">If N_C and N_S are not generated randomly, e.g. by using a counter, the joining node and the Group Manager need to guarantee that reboot and loss of state on either node does not provoke re-use. If that is not guaranteed, a joining node may repeatedly post a valid Access Token to the /authz-info endpoint of the Group Manager, until it gets back an exact, re-used value N_S* to use as nonce. Then, the joining node can send a Joining Request, conveying a reused N_C* nonce in 'cnonce' and an old stored signature in 'client_cred_verify', computed over N_C* | N_S*. By verifying the signature, the Group Manager would falsely believe that the joining node possesses its own private key at that point in time.<a href="#section-17.2-6.2" class="pilcrow">¶</a>
+</li>
+<li id="section-17.2-6.3">Since N_C is always conveyed in a secured Joining Request, it is practically infeasible for an on-path attacker to replay Joining Requests from a joining node to the Group Manager, in order to cause that joining node to use an arbitrary nonce N_S.<a href="#section-17.2-6.3" class="pilcrow">¶</a>
+</li>
+<li id="section-17.2-6.4">Section 7 of <span>[<a href="#I-D.ietf-ace-oscore-profile" class="xref">I-D.ietf-ace-oscore-profile</a>]</span> as well Appendix B.2 of <span>[<a href="#RFC8613" class="xref">RFC8613</a>]</span> recommend the use of 8-byte random nonces as well. Unlike in those cases, the nonces N_C and N_S considered in this specification are not used for as sensitive operations as the derivation of a Security Context, with possible implications in the security of AEAD ciphers.<a href="#section-17.2-6.4" class="pilcrow">¶</a>
+</li>
+</ul>
+</section>
+</div>
+</section>
+</div>
+<div id="sec-iana">
+<section id="section-18">
+      <h2 id="name-iana-considerations">
+<a href="#section-18" class="section-number selfRef">18. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
+      </h2>
+<p id="section-18-1">Note to RFC Editor: Please replace all occurrences of "[[This specification]]" with the RFC number of this specification and delete this paragraph.<a href="#section-18-1" class="pilcrow">¶</a></p>
+<p id="section-18-2">This document has the following actions for IANA.<a href="#section-18-2" class="pilcrow">¶</a></p>
+<div id="ssec-iana-groupcomm-profile-registry">
+<section id="section-18.1">
+        <h3 id="name-ace-groupcomm-profile-regis">
+<a href="#section-18.1" class="section-number selfRef">18.1. </a><a href="#name-ace-groupcomm-profile-regis" class="section-name selfRef">ACE Groupcomm Profile Registry</a>
+        </h3>
+<p id="section-18.1-1">IANA is asked to register the following entry in the "ACE Groupcomm Profile" Registry defined in Section 9.6 of <span>[<a href="#I-D.ietf-ace-key-groupcomm" class="xref">I-D.ietf-ace-key-groupcomm</a>]</span>.<a href="#section-18.1-1" class="pilcrow">¶</a></p>
+<ul>
+<li id="section-18.1-2.1">Name: coap_group_oscore_app<a href="#section-18.1-2.1" class="pilcrow">¶</a>
+</li>
+<li id="section-18.1-2.2">Description: Application profile to provision keying material for participating in group communication protected with Group OSCORE as per <span>[<a href="#I-D.ietf-core-oscore-groupcomm" class="xref">I-D.ietf-core-oscore-groupcomm</a>]</span>.<a href="#section-18.1-2.2" class="pilcrow">¶</a>
+</li>
+<li id="section-18.1-2.3">CBOR Value: TBD1<a href="#section-18.1-2.3" class="pilcrow">¶</a>
+</li>
+<li id="section-18.1-2.4">Reference: [[This specification]] (<a href="#ssec-join-resp" class="xref">Section 5.4</a>)<a href="#section-18.1-2.4" class="pilcrow">¶</a>
+</li>
+</ul>
+</section>
+</div>
+<div id="ssec-iana-groupcomm-key-registry">
+<section id="section-18.2">
+        <h3 id="name-ace-groupcomm-key-registry">
+<a href="#section-18.2" class="section-number selfRef">18.2. </a><a href="#name-ace-groupcomm-key-registry" class="section-name selfRef">ACE Groupcomm Key Registry</a>
+        </h3>
+<p id="section-18.2-1">IANA is asked to register the following entry in the "ACE Groupcomm Key" Registry defined in Section 9.5 of <span>[<a href="#I-D.ietf-ace-key-groupcomm" class="xref">I-D.ietf-ace-key-groupcomm</a>]</span>.<a href="#section-18.2-1" class="pilcrow">¶</a></p>
+<ul>
+<li id="section-18.2-2.1">Name: Group_OSCORE_Security_Context object<a href="#section-18.2-2.1" class="pilcrow">¶</a>
+</li>
+<li id="section-18.2-2.2">Key Type Value: TBD2<a href="#section-18.2-2.2" class="pilcrow">¶</a>
+</li>
+<li id="section-18.2-2.3">Profile: "coap_group_oscore_app", defined in <a href="#ssec-iana-groupcomm-profile-registry" class="xref">Section 18.1</a> of this specification.<a href="#section-18.2-2.3" class="pilcrow">¶</a>
+</li>
+<li id="section-18.2-2.4">Description: A Group_OSCORE_Security_Context object encoded as described in <a href="#ssec-join-resp" class="xref">Section 5.4</a> of this specification.<a href="#section-18.2-2.4" class="pilcrow">¶</a>
+</li>
+<li id="section-18.2-2.5">Reference: [[This specification]] (<a href="#ssec-join-resp" class="xref">Section 5.4</a>)<a href="#section-18.2-2.5" class="pilcrow">¶</a>
+</li>
+</ul>
+</section>
+</div>
+<div id="ssec-iana-security-context-parameter-registry">
+<section id="section-18.3">
+        <h3 id="name-oscore-security-context-par">
+<a href="#section-18.3" class="section-number selfRef">18.3. </a><a href="#name-oscore-security-context-par" class="section-name selfRef">OSCORE Security Context Parameters Registry</a>
+        </h3>
+<p id="section-18.3-1">IANA is asked to register the following entries in the "OSCORE Security Context Parameters" Registry defined in Section 9.4 of <span>[<a href="#I-D.ietf-ace-oscore-profile" class="xref">I-D.ietf-ace-oscore-profile</a>]</span>.<a href="#section-18.3-1" class="pilcrow">¶</a></p>
+<ul>
+<li id="section-18.3-2.1">Name: cs_alg<a href="#section-18.3-2.1" class="pilcrow">¶</a>
+</li>
+<li id="section-18.3-2.2">CBOR Label: TBD3<a href="#section-18.3-2.2" class="pilcrow">¶</a>
+</li>
+<li id="section-18.3-2.3">CBOR Type: tstr / int<a href="#section-18.3-2.3" class="pilcrow">¶</a>
+</li>
+<li id="section-18.3-2.4">Registry: COSE Algorithm Values (ECDSA, EdDSA)<a href="#section-18.3-2.4" class="pilcrow">¶</a>
+</li>
+<li id="section-18.3-2.5">Description: OSCORE Counter Signature Algorithm Value<a href="#section-18.3-2.5" class="pilcrow">¶</a>
+</li>
+<li id="section-18.3-2.6">Reference: [[This specification]] (<a href="#ssec-join-resp" class="xref">Section 5.4</a>)<a href="#section-18.3-2.6" class="pilcrow">¶</a>
+</li>
+</ul>
+<p id="section-18.3-3"><a href="#section-18.3-3" class="pilcrow">¶</a></p>
+<ul>
+<li id="section-18.3-4.1">Name: cs_params<a href="#section-18.3-4.1" class="pilcrow">¶</a>
+</li>
+<li id="section-18.3-4.2">CBOR Label: TBD4<a href="#section-18.3-4.2" class="pilcrow">¶</a>
+</li>
+<li id="section-18.3-4.3">CBOR Type: map<a href="#section-18.3-4.3" class="pilcrow">¶</a>
+</li>
+<li id="section-18.3-4.4">Registry: Counter Signatures Parameters<a href="#section-18.3-4.4" class="pilcrow">¶</a>
+</li>
+<li id="section-18.3-4.5">Description: OSCORE Counter Signature Algorithm Additional Parameters<a href="#section-18.3-4.5" class="pilcrow">¶</a>
+</li>
+<li id="section-18.3-4.6">Reference: [[This specification]] (<a href="#ssec-join-resp" class="xref">Section 5.4</a>)<a href="#section-18.3-4.6" class="pilcrow">¶</a>
+</li>
+</ul>
+<p id="section-18.3-5"><a href="#section-18.3-5" class="pilcrow">¶</a></p>
+<ul>
+<li id="section-18.3-6.1">Name: cs_key_params<a href="#section-18.3-6.1" class="pilcrow">¶</a>
+</li>
+<li id="section-18.3-6.2">CBOR Label: TBD5<a href="#section-18.3-6.2" class="pilcrow">¶</a>
+</li>
+<li id="section-18.3-6.3">CBOR Type: map<a href="#section-18.3-6.3" class="pilcrow">¶</a>
+</li>
+<li id="section-18.3-6.4">Registry: Counter Signatures Key Parameters<a href="#section-18.3-6.4" class="pilcrow">¶</a>
+</li>
+<li id="section-18.3-6.5">Description: OSCORE Counter Signature Key Additional Parameters<a href="#section-18.3-6.5" class="pilcrow">¶</a>
+</li>
+<li id="section-18.3-6.6">Reference: [[This specification]] (<a href="#ssec-join-resp" class="xref">Section 5.4</a>)<a href="#section-18.3-6.6" class="pilcrow">¶</a>
+</li>
+</ul>
+<p id="section-18.3-7"><a href="#section-18.3-7" class="pilcrow">¶</a></p>
+<ul>
+<li id="section-18.3-8.1">Name: cs_key_enc<a href="#section-18.3-8.1" class="pilcrow">¶</a>
+</li>
+<li id="section-18.3-8.2">CBOR Label: TBD6<a href="#section-18.3-8.2" class="pilcrow">¶</a>
+</li>
+<li id="section-18.3-8.3">CBOR Type: integer<a href="#section-18.3-8.3" class="pilcrow">¶</a>
+</li>
+<li id="section-18.3-8.4">Registry: ACE Public Key Encoding<a href="#section-18.3-8.4" class="pilcrow">¶</a>
+</li>
+<li id="section-18.3-8.5">Description: Encoding of Public Keys to be used with the OSCORE Counter Signature Algorithm<a href="#section-18.3-8.5" class="pilcrow">¶</a>
+</li>
+<li id="section-18.3-8.6">Reference: [[This specification]] (<a href="#ssec-join-resp" class="xref">Section 5.4</a>)<a href="#section-18.3-8.6" class="pilcrow">¶</a>
+</li>
+</ul>
+</section>
+</div>
+<div id="ssec-iana-sn-synch-method-registry">
+<section id="section-18.4">
+        <h3 id="name-sequence-number-synchroniza">
+<a href="#section-18.4" class="section-number selfRef">18.4. </a><a href="#name-sequence-number-synchroniza" class="section-name selfRef">Sequence Number Synchronization Method Registry</a>
+        </h3>
+<p id="section-18.4-1">IANA is asked to register the following entries in the "Sequence Number Synchronization Method" Registry defined in Section 9.8 of <span>[<a href="#I-D.ietf-ace-key-groupcomm" class="xref">I-D.ietf-ace-key-groupcomm</a>]</span>.<a href="#section-18.4-1" class="pilcrow">¶</a></p>
+<ul>
+<li id="section-18.4-2.1">Name: Best effort<a href="#section-18.4-2.1" class="pilcrow">¶</a>
+</li>
+<li id="section-18.4-2.2">Value: 1<a href="#section-18.4-2.2" class="pilcrow">¶</a>
+</li>
+<li id="section-18.4-2.3">Description: No action is taken.<a href="#section-18.4-2.3" class="pilcrow">¶</a>
+</li>
+<li id="section-18.4-2.4">Reference: <span>[<a href="#I-D.ietf-core-oscore-groupcomm" class="xref">I-D.ietf-core-oscore-groupcomm</a>]</span> (Appendix E.1)<a href="#section-18.4-2.4" class="pilcrow">¶</a>
+</li>
+</ul>
+<p id="section-18.4-3"><a href="#section-18.4-3" class="pilcrow">¶</a></p>
+<ul>
+<li id="section-18.4-4.1">Name: Baseline<a href="#section-18.4-4.1" class="pilcrow">¶</a>
+</li>
+<li id="section-18.4-4.2">Value: 2<a href="#section-18.4-4.2" class="pilcrow">¶</a>
+</li>
+<li id="section-18.4-4.3">Description: The first received request sets the baseline reference point, and is discarded with no delivery to the application.<a href="#section-18.4-4.3" class="pilcrow">¶</a>
+</li>
+<li id="section-18.4-4.4">Reference: <span>[<a href="#I-D.ietf-core-oscore-groupcomm" class="xref">I-D.ietf-core-oscore-groupcomm</a>]</span> (Appendix E.2)<a href="#section-18.4-4.4" class="pilcrow">¶</a>
+</li>
+</ul>
+<p id="section-18.4-5"><a href="#section-18.4-5" class="pilcrow">¶</a></p>
+<ul>
+<li id="section-18.4-6.1">Name: Echo challenge-response<a href="#section-18.4-6.1" class="pilcrow">¶</a>
+</li>
+<li id="section-18.4-6.2">Value: 3<a href="#section-18.4-6.2" class="pilcrow">¶</a>
+</li>
+<li id="section-18.4-6.3">Description: Challenge response using the Echo Option for CoAP from <span>[<a href="#I-D.ietf-core-echo-request-tag" class="xref">I-D.ietf-core-echo-request-tag</a>]</span>.<a href="#section-18.4-6.3" class="pilcrow">¶</a>
+</li>
+<li id="section-18.4-6.4">Reference: <span>[<a href="#I-D.ietf-core-oscore-groupcomm" class="xref">I-D.ietf-core-oscore-groupcomm</a>]</span> (Appendix E.3)<a href="#section-18.4-6.4" class="pilcrow">¶</a>
+</li>
+</ul>
+</section>
+</div>
+<div id="ssec-iana-ace-groupcomm-parameters-registry">
+<section id="section-18.5">
+        <h3 id="name-ace-groupcomm-parameters-re">
+<a href="#section-18.5" class="section-number selfRef">18.5. </a><a href="#name-ace-groupcomm-parameters-re" class="section-name selfRef">ACE Groupcomm Parameters Registry</a>
+        </h3>
+<p id="section-18.5-1">IANA is asked to register the following entry in the "ACE Groupcomm Parameters" Registry defined in Section 9.4 of <span>[<a href="#I-D.ietf-ace-key-groupcomm" class="xref">I-D.ietf-ace-key-groupcomm</a>]</span>.<a href="#section-18.5-1" class="pilcrow">¶</a></p>
+<ul>
+<li id="section-18.5-2.1">Name: clientId<a href="#section-18.5-2.1" class="pilcrow">¶</a>
+</li>
+<li id="section-18.5-2.2">CBOR Key: TBD7<a href="#section-18.5-2.2" class="pilcrow">¶</a>
+</li>
+<li id="section-18.5-2.3">CBOR Type: Byte string<a href="#section-18.5-2.3" class="pilcrow">¶</a>
+</li>
+<li id="section-18.5-2.4">Reference: [[This specification]] (<a href="#sec-new-key" class="xref">Section 8</a>)<a href="#section-18.5-2.4" class="pilcrow">¶</a>
+</li>
+</ul>
+</section>
+</div>
+<div id="ssec-iana-tls-esporter-label-registry">
+<section id="section-18.6">
+        <h3 id="name-tls-exporter-label-registry">
+<a href="#section-18.6" class="section-number selfRef">18.6. </a><a href="#name-tls-exporter-label-registry" class="section-name selfRef">TLS Exporter Label Registry</a>
+        </h3>
+<p id="section-18.6-1">IANA is asked to register the following entry in the "TLS Exporter Label" Registry defined in Section 6 of <span>[<a href="#RFC5705" class="xref">RFC5705</a>]</span> and updated in Section 12 of <span>[<a href="#RFC8447" class="xref">RFC8447</a>]</span>.<a href="#section-18.6-1" class="pilcrow">¶</a></p>
+<ul>
+<li id="section-18.6-2.1">Value: EXPORTER-ACE-Sign-Challenge-coap-group-oscore-app<a href="#section-18.6-2.1" class="pilcrow">¶</a>
+</li>
+<li id="section-18.6-2.2">DTLS-OK: Y<a href="#section-18.6-2.2" class="pilcrow">¶</a>
+</li>
+<li id="section-18.6-2.3">Recommended: N<a href="#section-18.6-2.3" class="pilcrow">¶</a>
+</li>
+<li id="section-18.6-2.4">Reference: [[This specification]] (<a href="#sssec-challenge-value" class="xref">Section 5.2.1</a>)<a href="#section-18.6-2.4" class="pilcrow">¶</a>
+</li>
+</ul>
+</section>
+</div>
+</section>
+</div>
+<section id="section-19">
+      <h2 id="name-references">
+<a href="#section-19" class="section-number selfRef">19. </a><a href="#name-references" class="section-name selfRef">References</a>
+      </h2>
+<section id="section-19.1">
+        <h3 id="name-normative-references">
+<a href="#section-19.1" class="section-number selfRef">19.1. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
+        </h3>
+<dl class="references">
+<dt id="I-D.ietf-ace-cwt-proof-of-possession">[I-D.ietf-ace-cwt-proof-of-possession]</dt>
+<dd>
+<span class="refAuthor">Jones, M.</span><span class="refAuthor">, Seitz, L.</span><span class="refAuthor">, Selander, G.</span><span class="refAuthor">, Erdtman, S.</span><span class="refAuthor">, and H. Tschofenig</span>, <span class="refTitle">"Proof-of-Possession Key Semantics for CBOR Web Tokens (CWTs)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-ace-cwt-proof-of-possession-11</span>, <time datetime="2019-10-31">31 October 2019</time>, <span>&lt;<a href="http://www.ietf.org/internet-drafts/draft-ietf-ace-cwt-proof-of-possession-11.txt">http://www.ietf.org/internet-drafts/draft-ietf-ace-cwt-proof-of-possession-11.txt</a>&gt;</span>. </dd>
+<dt id="I-D.ietf-ace-key-groupcomm">[I-D.ietf-ace-key-groupcomm]</dt>
+<dd>
+<span class="refAuthor">Palombini, F.</span><span class="refAuthor"> and M. Tiloca</span>, <span class="refTitle">"Key Provisioning for Group Communication using ACE"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-ace-key-groupcomm-05</span>, <time datetime="2020-03-09">9 March 2020</time>, <span>&lt;<a href="http://www.ietf.org/internet-drafts/draft-ietf-ace-key-groupcomm-05.txt">http://www.ietf.org/internet-drafts/draft-ietf-ace-key-groupcomm-05.txt</a>&gt;</span>. </dd>
+<dt id="I-D.ietf-ace-oauth-authz">[I-D.ietf-ace-oauth-authz]</dt>
+<dd>
+<span class="refAuthor">Seitz, L.</span><span class="refAuthor">, Selander, G.</span><span class="refAuthor">, Wahlstroem, E.</span><span class="refAuthor">, Erdtman, S.</span><span class="refAuthor">, and H. Tschofenig</span>, <span class="refTitle">"Authentication and Authorization for Constrained Environments (ACE) using the OAuth 2.0 Framework (ACE-OAuth)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-ace-oauth-authz-33</span>, <time datetime="2020-02-06">6 February 2020</time>, <span>&lt;<a href="http://www.ietf.org/internet-drafts/draft-ietf-ace-oauth-authz-33.txt">http://www.ietf.org/internet-drafts/draft-ietf-ace-oauth-authz-33.txt</a>&gt;</span>. </dd>
+<dt id="I-D.ietf-ace-oscore-profile">[I-D.ietf-ace-oscore-profile]</dt>
+<dd>
+<span class="refAuthor">Palombini, F.</span><span class="refAuthor">, Seitz, L.</span><span class="refAuthor">, Selander, G.</span><span class="refAuthor">, and M. Gunnarsson</span>, <span class="refTitle">"OSCORE profile of the Authentication and Authorization for Constrained Environments Framework"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-ace-oscore-profile-10</span>, <time datetime="2020-03-09">9 March 2020</time>, <span>&lt;<a href="http://www.ietf.org/internet-drafts/draft-ietf-ace-oscore-profile-10.txt">http://www.ietf.org/internet-drafts/draft-ietf-ace-oscore-profile-10.txt</a>&gt;</span>. </dd>
+<dt id="I-D.ietf-core-oscore-groupcomm">[I-D.ietf-core-oscore-groupcomm]</dt>
+<dd>
+<span class="refAuthor">Tiloca, M.</span><span class="refAuthor">, Selander, G.</span><span class="refAuthor">, Palombini, F.</span><span class="refAuthor">, and J. Park</span>, <span class="refTitle">"Group OSCORE - Secure Group Communication for CoAP"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-core-oscore-groupcomm-07</span>, <time datetime="2020-03-09">9 March 2020</time>, <span>&lt;<a href="http://www.ietf.org/internet-drafts/draft-ietf-core-oscore-groupcomm-07.txt">http://www.ietf.org/internet-drafts/draft-ietf-core-oscore-groupcomm-07.txt</a>&gt;</span>. </dd>
+<dt id="RFC2119">[RFC2119]</dt>
+<dd>
+<span class="refAuthor">Bradner, S.</span>, <span class="refTitle">"Key words for use in RFCs to Indicate Requirement Levels"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 2119</span>, <span class="seriesInfo">DOI 10.17487/RFC2119</span>, <time datetime="1997-03">March 1997</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc2119">https://www.rfc-editor.org/info/rfc2119</a>&gt;</span>. </dd>
+<dt id="RFC5705">[RFC5705]</dt>
+<dd>
+<span class="refAuthor">Rescorla, E.</span>, <span class="refTitle">"Keying Material Exporters for Transport Layer Security (TLS)"</span>, <span class="seriesInfo">RFC 5705</span>, <span class="seriesInfo">DOI 10.17487/RFC5705</span>, <time datetime="2010-03">March 2010</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc5705">https://www.rfc-editor.org/info/rfc5705</a>&gt;</span>. </dd>
+<dt id="RFC5869">[RFC5869]</dt>
+<dd>
+<span class="refAuthor">Krawczyk, H.</span><span class="refAuthor"> and P. Eronen</span>, <span class="refTitle">"HMAC-based Extract-and-Expand Key Derivation Function (HKDF)"</span>, <span class="seriesInfo">RFC 5869</span>, <span class="seriesInfo">DOI 10.17487/RFC5869</span>, <time datetime="2010-05">May 2010</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc5869">https://www.rfc-editor.org/info/rfc5869</a>&gt;</span>. </dd>
+<dt id="RFC7252">[RFC7252]</dt>
+<dd>
+<span class="refAuthor">Shelby, Z.</span><span class="refAuthor">, Hartke, K.</span><span class="refAuthor">, and C. Bormann</span>, <span class="refTitle">"The Constrained Application Protocol (CoAP)"</span>, <span class="seriesInfo">RFC 7252</span>, <span class="seriesInfo">DOI 10.17487/RFC7252</span>, <time datetime="2014-06">June 2014</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc7252">https://www.rfc-editor.org/info/rfc7252</a>&gt;</span>. </dd>
+<dt id="RFC8152">[RFC8152]</dt>
+<dd>
+<span class="refAuthor">Schaad, J.</span>, <span class="refTitle">"CBOR Object Signing and Encryption (COSE)"</span>, <span class="seriesInfo">RFC 8152</span>, <span class="seriesInfo">DOI 10.17487/RFC8152</span>, <time datetime="2017-07">July 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8152">https://www.rfc-editor.org/info/rfc8152</a>&gt;</span>. </dd>
+<dt id="RFC8174">[RFC8174]</dt>
+<dd>
+<span class="refAuthor">Leiba, B.</span>, <span class="refTitle">"Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 8174</span>, <span class="seriesInfo">DOI 10.17487/RFC8174</span>, <time datetime="2017-05">May 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8174">https://www.rfc-editor.org/info/rfc8174</a>&gt;</span>. </dd>
+<dt id="RFC8446">[RFC8446]</dt>
+<dd>
+<span class="refAuthor">Rescorla, E.</span>, <span class="refTitle">"The Transport Layer Security (TLS) Protocol Version 1.3"</span>, <span class="seriesInfo">RFC 8446</span>, <span class="seriesInfo">DOI 10.17487/RFC8446</span>, <time datetime="2018-08">August 2018</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8446">https://www.rfc-editor.org/info/rfc8446</a>&gt;</span>. </dd>
+<dt id="RFC8447">[RFC8447]</dt>
+<dd>
+<span class="refAuthor">Salowey, J.</span><span class="refAuthor"> and S. Turner</span>, <span class="refTitle">"IANA Registry Updates for TLS and DTLS"</span>, <span class="seriesInfo">RFC 8447</span>, <span class="seriesInfo">DOI 10.17487/RFC8447</span>, <time datetime="2018-08">August 2018</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8447">https://www.rfc-editor.org/info/rfc8447</a>&gt;</span>. </dd>
+<dt id="RFC8613">[RFC8613]</dt>
+<dd>
+<span class="refAuthor">Selander, G.</span><span class="refAuthor">, Mattsson, J.</span><span class="refAuthor">, Palombini, F.</span><span class="refAuthor">, and L. Seitz</span>, <span class="refTitle">"Object Security for Constrained RESTful Environments (OSCORE)"</span>, <span class="seriesInfo">RFC 8613</span>, <span class="seriesInfo">DOI 10.17487/RFC8613</span>, <time datetime="2019-07">July 2019</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8613">https://www.rfc-editor.org/info/rfc8613</a>&gt;</span>. </dd>
+</dl>
+</section>
+<section id="section-19.2">
+        <h3 id="name-informative-references">
+<a href="#section-19.2" class="section-number selfRef">19.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
+        </h3>
+<dl class="references">
+<dt id="I-D.dijk-core-groupcomm-bis">[I-D.dijk-core-groupcomm-bis]</dt>
+<dd>
+<span class="refAuthor">Dijk, E.</span><span class="refAuthor">, Wang, C.</span><span class="refAuthor">, and M. Tiloca</span>, <span class="refTitle">"Group Communication for the Constrained Application Protocol (CoAP)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-dijk-core-groupcomm-bis-03</span>, <time datetime="2020-03-09">9 March 2020</time>, <span>&lt;<a href="http://www.ietf.org/internet-drafts/draft-dijk-core-groupcomm-bis-03.txt">http://www.ietf.org/internet-drafts/draft-dijk-core-groupcomm-bis-03.txt</a>&gt;</span>. </dd>
+<dt id="I-D.ietf-ace-dtls-authorize">[I-D.ietf-ace-dtls-authorize]</dt>
+<dd>
+<span class="refAuthor">Gerdes, S.</span><span class="refAuthor">, Bergmann, O.</span><span class="refAuthor">, Bormann, C.</span><span class="refAuthor">, Selander, G.</span><span class="refAuthor">, and L. Seitz</span>, <span class="refTitle">"Datagram Transport Layer Security (DTLS) Profile for Authentication and Authorization for Constrained Environments (ACE)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-ace-dtls-authorize-09</span>, <time datetime="2019-12-18">18 December 2019</time>, <span>&lt;<a href="http://www.ietf.org/internet-drafts/draft-ietf-ace-dtls-authorize-09.txt">http://www.ietf.org/internet-drafts/draft-ietf-ace-dtls-authorize-09.txt</a>&gt;</span>. </dd>
+<dt id="I-D.ietf-core-coap-pubsub">[I-D.ietf-core-coap-pubsub]</dt>
+<dd>
+<span class="refAuthor">Koster, M.</span><span class="refAuthor">, Keranen, A.</span><span class="refAuthor">, and J. Jimenez</span>, <span class="refTitle">"Publish-Subscribe Broker for the Constrained Application Protocol (CoAP)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-core-coap-pubsub-09</span>, <time datetime="2019-09-30">30 September 2019</time>, <span>&lt;<a href="http://www.ietf.org/internet-drafts/draft-ietf-core-coap-pubsub-09.txt">http://www.ietf.org/internet-drafts/draft-ietf-core-coap-pubsub-09.txt</a>&gt;</span>. </dd>
+<dt id="I-D.ietf-core-echo-request-tag">[I-D.ietf-core-echo-request-tag]</dt>
+<dd>
+<span class="refAuthor">Amsuess, C.</span><span class="refAuthor">, Mattsson, J.</span><span class="refAuthor">, and G. Selander</span>, <span class="refTitle">"CoAP: Echo, Request-Tag, and Token Processing"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-core-echo-request-tag-09</span>, <time datetime="2020-03-09">9 March 2020</time>, <span>&lt;<a href="http://www.ietf.org/internet-drafts/draft-ietf-core-echo-request-tag-09.txt">http://www.ietf.org/internet-drafts/draft-ietf-core-echo-request-tag-09.txt</a>&gt;</span>. </dd>
+<dt id="I-D.tiloca-ace-oscore-gm-admin">[I-D.tiloca-ace-oscore-gm-admin]</dt>
+<dd>
+<span class="refAuthor">Tiloca, M.</span><span class="refAuthor">, Hoeglund, R.</span><span class="refAuthor">, Stok, P.</span><span class="refAuthor">, Palombini, F.</span><span class="refAuthor">, and K. Hartke</span>, <span class="refTitle">"Admin Interface for the OSCORE Group Manager"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-tiloca-ace-oscore-gm-admin-01</span>, <time datetime="2020-03-09">9 March 2020</time>, <span>&lt;<a href="http://www.ietf.org/internet-drafts/draft-tiloca-ace-oscore-gm-admin-01.txt">http://www.ietf.org/internet-drafts/draft-tiloca-ace-oscore-gm-admin-01.txt</a>&gt;</span>. </dd>
+<dt id="I-D.tiloca-core-oscore-discovery">[I-D.tiloca-core-oscore-discovery]</dt>
+<dd>
+<span class="refAuthor">Tiloca, M.</span><span class="refAuthor">, Amsuess, C.</span><span class="refAuthor">, and P. Stok</span>, <span class="refTitle">"Discovery of OSCORE Groups with the CoRE Resource Directory"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-tiloca-core-oscore-discovery-05</span>, <time datetime="2020-03-09">9 March 2020</time>, <span>&lt;<a href="http://www.ietf.org/internet-drafts/draft-tiloca-core-oscore-discovery-05.txt">http://www.ietf.org/internet-drafts/draft-tiloca-core-oscore-discovery-05.txt</a>&gt;</span>. </dd>
+<dt id="RFC6347">[RFC6347]</dt>
+<dd>
+<span class="refAuthor">Rescorla, E.</span><span class="refAuthor"> and N. Modadugu</span>, <span class="refTitle">"Datagram Transport Layer Security Version 1.2"</span>, <span class="seriesInfo">RFC 6347</span>, <span class="seriesInfo">DOI 10.17487/RFC6347</span>, <time datetime="2012-01">January 2012</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc6347">https://www.rfc-editor.org/info/rfc6347</a>&gt;</span>. </dd>
+<dt id="RFC6749">[RFC6749]</dt>
+<dd>
+<span class="refAuthor">Hardt, D., Ed.</span>, <span class="refTitle">"The OAuth 2.0 Authorization Framework"</span>, <span class="seriesInfo">RFC 6749</span>, <span class="seriesInfo">DOI 10.17487/RFC6749</span>, <time datetime="2012-10">October 2012</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc6749">https://www.rfc-editor.org/info/rfc6749</a>&gt;</span>. </dd>
+<dt id="RFC7641">[RFC7641]</dt>
+<dd>
+<span class="refAuthor">Hartke, K.</span>, <span class="refTitle">"Observing Resources in the Constrained Application Protocol (CoAP)"</span>, <span class="seriesInfo">RFC 7641</span>, <span class="seriesInfo">DOI 10.17487/RFC7641</span>, <time datetime="2015-09">September 2015</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc7641">https://www.rfc-editor.org/info/rfc7641</a>&gt;</span>. </dd>
+</dl>
+</section>
+</section>
+<div id="profile-req">
+<section id="section-appendix.a">
+      <h2 id="name-profile-requirements">
+<a href="#section-appendix.a" class="section-number selfRef">Appendix A. </a><a href="#name-profile-requirements" class="section-name selfRef">Profile Requirements</a>
+      </h2>
+<p id="section-appendix.a-1">This appendix lists the specifications on this application profile of ACE, based on the requiremens defined in Appendix A of <span>[<a href="#I-D.ietf-ace-key-groupcomm" class="xref">I-D.ietf-ace-key-groupcomm</a>]</span>.<a href="#section-appendix.a-1" class="pilcrow">¶</a></p>
+<ul>
+<li id="section-appendix.a-2.1">REQ1 - Specify the encoding and value of the identifier of group, for scope entries of 'scope': see <a href="#ssec-auth-req" class="xref">Section 3.1</a>.<a href="#section-appendix.a-2.1" class="pilcrow">¶</a>
+</li>
+<li id="section-appendix.a-2.2">REQ2 - Specify the encoding and value of roles, for scope entries of 'scope': see <a href="#ssec-auth-req" class="xref">Section 3.1</a>.<a href="#section-appendix.a-2.2" class="pilcrow">¶</a>
+</li>
+<li id="section-appendix.a-2.3">REQ3 - if used, specify the acceptable values for 'sign_alg': values from Tables 5 and 6 of <span>[<a href="#RFC8152" class="xref">RFC8152</a>]</span>.<a href="#section-appendix.a-2.3" class="pilcrow">¶</a>
+</li>
+<li id="section-appendix.a-2.4">REQ4 - If used, specify the acceptable values for 'sign_parameters': values from the "Counter Signature Parameters" Registry (see Section 11.1 of <span>[<a href="#I-D.ietf-core-oscore-groupcomm" class="xref">I-D.ietf-core-oscore-groupcomm</a>]</span>).<a href="#section-appendix.a-2.4" class="pilcrow">¶</a>
+</li>
+<li id="section-appendix.a-2.5">REQ5 - If used, specify the acceptable values for 'sign_key_parameters': values from the "Counter Signature Key Parameters" Registry (see Section 11.2 of <span>[<a href="#I-D.ietf-core-oscore-groupcomm" class="xref">I-D.ietf-core-oscore-groupcomm</a>]</span>).<a href="#section-appendix.a-2.5" class="pilcrow">¶</a>
+</li>
+<li id="section-appendix.a-2.6">REQ6 - If used, specify the acceptable values for 'pub_key_enc': 1 ("COSE_Key") from the 'Confirmation Key' column of the "CWT Confirmation Method" Registry defined in <span>[<a href="#I-D.ietf-ace-cwt-proof-of-possession" class="xref">I-D.ietf-ace-cwt-proof-of-possession</a>]</span>. Future specifications may define additional values for this parameter.<a href="#section-appendix.a-2.6" class="pilcrow">¶</a>
+</li>
+<li id="section-appendix.a-2.7">REQ7 - Format of the 'key' value: see <a href="#ssec-join-resp" class="xref">Section 5.4</a>.<a href="#section-appendix.a-2.7" class="pilcrow">¶</a>
+</li>
+<li id="section-appendix.a-2.8">REQ8 - Acceptable values of 'gkty': Group_OSCORE_Security_Context object (see <a href="#ssec-join-resp" class="xref">Section 5.4</a>).<a href="#section-appendix.a-2.8" class="pilcrow">¶</a>
+</li>
+<li id="section-appendix.a-2.9">REQ9: Specify the format of the identifiers of group members: see <a href="#ssec-join-resp" class="xref">Section 5.4</a> and <a href="#sec-pub-keys" class="xref">Section 9</a>.<a href="#section-appendix.a-2.9" class="pilcrow">¶</a>
+</li>
+<li id="section-appendix.a-2.10">REQ10 - Specify the communication protocol that the members of the group must use: CoAP, possibly over IP multicast.<a href="#section-appendix.a-2.10" class="pilcrow">¶</a>
+</li>
+<li id="section-appendix.a-2.11">REQ11 - Specify the security protocols that the group members must use to protect their communication: Group OSCORE.<a href="#section-appendix.a-2.11" class="pilcrow">¶</a>
+</li>
+<li id="section-appendix.a-2.12">REQ12 - Specify and register the application profile identifier: coap_group_oscore_app (see <a href="#ssec-iana-groupcomm-profile-registry" class="xref">Section 18.1</a>).<a href="#section-appendix.a-2.12" class="pilcrow">¶</a>
+</li>
+<li id="section-appendix.a-2.13">REQ13 - Specify policies at the KDC to handle member ids that are not included in 'get_pub_keys': see <a href="#sec-pub-keys" class="xref">Section 9</a>.<a href="#section-appendix.a-2.13" class="pilcrow">¶</a>
+</li>
+<li id="section-appendix.a-2.14">REQ14 - If used, specify the format and content of 'group_policies' and its entries: see <a href="#ssec-join-resp" class="xref">Section 5.4</a>, and the three values defined and registered, as content of the entry "Sequence Number Synchronization Method" (see <a href="#ssec-iana-sn-synch-method-registry" class="xref">Section 18.4</a>).<a href="#section-appendix.a-2.14" class="pilcrow">¶</a>
+</li>
+<li id="section-appendix.a-2.15">REQ15 - Specify the format of newly-generated individual keying material for group members, or of the information to derive it, and corresponding CBOR label: see <a href="#sec-new-key" class="xref">Section 8</a>.<a href="#section-appendix.a-2.15" class="pilcrow">¶</a>
+</li>
+<li id="section-appendix.a-2.16">REQ16 - Specify how the communication is secured between the Client and KDC: by means of any transport profile of ACE <span>[<a href="#I-D.ietf-ace-oauth-authz" class="xref">I-D.ietf-ace-oauth-authz</a>]</span> between Client and Group Manager that complies with the requirements in Appendix C of <span>[<a href="#I-D.ietf-ace-oauth-authz" class="xref">I-D.ietf-ace-oauth-authz</a>]</span>.<a href="#section-appendix.a-2.16" class="pilcrow">¶</a>
+</li>
+<li id="section-appendix.a-2.17">REQ17: Specify how the nonce N_S is generated, if the token is not being posted (e.g. if it is used directly to validate TLS instead): see <a href="#sssec-challenge-value" class="xref">Section 5.2.1</a>.<a href="#section-appendix.a-2.17" class="pilcrow">¶</a>
+</li>
+<li id="section-appendix.a-2.18">REQ18: Specify if 'mgt_key_material' used, and if yes specify its format and content: not used in this version of the profile.<a href="#section-appendix.a-2.18" class="pilcrow">¶</a>
+</li>
+<li id="section-appendix.a-2.19">OPT1 (Optional) - Specify the encoding of public keys, of 'client_cred', and of 'pub_keys' if COSE_Keys are not used: no.<a href="#section-appendix.a-2.19" class="pilcrow">¶</a>
+</li>
+<li id="section-appendix.a-2.20">OPT2 (Optional) - Specify the negotiation of parameter values for signature algorithm and signature keys, if 'sign_info' and 'pub_key_enc' are not used: possible early discovery by using the approach based on the CoRE Resource Directory described in <span>[<a href="#I-D.tiloca-core-oscore-discovery" class="xref">I-D.tiloca-core-oscore-discovery</a>]</span>.<a href="#section-appendix.a-2.20" class="pilcrow">¶</a>
+</li>
+<li id="section-appendix.a-2.21">OPT3 (Optional) - Specify the encoding of 'pub_keys_repos' if the default is not used: no.<a href="#section-appendix.a-2.21" class="pilcrow">¶</a>
+</li>
+<li id="section-appendix.a-2.22">OPT4 (Optional) - Specify policies that instruct clients to retain unsuccessfully decrypted messages and for how long, so that they can be decrypted after getting updated keying material: no.<a href="#section-appendix.a-2.22" class="pilcrow">¶</a>
+</li>
+<li id="section-appendix.a-2.23">OPT5 (Optional) - Specify the behavior of the handler in case of failure to retrieve a public key for the specific node: send a 4.00 Bad Request response to a Joining Request (see <a href="#ssec-join-req-processing" class="xref">Section 5.3</a>).<a href="#section-appendix.a-2.23" class="pilcrow">¶</a>
+</li>
+<li id="section-appendix.a-2.24">OPT6 (Optional) - Specify possible or required payload formats for specific error cases: send a 4.00 Bad Request response to a Joining Request (see <a href="#ssec-join-req-processing" class="xref">Section 5.3</a>).<a href="#section-appendix.a-2.24" class="pilcrow">¶</a>
+</li>
+<li id="section-appendix.a-2.25">OPT7 (Optional) - Specify CBOR values to use for abbreviating identifiers of roles in the group or topic (see <a href="#ssec-auth-req" class="xref">Section 3.1</a>).<a href="#section-appendix.a-2.25" class="pilcrow">¶</a>
+</li>
+<li id="section-appendix.a-2.26">OPT8 (Optional) - Specify policies for the KDC to perform group rekeying after receiving a Key Renewal Request: no.<a href="#section-appendix.a-2.26" class="pilcrow">¶</a>
+</li>
+</ul>
+</section>
+</div>
+<div id="sec-document-updates">
+<section id="section-appendix.b">
+      <h2 id="name-document-updates">
+<a href="#section-appendix.b" class="section-number selfRef">Appendix B. </a><a href="#name-document-updates" class="section-name selfRef">Document Updates</a>
+      </h2>
+<p id="section-appendix.b-1">RFC EDITOR: PLEASE REMOVE THIS SECTION.<a href="#section-appendix.b-1" class="pilcrow">¶</a></p>
+<div id="sec-04-05">
+<section id="section-b.1">
+        <h2 id="name-version-04-to-05">
+<a href="#section-b.1" class="section-number selfRef">B.1. </a><a href="#name-version-04-to-05" class="section-name selfRef">Version -04 to -05</a>
+        </h2>
+<ul>
+<li id="section-b.1-1.1">Nonce N_S also in error responses to the Joining Requests.<a href="#section-b.1-1.1" class="pilcrow">¶</a>
+</li>
+<li id="section-b.1-1.2">Supporting single Access Token for multiple groups/topics.<a href="#section-b.1-1.2" class="pilcrow">¶</a>
+</li>
+<li id="section-b.1-1.3">Supporting legal requesters/responders using the 'peer_roles' parameter.<a href="#section-b.1-1.3" class="pilcrow">¶</a>
+</li>
+<li id="section-b.1-1.4">Registered and used dedicated label for TLS Exporter.<a href="#section-b.1-1.4" class="pilcrow">¶</a>
+</li>
+<li id="section-b.1-1.5">Added method for uploading a new public key to the Group Manager.<a href="#section-b.1-1.5" class="pilcrow">¶</a>
+</li>
+<li id="section-b.1-1.6">Added resource and method for retrieving the current group status.<a href="#section-b.1-1.6" class="pilcrow">¶</a>
+</li>
+<li id="section-b.1-1.7">Fixed inconsistency in retrieving group keying material only.<a href="#section-b.1-1.7" class="pilcrow">¶</a>
+</li>
+<li id="section-b.1-1.8">Clarified retrieval of keying material for monitor-only members.<a href="#section-b.1-1.8" class="pilcrow">¶</a>
+</li>
+<li id="section-b.1-1.9">Clarification on incrementing version number when rekeying the group.<a href="#section-b.1-1.9" class="pilcrow">¶</a>
+</li>
+<li id="section-b.1-1.10">Clarification on what is re-distributed with the group rekeying.<a href="#section-b.1-1.10" class="pilcrow">¶</a>
+</li>
+<li id="section-b.1-1.11">Security considerations on the size of the nonces used for the signature challenge.<a href="#section-b.1-1.11" class="pilcrow">¶</a>
+</li>
+<li id="section-b.1-1.12">Added CBOR values to abbreviate role identifiers in the group.<a href="#section-b.1-1.12" class="pilcrow">¶</a>
+</li>
+</ul>
+</section>
+</div>
+<div id="sec-03-04">
+<section id="section-b.2">
+        <h2 id="name-version-03-to-04">
+<a href="#section-b.2" class="section-number selfRef">B.2. </a><a href="#name-version-03-to-04" class="section-name selfRef">Version -03 to -04</a>
+        </h2>
+<ul>
+<li id="section-b.2-1.1">New abstract.<a href="#section-b.2-1.1" class="pilcrow">¶</a>
+</li>
+<li id="section-b.2-1.2">Moved general content to draft-ietf-ace-key-groupcomm<a href="#section-b.2-1.2" class="pilcrow">¶</a>
+</li>
+<li id="section-b.2-1.3">Terminology: node name; node resource.<a href="#section-b.2-1.3" class="pilcrow">¶</a>
+</li>
+<li id="section-b.2-1.4">Creation and pointing at node resource.<a href="#section-b.2-1.4" class="pilcrow">¶</a>
+</li>
+<li id="section-b.2-1.5">Updated Group Manager API (REST methods and offered services).<a href="#section-b.2-1.5" class="pilcrow">¶</a>
+</li>
+<li id="section-b.2-1.6">Size of challenges 'cnonce' and 'rsnonce'.<a href="#section-b.2-1.6" class="pilcrow">¶</a>
+</li>
+<li id="section-b.2-1.7">Value of 'rsnonce' for reused or non-traditionally-posted tokens.<a href="#section-b.2-1.7" class="pilcrow">¶</a>
+</li>
+<li id="section-b.2-1.8">Removed reference to RFC 7390.<a href="#section-b.2-1.8" class="pilcrow">¶</a>
+</li>
+<li id="section-b.2-1.9">New requirements from draft-ietf-ace-key-groupcomm<a href="#section-b.2-1.9" class="pilcrow">¶</a>
+</li>
+<li id="section-b.2-1.10">Editorial improvements.<a href="#section-b.2-1.10" class="pilcrow">¶</a>
+</li>
+</ul>
+</section>
+</div>
+<div id="sec-02-03">
+<section id="section-b.3">
+        <h2 id="name-version-02-to-03">
+<a href="#section-b.3" class="section-number selfRef">B.3. </a><a href="#name-version-02-to-03" class="section-name selfRef">Version -02 to -03</a>
+        </h2>
+<ul>
+<li id="section-b.3-1.1">New sections, aligned with the interface of ace-key-groupcomm .<a href="#section-b.3-1.1" class="pilcrow">¶</a>
+</li>
+<li id="section-b.3-1.2">Exchange of information on the countersignature algorithm and related parameters, during the Token POST (Section 4.1).<a href="#section-b.3-1.2" class="pilcrow">¶</a>
+</li>
+<li id="section-b.3-1.3">Nonce 'rsnonce' from the Group Manager to the Client (Section 4.1).<a href="#section-b.3-1.3" class="pilcrow">¶</a>
+</li>
+<li id="section-b.3-1.4">Client PoP signature in the Key Distribution Request upon joining (Section 4.2).<a href="#section-b.3-1.4" class="pilcrow">¶</a>
+</li>
+<li id="section-b.3-1.5">Local actions on the Group Manager, upon a new node's joining (Section 4.2).<a href="#section-b.3-1.5" class="pilcrow">¶</a>
+</li>
+<li id="section-b.3-1.6">Local actions on the Group Manager, upon a node's leaving (Section 12).<a href="#section-b.3-1.6" class="pilcrow">¶</a>
+</li>
+<li id="section-b.3-1.7">IANA registration in ACE Groupcomm Parameters Registry.<a href="#section-b.3-1.7" class="pilcrow">¶</a>
+</li>
+<li id="section-b.3-1.8">More fulfilled profile requirements (Appendix A).<a href="#section-b.3-1.8" class="pilcrow">¶</a>
+</li>
+</ul>
+</section>
+</div>
+<div id="sec-01-02">
+<section id="section-b.4">
+        <h2 id="name-version-01-to-02">
+<a href="#section-b.4" class="section-number selfRef">B.4. </a><a href="#name-version-01-to-02" class="section-name selfRef">Version -01 to -02</a>
+        </h2>
+<ul>
+<li id="section-b.4-1.1">Editorial fixes.<a href="#section-b.4-1.1" class="pilcrow">¶</a>
+</li>
+<li id="section-b.4-1.2">Changed: "listener" to "responder"; "pure listener" to "monitor".<a href="#section-b.4-1.2" class="pilcrow">¶</a>
+</li>
+<li id="section-b.4-1.3">Changed profile name to "coap_group_oscore_app", to reflect it is an application profile.<a href="#section-b.4-1.3" class="pilcrow">¶</a>
+</li>
+<li id="section-b.4-1.4">Added the 'type' parameter for all requests to a Join Resource.<a href="#section-b.4-1.4" class="pilcrow">¶</a>
+</li>
+<li id="section-b.4-1.5">Added parameters to indicate the encoding of public keys.<a href="#section-b.4-1.5" class="pilcrow">¶</a>
+</li>
+<li id="section-b.4-1.6">Challenge-response for proof-of-possession of signature keys (Section 4).<a href="#section-b.4-1.6" class="pilcrow">¶</a>
+</li>
+<li id="section-b.4-1.7">Renamed 'key_info' parameter to 'sign_info'; updated its format; extended to include also parameters of the countersignature key (Section 4.1).<a href="#section-b.4-1.7" class="pilcrow">¶</a>
+</li>
+<li id="section-b.4-1.8">Code 4.00 (Bad request), in responses to joining nodes providing an invalid public key (Section 4.3).<a href="#section-b.4-1.8" class="pilcrow">¶</a>
+</li>
+<li id="section-b.4-1.9">Clarifications on provisioning and checking of public keys (Sections 4 and 6).<a href="#section-b.4-1.9" class="pilcrow">¶</a>
+</li>
+<li id="section-b.4-1.10">Extended discussion on group rekeying and possible different approaches (Section 7).<a href="#section-b.4-1.10" class="pilcrow">¶</a>
+</li>
+<li id="section-b.4-1.11">Extended security considerations: proof-of-possession of signature keys; collision of OSCORE Group Identifiers (Section 8).<a href="#section-b.4-1.11" class="pilcrow">¶</a>
+</li>
+<li id="section-b.4-1.12">Registered three entries in the IANA Registry "Sequence Number Synchronization Method Registry" (Section 9).<a href="#section-b.4-1.12" class="pilcrow">¶</a>
+</li>
+<li id="section-b.4-1.13">Registered one public key encoding in the "ACE Public Key Encoding" IANA Registry (Section 9).<a href="#section-b.4-1.13" class="pilcrow">¶</a>
+</li>
+</ul>
+</section>
+</div>
+<div id="sec-00-01">
+<section id="section-b.5">
+        <h2 id="name-version-00-to-01">
+<a href="#section-b.5" class="section-number selfRef">B.5. </a><a href="#name-version-00-to-01" class="section-name selfRef">Version -00 to -01</a>
+        </h2>
+<ul>
+<li id="section-b.5-1.1">Changed name of 'req_aud' to 'audience' in the Authorization Request (Section 3.1).<a href="#section-b.5-1.1" class="pilcrow">¶</a>
+</li>
+<li id="section-b.5-1.2">Added negotiation of countersignature algorithm/parameters between Client and Group Manager (Section 4).<a href="#section-b.5-1.2" class="pilcrow">¶</a>
+</li>
+<li id="section-b.5-1.3">Updated format of the Key Distribution Response as a whole (Section 4.3).<a href="#section-b.5-1.3" class="pilcrow">¶</a>
+</li>
+<li id="section-b.5-1.4">Added parameter 'cs_params' in the 'key' parameter of the Key Distribution Response (Section 4.3).<a href="#section-b.5-1.4" class="pilcrow">¶</a>
+</li>
+<li id="section-b.5-1.5">New IANA registrations in the "ACE Authorization Server Request Creation Hints" Registry, "ACE Groupcomm Key" Registry, "OSCORE Security Context Parameters" Registry and "ACE Groupcomm Profile" Registry (Section 9).<a href="#section-b.5-1.5" class="pilcrow">¶</a>
+</li>
+</ul>
+</section>
+</div>
+</section>
+</div>
+<div id="sec-acknowledgments">
+<section id="section-appendix.c">
+      <h2 id="name-acknowledgments">
+<a href="#name-acknowledgments" class="section-name selfRef">Acknowledgments</a>
+      </h2>
+<p id="section-appendix.c-1">The authors sincerely thank Santiago Aragon, Stefan Beck, Carsten Bormann, Martin Gunnarsson, Rikard Hoeglund, Daniel Migault, Jim Schaad, Ludwig Seitz, Goeran Selander and Peter van der Stok for their comments and feedback.<a href="#section-appendix.c-1" class="pilcrow">¶</a></p>
+<p id="section-appendix.c-2">The work on this document has been partly supported by VINNOVA and the Celtic-Next project CRITISEC; and by the EIT-Digital High Impact Initiative ACTIVE.<a href="#section-appendix.c-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="authors-addresses">
+<section id="section-appendix.d">
+      <h2 id="name-authors-addresses">
+<a href="#name-authors-addresses" class="section-name selfRef">Authors' Addresses</a>
+      </h2>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Marco Tiloca</span></div>
+<div dir="auto" class="left"><span class="org">RISE AB</span></div>
+<div dir="auto" class="left"><span class="street-address">Isafjordsgatan 22</span></div>
+<div dir="auto" class="left">
+<span class="postal-code">164 29 Stockholm</span> <span class="locality">Kista</span>
+</div>
+<div dir="auto" class="left"><span class="country-name">Sweden</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:marco.tiloca@ri.se" class="email">marco.tiloca@ri.se</a>
+</div>
+</address>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Jiye Park</span></div>
+<div dir="auto" class="left"><span class="org">Universitaet Duisburg-Essen</span></div>
+<div dir="auto" class="left"><span class="street-address">Schuetzenbahn 70</span></div>
+<div dir="auto" class="left">
+<span class="postal-code">45127</span> <span class="locality">Essen</span>
+</div>
+<div dir="auto" class="left"><span class="country-name">Germany</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:ji-ye.park@uni-due.de" class="email">ji-ye.park@uni-due.de</a>
+</div>
+</address>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Francesca Palombini</span></div>
+<div dir="auto" class="left"><span class="org">Ericsson AB</span></div>
+<div dir="auto" class="left"><span class="street-address">Torshamnsgatan 23</span></div>
+<div dir="auto" class="left">
+<span class="postal-code">16440 Stockholm</span> <span class="locality">Kista</span>
+</div>
+<div dir="auto" class="left"><span class="country-name">Sweden</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:francesca.palombini@ericsson.com" class="email">francesca.palombini@ericsson.com</a>
+</div>
+</address>
+</section>
+</div>
+<script>const toc = document.getElementById("toc");
+toc.querySelector("h2").addEventListener("click", e => {
+  toc.classList.toggle("active");
+});
+toc.querySelector("nav").addEventListener("click", e => {
+  toc.classList.remove("active");
+});
+</script>
+</body>
+</html>
