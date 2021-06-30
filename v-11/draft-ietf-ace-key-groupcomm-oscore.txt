@@ -99,8 +99,8 @@ Table of Contents
    19. Default Values for Group Configuration Parameters
    20. Security Considerations
      20.1.  Management of OSCORE Groups
-     20.2.  Size of Nonces for Signature Challenge
-     20.3.  Reusage of Nonces for Signature Challenge
+     20.2.  Size of Nonces as Proof-of-Possesion Challenge
+     20.3.  Reusage of Nonces for Proof-of-Possession Input
    21. IANA Considerations
      21.1.  ACE Groupcomm Parameters Registry
      21.2.  ACE Groupcomm Key Registry
@@ -840,8 +840,8 @@ Table of Contents
    the Group Manager, as per Section 4.3 of
    [I-D.ietf-ace-key-groupcomm].
 
-   Additionally to what defined in [I-D.ietf-ace-key-groupcomm], the
-   following applies.
+   Additionally to what defined in Section 4.1.2.1 of
+   [I-D.ietf-ace-key-groupcomm], the following applies.
 
    *  The 'scope' parameter MUST be included.  Its value encodes one
       scope entry with the format defined in Section 3, indicating the
@@ -863,11 +863,37 @@ Table of Contents
       node.  For the N_C value, it is RECOMMENDED to use a 8-byte long
       random nonce.
 
-   *  The signature encoded in the 'client_cred_verify' parameter is
-      computed by the joining node by using the same private key and
-      countersignature algorithm it intends to use for signing messages
-      in the OSCORE group.  Moreover, N_S is as defined in
+   *  The proof-of-possession (PoP) evidence included in
+      'client_cred_verify' is computed as defined below (REQ20a).  In
+      either case, the N_S used to build the PoP input is as defined in
       Section 6.2.1.
+
+      -  If the group is not a pairwise-only group, the PoP evidence
+         MUST be a signature.  The joining node computes the signature
+         by using the same private key and signature algorithm it
+         intends to use for signing messages in the OSCORE group.
+
+      -  If the group is a pairwise-only group, the PoP evidence MUST be
+         a MAC computed as follows, by using the HKDF Algorithm HKDF
+         SHA-256, which consists of composing the HKDF-Extract and HKDF-
+         Expand steps [RFC5869]
+
+         MAC = HKDF(salt, IKM, info, L)
+
+         The input parameters of HKDF are as follows.
+
+         o  salt takes as value the empty byte string.
+
+         o  IKM is computed as a cofactor Diffie-Hellman shared secret,
+            see Section 5.7.1.2 of [NIST-800-56A], using the ECDH
+            algorithm used in the OSCORE group.  The joining node uses
+            its own Diffie-Hellman private key and the Diffie-Hellman
+            public key of the Group Manager.  For X25519 and X448, the
+            procedure is described in Section 5 of [RFC7748].
+
+         o  info takes as value the PoP input.
+
+         o  L is equal to 8, i.e., the size of the MAC, in bytes.
 
 6.2.1.  Value of the N_S Challenge
 
@@ -927,22 +953,38 @@ Table of Contents
       accepted format for the joining node; or ii) stores multiple
       public keys with an accepted format for the joining node.
 
-   *  To compute the signature contained in 'client_cred_verify', the
-      Group Manager considers:
+   *  In order to verify the PoP evidence contained in
+      'client_cred_verify', the Group Manager proceeds as follows.
 
-      -  as signed value, the value of the 'scope' parameter from the
-         Joining Request as a CBOR byte string, concatenated with N_S
-         encoded as a CBOR byte string, concatenated with N_C encoded as
-         a CBOR byte string.  In particular, N_S is determined as
-         described in Section 6.2.1, while N_C is the nonce provided in
-         the 'cnonce' parameter of the Joining Request;
+      -  As PoP input, the Group Manager uses the value of the 'scope'
+         parameter from the Joining Request as a CBOR byte string,
+         concatenated with N_S encoded as a CBOR byte string,
+         concatenated with N_C encoded as a CBOR byte string.  In
+         particular, N_S is determined as described in Section 6.2.1,
+         while N_C is the nonce provided in the 'cnonce' parameter of
+         the Joining Request;
 
-      -  the countersignature algorithm used in the OSCORE group, and
-         possible corresponding parameters;
-
-      -  the public key of the joining node, either retrieved from the
-         'client_cred' parameter, or already stored as acquired from
+      -  As public key of the joining node, the Group Manager uses
+         either the one retrieved from the 'client_cred' parameter of
+         the Joining Request, or the one already stored as acquired from
          previous interactions with the joining node.
+
+      -  The Group Manager verifies the PoP evidence as defined below.
+
+         o  If the group is not a pairwise-only group, the PoP evidence
+            is a signature.  The Group Manager verifies it by using the
+            signature algorithm used in the OSCORE group, and possible
+            corresponding parameters.
+
+         o  If the group is a pairwise-only group, the PoP evidence MUST
+            be a MAC.  The Group Manager recomputes the MAC through the
+            same process taken by the joining node when preparing the
+            Joining Request (see Section 6.2), with the difference that
+            the Group Manager uses its own Diffie-Hellman private key
+            and the Diffie-Hellman public key of the joining node.  The
+            verification succeeds if and only if the recomputed MAC is
+            equal to the MAC conveyed as PoP evidence in the Joining
+            Request.
 
    *  A 4.00 (Bad Request) response from the Group Manager to the
       joining node MUST have content format application/ace+cbor.  The
@@ -1004,17 +1046,17 @@ Table of Contents
          generated by the joining node.
 
       -  The 'client_cred' parameter MUST include a public key
-         compatible with the encoding, countersignature algorithm and
+         compatible with the encoding, signature or ECDH algorithm, and
          possible associated parameters indicated by the Group Manager.
 
-      -  The 'client_cred_verify' parameter MUST include a signature
+      -  The 'client_cred_verify' parameter MUST include a PoP evidence
          computed as described in Section 6.2, by using the public key
          indicated in the current 'client_cred' parameter, with the
-         countersignature algorithm and possible associated parameters
+         signature or ECDH algorithm, and possible associated parameters
          indicated by the Group Manager.  If the error response from the
          Group Manager included the 'kdcchallenge' parameter, the
          joining node MUST use its content as new N_S challenge to
-         compute the signature.
+         compute the PoP evidence.
 
 6.4.  Joining Response
 
@@ -1237,10 +1279,11 @@ Table of Contents
 7.  Public Keys of Joining Nodes
 
    Source authentication of a message sent within the group and
-   protected with Group OSCORE is ensured by means of a digital counter
-   signature embedded in the message (in group mode), or by integrity-
-   protecting the message with pairwise keying material derived from the
-   asymmetric keys of sender and recipient (in pairwise mode).
+   protected with Group OSCORE is ensured by means of a digital
+   countersignature embedded in the message (in group mode), or by
+   integrity-protecting the message with pairwise keying material
+   derived from the asymmetric keys of sender and recipient (in pairwise
+   mode).
 
    Therefore, group members must be able to retrieve each other's public
    key from a trusted key repository, in order to verify source
@@ -1256,16 +1299,15 @@ Table of Contents
    node joins an OSCORE group.
 
    *  The joining node is going to join the group exclusively as
-      monitor.  That is, it is not going to send messages to the group,
-      and hence to produce signatures with its own private key.  In this
-      case, the joining node is not required to provide its own public
-      key to the Group Manager, which thus does not have to perform any
-      check related to the public key encoding, or to a countersignature
-      algorithm and possible associated parameters for that joining
-      node.  In case that joining node still provides a public key in
-      the 'client_cred' parameter of the Joining Request (see
-      Section 6.2), the Group Manager silently ignores that parameter,
-      as well as the related parameters 'cnonce' and
+      monitor, i.e., it is not going to send messages to the group.  In
+      this case, the joining node is not required to provide its own
+      public key to the Group Manager, which thus does not have to
+      perform any check related to the public key encoding, to a
+      signature or ECDH algorithm, and to possible associated parameters
+      for that joining node.  In case that joining node still provides a
+      public key in the 'client_cred' parameter of the Joining Request
+      (see Section 6.2), the Group Manager silently ignores that
+      parameter, as well as the related parameters 'cnonce' and
       'client_cred_verify'.
 
    *  The Group Manager already acquired the public key of the joining
@@ -1284,33 +1326,33 @@ Table of Contents
       possession key to establish a secure communication association.
       Then, two cases can occur.
 
-      1.  The proof-of-possession key is compatible with the encoding as
-          well as with the signature algorithm and possible associated
-          parameters used in the OSCORE group.  Then, the Group Manager
-          considers the proof-of-possession key as the public key
-          associated to the joining node in the OSCORE group.  If the
-          joining node is aware that the proof-of-possession key is also
-          valid for the OSCORE group, it MAY not provide it again as its
-          own public key to the Group Manager.  The joining node MUST
-          provide its own public key again if it has provided the Group
-          Manager with multiple public keys during past joining
-          processes, intended for different OSCORE groups.  If the
-          joining node provides its own public key in the 'client_cred'
-          parameter of the Joining Request (see Section 6.2), the Group
-          Manager performs consistency checks as per Section 6.3 and, in
-          case of success, considers it as the public key associated to
-          the joining node in the OSCORE group.
+      1.  The proof-of-possession key is compatible with the encoding,
+          as well as with the signature or ECDH algorithm, and with
+          possible associated parameters used in the OSCORE group.
+          Then, the Group Manager considers the proof-of-possession key
+          as the public key associated to the joining node in the OSCORE
+          group.  If the joining node is aware that the proof-of-
+          possession key is also valid for the OSCORE group, it MAY not
+          provide it again as its own public key to the Group Manager.
+          The joining node MUST provide its own public key again if it
+          has provided the Group Manager with multiple public keys
+          during past joining processes, intended for different OSCORE
+          groups.  If the joining node provides its own public key in
+          the 'client_cred' parameter of the Joining Request (see
+          Section 6.2), the Group Manager performs consistency checks as
+          per Section 6.3 and, in case of success, considers it as the
+          public key associated to the joining node in the OSCORE group.
 
       2.  The proof-of-possession key is not compatible with the
-          encoding or with the signature algorithm and possible
-          associated parameters used in the OSCORE group.  In this case,
-          the joining node MUST provide a different compatible public
-          key to the Group Manager in the 'client_cred' parameter of the
-          Joining Request (see Section 6.2).  Then, the Group Manager
-          performs consistency checks on this latest provided public key
-          as per Section 6.3 and, in case of success, considers it as
-          the public key associated to the joining node in the OSCORE
-          group.
+          encoding, or with the signature or ECDH algorithm, and with
+          possible associated parameters used in the OSCORE group.  In
+          this case, the joining node MUST provide a different
+          compatible public key to the Group Manager in the
+          'client_cred' parameter of the Joining Request (see
+          Section 6.2).  Then, the Group Manager performs consistency
+          checks on this latest provided public key as per Section 6.3
+          and, in case of success, considers it as the public key
+          associated to the joining node in the OSCORE group.
 
    *  The joining node and the Group Manager use a symmetric proof-of-
       possession key to establish a secure communication association.
@@ -1500,20 +1542,35 @@ Table of Contents
 
    A group member may need to provide the Group Manager with its new
    public key to use in the group from then on, hence replacing the
-   current one.  This can be the case, for instance, if the
-   countersignature algorithm and possible associated parameters used in
-   the OSCORE group have been changed, and the current public key is not
-   compatible with them.
+   current one.  This can be the case, for instance, if the signature or
+   ECDH algorithm, and possible associated parameters used in the OSCORE
+   group have been changed, and the current public key is not compatible
+   with them.
 
    To this end, the group member sends a Public Key Update Request
    message to the Group Manager, as per Section 4.7 of
-   [I-D.ietf-ace-key-groupcomm].  In particular, it sends a CoAP POST
-   request to the endpoint /ace-group/GROUPNAME/nodes/NODENAME/pub-key
-   at the Group Manager.
+   [I-D.ietf-ace-key-groupcomm], with the following addition.
+
+   *  The group member computes the proof-of-possession (PoP) evidence
+      included in 'client_cred_verify' in the same way taken when
+      preparing a Joining Request for the OSCORE group in question, as
+      defined in Section 6.2 (REQ20a).
+
+   In particular, the group member sends a CoAP POST request to the
+   endpoint /ace-group/GROUPNAME/nodes/NODENAME/pub-key at the Group
+   Manager.
 
    Upon receiving the Public Key Update Request, the Group Manager
    processes it as per Section 4.1.7.1 of [I-D.ietf-ace-key-groupcomm],
    with the following additions.
+
+   *  The N_S challenge used to build the proof-of-possession input is
+      computed as per point (1) in Section 6.2.1 (REQ20).
+
+   *  The Group Manager verifies the PoP challenge included in
+      'client_cred_verify' in the same way taken when processing a
+      Joining Request for the OSCORE group in question, as defined in
+      Section 6.3 (REQ20a).
 
    *  The Group Manager MUST return a 5.03 (Service Unavailable)
       response in case the OSCORE group identified by GROUPNAME is
@@ -1530,9 +1587,6 @@ Table of Contents
       Section 4 of [I-D.ietf-ace-key-groupcomm].  The value of the
       'error' field MUST be set to 1 ("Request inconsistent with the
       current roles").
-
-   *  The N_S signature challenge is computed as per point (1) in
-      Section 6.2.1 (REQ20).
 
    *  If the request is successfully processed, the Group Manager stores
       the association between i) the new public key of the group member;
@@ -1640,7 +1694,7 @@ Table of Contents
       would retain the old Gid value and cannot correctly associate
       intercepted messages to the right group, especially if acting as
       signature verifier in several groups.  This in turn prevents the
-      efficient verification of counter signatures, and especially the
+      efficient verification of countersignatures, and especially the
       retrieval of required, new public keys from the Group Manager.
 
    In either case, the node only knows the current Gid of the group, as
@@ -1985,8 +2039,8 @@ Table of Contents
    to establish a secure channel with the Group Manager, e.g. as in
    Section 3.2.2 of [I-D.ietf-ace-dtls-authorize].  However, this
    requires such proof-of-possession key to be compatible with the
-   encoding as well as with the countersignature algorithm and possible
-   associated parameters used in the OSCORE group.
+   encoding, as well as with the signature or ECDH algorithm, and
+   possible associated parameters used in the OSCORE group.
 
    A node may have joined multiple OSCORE groups under different non-
    synchronized Group Managers.  Therefore, it can happen that those
@@ -1998,17 +2052,17 @@ Table of Contents
    trying to process the incoming message using one Security Context at
    the time until the right one is found.
 
-20.2.  Size of Nonces for Signature Challenge
+20.2.  Size of Nonces as Proof-of-Possesion Challenge
 
    With reference to the Joining Request message in Section 6.2, the
-   proof-of-possession signature included in 'client_cred_verify' is
-   computed over the challenge N_C | N_S, where | denotes concatenation.
+   proof-of-possession (PoP) evidence included in 'client_cred_verify'
+   is computed over an input including also N_C | N_S, where | denotes
+   concatenation.
 
-   For the N_C challenge share, it is RECOMMENDED to use a 8-byte long
-   random nonce.  Furthermore, N_C is always conveyed in the 'cnonce'
-   parameter of the Joining Request, which is always sent over the
-   secure communication channel between the joining node and the Group
-   Manager.
+   For the N_C challenge, it is RECOMMENDED to use a 8-byte long random
+   nonce.  Furthermore, N_C is always conveyed in the 'cnonce' parameter
+   of the Joining Request, which is always sent over the secure
+   communication channel between the joining node and the Group Manager.
 
    As defined in Section 6.2.1, the way the N_S value is computed
    depends on the particular way the joining node provides the Group
@@ -2017,8 +2071,7 @@ Table of Contents
 
    *  If the Access Token is not explicitly posted to the /authz-info
       endpoint of the Group Manager, then N_S is computed as a 32-byte
-      long challenge share.  For an example, see point (2) of
-      Section 6.2.1.
+      long challenge.  For an example, see point (2) of Section 6.2.1.
 
    *  If the Access Token has been explicitly posted to the /authz-info
       endpoint of the Group Manager, N_S takes the most recent value
@@ -2050,25 +2103,26 @@ Table of Contents
       derivation of a Security Context, and thus do not have possible
       implications in the security of AEAD ciphers.
 
-20.3.  Reusage of Nonces for Signature Challenge
+20.3.  Reusage of Nonces for Proof-of-Possession Input
 
    As long as the Group Manager preserves the same N_S value currently
    associated to an Access Token, i.e. the latest value provided to a
    Client in a 'kdcchallenge' parameter, the Client is able to
-   successfully reuse the same signature challenge for multiple Joining
-   Requests to that Group Manager.
+   successfully reuse the same proof-of-possession (PoP) input for
+   multiple Joining Requests to that Group Manager.
 
    In particular, the Client can reuse the same N_C value for every
    Joining Request to the Group Manager, and combine it with the same
-   unchanged N_S value.  This results in reusing the same signature
-   challenge for producing the signature to include in the
-   'client_cred_verify' parameter of the Joining Requests.
+   unchanged N_S value.  This results in reusing the same PoP input for
+   producing the PoP evidence to include in the 'client_cred_verify'
+   parameter of the Joining Requests.
 
    Unless the Group Manager maintains a list of N_C values already used
    by that Client since the latest update to the N_S value associated to
    the Access Token, the Group Manager can be forced to falsely believe
    that the Client possesses its own private key at that point in time,
-   upon verifying the signature in the 'client_cred_verify' parameter.
+   upon verifying the PoP evidence in the 'client_cred_verify'
+   parameter.
 
 21.  IANA Considerations
 
@@ -2505,6 +2559,14 @@ Table of Contents
               <https://www.ietf.org/archive/id/draft-ietf-cose-
               rfc8152bis-struct-15.txt>.
 
+   [NIST-800-56A]
+              Barker, E., Chen, L., Roginsky, A., Vassilev, A., and R.
+              Davis, "Recommendation for Pair-Wise Key-Establishment
+              Schemes Using Discrete Logarithm Cryptography - NIST
+              Special Publication 800-56A, Revision 3", April 2018,
+              <https://nvlpubs.nist.gov/nistpubs/SpecialPublications/
+              NIST.SP.800-56Ar3.pdf>.
+
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
               DOI 10.17487/RFC2119, March 1997,
@@ -2622,13 +2684,10 @@ Table of Contents
               <https://www.ietf.org/archive/id/draft-tiloca-core-oscore-
               discovery-08.txt>.
 
-   [NIST-800-56A]
-              Barker, E., Chen, L., Roginsky, A., Vassilev, A., and R.
-              Davis, "Recommendation for Pair-Wise Key-Establishment
-              Schemes Using Discrete Logarithm Cryptography - NIST
-              Special Publication 800-56A, Revision 3", April 2018,
-              <https://nvlpubs.nist.gov/nistpubs/SpecialPublications/
-              NIST.SP.800-56Ar3.pdf>.
+   [RFC5869]  Krawczyk, H. and P. Eronen, "HMAC-based Extract-and-Expand
+              Key Derivation Function (HKDF)", RFC 5869,
+              DOI 10.17487/RFC5869, May 2010,
+              <https://www.rfc-editor.org/info/rfc5869>.
 
    [RFC6347]  Rescorla, E. and N. Modadugu, "Datagram Transport Layer
               Security Version 1.2", RFC 6347, DOI 10.17487/RFC6347,
@@ -2728,6 +2787,10 @@ Appendix A.  Profile Requirements
       [I-D.ietf-ace-oauth-authz] between Client and Group Manager that
       complies with the requirements in Appendix C of
       [I-D.ietf-ace-oauth-authz].
+
+   *  REQ20a - Specify the exact approaches used to compute the PoP
+      evidence to include in 'client_cred_verify', and which of those
+      approaches is used in which case: see Section 6.2 and Section 6.3.
 
    *  REQ20 - Specify how the nonce N_S is generated, if the token is
       not being posted (e.g. if it is used directly to validate TLS
@@ -2919,6 +2982,10 @@ C.1.  Version -10 to -11
    *  Error handling in case EdDSA public keys with invalid Y coordinate
       when the pairwise mode of Group OSCORE is supported.
 
+   *  Generalized proof-of-possession (PoP) for the joining node's
+      private key; defined Diffie-Hellman based PoP for OSCORE groups
+      using only the pairwise mode.
+
    *  Improved and simplified set of default values for counter
       signature parameters and ECDH algorithm parameters.
 
@@ -3096,8 +3163,8 @@ C.9.  Version -02 to -03
 
    *  New sections, aligned with the interface of ace-key-groupcomm .
 
-   *  Exchange of information on the countersignature algorithm and
-      related parameters, during the Token POST (Section 4.1).
+   *  Exchange of information on the signature algorithm and related
+      parameters, during the Token POST (Section 4.1).
 
    *  Nonce 'rsnonce' from the Group Manager to the Client
       (Section 4.1).
@@ -3158,8 +3225,8 @@ C.11.  Version -00 to -01
    *  Changed name of 'req_aud' to 'audience' in the Authorization
       Request (Section 3.1).
 
-   *  Added negotiation of countersignature algorithm/parameters between
-      Client and Group Manager (Section 4).
+   *  Added negotiation of signature algorithm/parameters between Client
+      and Group Manager (Section 4).
 
    *  Updated format of the Key Distribution Response as a whole
       (Section 4.3).
