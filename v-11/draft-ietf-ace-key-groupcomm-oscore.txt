@@ -551,7 +551,7 @@ Table of Contents
    joining node and the Group Manager, i.e. the sending of the Access
    Token and the Request-Response exchange to join the OSCORE group.
    The message exchange between the joining node and the Group Manager
-   consists of the messages defined in Section 3.3 and 4.3 of
+   consists of the messages defined in Sections 3.3 and 4.3 of
    [I-D.ietf-ace-key-groupcomm].  Note that what is defined in
    [I-D.ietf-ace-key-groupcomm] applies, and only additions or
    modifications to that specification are defined here.
@@ -676,7 +676,7 @@ Table of Contents
 6.1.1.  'ecdh_info' Parameter
 
    The 'ecdh_info' parameter is an OPTIONAL parameter of the Token Post
-   response message defined in Section 5.10.1. of
+   response message defined in Section 5.10.1 of
    [I-D.ietf-ace-oauth-authz].
 
    This parameter is used to require and retrieve from the Group Manager
@@ -766,7 +766,7 @@ Table of Contents
 6.1.2.  'gm_pub_keys_info' Parameter
 
    The 'gm_dh_pub_keys' parameter is an OPTIONAL parameter of the Token
-   Post response message defined in Section 5.10.1. of
+   Post response message defined in Section 5.10.1 of
    [I-D.ietf-ace-oauth-authz].
 
    This parameter is used to require and retrieve from the Group Manager
@@ -995,7 +995,7 @@ Table of Contents
       This prevents the acceptance of Ed25519 and Ed448 public keys that
       cannot be successfully converted to Montgomery coordinates, and
       thus cannot be used for the derivation of pairwise keys (see
-      Section of 2.3.1 of [I-D.ietf-core-oscore-groupcomm]).
+      Section 2.3.1 of [I-D.ietf-core-oscore-groupcomm]).
 
    *  When receiving a 4.00 (Bad Request) response, the joining node
       SHOULD send a new Joining Request to the Group Manager, where:
@@ -1485,16 +1485,16 @@ Table of Contents
       member for which the associated public key is requested.
 
    Upon receiving the Public Key Request, the Group Manager processes it
-   as per Section 4.1.3.1 or 4.1.3.2 of [I-D.ietf-ace-key-groupcomm],
-   depending on the request method being FETCH or GET, respectively.
-   Additionally, if the Public Key Request uses the method FETCH, the
-   Group Manager silently ignores node identifiers included in the
-   'get_pub_keys' parameter of the request that are not associated to
-   any current group member.
+   as per Section 4.1.3.1 or Section 4.1.3.2 of
+   [I-D.ietf-ace-key-groupcomm], depending on the request method being
+   FETCH or GET, respectively.  Additionally, if the Public Key Request
+   uses the method FETCH, the Group Manager silently ignores node
+   identifiers included in the 'get_pub_keys' parameter of the request
+   that are not associated to any current group member.
 
    The success Public Key Response is formatted as defined in
-   Section 4.1.3.1 or 4.1.3.2 of [I-D.ietf-ace-key-groupcomm], depending
-   on the request method being FETCH or GET, respectively.
+   Section 4.1.3.1 or Section 4.1.3.2 of [I-D.ietf-ace-key-groupcomm],
+   depending on the request method being FETCH or GET, respectively.
 
 11.  Update of Public Key
 
