@@ -5,10 +5,10 @@
 ACE Working Group                                              M. Tiloca
 Internet-Draft                                                   RISE AB
 Intended status: Standards Track                                 J. Park
-Expires: 12 November 2021                    Universitaet Duisburg-Essen
+Expires: 1 January 2022                      Universitaet Duisburg-Essen
                                                             F. Palombini
                                                              Ericsson AB
-                                                             11 May 2021
+                                                            30 June 2021
 
 
                 Key Management for OSCORE Groups in ACE
@@ -43,20 +43,12 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 12 November 2021.
+   This Internet-Draft will expire on 1 January 2022.
 
 Copyright Notice
 
    Copyright (c) 2021 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
-
-
-
-
-Tiloca, et al.          Expires 12 November 2021                [Page 1]
-
-Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
-
 
    This document is subject to BCP 78 and the IETF Trust's Legal
    Provisions Relating to IETF Documents (https://trustee.ietf.org/
@@ -69,88 +61,81 @@ Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
 
 Table of Contents
 
-   1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   3
-     1.1.  Terminology . . . . . . . . . . . . . . . . . . . . . . .   4
-   2.  Protocol Overview . . . . . . . . . . . . . . . . . . . . . .   5
-     2.1.  Overview of the Joining Process . . . . . . . . . . . . .   6
-     2.2.  Overview of the Group Rekeying Process  . . . . . . . . .   6
-   3.  Format of Scope . . . . . . . . . . . . . . . . . . . . . . .   7
-   4.  Joining Node to Authorization Server  . . . . . . . . . . . .   9
-     4.1.  Authorization Request . . . . . . . . . . . . . . . . . .   9
-     4.2.  Authorization Response  . . . . . . . . . . . . . . . . .   9
-   5.  Interface at the Group Manager  . . . . . . . . . . . . . . .  10
-     5.1.  ace-group/GROUPNAME/active  . . . . . . . . . . . . . . .  10
-       5.1.1.  GET Handler . . . . . . . . . . . . . . . . . . . . .  10
-     5.2.  Admitted Methods  . . . . . . . . . . . . . . . . . . . .  11
-   6.  Token POST and Group Joining  . . . . . . . . . . . . . . . .  12
-     6.1.  Token Post  . . . . . . . . . . . . . . . . . . . . . . .  13
-       6.1.1.  'ecdh_info' Parameter . . . . . . . . . . . . . . . .  14
-     6.2.  Sending the Joining Request . . . . . . . . . . . . . . .  16
-       6.2.1.  Value of the N_S Challenge  . . . . . . . . . . . . .  17
-     6.3.  Processing the Joining Request  . . . . . . . . . . . . .  18
-     6.4.  Joining Response  . . . . . . . . . . . . . . . . . . . .  20
-   7.  Public Keys of Joining Nodes  . . . . . . . . . . . . . . . .  25
-   8.  Retrieval of Updated Keying Material  . . . . . . . . . . . .  27
-     8.1.  Retrieval of Group Keying Material  . . . . . . . . . . .  27
-     8.2.  Retrieval of Group Keying Material and Sender ID  . . . .  28
-   9.  Requesting a Change of Keying Material  . . . . . . . . . . .  28
-   10. Retrieval of Public Keys and Roles for Group Members  . . . .  30
-   11. Update of Public Key  . . . . . . . . . . . . . . . . . . . .  31
-   12. Retrieval of Group Policies . . . . . . . . . . . . . . . . .  32
-   13. Retrieval of Keying Material Version  . . . . . . . . . . . .  32
-   14. Retrieval of Group Status . . . . . . . . . . . . . . . . . .  32
-   15. Retrieval of Group Names and URIs . . . . . . . . . . . . . .  33
-   16. Request to Leave the Group  . . . . . . . . . . . . . . . . .  35
-   17. Removal of a Group Member . . . . . . . . . . . . . . . . . .  35
-   18. Group Rekeying Process  . . . . . . . . . . . . . . . . . . .  36
-   19. Default Values for Group Configuration Parameters . . . . . .  39
-   20. Security Considerations . . . . . . . . . . . . . . . . . . .  40
-     20.1.  Management of OSCORE Groups  . . . . . . . . . . . . . .  40
-
-
-
-Tiloca, et al.          Expires 12 November 2021                [Page 2]
-
-Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
-
-
-     20.2.  Size of Nonces for Signature Challenge . . . . . . . . .  41
-     20.3.  Reusage of Nonces for Signature Challenge  . . . . . . .  43
-   21. IANA Considerations . . . . . . . . . . . . . . . . . . . . .  43
-     21.1.  ACE Groupcomm Parameters Registry  . . . . . . . . . . .  43
-     21.2.  ACE Groupcomm Key Registry . . . . . . . . . . . . . . .  43
-     21.3.  ACE Groupcomm Profile Registry . . . . . . . . . . . . .  44
-     21.4.  OSCORE Security Context Parameters Registry  . . . . . .  44
-     21.5.  TLS Exporter Label Registry  . . . . . . . . . . . . . .  46
-     21.6.  AIF Registry . . . . . . . . . . . . . . . . . . . . . .  46
-     21.7.  Media Type Registrations . . . . . . . . . . . . . . . .  47
-     21.8.  CoAP Content-Format Registry . . . . . . . . . . . . . .  48
-     21.9.  Group OSCORE Roles Registry  . . . . . . . . . . . . . .  48
-     21.10. CoRE Resource Type Registry  . . . . . . . . . . . . . .  49
-     21.11. ACE Scope Semantics Registry . . . . . . . . . . . . . .  49
-     21.12. ACE Groupcomm Errors . . . . . . . . . . . . . . . . . .  49
-     21.13. Expert Review Instructions . . . . . . . . . . . . . . .  50
-   22. References  . . . . . . . . . . . . . . . . . . . . . . . . .  50
-     22.1.  Normative References . . . . . . . . . . . . . . . . . .  50
-     22.2.  Informative References . . . . . . . . . . . . . . . . .  54
-   Appendix A.  Profile Requirements . . . . . . . . . . . . . . . .  55
-   Appendix B.  Extensibility for Future COSE Algorithms . . . . . .  58
-     B.1.  Format of 'ecdh_info_entry' . . . . . . . . . . . . . . .  59
-     B.2.  Format of 'key' . . . . . . . . . . . . . . . . . . . . .  60
-   Appendix C.  Document Updates . . . . . . . . . . . . . . . . . .  61
-     C.1.  Version -10 to -11  . . . . . . . . . . . . . . . . . . .  61
-     C.2.  Version -09 to -10  . . . . . . . . . . . . . . . . . . .  61
-     C.3.  Version -08 to -09  . . . . . . . . . . . . . . . . . . .  62
-     C.4.  Version -07 to -08  . . . . . . . . . . . . . . . . . . .  62
-     C.5.  Version -06 to -07  . . . . . . . . . . . . . . . . . . .  63
-     C.6.  Version -05 to -06  . . . . . . . . . . . . . . . . . . .  63
-     C.7.  Version -04 to -05  . . . . . . . . . . . . . . . . . . .  64
-     C.8.  Version -03 to -04  . . . . . . . . . . . . . . . . . . .  64
-     C.9.  Version -02 to -03  . . . . . . . . . . . . . . . . . . .  65
-     C.10. Version -01 to -02  . . . . . . . . . . . . . . . . . . .  65
-     C.11. Version -00 to -01  . . . . . . . . . . . . . . . . . . .  66
-   Acknowledgments . . . . . . . . . . . . . . . . . . . . . . . . .  66
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  66
+   1.  Introduction
+     1.1.  Terminology
+   2.  Protocol Overview
+     2.1.  Overview of the Joining Process
+     2.2.  Overview of the Group Rekeying Process
+   3.  Format of Scope
+   4.  Joining Node to Authorization Server
+     4.1.  Authorization Request
+     4.2.  Authorization Response
+   5.  Interface at the Group Manager
+     5.1.  ace-group/GROUPNAME/active
+       5.1.1.  GET Handler
+     5.2.  Admitted Methods
+   6.  Token POST and Group Joining
+     6.1.  Token Post
+       6.1.1.  'ecdh_info' Parameter
+       6.1.2.  'gm_pub_keys_info' Parameter
+     6.2.  Sending the Joining Request
+       6.2.1.  Value of the N_S Challenge
+     6.3.  Processing the Joining Request
+     6.4.  Joining Response
+   7.  Public Keys of Joining Nodes
+   8.  Retrieval of Updated Keying Material
+     8.1.  Retrieval of Group Keying Material
+     8.2.  Retrieval of Group Keying Material and Sender ID
+   9.  Requesting a Change of Keying Material
+   10. Retrieval of Public Keys and Roles for Group Members
+   11. Update of Public Key
+   12. Retrieval of Group Policies
+   13. Retrieval of Keying Material Version
+   14. Retrieval of Group Status
+   15. Retrieval of Group Names and URIs
+   16. Request to Leave the Group
+   17. Removal of a Group Member
+   18. Group Rekeying Process
+   19. Default Values for Group Configuration Parameters
+   20. Security Considerations
+     20.1.  Management of OSCORE Groups
+     20.2.  Size of Nonces for Signature Challenge
+     20.3.  Reusage of Nonces for Signature Challenge
+   21. IANA Considerations
+     21.1.  ACE Groupcomm Parameters Registry
+     21.2.  ACE Groupcomm Key Registry
+     21.3.  ACE Groupcomm Profile Registry
+     21.4.  OSCORE Security Context Parameters Registry
+     21.5.  TLS Exporter Label Registry
+     21.6.  AIF Registry
+     21.7.  Media Type Registrations
+     21.8.  CoAP Content-Format Registry
+     21.9.  Group OSCORE Roles Registry
+     21.10. CoRE Resource Type Registry
+     21.11. ACE Scope Semantics Registry
+     21.12. ACE Groupcomm Errors
+     21.13. Expert Review Instructions
+   22. References
+     22.1.  Normative References
+     22.2.  Informative References
+   Appendix A.  Profile Requirements
+   Appendix B.  Extensibility for Future COSE Algorithms
+     B.1.  Format of 'ecdh_info_entry'
+     B.2.  Format of 'key'
+   Appendix C.  Document Updates
+     C.1.  Version -10 to -11
+     C.2.  Version -09 to -10
+     C.3.  Version -08 to -09
+     C.4.  Version -07 to -08
+     C.5.  Version -06 to -07
+     C.6.  Version -05 to -06
+     C.7.  Version -04 to -05
+     C.8.  Version -03 to -04
+     C.9.  Version -02 to -03
+     C.10. Version -01 to -02
+     C.11. Version -00 to -01
+   Acknowledgments
+   Authors' Addresses
 
 1.  Introduction
 
@@ -160,15 +145,6 @@ Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
    Signing and Encryption (COSE)
    [I-D.ietf-cose-rfc8152bis-struct][I-D.ietf-cose-rfc8152bis-algs] and
    enabling end-to-end security of CoAP payload and options.
-
-
-
-
-
-Tiloca, et al.          Expires 12 November 2021                [Page 3]
-
-Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
-
 
    As described in [I-D.ietf-core-oscore-groupcomm], Group OSCORE is
    used to protect CoAP group communication over IP multicast
@@ -218,14 +194,6 @@ Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
       communication for CoAP [I-D.ietf-core-groupcomm-bis].  Unless
       otherwise indicated, the term "endpoint" is used here following
       its OAuth definition, aimed at denoting resources such as /token
-
-
-
-Tiloca, et al.          Expires 12 November 2021                [Page 4]
-
-Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
-
-
       and /introspect at the AS, and /authz-info at the RS.  This
       document does not use the CoAP definition of "endpoint", which is
       "An entity participating in the CoAP protocol".
@@ -259,6 +227,12 @@ Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
       OSCORE group as an actual member, yet it can retrieve the public
       keys of the current group members from the Group Manager.
 
+   *  Signature-only group: an OSCORE group that uses only the group
+      mode (see Section 8 of [I-D.ietf-core-oscore-groupcomm]).
+
+   *  Pairwise-only group: an OSCORE group that uses only the pairwise
+      mode (see Section 9 of [I-D.ietf-core-oscore-groupcomm]).
+
 2.  Protocol Overview
 
    Group communication for CoAP over IP multicast has been enabled in
@@ -273,14 +247,6 @@ Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
    and [I-D.ietf-ace-oauth-authz] to perform a number of authentication,
    authorization and key distribution actions, as defined in Section 2
    of [I-D.ietf-ace-key-groupcomm], for an OSCORE group.
-
-
-
-
-Tiloca, et al.          Expires 12 November 2021                [Page 5]
-
-Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
-
 
    With reference to [I-D.ietf-ace-key-groupcomm]:
 
@@ -328,15 +294,6 @@ Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
 
    The keying material distributed through a group rekeying MUST
    include:
-
-
-
-
-
-Tiloca, et al.          Expires 12 November 2021                [Page 6]
-
-Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
-
 
    *  A new Group Identifier (Gid) for the group as introduced in
       [I-D.ietf-ace-key-groupcomm], used as ID Context parameter of the
@@ -387,13 +344,6 @@ Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
    *  the object identifier ("Toid") is specialized as a CBOR text
       string, specifying the group name for the scope entry;
 
-
-
-Tiloca, et al.          Expires 12 November 2021                [Page 7]
-
-Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
-
-
    *  the permission set ("Tperm") is specialized as a CBOR unsigned
       integer with value R, specifying the role(s) that the client
       wishes to take in the group (REQ2).  The value R is computed as
@@ -442,14 +392,6 @@ Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
    corresponding numeric identifier in the "Group OSCORE Roles" Registry
    defined in Section 21.9 of this specification.
 
-
-
-
-Tiloca, et al.          Expires 12 November 2021                [Page 8]
-
-Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
-
-
 4.  Joining Node to Authorization Server
 
    This section describes how the joining node interacts with the AS in
@@ -496,15 +438,6 @@ Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
       scope entry MUST be present, and specifies the set of roles that
       the joining node is actually authorized to take in the OSCORE
       group for that scope entry, encoded as specified in Section 4.1.
-
-
-
-
-
-Tiloca, et al.          Expires 12 November 2021                [Page 9]
-
-Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
-
 
    Furthermore, if the AS uses the extended format of scope defined in
    Section 6 of [I-D.ietf-ace-key-groupcomm] for the 'scope' claim of
@@ -555,13 +488,6 @@ Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
    this resource (REQ8).  If either verification fails, the Group
    Manager MUST respond with a 4.01 (Unauthorized) error message.
 
-
-
-Tiloca, et al.          Expires 12 November 2021               [Page 10]
-
-Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
-
-
    Additionally, the handler verifies that the requesting client is a
    current member of the group.  If verification fails, the Group
    Manager MUST respond with a 4.01 (Unauthorized) error message.  The
@@ -588,35 +514,6 @@ Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
    group with group name GROUPNAME, and considering different roles.
    The last two rows of the table apply to a node with node name
    NODENAME.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Tiloca, et al.          Expires 12 November 2021               [Page 11]
-
-Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
-
 
     +------------------------------+--------+-------+-------+-------+
     | Resource                     | Type1  | Type2 | Type3 | Type4 |
@@ -666,14 +563,6 @@ Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
    Section 6.2.  After successfully posting an Access Token, a signature
    verifier is authorized to perform only the operations specified in
    Section 10, to retrieve the public keys of group members, and only
-
-
-
-Tiloca, et al.          Expires 12 November 2021               [Page 12]
-
-Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
-
-
    for the OSCORE groups specified in the validated Access Token.  The
    Group Manager MUST respond with a 4.01 (Unauthorized) error message,
    in case a signature verifier attempts to access any other endpoint
@@ -688,13 +577,20 @@ Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
    following applies.
 
    *  The CoAP POST request MAY additionally contain the following
-      parameter, which, if included, MUST have the corresponding values:
+      parameters, which, if included, MUST have the corresponding
+      values:
 
       -  'ecdh_info' defined in Section 6.1.1, encoding the CBOR simple
          value Null to require information on the ECDH algorithm, the
          ECDH algorithm parameters, the ECDH key parameters and on the
          exact encoding of public keys used in the group, in case the
          joining node supports the pairwise mode of Group OSCORE
+         [I-D.ietf-core-oscore-groupcomm].
+
+      -  'gm_dh_pub_keys' defined in Section 6.1.2, encoding the CBOR
+         simple value Null to require the Diffie-Hellman public key of
+         the Group Manager in the group, in case the joining node
+         supports the pairwise mode of Group OSCORE
          [I-D.ietf-core-oscore-groupcomm].
 
       Alternatively, the joining node may retrieve this information by
@@ -714,6 +610,9 @@ Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
    *  If the 'sign_info' parameter is present in the response, the
       following applies for each element 'sign_info_entry'.
 
+      -  'id' MUST NOT refer to OSCORE groups that are pairwise-only
+         groups.
+
       -  'sign_alg' takes value from the "Value" column of the "COSE
          Algorithms" Registry [COSE.Algorithms].
 
@@ -722,13 +621,6 @@ Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
          indicated in 'sign_alg', as specified for that algorithm in the
          "Capabilities" column of the "COSE Algorithms" Registry
          [COSE.Algorithms] (REQ4).
-
-
-
-Tiloca, et al.          Expires 12 November 2021               [Page 13]
-
-Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
-
 
       -  'sign_key_parameters' is a CBOR array.  Its format and value
          are the same of the COSE capabilities array for the COSE key
@@ -744,8 +636,8 @@ Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
          [I-D.ietf-cose-rfc8152bis-struct].  Future specifications may
          define additional values for this parameter.
 
-      This format is consistent with every counter signature algorithm
-      currently considered in [I-D.ietf-cose-rfc8152bis-algs], i.e. with
+      This format is consistent with every signature algorithm currently
+      considered in [I-D.ietf-cose-rfc8152bis-algs], i.e. with
       algorithms that have only the COSE key type as their COSE
       capability.  Appendix B of [I-D.ietf-ace-key-groupcomm] describes
       how the format of each 'sign_info_entry' can be generalized for
@@ -753,17 +645,28 @@ Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
       COSE capabilities.
 
    *  If 'ecdh_info' is included in the request, the Group Manager MAY
-      include the 'ecdh_info' parameter defined in Section 6.1.1, with
-      the same encoding.  Note that the field 'id' takes as value the
-      group name, or array of group names, for which the corresponding
-      'ecdh_info_entry' applies to.
+      include in the response the 'ecdh_info' parameter defined in
+      Section 6.1.1, with the same encoding.  Note that the field 'id'
+      takes as value the group name, or array of group names, for which
+      the corresponding 'ecdh_info_entry' applies to.
+
+   *  If 'gm_dh_pub_keys' is included in the request and any of the
+      groups that the client has been authorized to join is a pairwise-
+      only group, then the Group Manager MUST include in the response
+      the 'gm_dh_pub_keys' parameter defined in Section 6.1.2, with the
+      same encoding.  Otherwise, the Group Manager MAY include the
+      'gm_dh_pub_keys' parameter.  Note that the field 'id' takes as
+      value the group name, or array of group names, for which the
+      corresponding 'gm_dh_pub_keys' applies to.
 
    Note that, other than through the above parameters as defined in
    Section 3.3 of [I-D.ietf-ace-key-groupcomm], the joining node MAY
-   have previously retrieved this information by other means, e.g. by
-   using the approach described in [I-D.tiloca-core-oscore-discovery] to
-   discover the OSCORE group and the link to the associated group-
-   membership resource at the Group Manager (OPT2).
+   have previously retrieved this information by other means.  For
+   example, information conveyed in the 'sign_info' and 'ecdh_info'
+   parameters can be obtained by using the approach described in
+   [I-D.tiloca-core-oscore-discovery], to discover the OSCORE group and
+   the link to the associated group-membership resource at the Group
+   Manager (OPT2).
 
    Additionally, if allowed by the used transport profile of ACE, the
    joining node may instead provide the Access Token to the Group
@@ -775,16 +678,6 @@ Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
    The 'ecdh_info' parameter is an OPTIONAL parameter of the Token Post
    response message defined in Section 5.10.1. of
    [I-D.ietf-ace-oauth-authz].
-
-
-
-
-
-
-Tiloca, et al.          Expires 12 November 2021               [Page 14]
-
-Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
-
 
    This parameter is used to require and retrieve from the Group Manager
    information and parameters about the ECDH algorithm and about the
@@ -814,9 +707,10 @@ Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
 
    *  The first element 'id' is the group name of the OSCORE group or an
       array of group names for the OSCORE groups for which the specified
-      information applies.
+      information applies.  In particular 'id' MUST NOT refer to OSCORE
+      groups that are signature-only groups.
 
-   *  The second element 'ecdh_alg' is an CBOR integer or a CBOR text
+   *  The second element 'ecdh_alg' is a CBOR integer or a CBOR text
       string indicating the ECDH algorithm used in the OSCORE group
       identified by 'gname'.  Values are taken from the "Value" column
       of the "COSE Algorithms" Registry [COSE.Algorithms].
@@ -827,20 +721,6 @@ Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
       COSE capabilities array for the algorithm indicated in 'ecdh_alg',
       as specified for that algorithm in the "Capabilities" column of
       the "COSE Algorithms" Registry [COSE.Algorithms].
-
-
-
-
-
-
-
-
-
-
-Tiloca, et al.          Expires 12 November 2021               [Page 15]
-
-Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
-
 
    *  The fourth element 'ecdh_key_parameters' is a CBOR array
       indicating the parameters of the keys used with the ECDH algorithm
@@ -883,20 +763,82 @@ Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
    'ecdh_info_entry' can be generalized for possible future registered
    algorithms having a different set of COSE capabilities.
 
+6.1.2.  'gm_pub_keys_info' Parameter
+
+   The 'gm_dh_pub_keys' parameter is an OPTIONAL parameter of the Token
+   Post response message defined in Section 5.10.1. of
+   [I-D.ietf-ace-oauth-authz].
+
+   This parameter is used to require and retrieve from the Group Manager
+   its Diffie-Hellman public key used in the OSCORE group.  The Group
+   Manager has specifically a Diffie-Hellman public key if and only if
+   the OSCORE group is a pairwise-only group.  In this case, the early
+   retrieval of the Group Manager's public key is necessary in order for
+   the joining node to prove the possession of its own private key, upon
+   joining the group (see Section 6.2).
+
+   When used in the request, the 'gm_dh_pub_keys' parameter encodes the
+   CBOR simple value Null, to require the Diffie-Hellman public key that
+   the Group Manager uses in the OSCORE group.
+
+   The CDDL notation [RFC8610] of the 'gm_dh_pub_keys' parameter
+   formatted as in the request is given below.
+
+      gm_dh_pub_keys = nil
+
+   The 'gm_dh_pub_keys' parameter of the 2.01 (Created) response is a
+   CBOR array of one or more elements.  The number of elements is at
+   most the number of OSCORE groups the client has been authorized to
+   join.
+
+   Each element 'gm_dh_pub_keys_entry' contains information about the
+   Group Manager's Diffie-Hellman public keys, for one or more OSCORE
+   groups that are pairwise-only groups and that the client has been
+   authorized to join.  Each element is formatted as follows.
+
+   *  The first element 'id' is the group name of the OSCORE group or an
+      array of group names for the OSCORE groups for which the specified
+      information applies.  In particular 'id' MUST refer exclusively to
+      OSCORE groups that are pairwise-only groups.
+
+   *  The second element 'pub_key_enc' is CBOR integer indicating the
+      encoding of public keys used in the OSCORE group identified by
+      'gname'.  It takes value 1 ("COSE_Key") from the 'Confirmation
+      Key' column of the "CWT Confirmation Method" Registry
+      [CWT.Confirmation.Methods], so indicating that public keys in the
+      OSCORE group are encoded as COSE Keys
+      [I-D.ietf-cose-rfc8152bis-struct].  Future specifications may
+      define additional values for this parameter.
+
+   *  The third element 'pub_key' is a CBOR byte string, which encodes
+      the Group Manager's Diffie-Hellman public key in its original
+      binary representation made available to other endpoints in the
+      group.  In particular, the original binary representation complies
+      with the encoding specified by the 'pub_key_enc' parameter.  Note
+      that the public key internally specifies its public key algorithm,
+      i.e., the ECDH algorithm used in the OSCORE group as pairwise key
+      agreement algorithm.
+
+   The CDDL notation [RFC8610] of the 'gm_dh_pub_keys' parameter
+   formatted as in the response is given below.
+
+      gm_dh_pub_keys = [ + gm_dh_pub_keys_entry ]
+
+      gm_dh_pub_keys_entry =
+      [
+        id : gname / [ + gname ],
+        pub_key_enc = int,
+        pub_key = bstr
+      ]
+
+      gname = tstr
+
 6.2.  Sending the Joining Request
 
    The joining node requests to join the OSCORE group by sending a
    Joining Request message to the related group-membership resource at
    the Group Manager, as per Section 4.3 of
    [I-D.ietf-ace-key-groupcomm].
-
-
-
-
-Tiloca, et al.          Expires 12 November 2021               [Page 16]
-
-Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
-
 
    Additionally to what defined in [I-D.ietf-ace-key-groupcomm], the
    following applies.
@@ -938,21 +880,6 @@ Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
        either the one specified in the 2.01 (Created) response to the
        Token POST, or the one possibly specified in a 4.00 (Bad Request)
        response to a following Joining Request (see Section 6.3).
-
-
-
-
-
-
-
-
-
-
-
-Tiloca, et al.          Expires 12 November 2021               [Page 17]
-
-Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
-
 
    2.  If the Token posting has relied on the DTLS profile of ACE
        [I-D.ietf-ace-dtls-authorize] with the Access Token as content of
@@ -1003,13 +930,6 @@ Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
    *  To compute the signature contained in 'client_cred_verify', the
       Group Manager considers:
 
-
-
-Tiloca, et al.          Expires 12 November 2021               [Page 18]
-
-Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
-
-
       -  as signed value, the value of the 'scope' parameter from the
          Joining Request as a CBOR byte string, concatenated with N_S
          encoded as a CBOR byte string, concatenated with N_C encoded as
@@ -1059,13 +979,6 @@ Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
 
       -  The OSCORE group supports the pairwise mode of Group OSCORE.
 
-
-
-Tiloca, et al.          Expires 12 November 2021               [Page 19]
-
-Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
-
-
       -  The OSCORE group uses EdDSA public keys [RFC8032].
 
       -  The public key of the joining node from the 'client_cred'
@@ -1113,14 +1026,6 @@ Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
 
    If the joining node has not taken exclusively the role of monitor,
    the Group Manager performs also the following actions.
-
-
-
-
-Tiloca, et al.          Expires 12 November 2021               [Page 20]
-
-Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
-
 
    *  The Group Manager selects an available OSCORE Sender ID in the
       OSCORE group, and exclusively assigns it to the joining node.  If
@@ -1171,13 +1076,6 @@ Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
       -  The 'ms' parameter MUST be present and includes the OSCORE
          Master Secret value used in the OSCORE group.
 
-
-
-Tiloca, et al.          Expires 12 November 2021               [Page 21]
-
-Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
-
-
       -  The 'hkdf' parameter, if present, has as value the KDF
          algorithm used in the OSCORE group.
 
@@ -1205,8 +1103,8 @@ Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
          "COSE Algorithms" Registry [COSE.Algorithms].
 
       -  The 'cs_params' parameter MUST be present and specifies the
-         parameters of the counter signature algorithm.  This parameter
-         is a CBOR array, which includes the following two elements:
+         parameters of the signature algorithm.  This parameter is a
+         CBOR array, which includes the following two elements:
 
          o  'sign_alg_capab': a CBOR array, with the same format and
             value of the COSE capabilities array for the algorithm
@@ -1226,14 +1124,6 @@ Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
          parameter is a CBOR integer, whose value is 1 ("COSE_Key")
          taken from the 'Confirmation Key' column of the "CWT
          Confirmation Method" Registry [CWT.Confirmation.Methods], so
-
-
-
-Tiloca, et al.          Expires 12 November 2021               [Page 22]
-
-Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
-
-
          indicating that public keys in the OSCORE group are encoded as
          COSE Keys [I-D.ietf-cose-rfc8152bis-struct].  Future
          specifications may define additional values for this parameter.
@@ -1280,15 +1170,6 @@ Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
    *  The 'ace-groupcomm-profile' parameter MUST be present and has
       value coap_group_oscore_app (TBD3), which is defined in
       Section 21.3 of this specification.
-
-
-
-
-
-Tiloca, et al.          Expires 12 November 2021               [Page 23]
-
-Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
-
 
    *  The 'pub_keys' parameter, if present, includes the public keys
       requested by the joining node by means of the 'get_pub_keys'
@@ -1337,14 +1218,6 @@ Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
    *  The joining node MUST NOT process an incoming request message, if
       protected by a group member whose public key is not associated to
       the role "Requester".
-
-
-
-
-Tiloca, et al.          Expires 12 November 2021               [Page 24]
-
-Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
-
 
    *  The joining node MUST NOT process an incoming response message, if
       protected by a group member whose public key is not associated to
@@ -1395,13 +1268,6 @@ Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
       as well as the related parameters 'cnonce' and
       'client_cred_verify'.
 
-
-
-Tiloca, et al.          Expires 12 November 2021               [Page 25]
-
-Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
-
-
    *  The Group Manager already acquired the public key of the joining
       node during a past joining process.  In this case, the joining
       node MAY choose not to provide again its own public key to the
@@ -1419,24 +1285,24 @@ Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
       Then, two cases can occur.
 
       1.  The proof-of-possession key is compatible with the encoding as
-          well as with the counter signature algorithm and possible
-          associated parameters used in the OSCORE group.  Then, the
-          Group Manager considers the proof-of-possession key as the
-          public key associated to the joining node in the OSCORE group.
-          If the joining node is aware that the proof-of-possession key
-          is also valid for the OSCORE group, it MAY not provide it
-          again as its own public key to the Group Manager.  The joining
-          node MUST provide its own public key again if it has provided
-          the Group Manager with multiple public keys during past
-          joining processes, intended for different OSCORE groups.  If
-          the joining node provides its own public key in the
-          'client_cred' parameter of the Joining Request (see
-          Section 6.2), the Group Manager performs consistency checks as
-          per Section 6.3 and, in case of success, considers it as the
-          public key associated to the joining node in the OSCORE group.
+          well as with the signature algorithm and possible associated
+          parameters used in the OSCORE group.  Then, the Group Manager
+          considers the proof-of-possession key as the public key
+          associated to the joining node in the OSCORE group.  If the
+          joining node is aware that the proof-of-possession key is also
+          valid for the OSCORE group, it MAY not provide it again as its
+          own public key to the Group Manager.  The joining node MUST
+          provide its own public key again if it has provided the Group
+          Manager with multiple public keys during past joining
+          processes, intended for different OSCORE groups.  If the
+          joining node provides its own public key in the 'client_cred'
+          parameter of the Joining Request (see Section 6.2), the Group
+          Manager performs consistency checks as per Section 6.3 and, in
+          case of success, considers it as the public key associated to
+          the joining node in the OSCORE group.
 
       2.  The proof-of-possession key is not compatible with the
-          encoding or with the counter signature algorithm and possible
+          encoding or with the signature algorithm and possible
           associated parameters used in the OSCORE group.  In this case,
           the joining node MUST provide a different compatible public
           key to the Group Manager in the 'client_cred' parameter of the
@@ -1445,18 +1311,6 @@ Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
           as per Section 6.3 and, in case of success, considers it as
           the public key associated to the joining node in the OSCORE
           group.
-
-
-
-
-
-
-
-
-Tiloca, et al.          Expires 12 November 2021               [Page 26]
-
-Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
-
 
    *  The joining node and the Group Manager use a symmetric proof-of-
       possession key to establish a secure communication association.
@@ -1505,15 +1359,6 @@ Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
    new Group OSCORE Security Context as described in Section 2 of
    [I-D.ietf-core-oscore-groupcomm].
 
-
-
-
-
-Tiloca, et al.          Expires 12 November 2021               [Page 27]
-
-Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
-
-
 8.2.  Retrieval of Group Keying Material and Sender ID
 
    If the group member wants to retrieve the latest group keying
@@ -1560,15 +1405,6 @@ Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
    Upon receiving the Key Renewal Request, the Group Manager processes
    it as defined in Section 4.1.6.1 of [I-D.ietf-ace-key-groupcomm],
    with the following additions.
-
-
-
-
-
-Tiloca, et al.          Expires 12 November 2021               [Page 28]
-
-Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
-
 
    The Group Manager MUST return a 5.03 (Service Unavailable) response
    in case the OSCORE group identified by GROUPNAME is currently
@@ -1618,14 +1454,6 @@ Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
           group since the latest time when the current Gid value was
           assigned to the group.
 
-
-
-
-Tiloca, et al.          Expires 12 November 2021               [Page 29]
-
-Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
-
-
           The Group Manager MUST return a 5.03 (Service Unavailable)
           response in case there are currently no Sender IDs available
           to assign in the OSCORE group.  The response MUST have
@@ -1667,20 +1495,6 @@ Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
    The success Public Key Response is formatted as defined in
    Section 4.1.3.1 or 4.1.3.2 of [I-D.ietf-ace-key-groupcomm], depending
    on the request method being FETCH or GET, respectively.
-
-
-
-
-
-
-
-
-
-
-Tiloca, et al.          Expires 12 November 2021               [Page 30]
-
-Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
-
 
 11.  Update of Public Key
 
@@ -1726,17 +1540,6 @@ Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
       associated to the OSCORE group together with the OSCORE Sender ID
       assigned to the group member in the group.  The Group Manager MUST
       keep this association updated over time.
-
-
-
-
-
-
-
-Tiloca, et al.          Expires 12 November 2021               [Page 31]
-
-Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
-
 
 12.  Retrieval of Group Policies
 
@@ -1786,14 +1589,6 @@ Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
    become active again, the group member can resume taking part in
    communications within the group.
 
-
-
-
-Tiloca, et al.          Expires 12 November 2021               [Page 32]
-
-Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
-
-
    Figure 3 gives an overview of the exchange described above.
 
    Group                                                         Group
@@ -1842,14 +1637,6 @@ Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
       Furthermore, since it is not a group member, the node does not
       take part to a possible group rekeying.  Thus, following a group
       rekeying and the consequent change of Gid in a group, the node
-
-
-
-Tiloca, et al.          Expires 12 November 2021               [Page 33]
-
-Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
-
-
       would retain the old Gid value and cannot correctly associate
       intercepted messages to the right group, especially if acting as
       signature verifier in several groups.  This in turn prevents the
@@ -1891,20 +1678,6 @@ Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
    current, most recent one.
 
    Figure 4 gives an overview of the exchanges described above.
-
-
-
-
-
-
-
-
-
-
-Tiloca, et al.          Expires 12 November 2021               [Page 34]
-
-Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
-
 
                                                                   Group
   Node                                                           Manager
@@ -1955,13 +1728,6 @@ Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
       unsolicited 4.04 (Not Found) response to the leaving node, as
       specified in 4.1.6.2 of [I-D.ietf-ace-key-groupcomm].
 
-
-
-Tiloca, et al.          Expires 12 November 2021               [Page 35]
-
-Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
-
-
    If the leaving node has not exclusively the role of monitor, the
    Group Manager performs the following actions.
 
@@ -2007,16 +1773,6 @@ Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
       from the group.  That is, the Group Manager MUST terminate their
       membership and MUST rekey the group in such a way that the new key
       material is not provided to those evicted elder members.
-
-
-
-
-
-
-Tiloca, et al.          Expires 12 November 2021               [Page 36]
-
-Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
-
 
       Until a further following group rekeying, the Group Manager MUST
       store the list of those latest-evicted elder members.  If any of
@@ -2066,14 +1822,6 @@ Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
    the Group Manager.  In particular, if a group member and the Group
    Manager use OSCORE [RFC8613] to secure their pairwise communications,
    the group member MUST create a Replay Window in its own Recipient
-
-
-
-Tiloca, et al.          Expires 12 November 2021               [Page 37]
-
-Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
-
-
    Context upon establishing the OSCORE Security Context with the Group
    Manager, e.g. by means of the OSCORE profile of ACE
    [I-D.ietf-ace-oscore-profile].
@@ -2118,18 +1866,6 @@ Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
    multiple times, i.e. separately for each group they belong to and
    associated to that Group Manager.
 
-
-
-
-
-
-
-
-Tiloca, et al.          Expires 12 November 2021               [Page 38]
-
-Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
-
-
 19.  Default Values for Group Configuration Parameters
 
    This section defines the default values that the Group Manager
@@ -2150,7 +1886,7 @@ Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
    *  For the algorithm 'cs_alg' used to countersign messages in the
       group, the signature algorithm EdDSA [RFC8032].
 
-   *  For the parameters 'cs_params' of the counter signature algorithm:
+   *  For the parameters 'cs_params' of the signature algorithm:
 
       -  The array [[OKP], [OKP, Ed25519]], in case EdDSA is assumed or
          specified for 'cs_alg'.  In particular, this indicates to use
@@ -2175,16 +1911,6 @@ Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
    *  For the 'cs_key_enc' encoding of the public keys of the group
       members, COSE_Key from the "CWT Confirmation Methods" Registry
       [CWT.Confirmation.Methods].
-
-
-
-
-
-
-Tiloca, et al.          Expires 12 November 2021               [Page 39]
-
-Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
-
 
    If the group supports the pairwise mode of Group OSCORE, the Group
    Manager SHOULD use the following default values for the algorithm and
@@ -2234,14 +1960,6 @@ Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
    *  Management of group keying material (see Section 3.1 of
       [I-D.ietf-core-oscore-groupcomm]).  The Group Manager is
       responsible for the renewal and re-distribution of the keying
-
-
-
-Tiloca, et al.          Expires 12 November 2021               [Page 40]
-
-Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
-
-
       material in the groups of its competence (rekeying).  According to
       the specific application requirements, this can include rekeying
       the group upon changes in its membership.  In particular, renewing
@@ -2285,18 +2003,6 @@ Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
    With reference to the Joining Request message in Section 6.2, the
    proof-of-possession signature included in 'client_cred_verify' is
    computed over the challenge N_C | N_S, where | denotes concatenation.
-
-
-
-
-
-
-
-
-Tiloca, et al.          Expires 12 November 2021               [Page 41]
-
-Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
-
 
    For the N_C challenge share, it is RECOMMENDED to use a 8-byte long
    random nonce.  Furthermore, N_C is always conveyed in the 'cnonce'
@@ -2343,16 +2049,6 @@ Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
       this specification are not used for as sensitive operations as the
       derivation of a Security Context, and thus do not have possible
       implications in the security of AEAD ciphers.
-
-
-
-
-
-
-Tiloca, et al.          Expires 12 November 2021               [Page 42]
-
-Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
-
 
 20.3.  Reusage of Nonces for Signature Challenge
 
@@ -2402,14 +2098,6 @@ Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
    Key" Registry defined in Section 10.6 of
    [I-D.ietf-ace-key-groupcomm].
 
-
-
-
-Tiloca, et al.          Expires 12 November 2021               [Page 43]
-
-Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
-
-
    *  Name: Group_OSCORE_Input_Material object
 
    *  Key Type Value: TBD2
@@ -2458,14 +2146,6 @@ Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
    *  Reference: [[This specification]] (Section 6.4)
 
 
-
-
-
-Tiloca, et al.          Expires 12 November 2021               [Page 44]
-
-Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
-
-
    *  Name: cs_alg
 
    *  CBOR Label: TBD5
@@ -2474,7 +2154,7 @@ Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
 
    *  Registry: COSE Algorithms
 
-   *  Description: OSCORE Counter Signature Algorithm Value
+   *  Description: OSCORE Signature Algorithm Value
 
    *  Reference: [[This specification]] (Section 6.4)
 
@@ -2487,7 +2167,7 @@ Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
 
    *  Registry: COSE Algorithms, COSE Key Types, COSE Elliptic Curves
 
-   *  Description: OSCORE Counter Signature Algorithm Parameters
+   *  Description: OSCORE Signature Algorithm Parameters
 
    *  Reference: [[This specification]] (Section 6.4)
 
@@ -2501,7 +2181,7 @@ Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
    *  Registry: CWT Confirmation Methods
 
    *  Description: Encoding of Public Keys to be used with the OSCORE
-      Counter Signature Algorithm
+      Signature Algorithm
 
    *  Reference: [[This specification]] (Section 6.4)
 
@@ -2513,14 +2193,6 @@ Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
    *  CBOR Type: tstr / int
 
    *  Registry: COSE Algorithms
-
-
-
-
-Tiloca, et al.          Expires 12 November 2021               [Page 45]
-
-Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
-
 
    *  Description: OSCORE ECDH Algorithm Value
 
@@ -2570,14 +2242,6 @@ Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
 
    *  Name: oscore-group-roles
 
-
-
-
-Tiloca, et al.          Expires 12 November 2021               [Page 46]
-
-Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
-
-
    *  Description/Specification: role(s) of the member of the OSCORE
       group, as specified in [[This specification]].
 
@@ -2625,14 +2289,6 @@ Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
    Intended usage: COMMON
 
    Restrictions on usage: None
-
-
-
-
-Tiloca, et al.          Expires 12 November 2021               [Page 47]
-
-Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
-
 
    Author: Marco Tiloca marco.tiloca@ri.se (mailto:marco.tiloca@ri.se)
 
@@ -2682,14 +2338,6 @@ Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
    *  Reference: This contains a pointer to the public specification for
       the role.
 
-
-
-
-Tiloca, et al.          Expires 12 November 2021               [Page 48]
-
-Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
-
-
    This registry will be initially populated by the values in Figure 1.
 
    The Reference column for all of these entries will be [[This
@@ -2732,19 +2380,6 @@ Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
    *  Description: Group currently not active.
 
    *  Reference: [[This specification]]
-
-
-
-
-
-
-
-
-
-Tiloca, et al.          Expires 12 November 2021               [Page 49]
-
-Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
-
 
 21.13.  Expert Review Instructions
 
@@ -2791,16 +2426,6 @@ Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
 22.  References
 
 22.1.  Normative References
-
-
-
-
-
-
-Tiloca, et al.          Expires 12 November 2021               [Page 50]
-
-Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
-
 
    [CORE.Parameters]
               IANA, "Constrained RESTful Environments (CoRE)
@@ -2849,14 +2474,6 @@ Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
               draft-ietf-ace-oauth-authz-40, 26 April 2021,
               <https://www.ietf.org/archive/id/draft-ietf-ace-oauth-
               authz-40.txt>.
-
-
-
-
-Tiloca, et al.          Expires 12 November 2021               [Page 51]
-
-Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
-
 
    [I-D.ietf-ace-oscore-profile]
               Palombini, F., Seitz, L., Selander, G., and M. Gunnarsson,
@@ -2907,13 +2524,6 @@ Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
               Algorithm (ECDSA)", RFC 6979, DOI 10.17487/RFC6979, August
               2013, <https://www.rfc-editor.org/info/rfc6979>.
 
-
-
-Tiloca, et al.          Expires 12 November 2021               [Page 52]
-
-Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
-
-
    [RFC7252]  Shelby, Z., Hartke, K., and C. Bormann, "The Constrained
               Application Protocol (CoAP)", RFC 7252,
               DOI 10.17487/RFC7252, June 2014,
@@ -2961,15 +2571,6 @@ Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
               (OSCORE)", RFC 8613, DOI 10.17487/RFC8613, July 2019,
               <https://www.rfc-editor.org/info/rfc8613>.
 
-
-
-
-
-Tiloca, et al.          Expires 12 November 2021               [Page 53]
-
-Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
-
-
    [RFC8742]  Bormann, C., "Concise Binary Object Representation (CBOR)
               Sequences", RFC 8742, DOI 10.17487/RFC8742, February 2020,
               <https://www.rfc-editor.org/info/rfc8742>.
@@ -3012,19 +2613,6 @@ Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
               Progress, Internet-Draft, draft-ietf-core-groupcomm-bis-
               03, 22 February 2021, <https://www.ietf.org/archive/id/
               draft-ietf-core-groupcomm-bis-03.txt>.
-
-
-
-
-
-
-
-
-
-Tiloca, et al.          Expires 12 November 2021               [Page 54]
-
-Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
-
 
    [I-D.tiloca-core-oscore-discovery]
               Tiloca, M., Amsuess, C., and P. V. D. Stok, "Discovery of
@@ -3074,14 +2662,6 @@ Appendix A.  Profile Requirements
    *  REQ2 - Specify the encoding and value of roles, for scope entries
       of 'scope': see Section 3 and Section 4.1.
 
-
-
-
-Tiloca, et al.          Expires 12 November 2021               [Page 55]
-
-Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
-
-
    *  REQ3 - if used, specify the acceptable values for 'sign_alg':
       values from the "Value" column of the "COSE Algorithms" Registry
       [COSE.Algorithms].
@@ -3129,14 +2709,6 @@ Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
    *  REQ14 - Specify the security protocols that the group members must
       use to protect their communication: Group OSCORE
       [I-D.ietf-core-oscore-groupcomm].
-
-
-
-
-Tiloca, et al.          Expires 12 November 2021               [Page 56]
-
-Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
-
 
    *  REQ15 - Specify and register the application profile identifier:
       coap_group_oscore_app (see Section 21.3).
@@ -3186,14 +2758,6 @@ Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
       public keys used in the group, in case the joining node supports
       the pairwise mode of Group OSCORE.
 
-
-
-
-Tiloca, et al.          Expires 12 November 2021               [Page 57]
-
-Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
-
-
    *  OPT4 (Optional) - Specify the encoding of 'pub_keys_repos' if the
       default is not used: no.
 
@@ -3240,15 +2804,6 @@ Appendix B.  Extensibility for Future COSE Algorithms
 
    To enable the seamless use of such future registered algorithms, this
    section defines a general, agile format for:
-
-
-
-
-
-Tiloca, et al.          Expires 12 November 2021               [Page 58]
-
-Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
-
 
    *  Each 'ecdh_info_entry' of the 'ecdh_info' parameter in the Token
       Post response, see Section 6.1 and Section 6.1.1;
@@ -3298,27 +2853,19 @@ B.1.  Format of 'ecdh_info_entry'
 
               Figure 5: 'ecdh_info_entry' with general format
 
-
-
-
-Tiloca, et al.          Expires 12 November 2021               [Page 59]
-
-Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
-
-
 B.2.  Format of 'key'
 
    The format of 'key' (see Section 6.4) is generalized as follows.
 
    *  The 'cs_params' array includes N+1 elements, whose exact structure
-      and value depend on the value of the counter signature algorithm
-      specified in 'cs_alg'.
+      and value depend on the value of the signature algorithm specified
+      in 'cs_alg'.
 
       -  The first element, i.e. 'cs_params'[0], is the array of the N
-         COSE capabilities for the counter signature algorithm, as
-         specified for that algorithm in the "Capabilities" column of
-         the "COSE Algorithms" Registry [COSE.Algorithms] (see
-         Section 8.1 of [I-D.ietf-cose-rfc8152bis-algs]).
+         COSE capabilities for the signature algorithm, as specified for
+         that algorithm in the "Capabilities" column of the "COSE
+         Algorithms" Registry [COSE.Algorithms] (see Section 8.1 of
+         [I-D.ietf-cose-rfc8152bis-algs]).
 
       -  Each following element 'cs_params'[i], i.e. with index i > 0,
          is the array of COSE capabilities for the algorithm capability
@@ -3326,7 +2873,7 @@ B.2.  Format of 'key'
 
       For example, if 'cs_params'[0][0] specifies the key type as
       capability of the algorithm, then 'cs_params'[1] is the array of
-      COSE capabilities for the COSE key type associated to the counter
+      COSE capabilities for the COSE key type associated to the
       signature algorithm, as specified for that key type in the
       "Capabilities" column of the "COSE Key Types" Registry
       [COSE.Key.Types] (see Section 8.2 of
@@ -3352,15 +2899,6 @@ B.2.  Format of 'key'
       algorithm, as specified for that key type in the "Capabilities"
       column of the "COSE Key Types" Registry [COSE.Key.Types] (see
       Section 8.2 of [I-D.ietf-cose-rfc8152bis-algs]).
-
-
-
-
-
-Tiloca, et al.          Expires 12 November 2021               [Page 60]
-
-Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
-
 
 Appendix C.  Document Updates
 
@@ -3406,17 +2944,6 @@ C.2.  Version -09 to -10
       responses.
 
    *  Renumbered requirements.
-
-
-
-
-
-
-
-Tiloca, et al.          Expires 12 November 2021               [Page 61]
-
-Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
-
 
 C.3.  Version -08 to -09
 
@@ -3467,13 +2994,6 @@ C.4.  Version -07 to -08
    *  Updated payload format of the FETCH request to retrieve public
       keys.
 
-
-
-Tiloca, et al.          Expires 12 November 2021               [Page 62]
-
-Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
-
-
    *  Default values for group configuration parameters.
 
    *  IANA registrations to support the AIF specific data model.
@@ -3520,15 +3040,6 @@ C.6.  Version -05 to -06
       groupcomm
 
    *  Editorial improvements.
-
-
-
-
-
-Tiloca, et al.          Expires 12 November 2021               [Page 63]
-
-Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
-
 
 C.7.  Version -04 to -05
 
@@ -3579,13 +3090,6 @@ C.8.  Version -03 to -04
 
    *  New requirements from draft-ietf-ace-key-groupcomm
 
-
-
-Tiloca, et al.          Expires 12 November 2021               [Page 64]
-
-Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
-
-
    *  Editorial improvements.
 
 C.9.  Version -02 to -03
@@ -3633,14 +3137,6 @@ C.10.  Version -01 to -02
 
    *  Code 4.00 (Bad request), in responses to joining nodes providing
       an invalid public key (Section 4.3).
-
-
-
-
-Tiloca, et al.          Expires 12 November 2021               [Page 65]
-
-Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
-
 
    *  Clarifications on provisioning and checking of public keys
       (Sections 4 and 6).
@@ -3690,14 +3186,6 @@ Acknowledgments
 
 Authors' Addresses
 
-
-
-
-Tiloca, et al.          Expires 12 November 2021               [Page 66]
-
-Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
-
-
    Marco Tiloca
    RISE AB
    Isafjordsgatan 22
@@ -3723,30 +3211,3 @@ Internet-Draft   Key Management for OSCORE Groups in ACE        May 2021
    Sweden
 
    Email: francesca.palombini@ericsson.com
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Tiloca, et al.          Expires 12 November 2021               [Page 67]
