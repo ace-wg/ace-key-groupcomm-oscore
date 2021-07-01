@@ -1022,6 +1022,16 @@ Table of Contents
          pertaining to the OSCORE group that the joining node has tried
          to join with the Joining Request.
 
+      -  The CBOR map MAY include the 'kdcchallenge' parameter, whose
+         CBOR label is defined in Section 7 of
+         [I-D.ietf-ace-key-groupcomm].  If present, this parameter is a
+         CBOR byte string, which encodes a newly generated
+         'kdcchallenge' value that the Client can use when preparing a
+         Joining Request (see Section 6.2).  In such a case the Group
+         Manager MUST store the newly generated value as the
+         'kdcchallenge' value associated to the joining node, possibly
+         replacing the currently stored value.
+
    *  The Group Manager MUST return a 4.00 (Bad Request) response in
       case the 'scope' parameter is not present in the Joining Request,
       or if it is present and specifies any set of roles not included in
@@ -1079,7 +1089,7 @@ Table of Contents
          indicated in the current 'client_cred' parameter, with the
          signature or ECDH algorithm, and possible associated parameters
          indicated by the Group Manager.  If the error response from the
-         Group Manager included the 'kdcchallenge' parameter, the
+         Group Manager includes the 'kdcchallenge' parameter, the
          joining node MUST use its content as new N_S challenge to
          compute the PoP evidence.
 
