@@ -103,19 +103,21 @@ Table of Contents
      20.2.  Size of Nonces as Proof-of-Possesion Challenge
      20.3.  Reusage of Nonces for Proof-of-Possession Input
    21. IANA Considerations
-     21.1.  ACE Groupcomm Parameters Registry
-     21.2.  ACE Groupcomm Key Registry
-     21.3.  ACE Groupcomm Profile Registry
-     21.4.  OSCORE Security Context Parameters Registry
-     21.5.  TLS Exporter Label Registry
-     21.6.  AIF Registry
-     21.7.  Media Type Registrations
-     21.8.  CoAP Content-Format Registry
-     21.9.  Group OSCORE Roles Registry
-     21.10. CoRE Resource Type Registry
-     21.11. ACE Scope Semantics Registry
-     21.12. ACE Groupcomm Errors
-     21.13. Expert Review Instructions
+     21.1.  OAuth Parameters Registry
+     21.2.  OAuth Parameters CBOR Mappings Registry
+     21.3.  ACE Groupcomm Parameters Registry
+     21.4.  ACE Groupcomm Key Registry
+     21.5.  ACE Groupcomm Profile Registry
+     21.6.  OSCORE Security Context Parameters Registry
+     21.7.  TLS Exporter Label Registry
+     21.8.  AIF Registry
+     21.9.  Media Type Registrations
+     21.10. CoAP Content-Format Registry
+     21.11. Group OSCORE Roles Registry
+     21.12. CoRE Resource Type Registry
+     21.13. ACE Scope Semantics Registry
+     21.14. ACE Groupcomm Errors
+     21.15. Expert Review Instructions
    22. References
      22.1.  Normative References
      22.2.  Informative References
@@ -390,7 +392,7 @@ Table of Contents
 
    Future specifications that define new roles MUST register a
    corresponding numeric identifier in the "Group OSCORE Roles" Registry
-   defined in Section 21.9 of this document.
+   defined in Section 21.11 of this document.
 
 4.  Joining Node to Authorization Server
 
@@ -443,7 +445,7 @@ Table of Contents
    Section 6 of [I-D.ietf-ace-key-groupcomm] for the 'scope' claim of
    the Access Token, the first element of the CBOR sequence [RFC8742]
    MUST be the CBOR integer with value SEM_ID_TBD, defined in
-   Section 21.11 of this document (REQ23).  This indicates that the
+   Section 21.13 of this document (REQ23).  This indicates that the
    second element of the CBOR sequence, as conveying the actual access
    control information, follows the scope semantics defined for this
    application profile in Section 3 of this document.
@@ -463,7 +465,7 @@ Table of Contents
    in Section 3.1 of [I-D.ietf-ace-key-groupcomm]) (REQ1).
 
    The Resource Type (rt=) Link Target Attribute value "core.osc.gm" is
-   registered in Section 21.10 (REQ7), and can be used to describe
+   registered in Section 21.12 (REQ7), and can be used to describe
    group-membership resources and its sub-resources at a Group Manager,
    e.g. by using a link-format document [RFC6690].
 
@@ -925,7 +927,7 @@ Table of Contents
        DTLS session between the joining node and the Group Manager,
        using an empty 'context_value', 32 bytes as 'key_length', and the
        exporter label "EXPORTER-ACE-Sign-Challenge-coap-group-oscore-
-       app" defined in Section 21.5 of this document.
+       app" defined in Section 21.7 of this document.
 
    It is up to applications to define how N_S is computed in further
    alternative settings.
@@ -1014,7 +1016,7 @@ Table of Contents
 
       -  If the group uses (also) the pairwise mode of Group OSCORE, the
          CBOR map MUST contain the 'ecdh_info' parameter, whose CBOR
-         label is defined in Section 21.1.  This parameter has the same
+         label is defined in Section 21.3.  This parameter has the same
          format of 'ecdh_info_res' defined in Section 6.1.1.  In
          particular, it includes a single element 'ecdh_info_entry'
          pertaining to the OSCORE group that the joining node has tried
@@ -1121,7 +1123,7 @@ Table of Contents
    [I-D.ietf-ace-key-groupcomm], with the following additions:
 
    *  The 'gkty' parameter identifies a key of type
-      "Group_OSCORE_Input_Material object", defined in Section 21.2 of
+      "Group_OSCORE_Input_Material object", defined in Section 21.4 of
       this document.
 
    *  The 'key' parameter includes what the joining node needs in order
@@ -1134,7 +1136,7 @@ Table of Contents
       Section 3.2.1 of [I-D.ietf-ace-oscore-profile].  In particular, it
       contains the additional parameters 'group_senderId' 'cs_alg',
       'cs_params', 'cs_key_enc', 'ecdh_alg' and 'ecdh_params' defined in
-      Section 21.4 of this document.
+      Section 21.6 of this document.
 
       More specifically, the 'key' parameter is composed as follows.
 
@@ -1244,7 +1246,7 @@ Table of Contents
 
    *  The 'ace-groupcomm-profile' parameter MUST be present and has
       value coap_group_oscore_app (TBD3), which is defined in
-      Section 21.3 of this document.
+      Section 21.5 of this document.
 
    *  The 'pub_keys' parameter, if present, includes the public keys
       requested by the joining node by means of the 'get_pub_keys'
@@ -1275,7 +1277,7 @@ Table of Contents
          [I-D.ietf-ace-key-groupcomm], with default value 0.
 
    Furthermore, the CBOR map in the payload of the Joining Response MUST
-   also include the following new parameters, defined in Section 21.1 of
+   also include the following new parameters, defined in Section 21.3 of
    this document.
 
    *  The 'kdc_nonce' parameter, which is a CBOR byte string encoding a
@@ -1596,7 +1598,7 @@ Table of Contents
           formatted as defined in Section 4.1.6.1 of
           [I-D.ietf-ace-key-groupcomm].  In particular, the CBOR Map in
           the response payload includes a single parameter
-          'group_SenderId' defined in Section 21.1 of this document,
+          'group_SenderId' defined in Section 21.3 of this document,
           specifying the new Sender ID of the group member encoded as a
           CBOR byte string.
 
@@ -2245,7 +2247,53 @@ Table of Contents
 
    This document has the following actions for IANA.
 
-21.1.  ACE Groupcomm Parameters Registry
+21.1.  OAuth Parameters Registry
+
+   The following registrations are done for the OAuth Parameters
+   Registry following the procedure specified in Section 11.2 of
+   [RFC6749].
+
+   *  Parameter name: ecdh_info
+
+   *  Parameter usage location: client-rs request, rs-client response
+
+   *  Change Controller: IESG
+
+   *  Specification Document(s): [[This specification]]
+
+
+   *  Parameter name: gm_pub_keys_info
+
+   *  Parameter usage location: client-rs request, rs-client response
+
+   *  Change Controller: IESG
+
+   *  Specification Document(s): [[This specification]]
+
+21.2.  OAuth Parameters CBOR Mappings Registry
+
+   The following registrations are done for the OAuth Parameters CBOR
+   Mappings Registry following the procedure specified in Section 8.10
+   of [I-D.ietf-ace-oauth-authz].
+
+   *  Name: ecdh_info
+
+   *  CBOR Key: TBD (range -256 to 255)
+
+   *  Value Type: array
+
+   *  Reference: [[This specification]]
+
+
+   *  Name: gm_pub_keys_info
+
+   *  CBOR Key: TBD (range -256 to 255)
+
+   *  Value Type: array
+
+   *  Reference: [[This specification]]
+
+21.3.  ACE Groupcomm Parameters Registry
 
    IANA is asked to register the following entry to the "ACE Groupcomm
    Parameters" Registry defined in Section 10.5 of
@@ -2295,7 +2343,7 @@ Table of Contents
 
    *  Reference: [[This document]] (Section 6.3)
 
-21.2.  ACE Groupcomm Key Registry
+21.4.  ACE Groupcomm Key Registry
 
    IANA is asked to register the following entry to the "ACE Groupcomm
    Key" Registry defined in Section 10.6 of
@@ -2305,7 +2353,7 @@ Table of Contents
 
    *  Key Type Value: TBD2
 
-   *  Profile: "coap_group_oscore_app", defined in Section 21.3 of this
+   *  Profile: "coap_group_oscore_app", defined in Section 21.5 of this
       document.
 
    *  Description: A Group_OSCORE_Input_Material object encoded as
@@ -2313,7 +2361,7 @@ Table of Contents
 
    *  Reference: [[This document]] (Section 6.4)
 
-21.3.  ACE Groupcomm Profile Registry
+21.5.  ACE Groupcomm Profile Registry
 
    IANA is asked to register the following entry to the "ACE Groupcomm
    Profile" Registry defined in Section 10.7 of
@@ -2329,7 +2377,7 @@ Table of Contents
 
    *  Reference: [[This document]] (Section 6.4)
 
-21.4.  OSCORE Security Context Parameters Registry
+21.6.  OSCORE Security Context Parameters Registry
 
    IANA is asked to register the following entries in the "OSCORE
    Security Context Parameters" Registry defined in Section 9.4 of
@@ -2414,7 +2462,7 @@ Table of Contents
 
    *  Reference: [[This document]] (Section 6.4)
 
-21.5.  TLS Exporter Label Registry
+21.7.  TLS Exporter Label Registry
 
    IANA is asked to register the following entry to the "TLS Exporter
    Label" Registry defined in Section 6 of [RFC5705] and updated in
@@ -2428,7 +2476,7 @@ Table of Contents
 
    *  Reference: [[This document]] (Section 6.2.1)
 
-21.6.  AIF Registry
+21.8.  AIF Registry
 
    IANA is asked to register the following entry to the "Toid" sub-
    registry of the "AIF" Registry defined in Section 5.2 of
@@ -2448,7 +2496,7 @@ Table of Contents
    *  Description/Specification: role(s) of the member of the OSCORE
       group, as specified in [[This document]].
 
-21.7.  Media Type Registrations
+21.9.  Media Type Registrations
 
    This document registers the 'application/aif-groupcomm-oscore+cbor'
    media type for the AIF specific data model AIF-OSCORE-GROUPCOMM
@@ -2499,7 +2547,7 @@ Table of Contents
 
    Provisional registration?  No
 
-21.8.  CoAP Content-Format Registry
+21.10.  CoAP Content-Format Registry
 
    IANA is asked to register the following entry to the "CoAP Content-
    Formats" registry, within the "CoRE Parameters" registry:
@@ -2513,12 +2561,12 @@ Table of Contents
 
    Reference: [[This document]]
 
-21.9.  Group OSCORE Roles Registry
+21.11.  Group OSCORE Roles Registry
 
    This document establishes the IANA "Group OSCORE Roles" Registry.
    The Registry has been created to use the "Expert Review" registration
    procedure [RFC8126].  Expert review guidelines are provided in
-   Section 21.13.
+   Section 21.15.
 
    This registry includes the possible roles that nodes can take in an
    OSCORE group, each in combination with a numeric identifier.  These
@@ -2546,7 +2594,7 @@ Table of Contents
    The Reference column for all of these entries will be [[This
    document]].
 
-21.10.  CoRE Resource Type Registry
+21.12.  CoRE Resource Type Registry
 
    IANA is asked to register a new Resource Type (rt=) Link Target
    Attribute in the "Resource Type (rt=) Link Target Attribute Values"
@@ -2559,7 +2607,7 @@ Table of Contents
 
    *  Reference: [[This document]]
 
-21.11.  ACE Scope Semantics Registry
+21.13.  ACE Scope Semantics Registry
 
    IANA is asked to register the following entry in the "ACE Scope
    Semantics" registry defined in Section 10.12 of
@@ -2572,7 +2620,7 @@ Table of Contents
 
    *  Reference: [[This document]]
 
-21.12.  ACE Groupcomm Errors
+21.14.  ACE Groupcomm Errors
 
    IANA is asked to register the following entry in the "ACE Groupcomm
    Errors" registry defined in Section 10.13 of
@@ -2584,7 +2632,7 @@ Table of Contents
 
    *  Reference: [[This document]]
 
-21.13.  Expert Review Instructions
+21.15.  Expert Review Instructions
 
    The IANA Registry established in this document is defined as "Expert
    Review".  This section gives some general guidelines for what the
@@ -2920,7 +2968,7 @@ Appendix A.  Profile Requirements
       used to discover the correct url to access at the KDC (see
       Section 4.1 of [I-D.ietf-ace-key-groupcomm]): the Resource Type
       (rt=) Link Target Attribute value "core.osc.gm" is registered in
-      Section 21.10.
+      Section 21.12.
 
    *  REQ8 - Define what operations (e.g.  CoAP methods) are allowed on
       each resource, for each role defined in REQ2: see Section 5.2.
@@ -2947,7 +2995,7 @@ Appendix A.  Profile Requirements
       [I-D.ietf-core-oscore-groupcomm].
 
    *  REQ15 - Specify and register the application profile identifier:
-      coap_group_oscore_app (see Section 21.3).
+      coap_group_oscore_app (see Section 21.5).
 
    *  REQ16 - Specify policies at the KDC to handle member ids that are
       not included in 'get_pub_keys': see Section 10.
@@ -2981,7 +3029,7 @@ Appendix A.  Profile Requirements
       e.g. as in [I-D.ietf-ace-oscore-gm-admin].
 
    *  REQ23 - Specify and register the identifier of newly defined
-      semantics for binary scopes: see Section 21.11.
+      semantics for binary scopes: see Section 21.13.
 
    *  OPT2 (Optional) - Specify the negotiation of parameter values for
       signature algorithm and signature keys, if 'sign_info' is not
@@ -3031,7 +3079,7 @@ Appendix A.  Profile Requirements
 
    *  OPT12 (Optional) - Specify additional identifiers of error types,
       as values of the 'error' field in an error response from the KDC:
-      see Section 21.12.
+      see Section 21.14.
 
 Appendix B.  Extensibility for Future COSE Algorithms
 
@@ -3171,6 +3219,8 @@ C.1.  Version -10 to -11
 
    *  Improved and simplified set of default values for counter
       signature parameters and ECDH algorithm parameters.
+
+   *  Fixes to IANA registrations.
 
    *  General format of parameters related to COSE capabilities,
       supporting future registered COSE algorithms (new Appendix).
