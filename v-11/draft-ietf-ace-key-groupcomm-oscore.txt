@@ -1218,10 +1218,7 @@ Table of Contents
 
    *  The 'pub_keys' parameter, if present, includes the public keys
       requested by the joining node by means of the 'get_pub_keys'
-      parameter in the Joining Request.  If public keys are encoded as
-      COSE_Keys, each of them has as 'kid' the Sender ID that the
-      corresponding owner has in the OSCORE group, thus used as group
-      member identifier encoded as a CBOR byte string (REQ12).
+      parameter in the Joining Request.
 
       If the joining node has asked for the public keys of all the group
       members, i.e. 'get_pub_keys' had value Null in the Joining
@@ -1232,6 +1229,11 @@ Table of Contents
       node is configured (also) as requester; and ii) the public keys of
       the requesters currently in the OSCORE group, in case the joining
       node is configured (also) as responder or monitor.
+
+   *  The 'peer_identifiers' parameter, if present, includes the Sender
+      ID of each group member whose public key is specified in the
+      'pub_keys' parameter.  That is, a group member's Sender ID is used
+      as identifier for that group member (REQ12).
 
    *  The 'group_policies' parameter SHOULD be present, and SHOULD
       include the following elements:
@@ -1601,8 +1603,8 @@ Table of Contents
       value is non-null (see Section 6.2).
 
    *  Each element (if any) of the inner CBOR array 'id_filter' is a
-      CBOR byte string (REQ12), which encodes the Sender ID of the group
-      member for which the associated public key is requested.
+      CBOR byte string, which encodes the Sender ID of the group member
+      for which the associated public key is requested (REQ12).
 
    Upon receiving the Public Key Request, the Group Manager processes it
    as per Section 4.1.3.1 or Section 4.1.3.2 of
@@ -2864,7 +2866,8 @@ Appendix A.  Profile Requirements
       object (see Section 6.4).
 
    *  REQ12 - Specify the format of the identifiers of group members:
-      CBOR byte string (see Section 6.4 and Section 10).
+      the Sender ID used in the OSCORE group (see Section 6.4 and
+      Section 10).
 
    *  REQ13 - Specify the communication protocol that the members of the
       group must use: CoAP [RFC7252], possibly over IP multicast
@@ -3093,6 +3096,9 @@ C.1.  Version -10 to -11
 
    *  Proof-of-possession of the Group Manager's private key in the
       Joining Response.
+
+   *  Always use 'peer_identifiers' to convey Sender IDs as node
+      identifiers.
 
    *  Improved and simplified set of default values for counter
       signature parameters and ECDH algorithm parameters.
