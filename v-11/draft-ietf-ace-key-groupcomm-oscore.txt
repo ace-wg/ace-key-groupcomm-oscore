@@ -999,16 +999,26 @@ Table of Contents
             Request.
 
    *  A 4.00 (Bad Request) response from the Group Manager to the
-      joining node MUST have content format application/ace+cbor.  The
-      response payload is a CBOR map.  If the group uses (also) the
-      group mode of Group OSCORE, the CBOR map MUST contain the
-      'sign_info' parameter, including a single element
-      'sign_info_entry' pertaining to the OSCORE group that the joining
-      node has tried to join with the Joining Request.  If the group
-      uses (also) the pairwise mode of Group OSCORE, the CBOR map MUST
-      contain the 'ecdh_info' parameter, including a single element
-      'ecdh_info_entry' pertaining to the OSCORE group that the joining
-      node has tried to join with the Joining Request.
+      joining node MUST have content format application/ace-
+      groupcomm+cbor.  The response payload is a CBOR map formatted as
+      follows.
+
+      -  If the group uses (also) the group mode of Group OSCORE, the
+         CBOR map MUST contain the 'sign_info' parameter, whose CBOR
+         label is defined in Section 7 of [I-D.ietf-ace-key-groupcomm].
+         This parameter has the same format of 'sign_info_res' defined
+         in Section 3.3.1 of [I-D.ietf-ace-key-groupcomm].  In
+         particular, it includes a single element 'sign_info_entry'
+         pertaining to the OSCORE group that the joining node has tried
+         to join with the Joining Request.
+
+      -  If the group uses (also) the pairwise mode of Group OSCORE, the
+         CBOR map MUST contain the 'ecdh_info' parameter, whose CBOR
+         label is defined in Section 21.1.  This parameter has the same
+         format of 'ecdh_info_res' defined in Section 6.1.1.  In
+         particular, it includes a single element 'ecdh_info_entry'
+         pertaining to the OSCORE group that the joining node has tried
+         to join with the Joining Request.
 
    *  The Group Manager MUST return a 4.00 (Bad Request) response in
       case the 'scope' parameter is not present in the Joining Request,
@@ -2274,6 +2284,15 @@ Table of Contents
    *  CBOR Type: Byte string
 
    *  Reference: [[This document]] (Section 6.4)
+
+
+   *  Name: ecdh_info
+
+   *  CBOR Key: TBD13
+
+   *  CBOR Type: Array
+
+   *  Reference: [[This document]] (Section 6.3)
 
 21.2.  ACE Groupcomm Key Registry
 
