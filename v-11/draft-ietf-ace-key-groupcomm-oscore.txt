@@ -73,7 +73,9 @@ Table of Contents
    5.  Interface at the Group Manager
      5.1.  ace-group/GROUPNAME/active
        5.1.1.  GET Handler
-     5.2.  Admitted Methods
+     5.2.  ace-group/GROUPNAME/gm-pub-key
+       5.2.1.  GET Handler
+     5.3.  Admitted Methods
    6.  Token POST and Group Joining
      6.1.  Token Post
        6.1.1.  'ecdh_info' Parameter
@@ -90,37 +92,38 @@ Table of Contents
    9.  Requesting a Change of Keying Material
    10. Retrieval of Public Keys and Roles for Group Members
    11. Update of Public Key
-   12. Retrieval of Group Policies
-   13. Retrieval of Keying Material Version
-   14. Retrieval of Group Status
-   15. Retrieval of Group Names and URIs
-   16. Request to Leave the Group
-   17. Removal of a Group Member
-   18. Group Rekeying Process
-   19. Default Values for Group Configuration Parameters
-   20. Security Considerations
-     20.1.  Management of OSCORE Groups
-     20.2.  Size of Nonces as Proof-of-Possesion Challenge
-     20.3.  Reusage of Nonces for Proof-of-Possession Input
-   21. IANA Considerations
-     21.1.  OAuth Parameters Registry
-     21.2.  OAuth Parameters CBOR Mappings Registry
-     21.3.  ACE Groupcomm Parameters Registry
-     21.4.  ACE Groupcomm Key Registry
-     21.5.  ACE Groupcomm Profile Registry
-     21.6.  OSCORE Security Context Parameters Registry
-     21.7.  TLS Exporter Label Registry
-     21.8.  AIF Registry
-     21.9.  Media Type Registrations
-     21.10. CoAP Content-Format Registry
-     21.11. Group OSCORE Roles Registry
-     21.12. CoRE Resource Type Registry
-     21.13. ACE Scope Semantics Registry
-     21.14. ACE Groupcomm Errors
-     21.15. Expert Review Instructions
-   22. References
-     22.1.  Normative References
-     22.2.  Informative References
+   12. Retrieval of the Group Manager's Public Key
+   13. Retrieval of Group Policies
+   14. Retrieval of Keying Material Version
+   15. Retrieval of Group Status
+   16. Retrieval of Group Names and URIs
+   17. Request to Leave the Group
+   18. Removal of a Group Member
+   19. Group Rekeying Process
+   20. Default Values for Group Configuration Parameters
+   21. Security Considerations
+     21.1.  Management of OSCORE Groups
+     21.2.  Size of Nonces as Proof-of-Possesion Challenge
+     21.3.  Reusage of Nonces for Proof-of-Possession Input
+   22. IANA Considerations
+     22.1.  OAuth Parameters Registry
+     22.2.  OAuth Parameters CBOR Mappings Registry
+     22.3.  ACE Groupcomm Parameters Registry
+     22.4.  ACE Groupcomm Key Registry
+     22.5.  ACE Groupcomm Profile Registry
+     22.6.  OSCORE Security Context Parameters Registry
+     22.7.  TLS Exporter Label Registry
+     22.8.  AIF Registry
+     22.9.  Media Type Registrations
+     22.10. CoAP Content-Format Registry
+     22.11. Group OSCORE Roles Registry
+     22.12. CoRE Resource Type Registry
+     22.13. ACE Scope Semantics Registry
+     22.14. ACE Groupcomm Errors
+     22.15. Expert Review Instructions
+   23. References
+     23.1.  Normative References
+     23.2.  Informative References
    Appendix A.  Profile Requirements
    Appendix B.  Extensibility for Future COSE Algorithms
      B.1.  Format of 'ecdh_info_entry'
@@ -321,7 +324,7 @@ Table of Contents
    that group.
 
    The Group Manager MUST support the Group Rekeying Process described
-   in Section 18.  Future application profiles may define alternative
+   in Section 19.  Future application profiles may define alternative
    message formats and distribution schemes to perform group rekeying.
 
 3.  Format of Scope
@@ -392,7 +395,7 @@ Table of Contents
 
    Future specifications that define new roles MUST register a
    corresponding numeric identifier in the "Group OSCORE Roles" Registry
-   defined in Section 21.11 of this document.
+   defined in Section 22.11 of this document.
 
 4.  Joining Node to Authorization Server
 
@@ -445,7 +448,7 @@ Table of Contents
    Section 6 of [I-D.ietf-ace-key-groupcomm] for the 'scope' claim of
    the Access Token, the first element of the CBOR sequence [RFC8742]
    MUST be the CBOR integer with value SEM_ID_TBD, defined in
-   Section 21.13 of this document (REQ23).  This indicates that the
+   Section 22.13 of this document (REQ23).  This indicates that the
    second element of the CBOR sequence, as conveying the actual access
    control information, follows the scope semantics defined for this
    application profile in Section 3 of this document.
@@ -453,10 +456,10 @@ Table of Contents
 5.  Interface at the Group Manager
 
    The Group Manager provides the interface defined in Section 4.1 of
-   [I-D.ietf-ace-key-groupcomm], with one additional sub-resource
-   defined in Section 5.1 of this document.
+   [I-D.ietf-ace-key-groupcomm], with the additional sub-resources
+   defined in Section 5.1-Section 5.2 of this document.
 
-   Furthermore, Section 5.2 provides a summary of the CoAP methods
+   Furthermore, Section 5.3 provides a summary of the CoAP methods
    admitted to access different resources at the Group Manager, for
    nodes with different roles in the group or as non members (REQ8).
 
@@ -465,7 +468,7 @@ Table of Contents
    in Section 3.1 of [I-D.ietf-ace-key-groupcomm]) (REQ1).
 
    The Resource Type (rt=) Link Target Attribute value "core.osc.gm" is
-   registered in Section 21.12 (REQ7), and can be used to describe
+   registered in Section 22.12 (REQ7), and can be used to describe
    group-membership resources and its sub-resources at a Group Manager,
    e.g. by using a link-format document [RFC6690].
 
@@ -509,7 +512,58 @@ Table of Contents
    administrator interface of the Group Manager specified in
    [I-D.ietf-ace-oscore-gm-admin].
 
-5.2.  Admitted Methods
+5.2.  ace-group/GROUPNAME/gm-pub-key
+
+   This resource implements a GET handler.
+
+5.2.1.  GET Handler
+
+   The handler expects a GET request.
+
+   The Group Manager verifies that the group name in the /ace-
+   group/GROUPNAME/gm-pub-key path is a subset of the 'scope' stored in
+   the Access Token associated to the requesting client.
+
+   The Group Manager also verifies that the roles granted to the
+   requesting client allow it to perform this operation on this resource
+   (REQ8).  If either verification fails, the Group Manager MUST respond
+   with a 4.01 (Unauthorized) error message.
+
+   If the requesting client is a signature verifier and GROUPNAME
+   denotes a pairwise-only group, the Group Manager MUST respond with a
+   4.00 (Bad Request) error message.  The response MUST have Content-
+   Format set to application/ace-groupcomm+cbor and is formatted as
+   defined in Section 4 of [I-D.ietf-ace-key-groupcomm].  The value of
+   the 'error' field MUST be set to 7 ("Signatures not used in the
+   group").
+
+   If verification succeeds, the handler returns a 2.05 (Content)
+   message, which MUST have Content-Format set to application/ace-
+   groupcomm+cbor.  The payload of the response is formatted as a CBOR
+   map, which MUST contain the following parameters defined in
+   Section 22.3.
+
+   *  The 'kdc_nonce' parameter, specifying a nonce generated by the
+      Group Manager.  This parameter is encoded like the 'kdc_nonce'
+      parameter in the Joining Response (see Section 6.4).
+
+   *  The 'kdc_cred' parameter, specifying the Group Manager's public
+      key.  This parameter is encoded like the 'kdc_cred' parameter in
+      the Joining Response (see Section 6.4).
+
+   *  The 'kdc_cred_verify' parameter, specifying a proof-of-possession
+      (PoP) evidence computed by the Group Manager.  This parameter is
+      encoded like the 'kdc_cred_verify' parameter in the Joining
+      Response (see Section 6.4).
+
+      The PoP evidence is computed over the nonce specified in the
+      'kdc_nonce' parameter and taken as PoP input, by means of the same
+      method used when preparing the Joining Response (see Section 6.4).
+      In particular, if the group is a pairwise-only group, the Group
+      Manager computes IKM by using its own Diffie-Hellman private key
+      as well as the Diffie-Hellman public key of the requesting client.
+
+5.3.  Admitted Methods
 
    The table in Figure 2 summarizes the CoAP methods admitted to access
    different resources at the Group Manager, for (non-)members of a
@@ -517,33 +571,35 @@ Table of Contents
    The last two rows of the table apply to a node with node name
    NODENAME.
 
-    +------------------------------+--------+-------+-------+-------+
-    | Resource                     | Type1  | Type2 | Type3 | Type4 |
-    +------------------------------+--------+-------+-------+-------+
-    | ace-group/                   | F      | F     | F     | -     |
-    +------------------------------+--------+-------+-------+-------+
-    | ace-group/GROUPNAME/         | G Po   | G Po  | Po *  | Po    |
-    +------------------------------+--------+-------+-------+-------+
-    | ace-group/GROUPNAME/active   | G      | G     | -     | -     |
-    +------------------------------+--------+-------+-------+-------+
-    | ace-group/GROUPNAME/pub-key  | G F    | G F   | G F   | -     |
-    +------------------------------+--------+-------+-------+-------+
-    | ace-group/GROUPNAME/policies | G      | G     | -     | -     |
-    +------------------------------+--------+-------+-------+-------+
-    | ace-group/GROUPNAME/num      | G      | G     | -     | -     |
-    +------------------------------+--------+-------+-------+-------+
-    | ace-group/GROUPNAME/nodes/   | G Pu D | G D   | -     | -     |
-    |           NODENAME           |        |       |       |       |
-    +------------------------------+--------+-------+-------+-------+
-    | ace-group/GROUPNAME/nodes/   | Po     | -     | -     | -     |
-    |           NODENAME/pub-key   |        |       |       |       |
-    +------------------------------+--------+-------+-------+-------+
+    +--------------------------------+--------+-------+-------+-------+
+    |   Resource                     | Type1  | Type2 | Type3 | Type4 |
+    +--------------------------------+--------+-------+-------+-------+
+    | ace-group/                     | F      | F     | F     | -     |
+    +--------------------------------+--------+-------+-------+-------+
+    | ace-group/GROUPNAME/           | G Po   | G Po  | Po *  | Po    |
+    +--------------------------------+--------+-------+-------+-------+
+    | ace-group/GROUPNAME/active     | G      | G     | -     | -     |
+    +--------------------------------+--------+-------+-------+-------+
+    | ace-group/GROUPNAME/pub-key    | G F    | G F   | G F   | -     |
+    +--------------------------------+--------+-------+-------+-------+
+    | ace-group/GROUPNAME/gm-pub-key | G      | G     | G     | -     |
+    +--------------------------------+--------+-------+-------+-------+
+    | ace-group/GROUPNAME/policies   | G      | G     | -     | -     |
+    +--------------------------------+--------+-------+-------+-------+
+    | ace-group/GROUPNAME/num        | G      | G     | -     | -     |
+    +--------------------------------+--------+-------+-------+-------+
+    | ace-group/GROUPNAME/nodes/     | G Pu D | G D   | -     | -     |
+    |           NODENAME             |        |       |       |       |
+    +--------------------------------+--------+-------+-------+-------+
+    | ace-group/GROUPNAME/nodes/     | Po     | -     | -     | -     |
+    |           NODENAME/pub-key     |        |       |       |       |
+    +--------------------------------+--------+-------+-------+-------+
 
     Type1 = Member as Requester and/or Responder        |  G  = GET
     Type2 = Member as Monitor                           |  F  = FETCH
-    Type3 = Non-member / Authorized to be Verifier      |  Po = POST
+    Type3 = Non-member (authorized to be Verifier)      |  Po = POST
             (*) = cannot join the group as Verifier     |  Pu = PUT
-    Type4 = Non-member / Not authorized to be Verifier  |  D  = DELETE
+    Type4 = Non-member (not authorized to be Verifier)  |  D  = DELETE
 
        Figure 2: Admitted CoAP Methods on the Group Manager Resources
 
@@ -927,12 +983,12 @@ Table of Contents
        DTLS session between the joining node and the Group Manager,
        using an empty 'context_value', 32 bytes as 'key_length', and the
        exporter label "EXPORTER-ACE-Sign-Challenge-coap-group-oscore-
-       app" defined in Section 21.7 of this document.
+       app" defined in Section 22.7 of this document.
 
    It is up to applications to define how N_S is computed in further
    alternative settings.
 
-   Section 20.3 provides security considerations on the reusage of the
+   Section 21.3 provides security considerations on the reusage of the
    N_S challenge.
 
 6.3.  Receiving the Joining Request
@@ -947,7 +1003,7 @@ Table of Contents
       response MUST have Content-Format set to application/ace-
       groupcomm+cbor and is formatted as defined in Section 4 of
       [I-D.ietf-ace-key-groupcomm].  The value of the 'error' field MUST
-      be set to 7 ("Group currently not active").
+      be set to 8 ("Group currently not active").
 
    *  In case the joining node is not going to join the group
       exclusively as monitor, the Group Manager MUST return a 5.03
@@ -1016,7 +1072,7 @@ Table of Contents
 
       -  If the group uses (also) the pairwise mode of Group OSCORE, the
          CBOR map MUST contain the 'ecdh_info' parameter, whose CBOR
-         label is defined in Section 21.3.  This parameter has the same
+         label is defined in Section 22.3.  This parameter has the same
          format of 'ecdh_info_res' defined in Section 6.1.1.  In
          particular, it includes a single element 'ecdh_info_entry'
          pertaining to the OSCORE group that the joining node has tried
@@ -1133,7 +1189,7 @@ Table of Contents
    [I-D.ietf-ace-key-groupcomm], with the following additions:
 
    *  The 'gkty' parameter identifies a key of type
-      "Group_OSCORE_Input_Material object", defined in Section 21.4 of
+      "Group_OSCORE_Input_Material object", defined in Section 22.4 of
       this document.
 
    *  The 'key' parameter includes what the joining node needs in order
@@ -1146,7 +1202,7 @@ Table of Contents
       Section 3.2.1 of [I-D.ietf-ace-oscore-profile].  In particular, it
       contains the additional parameters 'group_senderId' 'cs_alg',
       'cs_params', 'cs_key_enc', 'ecdh_alg' and 'ecdh_params' defined in
-      Section 21.6 of this document.
+      Section 22.6 of this document.
 
       More specifically, the 'key' parameter is composed as follows.
 
@@ -1256,7 +1312,7 @@ Table of Contents
 
    *  The 'ace-groupcomm-profile' parameter MUST be present and has
       value coap_group_oscore_app (TBD3), which is defined in
-      Section 21.5 of this document.
+      Section 22.5 of this document.
 
    *  The 'pub_keys' parameter, if present, includes the public keys
       requested by the joining node by means of the 'get_pub_keys'
@@ -1287,7 +1343,7 @@ Table of Contents
          [I-D.ietf-ace-key-groupcomm], with default value 0.
 
    Furthermore, the CBOR map in the payload of the Joining Response MUST
-   also include the following new parameters, defined in Section 21.3 of
+   also include the following new parameters, defined in Section 22.3 of
    this document.
 
    *  The 'kdc_nonce' parameter, which is a CBOR byte string encoding a
@@ -1303,8 +1359,8 @@ Table of Contents
    *  The 'kdc_cred_verify' parameter, which is a CBOR byte string
       encoding a proof-of-possession (PoP) evidence computed by the
       Group Manager.  The PoP evidence is computed over the nonce N_KDC,
-      which is specified in the 'kdc_nonce' and taken as PoP input.  The
-      PoP evidence is computed as defined below.
+      which is specified in the 'kdc_nonce' parameter and taken as PoP
+      input.  The PoP evidence is computed as defined below.
 
       -  If the group is not a pairwise-only group, the PoP evidence
          MUST be a signature.  The Group Manager computes the signature
@@ -1394,7 +1450,7 @@ Table of Contents
    If the application requires backward security, the Group Manager MUST
    generate updated security parameters and group keying material, and
    provide it to the current group members upon the new node's joining
-   (see Section 18).  As a consequence, the joining node is not able to
+   (see Section 19).  As a consequence, the joining node is not able to
    access secure communication in the OSCORE group occurred prior its
    joining.
 
@@ -1591,10 +1647,10 @@ Table of Contents
 
        *  The Group Manager rekeys the OSCORE group.  That is, the Group
           Manager generates new group keying material for that group
-          (see Section 18), and replies to the group member with a group
-          rekeying message as defined in Section 18, providing the new
+          (see Section 19), and replies to the group member with a group
+          rekeying message as defined in Section 19, providing the new
           group keying material.  Then, the Group Manager rekeys the
-          rest of the OSCORE group, as discussed in Section 18.
+          rest of the OSCORE group, as discussed in Section 19.
 
           The Group Manager SHOULD perform a group rekeying only if
           already scheduled to occur shortly, e.g. according to an
@@ -1608,7 +1664,7 @@ Table of Contents
           formatted as defined in Section 4.1.6.1 of
           [I-D.ietf-ace-key-groupcomm].  In particular, the CBOR Map in
           the response payload includes a single parameter
-          'group_SenderId' defined in Section 21.3 of this document,
+          'group_SenderId' defined in Section 22.3 of this document,
           specifying the new Sender ID of the group member encoded as a
           CBOR byte string.
 
@@ -1717,7 +1773,57 @@ Table of Contents
       assigned to the group member in the group.  The Group Manager MUST
       keep this association updated over time.
 
-12.  Retrieval of Group Policies
+12.  Retrieval of the Group Manager's Public Key
+
+   A group member or a signature verifier may need to retrieve the
+   public key of the Group Manager.  To this end, the group member or
+   signature verifier sends a Group Manager Public Key Request message
+   to the Group Manager.
+
+   In particular, it sends a CoAP GET request to the endpoint /ace-
+   group/GROUPNAME/gm-pub-key at the Group Manager defined in
+   Section 5.2 of this document, where GROUPNAME is the name of the
+   OSCORE group.  The success Group Manager Public Key Response is
+   formatted as defined in Section 5.2 of this document.
+
+   Upon receiving a 2.05 (Content) response, the group member or
+   signature verifier retrieves the Group Manager's public key from the
+   'kdc_cred' parameter, and MUST verify the proof-of-possession (PoP)
+   evidence specified in the 'kdc_cred_verify' parameter.  That is:
+
+   *  A group member verifies the PoP evidence by means of the same
+      method used when processing the Joining Response (see
+      Section 6.4).  In particular, if the group is a pairwise-only
+      group, the group member computes IKM by using its own Diffie-
+      Hellman private key as well as the Diffie-Hellman public key of
+      the Group Manager.
+
+   *  A signature verifier verifies the PoP evidence as a signature, by
+      using the public key of the Group Manager, as well as the
+      signature algorithm used in the OSCORE group and possible
+      corresponding parameters.  Note that a signature verifier would
+      not receive a successful response from the Group Manager, in case
+      GROUPNAME denotes a pairwise-only group.
+
+   In case of successful verification of the PoP evidence, the group
+   member or signature verifier MUST store the obtained Group Manager's
+   public key, possibly replacing the currently stored one.
+
+   Figure 3 gives an overview of the exchange described above.
+
+   Group                                                         Group
+   Member                                                       Manager
+     |                                                             |
+     |               Group Manager Public Key Request              |
+     |------------------------------------------------------------>|
+     |              GET ace-group/GROUPNAME/gm-pub-key             |
+     |                                                             |
+     |<---- Group Manager Public Key Response: 2.05 (Content) -----|
+     |                                                             |
+
+    Figure 3: Message Flow of Group Manager Public Key Request-Response
+
+13.  Retrieval of Group Policies
 
    A group member may request the current policies used in the OSCORE
    group.  To this end, the group member sends a Policies Request, as
@@ -1731,7 +1837,7 @@ Table of Contents
    Policies Response is formatted as defined in Section 4.1.4.1 of
    [I-D.ietf-ace-key-groupcomm].
 
-13.  Retrieval of Keying Material Version
+14.  Retrieval of Keying Material Version
 
    A group member may request the current version of the keying material
    used in the OSCORE group.  To this end, the group member sends a
@@ -1745,7 +1851,7 @@ Table of Contents
    Version Response is formatted as defined in Section 4.1.5.1 of
    [I-D.ietf-ace-key-groupcomm].
 
-14.  Retrieval of Group Status
+15.  Retrieval of Group Status
 
    A group member may request the current status of the the OSCORE
    group, i.e. active or inactive.  To this end, the group member sends
@@ -1754,7 +1860,7 @@ Table of Contents
    In particular, the group member sends a CoAP GET request to the
    endpoint /ace-group/GROUPNAME/active at the Group Manager defined in
    Section 5.1 of this document, where GROUPNAME is the name of the
-   OSCORE group.  The success Group Version Response is formatted as
+   OSCORE group.  The success Group Status Response is formatted as
    defined in Section 5.1 of this document.
 
    Upon learning from a 2.05 (Content) response that the group is
@@ -1765,7 +1871,7 @@ Table of Contents
    become active again, the group member can resume taking part in
    communications within the group.
 
-   Figure 3 gives an overview of the exchange described above.
+   Figure 4 gives an overview of the exchange described above.
 
    Group                                                         Group
    Member                                                       Manager
@@ -1775,9 +1881,9 @@ Table of Contents
      |<---------- Group Status Response: 2.05 (Content) -----------|
      |                                                             |
 
-          Figure 3: Message Flow of Group Status Request-Response
+          Figure 4: Message Flow of Group Status Request-Response
 
-15.  Retrieval of Group Names and URIs
+16.  Retrieval of Group Names and URIs
 
    A node may want to retrieve from the Group Manager the group name and
    the URI of the group-membership resource of a group.  This is
@@ -1788,7 +1894,7 @@ Table of Contents
       the URI to the group-membership resource.
 
    *  As current group member in several groups, the node has missed a
-      previous group rekeying in one of them (see Section 18).  Hence,
+      previous group rekeying in one of them (see Section 19).  Hence,
       it retains stale keying material and fails to decrypt received
       messages exchanged in that group.
 
@@ -1853,7 +1959,7 @@ Table of Contents
    between the former pair and any other Gid for that group than the
    current, most recent one.
 
-   Figure 4 gives an overview of the exchanges described above.
+   Figure 5 gives an overview of the exchanges described above.
 
                                                                   Group
   Node                                                           Manager
@@ -1863,10 +1969,10 @@ Table of Contents
    |<--- Group Name and URI Retrieval Response: 2.05 (Content) -----|
    |                                                                |
 
-     Figure 4: Message Flow of Group Name and URI Retrieval Request-
+     Figure 5: Message Flow of Group Name and URI Retrieval Request-
                                  Response
 
-16.  Request to Leave the Group
+17.  Request to Leave the Group
 
    A group member may request to leave the OSCORE group.  To this end,
    the group member sends a Group Leaving Request, as per Section 4.10
@@ -1877,10 +1983,10 @@ Table of Contents
    Upon receiving the Group Leaving Request, the Group Manager processes
    it as per Section 4.1.6.3 of [I-D.ietf-ace-key-groupcomm].
 
-17.  Removal of a Group Member
+18.  Removal of a Group Member
 
    Other than after a spontaneous request to the Group Manager as
-   described in Section 16, a node may be forcibly removed from the
+   described in Section 17, a node may be forcibly removed from the
    OSCORE group, e.g. due to expired or revoked authorization.
 
    In either case, the Group Manager "forgets" the Birth Gid currently
@@ -1920,14 +2026,14 @@ Table of Contents
 
    If the application requires forward security, the Group Manager MUST
    generate updated security parameters and group keying material, and
-   provide it to the remaining group members (see Section 18).  As a
+   provide it to the remaining group members (see Section 19).  As a
    consequence, the leaving node is not able to acquire the new security
    parameters and group keying material distributed after its leaving.
 
    Same considerations in Section 5 of [I-D.ietf-ace-key-groupcomm]
    apply here as well, considering the Group Manager acting as KDC.
 
-18.  Group Rekeying Process
+19.  Group Rekeying Process
 
    In order to rekey the OSCORE group, the Group Manager distributes a
    new Group Identifier (Gid), i.e. a new OSCORE ID Context; a new
@@ -2031,7 +2137,7 @@ Table of Contents
    among Group Prefixes are experienced.  Otherwise, a group member
    needs to contact the Group Manager of each group, e.g. by first
    requesting only the version of the current group keying material (see
-   Section 13) and then possibly requesting the current keying material
+   Section 14) and then possibly requesting the current keying material
    (see Section 8.1).
 
    Furthermore, some of these group members can be in multiple groups,
@@ -2042,7 +2148,7 @@ Table of Contents
    multiple times, i.e. separately for each group they belong to and
    associated to that Group Manager.
 
-19.  Default Values for Group Configuration Parameters
+20.  Default Values for Group Configuration Parameters
 
    This section defines the default values that the Group Manager
    assumes for the configuration parameters of an OSCORE group, unless
@@ -2120,7 +2226,7 @@ Table of Contents
          specified for 'cs_alg'.  In particular, this indicates to use
          the COSE key type EC2 and the elliptic curve P-521.
 
-20.  Security Considerations
+21.  Security Considerations
 
    Security considerations for this profile are inherited from
    [I-D.ietf-ace-key-groupcomm], the ACE framework for Authentication
@@ -2130,7 +2236,7 @@ Table of Contents
 
    The following security considerations also apply for this profile.
 
-20.1.  Management of OSCORE Groups
+21.1.  Management of OSCORE Groups
 
    This profile leverages the following management aspects related to
    OSCORE groups and discussed in the sections of
@@ -2177,7 +2283,7 @@ Table of Contents
    trying to process the incoming message using one Security Context at
    the time until the right one is found.
 
-20.2.  Size of Nonces as Proof-of-Possesion Challenge
+21.2.  Size of Nonces as Proof-of-Possesion Challenge
 
    With reference to the Joining Request message in Section 6.2, the
    proof-of-possession (PoP) evidence included in 'client_cred_verify'
@@ -2228,7 +2334,7 @@ Table of Contents
       derivation of a Security Context, and thus do not have possible
       implications in the security of AEAD ciphers.
 
-20.3.  Reusage of Nonces for Proof-of-Possession Input
+21.3.  Reusage of Nonces for Proof-of-Possession Input
 
    As long as the Group Manager preserves the same N_S value currently
    associated to an Access Token, i.e. the latest value provided to a
@@ -2249,7 +2355,7 @@ Table of Contents
    upon verifying the PoP evidence in the 'client_cred_verify'
    parameter.
 
-21.  IANA Considerations
+22.  IANA Considerations
 
    Note to RFC Editor: Please replace all occurrences of "[[This
    document]]" with the RFC number of this specification and delete this
@@ -2257,7 +2363,7 @@ Table of Contents
 
    This document has the following actions for IANA.
 
-21.1.  OAuth Parameters Registry
+22.1.  OAuth Parameters Registry
 
    The following registrations are done for the OAuth Parameters
    Registry following the procedure specified in Section 11.2 of
@@ -2280,7 +2386,7 @@ Table of Contents
 
    *  Specification Document(s): [[This specification]]
 
-21.2.  OAuth Parameters CBOR Mappings Registry
+22.2.  OAuth Parameters CBOR Mappings Registry
 
    The following registrations are done for the OAuth Parameters CBOR
    Mappings Registry following the procedure specified in Section 8.10
@@ -2303,7 +2409,7 @@ Table of Contents
 
    *  Reference: [[This specification]]
 
-21.3.  ACE Groupcomm Parameters Registry
+22.3.  ACE Groupcomm Parameters Registry
 
    IANA is asked to register the following entry to the "ACE Groupcomm
    Parameters" Registry defined in Section 10.5 of
@@ -2353,7 +2459,7 @@ Table of Contents
 
    *  Reference: [[This document]] (Section 6.3)
 
-21.4.  ACE Groupcomm Key Registry
+22.4.  ACE Groupcomm Key Registry
 
    IANA is asked to register the following entry to the "ACE Groupcomm
    Key" Registry defined in Section 10.6 of
@@ -2363,7 +2469,7 @@ Table of Contents
 
    *  Key Type Value: TBD2
 
-   *  Profile: "coap_group_oscore_app", defined in Section 21.5 of this
+   *  Profile: "coap_group_oscore_app", defined in Section 22.5 of this
       document.
 
    *  Description: A Group_OSCORE_Input_Material object encoded as
@@ -2371,7 +2477,7 @@ Table of Contents
 
    *  Reference: [[This document]] (Section 6.4)
 
-21.5.  ACE Groupcomm Profile Registry
+22.5.  ACE Groupcomm Profile Registry
 
    IANA is asked to register the following entry to the "ACE Groupcomm
    Profile" Registry defined in Section 10.7 of
@@ -2387,7 +2493,7 @@ Table of Contents
 
    *  Reference: [[This document]] (Section 6.4)
 
-21.6.  OSCORE Security Context Parameters Registry
+22.6.  OSCORE Security Context Parameters Registry
 
    IANA is asked to register the following entries in the "OSCORE
    Security Context Parameters" Registry defined in Section 9.4 of
@@ -2472,7 +2578,7 @@ Table of Contents
 
    *  Reference: [[This document]] (Section 6.4)
 
-21.7.  TLS Exporter Label Registry
+22.7.  TLS Exporter Label Registry
 
    IANA is asked to register the following entry to the "TLS Exporter
    Label" Registry defined in Section 6 of [RFC5705] and updated in
@@ -2486,7 +2592,7 @@ Table of Contents
 
    *  Reference: [[This document]] (Section 6.2.1)
 
-21.8.  AIF Registry
+22.8.  AIF Registry
 
    IANA is asked to register the following entry to the "Toid" sub-
    registry of the "AIF" Registry defined in Section 5.2 of
@@ -2506,7 +2612,7 @@ Table of Contents
    *  Description/Specification: role(s) of the member of the OSCORE
       group, as specified in [[This document]].
 
-21.9.  Media Type Registrations
+22.9.  Media Type Registrations
 
    This document registers the 'application/aif-groupcomm-oscore+cbor'
    media type for the AIF specific data model AIF-OSCORE-GROUPCOMM
@@ -2530,7 +2636,7 @@ Table of Contents
    element of which is an array [Toid, Tperm] as defined in Section 3 of
    [[This document]].
 
-   Security considerations: See Section 20 of [[This document]].
+   Security considerations: See Section 21 of [[This document]].
 
    Interoperability considerations: N/A
 
@@ -2557,7 +2663,7 @@ Table of Contents
 
    Provisional registration?  No
 
-21.10.  CoAP Content-Format Registry
+22.10.  CoAP Content-Format Registry
 
    IANA is asked to register the following entry to the "CoAP Content-
    Formats" registry, within the "CoRE Parameters" registry:
@@ -2571,12 +2677,12 @@ Table of Contents
 
    Reference: [[This document]]
 
-21.11.  Group OSCORE Roles Registry
+22.11.  Group OSCORE Roles Registry
 
    This document establishes the IANA "Group OSCORE Roles" Registry.
    The Registry has been created to use the "Expert Review" registration
    procedure [RFC8126].  Expert review guidelines are provided in
-   Section 21.15.
+   Section 22.15.
 
    This registry includes the possible roles that nodes can take in an
    OSCORE group, each in combination with a numeric identifier.  These
@@ -2604,7 +2710,7 @@ Table of Contents
    The Reference column for all of these entries will be [[This
    document]].
 
-21.12.  CoRE Resource Type Registry
+22.12.  CoRE Resource Type Registry
 
    IANA is asked to register a new Resource Type (rt=) Link Target
    Attribute in the "Resource Type (rt=) Link Target Attribute Values"
@@ -2617,7 +2723,7 @@ Table of Contents
 
    *  Reference: [[This document]]
 
-21.13.  ACE Scope Semantics Registry
+22.13.  ACE Scope Semantics Registry
 
    IANA is asked to register the following entry in the "ACE Scope
    Semantics" registry defined in Section 10.12 of
@@ -2630,7 +2736,7 @@ Table of Contents
 
    *  Reference: [[This document]]
 
-21.14.  ACE Groupcomm Errors
+22.14.  ACE Groupcomm Errors
 
    IANA is asked to register the following entry in the "ACE Groupcomm
    Errors" registry defined in Section 10.13 of
@@ -2638,11 +2744,18 @@ Table of Contents
 
    *  Value: 7
 
+   *  Description: Signatures not used in the group.
+
+   *  Reference: [[This document]]
+
+
+   *  Value: 8
+
    *  Description: Group currently not active.
 
    *  Reference: [[This document]]
 
-21.15.  Expert Review Instructions
+22.15.  Expert Review Instructions
 
    The IANA Registry established in this document is defined as "Expert
    Review".  This section gives some general guidelines for what the
@@ -2684,9 +2797,9 @@ Table of Contents
       provided, the description provided needs to have sufficient
       information to verify the points above.
 
-22.  References
+23.  References
 
-22.1.  Normative References
+23.1.  Normative References
 
    [CORE.Parameters]
               IANA, "Constrained RESTful Environments (CoRE)
@@ -2849,7 +2962,7 @@ Table of Contents
               DOI 10.17487/RFC8949, December 2020,
               <https://www.rfc-editor.org/info/rfc8949>.
 
-22.2.  Informative References
+23.2.  Informative References
 
    [I-D.ietf-ace-dtls-authorize]
               Gerdes, S., Bergmann, O., Bormann, C., Selander, G., and
@@ -2978,14 +3091,14 @@ Appendix A.  Profile Requirements
       used to discover the correct url to access at the KDC (see
       Section 4.1 of [I-D.ietf-ace-key-groupcomm]): the Resource Type
       (rt=) Link Target Attribute value "core.osc.gm" is registered in
-      Section 21.12.
+      Section 22.12.
 
    *  REQ8 - Define what operations (e.g.  CoAP methods) are allowed on
-      each resource, for each role defined in REQ2: see Section 5.2.
+      each resource, for each role defined in REQ2: see Section 5.3.
 
    *  REQ9 - Specify the exact encoding of group identifier (see
       Section 4.1.1.1 of [I-D.ietf-ace-key-groupcomm]): CBOR byte string
-      (see Section 15).
+      (see Section 16).
 
    *  REQ10 - Format of the 'key' value: see Section 6.4.
 
@@ -3005,7 +3118,7 @@ Appendix A.  Profile Requirements
       [I-D.ietf-core-oscore-groupcomm].
 
    *  REQ15 - Specify and register the application profile identifier:
-      coap_group_oscore_app (see Section 21.5).
+      coap_group_oscore_app (see Section 22.5).
 
    *  REQ16 - Specify policies at the KDC to handle member ids that are
       not included in 'get_pub_keys': see Section 10.
@@ -3039,7 +3152,7 @@ Appendix A.  Profile Requirements
       e.g. as in [I-D.ietf-ace-oscore-gm-admin].
 
    *  REQ23 - Specify and register the identifier of newly defined
-      semantics for binary scopes: see Section 21.13.
+      semantics for binary scopes: see Section 22.13.
 
    *  OPT2 (Optional) - Specify the negotiation of parameter values for
       signature algorithm and signature keys, if 'sign_info' is not
@@ -3081,15 +3194,15 @@ Appendix A.  Profile Requirements
    *  OPT10 (Optional) - Specify the functionalities implemented at the
       'control_uri' resource hosted at the Client, including message
       exchange encoding and other details (see Section 4.1.2.1 of
-      [I-D.ietf-ace-key-groupcomm]): see Section 17 for the eviction of
-      a group member; see Section 18 for the group rekeying process.
+      [I-D.ietf-ace-key-groupcomm]): see Section 18 for the eviction of
+      a group member; see Section 19 for the group rekeying process.
 
    *  OPT11 (Optional) - Specify how the identifier of the sender's
       public key is included in the group request: no.
 
    *  OPT12 (Optional) - Specify additional identifiers of error types,
       as values of the 'error' field in an error response from the KDC:
-      see Section 21.14.
+      see Section 22.14.
 
 Appendix B.  Extensibility for Future COSE Algorithms
 
@@ -3105,7 +3218,7 @@ Appendix B.  Extensibility for Future COSE Algorithms
 
    *  The 'cs_params' and 'ecdh_params' parameters within the 'key'
       parameter, see Section 6.4, as part of the response payloads used
-      in Section 6.4, Section 8.1, Section 8.2 and Section 18.
+      in Section 6.4, Section 8.1, Section 8.2 and Section 19.
 
    Appendix B of [I-D.ietf-ace-key-groupcomm] describes the analogous
    general format for 'sign_info_entry' of the 'sign_info' parameter in
@@ -3146,7 +3259,7 @@ B.1.  Format of 'ecdh_info_entry'
 
       gname = tstr
 
-              Figure 5: 'ecdh_info_entry' with general format
+              Figure 6: 'ecdh_info_entry' with general format
 
 B.2.  Format of 'key'
 
@@ -3203,6 +3316,8 @@ C.1.  Version -10 to -11
 
    *  Removed redundancy of key type capabilities, from 'sign_info',
       'ecdh_info' and 'key'.
+
+   *  New resource to retrieve the Group Manager's public key.
 
    *  'pub_key_enc' takes value from the COSE Header Parameters
       registry.
