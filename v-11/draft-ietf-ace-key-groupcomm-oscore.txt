@@ -629,12 +629,24 @@ Table of Contents
          "Capabilities" column of the "COSE Key Types" Registry
          [COSE.Key.Types] (REQ5).
 
-      -  'pub_key_enc' takes value 1 ("COSE_Key") from the 'Confirmation
-         Key' column of the "CWT Confirmation Method" Registry
-         [CWT.Confirmation.Methods], so indicating that public keys in
-         the OSCORE group are encoded as COSE Keys
-         [I-D.ietf-cose-rfc8152bis-struct].  Future specifications may
-         define additional values for this parameter.
+      -  'pub_key_enc' takes value from the "Label" column of the "COSE
+         Header Parameters" Registry [COSE.Header.Parameters] (REQ6).
+         Acceptable values denote an encoding that explicitly conveys
+         the public key algorithm.
+
+         At the time of writing this specification, acceptable public
+         key encodings are CWTs [RFC8392], unprotected CWT claim sets
+         [I-D.ietf-rats-uccs], X.509 certificates [RFC7925] and C509
+         certificates [I-D.ietf-cose-cbor-encoded-cert].  Further
+         encodings may be available in the future, and would be
+         acceptable to use as long as they explicitly convey the public
+         key algorithm.
+
+         [ As to CWTs and unprotected CWT claim sets, there is a pending
+         registration requested by draft-ietf-lake-edhoc. ]
+
+         [ As to C509 certificates, there is a pending registration
+         requested by draft-ietf-cose-cbor-encoded-cert. ]
 
       This format is consistent with every signature algorithm currently
       considered in [I-D.ietf-cose-rfc8152bis-algs], i.e. with
@@ -731,14 +743,13 @@ Table of Contents
       specified for that key type in the "Capabilities" column of the
       "COSE Key Types" Registry [COSE.Key.Types].
 
-   *  The fifth element 'pub_key_enc' is CBOR integer indicating the
+   *  The fifth element 'pub_key_enc' is a CBOR integer indicating the
       encoding of public keys used in the OSCORE group identified by
-      'gname'.  It takes value 1 ("COSE_Key") from the 'Confirmation
-      Key' column of the "CWT Confirmation Method" Registry
-      [CWT.Confirmation.Methods], so indicating that public keys in the
-      OSCORE group are encoded as COSE Keys
-      [I-D.ietf-cose-rfc8152bis-struct].  Future specifications may
-      define additional values for this parameter.
+      'gname'.  It takes value from the "Label" column of the "COSE
+      Header Parameters" Registry [COSE.Header.Parameters] (REQ6).
+      Acceptable values denote an encoding that explicitly conveys the
+      public key algorithm.  The same considerations and guidelines for
+      the 'pub_key_enc' element of 'sign_info' (see Section 6.1) apply.
 
    The CDDL notation [RFC8610] of the 'ecdh_info' parameter formatted as
    in the response is given below.
@@ -801,14 +812,13 @@ Table of Contents
       information applies.  In particular 'id' MUST refer exclusively to
       OSCORE groups that are pairwise-only groups.
 
-   *  The second element 'pub_key_enc' is CBOR integer indicating the
+   *  The second element 'pub_key_enc' is a CBOR integer indicating the
       encoding of public keys used in the OSCORE group identified by
-      'gname'.  It takes value 1 ("COSE_Key") from the 'Confirmation
-      Key' column of the "CWT Confirmation Method" Registry
-      [CWT.Confirmation.Methods], so indicating that public keys in the
-      OSCORE group are encoded as COSE Keys
-      [I-D.ietf-cose-rfc8152bis-struct].  Future specifications may
-      define additional values for this parameter.
+      'gname'.  It takes value from the "Label" column of the "COSE
+      Header Parameters" Registry [COSE.Header.Parameters] (REQ6).
+      Acceptable values denote an encoding that explicitly conveys the
+      public key algorithm.  The same considerations and guidelines for
+      the 'pub_key_enc' element of 'sign_info' (see Section 6.1) apply.
 
    *  The third element 'pub_key' is a CBOR byte string, which encodes
       the Group Manager's Diffie-Hellman public key in its original
@@ -1165,15 +1175,24 @@ Table of Contents
             [COSE.Key.Types].
 
       -  The 'cs_key_enc' parameter MAY be present and specifies the
-         encoding of the public keys of the group members.  This
-         parameter is a CBOR integer, whose value is 1 ("COSE_Key")
-         taken from the 'Confirmation Key' column of the "CWT
-         Confirmation Method" Registry [CWT.Confirmation.Methods], so
-         indicating that public keys in the OSCORE group are encoded as
-         COSE Keys [I-D.ietf-cose-rfc8152bis-struct].  Future
-         specifications may define additional values for this parameter.
-         If this parameter is not present, 1 ("COSE_Key") MUST be
-         assumed as default value.
+         encoding of the public keys of the group members.  It takes
+         value from the "Label" column of the "COSE Header Parameters"
+         Registry [COSE.Header.Parameters].  Acceptable values denote an
+         encoding that explicitly conveys the public key algorithm.
+
+         At the time of writing this specification, acceptable public
+         key encodings are CWTs [RFC8392], unprotected CWT claim sets
+         [I-D.ietf-rats-uccs], X.509 certificates [RFC7925] and C509
+         certificates [I-D.ietf-cose-cbor-encoded-cert].  Further
+         encodings may be available in the future, and would be
+         acceptable to use as long as they explicitly convey the public
+         key algorithm.
+
+         [ As to CWTs and unprotected CWT claim sets, there is a pending
+         registration requested by draft-ietf-lake-edhoc. ]
+
+         [ As to C509 certificates, there is a pending registration
+         requested by draft-ietf-cose-cbor-encoded-cert. ]
 
       -  The 'ecdh_alg' parameter, if present, specifies the ECDH
          algorithm used in the OSCORE group, if this supports the
@@ -2043,8 +2062,11 @@ Table of Contents
          indicates to use the COSE key type RSA.
 
    *  For the 'cs_key_enc' encoding of the public keys of the group
-      members, COSE_Key from the "CWT Confirmation Methods" Registry
-      [CWT.Confirmation.Methods].
+      members, a CBOR Web Token (CWT)[RFC8392] or an unprotected CWT
+      Claim Set [I-D.ietf-rats-uccs].
+
+      [ This is a pending registration requested by draft-ietf-lake-
+      edhoc.  ]
 
    If the group supports the pairwise mode of Group OSCORE, the Group
    Manager SHOULD use the following default values for the algorithm and
@@ -2339,10 +2361,10 @@ Table of Contents
 
    *  CBOR Type: integer
 
-   *  Registry: CWT Confirmation Methods
+   *  Registry: COSE Header Parameters
 
-   *  Description: Encoding of Public Keys to be used with the OSCORE
-      Signature Algorithm
+   *  Description: Encoding of Public Keys to be used in the OSCORE
+      group
 
    *  Reference: [[This document]] (Section 6.4)
 
@@ -2603,15 +2625,15 @@ Table of Contents
               <https://www.iana.org/assignments/cose/
               cose.xhtml#elliptic-curves>.
 
+   [COSE.Header.Parameters]
+              IANA, "COSE Header Parameters",
+              <https://www.iana.org/assignments/cose/cose.xhtml#header-
+              parameters>.
+
    [COSE.Key.Types]
               IANA, "COSE Key Types",
               <https://www.iana.org/assignments/cose/cose.xhtml#key-
               type>.
-
-   [CWT.Confirmation.Methods]
-              IANA, "CWT Confirmation Methods",
-              <https://www.iana.org/assignments/cwt/
-              cwt.xhtml#confirmation-methods>.
 
    [I-D.ietf-ace-aif]
               Bormann, C., "An Authorization Information Format (AIF)
@@ -2783,6 +2805,21 @@ Table of Contents
               03, 22 February 2021, <https://www.ietf.org/archive/id/
               draft-ietf-core-groupcomm-bis-03.txt>.
 
+   [I-D.ietf-cose-cbor-encoded-cert]
+              Raza, S., Höglund, J., Selander, G., Mattsson, J. P., and
+              M. Furuhed, "CBOR Encoded X.509 Certificates (C509
+              Certificates)", Work in Progress, Internet-Draft, draft-
+              ietf-cose-cbor-encoded-cert-00, 28 April 2021,
+              <https://www.ietf.org/archive/id/draft-ietf-cose-cbor-
+              encoded-cert-00.txt>.
+
+   [I-D.ietf-rats-uccs]
+              Birkholz, H., O'Donoghue, J., Cam-Winget, N., and C.
+              Bormann, "A CBOR Tag for Unprotected CWT Claims Sets",
+              Work in Progress, Internet-Draft, draft-ietf-rats-uccs-00,
+              19 May 2021, <https://www.ietf.org/archive/id/draft-ietf-
+              rats-uccs-00.txt>.
+
    [I-D.tiloca-core-oscore-discovery]
               Tiloca, M., Amsuess, C., and P. V. D. Stok, "Discovery of
               OSCORE Groups with the CoRE Resource Directory", Work in
@@ -2813,6 +2850,16 @@ Table of Contents
               DOI 10.17487/RFC7641, September 2015,
               <https://www.rfc-editor.org/info/rfc7641>.
 
+   [RFC7925]  Tschofenig, H., Ed. and T. Fossati, "Transport Layer
+              Security (TLS) / Datagram Transport Layer Security (DTLS)
+              Profiles for the Internet of Things", RFC 7925,
+              DOI 10.17487/RFC7925, July 2016,
+              <https://www.rfc-editor.org/info/rfc7925>.
+
+   [RFC8392]  Jones, M., Wahlstroem, E., Erdtman, S., and H. Tschofenig,
+              "CBOR Web Token (CWT)", RFC 8392, DOI 10.17487/RFC8392,
+              May 2018, <https://www.rfc-editor.org/info/rfc8392>.
+
 Appendix A.  Profile Requirements
 
    This appendix lists the specifications on this application profile of
@@ -2842,10 +2889,11 @@ Appendix A.  Profile Requirements
       capabilities as specified in the "COSE Key Types" Registry
       [COSE.Key.Types].
 
-   *  REQ6 - If used, specify the acceptable values for 'pub_key_enc': 1
-      ("COSE_Key") from the 'Confirmation Key' column of the "CWT
-      Confirmation Method" Registry [CWT.Confirmation.Methods].  Future
-      specifications may define additional values for this parameter.
+   *  REQ6 - If used, specify the acceptable values for 'pub_key_enc':
+      values are taken from the "Label" column of the "COSE Header
+      Parameters" Registry [COSE.Header.Parameters].  Acceptable values
+      denote an encoding that explicitly conveys the public key
+      algorithm (see Section 6.1).
 
    *  REQ7 - Register a Resource Type for the root url-path, which is
       used to discover the correct url to access at the KDC (see

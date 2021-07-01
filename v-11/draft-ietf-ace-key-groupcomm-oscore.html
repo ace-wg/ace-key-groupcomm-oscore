@@ -1695,7 +1695,14 @@ The 'kdcchallenge' parameter MAY be omitted from the 2.01 (Created) response, if
 </li>
               <li class="normal" id="section-6.1-3.3.2.4">'sign_key_parameters' is a CBOR array. Its format and value are the same of the COSE capabilities array for the COSE key type of the keys used with the algorithm indicated in 'sign_alg', as specified for that key type in the "Capabilities" column of the "COSE Key Types" Registry <span>[<a href="#COSE.Key.Types" class="xref">COSE.Key.Types</a>]</span> (REQ5).<a href="#section-6.1-3.3.2.4" class="pilcrow">¶</a>
 </li>
-              <li class="normal" id="section-6.1-3.3.2.5">'pub_key_enc' takes value 1 ("COSE_Key") from the 'Confirmation Key' column of the "CWT Confirmation Method" Registry <span>[<a href="#CWT.Confirmation.Methods" class="xref">CWT.Confirmation.Methods</a>]</span>, so indicating that public keys in the OSCORE group are encoded as COSE Keys <span>[<a href="#I-D.ietf-cose-rfc8152bis-struct" class="xref">I-D.ietf-cose-rfc8152bis-struct</a>]</span>. Future specifications may define additional values for this parameter.<a href="#section-6.1-3.3.2.5" class="pilcrow">¶</a>
+              <li class="normal" id="section-6.1-3.3.2.5">
+                <p id="section-6.1-3.3.2.5.1">'pub_key_enc' takes value from the "Label" column of the "COSE Header Parameters" Registry <span>[<a href="#COSE.Header.Parameters" class="xref">COSE.Header.Parameters</a>]</span> (REQ6). Acceptable values denote an encoding that explicitly conveys the public key algorithm.<a href="#section-6.1-3.3.2.5.1" class="pilcrow">¶</a></p>
+<p id="section-6.1-3.3.2.5.2">
+At the time of writing this specification, acceptable public key encodings are CWTs <span>[<a href="#RFC8392" class="xref">RFC8392</a>]</span>, unprotected CWT claim sets <span>[<a href="#I-D.ietf-rats-uccs" class="xref">I-D.ietf-rats-uccs</a>]</span>, X.509 certificates <span>[<a href="#RFC7925" class="xref">RFC7925</a>]</span> and C509 certificates <span>[<a href="#I-D.ietf-cose-cbor-encoded-cert" class="xref">I-D.ietf-cose-cbor-encoded-cert</a>]</span>. Further encodings may be available in the future, and would be acceptable to use as long as they explicitly convey the public key algorithm.<a href="#section-6.1-3.3.2.5.2" class="pilcrow">¶</a></p>
+<p id="section-6.1-3.3.2.5.3">
+[ As to CWTs and unprotected CWT claim sets, there is a pending registration requested by draft-ietf-lake-edhoc. ]<a href="#section-6.1-3.3.2.5.3" class="pilcrow">¶</a></p>
+<p id="section-6.1-3.3.2.5.4">
+[ As to C509 certificates, there is a pending registration requested by draft-ietf-cose-cbor-encoded-cert. ]<a href="#section-6.1-3.3.2.5.4" class="pilcrow">¶</a></p>
 </li>
             </ul>
 <p id="section-6.1-3.3.3">
@@ -1733,7 +1740,7 @@ This format is consistent with every signature algorithm currently considered in
 </li>
             <li class="normal" id="section-6.1.1-8.4">The fourth element 'ecdh_key_parameters' is a CBOR array indicating the parameters of the keys used with the ECDH algorithm in the OSCORE group identified by 'gname'. Its content depends on the value of 'ecdh_alg'. In particular, its format and value are the same of the COSE capabilities array for the COSE key type of the keys used with the algorithm indicated in 'ecdh_alg', as specified for that key type in the "Capabilities" column of the "COSE Key Types" Registry <span>[<a href="#COSE.Key.Types" class="xref">COSE.Key.Types</a>]</span>.<a href="#section-6.1.1-8.4" class="pilcrow">¶</a>
 </li>
-            <li class="normal" id="section-6.1.1-8.5">The fifth element 'pub_key_enc' is CBOR integer indicating the encoding of public keys used in the OSCORE group identified by 'gname'. It takes value 1 ("COSE_Key") from the 'Confirmation Key' column of the "CWT Confirmation Method" Registry <span>[<a href="#CWT.Confirmation.Methods" class="xref">CWT.Confirmation.Methods</a>]</span>, so indicating that public keys in the OSCORE group are encoded as COSE Keys <span>[<a href="#I-D.ietf-cose-rfc8152bis-struct" class="xref">I-D.ietf-cose-rfc8152bis-struct</a>]</span>. Future specifications may define additional values for this parameter.<a href="#section-6.1.1-8.5" class="pilcrow">¶</a>
+            <li class="normal" id="section-6.1.1-8.5">The fifth element 'pub_key_enc' is a CBOR integer indicating the encoding of public keys used in the OSCORE group identified by 'gname'. It takes value from the "Label" column of the "COSE Header Parameters" Registry <span>[<a href="#COSE.Header.Parameters" class="xref">COSE.Header.Parameters</a>]</span> (REQ6). Acceptable values denote an encoding that explicitly conveys the public key algorithm. The same considerations and guidelines for the 'pub_key_enc' element of 'sign_info' (see <a href="#ssec-token-post" class="xref">Section 6.1</a>) apply.<a href="#section-6.1.1-8.5" class="pilcrow">¶</a>
 </li>
           </ul>
 <p id="section-6.1.1-9">The CDDL notation <span>[<a href="#RFC8610" class="xref">RFC8610</a>]</span> of the 'ecdh_info' parameter formatted as in the response is given below.<a href="#section-6.1.1-9" class="pilcrow">¶</a></p>
@@ -1775,7 +1782,7 @@ This format is consistent with every signature algorithm currently considered in
 <ul class="normal">
 <li class="normal" id="section-6.1.2-8.1">The first element 'id' is the group name of the OSCORE group or an array of group names for the OSCORE groups for which the specified information applies. In particular 'id' MUST refer exclusively to OSCORE groups that are pairwise-only groups.<a href="#section-6.1.2-8.1" class="pilcrow">¶</a>
 </li>
-            <li class="normal" id="section-6.1.2-8.2">The second element 'pub_key_enc' is CBOR integer indicating the encoding of public keys used in the OSCORE group identified by 'gname'. It takes value 1 ("COSE_Key") from the 'Confirmation Key' column of the "CWT Confirmation Method" Registry <span>[<a href="#CWT.Confirmation.Methods" class="xref">CWT.Confirmation.Methods</a>]</span>, so indicating that public keys in the OSCORE group are encoded as COSE Keys <span>[<a href="#I-D.ietf-cose-rfc8152bis-struct" class="xref">I-D.ietf-cose-rfc8152bis-struct</a>]</span>. Future specifications may define additional values for this parameter.<a href="#section-6.1.2-8.2" class="pilcrow">¶</a>
+            <li class="normal" id="section-6.1.2-8.2">The second element 'pub_key_enc' is a CBOR integer indicating the encoding of public keys used in the OSCORE group identified by 'gname'. It takes value from the "Label" column of the "COSE Header Parameters" Registry <span>[<a href="#COSE.Header.Parameters" class="xref">COSE.Header.Parameters</a>]</span> (REQ6). Acceptable values denote an encoding that explicitly conveys the public key algorithm. The same considerations and guidelines for the 'pub_key_enc' element of 'sign_info' (see <a href="#ssec-token-post" class="xref">Section 6.1</a>) apply.<a href="#section-6.1.2-8.2" class="pilcrow">¶</a>
 </li>
             <li class="normal" id="section-6.1.2-8.3">The third element 'pub_key' is a CBOR byte string, which encodes the Group Manager's Diffie-Hellman public key in its original binary representation made available to other endpoints in the group. In particular, the original binary representation complies with the encoding specified by the 'pub_key_enc' parameter. Note that the public key internally specifies its public key algorithm, i.e., the ECDH algorithm used in the OSCORE group as pairwise key agreement algorithm.<a href="#section-6.1.2-8.3" class="pilcrow">¶</a>
 </li>
@@ -1984,7 +1991,14 @@ More specifically, the 'key' parameter is composed as follows.<a href="#section-
 </li>
                 </ul>
 </li>
-              <li class="normal" id="section-6.4-5.2.4.9">The 'cs_key_enc' parameter MAY be present and specifies the encoding of the public keys of the group members. This parameter is a CBOR integer, whose value is 1 ("COSE_Key") taken from the 'Confirmation Key' column of the "CWT Confirmation Method" Registry <span>[<a href="#CWT.Confirmation.Methods" class="xref">CWT.Confirmation.Methods</a>]</span>, so indicating that public keys in the OSCORE group are encoded as COSE Keys <span>[<a href="#I-D.ietf-cose-rfc8152bis-struct" class="xref">I-D.ietf-cose-rfc8152bis-struct</a>]</span>. Future specifications may define additional values for this parameter. If this parameter is not present, 1 ("COSE_Key") MUST be assumed as default value.<a href="#section-6.4-5.2.4.9" class="pilcrow">¶</a>
+              <li class="normal" id="section-6.4-5.2.4.9">
+                <p id="section-6.4-5.2.4.9.1">The 'cs_key_enc' parameter MAY be present and specifies the encoding of the public keys of the group members. It takes value from the "Label" column of the "COSE Header Parameters" Registry <span>[<a href="#COSE.Header.Parameters" class="xref">COSE.Header.Parameters</a>]</span>. Acceptable values denote an encoding that explicitly conveys the public key algorithm.<a href="#section-6.4-5.2.4.9.1" class="pilcrow">¶</a></p>
+<p id="section-6.4-5.2.4.9.2">
+At the time of writing this specification, acceptable public key encodings are CWTs <span>[<a href="#RFC8392" class="xref">RFC8392</a>]</span>, unprotected CWT claim sets <span>[<a href="#I-D.ietf-rats-uccs" class="xref">I-D.ietf-rats-uccs</a>]</span>, X.509 certificates <span>[<a href="#RFC7925" class="xref">RFC7925</a>]</span> and C509 certificates <span>[<a href="#I-D.ietf-cose-cbor-encoded-cert" class="xref">I-D.ietf-cose-cbor-encoded-cert</a>]</span>. Further encodings may be available in the future, and would be acceptable to use as long as they explicitly convey the public key algorithm.<a href="#section-6.4-5.2.4.9.2" class="pilcrow">¶</a></p>
+<p id="section-6.4-5.2.4.9.3">
+[ As to CWTs and unprotected CWT claim sets, there is a pending registration requested by draft-ietf-lake-edhoc. ]<a href="#section-6.4-5.2.4.9.3" class="pilcrow">¶</a></p>
+<p id="section-6.4-5.2.4.9.4">
+[ As to C509 certificates, there is a pending registration requested by draft-ietf-cose-cbor-encoded-cert. ]<a href="#section-6.4-5.2.4.9.4" class="pilcrow">¶</a></p>
 </li>
               <li class="normal" id="section-6.4-5.2.4.10">The 'ecdh_alg' parameter, if present, specifies the ECDH algorithm used in the OSCORE group, if this supports the pairwise mode of Group OSCORE. This parameter takes values from the "Value" column of the "COSE Algorithms" Registry <span>[<a href="#COSE.Algorithms" class="xref">COSE.Algorithms</a>]</span>. This parameter MUST be present if the OSCORE group supports the pairwise mode of Group OSCORE, and MUST NOT be present otherwise.<a href="#section-6.4-5.2.4.10" class="pilcrow">¶</a>
 </li>
@@ -2426,7 +2440,12 @@ Until a further following group rekeying, the Group Manager MUST store the list 
 </li>
           </ul>
 </li>
-        <li class="normal" id="section-19-4.3">For the 'cs_key_enc' encoding of the public keys of the group members, COSE_Key from the "CWT Confirmation Methods" Registry <span>[<a href="#CWT.Confirmation.Methods" class="xref">CWT.Confirmation.Methods</a>]</span>.<a href="#section-19-4.3" class="pilcrow">¶</a>
+        <li class="normal" id="section-19-4.3">
+          <p id="section-19-4.3.1">For the 'cs_key_enc' encoding of the public keys of the group members, a CBOR Web Token (CWT)<span>[<a href="#RFC8392" class="xref">RFC8392</a>]</span> or an unprotected CWT Claim Set <span>[<a href="#I-D.ietf-rats-uccs" class="xref">I-D.ietf-rats-uccs</a>]</span>.<a href="#section-19-4.3.1" class="pilcrow">¶</a></p>
+<p id="section-19-4.3.2">
+[
+    This is a pending registration requested by draft-ietf-lake-edhoc.
+ ]<a href="#section-19-4.3.2" class="pilcrow">¶</a></p>
 </li>
       </ul>
 <p id="section-19-5">If the group supports the pairwise mode of Group OSCORE, the Group Manager SHOULD use the following default values for the algorithm and algorithm parameters used to compute static-static Diffie-Hellman shared secrets, consistently with the "COSE Algorithms" Registry <span>[<a href="#COSE.Algorithms" class="xref">COSE.Algorithms</a>]</span>, the "COSE Key Types" Registry <span>[<a href="#COSE.Key.Types" class="xref">COSE.Key.Types</a>]</span> and the "COSE Elliptic Curves" Registry <span>[<a href="#COSE.Elliptic.Curves" class="xref">COSE.Elliptic.Curves</a>]</span>.<a href="#section-19-5" class="pilcrow">¶</a></p>
@@ -2664,9 +2683,9 @@ Until a further following group rekeying, the Group Manager MUST store the list 
 </li>
           <li class="normal" id="section-21.4-8.3">CBOR Type: integer<a href="#section-21.4-8.3" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-21.4-8.4">Registry: CWT Confirmation Methods<a href="#section-21.4-8.4" class="pilcrow">¶</a>
+          <li class="normal" id="section-21.4-8.4">Registry: COSE Header Parameters<a href="#section-21.4-8.4" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-21.4-8.5">Description: Encoding of Public Keys to be used with the OSCORE Signature Algorithm<a href="#section-21.4-8.5" class="pilcrow">¶</a>
+          <li class="normal" id="section-21.4-8.5">Description: Encoding of Public Keys to be used in the OSCORE group<a href="#section-21.4-8.5" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-21.4-8.6">Reference: [[This document]] (<a href="#ssec-join-resp" class="xref">Section 6.4</a>)<a href="#section-21.4-8.6" class="pilcrow">¶</a>
 </li>
@@ -2895,13 +2914,13 @@ Entries that do not meet these objective of clarity and completeness should not 
         <dd>
 <span class="refAuthor">IANA</span>, <span class="refTitle">"COSE Elliptic Curves"</span>, <span>&lt;<a href="https://www.iana.org/assignments/cose/cose.xhtml#elliptic-curves">https://www.iana.org/assignments/cose/cose.xhtml#elliptic-curves</a>&gt;</span>. </dd>
 <dd class="break"></dd>
+<dt id="COSE.Header.Parameters">[COSE.Header.Parameters]</dt>
+        <dd>
+<span class="refAuthor">IANA</span>, <span class="refTitle">"COSE Header Parameters"</span>, <span>&lt;<a href="https://www.iana.org/assignments/cose/cose.xhtml#header-parameters">https://www.iana.org/assignments/cose/cose.xhtml#header-parameters</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="COSE.Key.Types">[COSE.Key.Types]</dt>
         <dd>
 <span class="refAuthor">IANA</span>, <span class="refTitle">"COSE Key Types"</span>, <span>&lt;<a href="https://www.iana.org/assignments/cose/cose.xhtml#key-type">https://www.iana.org/assignments/cose/cose.xhtml#key-type</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="CWT.Confirmation.Methods">[CWT.Confirmation.Methods]</dt>
-        <dd>
-<span class="refAuthor">IANA</span>, <span class="refTitle">"CWT Confirmation Methods"</span>, <span>&lt;<a href="https://www.iana.org/assignments/cwt/cwt.xhtml#confirmation-methods">https://www.iana.org/assignments/cwt/cwt.xhtml#confirmation-methods</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.ietf-ace-aif">[I-D.ietf-ace-aif]</dt>
         <dd>
@@ -3022,6 +3041,14 @@ Entries that do not meet these objective of clarity and completeness should not 
         <dd>
 <span class="refAuthor">Dijk, E.</span>, <span class="refAuthor">Wang, C.</span>, and <span class="refAuthor">M. Tiloca</span>, <span class="refTitle">"Group Communication for the Constrained Application Protocol (CoAP)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-core-groupcomm-bis-03</span>, <time datetime="2021-02-22" class="refDate">22 February 2021</time>, <span>&lt;<a href="https://www.ietf.org/archive/id/draft-ietf-core-groupcomm-bis-03.txt">https://www.ietf.org/archive/id/draft-ietf-core-groupcomm-bis-03.txt</a>&gt;</span>. </dd>
 <dd class="break"></dd>
+<dt id="I-D.ietf-cose-cbor-encoded-cert">[I-D.ietf-cose-cbor-encoded-cert]</dt>
+        <dd>
+<span class="refAuthor">Raza, S.</span>, <span class="refAuthor">Höglund, J.</span>, <span class="refAuthor">Selander, G.</span>, <span class="refAuthor">Mattsson, J. P.</span>, and <span class="refAuthor">M. Furuhed</span>, <span class="refTitle">"CBOR Encoded X.509 Certificates (C509 Certificates)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-cose-cbor-encoded-cert-00</span>, <time datetime="2021-04-28" class="refDate">28 April 2021</time>, <span>&lt;<a href="https://www.ietf.org/archive/id/draft-ietf-cose-cbor-encoded-cert-00.txt">https://www.ietf.org/archive/id/draft-ietf-cose-cbor-encoded-cert-00.txt</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="I-D.ietf-rats-uccs">[I-D.ietf-rats-uccs]</dt>
+        <dd>
+<span class="refAuthor">Birkholz, H.</span>, <span class="refAuthor">O'Donoghue, J.</span>, <span class="refAuthor">Cam-Winget, N.</span>, and <span class="refAuthor">C. Bormann</span>, <span class="refTitle">"A CBOR Tag for Unprotected CWT Claims Sets"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-rats-uccs-00</span>, <time datetime="2021-05-19" class="refDate">19 May 2021</time>, <span>&lt;<a href="https://www.ietf.org/archive/id/draft-ietf-rats-uccs-00.txt">https://www.ietf.org/archive/id/draft-ietf-rats-uccs-00.txt</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="I-D.tiloca-core-oscore-discovery">[I-D.tiloca-core-oscore-discovery]</dt>
         <dd>
 <span class="refAuthor">Tiloca, M.</span>, <span class="refAuthor">Amsuess, C.</span>, and <span class="refAuthor">P. V. D. Stok</span>, <span class="refTitle">"Discovery of OSCORE Groups with the CoRE Resource Directory"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-tiloca-core-oscore-discovery-08</span>, <time datetime="2021-02-22" class="refDate">22 February 2021</time>, <span>&lt;<a href="https://www.ietf.org/archive/id/draft-tiloca-core-oscore-discovery-08.txt">https://www.ietf.org/archive/id/draft-tiloca-core-oscore-discovery-08.txt</a>&gt;</span>. </dd>
@@ -3043,8 +3070,16 @@ Entries that do not meet these objective of clarity and completeness should not 
 <span class="refAuthor">Hardt, D., Ed.</span>, <span class="refTitle">"The OAuth 2.0 Authorization Framework"</span>, <span class="seriesInfo">RFC 6749</span>, <span class="seriesInfo">DOI 10.17487/RFC6749</span>, <time datetime="2012-10" class="refDate">October 2012</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc6749">https://www.rfc-editor.org/info/rfc6749</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC7641">[RFC7641]</dt>
-      <dd>
+        <dd>
 <span class="refAuthor">Hartke, K.</span>, <span class="refTitle">"Observing Resources in the Constrained Application Protocol (CoAP)"</span>, <span class="seriesInfo">RFC 7641</span>, <span class="seriesInfo">DOI 10.17487/RFC7641</span>, <time datetime="2015-09" class="refDate">September 2015</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc7641">https://www.rfc-editor.org/info/rfc7641</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC7925">[RFC7925]</dt>
+        <dd>
+<span class="refAuthor">Tschofenig, H., Ed.</span> and <span class="refAuthor">T. Fossati</span>, <span class="refTitle">"Transport Layer Security (TLS) / Datagram Transport Layer Security (DTLS) Profiles for the Internet of Things"</span>, <span class="seriesInfo">RFC 7925</span>, <span class="seriesInfo">DOI 10.17487/RFC7925</span>, <time datetime="2016-07" class="refDate">July 2016</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc7925">https://www.rfc-editor.org/info/rfc7925</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8392">[RFC8392]</dt>
+      <dd>
+<span class="refAuthor">Jones, M.</span>, <span class="refAuthor">Wahlstroem, E.</span>, <span class="refAuthor">Erdtman, S.</span>, and <span class="refAuthor">H. Tschofenig</span>, <span class="refTitle">"CBOR Web Token (CWT)"</span>, <span class="seriesInfo">RFC 8392</span>, <span class="seriesInfo">DOI 10.17487/RFC8392</span>, <time datetime="2018-05" class="refDate">May 2018</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8392">https://www.rfc-editor.org/info/rfc8392</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 </dl>
 </section>
@@ -3066,7 +3101,7 @@ Entries that do not meet these objective of clarity and completeness should not 
 </li>
         <li class="normal" id="section-appendix.a-2.5">REQ5 - If used, specify the acceptable values for 'sign_key_parameters': format and values from the COSE key type capabilities as specified in the "COSE Key Types" Registry <span>[<a href="#COSE.Key.Types" class="xref">COSE.Key.Types</a>]</span>.<a href="#section-appendix.a-2.5" class="pilcrow">¶</a>
 </li>
-        <li class="normal" id="section-appendix.a-2.6">REQ6 - If used, specify the acceptable values for 'pub_key_enc': 1 ("COSE_Key") from the 'Confirmation Key' column of the "CWT Confirmation Method" Registry <span>[<a href="#CWT.Confirmation.Methods" class="xref">CWT.Confirmation.Methods</a>]</span>. Future specifications may define additional values for this parameter.<a href="#section-appendix.a-2.6" class="pilcrow">¶</a>
+        <li class="normal" id="section-appendix.a-2.6">REQ6 - If used, specify the acceptable values for 'pub_key_enc': values are taken from the "Label" column of the "COSE Header Parameters" Registry <span>[<a href="#COSE.Header.Parameters" class="xref">COSE.Header.Parameters</a>]</span>. Acceptable values denote an encoding that explicitly conveys the public key algorithm (see <a href="#ssec-token-post" class="xref">Section 6.1</a>).<a href="#section-appendix.a-2.6" class="pilcrow">¶</a>
 </li>
         <li class="normal" id="section-appendix.a-2.7">REQ7 - Register a Resource Type for the root url-path, which is used to discover the correct url to access at the KDC (see <span><a href="https://tools.ietf.org/html/draft-ietf-ace-key-groupcomm-11#section-4.1" class="relref">Section 4.1</a> of [<a href="#I-D.ietf-ace-key-groupcomm" class="xref">I-D.ietf-ace-key-groupcomm</a>]</span>): the Resource Type (rt=) Link Target Attribute value "core.osc.gm" is registered in <a href="#iana-rt" class="xref">Section 21.10</a>.<a href="#section-appendix.a-2.7" class="pilcrow">¶</a>
 </li>
