@@ -5,10 +5,10 @@
 ACE Working Group                                              M. Tiloca
 Internet-Draft                                                   RISE AB
 Intended status: Standards Track                                 J. Park
-Expires: 2 January 2022                      Universitaet Duisburg-Essen
+Expires: 3 January 2022                      Universitaet Duisburg-Essen
                                                             F. Palombini
                                                              Ericsson AB
-                                                             1 July 2021
+                                                             2 July 2021
 
 
                 Key Management for OSCORE Groups in ACE
@@ -43,7 +43,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 2 January 2022.
+   This Internet-Draft will expire on 3 January 2022.
 
 Copyright Notice
 
@@ -1103,9 +1103,8 @@ Table of Contents
       parameters.
 
    *  The Group Manager MUST return a 4.00 (Bad Request) response in
-      case it cannot retrieve a public key with an accepted format for
-      the joining node, either from the 'client_cred' parameter or as
-      already stored.
+      case an eligible public key for the joining node is neither
+      present in the 'client_cred' parameter nor already stored.
 
    *  The Group Manager MAY return a 4.00 (Bad Request) response in case
       all the following conditions hold.
@@ -3080,12 +3079,12 @@ Appendix A.  Profile Requirements
       capabilities as specified in the "COSE Key Types" Registry
       [COSE.Key.Types].
 
-   *  REQ6 - Specify the acceptable formats of public keys and, if used,
-      the acceptable values for 'pub_key_enc': acceptable formats
-      explicitly convey the public key algorithm (see Section 6.1 and
-      Section 6.4).  Consistent acceptable values for 'pub_key_enc' are
-      taken from the "Label" column of the "COSE Header Parameters"
-      Registry [COSE.Header.Parameters].
+   *  REQ6 - Specify the acceptable formats for encoding public keys
+      and, if used, the acceptable values for 'pub_key_enc': acceptable
+      formats explicitly convey the public key algorithm (see
+      Section 6.1 and Section 6.4).  Consistent acceptable values for
+      'pub_key_enc' are taken from the "Label" column of the "COSE
+      Header Parameters" Registry [COSE.Header.Parameters].
 
    *  REQ7 - Register a Resource Type for the root url-path, which is
       used to discover the correct url to access at the KDC (see
@@ -3136,9 +3135,10 @@ Appendix A.  Profile Requirements
       complies with the requirements in Appendix C of
       [I-D.ietf-ace-oauth-authz].
 
-   *  REQ20a - Specify the exact approaches used to compute the PoP
-      evidence to include in 'client_cred_verify', and which of those
-      approaches is used in which case: see Section 6.2 and Section 6.3.
+   *  REQ20a - Specify the exact approaches used to compute and verify
+      the PoP evidence to include in 'client_cred_verify', and which of
+      those approaches is used in which case: see Section 6.2 and
+      Section 6.3.
 
    *  REQ20 - Specify how the nonce N_S is generated, if the token is
       not being posted (e.g. if it is used directly to validate TLS
@@ -3173,14 +3173,14 @@ Appendix A.  Profile Requirements
       unsuccessfully decrypted messages and for how long, so that they
       can be decrypted after getting updated keying material: no.
 
-   *  OPT6 (Optional) - Specify the behavior of the handler in case of
+   *  OPT6 (Optional) - Specify possible or required payload formats for
+      specific error cases: send a 4.00 (Bad Request) response to a
+      Joining Request (see Section 6.3).
+
+   *  OPT7 (Optional) - Specify the behavior of the handler in case of
       failure to retrieve a public key for the specific node: send a
       4.00 (Bad Request) response to a Joining Request (see
       Section 6.3).
-
-   *  OPT7 (Optional) - Specify possible or required payload formats for
-      specific error cases: send a 4.00 (Bad Request) response to a
-      Joining Request (see Section 6.3).
 
    *  OPT8 (Optional) - Specify CBOR values to use for abbreviating
       identifiers of roles in the group or topic: see Section 4.1.
