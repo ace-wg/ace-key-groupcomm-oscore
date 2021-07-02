@@ -1206,9 +1206,9 @@ Table of Contents
       which is defined in this document and extends the
       OSCORE_Input_Material object encoded in CBOR as defined in
       Section 3.2.1 of [I-D.ietf-ace-oscore-profile].  In particular, it
-      contains the additional parameters 'group_senderId' 'cs_alg',
-      'cs_params', 'cs_key_enc', 'ecdh_alg' and 'ecdh_params' defined in
-      Section 22.6 of this document.
+      contains the additional parameters 'group_senderId' 'sign_alg',
+      'sign_params', 'pub_key_enc', 'ecdh_alg' and 'ecdh_params' defined
+      in Section 22.6 of this document.
 
       More specifically, the 'key' parameter is composed as follows.
 
@@ -1236,29 +1236,29 @@ Table of Contents
          Section 4.2).  In any other case, this parameter MUST be
          present.
 
-      -  The 'cs_alg' parameter MUST be present and specifies the
+      -  The 'sign_alg' parameter MUST be present and specifies the
          algorithm used to countersign messages in the OSCORE group.
          This parameter takes values from the "Value" column of the
          "COSE Algorithms" Registry [COSE.Algorithms].
 
-      -  The 'cs_params' parameter MUST be present and specifies the
+      -  The 'sign_params' parameter MUST be present and specifies the
          parameters of the signature algorithm.  This parameter is a
          CBOR array, which includes the following two elements:
 
          o  'sign_alg_capab': a CBOR array, with the same format and
             value of the COSE capabilities array for the algorithm
-            indicated in 'cs_alg', as specified for that algorithm in
+            indicated in 'sign_alg', as specified for that algorithm in
             the "Capabilities" column of the "COSE Algorithms" Registry
             [COSE.Algorithms].
 
          o  'sign_key_type_capab': a CBOR array, with the same format
             and value of the COSE capabilities array for the COSE key
             type of the keys used with the algorithm indicated in
-            'cs_alg', as specified for that key type in the
+            'sign_alg', as specified for that key type in the
             "Capabilities" column of the "COSE Key Types" Registry
             [COSE.Key.Types].
 
-      -  The 'cs_key_enc' parameter MAY be present and specifies the
+      -  The 'pub_key_enc' parameter MAY be present and specifies the
          encoding of the public keys of the group members.  It takes
          value from the "Label" column of the "COSE Header Parameters"
          Registry [COSE.Header.Parameters] (REQ6).  Consistently with
@@ -2173,32 +2173,32 @@ Table of Contents
    [COSE.Algorithms], the "COSE Key Types" Registry [COSE.Key.Types] and
    the "COSE Elliptic Curves" Registry [COSE.Elliptic.Curves].
 
-   *  For the algorithm 'cs_alg' used to countersign messages in the
+   *  For the algorithm 'sign_alg' used to countersign messages in the
       group, the signature algorithm EdDSA [RFC8032].
 
-   *  For the parameters 'cs_params' of the signature algorithm:
+   *  For the parameters 'sign_params' of the signature algorithm:
 
       -  The array [[OKP], [OKP, Ed25519]], in case EdDSA is assumed or
-         specified for 'cs_alg'.  In particular, this indicates to use
+         specified for 'sign_alg'.  In particular, this indicates to use
          the COSE key type OKP and the elliptic curve Ed25519 [RFC8032].
 
       -  The array [[EC2], [EC2, P-256]], in case ES256 [RFC6979] is
-         specified for 'cs_alg'.  In particular, this indicates to use
+         specified for 'sign_alg'.  In particular, this indicates to use
          the COSE key type EC2 and the elliptic curve P-256.
 
       -  The array [[EC2], [EC2, P-384]], in case ES384 [RFC6979] is
-         specified for 'cs_alg'.  In particular, this indicates to use
+         specified for 'sign_alg'.  In particular, this indicates to use
          the COSE key type EC2 and the elliptic curve P-384.
 
       -  The array [[EC2], [EC2, P-521]], in case ES512 [RFC6979] is
-         specified for 'cs_alg'.  In particular, this indicates to use
+         specified for 'sign_alg'.  In particular, this indicates to use
          the COSE key type EC2 and the elliptic curve P-521.
 
       -  The array [[RSA], [RSA]], in case PS256, PS384 or PS512
-         [RFC8017] is specified for 'cs_alg'.  In particular, this
+         [RFC8017] is specified for 'sign_alg'.  In particular, this
          indicates to use the COSE key type RSA.
 
-   *  For the 'cs_key_enc' encoding of the public keys of the group
+   *  For the 'pub_key_enc' encoding of the public keys of the group
       members, a CBOR Web Token (CWT)[RFC8392] or an unprotected CWT
       Claim Set [I-D.ietf-rats-uccs].
 
@@ -2219,19 +2219,19 @@ Table of Contents
    *  For the parameters 'ecdh_params' of the ECDH algorithm:
 
       -  The array [[OKP], [OKP, X25519]], in case EdDSA is assumed or
-         specified for 'cs_alg'.  In particular, this indicates to use
+         specified for 'sign_alg'.  In particular, this indicates to use
          the COSE key type OKP and the elliptic curve X25519 [RFC8032].
 
       -  The array [[EC2], [EC2, P-256]], in case ES256 [RFC6979] is
-         specified for 'cs_alg'.  In particular, this indicates to use
+         specified for 'sign_alg'.  In particular, this indicates to use
          the COSE key type EC2 and the elliptic curve P-256.
 
       -  The array [[EC2], [EC2, P-384]], in case ES384 [RFC6979] is
-         specified for 'cs_alg'.  In particular, this indicates to use
+         specified for 'sign_alg'.  In particular, this indicates to use
          the COSE key type EC2 and the elliptic curve P-384.
 
       -  The array [[EC2], [EC2, P-521]], in case ES512 [RFC6979] is
-         specified for 'cs_alg'.  In particular, this indicates to use
+         specified for 'sign_alg'.  In particular, this indicates to use
          the COSE key type EC2 and the elliptic curve P-521.
 
 21.  Security Considerations
@@ -2521,7 +2521,7 @@ Table of Contents
    *  Reference: [[This document]] (Section 6.4)
 
 
-   *  Name: cs_alg
+   *  Name: sign_alg
 
    *  CBOR Label: TBD5
 
@@ -2534,7 +2534,7 @@ Table of Contents
    *  Reference: [[This document]] (Section 6.4)
 
 
-   *  Name: cs_params
+   *  Name: sign_params
 
    *  CBOR Label: TBD6
 
@@ -2547,7 +2547,7 @@ Table of Contents
    *  Reference: [[This document]] (Section 6.4)
 
 
-   *  Name: cs_key_enc
+   *  Name: pub_key_enc
 
    *  CBOR Label: TBD7
 
@@ -3226,7 +3226,7 @@ Appendix B.  Extensibility for Future COSE Algorithms
    *  Each 'ecdh_info_entry' of the 'ecdh_info' parameter in the Token
       Post response, see Section 6.1 and Section 6.1.1;
 
-   *  The 'cs_params' and 'ecdh_params' parameters within the 'key'
+   *  The 'sign_params' and 'ecdh_params' parameters within the 'key'
       parameter, see Section 6.4, as part of the response payloads used
       in Section 6.4, Section 8.1, Section 8.2 and Section 19.
 
@@ -3275,22 +3275,22 @@ B.2.  Format of 'key'
 
    The format of 'key' (see Section 6.4) is generalized as follows.
 
-   *  The 'cs_params' array includes N+1 elements, whose exact structure
-      and value depend on the value of the signature algorithm specified
-      in 'cs_alg'.
+   *  The 'sign_params' array includes N+1 elements, whose exact
+      structure and value depend on the value of the signature algorithm
+      specified in 'sign_alg'.
 
-      -  The first element, i.e. 'cs_params'[0], is the array of the N
+      -  The first element, i.e. 'sign_params'[0], is the array of the N
          COSE capabilities for the signature algorithm, as specified for
          that algorithm in the "Capabilities" column of the "COSE
          Algorithms" Registry [COSE.Algorithms] (see Section 8.1 of
          [I-D.ietf-cose-rfc8152bis-algs]).
 
-      -  Each following element 'cs_params'[i], i.e. with index i > 0,
+      -  Each following element 'sign_params'[i], i.e. with index i > 0,
          is the array of COSE capabilities for the algorithm capability
-         specified in 'cs_params'[0][i-1].
+         specified in 'sign_params'[0][i-1].
 
-      For example, if 'cs_params'[0][0] specifies the key type as
-      capability of the algorithm, then 'cs_params'[1] is the array of
+      For example, if 'sign_params'[0][0] specifies the key type as
+      capability of the algorithm, then 'sign_params'[1] is the array of
       COSE capabilities for the COSE key type associated to the
       signature algorithm, as specified for that key type in the
       "Capabilities" column of the "COSE Key Types" Registry
