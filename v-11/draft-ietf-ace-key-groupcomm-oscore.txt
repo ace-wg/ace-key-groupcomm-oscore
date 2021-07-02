@@ -101,7 +101,7 @@ Table of Contents
    18. Removal of a Group Member
    19. Group Rekeying Process
    20. Default Values for Group Configuration Parameters
-     20.1.  General
+     20.1.  Common
      20.2.  Group Mode
      20.3.  Pairwise Mode
    21. Security Considerations
@@ -1209,23 +1209,21 @@ Table of Contents
       which is defined in this document and extends the
       OSCORE_Input_Material object encoded in CBOR as defined in
       Section 3.2.1 of [I-D.ietf-ace-oscore-profile].  In particular, it
-      contains the additional parameters 'group_senderId' 'sign_alg',
-      'sign_params', 'pub_key_enc', 'ecdh_alg' and 'ecdh_params' defined
-      in Section 22.6 of this document.
+      contains the additional parameters 'group_senderId',
+      'sign_enc_alg', 'sign_alg', 'sign_params', 'pub_key_enc',
+      'ecdh_alg' and 'ecdh_params' defined in Section 22.6 of this
+      document.
 
       More specifically, the 'key' parameter is composed as follows.
 
-      -  The 'ms' parameter MUST be present and includes the OSCORE
-         Master Secret value used in the OSCORE group.
-
       -  The 'hkdf' parameter, if present, has as value the HKDF
-         algorithm used in the OSCORE group.
-
-      -  The 'alg' parameter, if present, has as value the AEAD
-         algorithm used in the OSCORE group.
+         Algorithm used in the OSCORE group.
 
       -  The 'salt' parameter, if present, has as value the OSCORE
          Master Salt used in the OSCORE group.
+
+      -  The 'ms' parameter MUST be present and includes the OSCORE
+         Master Secret value used in the OSCORE group.
 
       -  The 'contextId' parameter MUST be present and has as value the
          Group Identifier (Gid), i.e. the OSCORE ID Context of the
@@ -1234,34 +1232,12 @@ Table of Contents
       -  The 'group_senderId' parameter, if present, has as value the
          OSCORE Sender ID assigned to the joining node by the Group
          Manager, as described above.  This parameter is not present if
-         the node joins the group exclusively with the role of monitor,
-         according to what specified in the Access Token (see
+         the node joins the OSCORE group exclusively with the role of
+         monitor, according to what specified in the Access Token (see
          Section 4.2).  In any other case, this parameter MUST be
          present.
 
-      -  The 'sign_alg' parameter MUST be present and specifies the
-         algorithm used to countersign messages in the OSCORE group.
-         This parameter takes values from the "Value" column of the
-         "COSE Algorithms" Registry [COSE.Algorithms].
-
-      -  The 'sign_params' parameter MUST be present and specifies the
-         parameters of the signature algorithm.  This parameter is a
-         CBOR array, which includes the following two elements:
-
-         o  'sign_alg_capab': a CBOR array, with the same format and
-            value of the COSE capabilities array for the algorithm
-            indicated in 'sign_alg', as specified for that algorithm in
-            the "Capabilities" column of the "COSE Algorithms" Registry
-            [COSE.Algorithms].
-
-         o  'sign_key_type_capab': a CBOR array, with the same format
-            and value of the COSE capabilities array for the COSE key
-            type of the keys used with the algorithm indicated in
-            'sign_alg', as specified for that key type in the
-            "Capabilities" column of the "COSE Key Types" Registry
-            [COSE.Key.Types].
-
-      -  The 'pub_key_enc' parameter MAY be present and specifies the
+      -  The 'pub_key_enc' parameter MUST be present and specifies the
          encoding of the public keys of the group members.  It takes
          value from the "Label" column of the "COSE Header Parameters"
          Registry [COSE.Header.Parameters] (REQ6).  Consistently with
@@ -1284,19 +1260,57 @@ Table of Contents
          [ As to C509 certificates, there is a pending registration
          requested by draft-ietf-cose-cbor-encoded-cert. ]
 
-      -  The 'ecdh_alg' parameter, if present, specifies the ECDH
-         algorithm used in the OSCORE group, if this supports the
-         pairwise mode of Group OSCORE.  This parameter takes values
-         from the "Value" column of the "COSE Algorithms" Registry
-         [COSE.Algorithms].  This parameter MUST be present if the
-         OSCORE group supports the pairwise mode of Group OSCORE, and
-         MUST NOT be present otherwise.
+      -  The 'sign_enc_alg' parameter MUST be present.  If the OSCORE
+         group is a pairwise-only group, this parameter MUST be set to
+         the CBOR simple value Null.  Otherwise, this parameter
+         specifies the Signature Encryption Algorithm used in the OSCORE
+         group to encrypt messages protected with the group mode.
 
-      -  The 'ecdh_params' parameter, if present, specifies the
-         parameters of the ECDH algorithm.  It MUST be present if the
-         'ecdh_alg' parameter is present, and MUST NOT be present
-         otherwise.  This parameter is a CBOR array, which includes the
-         following two elements:
+      -  The 'sign_alg' parameter MUST be present.  If the OSCORE group
+         is a pairwise-only group, this parameter MUST be set to the
+         CBOR simple value Null.  Otherwise, this parameter specifies
+         the Signature Algorithm used to countersign messages in the
+         OSCORE group.  This parameter takes values from the "Value"
+         column of the "COSE Algorithms" Registry [COSE.Algorithms].
+
+      -  The 'sign_params' parameter MUST be present if 'sign_alg' is
+         not set to the CBOR simple value Null and MUST NOT be present
+         otherwise.  If present, it specifies the parameters of the
+         Signature Algorithm.  This parameter is a CBOR array, which
+         includes the following two elements:
+
+         o  'sign_alg_capab': a CBOR array, with the same format and
+            value of the COSE capabilities array for the Signature
+            Algorithm indicated in 'sign_alg', as specified for that
+            algorithm in the "Capabilities" column of the "COSE
+            Algorithms" Registry [COSE.Algorithms].
+
+         o  'sign_key_type_capab': a CBOR array, with the same format
+            and value of the COSE capabilities array for the COSE key
+            type of the keys used with the Signature Algorithm indicated
+            in 'sign_alg', as specified for that key type in the
+            "Capabilities" column of the "COSE Key Types" Registry
+            [COSE.Key.Types].
+
+      -  The 'alg' parameter MUST be present.  If the OSCORE group is a
+         signature-only group, this parameter MUST be set to the CBOR
+         simple value Null.  Otherwise, this parameter specifies the
+         AEAD Algorithm used in the OSCORE group to encrypt messages
+         protected with the pairwise mode.
+
+      -  The 'ecdh_alg' parameter MUST be present.  If the OSCORE group
+         is a signature-only group, this parameter MUST be set to the
+         CBOR simple value Null.  Otherwise, this parameter specifies
+         the Pairwise Key Agreement Algorithm used in the OSCORE group.
+         This parameter takes values from the "Value" column of the
+         "COSE Algorithms" Registry [COSE.Algorithms].
+
+      -  The 'ecdh_params' parameter parameter MUST be present if
+         'ecdh_alg' is not set to the CBOR simple value Null and MUST
+         NOT be present otherwise.  If present, it specifies the
+         parameters of the Pairwise Key Agreement Algorithm.  This
+         parameter is a CBOR array, which includes the following two
+         elements:
 
          o  'ecdh_alg_capab': a CBOR array, with the same format and
             value of the COSE capabilities array for the algorithm
@@ -1322,7 +1336,7 @@ Table of Contents
    *  The 'exp' parameter MUST be present.
 
    *  The 'ace-groupcomm-profile' parameter MUST be present and has
-      value coap_group_oscore_app (TBD3), which is defined in
+      value coap_group_oscore_app (PROFILE_TBD), which is defined in
       Section 22.5 of this document.
 
    *  The 'pub_keys' parameter, if present, includes the public keys
@@ -1492,11 +1506,11 @@ Table of Contents
       this case, the joining node is not required to provide its own
       public key to the Group Manager, which thus does not have to
       perform any check related to the public key encoding, to a
-      signature or ECDH algorithm, and to possible associated parameters
-      for that joining node.  In case that joining node still provides a
-      public key in the 'client_cred' parameter of the Joining Request
-      (see Section 6.2), the Group Manager silently ignores that
-      parameter, as well as the related parameters 'cnonce' and
+      signature or ECDH algorithm, and to possible associated
+      parameters.  In case that joining node still provides a public key
+      in the 'client_cred' parameter of the Joining Request (see
+      Section 6.2), the Group Manager silently ignores that parameter,
+      as well as the related parameters 'cnonce' and
       'client_cred_verify'.
 
    *  The Group Manager already acquired the public key of the joining
@@ -1516,18 +1530,18 @@ Table of Contents
       Then, two cases can occur.
 
       1.  The proof-of-possession key is compatible with the encoding,
-          as well as with the signature or algorithm, and with possible
-          associated parameters used in the OSCORE group.  Then, the
-          Group Manager considers the proof-of-possession key as the
-          public key associated to the joining node in the OSCORE group.
-          If the joining node is aware that the proof-of-possession key
-          is also valid for the OSCORE group, it MAY not provide it
-          again as its own public key to the Group Manager.  The joining
-          node MUST provide its own public key again if it has provided
-          the Group Manager with multiple public keys during past
-          joining processes, intended for different OSCORE groups.  If
-          the joining node provides its own public key in the
-          'client_cred' parameter of the Joining Request (see
+          as well as with the signature or ECDH algorithm, and with
+          possible associated parameters used in the OSCORE group.
+          Then, the Group Manager considers the proof-of-possession key
+          as the public key associated to the joining node in the OSCORE
+          group.  If the joining node is aware that the proof-of-
+          possession key is also valid for the OSCORE group, it MAY not
+          provide it again as its own public key to the Group Manager.
+          The joining node MUST provide its own public key again if it
+          has provided the Group Manager with multiple public keys
+          during past joining processes, intended for different OSCORE
+          groups.  If the joining node provides its own public key in
+          the 'client_cred' parameter of the Joining Request (see
           Section 6.2), the Group Manager performs consistency checks as
           per Section 6.3 and, in case of success, considers it as the
           public key associated to the joining node in the OSCORE group.
@@ -2166,7 +2180,7 @@ Table of Contents
    differently specified when creating and configuring the group.  This
    can be achieved as specified in [I-D.ietf-ace-oscore-gm-admin].
 
-20.1.  General
+20.1.  Common
 
    For the HKDF Algorithm 'hkdf', the Group Manager SHOULD use the same
    default value defined in Section 3.2 of [RFC8613], i.e., HKDF SHA-256
@@ -2189,6 +2203,10 @@ Table of Contents
    "COSE Algorithms" Registry [COSE.Algorithms], the "COSE Key Types"
    Registry [COSE.Key.Types] and the "COSE Elliptic Curves" Registry
    [COSE.Elliptic.Curves].
+
+   *  For the Signature Encryption Algorithm 'sign_enc_alg' used to
+      encrypted messages protected with the group mode, AES-CCM-
+      16-64-128 (COSE algorithm encoding: 10).
 
    *  For the Signature Algorithm 'sign_alg' used to countersign
       messages protected with the group mode, the signature algorithm
@@ -2447,7 +2465,7 @@ Table of Contents
 
    *  Name: group_senderId
 
-   *  CBOR Key: TBD1
+   *  CBOR Key: TBD
 
    *  CBOR Type: Byte string
 
@@ -2456,7 +2474,7 @@ Table of Contents
 
    *  Name: kdc_nonce
 
-   *  CBOR Key: TBD10
+   *  CBOR Key: TBD
 
    *  CBOR Type: Byte string
 
@@ -2465,7 +2483,7 @@ Table of Contents
 
    *  Name: kdc_cred
 
-   *  CBOR Key: TBD11
+   *  CBOR Key: TBD
 
    *  CBOR Type: Byte string
 
@@ -2474,7 +2492,7 @@ Table of Contents
 
    *  Name: kdc_cred_verify
 
-   *  CBOR Key: TBD12
+   *  CBOR Key: TBD
 
    *  CBOR Type: Byte string
 
@@ -2483,7 +2501,7 @@ Table of Contents
 
    *  Name: ecdh_info
 
-   *  CBOR Key: TBD13
+   *  CBOR Key: TBD
 
    *  CBOR Type: Array
 
@@ -2497,7 +2515,7 @@ Table of Contents
 
    *  Name: Group_OSCORE_Input_Material object
 
-   *  Key Type Value: TBD2
+   *  Key Type Value: TBD
 
    *  Profile: "coap_group_oscore_app", defined in Section 22.5 of this
       document.
@@ -2519,7 +2537,7 @@ Table of Contents
       participating in group communication protected with Group OSCORE
       as per [I-D.ietf-core-oscore-groupcomm].
 
-   *  CBOR Value: TBD3
+   *  CBOR Value: PROFILE_TBD
 
    *  Reference: [[This document]] (Section 6.4)
 
@@ -2531,7 +2549,7 @@ Table of Contents
 
    *  Name: group_SenderId
 
-   *  CBOR Label: TBD4
+   *  CBOR Label: TBD
 
    *  CBOR Type: bstr
 
@@ -2543,9 +2561,22 @@ Table of Contents
    *  Reference: [[This document]] (Section 6.4)
 
 
+   *  Name: sign_enc_alg
+
+   *  CBOR Label: TBD
+
+   *  CBOR Type: tstr / int
+
+   *  Registry: COSE Algorithms
+
+   *  Description: OSCORE Signature Encryption Algorithm Value
+
+   *  Reference: [[This document]] (Section 6.4)
+
+
    *  Name: sign_alg
 
-   *  CBOR Label: TBD5
+   *  CBOR Label: TBD
 
    *  CBOR Type: tstr / int
 
@@ -2558,7 +2589,7 @@ Table of Contents
 
    *  Name: sign_params
 
-   *  CBOR Label: TBD6
+   *  CBOR Label: TBD
 
    *  CBOR Type: array
 
@@ -2571,7 +2602,7 @@ Table of Contents
 
    *  Name: pub_key_enc
 
-   *  CBOR Label: TBD7
+   *  CBOR Label: TBD
 
    *  CBOR Type: integer
 
@@ -2585,26 +2616,26 @@ Table of Contents
 
    *  Name: ecdh_alg
 
-   *  CBOR Label: TBD8
+   *  CBOR Label: TBD
 
    *  CBOR Type: tstr / int
 
    *  Registry: COSE Algorithms
 
-   *  Description: OSCORE ECDH Algorithm Value
+   *  Description: OSCORE Pairwise Key Agreement Algorithm Value
 
    *  Reference: [[This document]] (Section 6.4)
 
 
    *  Name: ecdh_params
 
-   *  CBOR Label: TBD9
+   *  CBOR Label: TBD
 
    *  CBOR Type: array
 
    *  Registry: COSE Algorithms, COSE Key Types, COSE Elliptic Curves
 
-   *  Description: OSCORE ECDH Algorithm Parameters
+   *  Description: OSCORE Pairwise Key Agreement Parameters
 
    *  Reference: [[This document]] (Section 6.4)
 
@@ -2703,7 +2734,7 @@ Table of Contents
 
    Encoding: -
 
-   ID: TBD10
+   ID: TBD
 
    Reference: [[This document]]
 
@@ -3351,6 +3382,8 @@ C.1.  Version -10 to -11
 
    *  New resource to retrieve the Group Manager's public key.
 
+   *  New parameter 'sign_enc_alg' related to the group mode.
+
    *  'pub_key_enc' takes value from the COSE Header Parameters
       registry.
 
@@ -3374,8 +3407,7 @@ C.1.  Version -10 to -11
    *  Always use 'peer_identifiers' to convey Sender IDs as node
       identifiers.
 
-   *  Improved and simplified set of default values for counter
-      signature parameters and ECDH algorithm parameters.
+   *  Revised default values of group configuration parameters.
 
    *  Fixes to IANA registrations.
 
