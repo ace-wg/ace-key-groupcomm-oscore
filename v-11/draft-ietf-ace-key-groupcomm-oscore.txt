@@ -451,7 +451,7 @@ Table of Contents
    Section 6 of [I-D.ietf-ace-key-groupcomm] for the 'scope' claim of
    the Access Token, the first element of the CBOR sequence [RFC8742]
    MUST be the CBOR integer with value SEM_ID_TBD, defined in
-   Section 22.13 of this document (REQ23).  This indicates that the
+   Section 22.13 of this document (REQ24).  This indicates that the
    second element of the CBOR sequence, as conveying the actual access
    control information, follows the scope semantics defined for this
    application profile in Section 3 of this document.
@@ -942,7 +942,7 @@ Table of Contents
       random nonce.
 
    *  The proof-of-possession (PoP) evidence included in
-      'client_cred_verify' is computed as defined below (REQ20a).  In
+      'client_cred_verify' is computed as defined below (REQ20).  In
       either case, the N_S used to build the PoP input is as defined in
       Section 6.2.1.
 
@@ -1757,7 +1757,7 @@ Table of Contents
    *  The group member computes the proof-of-possession (PoP) evidence
       included in 'client_cred_verify' in the same way taken when
       preparing a Joining Request for the OSCORE group in question, as
-      defined in Section 6.2 (REQ20a).
+      defined in Section 6.2 (REQ20).
 
    In particular, the group member sends a CoAP POST request to the
    endpoint /ace-group/GROUPNAME/nodes/NODENAME/pub-key at the Group
@@ -1768,12 +1768,12 @@ Table of Contents
    with the following additions.
 
    *  The N_S challenge used to build the proof-of-possession input is
-      computed as per point (1) in Section 6.2.1 (REQ20).
+      computed as per point (1) in Section 6.2.1 (REQ21).
 
    *  The Group Manager verifies the PoP challenge included in
       'client_cred_verify' in the same way taken when processing a
       Joining Request for the OSCORE group in question, as defined in
-      Section 6.3 (REQ20a).
+      Section 6.3 (REQ20).
 
    *  The Group Manager MUST return a 5.03 (Service Unavailable)
       response in case the OSCORE group identified by GROUPNAME is
@@ -3198,23 +3198,23 @@ Appendix A.  Profile Requirements
       complies with the requirements in Appendix C of
       [I-D.ietf-ace-oauth-authz].
 
-   *  REQ20a - Specify the exact approaches used to compute and verify
+   *  REQ20 - Specify the exact approaches used to compute and verify
       the PoP evidence to include in 'client_cred_verify', and which of
       those approaches is used in which case: see Section 6.2 and
       Section 6.3.
 
-   *  REQ20 - Specify how the nonce N_S is generated, if the token is
+   *  REQ21 - Specify how the nonce N_S is generated, if the token is
       not being posted (e.g. if it is used directly to validate TLS
       instead): see Section 6.2.1.
 
-   *  REQ21 - Specify if 'mgt_key_material' is used, and if yes specify
+   *  REQ22 - Specify if 'mgt_key_material' is used, and if yes specify
       its format and content: not used in this version of the profile.
 
-   *  REQ22 - Define the initial value of the 'num' parameter: The
+   *  REQ23 - Define the initial value of the 'num' parameter: The
       initial value MUST be set to 0 when creating the OSCORE group,
       e.g. as in [I-D.ietf-ace-oscore-gm-admin].
 
-   *  REQ23 - Specify and register the identifier of newly defined
+   *  REQ24 - Specify and register the identifier of newly defined
       semantics for binary scopes: see Section 22.13.
 
    *  OPT2 (Optional) - Specify the negotiation of parameter values for
