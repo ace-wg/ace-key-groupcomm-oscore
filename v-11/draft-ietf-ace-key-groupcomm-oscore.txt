@@ -689,16 +689,19 @@ Table of Contents
 
       -  'pub_key_enc' takes value from the "Label" column of the "COSE
          Header Parameters" Registry [COSE.Header.Parameters] (REQ6).
-         Acceptable values denote an encoding that explicitly conveys
-         the public key algorithm.
+         Consistently with Section 2.3 of
+         [I-D.ietf-core-oscore-groupcomm], acceptable values denote an
+         encoding that MUST explicitly provide the full set of
+         information related to the public key algorithm, including,
+         e.g., the used elliptic curve (when applicable).
 
          At the time of writing this specification, acceptable public
          key encodings are CWTs [RFC8392], unprotected CWT claim sets
          [I-D.ietf-rats-uccs], X.509 certificates [RFC7925] and C509
          certificates [I-D.ietf-cose-cbor-encoded-cert].  Further
          encodings may be available in the future, and would be
-         acceptable to use as long as they explicitly convey the public
-         key algorithm.
+         acceptable to use as long as they comply with the criteria
+         defined above.
 
          [ As to CWTs and unprotected CWT claim sets, there is a pending
          registration requested by draft-ietf-lake-edhoc. ]
@@ -805,9 +808,11 @@ Table of Contents
       encoding of public keys used in the OSCORE group identified by
       'gname'.  It takes value from the "Label" column of the "COSE
       Header Parameters" Registry [COSE.Header.Parameters] (REQ6).
-      Acceptable values denote an encoding that explicitly conveys the
-      public key algorithm.  The same considerations and guidelines for
-      the 'pub_key_enc' element of 'sign_info' (see Section 6.1) apply.
+      Acceptable values denote an encoding that MUST explicitly provide
+      the full set of information related to the public key algorithm,
+      including, e.g., the used elliptic curve (when applicable).  The
+      same considerations and guidelines for the 'pub_key_enc' element
+      of 'sign_info' (see Section 6.1) apply.
 
    The CDDL notation [RFC8610] of the 'ecdh_info' parameter formatted as
    in the response is given below.
@@ -874,18 +879,20 @@ Table of Contents
       encoding of public keys used in the OSCORE group identified by
       'gname'.  It takes value from the "Label" column of the "COSE
       Header Parameters" Registry [COSE.Header.Parameters] (REQ6).
-      Acceptable values denote an encoding that explicitly conveys the
-      public key algorithm.  The same considerations and guidelines for
-      the 'pub_key_enc' element of 'sign_info' (see Section 6.1) apply.
+      Acceptable values denote an encoding that MUST explicitly provide
+      the full set of information related to the public key algorithm,
+      including, e.g., the used elliptic curve (when applicable).  The
+      same considerations and guidelines for the 'pub_key_enc' element
+      of 'sign_info' (see Section 6.1) apply.
 
    *  The third element 'pub_key' is a CBOR byte string, which encodes
       the Group Manager's Diffie-Hellman public key in its original
       binary representation made available to other endpoints in the
       group.  In particular, the original binary representation complies
       with the encoding specified by the 'pub_key_enc' parameter.  Note
-      that the public key internally specifies its public key algorithm,
-      i.e., the ECDH algorithm used in the OSCORE group as pairwise key
-      agreement algorithm.
+      that the public key provides the full set of information related
+      to its public key algorithm, i.e., the ECDH algorithm used in the
+      OSCORE group as pairwise key agreement algorithm.
 
    The CDDL notation [RFC8610] of the 'gm_dh_pub_keys' parameter
    formatted as in the response is given below.
@@ -1254,17 +1261,19 @@ Table of Contents
       -  The 'cs_key_enc' parameter MAY be present and specifies the
          encoding of the public keys of the group members.  It takes
          value from the "Label" column of the "COSE Header Parameters"
-         Registry [COSE.Header.Parameters].  Acceptable values denote an
-         encoding that explicitly conveys the public key algorithm
-         (REQ6).
+         Registry [COSE.Header.Parameters] (REQ6).  Consistently with
+         Section 2.3 of [I-D.ietf-core-oscore-groupcomm], acceptable
+         values denote an encoding that MUST explicitly provide the full
+         set of information related to the public key algorithm,
+         including, e.g., the used elliptic curve (when applicable).
 
          At the time of writing this specification, acceptable public
          key encodings are CWTs [RFC8392], unprotected CWT claim sets
          [I-D.ietf-rats-uccs], X.509 certificates [RFC7925] and C509
          certificates [I-D.ietf-cose-cbor-encoded-cert].  Further
          encodings may be available in the future, and would be
-         acceptable to use as long as they explicitly convey the public
-         key algorithm.
+         acceptable to use as long as they comply with the criteria
+         defined above.
 
          [ As to CWTs and unprotected CWT claim sets, there is a pending
          registration requested by draft-ietf-lake-edhoc. ]
@@ -3081,10 +3090,11 @@ Appendix A.  Profile Requirements
 
    *  REQ6 - Specify the acceptable formats for encoding public keys
       and, if used, the acceptable values for 'pub_key_enc': acceptable
-      formats explicitly convey the public key algorithm (see
-      Section 6.1 and Section 6.4).  Consistent acceptable values for
-      'pub_key_enc' are taken from the "Label" column of the "COSE
-      Header Parameters" Registry [COSE.Header.Parameters].
+      formats explicitly provide the full set of information related to
+      the public key algorithm (see Section 6.1 and Section 6.4).
+      Consistent acceptable values for 'pub_key_enc' are taken from the
+      "Label" column of the "COSE Header Parameters" Registry
+      [COSE.Header.Parameters].
 
    *  REQ7 - Register a Resource Type for the root url-path, which is
       used to discover the correct url to access at the KDC (see
