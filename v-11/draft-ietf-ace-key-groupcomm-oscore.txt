@@ -1894,7 +1894,8 @@ Table of Contents
    member or signature verifier MUST store the obtained Group Manager's
    public key, possibly replacing the currently stored one.
 
-   Figure 3 gives an overview of the exchange described above.
+   Figure 3 gives an overview of the exchange described above, while
+   Figure 4 shows an example.
 
    Group                                                         Group
    Member                                                       Manager
@@ -1907,6 +1908,29 @@ Table of Contents
      |                                                             |
 
     Figure 3: Message Flow of Group Manager Public Key Request-Response
+
+      Request:
+
+      Header: GET (Code=0.01)
+      Uri-Host: "kdc.example.com"
+      Uri-Path: "ace-group"
+      Uri-Path: "g1"
+      Uri-Path: "gm-pub-key"
+      Payload: -
+
+      Response:
+
+      Header: Content (Code=2.05)
+      Content-Format: "application/ace-groupcomm+cbor"
+      Payload (in CBOR diagnostic notation, with PUB_KEY_GM
+               and POP_EVIDENCE being CBOR byte strings):
+        {
+          "kdc_nonce": h'25a8991cd700ac01',
+          "kdc_cred": PUB_KEY_GM,
+          "kdc_cred_verify": POP_EVIDENCE
+        }
+
+       Figure 4: Example of Group Manager Public Key Request-Response
 
 13.  Retrieval of Signature Verification Data
 
@@ -1953,7 +1977,8 @@ Table of Contents
    and the public key of the Group Manager, which can be retrieved as
    defined in Section 12.
 
-   Figure 4 gives an overview of the exchange described above.
+   Figure 5 gives an overview of the exchange described above, while
+   Figure 6 shows an example.
 
    Signature                                                     Group
    Verifier                                                     Manager
@@ -1965,8 +1990,42 @@ Table of Contents
      |<--- Signature Verification Data Response: 2.05 (Content) ---|
      |                                                             |
 
-       Figure 4: Message Flow of Signature Verification Data Request-
+       Figure 5: Message Flow of Signature Verification Data Request-
                                   Response
+
+      Request:
+
+      Header: GET (Code=0.01)
+      Uri-Host: "kdc.example.com"
+      Uri-Path: "ace-group"
+      Uri-Path: "g1"
+      Uri-Path: "verif-data"
+      Payload: -
+
+      Response:
+
+      Header: Content (Code=2.05)
+      Content-Format: "application/ace-groupcomm+cbor"
+      Payload (in CBOR diagnostic notation, with GROUPCOMM_KEY_TBD
+               and PROFILE_TBD being CBOR integers, while GROUP_ENC_KEY
+               being a CBOR byte string):
+       {
+         "gkty": GROUPCOMM_KEY_TBD,
+         "key": {
+           'hkdf': -10,                   ; HKDF SHA-256
+           'contextId': h'37fc',
+           'pub_key_enc': 33,             ; x5chain
+           'sign_enc_alg': 10,            ; AES-CCM-16-64-128
+           'sign_alg': -8,                ; EdDSA
+           'sign_params': [[1], [1, 6]]   ; [[OKP], [OKP, Ed25519]]
+         },
+         "num": 12,
+         "exp": 1609459200,
+         "ace_groupcomm_profile": PROFILE_TBD,
+         "group_enc_key": GROUP_ENC_KEY
+       }
+
+     Figure 6: Example of Signature Verification Data Request-Response
 
 14.  Retrieval of Group Policies
 
@@ -2021,7 +2080,8 @@ Table of Contents
    become active again, the group member can resume taking part in
    communications within the group.
 
-   Figure 5 gives an overview of the exchange described above.
+   Figure 7 gives an overview of the exchange described above, while
+   Figure 8 shows an example.
 
    Group                                                         Group
    Member                                                       Manager
@@ -2031,7 +2091,24 @@ Table of Contents
      |<---------- Group Status Response: 2.05 (Content) -----------|
      |                                                             |
 
-          Figure 5: Message Flow of Group Status Request-Response
+          Figure 7: Message Flow of Group Status Request-Response
+
+      Request:
+
+      Header: GET (Code=0.01)
+      Uri-Host: "kdc.example.com"
+      Uri-Path: "ace-group"
+      Uri-Path: "g1"
+      Uri-Path: "active"
+      Payload: -
+
+      Response:
+
+      Header: Content (Code=2.05)
+      Payload (in CBOR diagnostic notation):
+        true
+
+             Figure 8: Example of Group Status Request-Response
 
 17.  Retrieval of Group Names and URIs
 
@@ -2109,7 +2186,8 @@ Table of Contents
    between the former pair and any other Gid for that group than the
    current, most recent one.
 
-   Figure 6 gives an overview of the exchanges described above.
+   Figure 9 gives an overview of the exchanges described above, while
+   Figure 10 shows an example.
 
                                                                   Group
   Node                                                           Manager
@@ -2119,8 +2197,32 @@ Table of Contents
    |<--- Group Name and URI Retrieval Response: 2.05 (Content) -----|
    |                                                                |
 
-     Figure 6: Message Flow of Group Name and URI Retrieval Request-
+     Figure 9: Message Flow of Group Name and URI Retrieval Request-
                                  Response
+
+     Request:
+
+     Header: FETCH (Code=0.05)
+     Uri-Host: "kdc.example.com"
+     Uri-Path: "ace-group"
+     Content-Format: "application/ace-groupcomm+cbor"
+     Payload (in CBOR diagnostic notation):
+       {
+         "gid": [h'37fc', h'84bd']
+       }
+
+     Response:
+
+     Header: Content (Code=2.05)
+     Content-Format: "application/ace-groupcomm+cbor"
+     Payload (in CBOR diagnostic notation):
+       {
+         "gid": [h'37fc', h'84bd'],
+         "gname": ["g1", "g2"],
+         "guri": ["ace-group/g1", "ace-group/g2"]
+       }
+
+    Figure 10: Example of Group Name and URI Retrieval Request-Response
 
 18.  Request to Leave the Group
 
@@ -2650,7 +2752,7 @@ Table of Contents
 
    *  Name: Group_OSCORE_Input_Material object
 
-   *  Key Type Value: TBD
+   *  Key Type Value: GROUPCOMM_KEY_TBD
 
    *  Profile: "coap_group_oscore_app", defined in Section 23.5 of this
       document.
@@ -3464,7 +3566,7 @@ B.1.  Format of 'ecdh_info_entry'
 
       gname = tstr
 
-              Figure 7: 'ecdh_info_entry' with general format
+              Figure 11: 'ecdh_info_entry' with general format
 
 B.2.  Format of 'key'
 
@@ -3550,6 +3652,8 @@ C.1.  Version -10 to -11
 
    *  Always use 'peer_identifiers' to convey Sender IDs as node
       identifiers.
+
+   *  Added examples of message exchanges.
 
    *  Revised default values of group configuration parameters.
 
