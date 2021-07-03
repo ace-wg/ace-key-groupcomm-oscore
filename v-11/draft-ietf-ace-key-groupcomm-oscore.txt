@@ -377,8 +377,7 @@ Table of Contents
    maintain a collection of stale Sender IDs for that group.
 
    The collection associated to a group MUST include up to N ordered
-   sets of stale OSCORE Sender IDs.  The value of N is immutable
-   throughout the lifetime of the group.  It is up to the application to
+   sets of stale OSCORE Sender IDs.  It is up to the application to
    specify the value of N, possibly on a per-group basis.
 
    The N-th set includes the Sender IDs that have become "stale" under
@@ -400,6 +399,11 @@ Table of Contents
       ID is added to X.  This happens when a group member requests to
       leave the group (see Section 18) or is forcibly evicted from the
       group (see Section 19).
+
+   The value of N can change throughout the lifetime of the group.  If
+   the new value N' is smaller than N, the Group Manager MUST preserve
+   the N' most recent sets in the collection and MUST delete the (N -
+   N') oldest sets.
 
    Finally, the Group Manager MUST perform the following actions, when
    the group is rekeyed and the group shifts to the next version V' = (V
