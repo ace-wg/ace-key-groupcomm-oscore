@@ -2557,6 +2557,9 @@ Table of Contents
    [ This is a pending registration requested by draft-ietf-lake-edhoc.
    ]
 
+   The Group Manager SHOULD store at most N = 3 sets of stale Sender IDs
+   in the collection associated to the group (see Section 2.2.1).
+
 21.2.  Group Mode
 
    This section applies if the group uses (also) the group mode of Group
