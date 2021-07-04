@@ -5,10 +5,10 @@
 ACE Working Group                                              M. Tiloca
 Internet-Draft                                                   RISE AB
 Intended status: Standards Track                                 J. Park
-Expires: 4 January 2022                      Universitaet Duisburg-Essen
+Expires: 5 January 2022                      Universitaet Duisburg-Essen
                                                             F. Palombini
                                                              Ericsson AB
-                                                             3 July 2021
+                                                             4 July 2021
 
 
                 Key Management for OSCORE Groups in ACE
@@ -43,7 +43,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 4 January 2022.
+   This Internet-Draft will expire on 5 January 2022.
 
 Copyright Notice
 
@@ -78,7 +78,9 @@ Table of Contents
        5.2.1.  GET Handler
      5.3.  ace-group/GROUPNAME/verif-data
        5.3.1.  GET Handler
-     5.4.  Admitted Methods
+     5.4.  ace-group/GROUPNAME/stale-sids
+       5.4.1.  FETCH Handler
+     5.5.  Admitted Methods
    6.  Token POST and Group Joining
      6.1.  Token Post
        6.1.1.  'ecdh_info' Parameter
@@ -104,6 +106,10 @@ Table of Contents
    18. Request to Leave the Group
    19. Removal of a Group Member
    20. Group Rekeying Process
+     20.1.  Sending Rekeying Messages
+     20.2.  Receiving Rekeying Messages
+     20.3.  Missed Rekeying Instances
+       20.3.1.  Retrieval of Stale Sender IDs
    21. Default Values for Group Configuration Parameters
      21.1.  Common
      21.2.  Group Mode
@@ -302,9 +308,9 @@ Table of Contents
 
    To this end the Group Manager MUST support the Group Rekeying Process
    described in Section 20 of this document.  Future application
-   profiles may define alternative rekeying message formats and
-   distribution schemes, which MUST comply with the functional steps
-   defined in Section 3.2 of [I-D.ietf-core-oscore-groupcomm].
+   profiles may define alternative rekeying message formats and group
+   rekeying schemes, which MUST comply with the functional steps defined
+   in Section 3.2 of [I-D.ietf-core-oscore-groupcomm].
 
    Upon generating the new group keying material and before starting its
    distribution, the Group Manager MUST increment the version number of
@@ -361,7 +367,7 @@ Table of Contents
       Due to the set of stale Sender IDs distributed through the
       rekeying, this ensures that a node owning the latest group keying
       material does not store the public keys of former group members
-      (see Sections 2 and 10.1 of [I-D.ietf-core-oscore-groupcomm]).
+      (see Sections 3.2 and 10.1 of [I-D.ietf-core-oscore-groupcomm]).
 
    *  Extension of group lifetime - That is, the group is rekeyed when
       the expiration time for the group keying material approaches or
@@ -553,9 +559,9 @@ Table of Contents
 
    The Group Manager provides the interface defined in Section 4.1 of
    [I-D.ietf-ace-key-groupcomm], with the additional sub-resources
-   defined in Section 5.1-Section 5.3 of this document.
+   defined from Section 5.1 to Section 5.4 of this document.
 
-   Furthermore, Section 5.4 provides a summary of the CoAP methods
+   Furthermore, Section 5.5 provides a summary of the CoAP methods
    admitted to access different resources at the Group Manager, for
    nodes with different roles in the group or as non members (REQ8).
 
@@ -580,14 +586,14 @@ Table of Contents
 
    The handler expects a GET request.
 
-   The Group Manager verifies that the group name in the /ace-
-   group/GROUPNAME/active path is a subset of the 'scope' stored in the
-   Access Token associated to the requesting client.
+   The handler verifies that the group name in the /ace-group/GROUPNAME/
+   active path is a subset of the 'scope' stored in the Access Token
+   associated to the requesting client.
 
-   The Group Manager also verifies that the roles granted to the
-   requesting client in the group allow it to perform this operation on
-   this resource (REQ8).  If either verification fails, the Group
-   Manager MUST respond with a 4.01 (Unauthorized) error message.
+   The handler also verifies that the roles granted to the requesting
+   client in the group allow it to perform this operation on this
+   resource (REQ8).  If either verification fails, the Group Manager
+   MUST respond with a 4.01 (Unauthorized) error message.
 
    Additionally, the handler verifies that the requesting client is a
    current member of the group.  If verification fails, the Group
@@ -614,14 +620,14 @@ Table of Contents
 
    The handler expects a GET request.
 
-   The Group Manager verifies that the group name in the /ace-
-   group/GROUPNAME/gm-pub-key path is a subset of the 'scope' stored in
-   the Access Token associated to the requesting client.
+   The handler verifies that the group name in the /ace-group/GROUPNAME/
+   gm-pub-key path is a subset of the 'scope' stored in the Access Token
+   associated to the requesting client.
 
-   The Group Manager also verifies that the roles granted to the
-   requesting client allow it to perform this operation on this resource
-   (REQ8).  If either verification fails, the Group Manager MUST respond
-   with a 4.01 (Unauthorized) error message.
+   The handler also verifies that the roles granted to the requesting
+   client allow it to perform this operation on this resource (REQ8).
+   If either verification fails, the Group Manager MUST respond with a
+   4.01 (Unauthorized) error message.
 
    If the requesting client is not a current group member and GROUPNAME
    denotes a pairwise-only group, the Group Manager MUST respond with a
@@ -645,14 +651,14 @@ Table of Contents
 
    The handler expects a GET request.
 
-   The Group Manager verifies that the group name in the /ace-
-   group/GROUPNAME/verif-data path is a subset of the 'scope' stored in
-   the Access Token associated to the requesting client.
+   The handler verifies that the group name in the /ace-group/GROUPNAME/
+   verif-data path is a subset of the 'scope' stored in the Access Token
+   associated to the requesting client.
 
-   The Group Manager also verifies that the roles granted to the
-   requesting client allow it to perform this operation on this resource
-   (REQ8).  If either verification fails, the Group Manager MUST respond
-   with a 4.01 (Unauthorized) error message.
+   The handler also verifies that the roles granted to the requesting
+   client allow it to perform this operation on this resource (REQ8).
+   If either verification fails, the Group Manager MUST respond with a
+   4.01 (Unauthorized) error message.
 
    If the requesting client is a current group member, the Group Manager
    MUST respond with a 4.01 (Unauthorized) error message.  The response
@@ -676,7 +682,41 @@ Table of Contents
    Format set to application/ace-groupcomm+cbor.  The payload of the
    response is a CBOR map, which is formatted as defined in Section 13.
 
-5.4.  Admitted Methods
+5.4.  ace-group/GROUPNAME/stale-sids
+
+   This resource implements a FETCH handler.
+
+5.4.1.  FETCH Handler
+
+   The handler expects a FETCH request, whose payload specifies a
+   version number of the group keying material, encoded as an unsigned
+   CBOR integer.
+
+   The handler verifies that the group name in the /ace-group/GROUPNAME/
+   stale-sids path is a subset of the 'scope' stored in the Access Token
+   associated to the requesting client.
+
+   The handler also verifies that the roles granted to the requesting
+   client allow it to perform this operation on this resource (REQ8).
+   If either verification fails, the Group Manager MUST respond with a
+   4.01 (Unauthorized) error message.
+
+   Additionally, the handler verifies that the requesting client is a
+   current member of the group.  If verification fails, the Group
+   Manager MUST respond with a 4.01 (Unauthorized) error message.  The
+   response MUST have Content-Format set to application/ace-
+   groupcomm+cbor and is formatted as defined in Section 4 of
+   [I-D.ietf-ace-key-groupcomm].  The value of the 'error' field MUST be
+   set to 0 ("Operation permitted only to group members").
+
+   If the verifications above succeed, the handler returns a 2.05
+   (Content) message, specifying data that allows the requesting client
+   to delete the Recipient Contexts and public keys associated to former
+   members of the group (see Section 3.2 of
+   [I-D.ietf-core-oscore-groupcomm].  The payload of the response is
+   formatted as defined in Section 20.3.1.
+
+5.5.  Admitted Methods
 
    The table in Figure 2 summarizes the CoAP methods admitted to access
    different resources at the Group Manager, for (non-)members of a
@@ -698,6 +738,8 @@ Table of Contents
     | ace-group/GROUPNAME/verif-data | -      | -     | G     | -     |
     +--------------------------------+--------+-------+-------+-------+
     | ace-group/GROUPNAME/pub-key    | G F    | G F   | G F   | -     |
+    +--------------------------------+--------+-------+-------+-------+
+    | ace-group/GROUPNAME/stale-sids | F      | F     | -     | -     |
     +--------------------------------+--------+-------+-------+-------+
     | ace-group/GROUPNAME/policies   | G      | G     | -     | -     |
     +--------------------------------+--------+-------+-------+-------+
@@ -2301,27 +2343,27 @@ Table of Contents
      Figure 9: Message Flow of Group Name and URI Retrieval Request-
                                  Response
 
-     Request:
+      Request:
 
-     Header: FETCH (Code=0.05)
-     Uri-Host: "kdc.example.com"
-     Uri-Path: "ace-group"
-     Content-Format: "application/ace-groupcomm+cbor"
-     Payload (in CBOR diagnostic notation):
-       {
-         "gid": [h'37fc', h'84bd']
-       }
+      Header: FETCH (Code=0.05)
+      Uri-Host: "kdc.example.com"
+      Uri-Path: "ace-group"
+      Content-Format: "application/ace-groupcomm+cbor"
+      Payload (in CBOR diagnostic notation):
+        {
+          "gid": [h'37fc', h'84bd']
+        }
 
-     Response:
+      Response:
 
-     Header: Content (Code=2.05)
-     Content-Format: "application/ace-groupcomm+cbor"
-     Payload (in CBOR diagnostic notation):
-       {
-         "gid": [h'37fc', h'84bd'],
-         "gname": ["g1", "g2"],
-         "guri": ["ace-group/g1", "ace-group/g2"]
-       }
+      Header: Content (Code=2.05)
+      Content-Format: "application/ace-groupcomm+cbor"
+      Payload (in CBOR diagnostic notation):
+        {
+          "gid": [h'37fc', h'84bd'],
+          "gname": ["g1", "g2"],
+          "guri": ["ace-group/g1", "ace-group/g2"]
+        }
 
     Figure 10: Example of Group Name and URI Retrieval Request-Response
 
@@ -2411,8 +2453,11 @@ Table of Contents
       current group members (see Section 6.4).  If any of such "elder
       members" is found in the group, the Group Manager MUST evict them
       from the group.  That is, the Group Manager MUST terminate their
-      membership and MUST rekey the group in such a way that the new key
-      material is not provided to those evicted elder members.
+      membership and MUST rekey the group in such a way that the new
+      keying material is not provided to those evicted elder members.
+      This also includes adding their relinquished Sender IDs to the
+      most recent set of stale Sender IDs, in the collection associated
+      to the group (see Section 2.2.1), before rekeying the group.
 
       Until a further following group rekeying, the Group Manager MUST
       store the list of those latest-evicted elder members.  If any of
@@ -2425,87 +2470,22 @@ Table of Contents
    Across the rekeying execution, the Group Manager MUST preserve the
    same unchanged OSCORE Sender IDs for all group members intended to
    remain in the group.  This avoids affecting the retrieval of public
-   keys from the Group Manager as well as the verification of group
-   messages.
+   keys from the Group Manager and the verification of group messages.
 
-   The Group Manager MUST support at least the following group rekeying
-   scheme.  Future application profiles may define alternative message
-   formats and distribution schemes.
-
-   The group rekeying messages MUST have Content-Format set to
-   application/ace-groupcomm+cbor and have the same format used for the
-   Joining Response message in Section 6.4, with the following
-   differences.
-
-   *  From the Joining Response, only the parameters 'gkty', 'key',
-      'num', 'exp', and 'ace-groupcomm-profile' are present.  In
-      particular, the 'key' parameter includes only the following data.
-
-      -  The 'ms' parameter, specifying the new OSCORE Master Secret
-         value.
-
-      -  The 'contextId' parameter, specifying the new Gid to use as
-         OSCORE ID Context value.
-
-   *  The parameter 'stale_node_ids' MUST also be included, with CBOR
-      label defined in Section 23.3.  This parameter is encoded as a
-      CBOR array, where each element is encoded as a CBOR byte string.
-      The CBOR array has to be intended as a set, i.e., the order of its
-      elements is irrelevant.  The CBOR array is populated as follows.
-
-      -  The Group Manager considers the collection of stale Sender IDs
-         associated to the group (see Section 2.2.1), and takes the most
-         recent set X, i.e., the set associated to the current version
-         of the group keying material about to be relinquished.
-
-      -  For each Sender ID in X, the Group Manager encodes it as a CBOR
-         byte string and adds the result to the CBOR array.
-
-   The Group Manager separately sends a group rekeying message to each
-   group member to be rekeyed.
-
-   Each rekeying message MUST be secured with the pairwise secure
-   communication channel between the Group Manager and the group member
-   used during the joining process.  In particular, each rekeying
-   message can target the 'control_uri' URI path defined in
-   Section 4.1.2.1 of [I-D.ietf-ace-key-groupcomm] (OPT10), if provided
-   by the intended recipient upon joining the group (see Section 6.2).
+   The Group Manager MUST support at least the group rekeying scheme
+   defined in Section 20.1.  Future application profiles may define
+   alternative message formats and group rekeying schemes, which MUST
+   comply with the functional steps defined in Section 3.2 of
+   [I-D.ietf-core-oscore-groupcomm].
 
    It is RECOMMENDED that the Group Manager gets confirmation of
    successful distribution from the group members, and admits a maximum
    number of individual retransmissions to non-confirming group members.
-
    Once completed the group rekeying process, the Group Manager creates
    a new empty set X' of stale Sender IDs associated to the version of
    the newly distributed group keying material.  Then, the Group Manager
    MUST add the set X' to the collection of stale Sender IDs associated
    to the group (see Section 2.2.1).
-
-   As per Section 3.2 of [I-D.ietf-core-oscore-groupcomm], a group
-   member that receives the new group keying material MUST delete all
-   its Recipient Contexts whose corresponding Recipient ID is included
-   in the set of stale Sender IDs specified by the 'stale_node_ids'
-   parameter.  After that, the group member installs the new keying
-   material and derives the corresponding new Security Context.
-
-   The distribution approach defined in this section requires group
-   members to act (also) as servers, in order to correctly handle
-   unsolicited group rekeying messages from the Group Manager.  In
-   particular, if a group member and the Group Manager use OSCORE
-   [RFC8613] to secure their pairwise communications, the group member
-   MUST create a Replay Window in its own Recipient Context upon
-   establishing the OSCORE Security Context with the Group Manager, e.g.
-   by means of the OSCORE profile of ACE [I-D.ietf-ace-oscore-profile].
-
-   Group members and the Group Manager SHOULD additionally support
-   alternative rekeying approaches that do not require group members to
-   act (also) as servers.  A number of such approaches are defined in
-   Section 4.4 of [I-D.ietf-ace-key-groupcomm].  In particular, a group
-   member may subscribe for updates to the group-membership resource of
-   the group, at the endpoint /ace-group/GROUPNAME/ of the Group
-   Manager.  This can rely on CoAP Observe [RFC7641] or on a full-
-   fledged Pub-Sub model [I-D.ietf-core-coap-pubsub] with the Group
-   Manager acting as Broker.
 
    In case the rekeying terminates and some group members have not
    received the new keying material, they will not be able to correctly
@@ -2536,6 +2516,299 @@ Table of Contents
    right Group Manager.  Hence, they need to contact a Group Manager
    multiple times, i.e. separately for each group they belong to and
    associated to that Group Manager.
+
+   Finally, Section 20.3 discusses how a group member can realize that
+   it has missed one or more rekeying instances, and the actions it is
+   accordingly required to take.
+
+20.1.  Sending Rekeying Messages
+
+   The Group Manager MUST support at least the group rekeying scheme
+   defined in this section.
+
+   The group rekeying messages MUST have Content-Format set to
+   application/ace-groupcomm+cbor and have the same format used for the
+   Joining Response message in Section 6.4, with the following
+   differences.
+
+   *  From the Joining Response, only the parameters 'gkty', 'key',
+      'num', 'exp', and 'ace-groupcomm-profile' are present.  In
+      particular, the 'key' parameter includes only the following data.
+
+      -  The 'ms' parameter, specifying the new OSCORE Master Secret
+         value.
+
+      -  The 'contextId' parameter, specifying the new Gid to use as
+         OSCORE ID Context value.
+
+      -  Optionally, the 'salt' value, specifying the new OSCORE Master
+         Salt value.
+
+   *  The parameter 'stale_node_ids' MUST also be included, with CBOR
+      label defined in Section 23.3.  This parameter is encoded as a
+      CBOR array, where each element is encoded as a CBOR byte string.
+      The CBOR array has to be intended as a set, i.e., the order of its
+      elements is irrelevant.  The parameter is populated as follows.
+
+      -  The Group Manager creates an empty CBOR array ARRAY.
+
+      -  The Group Manager considers the collection of stale Sender IDs
+         associated to the group (see Section 2.2.1), and takes the most
+         recent set X, i.e., the set associated to the current version
+         of the group keying material about to be relinquished.
+
+      -  For each Sender ID in X, the Group Manager encodes it as a CBOR
+         byte string and adds the result to ARRAY.
+
+      -  The parameter 'stale_node_ids' takes ARRAY as value.
+
+   The Group Manager separately sends a group rekeying message formatted
+   as defined above to each group member to be rekeyed.
+
+   Each rekeying message MUST be secured with the pairwise secure
+   communication channel between the Group Manager and the group member
+   used during the joining process.  In particular, each rekeying
+   message can target the 'control_uri' URI path defined in
+   Section 4.1.2.1 of [I-D.ietf-ace-key-groupcomm] (OPT10), if provided
+   by the intended recipient upon joining the group (see Section 6.2).
+
+   This distribution approach requires group members to act (also) as
+   servers, in order to correctly handle unsolicited group rekeying
+   messages from the Group Manager.  In particular, if a group member
+   and the Group Manager use OSCORE [RFC8613] to secure their pairwise
+   communications, the group member MUST create a Replay Window in its
+   own Recipient Context upon establishing the OSCORE Security Context
+   with the Group Manager, e.g. by means of the OSCORE profile of ACE
+   [I-D.ietf-ace-oscore-profile].
+
+   Group members and the Group Manager SHOULD additionally support
+   alternative distribution approaches that do not require group members
+   to act (also) as servers.  A number of such approaches are defined in
+   Section 4.4 of [I-D.ietf-ace-key-groupcomm].  In particular, a group
+   member may subscribe for updates to the group-membership resource of
+   the group, at the endpoint /ace-group/GROUPNAME/ of the Group
+   Manager.  This can rely on CoAP Observe [RFC7641] or on a full-
+   fledged Pub-Sub model [I-D.ietf-core-coap-pubsub] with the Group
+   Manager acting as Broker.
+
+20.2.  Receiving Rekeying Messages
+
+   Once received the new group keying material, a group member proceeds
+   as follows.
+
+   As per Section 3.2 of [I-D.ietf-core-oscore-groupcomm], the group
+   member MUST delete all its Recipient Contexts whose corresponding
+   Recipient ID is included in the set of specified stale Sender IDs.
+   If the group rekeying scheme defined in Section 20.1 is used, this
+   information is specified by the 'stale_node_ids' parameter.
+
+   Then, the following cases can occur, based on the version number V'
+   of the new group keying material distributed through the rekeying
+   process.  If the group rekeying scheme defined in Section 20.1 is
+   used, this information is specified by the 'num' parameter.
+
+   *  The group member has not missed any group rekeying.  That is, the
+      old keying material owned by the group member has version number
+      V, while the received new keying material has version number V' =
+      (V + 1).  In such a case, the group member simply installs the new
+      keying material and derives the corresponding new Security
+      Context.
+
+   *  The group member has missed one or more group rekeying instances.
+      That is, the old keying material owned by the group member has
+      version number V, while the received new keying material has
+      version number V' > (V + 1).  In such a case, the group member
+      MUST proceed as defined in Section 20.3.
+
+   *  The group member has received keying material not newer than the
+      stored one.  That is, the stored keying material owned by the
+      group member has version number V, while the received keying
+      material has version number V' < (V + 1).  In such a case, the
+      group member MUST ignore the received rekeying messages and MUST
+      NOT install the received keying material.
+
+20.3.  Missed Rekeying Instances
+
+   A group member can realize to have missed one or more rekeying
+   instances in one of the ways discussed below.  In the following, V
+   denotes the version number of the old keying material stored by the
+   group member, while V' denotes the version number of the latest,
+   possibly just distributed, keying material.
+
+   a.  The group member has participated to a rekeying process that has
+   distributed new keying material with version number V' > (V + 1), as
+   discussed in Section 20.2.
+
+   b.  The group member has obtained the latest keying material from the
+   Group Manager, as a response to a Key Distribution Request (see
+   Section 8.1) or to a Joining Request when re-joining the group (see
+   Section 6.2).  In particular, V is different than V' specified by the
+   'num' parameter in the response.
+
+   c.  The group member has obtained the public keys of other group
+   members, through a Public Key Request-Response exchange with the
+   Group Manager (see Section 10).  In particular, V is different than
+   V' specified by the 'num' parameter in the response.
+
+   d.  The group member has performed a Version Request-Response
+   exchange with the Group Manager (see Section 15).  In particular, V
+   is different than V' specified by the 'num' parameter in the
+   response.
+
+   In either case, the group member MUST delete the stored keying
+   material with version number V.
+
+   In case case (a) or case (b) applies, the group member MUST perform
+   the following actions.
+
+   1.  The group member MUST NOT install the latest keying material yet.
+
+   2.  The group member sends a Stale Sender IDs Request to the Group
+       Manager (see Section 20.3.1), specifying the version number V as
+       payload of the request.
+
+       The group member MUST delete each of its Recipient Contexts used
+       in the group, such that the corresponding Recipient ID is
+       specified in the Stale Sender IDs Response from the Group
+       Manager.  If that response has no payload, the group member MUST
+       delete all its Recipient Contexts used in the group.
+
+   3.  The group member installs the latest keying material with version
+       number V' and derives the corresponding new Security Context.
+
+   In case (c) or (d) applies, the group member SHOULD perform the
+   following actions.
+
+   1.  The group member sends a Stale Sender IDs Request to the Group
+       Manager (see Section 20.3.1), specifying the version number V as
+       payload of the request.
+
+       The group member MUST delete each of its Recipient Contexts used
+       in the group, such that the corresponding Recipient ID is
+       specified in the Stale Sender IDs Response from the Group
+       Manager.  If that response has no payload, the group member MUST
+       delete all its Recipient Contexts used in the group.
+
+   2.  The group member obtains the latest keying material with version
+       number V' from the Group Manager.  This can happen by sending a
+       Key Distribution Request to the Group Manager (see Section 8.1),
+       or by re-joining the group (see Section 6.2).
+
+   3.  The group member installs the latest keying material with version
+       number V' and derives the corresponding new Security Context.
+
+   In case (c) or (d) applies, the group member can alternatively
+   perform the following actions.
+
+   1.  The group member re-joins the group (see Section 6.2).  When
+       doing so, the group member MUST re-join with the same roles it
+       currently has in the group, and MUST request the Group Manager
+       for the public keys of all the current group members.  That is,
+       the 'get_pub_keys' parameter of the Joining Request MUST be
+       present and MUST be set to the CBOR simple value Null.
+
+   2.  When receiving the Joining Response (see Section 6.5 and
+       Section 6.5), the group member retrieves the public keys
+       specified in the 'pub_keys' parameter.  Then, the group member
+       MUST delete each of its stored Recipient Contexts that does not
+       include any of the public keys received from the Group Manager.
+
+   3.  The group member installs the latest keying material with version
+       number V' and derives the corresponding new Security Context.
+
+20.3.1.  Retrieval of Stale Sender IDs
+
+   When realizing to have missed one or more group rekeying instances
+   (see Section 20.3), a node needs to retrieve from the Group Manager
+   the data required to delete some of its stored Recipient Contexts
+   (see Section 5.4.1).  This data is provided as an aggregated set of
+   stale Sender IDs, which are used as specified in Section 20.3.
+
+   In particular, the node sends a CoAP FETCH request to the endpoint
+   /ace-group/GROUPNAME/stale-sids at the Group Manager defined in
+   Section 5.4 of this document, where GROUPNAME is the name of the
+   OSCORE group.
+
+   The payload of the Stale Sender IDs Request MUST include a CBOR
+   unsigned integer.  This encodes the version number V of the most
+   recent group keying material owned and installed by the requesting
+   client.
+
+   The handler MUST respond with a 4.00 (Bad Request) response, if the
+   request is not formatted correctly.  Also, the handler MUST respond
+   with a 4.00 (Bad Request) response, if the specified version number V
+   is greater or equal than the version number V' associated to the
+   latest keying material in the group, i.e., if V >= V'.
+
+   Otherwise, the handler responds with a 2.05 (Content) Stale Sender
+   IDs Response.  The payload of the response is formatted as defined
+   below, where SKEW = (V' - V).
+
+   *  The Group Manager considers ITEMS as the current number of sets
+      stored in the collection of stale Sender IDs associated to the
+      group (see Section 2.2.1).
+
+   *  If SKEW > ITEMS, the Stale Sender IDs Response MUST NOT have a
+      payload.
+
+   *  Otherwise, the payload of the Stale Sender IDs Response MUST
+      include a CBOR array, where each element is encoded as a CBOR byte
+      string.  The CBOR array has to be intended as a set, i.e., the
+      order of its elements is irrelevant.  The Group Manager populates
+      the CBOR array as follows.
+
+      -  The Group Manager creates an empty CBOR array ARRAY and an
+         empty set X.
+
+      -  The Group Manager considers the SKEW most recent sets stored in
+         the collection of stale Sender IDs associated to the group.
+         Note that the most recent set is the one associate to the
+         latest version of the group keying material.
+
+      -  The Group Manager copies all the Sender IDs from the selected
+         sets into X.  When doing so, the Group Manager MUST discard
+         duplicates.  That is, the same Sender ID MUST NOT be present
+         more than once in the final content of X.
+
+      -  For each Sender ID in X, the Group Manager encodes it as a CBOR
+         byte string and adds the result to ARRAY.
+
+      -  Finally, ARRAY is specified as payload of the Stale Sender IDs
+         Response.  Note that ARRAY might result in the empty CBOR
+         array.
+
+   Figure 11 gives an overview of the exchange described above, while
+   Figure 12 shows an example.
+
+                                                                 Group
+   Node                                                         Manager
+     |                                                             |
+     |                   Stale Sender IDs Request                  |
+     |------------------------------------------------------------>|
+     |             FETCH ace-group/GROUPNAME/stale-sids            |
+     |                                                             |
+     |<----- Stale Sender IDs Request Response: 2.05 (Content) ----|
+     |                                                             |
+
+        Figure 11: Message Flow of Stale Sender IDs Request-Response
+
+      Request:
+
+      Header: FETCH (Code=0.05)
+      Uri-Host: "kdc.example.com"
+      Uri-Path: "ace-group"
+      Uri-Path: "g1"
+      Uri-Path: "stale-sids"
+      Payload (in CBOR diagnostic notation):
+        42
+
+      Response:
+
+      Header: Content (Code=2.05)
+      Payload (in CBOR diagnostic notation):
+        [h'01', h'fc', h'12ab', h'de44', h'ff']
+
+          Figure 12: Example of Stale Sender IDs Request-Response
 
 21.  Default Values for Group Configuration Parameters
 
@@ -3548,7 +3821,7 @@ Appendix A.  Profile Requirements
       Section 23.12.
 
    *  REQ8 - Define what operations (e.g.  CoAP methods) are allowed on
-      each resource, for each role defined in REQ2: see Section 5.4.
+      each resource, for each role defined in REQ2: see Section 5.5.
 
    *  REQ9 - Specify the exact encoding of group identifier (see
       Section 4.1.1.1 of [I-D.ietf-ace-key-groupcomm]): CBOR byte string
@@ -3714,7 +3987,7 @@ B.1.  Format of 'ecdh_info_entry'
 
       gname = tstr
 
-              Figure 11: 'ecdh_info_entry' with general format
+              Figure 13: 'ecdh_info_entry' with general format
 
 B.2.  Format of 'key'
 
@@ -3802,6 +4075,8 @@ C.1.  Version -10 to -11
       identifiers.
 
    *  Stale Sender IDs provided when rekeying the group.
+
+   *  New resource for late retrieval of stale Sender IDs.
 
    *  Added examples of message exchanges.
 
