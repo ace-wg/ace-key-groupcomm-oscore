@@ -241,8 +241,8 @@ Table of Contents
       [I-D.ietf-core-oscore-groupcomm].
 
    *  Signature verifier: entity external to the OSCORE group and
-      intended to verify the countersignature of messages exchanged in
-      the group (see Sections 3.1 and 8.5 of
+      intended to verify the signature of messages exchanged in the
+      group (see Sections 3.1 and 8.5 of
       [I-D.ietf-core-oscore-groupcomm]).  An authorized signature
       verifier does not join the OSCORE group as an actual member, yet
       it can retrieve the public keys of the current group members from
@@ -476,7 +476,7 @@ Table of Contents
  +-----------+-------+-------------------------------------------------+
  | Monitor   | 3     | Receive requests; never send requests/responses |
  |-----------+-------+-------------------------------------------------|
- | Verifier  | 4     | Verify countersignature of intercepted messages |
+ | Verifier  | 4     | Verify signature of intercepted messages        |
  +-----------+-------+-------------------------------------------------+
 
        Figure 1: Numeric identifier of roles in the OSCORE group
@@ -676,8 +676,8 @@ Table of Contents
 
    If the verifications above succeed, the handler returns a 2.05
    (Content) message, specifying data that allows also a signature
-   verifier to verify countersignatures of messages protected with the
-   group mode and sent to the group (see Sections 3.1 and 8.5 of
+   verifier to verify signatures of messages protected with the group
+   mode and sent to the group (see Sections 3.1 and 8.5 of
    [I-D.ietf-core-oscore-groupcomm]).  The response MUST have Content-
    Format set to application/ace-groupcomm+cbor.  The payload of the
    response is a CBOR map, which is formatted as defined in Section 13.
@@ -1443,10 +1443,9 @@ Table of Contents
 
       -  The 'sign_alg' parameter MUST NOT be present if the OSCORE
          group is a pairwise-only group.  Otherwise, it MUST be present
-         and specifies the Signature Algorithm used to countersign
-         messages in the OSCORE group.  This parameter takes values from
-         the "Value" column of the "COSE Algorithms" Registry
-         [COSE.Algorithms].
+         and specifies the Signature Algorithm used to sign messages in
+         the OSCORE group.  This parameter takes values from the "Value"
+         column of the "COSE Algorithms" Registry [COSE.Algorithms].
 
       -  The 'sign_params' parameter MUST NOT be present if the OSCORE
          group is a pairwise-only group.  Otherwise, it MUST be present
@@ -1665,10 +1664,9 @@ Table of Contents
 
    Source authentication of a message sent within the group and
    protected with Group OSCORE is ensured by means of a digital
-   countersignature embedded in the message (in group mode), or by
-   integrity-protecting the message with pairwise keying material
-   derived from the asymmetric keys of sender and recipient (in pairwise
-   mode).
+   signature embedded in the message (in group mode), or by integrity-
+   protecting the message with pairwise keying material derived from the
+   asymmetric keys of sender and recipient (in pairwise mode).
 
    Therefore, group members must be able to retrieve each other's public
    key from a trusted key repository, in order to verify source
@@ -2086,11 +2084,10 @@ Table of Contents
 13.  Retrieval of Signature Verification Data
 
    A signature verifier may need to retrieve data required to verify
-   countersignatures of messages protected with the group mode and sent
-   to a group (see Sections 3.1 and 8.5 of
-   [I-D.ietf-core-oscore-groupcomm]).  To this end, the signature
-   verifier sends a Signature Verification Data Request message to the
-   Group Manager.
+   signatures of messages protected with the group mode and sent to a
+   group (see Sections 3.1 and 8.5 of [I-D.ietf-core-oscore-groupcomm]).
+   To this end, the signature verifier sends a Signature Verification
+   Data Request message to the Group Manager.
 
    In particular, it sends a CoAP GET request to the endpoint /ace-
    group/GROUPNAME/verif-data at the Group Manager defined in
@@ -2120,7 +2117,7 @@ Table of Contents
       keying material, as per Section 2.1.6 of
       [I-D.ietf-core-oscore-groupcomm].  This parameter MUST be present.
 
-   In order to verify countersignatures in the group (see Section 8.5 of
+   In order to verify signatures in the group (see Section 8.5 of
    [I-D.ietf-core-oscore-groupcomm]), the signature verifier relies on:
    the data retrieved from the 2.05 (Content) Signature Verification
    Data Response; the public keys of the group members signing the
@@ -2300,8 +2297,8 @@ Table of Contents
       would retain the old Gid value and cannot correctly associate
       intercepted messages to the right group, especially if acting as
       signature verifier in several groups.  This in turn prevents the
-      efficient verification of countersignatures, and especially the
-      retrieval of required, new public keys from the Group Manager.
+      efficient verification of signatures, and especially the retrieval
+      of required, new public keys from the Group Manager.
 
    In either case, the node only knows the current Gid of the group, as
    learned from received or intercepted messages exchanged in the group.
@@ -2856,9 +2853,9 @@ Table of Contents
       encrypted messages protected with the group mode, AES-CCM-
       16-64-128 (COSE algorithm encoding: 10).
 
-   *  For the Signature Algorithm 'sign_alg' used to countersign
-      messages protected with the group mode, the signature algorithm
-      EdDSA [RFC8032].
+   *  For the Signature Algorithm 'sign_alg' used to sign messages
+      protected with the group mode, the signature algorithm EdDSA
+      [RFC8032].
 
    *  For the parameters 'sign_params' of the Signature Algorithm:
 
@@ -4311,7 +4308,7 @@ C.10.  Version -01 to -02
       (Section 4).
 
    *  Renamed 'key_info' parameter to 'sign_info'; updated its format;
-      extended to include also parameters of the countersignature key
+      extended to include also parameters of the signature key
       (Section 4.1).
 
    *  Code 4.00 (Bad request), in responses to joining nodes providing
