@@ -5,10 +5,10 @@
 ACE Working Group                                              M. Tiloca
 Internet-Draft                                                   RISE AB
 Intended status: Standards Track                                 J. Park
-Expires: 5 January 2022                      Universitaet Duisburg-Essen
+Expires: 6 January 2022                      Universitaet Duisburg-Essen
                                                             F. Palombini
                                                              Ericsson AB
-                                                             4 July 2021
+                                                             5 July 2021
 
 
                 Key Management for OSCORE Groups in ACE
@@ -43,7 +43,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 5 January 2022.
+   This Internet-Draft will expire on 6 January 2022.
 
 Copyright Notice
 
@@ -84,7 +84,7 @@ Table of Contents
    6.  Token POST and Group Joining
      6.1.  Token Post
        6.1.1.  'ecdh_info' Parameter
-       6.1.2.  'gm_pub_keys_info' Parameter
+       6.1.2.  'gm_dh_pub_keys' Parameter
      6.2.  Sending the Joining Request
        6.2.1.  Value of the N_S Challenge
      6.3.  Receiving the Joining Request
@@ -994,7 +994,7 @@ Table of Contents
    'ecdh_info_entry' can be generalized for possible future registered
    algorithms having a different set of COSE capabilities.
 
-6.1.2.  'gm_pub_keys_info' Parameter
+6.1.2.  'gm_dh_pub_keys' Parameter
 
    The 'gm_dh_pub_keys' parameter is an OPTIONAL parameter of the Token
    Post response message defined in Section 5.10.1 of
@@ -1015,7 +1015,7 @@ Table of Contents
    The CDDL notation [RFC8610] of the 'gm_dh_pub_keys' parameter
    formatted as in the request is given below.
 
-      gm_dh_pub_keys = nil
+      gm_dh_pub_keys_req = nil
 
    The 'gm_dh_pub_keys' parameter of the 2.01 (Created) response is a
    CBOR array of one or more elements.  The number of elements is at
@@ -1054,7 +1054,7 @@ Table of Contents
    The CDDL notation [RFC8610] of the 'gm_dh_pub_keys' parameter
    formatted as in the response is given below.
 
-      gm_dh_pub_keys = [ + gm_dh_pub_keys_entry ]
+      gm_dh_pub_keys_res = [ + gm_dh_pub_keys_entry ]
 
       gm_dh_pub_keys_entry =
       [
@@ -1241,6 +1241,14 @@ Table of Contents
          particular, it includes a single element 'ecdh_info_entry'
          pertaining to the OSCORE group that the joining node has tried
          to join with the Joining Request.
+
+      -  If the group uses (also) the pairwise mode of Group OSCORE, the
+         CBOR map MUST contain the 'gm_dh_pub_keys' parameter, whose
+         CBOR label is defined in Section 23.3.  This parameter has the
+         same format of 'gm_dh_pub_keys_res' defined in Section 6.1.2.
+         In particular, it includes a single element
+         'gm_dh_pub_keys_entry' pertaining to the OSCORE group that the
+         joining node has tried to join with the Joining Request.
 
       -  The CBOR map MAY include the 'kdcchallenge' parameter, whose
          CBOR label is defined in Section 7 of
@@ -3066,7 +3074,7 @@ Table of Contents
    *  Specification Document(s): [[This specification]]
 
 
-   *  Parameter name: gm_pub_keys_info
+   *  Parameter name: gm_dh_pub_keys
 
    *  Parameter usage location: client-rs request, rs-client response
 
@@ -3089,7 +3097,7 @@ Table of Contents
    *  Reference: [[This specification]]
 
 
-   *  Name: gm_pub_keys_info
+   *  Name: gm_dh_pub_keys
 
    *  CBOR Key: TBD (range -256 to 255)
 
@@ -3140,6 +3148,15 @@ Table of Contents
 
 
    *  Name: ecdh_info
+
+   *  CBOR Key: TBD
+
+   *  CBOR Type: Array
+
+   *  Reference: [[This document]] (Section 6.3)
+
+
+   *  Name: gm_dh_pub_keys
 
    *  CBOR Key: TBD
 
