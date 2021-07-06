@@ -382,7 +382,7 @@ Table of Contents
    Throughout the lifetime of every group, the Group Manager MUST
    maintain a collection of stale Sender IDs for that group.
 
-   The collection associated to a group MUST include up to N ordered
+   The collection associated to a group MUST include up to N > 0 ordered
    sets of stale OSCORE Sender IDs.  It is up to the application to
    specify the value of N, possibly on a per-group basis.
 
