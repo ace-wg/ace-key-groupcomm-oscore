@@ -2824,34 +2824,41 @@ Table of Contents
 
 21.1.  Common
 
-   For the HKDF Algorithm 'hkdf', the Group Manager SHOULD use the same
-   default value defined in Section 3.2 of [RFC8613], i.e., HKDF SHA-256
-   (COSE algorithm encoding: -10).
+   This section always applies, as related to common configuration
+   parameters.
 
-   For the format 'pub_key_enc' used to encode the public keys in the
-   group, the Group Manager SHOULD use a CBOR Web Token (CWT)[RFC8392]
-   or an unprotected CWT Claim Set [I-D.ietf-rats-uccs].
+   *  For the HKDF Algorithm 'hkdf', the Group Manager SHOULD use the
+      same default value defined in Section 3.2 of [RFC8613], i.e., HKDF
+      SHA-256 (COSE algorithm encoding: -10).
 
-   [ This is a pending registration requested by draft-ietf-lake-edhoc.
-   ]
+   *  For the format 'pub_key_enc' used to encode the public keys in the
+      group, the Group Manager SHOULD use a CBOR Web Token
+      (CWT)[RFC8392] or an unprotected CWT Claim Set
+      [I-D.ietf-rats-uccs].
 
-   The Group Manager SHOULD store at most N = 3 sets of stale Sender IDs
-   in the collection associated to the group (see Section 2.2.1).
+      [ This is a pending registration requested by draft-ietf-lake-
+      edhoc.  ]
+
+   *  For the maximum number 'max_stale_sets' of stored sets of stale
+      Sender IDs, the Group Manager SHOULD store at most N = 3 sets of
+      stale Sender IDs in the collection associated to the group (see
+      Section 2.2.1).
 
 21.2.  Group Mode
 
    This section applies if the group uses (also) the group mode of Group
    OSCORE.
 
-   The Group Manager SHOULD use the following default values for the
-   Signature Algorithm and related parameters, consistently with the
-   "COSE Algorithms" Registry [COSE.Algorithms], the "COSE Key Types"
-   Registry [COSE.Key.Types] and the "COSE Elliptic Curves" Registry
-   [COSE.Elliptic.Curves].
-
    *  For the Signature Encryption Algorithm 'sign_enc_alg' used to
-      encrypted messages protected with the group mode, AES-CCM-
-      16-64-128 (COSE algorithm encoding: 10).
+      encrypted messages protected with the group mode, the Group
+      Manager SHOULD use AES-CCM-16-64-128 (COSE algorithm encoding: 10)
+      as default value.
+
+   The Group Manager SHOULD use the following default values for the
+   Signature Algorithm 'sign_alg' and related parameters 'sign_params',
+   consistently with the "COSE Algorithms" Registry [COSE.Algorithms],
+   the "COSE Key Types" Registry [COSE.Key.Types] and the "COSE Elliptic
+   Curves" Registry [COSE.Elliptic.Curves].
 
    *  For the Signature Algorithm 'sign_alg' used to sign messages
       protected with the group mode, the signature algorithm EdDSA
@@ -2884,16 +2891,16 @@ Table of Contents
    This section applies if the group uses (also) the pairwise mode of
    Group OSCORE.
 
-   The Group Manager SHOULD use the same default value defined in
-   Section 3.2 of [RFC8613] for the AEAD Algorithm used to encrypt
-   messages protected with the pairwise mode, i.e., AES-CCM-16-64-128
+   For the AEAD Algorithm 'alg' used to encrypt messages protected with
+   the pairwise mode, the Group Manager SHOULD use the same default
+   value defined in Section 3.2 of [RFC8613], i.e., AES-CCM-16-64-128
    (COSE algorithm encoding: 10).
 
-   The Group Manager SHOULD use the following default values for the
-   Pairwise Key Agreement Algorithm and related parameters, consistently
-   with the "COSE Algorithms" Registry [COSE.Algorithms], the "COSE Key
-   Types" Registry [COSE.Key.Types] and the "COSE Elliptic Curves"
-   Registry [COSE.Elliptic.Curves].
+   For the Pairwise Key Agreement Algorithm 'ecdh_alg' and related
+   parameters 'ecdh_params', the Group Manager SHOULD use the following
+   default values, consistently with the "COSE Algorithms" Registry
+   [COSE.Algorithms], the "COSE Key Types" Registry [COSE.Key.Types] and
+   the "COSE Elliptic Curves" Registry [COSE.Elliptic.Curves].
 
    *  For the Pairwise Key Agreement Algorithm 'ecdh_alg' used to
       compute static-static Diffie-Hellman shared secrets, the ECDH
