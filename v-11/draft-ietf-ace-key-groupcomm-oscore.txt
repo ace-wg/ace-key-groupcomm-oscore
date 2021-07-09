@@ -5,10 +5,10 @@
 ACE Working Group                                              M. Tiloca
 Internet-Draft                                                   RISE AB
 Intended status: Standards Track                                 J. Park
-Expires: 7 January 2022                      Universitaet Duisburg-Essen
+Expires: 10 January 2022                     Universitaet Duisburg-Essen
                                                             F. Palombini
                                                              Ericsson AB
-                                                             6 July 2021
+                                                             9 July 2021
 
 
                 Key Management for OSCORE Groups in ACE
@@ -43,7 +43,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 7 January 2022.
+   This Internet-Draft will expire on 10 January 2022.
 
 Copyright Notice
 
@@ -2860,10 +2860,9 @@ Table of Contents
       [ This is a pending registration requested by draft-ietf-lake-
       edhoc.  ]
 
-   *  For the maximum number 'max_stale_sets' of stored sets of stale
-      Sender IDs, the Group Manager SHOULD store at most N = 3 sets of
-      stale Sender IDs in the collection associated to the group (see
-      Section 2.2.1).
+   *  For 'max_stale_sets', the Group Manager SHOULD consider N = 3 as
+      the maximum number of stored sets of stale Sender IDs in the
+      collection associated to the group (see Section 2.2.1).
 
 21.2.  Group Mode
 
