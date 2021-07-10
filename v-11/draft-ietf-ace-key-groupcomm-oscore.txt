@@ -5,10 +5,10 @@
 ACE Working Group                                              M. Tiloca
 Internet-Draft                                                   RISE AB
 Intended status: Standards Track                                 J. Park
-Expires: 10 January 2022                     Universitaet Duisburg-Essen
+Expires: 11 January 2022                     Universitaet Duisburg-Essen
                                                             F. Palombini
                                                              Ericsson AB
-                                                             9 July 2021
+                                                            10 July 2021
 
 
                 Key Management for OSCORE Groups in ACE
@@ -43,7 +43,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 10 January 2022.
+   This Internet-Draft will expire on 11 January 2022.
 
 Copyright Notice
 
@@ -407,8 +407,8 @@ Table of Contents
 
    The value of N can change throughout the lifetime of the group.  If
    the new value N' is smaller than N, the Group Manager MUST preserve
-   the N' most recent sets in the collection and MUST delete the (N -
-   N') oldest sets.
+   the (up to) N' most recent sets in the collection and MUST delete any
+   possible older set from the collection.
 
    Finally, the Group Manager MUST perform the following actions, when
    the group is rekeyed and the group shifts to the next version V' = (V
