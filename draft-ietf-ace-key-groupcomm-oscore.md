@@ -1733,20 +1733,20 @@ IANA is asked to register the following entry to the "TLS Exporter Labels" regis
 For the media-types application/aif+cbor and application/aif+json defined in {{Section 5.1 of I-D.ietf-ace-aif}}, IANA is requested to register the following entries for the two media-type parameters Toid and Tperm, in the respective sub-registry defined in {{Section 5.2 of I-D.ietf-ace-aif}} within the "MIME Media Type Sub-Parameter" registry group.
 
 * Name: oscore-group-name
-* Description/Specification: group name of an OSCORE group
+* Description/Specification: name of OSCORE group
 * Reference: \[\[This document\]\]
 
 &nbsp;
 
-* Name: oscore-group-roles
-* Description/Specification: role(s) in the OSCORE group
+* Name: oscore-group-permissions
+* Description/Specification: set of permissions pertaining the OSCORE group
 * Reference: \[\[This document\]\]
 
 ## CoAP Content-Format {#ssec-iana-coap-content-format-registry}
 
 IANA is asked to register the following entries to the "CoAP Content-Formats" registry within the "Constrained RESTful Environments (CoRE) Parameters" registry group.
 
-* Media Type: application/aif+cbor;Toid="oscore-group-name",Tperm="oscore-group-roles"
+* Media Type: application/aif+cbor;Toid="oscore-group-name",Tperm="oscore-group-permissions"
 
 * Encoding: -
 
@@ -1756,7 +1756,7 @@ IANA is asked to register the following entries to the "CoAP Content-Formats" re
 
 &nbsp;
 
-* Media Type: application/aif+json;Toid="oscore-group-name",Tperm="oscore-group-roles"
+* Media Type: application/aif+json;Toid="oscore-group-name",Tperm="oscore-group-permissions"
 
 * Encoding: -
 
@@ -2023,6 +2023,8 @@ RFC EDITOR: PLEASE REMOVE THIS SECTION.
 * The HKDF Algorithm is specified by the HMAC Algorithm.
 
 * Group communication does not necessarily use IP multicast.
+
+* Fixes in the AIF data model and related parameters.
 
 ## Version -12 to -13 ## {#sec-12-13}
 
