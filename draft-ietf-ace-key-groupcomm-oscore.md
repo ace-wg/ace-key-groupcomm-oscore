@@ -2018,6 +2018,12 @@ The format of 'key' (see {{ssec-join-resp}}) is generalized as follows.
 
 RFC EDITOR: PLEASE REMOVE THIS SECTION.
 
+## Version -13 to -14 ## {#sec-13-14}
+
+* The HKDF Algorithm is specified by the HMAC Algorithm.
+
+* Group communication does not necessarily use IP multicast.
+
 ## Version -12 to -13 ## {#sec-12-13}
 
 * Renamed parameters about authentication credentials.
