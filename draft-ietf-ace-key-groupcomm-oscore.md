@@ -230,7 +230,7 @@ The data distributed to a group through a rekeying MUST include:
 
 Also, the data distributed through a group rekeying MAY include a new value for the Master Salt parameter of the Group OSCORE Common Security Context of that group.
 
-The Group Manager MUST rekeying the group in the following cases.
+The Group Manager MUST rekey the group in the following cases.
 
 * The application requires backward security - In this case, the group is rekeyed when a node joins the group as a new member. Therefore, a joining node cannot access communications in the group prior its joining.
 
@@ -248,7 +248,7 @@ Throughout the lifetime of every group, the Group Manager MUST maintain a collec
 
 The collection associated with a group MUST include up to N > 1 ordered sets of stale OSCORE Sender IDs. It is up to the application to specify the value of N, possibly on a per-group basis.
 
-The N-th set includes the Sender IDs that have become "stale" under the current version V of the group keying material. The (N-1)-th set refers to the immediately previous version (V - 1) of the group keying material, and so on.
+The N-th set includes the Sender IDs that have become "stale" under the current version V of the group keying material. The (N - 1)-th set refers to the immediately previous version (V - 1) of the group keying material, and so on.
 
 In the following cases, the Group Manager MUST add a new element to the most recent set X, i.e., the set associated with the current version V of the group keying material.
 
@@ -1424,7 +1424,7 @@ When the conditional parameters defined in {{Section 8 of I-D.ietf-ace-key-group
 
 * 'mgt_key_material'. A Client that supports an advanced rekeying scheme possibly used in the group, such as based on one-to-many rekeying messages sent by the Group Manager (e.g., over IP multicast), MUST support this parameter.
 
-* 'control_group_uri'. A Client that support the hosting of local resources each associated with a group (hence acting as CoAP server) and the reception of one-to-many requests sent to those resources by the Group Manager (e.g., over IP
+* 'control_group_uri'. A Client that supports the hosting of local resources each associated with a group (hence acting as CoAP server) and the reception of one-to-many requests sent to those resources by the Group Manager (e.g., over IP
 multicast) MUST support this parameter.
 
 # ACE Groupcomm Error Identifiers {#error-types}
