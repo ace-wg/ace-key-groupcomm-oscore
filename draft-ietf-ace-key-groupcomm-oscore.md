@@ -290,7 +290,7 @@ Then, for each scope entry:
 
    - each role in the permission set is converted into the corresponding numeric identifier X from the "Value" column of the "Group OSCORE Roles" registry, for which this document defines the entries in {{fig-role-values}}.
 
-   - the set of N numbers is converted into the single value R, by taking each numeric identifier X_1, X_2, ..., X_N to the power of two, and then computing the inclusive OR of the binary representations of all the power values.
+   - the set of N numbers is converted into the single value R, by taking two to the power of each numeric identifier X_1, X_2, ..., X_N, and then computing the inclusive OR of the binary representations of all the power values.
 
 ~~~~~~~~~~~
 +-----------+-------+-------------------------------------------------+
