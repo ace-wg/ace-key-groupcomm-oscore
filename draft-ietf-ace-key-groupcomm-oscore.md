@@ -737,8 +737,8 @@ Then, the Group Manager replies to the joining node, providing the updated secur
    
    More specifically, the 'key' parameter is composed as follows.
 
-   * The 'hkdf' parameter, if present, has as value the HKDF Algorithm used in the OSCORE group. This parameter MAY be omitted, if the HKDF Algorithm used in the group is HKDF SHA-256. Otherwise, this parameter MUST be present.
-   
+   * The 'hkdf' parameter, if present, specifies the HKDF Algorithm used in the OSCORE group. The HKDF Algorithm is specified by the HMAC Algorithm value. This parameter MAY be omitted, if the HKDF Algorithm used in the group is HKDF SHA-256. Otherwise, this parameter MUST be present.
+
    * The 'salt' parameter, if present, has as value the OSCORE Master Salt used in the OSCORE group. This parameter MAY be omitted, if the Master Salt used in the group is the empty byte string. Otherwise, this parameter MUST be present.
    
    * The 'ms' parameter includes the OSCORE Master Secret value used in the OSCORE group. This parameter MUST be present.
@@ -1046,7 +1046,7 @@ Verifier                                                     Manager
     {
       "gkty": GROUPCOMM_KEY_TBD,
       "key": {
-        'hkdf': -10,                   ; HKDF SHA-256
+        'hkdf': 5,                     ; HMAC 256/256
         'contextId': h'37fc',
         'cred_fmt': 33,                ; x5chain
         'sign_enc_alg': 10,            ; AES-CCM-16-64-128
@@ -1460,7 +1460,7 @@ This section defines the default values that the Group Manager assumes for the c
 
 This section always applies, as related to common configuration parameters.
 
-* For the HKDF Algorithm 'hkdf', the Group Manager SHOULD use the same default value defined in {{Section 3.2 of RFC8613}}, i.e., HKDF SHA-256 (COSE algorithm encoding: -10).
+* For the HKDF Algorithm 'hkdf', the Group Manager SHOULD use HKDF SHA-256, defined as default in {{Section 3.2 of RFC8613}}. In the 'hkdf' parameter, this HKDF Algorithm is specified by the HMAC Algorithm HMAC 256/256 (COSE algorithm encoding: 5).
 
 * For the format 'cred_fmt' used for the authentication credentials in the group, the Group Manager SHOULD use CBOR Web Token (CWT) or CWT Claims Set (CCS) {{RFC8392}}, i.e., the COSE Header Parameter 'kcwt' and 'kccs', respectively.
 
