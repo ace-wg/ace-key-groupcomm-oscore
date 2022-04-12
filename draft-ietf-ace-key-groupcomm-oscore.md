@@ -285,7 +285,7 @@ Note that the value 0 is not available to use as numeric identifier to specify a
 
 This is an explicit feature of the AIF-OSCORE-GROUPCOMM data model. That is, for each scope entry, the least significant bit of "Tperm" set to 0 explicitly identifies the scope entry as exactly expressing a set of Group OSCORE roles ("Tperm"), pertaining to a single group whose name is specified by the string literal in "Toid".
 
-Instead, by relying on the same AIF-OSCORE-GROUPCOMM data model, {{I-D.ietf-ace-oscore-gm-admin}} defines scope entries for Administrator clients that wish to access an admin interface at the Group Manager. In such scope entries, the least significant bit of "Tperm" is always set to 1.
+Instead, by relying on the same AIF-OSCORE-GROUPCOMM data model, {{I-D.ietf-ace-oscore-gm-admin}} defines the format of scope entries for Administrator clients that wish to access an admin interface at the Group Manager. In such scope entries, the least significant bit of "Tperm" is always set to 1.
 
 # Authentication Credentials # {#sec-public-keys-of-joining-nodes}
 
