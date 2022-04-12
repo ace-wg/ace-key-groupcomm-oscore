@@ -216,11 +216,9 @@ Finally, {{profile-req}} lists the specifications on this application profile of
 
 # Format of Scope {#sec-format-scope}
 
-Building on {{Section 3.1 of I-D.ietf-ace-key-groupcomm}}, this section defines the exact format and encoding of scope to use.
+Building on {{Section 3.1 of I-D.ietf-ace-key-groupcomm}}, this section defines the exact format and encoding of scope used in this profile.
 
-To this end, this profile uses the Authorization Information Format (AIF) {{I-D.ietf-ace-aif}}, and defines the following AIF specific data model AIF-OSCORE-GROUPCOMM.
-
-With reference to the generic AIF model
+To this end, this profile uses the Authorization Information Format (AIF) {{I-D.ietf-ace-aif}}. In particular, with reference to the generic AIF model
 
 ~~~~~~~~~~~
    AIF-Generic<Toid, Tperm> = [* [Toid, Tperm]]
@@ -228,15 +226,23 @@ With reference to the generic AIF model
 
 the value of the CBOR byte string used as scope encodes the CBOR array \[* \[Toid, Tperm\]\], where each \[Toid, Tperm\] element corresponds to one scope entry.
 
-Then, for each scope entry:
+Furthermore, this document defines the new AIF specific data model AIF-OSCORE-GROUPCOMM, that this profile MUST use to format and encode scope entries.
 
-* the object identifier ("Toid") is specialized as a CBOR text string, specifying the group name for the scope entry;
+In particular, the following holds for each scope entry.
 
-* the permission set ("Tperm") is specialized as a CBOR unsigned integer with value R, specifying the role(s) that the client wishes to take in the group (REQ1). The value R is computed as follows:
+* The object identifier ("Toid") is specialized as a CBOR item specifying the name of the groups pertaining to the scope entry.
 
-   - each role in the permission set is converted into the corresponding numeric identifier X from the "Value" column of the "Group OSCORE Roles" registry, for which this document defines the entries in {{fig-role-values}}.
+* The permission set ("Tperm") is specialized as a CBOR unsigned integer with value R, specifying the permissions that the client wishes to have in the groups indicated by "Toid".
 
-   - the set of N numbers is converted into the single value R, by taking two to the power of each numeric identifier X_1, X_2, ..., X_N, and then computing the inclusive OR of the binary representations of all the power values.
+More specifically, the following MUST be followed when, as defined in this document, a scope entry includes as set of permissions the set of roles to take in an OSCORE group.
+
+* The object identifier ("Toid") is a CBOR text string, specifying the group name for the scope entry.
+
+* The permission set ("Tperm") is a CBOR unsigned integer with value R, specifying the role(s) that the client wishes to take in the group (REQ1). The value R is computed as follows.
+
+   - Each role in the permission set is converted into the corresponding numeric identifier X from the "Value" column of the "Group OSCORE Roles" registry, for which this document defines the entries in {{fig-role-values}}.
+
+   - The set of N numbers is converted into the single value R, by taking two to the power of each numeric identifier X_1, X_2, ..., X_N, and then computing the inclusive OR of the binary representations of all the power values.
 
 ~~~~~~~~~~~
 +-----------+-------+-------------------------------------------------+
@@ -253,24 +259,33 @@ Then, for each scope entry:
 | Verifier  | 4     | Verify signature of intercepted messages        |
 +-----------+-------+-------------------------------------------------+
 ~~~~~~~~~~~
-{: #fig-role-values title="Numeric identifier of roles in the OSCORE group" artwork-align="center"}
+{: #fig-role-values title="Numeric identifier of roles in an OSCORE group" artwork-align="center"}
 
-The CDDL {{RFC8610}} definition of the AIF-OSCORE-GROUPCOMM data model is as follows:
+The following CDDL {{RFC8610}} notation defines a scope entry that uses the AIF-OSCORE-GROUPCOMM data model and expresses a set of Group OSCORE roles from those in {{fig-role-values}}.
 
 ~~~~~~~~~~~
-   AIF-OSCORE-GROUPCOMM = AIF-Generic<gname, permissions>
-
-   gname = tstr  ; Group name
-   permissions = uint . bits roles
-   roles = &(
+   AIF-OSCORE-GROUPCOMM = AIF-Generic<oscore-gname, oscore-gperm>
+   
+   oscore-gname = tstr  ; Group name
+   oscore-gperm = uint . bits group-oscore-roles
+   
+   group-oscore-roles = &(
       Requester: 1,
       Responder: 2,
       Monitor: 3,
       Verifier: 4
    )
+   
+   scope_entry = [oscore-gname, oscore-gname]
 ~~~~~~~~~~~
 
-Future specifications that define new roles MUST register a corresponding numeric identifier in the "Group OSCORE Roles" registry defined in {{ssec-iana-group-oscore-roles-registry}} of this document.
+Future specifications that define new Group OSCORE roles MUST register a corresponding numeric identifier in the "Group OSCORE Roles" registry defined in {{ssec-iana-group-oscore-roles-registry}} of this document.
+
+Note that the value 0 is not available to use as numeric identifier to specify a Group OSCORE role. It follows that, when expressing Group OSCORE roles to take in a group as per this document, a scope entry has the least significant bit of "Tperm" always set to 0.
+
+This is an explicit feature of the AIF-OSCORE-GROUPCOMM data model. That is, for each scope entry, the least significant bit of "Tperm" set to 0 explicitly identifies the scope entry as exactly expressing a set of Group OSCORE roles ("Tperm"), pertaining to a single group whose name is specified by the string literal in "Toid".
+
+Instead, by relying on the same AIF-OSCORE-GROUPCOMM data model, {{I-D.ietf-ace-oscore-gm-admin}} defines scope entries for Administrator clients that wish to access an admin interface at the Group Manager. In such scope entries, the least significant bit of "Tperm" is always set to 1.
 
 # Authentication Credentials # {#sec-public-keys-of-joining-nodes}
 
@@ -1780,21 +1795,21 @@ IANA is asked to register the following entry to the "TLS Exporter Labels" regis
 
 For the media-types application/aif+cbor and application/aif+json defined in {{Section 5.1 of I-D.ietf-ace-aif}}, IANA is requested to register the following entries for the two media-type parameters Toid and Tperm, in the respective sub-registry defined in {{Section 5.2 of I-D.ietf-ace-aif}} within the "MIME Media Type Sub-Parameter" registry group.
 
-* Name: oscore-group-name
-* Description/Specification: name of OSCORE group
+* Name: oscore-gname
+* Description/Specification: OSCORE group name
 * Reference: \[\[This document\]\]
 
 &nbsp;
 
-* Name: oscore-group-permissions
-* Description/Specification: set of permissions pertaining the OSCORE group
+* Name: oscore-gperm
+* Description/Specification: permissions pertaining OSCORE groups
 * Reference: \[\[This document\]\]
 
 ## CoAP Content-Format {#ssec-iana-coap-content-format-registry}
 
 IANA is asked to register the following entries to the "CoAP Content-Formats" registry within the "Constrained RESTful Environments (CoRE) Parameters" registry group.
 
-* Media Type: application/aif+cbor;Toid="oscore-group-name",Tperm="oscore-group-permissions"
+* Media Type: application/aif+cbor;Toid="oscore-gname",Tperm="oscore-gperm"
 
 * Encoding: -
 
@@ -1804,7 +1819,7 @@ IANA is asked to register the following entries to the "CoAP Content-Formats" re
 
 &nbsp;
 
-* Media Type: application/aif+json;Toid="oscore-group-name",Tperm="oscore-group-permissions"
+* Media Type: application/aif+json;Toid="oscore-gname",Tperm="oscore-gperm"
 
 * Encoding: -
 
@@ -2074,7 +2089,7 @@ RFC EDITOR: PLEASE REMOVE THIS SECTION.
 
 * Group communication does not necessarily use IP multicast.
 
-* Fixes in the AIF data model and related parameters.
+* Generalized AIF data model, also for draft-ace-oscore-gm-admin.
 
 * Editorial improvements.
 
