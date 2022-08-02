@@ -498,7 +498,7 @@ The joining node requests to join the OSCORE group by sending a Join Request mes
 
 * The 'scope' parameter MUST be included. Its value encodes one scope entry with the format defined in {{sec-format-scope}}, indicating the group name and the role(s) that the joining node wants to take in the group.
 
-* The 'get_pub_keys' parameter is present only if the joining node wants to retrieve the authentication credentials of the group members from the Group Manager during the joining process (see {{sec-public-keys-of-joining-nodes}}). Otherwise, this parameter MUST NOT be present.
+* The 'get_creds' parameter is present only if the joining node wants to retrieve the authentication credentials of the group members from the Group Manager during the joining process (see {{sec-public-keys-of-joining-nodes}}). Otherwise, this parameter MUST NOT be present.
 
    If this parameter is present and its value is not the CBOR simple value "null" (0xf6), each element of the inner CBOR array 'role_filter' is encoded as a CBOR unsigned integer, with the same value of a permission set ("Tperm") indicating that role or combination of roles in a scope entry, as defined in {{sec-format-scope}}.
 
@@ -678,11 +678,11 @@ Furthermore, the following applies.
 
 * The 'ace-groupcomm-profile' parameter MUST be present and has value coap_group_oscore_app (PROFILE_TBD), which is defined in {{ssec-iana-groupcomm-profile-registry}} of this document.
 
-* The 'pub_keys' parameter, if present, includes the authentication credentials requested by the joining node by means of the 'get_pub_keys' parameter in the Join Request.
+* The 'creds' parameter, if present, includes the authentication credentials requested by the joining node by means of the 'get_creds' parameter in the Join Request.
 
-   If the joining node has asked for the authentication credentials of all the group members, i.e., 'get_pub_keys' had value the CBOR simple value "null" (0xf6) in the Join Request, then the Group Manager provides only the authentication credentials of the group members that are relevant to the joining node. That is, in such a case, 'pub_keys' includes only: i) the authentication credentials of the responders currently in the OSCORE group, in case the joining node is configured (also) as requester; and ii) the authentication credentials of the requesters currently in the OSCORE group, in case the joining node is configured (also) as responder or monitor.
+   If the joining node has asked for the authentication credentials of all the group members, i.e., 'get_creds' had value the CBOR simple value "null" (0xf6) in the Join Request, then the Group Manager provides only the authentication credentials of the group members that are relevant to the joining node. That is, in such a case, 'creds' includes only: i) the authentication credentials of the responders currently in the OSCORE group, in case the joining node is configured (also) as requester; and ii) the authentication credentials of the requesters currently in the OSCORE group, in case the joining node is configured (also) as responder or monitor.
 
-* The 'peer_identifiers' parameter includes the OSCORE Sender ID of each group member whose authentication credential is specified in the 'pub_keys' parameter. That is, a group member's Sender ID is used as identifier for that group member (REQ25).
+* The 'peer_identifiers' parameter includes the OSCORE Sender ID of each group member whose authentication credential is specified in the 'creds' parameter. That is, a group member's Sender ID is used as identifier for that group member (REQ25).
 
 * The 'group_policies' parameter SHOULD be present, and SHOULD include the following elements:
 
@@ -734,7 +734,7 @@ In case of successful verification of the PoP evidence, the joining node uses th
 
 * Absent the 'group_rekeying' parameter, the joining node considers the "Point-to-Point" group rekeying scheme registered in {{Section 11.14 of I-D.ietf-ace-key-groupcomm}} as the rekeying scheme used in the group (OPT9). Its detailed use for this profile is defined in {{sec-group-rekeying-process}} of this document.
 
-In addition, the joining node maintains an association between each authentication credential retrieved from the 'pub_keys' parameter and the role(s) that the corresponding group member has in the OSCORE group.
+In addition, the joining node maintains an association between each authentication credential retrieved from the 'creds' parameter and the role(s) that the corresponding group member has in the OSCORE group.
 
 From then on, the joining node can exchange group messages secured with Group OSCORE as described in {{I-D.ietf-core-oscore-groupcomm}}. When doing so:
 
@@ -997,11 +997,11 @@ A group member or a signature verifier may need to retrieve the authentication c
 
 If the Authentication Credential Request uses the method FETCH, the Authentication Credential Request is formatted as defined in {{Section 4.4.1 of I-D.ietf-ace-key-groupcomm}}. In particular:
 
-* Each element (if any) of the inner CBOR array 'role_filter' is formatted as in the inner CBOR array 'role_filter' of the 'get_pub_keys' parameter of the Join Request when the parameter value is not the CBOR simple value "null" (0xf6) (see {{ssec-join-req-sending}}).
+* Each element (if any) of the inner CBOR array 'role_filter' is formatted as in the inner CBOR array 'role_filter' of the 'get_creds' parameter of the Join Request when the parameter value is not the CBOR simple value "null" (0xf6) (see {{ssec-join-req-sending}}).
 
 * Each element (if any) of the inner CBOR array 'id_filter' is a CBOR byte string, which encodes the OSCORE Sender ID of the group member for which the associated authentication credential is requested (REQ25).
 
-Upon receiving the Authentication Credential Request, the Group Manager processes it as per Section 4.4.1 or Section 4.4.2 of {{I-D.ietf-ace-key-groupcomm}}, depending on the request method being FETCH or GET, respectively. Additionally, if the Authentication Credential Request uses the method FETCH, the Group Manager silently ignores node identifiers included in the ’get_pub_keys’ parameter of the request that are not associated with any current group member (REQ26).
+Upon receiving the Authentication Credential Request, the Group Manager processes it as per Section 4.4.1 or Section 4.4.2 of {{I-D.ietf-ace-key-groupcomm}}, depending on the request method being FETCH or GET, respectively. Additionally, if the Authentication Credential Request uses the method FETCH, the Group Manager silently ignores node identifiers included in the ’get_creds’ parameter of the request that are not associated with any current group member (REQ26).
 
 The success Authentication Credential Response is formatted as defined in Section 4.4.1 or Section 4.4.2 of {{I-D.ietf-ace-key-groupcomm}}, depending on the request method being FETCH or GET, respectively.
 
@@ -1306,7 +1306,7 @@ When using the "Point-to-Point" group rekeying scheme, the group rekeying messag
 
    - The parameter 'stale_node_ids' takes ARRAY as value.
 
-* The parameters 'pub_keys', 'peer_roles' and 'peer_identifiers' SHOULD be present, if the group rekeying is performed due to one or multiple Clients that have requested to join the group. Following the same semantics used in the Join Response message (see {{ssec-join-resp}}), the three parameters specify the authentication credential, roles in the group and node identifier of each of the Clients that have requested to join the group. The Group Manager MUST NOT include a non-empty subset of these three parameters.
+* The parameters 'creds', 'peer_roles' and 'peer_identifiers' SHOULD be present, if the group rekeying is performed due to one or multiple Clients that have requested to join the group. Following the same semantics used in the Join Response message (see {{ssec-join-resp}}), the three parameters specify the authentication credential, roles in the group and node identifier of each of the Clients that have requested to join the group. The Group Manager MUST NOT include a non-empty subset of these three parameters.
 
 The Group Manager separately sends a group rekeying message formatted as defined above to each group member to be rekeyed.
 
@@ -1372,9 +1372,9 @@ If case (c) or case (d) applies, the group member SHOULD perform the following a
 
 If case (c) or case (d) applies, the group member can alternatively perform the following actions.
 
-1. The group member re-joins the group (see {{ssec-join-req-sending}}). When doing so, the group member MUST re-join with the same roles it currently has in the group, and MUST request the Group Manager for the authentication credentials of all the current group members. That is, the 'get_pub_keys' parameter of the Join Request MUST be present and MUST be set to the CBOR simple value "null" (0xf6).
+1. The group member re-joins the group (see {{ssec-join-req-sending}}). When doing so, the group member MUST re-join with the same roles it currently has in the group, and MUST request the Group Manager for the authentication credentials of all the current group members. That is, the 'get_creds' parameter of the Join Request MUST be present and MUST be set to the CBOR simple value "null" (0xf6).
 
-2. When receiving the Join Response (see {{ssec-join-resp-processing}} and {{ssec-join-resp-processing}}), the group member retrieves the set Z of authentication credentials specified in the 'pub_keys' parameter.
+2. When receiving the Join Response (see {{ssec-join-resp-processing}} and {{ssec-join-resp-processing}}), the group member retrieves the set Z of authentication credentials specified in the 'creds' parameter.
 
    Then, the group member MUST remove every authentication credential which is not in Z from its list of group members' authentication credentials used in the group, and MUST delete each of its Recipient Contexts used in the group that does not include any of the authentication credentials in Z.
 
@@ -1486,7 +1486,7 @@ When the conditional parameters defined in {{Section 8 of I-D.ietf-ace-key-group
 
 * 'kdcchallenge'. A Client that has an own authentication credential to use in a group and that provides the Access Token to the Group Manager through a Token Transfer Request (see {{ssec-token-post}}) MUST support this parameter.
 
-* 'pub_keys_repo'. This parameter is not relevant for this application profile, since the Group Manager always acts as repository of the group members' authentication credentials.
+* 'creds_repo'. This parameter is not relevant for this application profile, since the Group Manager always acts as repository of the group members' authentication credentials.
 
 * 'group_policies'. A Client that is interested in the specific policies used in a group, but that does not know them or cannot become aware of them before joining that group, SHOULD support this parameter.
 
@@ -1980,7 +1980,7 @@ This section lists how this application profile of ACE addresses the requirement
 
 * REQ25 - Specify the format of the identifiers of group members: the Sender ID used in the OSCORE group (see {{ssec-join-resp}} and {{sec-pub-keys}}).
 
-* REQ26 - Specify policies at the KDC to handle member ids that are not included in 'get_pub_keys': see {{sec-pub-keys}}.
+* REQ26 - Specify policies at the KDC to handle member ids that are not included in 'get_creds': see {{sec-pub-keys}}.
 
 * REQ27 - Specify the format of newly-generated individual keying material for group members, or of the information to derive it, and corresponding CBOR label: see {{sec-new-key}}.
 
@@ -2006,7 +2006,7 @@ This section lists how this application profile of ACE addresses the requirement
 
 * OPT5 (Optional) - Specify additional identifiers of error types, as values of the 'error' field in an error response from the KDC: see {{iana-ace-groupcomm-errors}}.
 
-* OPT6 (Optional) - Specify the encoding of 'pub_keys_repos' if the default is not used: no.
+* OPT6 (Optional) - Specify the encoding of 'creds_repo' if the default is not used: no.
 
 * OPT7 (Optional) - Specify the functionalities implemented at the 'control_uri' resource hosted at the Client, including message exchange encoding and other details (see {{Section 4.3.1 of I-D.ietf-ace-key-groupcomm}}): see {{sec-leaving}} for the eviction of a group member; see {{sec-group-rekeying-process}} for the group rekeying process.
 
