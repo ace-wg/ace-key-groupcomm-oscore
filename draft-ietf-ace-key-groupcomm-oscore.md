@@ -1,14 +1,16 @@
 ---
+v: 3
+
 title: Key Management for OSCORE Groups in ACE
 abbrev: Key Management for OSCORE Groups in ACE
 docname: draft-ietf-ace-key-groupcomm-oscore-latest
-# date: 2018-01-07
-category: std
 
 ipr: trust200902
 area: Security
 workgroup: ACE Working Group
 keyword: Internet-Draft
+cat: std
+submissiontype: IETF
 
 # stand_alone: yes
 
@@ -135,6 +137,9 @@ informative:
   RFC7641:
   RFC7925:
   RFC8392:
+
+entity:
+  SELF: "[RFC-XXXX]"
 
 --- abstract
 
@@ -265,17 +270,17 @@ The following CDDL {{RFC8610}} notation defines a scope entry that uses the AIF-
 
 ~~~~~~~~~~~
    AIF-OSCORE-GROUPCOMM = AIF-Generic<oscore-gname, oscore-gperm>
-   
+
    oscore-gname = tstr  ; Group name
    oscore-gperm = uint . bits group-oscore-roles
-   
+
    group-oscore-roles = &(
       Requester: 1,
       Responder: 2,
       Monitor: 3,
       Verifier: 4
    )
-   
+
    scope_entry = [oscore-gname, oscore-gperm]
 ~~~~~~~~~~~
 
@@ -1444,22 +1449,24 @@ In addition to those defined in {{Section 8 of I-D.ietf-ace-key-groupcomm}}, thi
 Note that the media type application/ace-groupcomm+cbor MUST be used when these parameters are transported in the respective message fields.
 
 ~~~~~~~~~~~
-+----------------+------+-------+-----------------+
-| Name           | CBOR | CBOR  | Reference       |
-|                | Key  | Type  |                 |
-+----------------+------+-------+-----------------+
-| group_senderId | TBD  | bstr  | [this document] |
-+----------------+------+-------+-----------------+
-| ecdh_info      | TBD  | array | [this document] |
-+----------------+------+-------+-----------------+
-| kdc_dh_creds   | TBD  | array | [this document] |
-+----------------+------+-------+-----------------+
-| group_enc_key  | TBD  | bstr  | [this document] |
-+----------------+------+-------+-----------------+
-| stale_node_ids | TBD  | array | [this document] |
-+----------------+------+-------+-----------------+
++----------------+------+-------+------------+
+| Name           | CBOR | CBOR  | Reference  |
+|                | Key  | Type  |            |
++----------------+------+-------+------------+
+| group_senderId | TBD  | bstr  | [RFC-XXXX] |
++----------------+------+-------+------------+
+| ecdh_info      | TBD  | array | [RFC-XXXX] |
++----------------+------+-------+------------+
+| kdc_dh_creds   | TBD  | array | [RFC-XXXX] |
++----------------+------+-------+------------+
+| group_enc_key  | TBD  | bstr  | [RFC-XXXX] |
++----------------+------+-------+------------+
+| stale_node_ids | TBD  | array | [RFC-XXXX] |
++----------------+------+-------+------------+
 ~~~~~~~~~~~
 {: #fig-ACE-Groupcomm-Parameters title="ACE Groupcomm Parameters" artwork-align="center"}
+
+Note to RFC Editor: Please replace all occurrences of "{{&SELF}}" with the RFC number of this specification and delete this paragraph.
 
 The Group Manager is expected to support and understand all the parameters above. Instead, a Client is required to support the new parameters defined in this application profile as specified below (REQ29).
 
@@ -1629,9 +1636,9 @@ Unless the Group Manager maintains a list of N\_C values already used by that Cl
 
 # IANA Considerations {#sec-iana}
 
-Note to RFC Editor: Please replace all occurrences of "\[\[This document\]\]" with the RFC number of this specification and delete this paragraph.
-
 This document has the following actions for IANA.
+
+Note to RFC Editor: Please replace all occurrences of "{{&SELF}}" with the RFC number of this specification and delete this paragraph.
 
 ## OAuth Parameters {#iana-kinfo}
 
@@ -1640,14 +1647,14 @@ IANA is asked to register the following entries to the "OAuth Parameters" regist
 *  Parameter name: ecdh_info
 *  Parameter usage location: client-rs request, rs-client response
 *  Change Controller: IESG
-*  Specification Document(s): \[\[This document\]\]
+*  Specification Document(s): {{&SELF}}
 
 &nbsp;
 
 *  Parameter name: kdc_dh_creds
 *  Parameter usage location: client-rs request, rs-client response
 *  Change Controller: IESG
-*  Specification Document(s): \[\[This document\]\]
+*  Specification Document(s): {{&SELF}}
 
 ## OAuth Parameters CBOR Mappings {#iana-kinfo-map}
 
@@ -1656,14 +1663,14 @@ IANA is asked to register the following entries to the "OAuth Parameters CBOR Ma
 * Name: ecdh_info
 * CBOR Key: TBD (range -256 to 255)
 * Value Type: Simple value "null" / Array
-* Reference: \[\[This document\]\]
+* Reference: {{&SELF}}
 
 &nbsp;
 
 * Name: kdc_dh_creds
 * CBOR Key: TBD (range -256 to 255)
 * Value Type: Simple value "null" / Array
-* Reference: \[\[This document\]\]
+* Reference: {{&SELF}}
 
 ## ACE Groupcomm Parameters {#ssec-iana-ace-groupcomm-parameters-registry}
 
@@ -1672,35 +1679,35 @@ IANA is asked to register the following entry to the "ACE Groupcomm Parameters" 
 * Name: group_senderId
 * CBOR Key: TBD
 * CBOR Type: Byte string
-* Reference: \[\[This document\]\] ({{sec-new-key}})
+* Reference: {{&SELF}} ({{sec-new-key}})
 
 &nbsp;
 
 * Name: ecdh_info
 * CBOR Key: TBD
 * CBOR Type: Array
-* Reference: \[\[This document\]\] ({{ssec-join-req-processing}})
+* Reference: {{&SELF}} ({{ssec-join-req-processing}})
 
 &nbsp;
 
 * Name: kdc_dh_creds
 * CBOR Key: TBD
 * CBOR Type: Array
-* Reference: \[\[This document\]\] ({{ssec-join-req-processing}})
+* Reference: {{&SELF}} ({{ssec-join-req-processing}})
 
 &nbsp;
 
 * Name: group_enc_key
 * CBOR Key: TBD
 * CBOR Type: Byte string
-* Reference: \[\[This document\]\] ({{verif-data-get}})
+* Reference: {{&SELF}} ({{verif-data-get}})
 
 &nbsp;
 
 * Name: stale_node_ids
 * CBOR Key: TBD
 * CBOR Type: Array
-* Reference: \[\[This document\]\] ({{sec-group-rekeying-process}})
+* Reference: {{&SELF}} ({{sec-group-rekeying-process}})
 
 ## ACE Groupcomm Key Types {#ssec-iana-groupcomm-keys-registry}
 
@@ -1710,7 +1717,7 @@ IANA is asked to register the following entry to the "ACE Groupcomm Key Types" r
 *  Key Type Value: GROUPCOMM_KEY_TBD
 *  Profile: "coap_group_oscore_app", defined in {{ssec-iana-groupcomm-profile-registry}} of this document.
 *  Description: A Group_OSCORE_Input_Material object encoded as described in {{ssec-join-resp}} of this document.
-*  Reference: \[\[This document\]\] ({{ssec-join-resp}})
+*  Reference: {{&SELF}} ({{ssec-join-resp}})
 
 ## ACE Groupcomm Profiles {#ssec-iana-groupcomm-profile-registry}
 
@@ -1719,7 +1726,7 @@ IANA is asked to register the following entry to the "ACE Groupcomm Profiles" re
 *  Name: coap_group_oscore_app
 *  Description: Application profile to provision keying material for participating in group communication protected with Group OSCORE as per {{I-D.ietf-core-oscore-groupcomm}}.
 *  CBOR Value: PROFILE_TBD
-*  Reference: \[\[This document\]\] ({{ssec-join-resp}})
+*  Reference: {{&SELF}} ({{ssec-join-resp}})
 
 ## OSCORE Security Context Parameters {#ssec-iana-security-context-parameter-registry}
 
@@ -1730,7 +1737,7 @@ IANA is asked to register the following entries in the "OSCORE Security Context 
 *  CBOR Type: Byte string
 *  Registry: -
 *  Description: OSCORE Sender ID assigned to a member of an OSCORE group
-*  Reference: \[\[This document\]\] ({{ssec-join-resp}})
+*  Reference: {{&SELF}} ({{ssec-join-resp}})
 
 &nbsp;
 
@@ -1739,7 +1746,7 @@ IANA is asked to register the following entries in the "OSCORE Security Context 
 *  CBOR Type: Integer
 *  Registry: COSE Header Parameters
 *  Description: Format of authentication credentials to be used in the OSCORE group
-*  Reference: \[\[This document\]\] ({{ssec-join-resp}})
+*  Reference: {{&SELF}} ({{ssec-join-resp}})
 
 &nbsp;
 
@@ -1748,7 +1755,7 @@ IANA is asked to register the following entries in the "OSCORE Security Context 
 *  CBOR Type: Text string / Integer
 *  Registry: COSE Algorithms
 *  Description: OSCORE Signature Encryption Algorithm Value
-*  Reference: \[\[This document\]\] ({{ssec-join-resp}})
+*  Reference: {{&SELF}} ({{ssec-join-resp}})
 
 &nbsp;
 
@@ -1757,7 +1764,7 @@ IANA is asked to register the following entries in the "OSCORE Security Context 
 *  CBOR Type: Text string / Integer
 *  Registry: COSE Algorithms
 *  Description: OSCORE Signature Algorithm Value
-*  Reference: \[\[This document\]\] ({{ssec-join-resp}})
+*  Reference: {{&SELF}} ({{ssec-join-resp}})
 
 &nbsp;
 
@@ -1766,7 +1773,7 @@ IANA is asked to register the following entries in the "OSCORE Security Context 
 *  CBOR Type: Array
 *  Registry: COSE Algorithms, COSE Key Types, COSE Elliptic Curves
 *  Description: OSCORE Signature Algorithm Parameters
-*  Reference: \[\[This document\]\] ({{ssec-join-resp}})
+*  Reference: {{&SELF}} ({{ssec-join-resp}})
 
 &nbsp;
 
@@ -1775,7 +1782,7 @@ IANA is asked to register the following entries in the "OSCORE Security Context 
 *  CBOR Type: Text string / Integer
 *  Registry: COSE Algorithms
 *  Description: OSCORE Pairwise Key Agreement Algorithm Value
-*  Reference: \[\[This document\]\] ({{ssec-join-resp}})
+*  Reference: {{&SELF}} ({{ssec-join-resp}})
 
 &nbsp;
 
@@ -1784,7 +1791,7 @@ IANA is asked to register the following entries in the "OSCORE Security Context 
 *  CBOR Type: Array
 *  Registry: COSE Algorithms, COSE Key Types, COSE Elliptic Curves
 *  Description: OSCORE Pairwise Key Agreement Algorithm Parameters
-*  Reference: \[\[This document\]\] ({{ssec-join-resp}})
+*  Reference: {{&SELF}} ({{ssec-join-resp}})
 
 ## TLS Exporter Labels {#ssec-iana-tls-esporter-label-registry}
 
@@ -1793,7 +1800,7 @@ IANA is asked to register the following entry to the "TLS Exporter Labels" regis
 * Value: EXPORTER-ACE-Sign-Challenge-coap-group-oscore-app
 * DTLS-OK: Y
 * Recommended: N
-* Reference: \[\[This document\]\] ({{sssec-challenge-value}})
+* Reference: {{&SELF}} ({{sssec-challenge-value}})
 
 ## AIF {#ssec-iana-AIF-registry}
 
@@ -1801,13 +1808,13 @@ For the media-types application/aif+cbor and application/aif+json defined in {{S
 
 * Name: oscore-gname
 * Description/Specification: OSCORE group name
-* Reference: \[\[This document\]\]
+* Reference: {{&SELF}}
 
 &nbsp;
 
 * Name: oscore-gperm
 * Description/Specification: permissions pertaining OSCORE groups
-* Reference: \[\[This document\]\]
+* Reference: {{&SELF}}
 
 ## CoAP Content-Format {#ssec-iana-coap-content-format-registry}
 
@@ -1819,7 +1826,7 @@ IANA is asked to register the following entries to the "CoAP Content-Formats" re
 
 * ID: TBD
 
-* Reference: \[\[This document\]\]
+* Reference: {{&SELF}}
 
 &nbsp;
 
@@ -1829,13 +1836,13 @@ IANA is asked to register the following entries to the "CoAP Content-Formats" re
 
 * ID: TBD
 
-* Reference: \[\[This document\]\]
+* Reference: {{&SELF}}
 
 ## Group OSCORE Roles {#ssec-iana-group-oscore-roles-registry}
 
 This document establishes the IANA "Group OSCORE Roles" registry. The registry has been created to use the "Expert Review" registration procedure {{RFC8126}}. Expert review guidelines are provided in {{ssec-iana-expert-review}}.
 
-This registry includes the possible roles that nodes can take in an OSCORE group, each in combination with a numeric identifier. These numeric identifiers are used to express authorization information about joining OSCORE groups, as specified in {{sec-format-scope}} of \[\[This document\]\].
+This registry includes the possible roles that nodes can take in an OSCORE group, each in combination with a numeric identifier. These numeric identifiers are used to express authorization information about joining OSCORE groups, as specified in {{sec-format-scope}} of {{&SELF}}.
 
 The columns of this registry are:
 
@@ -1849,7 +1856,7 @@ The columns of this registry are:
 
 This registry will be initially populated by the values in {{fig-role-values}}.
 
-The Reference column for all of these entries will be \[\[This document\]\].
+The Reference column for all of these entries will be {{&SELF}}.
 
 ## CoRE Resource Type # {#iana-rt}
 
@@ -1859,7 +1866,7 @@ IANA is asked to register the following entry in the "Resource Type (rt=) Link T
 
 * Description: Group-membership resource of an OSCORE Group Manager.
 
-* Reference: \[\[This document\]\]
+* Reference: {{&SELF}}
 
 Client applications can use this resource type to discover a group membership resource at an OSCORE Group Manager, where to send a request for joining the corresponding OSCORE group.
 
@@ -1871,7 +1878,7 @@ IANA is asked to register the following entry in the "ACE Scope Semantics" regis
 
 * Description: Membership and key management operations at the ACE Group Manager for Group OSCORE.
 
-* Reference: \[\[This document\]\]
+* Reference: {{&SELF}}
 
 ## ACE Groupcomm Errors {#iana-ace-groupcomm-errors}
 
@@ -1881,7 +1888,7 @@ IANA is asked to register the following entry in the "ACE Groupcomm Errors" regi
 
 * Description: Signatures not used in the group.
 
-* Reference: \[\[This document\]\]
+* Reference: {{&SELF}}
 
 &nbsp;
 
@@ -1889,7 +1896,7 @@ IANA is asked to register the following entry in the "ACE Groupcomm Errors" regi
 
 * Description: Operation permitted only to signature verifiers.
 
-* Reference: \[\[This document\]\]
+* Reference: {{&SELF}}
 
 &nbsp;
 
@@ -1897,7 +1904,7 @@ IANA is asked to register the following entry in the "ACE Groupcomm Errors" regi
 
 * Description: Group currently not active.
 
-* Reference: \[\[This document\]\]
+* Reference: {{&SELF}}
 
 ## Expert Review Instructions {#ssec-iana-expert-review}
 
@@ -2084,6 +2091,10 @@ The format of 'key' (see {{ssec-join-resp}}) is generalized as follows.
 # Document Updates # {#sec-document-updates}
 
 RFC EDITOR: PLEASE REMOVE THIS SECTION.
+
+## Version -14 to -15 ## {#sec-14-15}
+
+* Editorial fixes.
 
 ## Version -13 to -14 ## {#sec-13-14}
 
@@ -2394,7 +2405,7 @@ RFC EDITOR: PLEASE REMOVE THIS SECTION.
 # Acknowledgments {#sec-acknowledgments}
 {: numbered="no"}
 
-The authors sincerely thank Christian Amsüss, Santiago Aragón, Stefan Beck, Carsten Bormann, Martin Gunnarsson, Rikard Höglund, Watson Ladd, Daniel Migault, Jim Schaad, Ludwig Seitz, Göran Selander and Peter van der Stok for their comments and feedback.
+The authors sincerely thank {{{Christian Amsüss}}}, {{{Santiago Aragón}}}, {{{Stefan Beck}}}, {{{Carsten Bormann}}}, {{{Martin Gunnarsson}}}, {{{Rikard Höglund}}}, {{{Watson Ladd}}}, {{{Daniel Migault}}}, {{{Jim Schaad}}}, {{{Ludwig Seitz}}}, {{{Göran Selander}}} and {{{Peter van der Stok}}} for their comments and feedback.
 
 The work on this document has been partly supported by VINNOVA and the Celtic-Next project CRITISEC; by the H2020 project SIFIS-Home (Grant agreement 952652); and by the EIT-Digital High Impact Initiative ACTIVE.
 
