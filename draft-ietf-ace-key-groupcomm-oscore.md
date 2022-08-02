@@ -993,29 +993,29 @@ Otherwise, the Group Manager performs one of the following actions.
 
 ## Retrieve Authentication Credentials of Group Members # {#sec-pub-keys}
 
-A group member or a signature verifier may need to retrieve the authentication credentials of (other) group members. To this end, the group member or signature verifier sends a Public Key Request message to the Group Manager, as per {{Sections 4.4.1.1 and 4.4.2.1 of I-D.ietf-ace-key-groupcomm}}. In particular, it sends the request to the endpoint /ace-group/GROUPNAME/pub-key at the Group Manager.
+A group member or a signature verifier may need to retrieve the authentication credentials of (other) group members. To this end, the group member or signature verifier sends an Authentication Credential Request message to the Group Manager, as per {{Sections 4.4.1.1 and 4.4.2.1 of I-D.ietf-ace-key-groupcomm}}. In particular, it sends the request to the endpoint /ace-group/GROUPNAME/pub-key at the Group Manager.
 
-If the Public Key Request uses the method FETCH, the Public Key Request is formatted as defined in {{Section 4.4.1 of I-D.ietf-ace-key-groupcomm}}. In particular:
+If the Authentication Credential Request uses the method FETCH, the Authentication Credential Request is formatted as defined in {{Section 4.4.1 of I-D.ietf-ace-key-groupcomm}}. In particular:
 
 * Each element (if any) of the inner CBOR array 'role_filter' is formatted as in the inner CBOR array 'role_filter' of the 'get_pub_keys' parameter of the Join Request when the parameter value is not the CBOR simple value "null" (0xf6) (see {{ssec-join-req-sending}}).
 
 * Each element (if any) of the inner CBOR array 'id_filter' is a CBOR byte string, which encodes the OSCORE Sender ID of the group member for which the associated authentication credential is requested (REQ25).
 
-Upon receiving the Public Key Request, the Group Manager processes it as per Section 4.4.1 or Section 4.4.2 of {{I-D.ietf-ace-key-groupcomm}}, depending on the request method being FETCH or GET, respectively. Additionally, if the Public Key Request uses the method FETCH, the Group Manager silently ignores node identifiers included in the ’get_pub_keys’ parameter of the request that are not associated with any current group member (REQ26).
+Upon receiving the Authentication Credential Request, the Group Manager processes it as per Section 4.4.1 or Section 4.4.2 of {{I-D.ietf-ace-key-groupcomm}}, depending on the request method being FETCH or GET, respectively. Additionally, if the Authentication Credential Request uses the method FETCH, the Group Manager silently ignores node identifiers included in the ’get_pub_keys’ parameter of the request that are not associated with any current group member (REQ26).
 
-The success Public Key Response is formatted as defined in Section 4.4.1 or Section 4.4.2 of {{I-D.ietf-ace-key-groupcomm}}, depending on the request method being FETCH or GET, respectively.
+The success Authentication Credential Response is formatted as defined in Section 4.4.1 or Section 4.4.2 of {{I-D.ietf-ace-key-groupcomm}}, depending on the request method being FETCH or GET, respectively.
 
 ## Upload a New Authentication Credential # {#sec-update-pub-key}
 
 A group member may need to provide the Group Manager with its new authentication credential to use in the group from then on, hence replacing the current one. This can be the case, for instance, if the signature or ECDH algorithm and possible associated parameters used in the OSCORE group have been changed, and the current authentication credential is not compatible with them.
 
-To this end, the group member sends a Public Key Update Request message to the Group Manager, as per {{Section 4.9.1.1 of I-D.ietf-ace-key-groupcomm}}, with the following addition.
+To this end, the group member sends an Authentication Credential Update Request message to the Group Manager, as per {{Section 4.9.1.1 of I-D.ietf-ace-key-groupcomm}}, with the following addition.
 
 * The group member computes the proof-of-possession (PoP) evidence included in 'client_cred_verify' in the same way taken when preparing a Join Request for the OSCORE group in question, as defined in {{ssec-join-req-sending}} (REQ14).
 
 In particular, the group member sends a CoAP POST request to the endpoint /ace-group/GROUPNAME/nodes/NODENAME/pub-key at the Group Manager.
 
-Upon receiving the Public Key Update Request, the Group Manager processes it as per {{Section 4.9.1 of I-D.ietf-ace-key-groupcomm}}, with the following additions.
+Upon receiving the Authentication Credential Update Request, the Group Manager processes it as per {{Section 4.9.1 of I-D.ietf-ace-key-groupcomm}}, with the following additions.
 
 * The N\_S challenge used to build the proof-of-possession input is computed as defined in {{sssec-challenge-value}} (REQ15).
 
@@ -1029,15 +1029,15 @@ Upon receiving the Public Key Update Request, the Group Manager processes it as 
 
 ## Retrieve the Group Manager's Authentication Credential # {#sec-gm-pub-key}
 
-A group member or a signature verifier may need to retrieve the authentication credential of the Group Manager. To this end, the requesting Client sends a KDC Public Key Request message to the Group Manager.
+A group member or a signature verifier may need to retrieve the authentication credential of the Group Manager. To this end, the requesting Client sends a KDC Authentication Credential Request message to the Group Manager.
 
 In particular, it sends a CoAP GET request to the endpoint /ace-group/GROUPNAME/kdc-pub-key at the Group Manager defined in {{Section 4.5.1.1 of I-D.ietf-ace-key-groupcomm}}, where GROUPNAME is the name of the OSCORE group.
 
 In addition to what is defined in {{Section 4.5.1 of I-D.ietf-ace-key-groupcomm}}, the Group Manager MUST respond with a 4.00 (Bad Request) error response, if the requesting Client is not a current group member and GROUPNAME denotes a pairwise-only group. The response MUST have Content-Format set to application/ace-groupcomm+cbor and is formatted as defined in {{Section 4.1.2 of I-D.ietf-ace-key-groupcomm}}. The value of the 'error' field MUST be set to 7 ("Signatures not used in the group").
 
-The payload of the 2.05 (Content) KDC Public Key Response is a CBOR map, which is formatted as defined in {{Section 4.5.1 of I-D.ietf-ace-key-groupcomm}}. In particular, the Group Manager specifies the parameters 'kdc_cred', 'kdc_nonce' and 'kdc_challenge' as defined for the Join Response in {{ssec-join-resp}} of this document. This especially applies to the computing of the proof-of-possession (PoP) evidence included in 'kdc_cred_verify' (REQ21).
+The payload of the 2.05 (Content) KDC Authentication Credential Response is a CBOR map, which is formatted as defined in {{Section 4.5.1 of I-D.ietf-ace-key-groupcomm}}. In particular, the Group Manager specifies the parameters 'kdc_cred', 'kdc_nonce' and 'kdc_challenge' as defined for the Join Response in {{ssec-join-resp}} of this document. This especially applies to the computing of the proof-of-possession (PoP) evidence included in 'kdc_cred_verify' (REQ21).
 
-Upon receiving a 2.05 (Content) KDC Public Key Response, the requesting Client retrieves the Group Manager's authentication credential from the 'kdc_cred' parameter, and proceeds as defined in {{Section 4.5.1.1 of I-D.ietf-ace-key-groupcomm}}. In particular, the requesting Client verifies the PoP evidence included in 'kdc_cred_verify' by means of the same method used when processing the Join Response, as defined in {{ssec-join-resp}} of this document (REQ21).
+Upon receiving a 2.05 (Content) KDC Authentication Credential Response, the requesting Client retrieves the Group Manager's authentication credential from the 'kdc_cred' parameter, and proceeds as defined in {{Section 4.5.1.1 of I-D.ietf-ace-key-groupcomm}}. In particular, the requesting Client verifies the PoP evidence included in 'kdc_cred_verify' by means of the same method used when processing the Join Response, as defined in {{ssec-join-resp}} of this document (REQ21).
 
 Note that a signature verifier would not receive a successful response from the Group Manager, in case GROUPNAME denotes a pairwise-only group.
 
@@ -1340,7 +1340,7 @@ a. The group member has participated to a rekeying process that has distributed 
 
 b. The group member has obtained the latest keying material from the Group Manager, as a response to a Key Distribution Request (see {{ssec-updated-key-only}}) or to a Join Request when re-joining the group (see {{ssec-join-req-sending}}). In particular, V is different than V' specified by the 'num' parameter in the response.
 
-c. The group member has obtained the authentication credentials of other group members, through a Public Key Request-Response exchange with the Group Manager (see {{sec-pub-keys}}). In particular, V is different than V' specified by the 'num' parameter in the response.
+c. The group member has obtained the authentication credentials of other group members, through an Authentication Credential Request-Response exchange with the Group Manager (see {{sec-pub-keys}}). In particular, V is different than V' specified by the 'num' parameter in the response.
 
 d. The group member has performed a Version Request-Response exchange with the Group Manager (see {{sec-version}}). In particular, V is different than V' specified by the 'num' parameter in the response.
 
@@ -2093,6 +2093,8 @@ The format of 'key' (see {{ssec-join-resp}}) is generalized as follows.
 RFC EDITOR: PLEASE REMOVE THIS SECTION.
 
 ## Version -14 to -15 ## {#sec-14-15}
+
+* Alignment with renaming in draft-ietf-ace-key-groupcomm.
 
 * Editorial fixes.
 
