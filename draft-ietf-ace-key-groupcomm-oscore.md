@@ -69,9 +69,9 @@ normative:
   RFC8447:
   RFC8610:
   RFC8613:
-  RFC8742:
   RFC8949:
   I-D.ietf-ace-aif:
+  I-D.ietf-cbor-file-magic:
   I-D.ietf-cose-rfc8152bis-struct:
   I-D.ietf-cose-rfc8152bis-algs:
   I-D.ietf-core-oscore-groupcomm:
@@ -348,7 +348,11 @@ The Authorization Response message is as defined in {{Section 3.2 of I-D.ietf-ac
 
 * The AS MUST include the 'scope' parameter, when the value included in the Access Token differs from the one specified by the joining node in the Authorization Request. In such a case, the second element of each scope entry MUST be present, and specifies the set of roles that the joining node is actually authorized to take in the OSCORE group for that scope entry, encoded as specified in {{ssec-auth-req}}.
 
-Furthermore, if the AS uses the extended format of scope defined in {{Section 7 of I-D.ietf-ace-key-groupcomm}} for the 'scope' claim of the Access Token, the first element of the CBOR sequence {{RFC8742}} MUST be the CBOR integer with value SEM_ID_TBD, defined in {{iana-scope-semantics}} of this document (REQ28). This indicates that the second element of the CBOR sequence, as conveying the actual access control information, follows the scope semantics defined for this application profile in {{sec-format-scope}} of this document.
+Furthermore, the AS MAY use the extended format of scope defined in {{Section 7 of I-D.ietf-ace-key-groupcomm}} for the 'scope' claim of the Access Token. In such a case, the AS MUST use the CBOR tag with tag number TAG_NUMBER, associated with the CoAP Content-Format CF_ID for the media type application/aif+cbor registered in {{ssec-iana-coap-content-format-registry}} of this document (REQ28).
+
+Note to RFC Editor: In the previous paragraph, please replace "TAG_NUMBER" with the CBOR tag number computed as TN(ct) in {{Section 4.3 of I-D.ietf-cbor-file-magic}}, where ct is the ID assigned to the CoAP Content-Format registered in {{ssec-iana-coap-content-format-registry}} of this document. Then, please replace "CF_ID" with the ID assigned to that CoAP Content-Format. Finally, please delete this paragraph.
+
+This indicates that the binary encoded scope, as conveying the actual access control information, follows the scope semantics defined for this application profile in {{sec-format-scope}} of this document.
 
 ## Token Transferring {#ssec-token-post}
 
@@ -712,7 +716,7 @@ Furthermore, the following applies.
 
         * L is equal to 8, i.e., the size of the MAC, in bytes.
 
-* The 'group_rekeying' parameter MAY be omitted, if the Group Manager uses the "Point-to-Point" group rekeying scheme registered in {{Section 11.14 of I-D.ietf-ace-key-groupcomm}} as rekeying scheme in the OSCORE group (OPT9). Its detailed use for this profile is defined in {{sec-group-rekeying-process}} of this document. In any other case, the 'group_rekeying' parameter MUST be included.
+* The 'group_rekeying' parameter MAY be omitted, if the Group Manager uses the "Point-to-Point" group rekeying scheme registered in {{Section 11.12 of I-D.ietf-ace-key-groupcomm}} as rekeying scheme in the OSCORE group (OPT9). Its detailed use for this profile is defined in {{sec-group-rekeying-process}} of this document. In any other case, the 'group_rekeying' parameter MUST be included.
 
 As a last action, if the Group Manager reassigns Gid values during the group's lifetime (see {{Section 3.2.1.1 of I-D.ietf-core-oscore-groupcomm}}), then the Group Manager MUST store the Gid specified in the 'contextId' parameter of the 'key' parameter, as the Birth Gid of the joining node in the joined group (see {{Section 3 of I-D.ietf-core-oscore-groupcomm}}). This applies also in case the joining node is in fact re-joining the group; in such a case, the newly determined Birth Gid overwrites the one currently stored.
 
@@ -732,7 +736,7 @@ In case of successful verification of the PoP evidence, the joining node uses th
 
 * Absent the 'salt' parameter, the joining node considers the empty byte string as Master Salt to use in the OSCORE group.
 
-* Absent the 'group_rekeying' parameter, the joining node considers the "Point-to-Point" group rekeying scheme registered in {{Section 11.14 of I-D.ietf-ace-key-groupcomm}} as the rekeying scheme used in the group (OPT9). Its detailed use for this profile is defined in {{sec-group-rekeying-process}} of this document.
+* Absent the 'group_rekeying' parameter, the joining node considers the "Point-to-Point" group rekeying scheme registered in {{Section 11.12 of I-D.ietf-ace-key-groupcomm}} as the rekeying scheme used in the group (OPT9). Its detailed use for this profile is defined in {{sec-group-rekeying-process}} of this document.
 
 In addition, the joining node maintains an association between each authentication credential retrieved from the 'creds' parameter and the role(s) that the corresponding group member has in the OSCORE group.
 
@@ -750,7 +754,7 @@ If the application requires backward security, the Group Manager MUST generate u
 
 In a number of cases, the Group Manager has to generate new keying material and distribute it to the group (rekeying), as also discussed in {{Section 3.2 of I-D.ietf-core-oscore-groupcomm}}.
 
-To this end the Group Manager MUST support the Group Rekeying Process described in {{sec-group-rekeying-process}} of this document, as an instance of the "Point-to-Point" rekeying scheme defined in {{Section 6.1 of I-D.ietf-ace-key-groupcomm}} and registered in {{Section 11.14 of I-D.ietf-ace-key-groupcomm}}. Future documents may define the use of alternative group rekeying schemes for this application profile, together with the corresponding rekeying message formats. The resulting group rekeying process MUST comply with the functional steps defined in {{Section 3.2 of I-D.ietf-core-oscore-groupcomm}}.
+To this end the Group Manager MUST support the Group Rekeying Process described in {{sec-group-rekeying-process}} of this document, as an instance of the "Point-to-Point" rekeying scheme defined in {{Section 6.1 of I-D.ietf-ace-key-groupcomm}} and registered in {{Section 11.12 of I-D.ietf-ace-key-groupcomm}}. Future documents may define the use of alternative group rekeying schemes for this application profile, together with the corresponding rekeying message formats. The resulting group rekeying process MUST comply with the functional steps defined in {{Section 3.2 of I-D.ietf-core-oscore-groupcomm}}.
 
 Upon generating the new group keying material and before starting its distribution, the Group Manager MUST increment the version number of the group keying material. When rekeying a group, the Group Manager MUST preserve the current value of the OSCORE Sender ID of each member in that group.
 
@@ -1270,7 +1274,7 @@ As per {{Section 3.2.1.1 of I-D.ietf-core-oscore-groupcomm}}, the Group Manager 
 
 Across the rekeying execution, the Group Manager MUST preserve the same unchanged OSCORE Sender IDs for all group members intended to remain in the group. This avoids affecting the retrieval of authentication credentials from the Group Manager and the verification of group messages.
 
-The Group Manager MUST support the "Point-to-Point" group rekeying scheme registered in {{Section 11.14 of I-D.ietf-ace-key-groupcomm}}, as per the detailed use defined in {{sending-rekeying-msg}} of this document. Future specifications may define how this application profile can use alternative group rekeying schemes, which MUST comply with the functional steps defined in {{Section 3.2 of I-D.ietf-core-oscore-groupcomm}}. The Group Manager MUST indicate the use of such an alternative group rekeying scheme to joining nodes, by means of the 'group_rekeying' parameter included in Join Response messages (see {{ssec-join-resp}}).
+The Group Manager MUST support the "Point-to-Point" group rekeying scheme registered in {{Section 11.12 of I-D.ietf-ace-key-groupcomm}}, as per the detailed use defined in {{sending-rekeying-msg}} of this document. Future specifications may define how this application profile can use alternative group rekeying schemes, which MUST comply with the functional steps defined in {{Section 3.2 of I-D.ietf-core-oscore-groupcomm}}. The Group Manager MUST indicate the use of such an alternative group rekeying scheme to joining nodes, by means of the 'group_rekeying' parameter included in Join Response messages (see {{ssec-join-resp}}).
 
 It is RECOMMENDED that the Group Manager gets confirmation of successful distribution from the group members, and admits a maximum number of individual retransmissions to non-confirming group members. Once completed the group rekeying process, the Group Manager creates a new empty set X' of stale Sender IDs associated with the version of the newly distributed group keying material. Then, the Group Manager MUST add the set X' to the collection of stale Sender IDs associated with the group (see {{sssec-stale-sender-ids}}).
 
@@ -1674,7 +1678,7 @@ IANA is asked to register the following entries to the "OAuth Parameters CBOR Ma
 
 ## ACE Groupcomm Parameters {#ssec-iana-ace-groupcomm-parameters-registry}
 
-IANA is asked to register the following entry to the "ACE Groupcomm Parameters" registry defined in {{Section 11.7 of I-D.ietf-ace-key-groupcomm}}.
+IANA is asked to register the following entry to the "ACE Groupcomm Parameters" registry defined in {{Section 11.6 of I-D.ietf-ace-key-groupcomm}}.
 
 * Name: group_senderId
 * CBOR Key: TBD
@@ -1711,7 +1715,7 @@ IANA is asked to register the following entry to the "ACE Groupcomm Parameters" 
 
 ## ACE Groupcomm Key Types {#ssec-iana-groupcomm-keys-registry}
 
-IANA is asked to register the following entry to the "ACE Groupcomm Key Types" registry defined in {{Section 11.8 of I-D.ietf-ace-key-groupcomm}}.
+IANA is asked to register the following entry to the "ACE Groupcomm Key Types" registry defined in {{Section 11.7 of I-D.ietf-ace-key-groupcomm}}.
 
 *  Name: Group_OSCORE_Input_Material object
 *  Key Type Value: GROUPCOMM_KEY_TBD
@@ -1721,7 +1725,7 @@ IANA is asked to register the following entry to the "ACE Groupcomm Key Types" r
 
 ## ACE Groupcomm Profiles {#ssec-iana-groupcomm-profile-registry}
 
-IANA is asked to register the following entry to the "ACE Groupcomm Profiles" registry defined in {{Section 11.9 of I-D.ietf-ace-key-groupcomm}}.
+IANA is asked to register the following entry to the "ACE Groupcomm Profiles" registry defined in {{Section 11.8 of I-D.ietf-ace-key-groupcomm}}.
 
 *  Name: coap_group_oscore_app
 *  Description: Application profile to provision keying material for participating in group communication protected with Group OSCORE as per {{I-D.ietf-core-oscore-groupcomm}}.
@@ -1802,16 +1806,18 @@ IANA is asked to register the following entry to the "TLS Exporter Labels" regis
 * Recommended: N
 * Reference: {{&SELF}} ({{sssec-challenge-value}})
 
-## AIF {#ssec-iana-AIF-registry}
+## AIF Media-Type Sub-Parameters {#ssec-iana-AIF-registry}
 
 For the media-types application/aif+cbor and application/aif+json defined in {{Section 5.1 of I-D.ietf-ace-aif}}, IANA is requested to register the following entries for the two media-type parameters Toid and Tperm, in the respective sub-registry defined in {{Section 5.2 of I-D.ietf-ace-aif}} within the "MIME Media Type Sub-Parameter" registry group.
 
+* Parameter: Toid
 * Name: oscore-gname
 * Description/Specification: OSCORE group name
 * Reference: {{&SELF}}
 
 &nbsp;
 
+* Parameter: Tperm
 * Name: oscore-gperm
 * Description/Specification: permissions pertaining OSCORE groups
 * Reference: {{&SELF}}
@@ -1824,7 +1830,7 @@ IANA is asked to register the following entries to the "CoAP Content-Formats" re
 
 * Encoding: -
 
-* ID: TBD
+* ID: 292 (suggested)
 
 * Reference: {{&SELF}}
 
@@ -1834,7 +1840,7 @@ IANA is asked to register the following entries to the "CoAP Content-Formats" re
 
 * Encoding: -
 
-* ID: TBD
+* ID: 293 (suggested)
 
 * Reference: {{&SELF}}
 
@@ -1870,19 +1876,9 @@ IANA is asked to register the following entry in the "Resource Type (rt=) Link T
 
 Client applications can use this resource type to discover a group membership resource at an OSCORE Group Manager, where to send a request for joining the corresponding OSCORE group.
 
-## ACE Scope Semantics # {#iana-scope-semantics}
-
-IANA is asked to register the following entry in the "ACE Scope Semantics" registry defined in {{Section 11.12 of I-D.ietf-ace-key-groupcomm}}.
-
-* Value: SEM_ID_TBD
-
-* Description: Membership and key management operations at the ACE Group Manager for Group OSCORE.
-
-* Reference: {{&SELF}}
-
 ## ACE Groupcomm Errors {#iana-ace-groupcomm-errors}
 
-IANA is asked to register the following entry in the "ACE Groupcomm Errors" registry defined in {{Section 11.13 of I-D.ietf-ace-key-groupcomm}}.
+IANA is asked to register the following entry in the "ACE Groupcomm Errors" registry defined in {{Section 11.11 of I-D.ietf-ace-key-groupcomm}}.
 
 * Value: 7
 
@@ -1984,7 +1980,7 @@ This section lists how this application profile of ACE addresses the requirement
 
 * REQ27 - Specify the format of newly-generated individual keying material for group members, or of the information to derive it, and corresponding CBOR label: see {{sec-new-key}}.
 
-* REQ28 - Specify and register the identifier of newly defined semantics for binary scopes: see {{iana-scope-semantics}}.
+* REQ28 - Specify which CBOR tag is used for identifying the semantics of binary scopes, or register a new CBOR tag if a suitable one does not exist already: see {{ssec-auth-resp}}.
 
 * REQ29 - Categorize newly defined parameters according to the same criteria of {{Section 8 of I-D.ietf-ace-key-groupcomm}}: see {{ace-groupcomm-params}}.
 
@@ -2012,7 +2008,7 @@ This section lists how this application profile of ACE addresses the requirement
 
 * OPT8 (Optional) - Specify the behavior of the handler in case of failure to retrieve an authentication credential for the specific node: send a 4.00 (Bad Request) error response to a Join Request (see {{ssec-join-req-processing}}).
 
-* OPT9 (Optional) - Define a default group rekeying scheme, to refer to in case the 'rekeying_scheme' parameter is not included in the Join Response (see {{Section 4.3.1.1 of I-D.ietf-ace-key-groupcomm}}): the "Point-to-Point" rekeying scheme registered in {{Section 11.14 of I-D.ietf-ace-key-groupcomm}}, whose detailed use for this profile is defined in {{sec-group-rekeying-process}} of this document.
+* OPT9 (Optional) - Define a default group rekeying scheme, to refer to in case the 'rekeying_scheme' parameter is not included in the Join Response (see {{Section 4.3.1.1 of I-D.ietf-ace-key-groupcomm}}): the "Point-to-Point" rekeying scheme registered in {{Section 11.12 of I-D.ietf-ace-key-groupcomm}}, whose detailed use for this profile is defined in {{sec-group-rekeying-process}} of this document.
 
 * OPT10 (Optional) - Specify the functionalities implemented at the 'control_group_uri' resource hosted at the Client, including message exchange encoding and other details (see {{Section 4.3.1 of I-D.ietf-ace-key-groupcomm}}): see {{sec-leaving}} for the eviction of multiple group members.
 
@@ -2095,6 +2091,10 @@ RFC EDITOR: PLEASE REMOVE THIS SECTION.
 ## Version -14 to -15 ## {#sec-14-15}
 
 * Alignment with renaming in draft-ietf-ace-key-groupcomm.
+
+* Updated signaling of semantics for binary encoded scopes.
+
+* Fixes in IANA registrations.
 
 * Editorial fixes.
 
