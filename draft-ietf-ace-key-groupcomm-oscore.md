@@ -72,13 +72,13 @@ normative:
   RFC8949:
   RFC9052:
   RFC9053:
+  RFC9200:
+  RFC9202:
+  RFC9203:
+  RFC9237:
   RFC9277:
-  I-D.ietf-ace-aif:
   I-D.ietf-core-oscore-groupcomm:
   I-D.ietf-ace-key-groupcomm:
-  I-D.ietf-ace-oauth-authz:
-  I-D.ietf-ace-oscore-profile:
-  I-D.ietf-ace-dtls-authorize:
   NIST-800-56A:
     author:
       -
@@ -153,7 +153,7 @@ Object Security for Constrained RESTful Environments (OSCORE) {{RFC8613}} is a m
 
 As described in {{I-D.ietf-core-oscore-groupcomm}}, Group OSCORE is used to protect CoAP group communication {{I-D.ietf-core-groupcomm-bis}}, which can employ, for example, IP multicast as underlying data transport. This relies on a Group Manager, which is responsible for managing an OSCORE group and enables the group members to exchange CoAP messages secured with Group OSCORE. The Group Manager can be responsible for multiple groups, coordinates the joining process of new group members, and is entrusted with the distribution and renewal of group keying material.
 
-This document is an application profile of {{I-D.ietf-ace-key-groupcomm}}, which itself builds on the ACE framework for Authentication and Authorization {{I-D.ietf-ace-oauth-authz}}. Message exchanges among the participants as well as message formats and processing follow what specified in {{I-D.ietf-ace-key-groupcomm}} for provisioning and renewing keying material in group communication scenarios, where Group OSCORE is used to protect CoAP group communication.
+This document is an application profile of {{I-D.ietf-ace-key-groupcomm}}, which itself builds on the ACE framework for Authentication and Authorization {{RFC9200}}. Message exchanges among the participants as well as message formats and processing follow what specified in {{I-D.ietf-ace-key-groupcomm}} for provisioning and renewing keying material in group communication scenarios, where Group OSCORE is used to protect CoAP group communication.
 
 ## Terminology {#ssec-terminology}
 
@@ -161,7 +161,7 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 
 Readers are expected to be familiar with:
 
-* The terms and concepts described in the ACE framework for authentication and authorization {{I-D.ietf-ace-oauth-authz}} and in the Authorization Information Format (AIF) {{I-D.ietf-ace-aif}} to express authorization information. The terminology for entities in the considered architecture is defined in OAuth 2.0 {{RFC6749}}. In particular, this includes Client (C), Resource Server (RS), and Authorization Server (AS).
+* The terms and concepts described in the ACE framework for authentication and authorization {{RFC9200}} and in the Authorization Information Format (AIF) {{RFC9237}} to express authorization information. The terminology for entities in the considered architecture is defined in OAuth 2.0 {{RFC6749}}. In particular, this includes Client (C), Resource Server (RS), and Authorization Server (AS).
 
 * The terms and concept related to the message formats and processing specified in {{I-D.ietf-ace-key-groupcomm}}, for provisioning and renewing keying material in group communication scenarios.
 
@@ -193,7 +193,7 @@ Additionally, this document makes use of the following terminology.
 
 Group communication for CoAP has been enabled in {{I-D.ietf-core-groupcomm-bis}} and can be secured with Group Object Security for Constrained RESTful Environments (Group OSCORE) as specified in {{I-D.ietf-core-oscore-groupcomm}}. A network node joins an OSCORE group by interacting with the responsible Group Manager. Once registered in the group, the new node can securely exchange messages with other group members.
 
-This document describes how to use {{I-D.ietf-ace-key-groupcomm}} and {{I-D.ietf-ace-oauth-authz}} to perform a number of authentication, authorization and key distribution actions as overviewed in {{Section 2 of I-D.ietf-ace-key-groupcomm}}, when the considered group is specifically an OSCORE group.
+This document describes how to use {{I-D.ietf-ace-key-groupcomm}} and {{RFC9200}} to perform a number of authentication, authorization and key distribution actions as overviewed in {{Section 2 of I-D.ietf-ace-key-groupcomm}}, when the considered group is specifically an OSCORE group.
 
 With reference to {{I-D.ietf-ace-key-groupcomm}}:
 
@@ -223,7 +223,7 @@ Finally, {{profile-req}} lists the specifications on this application profile of
 
 Building on {{Section 3.1 of I-D.ietf-ace-key-groupcomm}}, this section defines the exact format and encoding of scope used in this profile.
 
-To this end, this profile uses the Authorization Information Format (AIF) {{I-D.ietf-ace-aif}}. In particular, with reference to the generic AIF model
+To this end, this profile uses the Authorization Information Format (AIF) {{RFC9237}}. In particular, with reference to the generic AIF model
 
 ~~~~~~~~~~~
    AIF-Generic<Toid, Tperm> = [* [Toid, Tperm]]
@@ -400,7 +400,7 @@ Note that, other than through the above parameters as defined in {{Section 3.3 o
 
 ### 'ecdh_info' Parameter {#ecdh-info}
 
-The 'ecdh_info' parameter is an OPTIONAL parameter of the request and response messages exchanged between the Client and the authz-info endpoint at the RS (see {{Section 5.10.1. of I-D.ietf-ace-oauth-authz}}).
+The 'ecdh_info' parameter is an OPTIONAL parameter of the request and response messages exchanged between the Client and the authz-info endpoint at the RS (see {{Section 5.10.1. of RFC9200}}).
 
 This parameter allows the Client and the RS to exchange information about an ECDH algorithm as well as about the authentication credentials and public keys to accordingly use for deriving Diffie-Hellman secrets. Its exact semantics and content are application specific.
 
@@ -451,7 +451,7 @@ This format is consistent with every ECDH algorithm currently defined in {{RFC90
 
 ### 'kdc_dh_creds' Parameter {#gm-dh-info}
 
-The 'kdc_dh_creds' parameter is an OPTIONAL parameter of the request and response messages exchanged between the Client and the authz-info endpoint at the RS (see {{Section 5.10.1. of I-D.ietf-ace-oauth-authz}}).
+The 'kdc_dh_creds' parameter is an OPTIONAL parameter of the request and response messages exchanged between the Client and the authz-info endpoint at the RS (see {{Section 5.10.1. of RFC9200}}).
 
 This parameter allows the Client to request and retrieve the Diffie-Hellman authentication credentials of the RS, i.e., authentication credentials including a Diffie-Hellman public key of the RS.
 
@@ -532,7 +532,7 @@ The value of the N\_S challenge is determined as follows.
 
 1. If the joining node has provided the Access Token to the Group Manager by means of a Token Transfer Request to the /authz-info endpoint as in {{ssec-token-post}}, then N\_S takes the same value of the most recent 'kdcchallenge' parameter received by the joining node from the Group Manager. This can be either the one specified in the Token Transfer Response, or the one possibly specified in a 4.00 (Bad Request) error response to a following Join Request (see {{ssec-join-req-processing}}).
 
-2. If the provisioning of the Access Token to the Group Manager has relied on the DTLS profile of ACE {{I-D.ietf-ace-dtls-authorize}} with the Access Token as content of the "psk_identity" field of the ClientKeyExchange message {{RFC6347}}, then N\_S is an exporter value computed as defined in {{Section 7.5 of RFC8446}}. Specifically, N\_S is exported from the DTLS session between the joining node and the Group Manager, using an empty 'context_value', 32 bytes as 'key_length', and the exporter label "EXPORTER-ACE-Sign-Challenge-coap-group-oscore-app" defined in {{ssec-iana-tls-esporter-label-registry}} of this document.
+2. If the provisioning of the Access Token to the Group Manager has relied on the DTLS profile of ACE {{RFC9202}} with the Access Token as content of the "psk_identity" field of the ClientKeyExchange message {{RFC6347}}, then N\_S is an exporter value computed as defined in {{Section 7.5 of RFC8446}}. Specifically, N\_S is exported from the DTLS session between the joining node and the Group Manager, using an empty 'context_value', 32 bytes as 'key_length', and the exporter label "EXPORTER-ACE-Sign-Challenge-coap-group-oscore-app" defined in {{ssec-iana-tls-esporter-label-registry}} of this document.
 
 It is up to applications to define how N_S is computed in further alternative settings.
 
@@ -628,7 +628,7 @@ Then, the Group Manager replies to the joining node, providing the updated secur
 
 * The 'key' parameter includes what the joining node needs in order to set up the Group OSCORE Security Context as per {{Section 2 of I-D.ietf-core-oscore-groupcomm}}.
 
-   This parameter has as value a Group_OSCORE_Input_Material object, which is defined in this document and extends the OSCORE_Input_Material object encoded in CBOR as defined in {{Section 3.2.1 of I-D.ietf-ace-oscore-profile}}. In particular, it contains the additional parameters 'group_senderId', 'cred_fmt', 'sign_enc_alg', 'sign_alg', 'sign_params', 'ecdh_alg' and 'ecdh_params' defined in {{ssec-iana-security-context-parameter-registry}} of this document.
+   This parameter has as value a Group_OSCORE_Input_Material object, which is defined in this document and extends the OSCORE_Input_Material object encoded in CBOR as defined in {{Section 3.2.1 of RFC9203}}. In particular, it contains the additional parameters 'group_senderId', 'cred_fmt', 'sign_enc_alg', 'sign_alg', 'sign_params', 'ecdh_alg' and 'ecdh_params' defined in {{ssec-iana-security-context-parameter-registry}} of this document.
 
    More specifically, the 'key' parameter is composed as follows.
 
@@ -1316,7 +1316,7 @@ The Group Manager separately sends a group rekeying message formatted as defined
 
 Each rekeying message MUST be secured with the pairwise secure communication association between the Group Manager and the group member used during the joining process. In particular, each rekeying message can target the 'control_uri' URI path defined in {{Section 4.3.1 of I-D.ietf-ace-key-groupcomm}} (OPT7), if provided by the intended recipient upon joining the group (see {{ssec-join-req-sending}}).
 
-This distribution approach requires group members to act (also) as servers, in order to correctly handle unsolicited group rekeying messages from the Group Manager. In particular, if a group member and the Group Manager use OSCORE {{RFC8613}} to secure their pairwise communications, the group member MUST create a Replay Window in its own Recipient Context upon establishing the OSCORE Security Context with the Group Manager, e.g., by means of the OSCORE profile of ACE {{I-D.ietf-ace-oscore-profile}}.
+This distribution approach requires group members to act (also) as servers, in order to correctly handle unsolicited group rekeying messages from the Group Manager. In particular, if a group member and the Group Manager use OSCORE {{RFC8613}} to secure their pairwise communications, the group member MUST create a Replay Window in its own Recipient Context upon establishing the OSCORE Security Context with the Group Manager, e.g., by means of the OSCORE profile of ACE {{RFC9203}}.
 
 Group members and the Group Manager SHOULD additionally support alternative distribution approaches that do not require group members to act (also) as servers. A number of such approaches are defined in {{Section 6 of I-D.ietf-ace-key-groupcomm}}. In particular, a group member may use CoAP Observe {{RFC7641}} and subscribe for updates to the group-membership resource of the group, at the endpoint /ace-group/GROUPNAME/ of the Group Manager (see {{Section 6.1 of I-D.ietf-ace-key-groupcomm}}). Alternatively, a full-fledged Pub-Sub model can be considered {{I-D.ietf-core-coap-pubsub}}, where the Group Manager publishes to a rekeying topic hosted at a Broker, while the group members subscribe to such topic (see {{Section 6.2 of I-D.ietf-ace-key-groupcomm}}).
 
@@ -1590,7 +1590,7 @@ For the Pairwise Key Agreement Algorithm 'ecdh_alg' and related parameters 'ecdh
 
 # Security Considerations {#sec-security-considerations}
 
-Security considerations for this profile are inherited from {{I-D.ietf-ace-key-groupcomm}}, the ACE framework for Authentication and Authorization {{I-D.ietf-ace-oauth-authz}}, and the specific transport profile of ACE signalled by the AS, such as {{I-D.ietf-ace-dtls-authorize}} and {{I-D.ietf-ace-oscore-profile}}.
+Security considerations for this profile are inherited from {{I-D.ietf-ace-key-groupcomm}}, the ACE framework for Authentication and Authorization {{RFC9200}}, and the specific transport profile of ACE signalled by the AS, such as {{RFC9202}} and {{RFC9203}}.
 
 The following security considerations also apply for this profile.
 
@@ -1608,7 +1608,7 @@ This profile leverages the following management aspects related to OSCORE groups
 
 Before sending the Join Response, the Group Manager MUST verify that the joining node actually owns the associated private key. To this end, the Group Manager can rely on the proof-of-possession challenge-response defined in {{sec-joining-node-to-GM}}.
 
-Alternatively, when establishing a secure communication association with the Group Manager, the joining node can provide the Group Manager with its own authentication credential, and use the public key included thereof as asymmetric proof-of-possession key. For example, this is the case when the joining node relies on {{Section 3.2.2 of I-D.ietf-ace-dtls-authorize}} and authenticates itself during the DTLS handshake with the Group Manager. However, this requires the authentication credential to be in the format used in the OSCORE group, and that both the authentication credential of the joining node and the included public key are compatible with the signature or ECDH algorithm, and possible associated parameters used in the OSCORE group.
+Alternatively, when establishing a secure communication association with the Group Manager, the joining node can provide the Group Manager with its own authentication credential, and use the public key included thereof as asymmetric proof-of-possession key. For example, this is the case when the joining node relies on {{Section 3.2.2 of RFC9202}} and authenticates itself during the DTLS handshake with the Group Manager. However, this requires the authentication credential to be in the format used in the OSCORE group, and that both the authentication credential of the joining node and the included public key are compatible with the signature or ECDH algorithm, and possible associated parameters used in the OSCORE group.
 
 A node may have joined multiple OSCORE groups under different non-synchronized Group Managers. Therefore, it can happen that those OSCORE groups have the same Group Identifier (Gid). It follows that, upon receiving a Group OSCORE message addressed to one of those groups, the node would have multiple Security Contexts matching with the Gid in the incoming message. It is up to the application to decide how to handle such collisions of Group Identifiers, e.g., by trying to process the incoming message using one Security Context at the time until the right one is found.
 
@@ -1628,7 +1628,7 @@ If we consider both N\_C and N\_S to take 8-byte long values, the following cons
 
 * Let us consider both N\_C and N\_S as taking random values, and the Group Manager to never change the value of the N\_S provided to a Client during the lifetime of an Access Token. Then, as per the birthday paradox, the average collision for N\_S will happen after 2^32 new transferred Access Tokens, while the average collision for N\_C will happen after 2^32 new Join Requests. This amounts to considerably more token provisionings than the expected new joinings of OSCORE groups under a same Group Manager, as well as to considerably more requests to join OSCORE groups from a same Client using a same Access Token under a same Group Manager.
 
-* {{Section 7 of I-D.ietf-ace-oscore-profile}} as well {{Section B.2 of RFC8613}} recommend the use of 8-byte random values as well. Unlike in those cases, the values of N\_C and N\_S considered in this document are not used for as sensitive operations as the derivation of a Security Context, and thus do not have possible implications in the security of AEAD ciphers.
+* {{Section 7 of RFC9203}} as well {{Section B.2 of RFC8613}} recommend the use of 8-byte random values as well. Unlike in those cases, the values of N\_C and N\_S considered in this document are not used for as sensitive operations as the derivation of a Security Context, and thus do not have possible implications in the security of AEAD ciphers.
 
 ## Reusage of Nonces for Proof-of-Possession Input {#ssec-security-considerations-reusage-nonces}
 
@@ -1662,7 +1662,7 @@ IANA is asked to register the following entries to the "OAuth Parameters" regist
 
 ## OAuth Parameters CBOR Mappings {#iana-kinfo-map}
 
-IANA is asked to register the following entries to the "OAuth Parameters CBOR Mappings" registry, as per the procedure specified in {{Section 8.10 of I-D.ietf-ace-oauth-authz}}.
+IANA is asked to register the following entries to the "OAuth Parameters CBOR Mappings" registry, as per the procedure specified in {{Section 8.10 of RFC9200}}.
 
 * Name: ecdh_info
 * CBOR Key: TBD (range -256 to 255)
@@ -1734,7 +1734,7 @@ IANA is asked to register the following entry to the "ACE Groupcomm Profiles" re
 
 ## OSCORE Security Context Parameters {#ssec-iana-security-context-parameter-registry}
 
-IANA is asked to register the following entries in the "OSCORE Security Context Parameters" registry defined in {{Section 9.4 of I-D.ietf-ace-oscore-profile}}.
+IANA is asked to register the following entries in the "OSCORE Security Context Parameters" registry defined in {{Section 9.4 of RFC9203}}.
 
 *  Name: group_SenderId
 *  CBOR Label: TBD
@@ -1808,7 +1808,7 @@ IANA is asked to register the following entry to the "TLS Exporter Labels" regis
 
 ## AIF Media-Type Sub-Parameters {#ssec-iana-AIF-registry}
 
-For the media-types application/aif+cbor and application/aif+json defined in {{Section 5.1 of I-D.ietf-ace-aif}}, IANA is requested to register the following entries for the two media-type parameters Toid and Tperm, in the respective sub-registry defined in {{Section 5.2 of I-D.ietf-ace-aif}} within the "MIME Media Type Sub-Parameter" registry group.
+For the media-types application/aif+cbor and application/aif+json defined in {{Section 5.1 of RFC9237}}, IANA is requested to register the following entries for the two media-type parameters Toid and Tperm, in the respective sub-registry defined in {{Section 5.2 of RFC9237}} within the "MIME Media Type Sub-Parameter" registry group.
 
 * Parameter: Toid
 * Name: oscore-gname
@@ -1928,7 +1928,7 @@ This section lists how this application profile of ACE addresses the requirement
 
 * REQ1 - Specify the format and encoding of 'scope'. This includes defining the set of possible roles and their identifiers, as well as the corresponding encoding to use in the scope entries according to the used scope format: see {{sec-format-scope}} and {{ssec-auth-req}}.
 
-* REQ2 - If the AIF format of 'scope' is used, register its specific instance of "Toid" and "Tperm" as Media Type parameters and a corresponding Content-Format, as per the guidelines in {{I-D.ietf-ace-aif}}: see {{ssec-iana-AIF-registry}} and {{ssec-iana-coap-content-format-registry}}.
+* REQ2 - If the AIF format of 'scope' is used, register its specific instance of "Toid" and "Tperm" as Media Type parameters and a corresponding Content-Format, as per the guidelines in {{RFC9237}}: see {{ssec-iana-AIF-registry}} and {{ssec-iana-coap-content-format-registry}}.
 
 * REQ3 - if used, specify the acceptable values for 'sign\_alg': values from the "Value" column of the "COSE Algorithms" registry {{COSE.Algorithms}}.
 
@@ -1972,7 +1972,7 @@ This section lists how this application profile of ACE addresses the requirement
 
 * REQ23 - Specify the security protocols that the group members must use to protect their communication: Group OSCORE {{I-D.ietf-core-oscore-groupcomm}}.
 
-* REQ24 - Specify how the communication is secured between the Client and KDC: by means of any transport profile of ACE {{I-D.ietf-ace-oauth-authz}} between Client and Group Manager that complies with the requirements in Appendix C of {{I-D.ietf-ace-oauth-authz}}.
+* REQ24 - Specify how the communication is secured between the Client and KDC: by means of any transport profile of ACE {{RFC9200}} between Client and Group Manager that complies with the requirements in Appendix C of {{RFC9200}}.
 
 * REQ25 - Specify the format of the identifiers of group members: the Sender ID used in the OSCORE group (see {{ssec-join-resp}} and {{sec-pub-keys}}).
 
