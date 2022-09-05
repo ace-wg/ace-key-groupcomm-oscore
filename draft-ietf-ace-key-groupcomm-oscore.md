@@ -532,7 +532,13 @@ The value of the N\_S challenge is determined as follows.
 
 1. If the joining node has provided the Access Token to the Group Manager by means of a Token Transfer Request to the /authz-info endpoint as in {{ssec-token-post}}, then N\_S takes the same value of the most recent 'kdcchallenge' parameter received by the joining node from the Group Manager. This can be either the one specified in the Token Transfer Response, or the one possibly specified in a 4.00 (Bad Request) error response to a following Join Request (see {{ssec-join-req-processing}}).
 
-2. If the provisioning of the Access Token to the Group Manager has relied on the DTLS profile of ACE {{RFC9202}} with the Access Token as content of the "psk_identity" field of the ClientKeyExchange message {{RFC6347}}, then N\_S is an exporter value computed as defined in {{Section 7.5 of RFC8446}}. Specifically, N\_S is exported from the DTLS session between the joining node and the Group Manager, using an empty 'context_value', 32 bytes as 'key_length', and the exporter label "EXPORTER-ACE-Sign-Challenge-coap-group-oscore-app" defined in {{ssec-iana-tls-esporter-label-registry}} of this document.
+2. If the provisioning of the Access Token to the Group Manager has relied on the DTLS profile of ACE {{RFC9202}}, and the Access Token was specified:
+
+   - in the "psk_identity" field of the ClientKeyExchange message when using DTLS 1.2 {{RFC6347}}; or
+   
+   - in the "identity" field of a PskIdentity within the PreSharedKeyExtension of the ClientHello message when using DTLS 1.3 {{RFC9147}},
+   
+   then N\_S is an exporter value computed as defined in {{Section 7.5 of RFC8446}}. Specifically, N\_S is exported from the DTLS session between the joining node and the Group Manager, using an empty 'context_value', 32 bytes as 'key_length', and the exporter label "EXPORTER-ACE-Sign-Challenge-coap-group-oscore-app" defined in {{ssec-iana-tls-esporter-label-registry}} of this document.
 
 It is up to applications to define how N_S is computed in further alternative settings.
 
@@ -2093,6 +2099,8 @@ RFC EDITOR: PLEASE REMOVE THIS SECTION.
 * Alignment with renaming in draft-ietf-ace-key-groupcomm.
 
 * Updated signaling of semantics for binary encoded scopes.
+
+* Considered the upload of Access Tokens in the DTLS 1.3 Handshake.
 
 * Fixes in IANA registrations.
 
