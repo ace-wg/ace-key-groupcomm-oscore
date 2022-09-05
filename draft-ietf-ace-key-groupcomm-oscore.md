@@ -57,7 +57,7 @@ author:
 normative:
   RFC2119:
   RFC5705:
-  RFC6838:
+  RFC6347:
   RFC6979:
   RFC7252:
   RFC7748:
@@ -72,6 +72,7 @@ normative:
   RFC8949:
   RFC9052:
   RFC9053:
+  RFC9147:
   RFC9200:
   RFC9202:
   RFC9203:
@@ -131,7 +132,6 @@ informative:
   I-D.ietf-ace-oscore-gm-admin:
   I-D.ietf-cose-cbor-encoded-cert:
   RFC5869:
-  RFC6347:
   RFC6690:
   RFC6749:
   RFC7641:
@@ -396,7 +396,7 @@ The exchange of Token Transfer Request and Token Transfer Response is defined in
 
 * If 'kdc_dh_creds' is included in the Token Transfer Request and any of the groups that the Client has been authorized to join is a pairwise-only group, then the Group Manager MUST include the 'kdc_dh_creds' parameter in the Token Transfer Response, as per the format defined in {{gm-dh-info}}. Otherwise, if 'kdc_dh_creds' is included in the Token Transfer Request, the Group Manager MAY include the 'kdc_dh_creds' parameter in the Token Transfer Response. Note that the field 'id' specifies the group name, or array of group names, for which the corresponding 'kdc_dh_creds' applies to.
 
-Note that, other than through the above parameters as defined in {{Section 3.3 of I-D.ietf-ace-key-groupcomm}}, the joining node may have obtained such information by alternative means. For example, information conveyed in the 'sign_info' and 'ecdh_info' parameters may have been pre-configured, or the joining node MAY early retrieve it by using the approach described in {{I-D.tiloca-core-oscore-discovery}}, to discover the OSCORE group and the link to the associated group-membership resource at the Group Manager (OPT3).
+Note that, other than through the above parameters as defined in {{Section 3.3 of I-D.ietf-ace-key-groupcomm}}, the joining node may have obtained such information by alternative means. For example, information conveyed in the 'sign_info' and 'ecdh_info' parameters may have been pre-configured, or the joining node may early retrieve it, e.g., by using the approach described in {{I-D.tiloca-core-oscore-discovery}} to discover the OSCORE group and the link to the associated group-membership resource at the Group Manager (OPT3).
 
 ### 'ecdh_info' Parameter {#ecdh-info}
 
