@@ -1684,7 +1684,7 @@ IANA is asked to register the following entries to the "OAuth Parameters CBOR Ma
 
 ## ACE Groupcomm Parameters {#ssec-iana-ace-groupcomm-parameters-registry}
 
-IANA is asked to register the following entry to the "ACE Groupcomm Parameters" registry defined in {{Section 11.6 of I-D.ietf-ace-key-groupcomm}}.
+IANA is asked to register the following entries to the "ACE Groupcomm Parameters" registry defined in {{Section 11.6 of I-D.ietf-ace-key-groupcomm}}.
 
 * Name: group_senderId
 * CBOR Key: TBD
@@ -1884,7 +1884,7 @@ Client applications can use this resource type to discover a group membership re
 
 ## ACE Groupcomm Errors {#iana-ace-groupcomm-errors}
 
-IANA is asked to register the following entry in the "ACE Groupcomm Errors" registry defined in {{Section 11.11 of I-D.ietf-ace-key-groupcomm}}.
+IANA is asked to register the following entries in the "ACE Groupcomm Errors" registry defined in {{Section 11.11 of I-D.ietf-ace-key-groupcomm}}.
 
 * Value: 7
 
