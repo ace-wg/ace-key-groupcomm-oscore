@@ -1104,12 +1104,12 @@ Verifier                                                     Manager
     {
       "gkty": GROUPCOMM_KEY_TBD,
       "key": {
-        'hkdf': 5,                     ; HMAC 256/256
-        'contextId': h'37fc',
-        'cred_fmt': 33,                ; x5chain
-        'sign_enc_alg': 10,            ; AES-CCM-16-64-128
-        'sign_alg': -8,                ; EdDSA
-        'sign_params': [[1], [1, 6]]   ; [[OKP], [OKP, Ed25519]]
+        "hkdf": 5,                     ; HMAC 256/256
+        "contextId": h'37fc',
+        "cred_fmt": 33,                ; x5chain
+        "sign_enc_alg": 10,            ; AES-CCM-16-64-128
+        "sign_alg": -8,                ; EdDSA
+        "sign_params": [[1], [1, 6]]   ; [[OKP], [OKP, Ed25519]]
       },
       "num": 12,
       "exp": 1609459200,
@@ -2095,6 +2095,8 @@ The format of 'key' (see {{ssec-join-resp}}) is generalized as follows.
 RFC EDITOR: PLEASE REMOVE THIS SECTION.
 
 ## Version -15 to -16 ## {#sec-15-16}
+
+* Fixed diagnostic notation in examples.
 
 * Editorial fixes.
 
