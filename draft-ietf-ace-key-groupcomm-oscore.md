@@ -189,6 +189,8 @@ Additionally, this document makes use of the following terminology.
 
 * Pairwise-only group: an OSCORE group that uses only the pairwise mode (see {{Section 9 of I-D.ietf-core-oscore-groupcomm}}).
 
+Examples throughout this document are expressed in CBOR diagnostic notation without the tag and value abbreviations.
+
 # Protocol Overview {#sec-protocol-overview}
 
 Group communication for CoAP has been enabled in {{I-D.ietf-core-groupcomm-bis}} and can be secured with Group Object Security for Constrained RESTful Environments (Group OSCORE) as specified in {{I-D.ietf-core-oscore-groupcomm}}. A network node joins an OSCORE group by interacting with the responsible Group Manager. Once registered in the group, the new node can securely exchange messages with other group members.
