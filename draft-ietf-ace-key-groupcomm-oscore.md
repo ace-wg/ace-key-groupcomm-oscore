@@ -686,7 +686,7 @@ Furthermore, the following applies.
 
 * The 'exp' parameter MUST be present.
 
-* The 'ace-groupcomm-profile' parameter MUST be present and has value coap_group_oscore_app (PROFILE_TBD), which is defined in {{ssec-iana-groupcomm-profile-registry}} of this document.
+* The 'ace_groupcomm_profile' parameter MUST be present and has value coap_group_oscore_app (PROFILE_TBD), which is defined in {{ssec-iana-groupcomm-profile-registry}} of this document.
 
 * The 'creds' parameter, if present, includes the authentication credentials requested by the joining node by means of the 'get_creds' parameter in the Join Request.
 
@@ -953,7 +953,7 @@ The Group Manager processes the Key Distribution Request according to {{Section 
 
 * The 'exp' parameter MUST be present.
 
-* The 'ace-groupcomm-profile' parameter MUST be present and has value coap_group_oscore_app.
+* The 'ace_groupcomm_profile' parameter MUST be present and has value coap_group_oscore_app.
 
 Upon receiving the Key Distribution Response, the group member retrieves the updated security parameters and group keying material, and, if they differ from the current ones, uses them to set up the new Group OSCORE Security Context as described in {{Section 2 of I-D.ietf-core-oscore-groupcomm}}.
 
@@ -1059,7 +1059,7 @@ In particular, it sends a CoAP GET request to the endpoint /ace-group/GROUPNAME/
 
 The payload of the 2.05 (Content) Signature Verification Data Response is a CBOR map, which has the format used for the Join Response message in {{ssec-join-resp}}, with the following differences.
 
-* From the Join Response message, only the parameters 'gkty', 'key', 'num', 'exp' and 'ace-groupcomm-profile' are present. In particular, the 'key' parameter includes only the following data.
+* From the Join Response message, only the parameters 'gkty', 'key', 'num', 'exp' and 'ace_groupcomm_profile' are present. In particular, the 'key' parameter includes only the following data.
 
    - The parameters 'hkdf', 'contextId', 'cred_fmt', 'sign_enc_alg', 'sign_alg', 'sign_params'. These parameters MUST be present.
 
@@ -1298,7 +1298,7 @@ Furthermore, some of these group members can be in multiple groups, all of which
 
 When using the "Point-to-Point" group rekeying scheme, the group rekeying messages MUST have Content-Format set to application/ace-groupcomm+cbor and have the same format used for the Join Response message in {{ssec-join-resp}}, with the following differences. Note that this extends the minimal content of a rekeying message as defined in {{Section 6 of I-D.ietf-ace-key-groupcomm}} (OPT14).
 
-* From the Join Response, only the parameters 'gkty', 'key', 'num', 'exp', and 'ace-groupcomm-profile' are present. In particular, the 'key' parameter includes only the following data.
+* From the Join Response, only the parameters 'gkty', 'key', 'num', 'exp', and 'ace_groupcomm_profile' are present. In particular, the 'key' parameter includes only the following data.
 
    - The 'ms' parameter, specifying the new OSCORE Master Secret value. This parameter MUST be present.
 
@@ -1478,7 +1478,7 @@ Note that the media type application/ace-groupcomm+cbor MUST be used when these 
 
 Note to RFC Editor: Please replace all occurrences of "{{&SELF}}" with the RFC number of this specification and delete this paragraph.
 
-The Group Manager is expected to support and understand all the parameters above. Instead, a Client is required to support the new parameters defined in this application profile as specified below (REQ29).
+The Group Manager is expected to support all the parameters above. Instead, a Client is required to support the new parameters defined in this application profile as specified below (REQ29).
 
 * 'group_senderId' MUST be supported by a Client that intends to join an OSCORE group with the role of Requester and/or Responder.
 
@@ -2093,6 +2093,10 @@ The format of 'key' (see {{ssec-join-resp}}) is generalized as follows.
 # Document Updates # {#sec-document-updates}
 
 RFC EDITOR: PLEASE REMOVE THIS SECTION.
+
+## Version -15 to -16 ## {#sec-15-16}
+
+* Editorial fixes.
 
 ## Version -14 to -15 ## {#sec-14-15}
 
