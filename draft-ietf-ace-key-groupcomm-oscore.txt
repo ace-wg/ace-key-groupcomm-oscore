@@ -5,10 +5,10 @@
 ACE Working Group                                              M. Tiloca
 Internet-Draft                                                   RISE AB
 Intended status: Standards Track                                 J. Park
-Expires: 23 June 2023                        Universitaet Duisburg-Essen
+Expires: 19 August 2023                      Universitaet Duisburg-Essen
                                                             F. Palombini
                                                              Ericsson AB
-                                                        20 December 2022
+                                                        15 February 2023
 
 
                 Key Management for OSCORE Groups in ACE
@@ -43,11 +43,11 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 23 June 2023.
+   This Internet-Draft will expire on 19 August 2023.
 
 Copyright Notice
 
-   Copyright (c) 2022 IETF Trust and the persons identified as the
+   Copyright (c) 2023 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -2087,7 +2087,7 @@ Table of Contents
    [I-D.ietf-ace-key-groupcomm], depending on the request method being
    FETCH or GET, respectively.  Additionally, if the Authentication
    Credential Request uses the method FETCH, the Group Manager silently
-   ignores node identifiers included in the 'get_creds' parameter of the
+   ignores node identifiers included in the ’get_creds’ parameter of the
    request that are not associated with any current group member
    (REQ26).
 
@@ -3147,6 +3147,18 @@ Table of Contents
    differently specified when creating and configuring the group.  This
    can be achieved as specified in [I-D.ietf-ace-oscore-gm-admin].
 
+   A possible reason for the Group Manager to consider default values
+   different from those recommended in this section is to ensure that
+   each of those are consistent with what the Group Manager supports,
+   e.g., in terms of signature algorithm and format of authentication
+   credentials used in the group.
+
+   This ensures that the Group Manager is able to perform the operations
+   defined in this document, e.g., to achieve proof-of-possession of a
+   joining node's private key (see Section 6.2), as well as to provide a
+   joining node with its own authentication credential and the
+   associated proof-of-possession challenge (see Section 6.3).
+
 14.1.  Common
 
    This section always applies, as related to common configuration
@@ -3989,16 +4001,17 @@ Table of Contents
               Dijk, E., Wang, C., and M. Tiloca, "Group Communication
               for the Constrained Application Protocol (CoAP)", Work in
               Progress, Internet-Draft, draft-ietf-core-groupcomm-bis-
-              07, 11 July 2022, <https://datatracker.ietf.org/doc/html/
-              draft-ietf-core-groupcomm-bis-07>.
+              08, 11 January 2023,
+              <https://datatracker.ietf.org/doc/html/draft-ietf-core-
+              groupcomm-bis-08>.
 
    [I-D.ietf-cose-cbor-encoded-cert]
               Mattsson, J. P., Selander, G., Raza, S., Höglund, J., and
               M. Furuhed, "CBOR Encoded X.509 Certificates (C509
               Certificates)", Work in Progress, Internet-Draft, draft-
-              ietf-cose-cbor-encoded-cert-04, 10 July 2022,
+              ietf-cose-cbor-encoded-cert-05, 10 January 2023,
               <https://datatracker.ietf.org/doc/html/draft-ietf-cose-
-              cbor-encoded-cert-04>.
+              cbor-encoded-cert-05>.
 
    [I-D.tiloca-core-oscore-discovery]
               Tiloca, M., Amsüss, C., and P. Van der Stok, "Discovery of
@@ -4375,6 +4388,8 @@ Appendix C.  Document Updates
 C.1.  Version -15 to -16
 
    *  Fixed diagnostic notation in examples.
+
+   *  Possible reason to deviate from default parameter values.
 
    *  Editorial fixes.
 
