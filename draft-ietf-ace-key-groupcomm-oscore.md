@@ -1540,6 +1540,10 @@ A Client supporting the 'error' parameter (see {{Sections 4.1.2 and 8 of I-D.iet
 
 This section defines the default values that the Group Manager assumes for the configuration parameters of an OSCORE group, unless differently specified when creating and configuring the group. This can be achieved as specified in {{I-D.ietf-ace-oscore-gm-admin}}.
 
+A possible reason for the Group Manager to consider default values different from those recommended in this section is to ensure that each of those are consistent with what the Group Manager supports, e.g., in terms of signature algorithm and format of authentication credentials used in the group.
+
+This ensures that the Group Manager is able to perform the operations defined in this document, e.g., to achieve proof-of-possession of a joining node's private key (see {{ssec-join-req-processing}}), as well as to provide a joining node with its own authentication credential and the associated proof-of-possession challenge (see {{ssec-join-resp}}).
+
 ## Common
 
 This section always applies, as related to common configuration parameters.
@@ -2099,6 +2103,8 @@ RFC EDITOR: PLEASE REMOVE THIS SECTION.
 ## Version -15 to -16 ## {#sec-15-16}
 
 * Fixed diagnostic notation in examples.
+
+* Possible reason to deviate from default parameter values.
 
 * Editorial fixes.
 
