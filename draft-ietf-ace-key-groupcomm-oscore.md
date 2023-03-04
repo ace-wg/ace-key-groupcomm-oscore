@@ -632,7 +632,7 @@ If the joining node has not taken exclusively the role of monitor, the Group Man
 
 * The Group Manager stores the association between i) the authentication credential of the joining node; and ii) the Group Identifier (Gid), i.e., the OSCORE ID Context, associated with the OSCORE group together with the OSCORE Sender ID assigned to the joining node in the group. The Group Manager MUST keep this association updated over time.
 
-Then, the Group Manager replies to the joining node, providing the updated security parameters and keying meterial necessary to participate in the group communication. This success Join Response is formatted as defined in {{Section 4.3.1 of I-D.ietf-ace-key-groupcomm}}, with the following additions:
+Then, the Group Manager replies to the joining node, providing the updated security parameters and keying material necessary to participate in the group communication. This success Join Response is formatted as defined in {{Section 4.3.1 of I-D.ietf-ace-key-groupcomm}}, with the following additions:
 
 * The 'gkty' parameter identifies a key of type "Group_OSCORE_Input_Material object", defined in {{ssec-iana-groupcomm-keys-registry}} of this document.
 
