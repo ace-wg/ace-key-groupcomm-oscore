@@ -408,7 +408,7 @@ Table of Contents
       AIF-OSCORE-GROUPCOMM = AIF-Generic<oscore-gname, oscore-gperm>
 
       oscore-gname = tstr  ; Group name
-      oscore-gperm = uint . bits group-oscore-roles
+      oscore-gperm = uint .bits group-oscore-roles
 
       group-oscore-roles = &(
          Requester: 1,
@@ -4389,6 +4389,8 @@ Appendix C.  Document Updates
    RFC EDITOR: PLEASE REMOVE THIS SECTION.
 
 C.1.  Version -16 to -17
+
+   *  Fixed CDDL notation.
 
    *  Editorial fixes.
 
