@@ -5,10 +5,10 @@
 ACE Working Group                                              M. Tiloca
 Internet-Draft                                                   RISE AB
 Intended status: Standards Track                                 J. Park
-Expires: 19 August 2023                      Universitaet Duisburg-Essen
+Expires: 5 September 2023                    Universitaet Duisburg-Essen
                                                             F. Palombini
                                                              Ericsson AB
-                                                        15 February 2023
+                                                            4 March 2023
 
 
                 Key Management for OSCORE Groups in ACE
@@ -43,7 +43,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 19 August 2023.
+   This Internet-Draft will expire on 5 September 2023.
 
 Copyright Notice
 
@@ -145,22 +145,23 @@ Table of Contents
      B.1.  Format of 'ecdh_info_entry'
      B.2.  Format of 'key'
    Appendix C.  Document Updates
-     C.1.  Version -15 to -16
-     C.2.  Version -14 to -15
-     C.3.  Version -13 to -14
-     C.4.  Version -12 to -13
-     C.5.  Version -11 to -12
-     C.6.  Version -10 to -11
-     C.7.  Version -09 to -10
-     C.8.  Version -08 to -09
-     C.9.  Version -07 to -08
-     C.10. Version -06 to -07
-     C.11. Version -05 to -06
-     C.12. Version -04 to -05
-     C.13. Version -03 to -04
-     C.14. Version -02 to -03
-     C.15. Version -01 to -02
-     C.16. Version -00 to -01
+     C.1.  Version -16 to -17
+     C.2.  Version -15 to -16
+     C.3.  Version -14 to -15
+     C.4.  Version -13 to -14
+     C.5.  Version -12 to -13
+     C.6.  Version -11 to -12
+     C.7.  Version -10 to -11
+     C.8.  Version -09 to -10
+     C.9.  Version -08 to -09
+     C.10. Version -07 to -08
+     C.11. Version -06 to -07
+     C.12. Version -05 to -06
+     C.13. Version -04 to -05
+     C.14. Version -03 to -04
+     C.15. Version -02 to -03
+     C.16. Version -01 to -02
+     C.17. Version -00 to -01
    Acknowledgments
    Authors' Addresses
 
@@ -209,10 +210,12 @@ Table of Contents
       particular, this includes Client (C), Resource Server (RS), and
       Authorization Server (AS).
 
-   *  The terms and concept related to the message formats and
+   *  The terms and concepts related to the message formats and
       processing specified in [I-D.ietf-ace-key-groupcomm], for
       provisioning and renewing keying material in group communication
-      scenarios.
+      scenarios.  These include the abbreviations REQx and OPTx denoting
+      the numbered mandatory-to-address and optional-to-address
+      requirements, respectively.
 
    *  The terms and concepts described in CBOR [RFC8949] and COSE
       [RFC9052][RFC9053].
@@ -4385,7 +4388,11 @@ Appendix C.  Document Updates
 
    RFC EDITOR: PLEASE REMOVE THIS SECTION.
 
-C.1.  Version -15 to -16
+C.1.  Version -16 to -17
+
+   *  Editorial fixes.
+
+C.2.  Version -15 to -16
 
    *  Fixed diagnostic notation in examples.
 
@@ -4393,7 +4400,7 @@ C.1.  Version -15 to -16
 
    *  Editorial fixes.
 
-C.2.  Version -14 to -15
+C.3.  Version -14 to -15
 
    *  Alignment with renaming in draft-ietf-ace-key-groupcomm.
 
@@ -4405,7 +4412,7 @@ C.2.  Version -14 to -15
 
    *  Editorial fixes.
 
-C.3.  Version -13 to -14
+C.4.  Version -13 to -14
 
    *  Major reordering of the document sections.
 
@@ -4417,7 +4424,7 @@ C.3.  Version -13 to -14
 
    *  Clarifications and editorial improvements.
 
-C.4.  Version -12 to -13
+C.5.  Version -12 to -13
 
    *  Renamed parameters about authentication credentials.
 
@@ -4431,7 +4438,7 @@ C.4.  Version -12 to -13
    *  Updated textual description of registered ACE Scope Semantics
       value.
 
-C.5.  Version -11 to -12
+C.6.  Version -11 to -12
 
    *  Clarified semantics of 'ecdh_info' and 'kdc_dh_creds'.
 
@@ -4468,7 +4475,7 @@ C.5.  Version -11 to -12
 
    *  Fixes and editorial improvements.
 
-C.6.  Version -10 to -11
+C.7.  Version -10 to -11
 
    *  Removed redundancy of key type capabilities, from 'sign_info',
       'ecdh_info' and 'key'.
@@ -4515,7 +4522,7 @@ C.6.  Version -10 to -11
    *  General format of parameters related to COSE capabilities,
       supporting future registered COSE algorithms (new Appendix).
 
-C.7.  Version -09 to -10
+C.8.  Version -09 to -10
 
    *  Updated non-recycling policy of Sender IDs.
 
@@ -4535,7 +4542,7 @@ C.7.  Version -09 to -10
 
    *  Renumbered requirements.
 
-C.8.  Version -08 to -09
+C.9.  Version -08 to -09
 
    *  The url-path "ace-group" is used.
 
@@ -4569,7 +4576,7 @@ C.8.  Version -08 to -09
 
    *  Clarifications and editorial revision.
 
-C.9.  Version -07 to -08
+C.10.  Version -07 to -08
 
    *  AIF specific data model to express scope entries.
 
@@ -4588,7 +4595,7 @@ C.9.  Version -07 to -08
 
    *  IANA registrations to support the AIF specific data model.
 
-C.10.  Version -06 to -07
+C.11.  Version -06 to -07
 
    *  Alignments with draft-ietf-core-oscore-groupcomm.
 
@@ -4601,7 +4608,7 @@ C.10.  Version -06 to -07
 
    *  Editorial revision.
 
-C.11.  Version -05 to -06
+C.12.  Version -05 to -06
 
    *  Added role of external signature verifier.
 
@@ -4631,7 +4638,7 @@ C.11.  Version -05 to -06
 
    *  Editorial improvements.
 
-C.12.  Version -04 to -05
+C.13.  Version -04 to -05
 
    *  Nonce N_S also in error responses to the Join Requests.
 
@@ -4661,7 +4668,7 @@ C.12.  Version -04 to -05
 
    *  Added CBOR values to abbreviate role identifiers in the group.
 
-C.13.  Version -03 to -04
+C.14.  Version -03 to -04
 
    *  New abstract.
 
@@ -4683,7 +4690,7 @@ C.13.  Version -03 to -04
 
    *  Editorial improvements.
 
-C.14.  Version -02 to -03
+C.15.  Version -02 to -03
 
    *  New sections, aligned with the interface of ace-key-groupcomm .
 
@@ -4706,7 +4713,7 @@ C.14.  Version -02 to -03
 
    *  More fulfilled profile requirements (Appendix A).
 
-C.15.  Version -01 to -02
+C.16.  Version -01 to -02
 
    *  Editorial fixes.
 
@@ -4745,7 +4752,7 @@ C.15.  Version -01 to -02
    *  Registered one public key encoding in the "ACE Public Key
       Encoding" IANA registry (Section 9).
 
-C.16.  Version -00 to -01
+C.17.  Version -00 to -01
 
    *  Changed name of 'req_aud' to 'audience' in the Authorization
       Request (Section 3.1).
