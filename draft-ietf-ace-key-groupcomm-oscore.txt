@@ -206,9 +206,9 @@ Table of Contents
       authentication and authorization [RFC9200] and in the
       Authorization Information Format (AIF) [RFC9237] to express
       authorization information.  The terminology for entities in the
-      considered architecture is defined in OAuth 2.0 [RFC6749].  In
-      particular, this includes Client (C), Resource Server (RS), and
-      Authorization Server (AS).
+      considered architecture is defined in OAuth 2.0 [RFC6749].  This
+      includes Client (C), Resource Server (RS), and Authorization
+      Server (AS).
 
    *  The terms and concepts related to the message formats and
       processing specified in [I-D.ietf-ace-key-groupcomm], for
@@ -342,8 +342,7 @@ Table of Contents
    defines the exact format and encoding of scope used in this profile.
 
    To this end, this profile uses the Authorization Information Format
-   (AIF) [RFC9237].  In particular, with reference to the generic AIF
-   model
+   (AIF) [RFC9237].  With reference to the generic AIF model
 
       AIF-Generic<Toid, Tperm> = [* [Toid, Tperm]]
 
@@ -568,7 +567,7 @@ Table of Contents
 
       -  The value of the CBOR byte string encodes a CBOR array, whose
          format MUST follow the data model AIF-OSCORE-GROUPCOMM defined
-         in Section 3.  In particular, for each OSCORE group to join:
+         in Section 3.  For each OSCORE group to join:
 
          o  The group name is encoded as a CBOR text string.
 
@@ -782,7 +781,7 @@ Table of Contents
 
    *  The first element 'id' is the group name of the OSCORE group or an
       array of group names for the OSCORE groups for which the specified
-      information applies.  In particular 'id' MUST NOT refer to OSCORE
+      information applies.  In particular, 'id' MUST NOT refer to OSCORE
       groups that are signature-only groups.
 
    *  The second element 'ecdh_alg' is a CBOR integer or a CBOR text
@@ -886,8 +885,8 @@ Table of Contents
 
    *  The first element 'id' is the group name of the OSCORE group or an
       array of group names for the OSCORE groups for which the specified
-      information applies.  In particular 'id' MUST refer exclusively to
-      OSCORE groups that are pairwise-only groups.
+      information applies.  In particular, 'id' MUST refer exclusively
+      to OSCORE groups that are pairwise-only groups.
 
    *  The second element 'cred_fmt' is a CBOR integer indicating the
       format of authentication credentials used in the OSCORE group
@@ -903,7 +902,7 @@ Table of Contents
    *  The third element 'cred' is a CBOR byte string, which encodes the
       Group Manager's Diffie-Hellman authentication credential in its
       original binary representation made available to other endpoints
-      in the group.  In particular, the original binary representation
+      in the group.  That is, the original binary representation
       complies with the format specified by the 'cred_fmt' element.
       Note that the authentication credential provides the comprehensive
       set of information related to its public key algorithm, i.e., the
@@ -1051,7 +1050,7 @@ Table of Contents
    *  As PoP input, the Group Manager uses the value of the 'scope'
       parameter from the Join Request as a CBOR byte string,
       concatenated with N_S encoded as a CBOR byte string, concatenated
-      with N_C encoded as a CBOR byte string.  In particular, N_S is
+      with N_C encoded as a CBOR byte string.  The value of N_S is
       determined as described in Section 6.1.1, while N_C is the nonce
       provided in the 'cnonce' parameter of the Join Request.
 
@@ -1154,26 +1153,23 @@ Table of Contents
       map MUST contain the 'sign_info' parameter, whose CBOR label is
       defined in Section 8 of [I-D.ietf-ace-key-groupcomm].  This
       parameter has the same format of 'sign_info_res' defined in
-      Section 3.3.1 of [I-D.ietf-ace-key-groupcomm].  In particular, it
-      includes a single element 'sign_info_entry' pertaining to the
-      OSCORE group that the joining node has tried to join with the Join
-      Request.
+      Section 3.3.1 of [I-D.ietf-ace-key-groupcomm] and includes a
+      single element 'sign_info_entry', pertaining to the OSCORE group
+      that the joining node has tried to join with the Join Request.
 
    *  If the group uses (also) the pairwise mode of Group OSCORE, the
       CBOR map MUST contain the 'ecdh_info' parameter, whose CBOR label
       is defined in Section 16.3.  This parameter has the same format of
-      'ecdh_info_res' defined in Section 5.3.1.  In particular, it
-      includes a single element 'ecdh_info_entry' pertaining to the
-      OSCORE group that the joining node has tried to join with the Join
-      Request.
+      'ecdh_info_res' defined in Section 5.3.1 and includes a single
+      element 'ecdh_info_entry', pertaining to the OSCORE group that the
+      joining node has tried to join with the Join Request.
 
    *  If the group is a pairwise-only group, the CBOR map MUST contain
       the 'kdc_dh_creds' parameter, whose CBOR label is defined in
       Section 16.3.  This parameter has the same format of
-      'kdc_dh_creds_res' defined in Section 5.3.2.  In particular, it
-      includes a single element 'kdc_dh_creds_entry' pertaining to the
-      OSCORE group that the joining node has tried to join with the Join
-      Request.
+      'kdc_dh_creds_res' defined in Section 5.3.2 and includes a single
+      element 'kdc_dh_creds_entry', pertaining to the OSCORE group that
+      the joining node has tried to join with the Join Request.
 
    *  The CBOR map MAY include the 'kdcchallenge' parameter, whose CBOR
       label is defined in Section 8 of [I-D.ietf-ace-key-groupcomm].  If
@@ -1930,8 +1926,8 @@ Table of Contents
    If the group member wants to retrieve only the latest group keying
    material, it sends a Key Distribution Request to the Group Manager.
 
-   In particular, it sends a CoAP GET request to the endpoint /ace-
-   group/GROUPNAME at the Group Manager.
+   That is, it sends a CoAP GET request to the endpoint /ace-group/
+   GROUPNAME at the Group Manager.
 
    The Group Manager processes the Key Distribution Request according to
    Section 4.3.2 of [I-D.ietf-ace-key-groupcomm].  The Key Distribution
@@ -1959,7 +1955,7 @@ Table of Contents
    material as well as the OSCORE Sender ID that it has in the OSCORE
    group, it sends a Key Distribution Request to the Group Manager.
 
-   In particular, it sends a CoAP GET request to the endpoint /ace-
+   That is, it sends a CoAP GET request to the endpoint /ace-
    group/GROUPNAME/nodes/NODENAME at the Group Manager.
 
    The Group Manager processes the Key Distribution Request according to
@@ -1968,9 +1964,9 @@ Table of Contents
    [I-D.ietf-ace-key-groupcomm], with the following additions.
 
    *  The 'key' parameter is formatted as defined in Section 6.3 of this
-      document.  In particular, if the requesting group member has
-      exclusively the role of monitor, then the 'key' parameter does not
-      include the 'group_SenderId'.
+      document.  If the requesting group member has exclusively the role
+      of monitor, then the 'key' parameter does not include the
+      'group_SenderId'.
 
       Note that, in any other case, the current Sender ID of the group
       member is not specified as a separate parameter, but rather
@@ -1992,9 +1988,9 @@ Table of Contents
 
    When this happens, the group member MUST send a Key Renewal Request
    message to the Group Manager, as per Section 4.8.2.1 of
-   [I-D.ietf-ace-key-groupcomm].  In particular, it sends a CoAP PUT
-   request to the endpoint /ace-group/GROUPNAME/nodes/NODENAME at the
-   Group Manager.
+   [I-D.ietf-ace-key-groupcomm].  That is, it sends a CoAP PUT request
+   to the endpoint /ace-group/GROUPNAME/nodes/NODENAME at the Group
+   Manager.
 
    Upon receiving the Key Renewal Request, the Group Manager processes
    it as defined in Section 4.8.2 of [I-D.ietf-ace-key-groupcomm], with
@@ -2036,11 +2032,10 @@ Table of Contents
        *  The Group Manager determines and assigns a new OSCORE Sender
           ID for that group member, and replies with a Key Renewal
           Response formatted as defined in Section 4.8.2 of
-          [I-D.ietf-ace-key-groupcomm].  In particular, the CBOR Map in
-          the response payload includes a single parameter
-          'group_SenderId' defined in Section 16.3 of this document,
-          specifying the new Sender ID of the group member encoded as a
-          CBOR byte string.
+          [I-D.ietf-ace-key-groupcomm].  The CBOR Map in the response
+          payload includes a single parameter 'group_SenderId' defined
+          in Section 16.3 of this document, specifying the new Sender ID
+          of the group member encoded as a CBOR byte string.
 
           Consistently with Section 2.5.3.1 of
           [I-D.ietf-core-oscore-groupcomm], the Group Manager MUST
@@ -2067,13 +2062,13 @@ Table of Contents
    authentication credentials of (other) group members.  To this end,
    the group member or signature verifier sends an Authentication
    Credential Request message to the Group Manager, as per Sections
-   4.4.1.1 and 4.4.2.1 of [I-D.ietf-ace-key-groupcomm].  In particular,
-   it sends the request to the endpoint /ace-group/GROUPNAME/creds at
-   the Group Manager.
+   4.4.1.1 and 4.4.2.1 of [I-D.ietf-ace-key-groupcomm].  That is, it
+   sends the request to the endpoint /ace-group/GROUPNAME/creds at the
+   Group Manager.
 
    If the Authentication Credential Request uses the method FETCH, the
    Authentication Credential Request is formatted as defined in
-   Section 4.4.1 of [I-D.ietf-ace-key-groupcomm].  In particular:
+   Section 4.4.1 of [I-D.ietf-ace-key-groupcomm].  That is:
 
    *  Each element (if any) of the inner CBOR array 'role_filter' is
       formatted as in the inner CBOR array 'role_filter' of the
@@ -2117,9 +2112,8 @@ Table of Contents
       preparing a Join Request for the OSCORE group in question, as
       defined in Section 6.1 (REQ14).
 
-   In particular, the group member sends a CoAP POST request to the
-   endpoint /ace-group/GROUPNAME/nodes/NODENAME/cred at the Group
-   Manager.
+   That is, the group member sends a CoAP POST request to the endpoint
+   /ace-group/GROUPNAME/nodes/NODENAME/cred at the Group Manager.
 
    Upon receiving the Authentication Credential Update Request, the
    Group Manager processes it as per Section 4.9.1 of
@@ -2163,7 +2157,7 @@ Table of Contents
    requesting Client sends a KDC Authentication Credential Request
    message to the Group Manager.
 
-   In particular, it sends a CoAP GET request to the endpoint /ace-
+   That is, it sends a CoAP GET request to the endpoint /ace-
    group/GROUPNAME/kdc-cred at the Group Manager defined in
    Section 4.5.1.1 of [I-D.ietf-ace-key-groupcomm], where GROUPNAME is
    the name of the OSCORE group.
@@ -2179,19 +2173,18 @@ Table of Contents
 
    The payload of the 2.05 (Content) KDC Authentication Credential
    Response is a CBOR map, which is formatted as defined in
-   Section 4.5.1 of [I-D.ietf-ace-key-groupcomm].  In particular, the
-   Group Manager specifies the parameters 'kdc_cred', 'kdc_nonce' and
-   'kdc_challenge' as defined for the Join Response in Section 6.3 of
-   this document.  This especially applies to the computing of the
-   proof-of-possession (PoP) evidence included in 'kdc_cred_verify'
-   (REQ21).
+   Section 4.5.1 of [I-D.ietf-ace-key-groupcomm].  The Group Manager
+   specifies the parameters 'kdc_cred', 'kdc_nonce' and 'kdc_challenge'
+   as defined for the Join Response in Section 6.3 of this document.
+   This especially applies to the computing of the proof-of-possession
+   (PoP) evidence included in 'kdc_cred_verify' (REQ21).
 
    Upon receiving a 2.05 (Content) KDC Authentication Credential
    Response, the requesting Client retrieves the Group Manager's
    authentication credential from the 'kdc_cred' parameter, and proceeds
-   as defined in Section 4.5.1.1 of [I-D.ietf-ace-key-groupcomm].  In
-   particular, the requesting Client verifies the PoP evidence included
-   in 'kdc_cred_verify' by means of the same method used when processing
+   as defined in Section 4.5.1.1 of [I-D.ietf-ace-key-groupcomm].  The
+   requesting Client verifies the PoP evidence included in
+   'kdc_cred_verify' by means of the same method used when processing
    the Join Response, as defined in Section 6.3 of this document
    (REQ21).
 
@@ -2207,7 +2200,7 @@ Table of Contents
    To this end, the signature verifier sends a Signature Verification
    Data Request message to the Group Manager.
 
-   In particular, it sends a CoAP GET request to the endpoint /ace-
+   That is, it sends a CoAP GET request to the endpoint /ace-
    group/GROUPNAME/verif-data at the Group Manager defined in
    Section 8.2 of this document, where GROUPNAME is the name of the
    OSCORE group.
@@ -2217,8 +2210,8 @@ Table of Contents
    Response message in Section 6.3, with the following differences.
 
    *  From the Join Response message, only the parameters 'gkty', 'key',
-      'num', 'exp' and 'ace_groupcomm_profile' are present.  In
-      particular, the 'key' parameter includes only the following data.
+      'num', 'exp' and 'ace_groupcomm_profile' are present.  The 'key'
+      parameter includes only the following data.
 
       -  The parameters 'hkdf', 'contextId', 'cred_fmt', 'sign_enc_alg',
          'sign_alg', 'sign_params'.  These parameters MUST be present.
@@ -2298,8 +2291,8 @@ Table of Contents
 
    A group member may request the current policies used in the OSCORE
    group.  To this end, the group member sends a Policies Request, as
-   per Section 4.6.1.1 of [I-D.ietf-ace-key-groupcomm].  In particular,
-   it sends a CoAP GET request to the endpoint /ace-group/GROUPNAME/
+   per Section 4.6.1.1 of [I-D.ietf-ace-key-groupcomm].  That is, it
+   sends a CoAP GET request to the endpoint /ace-group/GROUPNAME/
    policies at the Group Manager, where GROUPNAME is the name of the
    OSCORE group.
 
@@ -2313,9 +2306,9 @@ Table of Contents
    A group member may request the current version of the keying material
    used in the OSCORE group.  To this end, the group member sends a
    Version Request, as per Section 4.7.1.1 of
-   [I-D.ietf-ace-key-groupcomm].  In particular, it sends a CoAP GET
-   request to the endpoint /ace-group/GROUPNAME/num at the Group
-   Manager, where GROUPNAME is the name of the OSCORE group.
+   [I-D.ietf-ace-key-groupcomm].  That is, it sends a CoAP GET request
+   to the endpoint /ace-group/GROUPNAME/num at the Group Manager, where
+   GROUPNAME is the name of the OSCORE group.
 
    Upon receiving the Version Request, the Group Manager processes it as
    per Section 4.7.1 of [I-D.ietf-ace-key-groupcomm].  The success
@@ -2328,8 +2321,8 @@ Table of Contents
    group, i.e., active or inactive.  To this end, the group member sends
    a Group Status Request to the Group Manager.
 
-   In particular, the group member sends a CoAP GET request to the
-   endpoint /ace-group/GROUPNAME/active at the Group Manager defined in
+   That is, the group member sends a CoAP GET request to the endpoint
+   /ace-group/GROUPNAME/active at the Group Manager defined in
    Section 8.1 of this document, where GROUPNAME is the name of the
    OSCORE group.
 
@@ -2432,21 +2425,21 @@ Table of Contents
    the node sends a Group Name and URI Retrieval Request, as per
    Section 4.2.1.1 of [I-D.ietf-ace-key-groupcomm].
 
-   In particular, the node sends a CoAP FETCH request to the endpoint
-   /ace-group at the Group Manager formatted as defined in Section 4.2.1
-   of [I-D.ietf-ace-key-groupcomm].  Each element of the CBOR array
-   'gid' is a CBOR byte string (REQ13), which encodes the Gid of the
-   group for which the group name and the URI to the group-membership
-   resource are requested.
+   That is, the node sends a CoAP FETCH request to the endpoint /ace-
+   group at the Group Manager formatted as defined in Section 4.2.1 of
+   [I-D.ietf-ace-key-groupcomm].  Each element of the CBOR array 'gid'
+   is a CBOR byte string (REQ13), which encodes the Gid of the group for
+   which the group name and the URI to the group-membership resource are
+   requested.
 
    Upon receiving the Group Name and URI Retrieval Request, the Group
    Manager processes it as per Section 4.2.1 of
    [I-D.ietf-ace-key-groupcomm].  The success Group Name and URI
    Retrieval Response is formatted as defined in Section 4.2.1 of
-   [I-D.ietf-ace-key-groupcomm].  In particular, each element of the
-   CBOR array 'gid' is a CBOR byte string (REQ13), which encodes the Gid
-   of the group for which the group name and the URI to the group-
-   membership resource are provided.
+   [I-D.ietf-ace-key-groupcomm].  Each element of the CBOR array 'gid'
+   is a CBOR byte string (REQ13), which encodes the Gid of the group for
+   which the group name and the URI to the group-membership resource are
+   provided.
 
    For each of its groups, the Group Manager maintains an association
    between the group name and the URI to the group-membership resource
@@ -2497,9 +2490,9 @@ Table of Contents
 
    A group member may request to leave the OSCORE group.  To this end,
    the group member sends a Group Leaving Request, as per
-   Section 4.8.3.1 of [I-D.ietf-ace-key-groupcomm].  In particular, it
-   sends a CoAP DELETE request to the endpoint /ace-
-   group/GROUPNAME/nodes/NODENAME at the Group Manager.
+   Section 4.8.3.1 of [I-D.ietf-ace-key-groupcomm].  That is, it sends a
+   CoAP DELETE request to the endpoint /ace-group/GROUPNAME/nodes/
+   NODENAME at the Group Manager.
 
    Upon receiving the Group Leaving Request, the Group Manager processes
    it as per Section 4.8.3 of [I-D.ietf-ace-key-groupcomm].  Then, the
@@ -2682,8 +2675,8 @@ Table of Contents
    Section 6 of [I-D.ietf-ace-key-groupcomm] (OPT14).
 
    *  From the Join Response, only the parameters 'gkty', 'key', 'num',
-      'exp', and 'ace_groupcomm_profile' are present.  In particular,
-      the 'key' parameter includes only the following data.
+      'exp', and 'ace_groupcomm_profile' are present.  The 'key'
+      parameter includes only the following data.
 
       -  The 'ms' parameter, specifying the new OSCORE Master Secret
          value.  This parameter MUST be present.
@@ -2726,19 +2719,18 @@ Table of Contents
 
    Each rekeying message MUST be secured with the pairwise secure
    communication association between the Group Manager and the group
-   member used during the joining process.  In particular, each rekeying
-   message can target the 'control_uri' URI path defined in
-   Section 4.3.1 of [I-D.ietf-ace-key-groupcomm] (OPT7), if provided by
-   the intended recipient upon joining the group (see Section 6.1).
+   member used during the joining process.  Each rekeying message can
+   target the 'control_uri' URI path defined in Section 4.3.1 of
+   [I-D.ietf-ace-key-groupcomm] (OPT7), if provided by the intended
+   recipient upon joining the group (see Section 6.1).
 
    This distribution approach requires group members to act (also) as
    servers, in order to correctly handle unsolicited group rekeying
-   messages from the Group Manager.  In particular, if a group member
-   and the Group Manager use OSCORE [RFC8613] to secure their pairwise
-   communications, the group member MUST create a Replay Window in its
-   own Recipient Context upon establishing the OSCORE Security Context
-   with the Group Manager, e.g., by means of the OSCORE profile of ACE
-   [RFC9203].
+   messages from the Group Manager.  If a group member and the Group
+   Manager use OSCORE [RFC8613] to secure their pairwise communications,
+   the group member MUST create a Replay Window in its own Recipient
+   Context upon establishing the OSCORE Security Context with the Group
+   Manager, e.g., by means of the OSCORE profile of ACE [RFC9203].
 
    Group members and the Group Manager SHOULD additionally support
    alternative distribution approaches that do not require group members
@@ -2812,19 +2804,18 @@ Table of Contents
    b.  The group member has obtained the latest keying material from the
    Group Manager, as a response to a Key Distribution Request (see
    Section 9.1.1) or to a Join Request when re-joining the group (see
-   Section 6.1).  In particular, V is different than V' specified by the
-   'num' parameter in the response.
+   Section 6.1).  That is, V is different than V' specified by the 'num'
+   parameter in the response.
 
    c.  The group member has obtained the authentication credentials of
    other group members, through an Authentication Credential Request-
-   Response exchange with the Group Manager (see Section 9.3).  In
-   particular, V is different than V' specified by the 'num' parameter
-   in the response.
+   Response exchange with the Group Manager (see Section 9.3).  That is,
+   V is different than V' specified by the 'num' parameter in the
+   response.
 
    d.  The group member has performed a Version Request-Response
-   exchange with the Group Manager (see Section 9.8).  In particular, V
-   is different than V' specified by the 'num' parameter in the
-   response.
+   exchange with the Group Manager (see Section 9.8).  That is, V is
+   different than V' specified by the 'num' parameter in the response.
 
    In either case, the group member MUST delete the stored keying
    material with version number V.
@@ -2918,8 +2909,8 @@ Table of Contents
    Section 8.3.1).  These data are provided as an aggregated set of
    stale Sender IDs, which are used as specified in Section 11.3.
 
-   In particular, the node sends a CoAP FETCH request to the endpoint
-   /ace-group/GROUPNAME/stale-sids at the Group Manager defined in
+   That is, the node sends a CoAP FETCH request to the endpoint /ace-
+   group/GROUPNAME/stale-sids at the Group Manager defined in
    Section 8.3 of this document, where GROUPNAME is the name of the
    OSCORE group.
 
@@ -3129,7 +3120,7 @@ Table of Contents
    error may use that information to determine what actions to take
    next.  If it is included in the error response and supported by the
    Client, the 'error_description' parameter may provide additional
-   context.  In particular, the following guidelines apply.
+   context.  The following guidelines apply.
 
    *  In case of error 7, the Client should stop sending the request in
       question to the Group Manager.  In this application profile, this
@@ -3207,24 +3198,24 @@ Table of Contents
    *  For the parameters 'sign_params' of the Signature Algorithm:
 
       -  The array [[OKP], [OKP, Ed25519]], in case EdDSA is assumed or
-         specified for 'sign_alg'.  In particular, this indicates to use
-         the COSE key type OKP and the elliptic curve Ed25519 [RFC8032].
+         specified for 'sign_alg'.  This indicates to use the COSE key
+         type OKP and the elliptic curve Ed25519 [RFC8032].
 
       -  The array [[EC2], [EC2, P-256]], in case ES256 [RFC6979] is
-         specified for 'sign_alg'.  In particular, this indicates to use
-         the COSE key type EC2 and the elliptic curve P-256.
+         specified for 'sign_alg'.  This indicates to use the COSE key
+         type EC2 and the elliptic curve P-256.
 
       -  The array [[EC2], [EC2, P-384]], in case ES384 [RFC6979] is
-         specified for 'sign_alg'.  In particular, this indicates to use
-         the COSE key type EC2 and the elliptic curve P-384.
+         specified for 'sign_alg'.  This indicates to use the COSE key
+         type EC2 and the elliptic curve P-384.
 
       -  The array [[EC2], [EC2, P-521]], in case ES512 [RFC6979] is
-         specified for 'sign_alg'.  In particular, this indicates to use
-         the COSE key type EC2 and the elliptic curve P-521.
+         specified for 'sign_alg'.  This indicates to use the COSE key
+         type EC2 and the elliptic curve P-521.
 
       -  The array [[RSA], [RSA]], in case PS256, PS384 or PS512
-         [RFC8017] is specified for 'sign_alg'.  In particular, this
-         indicates to use the COSE key type RSA.
+         [RFC8017] is specified for 'sign_alg'.  This indicates to use
+         the COSE key type RSA.
 
 14.3.  Pairwise Mode
 
@@ -3252,20 +3243,20 @@ Table of Contents
 
       -  The array [[OKP], [OKP, X25519]], in case EdDSA is assumed or
          specified for 'sign_alg', or in case the group is a pairwise-
-         only group.  In particular, this indicates to use the COSE key
-         type OKP and the elliptic curve X25519 [RFC8032].
+         only group.  This indicates to use the COSE key type OKP and
+         the elliptic curve X25519 [RFC8032].
 
       -  The array [[EC2], [EC2, P-256]], in case ES256 [RFC6979] is
-         specified for 'sign_alg'.  In particular, this indicates to use
-         the COSE key type EC2 and the elliptic curve P-256.
+         specified for 'sign_alg'.  This indicates to use the COSE key
+         type EC2 and the elliptic curve P-256.
 
       -  The array [[EC2], [EC2, P-384]], in case ES384 [RFC6979] is
-         specified for 'sign_alg'.  In particular, this indicates to use
-         the COSE key type EC2 and the elliptic curve P-384.
+         specified for 'sign_alg'.  This indicates to use the COSE key
+         type EC2 and the elliptic curve P-384.
 
       -  The array [[EC2], [EC2, P-521]], in case ES512 [RFC6979] is
-         specified for 'sign_alg'.  In particular, this indicates to use
-         the COSE key type EC2 and the elliptic curve P-521.
+         specified for 'sign_alg'.  This indicates to use the COSE key
+         type EC2 and the elliptic curve P-521.
 
 15.  Security Considerations
 
