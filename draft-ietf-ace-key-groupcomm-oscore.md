@@ -1133,7 +1133,7 @@ Upon receiving the Version Request, the Group Manager processes it as per {{Sect
 
 ## Retrieve the Group Status # {#sec-status}
 
-A group member may request the current status of the the OSCORE group, i.e., active or inactive. To this end, the group member sends a Group Status Request to the Group Manager.
+A group member may request the current status of the OSCORE group, i.e., active or inactive. To this end, the group member sends a Group Status Request to the Group Manager.
 
 That is, the group member sends a CoAP GET request to the endpoint /ace-group/GROUPNAME/active at the Group Manager defined in {{ssec-resource-active}} of this document, where GROUPNAME is the name of the OSCORE group.
 
