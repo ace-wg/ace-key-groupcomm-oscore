@@ -2118,7 +2118,7 @@ Table of Contents
       computed as defined in Section 6.1.1 (REQ15).
 
    *  The Group Manager verifies the PoP challenge included in
-      'client_cred_verify' in the same way taken when processing a Join
+      'client_cred_verify' in the same way as when processing a Join
       Request for the OSCORE group in question, as defined in
       Section 6.2 (REQ14).
 
@@ -2211,7 +2211,7 @@ Table of Contents
       -  The parameters 'hkdf', 'contextId', 'cred_fmt', 'sign_enc_alg',
          'sign_alg', 'sign_params'.  These parameters MUST be present.
 
-      -  The parameters 'alg' and 'ecdh_alg'.  These parameter MUST NOT
+      -  The parameters 'alg' and 'ecdh_alg'.  These parameters MUST NOT
          be present if the group is a signature-only group.  Otherwise,
          they MUST be present.
 
@@ -2898,8 +2898,8 @@ Table of Contents
    (see Section 11.3), a node needs to retrieve from the Group Manager
    the data required to delete some of its stored group members'
    authentication credentials and Recipient Contexts (see
-   Section 8.3.1).  These data are provided as an aggregated set of
-   stale Sender IDs, which are used as specified in Section 11.3.
+   Section 8.3.1).  These data is provided as an aggregated set of stale
+   Sender IDs, which are used as specified in Section 11.3.
 
    That is, the node sends a CoAP FETCH request to the endpoint /ace-
    group/GROUPNAME/stale-sids at the Group Manager defined in
