@@ -458,8 +458,7 @@ Table of Contents
    joining node is thus expected to provide its own authentication
    credential to the Group Manager.
 
-   In particular, one of the following four cases can occur when a new
-   node joins an OSCORE group.
+   In particular, the following applies.
 
    *  The joining node is going to join the group exclusively as
       monitor, i.e., it is not going to send messages to the group.  In
@@ -4383,7 +4382,7 @@ C.1.  Version -16 to -17
 
    *  Fixed CDDL notation.
 
-   *  Editorial fixes.
+   *  Clarifications and editorial fixes.
 
 C.2.  Version -15 to -16
 
