@@ -406,7 +406,7 @@ The 'ecdh_info' parameter is an OPTIONAL parameter of the request and response m
 
 This parameter allows the Client and the RS to exchange information about an ECDH algorithm as well as about the authentication credentials and public keys to accordingly use for deriving Diffie-Hellman secrets. Its exact semantics and content are application specific.
 
-In this application profile, this parameter is used to exchange information about the ECDH algorithm as well as about the authentication credentials and public keys to be used with it, in the groups indicated by the transferred Acces Token as per its 'scope' claim (see {{Section 3.2 of I-D.ietf-ace-key-groupcomm}}).
+In this application profile, this parameter is used to exchange information about the ECDH algorithm as well as about the authentication credentials and public keys to be used with it, in the groups indicated by the transferred Access Token as per its 'scope' claim (see {{Section 3.2 of I-D.ietf-ace-key-groupcomm}}).
 
 When used in the Token Transfer Request sent to the Group Manager, the 'ecdh_info' parameter has value the CBOR simple value "null" (0xf6). This is done to ask for information about the ECDH algorithm as well as about the authentication credentials and public keys to be used to compute static-static Diffie-Hellman shared secrets {{NIST-800-56A}}, in the OSCORE groups that the Client has been authorized to join and that use the pairwise mode of Group OSCORE {{I-D.ietf-core-oscore-groupcomm}}.
 
