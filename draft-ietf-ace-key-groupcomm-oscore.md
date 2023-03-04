@@ -378,9 +378,9 @@ The exchange of Token Transfer Request and Token Transfer Response is defined in
 
   * 'sign_alg' takes value from the "Value" column of the "COSE Algorithms" registry {{COSE.Algorithms}}.
 
-  * 'sign_parameters' is a CBOR array. Its format and value are the same of the COSE capabilities array for the algorithm indicated in 'sign_alg', as specified for that algorithm in the "Capabilities" column of the "COSE Algorithms" registry {{COSE.Algorithms}} (REQ4).
+  * 'sign_parameters' has the same format and value of the COSE capabilities array for the algorithm indicated in 'sign_alg', as specified for that algorithm in the "Capabilities" column of the "COSE Algorithms" registry {{COSE.Algorithms}} (REQ4).
 
-  * 'sign_key_parameters' is a CBOR array. Its format and value are the same of the COSE capabilities array for the COSE key type of the keys used with the algorithm indicated in 'sign_alg', as specified for that key type in the "Capabilities" column of the "COSE Key Types" registry {{COSE.Key.Types}} (REQ5).
+  * 'sign_key_parameters' has the same format and value of the COSE capabilities array for the COSE key type of the keys used with the algorithm indicated in 'sign_alg', as specified for that key type in the "Capabilities" column of the "COSE Key Types" registry {{COSE.Key.Types}} (REQ5).
 
   * 'cred_fmt' takes value from the "Label" column of the "COSE Header Parameters" registry {{COSE.Header.Parameters}} (REQ6). Consistently with {{Section 2.3 of I-D.ietf-core-oscore-groupcomm}}, acceptable values denote a format of authentication credential that MUST explicitly provide the public key as well as the comprehensive set of information related to the public key algorithm, including, e.g., the used elliptic curve (when applicable).
 
