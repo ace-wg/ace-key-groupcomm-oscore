@@ -1567,8 +1567,8 @@ Table of Contents
    generate updated security parameters and group keying material, and
    provide it to the current group members, upon the new node's joining
    (see Section 11).  In such a case, the joining node is not able to
-   access secure communication in the OSCORE group occurred prior its
-   joining.
+   access secure communication in the OSCORE group that occurred prior
+   to its joining.
 
 7.  Overview of the Group Rekeying Process
 
@@ -1627,7 +1627,7 @@ Table of Contents
    *  The application requires backward security - In this case, the
       group is rekeyed when a node joins the group as a new member.
       Therefore, a joining node cannot access communications in the
-      group prior its joining.
+      group prior to its joining.
 
    *  One or more nodes leave the group - That is, the group is rekeyed
       when one or more current members spontaneously request to leave

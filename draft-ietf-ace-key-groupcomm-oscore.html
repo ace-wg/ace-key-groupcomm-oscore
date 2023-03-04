@@ -2253,7 +2253,7 @@ The input parameters of HKDF are as follows.<a href="#section-6.3-7.8.2.2.3" cla
           <li class="normal" id="section-6.4-8.3">The joining node MUST NOT use the pairwise mode of Group OSCORE to process messages in the group, if the Join Response did not include the 'ecdh_alg' parameter.<a href="#section-6.4-8.3" class="pilcrow">¶</a>
 </li>
         </ul>
-<p id="section-6.4-9">If the application requires backward security, the Group Manager MUST generate updated security parameters and group keying material, and provide it to the current group members, upon the new node's joining (see <a href="#sec-group-rekeying-process" class="auto internal xref">Section 11</a>). In such a case, the joining node is not able to access secure communication in the OSCORE group occurred prior its joining.<a href="#section-6.4-9" class="pilcrow">¶</a></p>
+<p id="section-6.4-9">If the application requires backward security, the Group Manager MUST generate updated security parameters and group keying material, and provide it to the current group members, upon the new node's joining (see <a href="#sec-group-rekeying-process" class="auto internal xref">Section 11</a>). In such a case, the joining node is not able to access secure communication in the OSCORE group that occurred prior to its joining.<a href="#section-6.4-9" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -2283,7 +2283,7 @@ Note that the Gid differs from the group name also introduced in <span>[<a href=
 <p id="section-7-6">Also, the data distributed through a group rekeying MAY include a new value for the Master Salt parameter of the Group OSCORE Common Security Context of that group.<a href="#section-7-6" class="pilcrow">¶</a></p>
 <p id="section-7-7">The Group Manager MUST rekey the group in the following cases.<a href="#section-7-7" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-7-8.1">The application requires backward security - In this case, the group is rekeyed when a node joins the group as a new member. Therefore, a joining node cannot access communications in the group prior its joining.<a href="#section-7-8.1" class="pilcrow">¶</a>
+<li class="normal" id="section-7-8.1">The application requires backward security - In this case, the group is rekeyed when a node joins the group as a new member. Therefore, a joining node cannot access communications in the group prior to its joining.<a href="#section-7-8.1" class="pilcrow">¶</a>
 </li>
         <li class="normal" id="section-7-8.2">
           <p id="section-7-8.2.1">One or more nodes leave the group - That is, the group is rekeyed when one or more current members spontaneously request to leave the group (see <a href="#sec-leave-req" class="auto internal xref">Section 9.11</a>), or when the Group Manager forcibly evicts them from the group, e.g., due to expired or revoked authorization (see <a href="#sec-leaving" class="auto internal xref">Section 10</a>). Therefore, a leaving node cannot access communications in the group after its leaving, thus ensuring forward security in the group.<a href="#section-7-8.2.1" class="pilcrow">¶</a></p>
