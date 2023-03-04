@@ -779,8 +779,9 @@ Table of Contents
 
    *  The first element 'id' is the group name of the OSCORE group or an
       array of group names for the OSCORE groups for which the specified
-      information applies.  In particular, 'id' MUST NOT refer to OSCORE
-      groups that are signature-only groups.
+      information applies.  In the following, each specified group name
+      is referred to as 'gname'.  The 'id' element MUST NOT refer to
+      OSCORE groups that are signature-only groups.
 
    *  The second element 'ecdh_alg' is a CBOR integer or a CBOR text
       string indicating the ECDH algorithm used in the OSCORE group
