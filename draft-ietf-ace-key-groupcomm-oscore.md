@@ -1069,7 +1069,7 @@ The payload of the 2.05 (Content) Signature Verification Data Response is a CBOR
 
 In order to verify signatures in the group (see {{Section 8.5 of I-D.ietf-core-oscore-groupcomm}}), the signature verifier relies on: the data retrieved from the 2.05 (Content) Signature Verification Data Response; the public keys of the group members signing the messages to verify, retrieved from those members' authentication credentials that can be obtained as defined in {{sec-pub-keys}}; and the public key of the Group Manager, retrieved from the Group Manager's authentication credential that can be obtained as defined in {{sec-gm-pub-key}}.
 
-{{fig-verif-data-req-resp}} gives an overview of the exchange described above,  while {{fig-verif-data-req-resp-ex}} shows and example of Signature Verification Data Request-Response.
+{{fig-verif-data-req-resp}} gives an overview of the exchange described above,  while {{fig-verif-data-req-resp-ex}} shows an example of Signature Verification Data Request-Response.
 
 ~~~~~~~~~~~
 Signature                                                     Group
