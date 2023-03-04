@@ -458,7 +458,8 @@ Table of Contents
    joining node is thus expected to provide its own authentication
    credential to the Group Manager.
 
-   In particular, the following applies.
+   In particular, the following applies when a node joins an OSCORE
+   group.
 
    *  The joining node is going to join the group exclusively as
       monitor, i.e., it is not going to send messages to the group.  In
