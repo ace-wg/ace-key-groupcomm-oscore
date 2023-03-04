@@ -1029,7 +1029,7 @@ Upon receiving the Authentication Credential Update Request, the Group Manager p
 
 * The N\_S challenge used to build the proof-of-possession input is computed as defined in {{sssec-challenge-value}} (REQ15).
 
-* The Group Manager verifies the PoP challenge included in 'client_cred_verify' in the same way taken when processing a Join Request for the OSCORE group in question, as defined in {{ssec-join-req-processing}} (REQ14).
+* The Group Manager verifies the PoP challenge included in 'client_cred_verify' in the same way as when processing a Join Request for the OSCORE group in question, as defined in {{ssec-join-req-processing}} (REQ14).
 
 * The Group Manager MUST return a 5.03 (Service Unavailable) response in case the OSCORE group identified by GROUPNAME is currently inactive (see {{ssec-resource-active}}). The response MUST have Content-Format set to application/ace-groupcomm+cbor and is formatted as defined in {{Section 4.1.2 of I-D.ietf-ace-key-groupcomm}}. The value of the 'error' field MUST be set to 9 ("Group currently not active").
 
@@ -1063,7 +1063,7 @@ The payload of the 2.05 (Content) Signature Verification Data Response is a CBOR
 
    - The parameters 'hkdf', 'contextId', 'cred_fmt', 'sign_enc_alg', 'sign_alg', 'sign_params'. These parameters MUST be present.
 
-   - The parameters 'alg' and 'ecdh_alg'. These parameter MUST NOT be present if the group is a signature-only group. Otherwise, they MUST be present.
+   - The parameters 'alg' and 'ecdh_alg'. These parameters MUST NOT be present if the group is a signature-only group. Otherwise, they MUST be present.
 
 * The parameter 'group_enc_key' is also included, with CBOR label defined in {{ssec-iana-ace-groupcomm-parameters-registry}}. This parameter specifies the Group Encryption Key of the OSCORE Group, encoded as a CBOR byte string. The Group Manager derives the Group Encryption Key from the group keying material, as per {{Section 2.1.6 of I-D.ietf-core-oscore-groupcomm}}. This parameter MUST be present.
 
@@ -1392,7 +1392,7 @@ If case (c) or case (d) applies, the group member can alternatively perform the 
 
 ### Retrieve Stale Sender IDs {#sec-retrieve-stale-sids}
 
-When realizing to have missed one or more group rekeying instances (see {{missed-rekeying}}), a node needs to retrieve from the Group Manager the data required to delete some of its stored group members' authentication credentials and Recipient Contexts (see {{stale-sids-fetch}}). These data are provided as an aggregated set of stale Sender IDs, which are used as specified in {{missed-rekeying}}.
+When realizing to have missed one or more group rekeying instances (see {{missed-rekeying}}), a node needs to retrieve from the Group Manager the data required to delete some of its stored group members' authentication credentials and Recipient Contexts (see {{stale-sids-fetch}}). These data is provided as an aggregated set of stale Sender IDs, which are used as specified in {{missed-rekeying}}.
 
 That is, the node sends a CoAP FETCH request to the endpoint /ace-group/GROUPNAME/stale-sids at the Group Manager defined in {{ssec-resource-stale-sids}} of this document, where GROUPNAME is the name of the OSCORE group.
 
