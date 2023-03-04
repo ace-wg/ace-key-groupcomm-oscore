@@ -602,7 +602,7 @@ A 4.00 (Bad Request) error response from the Group Manager to the joining node M
 
 * If the group is a pairwise-only group, the CBOR map MUST contain the 'kdc_dh_creds' parameter, whose CBOR label is defined in {{ssec-iana-ace-groupcomm-parameters-registry}}. This parameter has the same format of 'kdc_dh_creds_res' defined in {{gm-dh-info}} and includes a single element 'kdc_dh_creds_entry', pertaining to the OSCORE group that the joining node has tried to join with the Join Request.
 
-* The CBOR map MAY include the 'kdcchallenge' parameter, whose CBOR label is defined in {{Section 8 of I-D.ietf-ace-key-groupcomm}}. If present, this parameter is a CBOR byte string, which encodes a newly generated 'kdcchallenge' value that the Client can use when preparing a Join Request (see {{ssec-join-req-sending}}). In such a case the Group Manager MUST store the newly generated value as the 'kdcchallenge' value associated with the joining node, possibly replacing the currently stored value.
+* The CBOR map MAY include the 'kdcchallenge' parameter, whose CBOR label is defined in {{Section 8 of I-D.ietf-ace-key-groupcomm}}. If present, this parameter is a CBOR byte string, which encodes a newly generated 'kdcchallenge' value that the Client can use when preparing a Join Request (see {{ssec-join-req-sending}}). In such a case the Group Manager MUST store the newly generated value as the 'kdcchallenge' value associated with the joining node, replacing the currently stored value (if any).
 
 ### Follow-up to a 4.00 (Bad Request) Error Response
 
