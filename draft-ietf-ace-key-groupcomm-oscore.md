@@ -302,7 +302,7 @@ Therefore, group members must be able to retrieve each other's authentication cr
 
 As also discussed in {{I-D.ietf-core-oscore-groupcomm}}, the Group Manager acts as trusted repository of the authentication credentials of the group members, and provides those authentication credentials to group members if requested to. Upon joining an OSCORE group, a joining node is thus expected to provide its own authentication credential to the Group Manager.
 
-In particular, the following applies.
+In particular, the following applies when a node joins an OSCORE group.
 
 * The joining node is going to join the group exclusively as monitor, i.e., it is not going to send messages to the group. In this case, the joining node is not required to provide its own authentication credential to the Group Manager, which thus does not have to perform any check related to the format of the authentication credential, to a signature or ECDH algorithm, and to possible parameters associated with the algorithm and the public key. In case the joining node still provides an authentication credential in the 'client_cred' parameter of the Join Request (see {{ssec-join-req-sending}}), the Group Manager silently ignores that parameter, as well as the related parameters 'cnonce' and 'client_cred_verify'.
 
