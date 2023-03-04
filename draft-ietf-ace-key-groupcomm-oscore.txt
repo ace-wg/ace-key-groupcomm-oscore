@@ -754,7 +754,7 @@ Table of Contents
    In this application profile, this parameter is used to exchange
    information about the ECDH algorithm as well as about the
    authentication credentials and public keys to be used with it, in the
-   groups indicated by the transferred Acces Token as per its 'scope'
+   groups indicated by the transferred Access Token as per its 'scope'
    claim (see Section 3.2 of [I-D.ietf-ace-key-groupcomm]).
 
    When used in the Token Transfer Request sent to the Group Manager,
