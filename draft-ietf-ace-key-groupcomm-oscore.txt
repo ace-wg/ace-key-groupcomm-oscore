@@ -1896,7 +1896,7 @@ Table of Contents
    *  FETCH request to ace-group/GROUPNAME/stale-sids, in order to
       retrieve from the Group Manager the data required to delete some
       of the stored group members' authentication credentials and
-      associated Recipient Contexts (see Section 8.3.1).  These data are
+      associated Recipient Contexts (see Section 8.3.1).  This data is
       provided as an aggregated set of stale Sender IDs, which are used
       as specified in Section 11.3.
 
@@ -2414,12 +2414,12 @@ Table of Contents
    learned from received or intercepted messages exchanged in the group.
    As detailed below, the node can contact the Group Manager, and
    request the group name and URI to the group-membership resource
-   corresponding to that Gid. Then, it can use that information to
-   either join the group as a candidate group member, get the latest
-   keying material as a current group member, or retrieve authentication
-   credentials used in the group as a signature verifier.  To this end,
-   the node sends a Group Name and URI Retrieval Request, as per
-   Section 4.2.1.1 of [I-D.ietf-ace-key-groupcomm].
+   corresponding to that Gid. Then, it can use that information to join
+   the group, or get the latest keying material as a current group
+   member, or retrieve authentication credentials used in the group as a
+   signature verifier.  To this end, the node sends a Group Name and URI
+   Retrieval Request, as per Section 4.2.1.1 of
+   [I-D.ietf-ace-key-groupcomm].
 
    That is, the node sends a CoAP FETCH request to the endpoint /ace-
    group at the Group Manager formatted as defined in Section 4.2.1 of
@@ -2647,8 +2647,8 @@ Table of Contents
    (see Section 9.1.1).
 
    Furthermore, some of these group members can be in multiple groups,
-   all of which associated with the same Group Manager.  In this case,
-   these group members may also not have sufficient information to
+   all of which are associated with the same Group Manager.  In this
+   case, these group members may also not have sufficient information to
    determine which exact group they should refer to, when contacting the
    right Group Manager.  Hence, they need to contact a Group Manager
    multiple times, i.e., separately for each group they belong to and
@@ -2684,8 +2684,8 @@ Table of Contents
    *  The parameter 'stale_node_ids' MUST also be included, with CBOR
       label defined in Section 16.3.  This parameter is encoded as a
       CBOR array, where each element is encoded as a CBOR byte string.
-      The CBOR array has to be intended as a set, i.e., the order of its
-      elements is irrelevant.  The parameter is populated as follows.
+      The order of elements in the CBOR array is irrelevant.  The
+      parameter is populated as follows.
 
       -  The Group Manager creates an empty CBOR array ARRAY.
 
@@ -2741,9 +2741,9 @@ Table of Contents
 
 11.2.  Receiving Rekeying Messages
 
-   Once received the new group keying material, a group member proceeds
-   as follows.  Unless otherwise specified, the following is independent
-   of the specifically used group rekeying scheme.
+   After having received the new group keying material, a group member
+   proceeds as follows.  Unless otherwise specified, the following is
+   independent of the specifically used group rekeying scheme.
 
    The group member considers the stale Sender IDs received from the
    Group Manager.  If the "Point-to-Point" group rekeying scheme as
@@ -2875,8 +2875,8 @@ Table of Contents
 
    1.  The group member re-joins the group (see Section 6.1).  When
        doing so, the group member MUST re-join with the same roles it
-       currently has in the group, and MUST request the Group Manager
-       for the authentication credentials of all the current group
+       currently has in the group, and MUST request from the Group
+       Manager the authentication credentials of all the current group
        members.  That is, the 'get_creds' parameter of the Join Request
        MUST be present and MUST be set to the CBOR simple value "null"
        (0xf6).
@@ -2933,9 +2933,8 @@ Table of Contents
 
    *  Otherwise, the payload of the Stale Sender IDs Response MUST
       include a CBOR array, where each element is encoded as a CBOR byte
-      string.  The CBOR array has to be intended as a set, i.e., the
-      order of its elements is irrelevant.  The Group Manager populates
-      the CBOR array as follows.
+      string.  The order of elements in the CBOR array is irrelevant.
+      The Group Manager populates the CBOR array as follows.
 
       -  The Group Manager creates an empty CBOR array ARRAY and an
          empty set X.
@@ -3124,7 +3123,7 @@ Table of Contents
       question to the Group Manager.
 
    *  In case of error 9, the Client should wait for a certain (pre-
-      configured) amount of time, before trying re-sending its request
+      configured) amount of time, before trying to re-send its request
       to the Group Manager.
 
 14.  Default Values for Group Configuration Parameters
@@ -3271,7 +3270,7 @@ Table of Contents
       responsible for the renewal and re-distribution of the keying
       material in the groups of its competence (rekeying).
 
-      The Group Manager performs a rekeying when one ore more members
+      The Group Manager performs a rekeying when one or more members
       leave the group, thus preserving forward security and ensuring
       that the security properties of Group OSCORE are fulfilled.
       According to the specific application requirements, the Group
@@ -3359,7 +3358,7 @@ Table of Contents
       2^32 new transferred Access Tokens, while the average collision
       for N_C will happen after 2^32 new Join Requests.  This amounts to
       considerably more token provisionings than the expected new
-      joinings of OSCORE groups under a same Group Manager, as well as
+      joinings to OSCORE groups under a same Group Manager, as well as
       to considerably more requests to join OSCORE groups from a same
       Client using a same Access Token under a same Group Manager.
 
@@ -3782,7 +3781,7 @@ Table of Contents
       Constrained Environments (ACE) Working Group and the Constrained
       RESTful Environments (CoRE) Working Group.
 
-      Entries that do not meet these objective of clarity and
+      Entries that do not meet these objectives of clarity and
       completeness should not be registered.
 
    *  Duplicated registration and point squatting should be discouraged.
@@ -3792,7 +3791,7 @@ Table of Contents
       likely to be used in deployments.
 
    *  Experts should take into account the expected usage of roles when
-      approving point assignment.  Given a 'Value' V as code point, the
+      approving point assignments.  Given a 'Value' V as code point, the
       length of the encoding of (2^(V+1) - 1) should be weighed against
       the usage of the entry, considering the resources and capabilities
       of devices it will be used on.  Additionally, given a 'Value' V as
@@ -4302,6 +4301,9 @@ B.1.  Format of 'ecdh_info_entry'
    *  The i-th array following 'ecdh_parameters', i.e., 'ecdh_capab_i'
       (i = 0, ..., N-1), is the array of COSE capabilities for the
       algorithm capability specified in 'ecdh_parameters'[i].
+
+   The CDDL notation [RFC8610] of the 'ecdh_info_entry' parameter is
+   given below.
 
    ecdh_info_entry =
    [
