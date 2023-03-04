@@ -163,7 +163,7 @@ Readers are expected to be familiar with:
 
 * The terms and concepts described in the ACE framework for authentication and authorization {{RFC9200}} and in the Authorization Information Format (AIF) {{RFC9237}} to express authorization information. The terminology for entities in the considered architecture is defined in OAuth 2.0 {{RFC6749}}. In particular, this includes Client (C), Resource Server (RS), and Authorization Server (AS).
 
-* The terms and concept related to the message formats and processing specified in {{I-D.ietf-ace-key-groupcomm}}, for provisioning and renewing keying material in group communication scenarios.
+* The terms and concepts related to the message formats and processing specified in {{I-D.ietf-ace-key-groupcomm}}, for provisioning and renewing keying material in group communication scenarios. These include the abbreviations REQx and OPTx denoting the numbered mandatory-to-address and optional-to-address requirements, respectively.
 
 * The terms and concepts described in CBOR {{RFC8949}} and COSE {{RFC9052}}{{RFC9053}}.
 
@@ -2099,6 +2099,10 @@ The format of 'key' (see {{ssec-join-resp}}) is generalized as follows.
 # Document Updates # {#sec-document-updates}
 
 RFC EDITOR: PLEASE REMOVE THIS SECTION.
+
+## Version -16 to -17 ## {#sec-16-17}
+
+* Editorial fixes.
 
 ## Version -15 to -16 ## {#sec-15-16}
 
