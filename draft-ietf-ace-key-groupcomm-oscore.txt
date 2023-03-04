@@ -2233,7 +2233,7 @@ Table of Contents
    Section 9.5.
 
    Figure 3 gives an overview of the exchange described above, while
-   Figure 4 shows and example of Signature Verification Data Request-
+   Figure 4 shows an example of Signature Verification Data Request-
    Response.
 
    Signature                                                     Group
@@ -4317,7 +4317,7 @@ B.1.  Format of 'ecdh_info_entry'
      ecdh_capab_2 : [ any ],
      ...,
      ecdh_capab_N : [ any ],
-     cred_fmt = int / null
+     cred_fmt : int / null
    ]
 
    gname = tstr

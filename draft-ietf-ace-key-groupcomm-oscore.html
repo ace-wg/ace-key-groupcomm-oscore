@@ -2637,7 +2637,7 @@ The Group Manager MUST return a 5.03 (Service Unavailable) response in case ther
 </li>
         </ul>
 <p id="section-9.6-5">In order to verify signatures in the group (see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-17#section-8.5" class="relref">Section 8.5</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>), the signature verifier relies on: the data retrieved from the 2.05 (Content) Signature Verification Data Response; the public keys of the group members signing the messages to verify, retrieved from those members' authentication credentials that can be obtained as defined in <a href="#sec-pub-keys" class="auto internal xref">Section 9.3</a>; and the public key of the Group Manager, retrieved from the Group Manager's authentication credential that can be obtained as defined in <a href="#sec-gm-pub-key" class="auto internal xref">Section 9.5</a>.<a href="#section-9.6-5" class="pilcrow">¶</a></p>
-<p id="section-9.6-6"><a href="#fig-verif-data-req-resp" class="auto internal xref">Figure 3</a> gives an overview of the exchange described above,  while <a href="#fig-verif-data-req-resp-ex" class="auto internal xref">Figure 4</a> shows and example of Signature Verification Data Request-Response.<a href="#section-9.6-6" class="pilcrow">¶</a></p>
+<p id="section-9.6-6"><a href="#fig-verif-data-req-resp" class="auto internal xref">Figure 3</a> gives an overview of the exchange described above,  while <a href="#fig-verif-data-req-resp-ex" class="auto internal xref">Figure 4</a> shows an example of Signature Verification Data Request-Response.<a href="#section-9.6-6" class="pilcrow">¶</a></p>
 <span id="name-message-flow-of-signature-v"></span><div id="fig-verif-data-req-resp">
 <figure id="figure-3">
           <div class="alignCenter art-text artwork" id="section-9.6-7.1">
@@ -4160,7 +4160,7 @@ ecdh_info_entry =
   ecdh_capab_2 : [ any ],
   ...,
   ecdh_capab_N : [ any ],
-  cred_fmt = int / null
+  cred_fmt : int / null
 ]
 
 gname = tstr
