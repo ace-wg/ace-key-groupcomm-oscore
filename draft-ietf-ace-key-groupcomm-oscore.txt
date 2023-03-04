@@ -1179,8 +1179,8 @@ Table of Contents
       newly generated 'kdcchallenge' value that the Client can use when
       preparing a Join Request (see Section 6.1).  In such a case the
       Group Manager MUST store the newly generated value as the
-      'kdcchallenge' value associated with the joining node, possibly
-      replacing the currently stored value.
+      'kdcchallenge' value associated with the joining node, replacing
+      the currently stored value (if any).
 
 6.2.1.  Follow-up to a 4.00 (Bad Request) Error Response
 
