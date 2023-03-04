@@ -628,7 +628,7 @@ If the joining node has not taken exclusively the role of monitor, the Group Man
 
      - The Group Manager MUST assign a new OSCORE Sender ID different than the one currently used by the joining node in the OSCORE group.
 
-     - The Group Manager MUST add the old, relinquished OSCORE Sender ID of the joining node to the most recent set of stale Sender IDs, in the collection associated with the group (see {{sssec-stale-sender-ids}}).
+     - The Group Manager MUST add the old, relinquished OSCORE Sender ID of the joining node to the set of stale Sender IDs associated with the current version of the group keying material for the group (see {{sssec-stale-sender-ids}}).
 
 * The Group Manager stores the association between i) the authentication credential of the joining node; and ii) the Group Identifier (Gid), i.e., the OSCORE ID Context, associated with the OSCORE group together with the OSCORE Sender ID assigned to the joining node in the group. The Group Manager MUST keep this association updated over time.
 
@@ -796,29 +796,25 @@ The Group Manager MAY rekey the group for other reasons, e.g., according to an a
 
 ## Stale OSCORE Sender IDs {#sssec-stale-sender-ids}
 
-Throughout the lifetime of every group, the Group Manager MUST maintain a collection of stale Sender IDs for that group.
+For each OSCORE group, the Group Manager MUST maintain N > 1 sets of "stale" OSCORE Sender IDs. It is up to the application to specify the value of N, possibly on a per-group basis.
 
-The collection associated with a group MUST include up to N > 1 ordered sets of stale OSCORE Sender IDs. It is up to the application to specify the value of N, possibly on a per-group basis.
+Each set is uniquely associated with one version of the group keying material, and includes the OSCORE Sender IDs that have become "stale" in the OSCORE group under that version of the group keying material.
 
-The N-th set includes the Sender IDs that have become "stale" under the current version V of the group keying material. The (N - 1)-th set refers to the immediately previous version (V - 1) of the group keying material, and so on.
-
-In the following cases, the Group Manager MUST add a new element to the most recent set X, i.e., the set associated with the current version V of the group keying material.
+In the following cases, the Group Manager MUST add an element to the set X associated with the current version of the group keying material.
 
 * When a current group member obtains a new Sender ID, its old Sender ID is added to X. This happens when the Group Manager assigns a new Sender ID upon request from the group member (see {{sec-new-key}}), or in case the group member re-joins the group (see {{ssec-join-req-sending}} and {{ssec-join-resp}}), thus also obtaining a new Sender ID.
 
 * When a current group member leaves the group, its current Sender ID is added to X. This happens when a group member requests to leave the group (see {{sec-leave-req}}) or is forcibly evicted from the group (see {{sec-leaving}}).
 
-The value of N can change throughout the lifetime of the group. If the new value N' is smaller than N, the Group Manager MUST preserve the (up to) N' most recent sets in the collection and MUST delete any possible older set from the collection.
+The value of N can change during the lifetime of the group. If the new value N' is smaller than N, the Group Manager MUST preserve the sets associated with the (up to) N' most recent versions of the group keying material.
 
-Finally, the Group Manager MUST perform the following actions, when the group is rekeyed and the group shifts to the next version V' = (V + 1) of the group keying material.
+When performing a group rekeying (see {{sec-group-rekeying-process}}) for switching from an old version V to a new version V' = (V + 1) of the group keying material, the Group Manager MUST perform the following actions.
 
-1. The Group Manager rekeys the group. This includes also distributing the set of stale Sender IDs X associated with the old group keying material with version V (see {{ssec-overview-group-rekeying-process}}).
+* Before creating the new group keying material with version V', if the number of sets of stale Sender IDs for the group is equal to N, then the Group Manager deletes the oldest set.
 
-2. After completing the group rekeying, the Group Manager creates a new empty set X' associated with the new version V' of the newly established group keying material, i.e., V' = (V + 1).
+* The Group Manager rekeys the group. This includes also distributing the set of stale Sender IDs associated with the version V of the group keying material (see {{ssec-overview-group-rekeying-process}}).
 
-3. If the current collection of stale Sender IDs has size N, the Group Manager deletes the oldest set in the collection.
-
-4. The Group Manager adds the new set X' to the collection of stale Sender IDs, as the most recent set.
+* After completing the group rekeying, the Group Manager creates an empty set of stale Sender IDs, as associated with the version V' of the group keying material.
 
 # Interface at the Group Manager {#sec-interface-GM}
 
@@ -1001,7 +997,7 @@ Otherwise, the Group Manager performs one of the following actions.
 
        Consistently with {{Section 2.5.3.1 of I-D.ietf-core-oscore-groupcomm}}, the Group Manager MUST assign a new Sender ID that has not been used in the OSCORE group since the latest time when the current Gid value was assigned to the group.
 
-       Furthermore, the Group Manager MUST add the old, relinquished Sender ID of the group member to the most recent set of stale Sender IDs, in the collection associated with the group (see {{sssec-stale-sender-ids}}).
+       Furthermore, the Group Manager MUST add the old, relinquished Sender ID of the group member to the most recent set of stale Sender IDs for the group (see {{sssec-stale-sender-ids}}).
 
        The Group Manager MUST return a 5.03 (Service Unavailable) response in case there are currently no Sender IDs available to assign in the OSCORE group. The response MUST have Content-Format set to application/ace-groupcomm+cbor and is formatted as defined in {{Section 4.1.2 of I-D.ietf-ace-key-groupcomm}}. The value of the 'error' field MUST be set to 4 ("No available node identifiers").
 
@@ -1262,7 +1258,7 @@ If the leaving node has not exclusively the role of monitor, the Group Manager p
 
 * The Group Manager frees the OSCORE Sender ID value of the leaving node. This value MUST NOT become available for possible upcoming joining nodes in the same group, until the group has been rekeyed and assigned a new Group Identifier (Gid).
 
-* The Group Manager MUST add the relinquished Sender ID of the leaving node to the most recent set of stale Sender IDs, in the collection associated with the group (see {{sssec-stale-sender-ids}}).
+* The Group Manager MUST add the relinquished Sender ID of the leaving node to the most recent set of stale Sender IDs for the group (see {{sssec-stale-sender-ids}}).
 
 * The Group Manager cancels the association between, on one hand, the authentication credential of the leaving node and, on the other hand, the Gid associated with the OSCORE group together with the freed Sender ID value. The Group Manager deletes the authentication credential of the leaving node, if that authentication credential has no remaining association with any pair (Gid, Sender ID).
 
@@ -1278,7 +1274,7 @@ As per {{Section 3.2.1.1 of I-D.ietf-core-oscore-groupcomm}}, the Group Manager 
 
 * Before rekeying the group, the Group Manager MUST check if the new Gid to be distributed coincides with the Birth Gid of any of the current group members (see {{ssec-join-resp}}).
 
-* If any of such "elder members" is found in the group, the Group Manager MUST evict them from the group. That is, the Group Manager MUST terminate their membership and MUST rekey the group in such a way that the new keying material is not provided to those evicted elder members. This also includes adding their relinquished Sender IDs to the most recent set of stale Sender IDs, in the collection associated with the group (see {{sssec-stale-sender-ids}}), before rekeying the group.
+* If any of such "elder members" is found in the group, the Group Manager MUST evict them from the group. That is, the Group Manager MUST terminate their membership and MUST rekey the group in such a way that the new keying material is not provided to those evicted elder members. This also includes adding their relinquished Sender IDs to the most recent set of stale Sender IDs for the group (see {{sssec-stale-sender-ids}}), before rekeying the group.
 
    Until a further following group rekeying, the Group Manager MUST store the list of those latest-evicted elder members. If any of those nodes re-joins the group before a further following group rekeying occurs, the Group Manager MUST NOT rekey the group upon their re-joining. When one of those nodes re-joins the group, the Group Manager can rely, e.g., on the ongoing secure communication association to recognize the node as included in the stored list.
 
@@ -1286,7 +1282,7 @@ Across the rekeying execution, the Group Manager MUST preserve the same unchange
 
 The Group Manager MUST support the "Point-to-Point" group rekeying scheme registered in {{Section 11.12 of I-D.ietf-ace-key-groupcomm}}, as per the detailed use defined in {{sending-rekeying-msg}} of this document. Future specifications may define how this application profile can use alternative group rekeying schemes, which MUST comply with the functional steps defined in {{Section 3.2 of I-D.ietf-core-oscore-groupcomm}}. The Group Manager MUST indicate the use of such an alternative group rekeying scheme to joining nodes, by means of the 'group_rekeying' parameter included in Join Response messages (see {{ssec-join-resp}}).
 
-It is RECOMMENDED that the Group Manager gets confirmation of successful distribution from the group members, and admits a maximum number of individual retransmissions to non-confirming group members. Once completed the group rekeying process, the Group Manager creates a new empty set X' of stale Sender IDs associated with the version of the newly distributed group keying material. Then, the Group Manager MUST add the set X' to the collection of stale Sender IDs associated with the group (see {{sssec-stale-sender-ids}}).
+It is RECOMMENDED that the Group Manager gets confirmation of successful distribution from the group members, and admits a maximum number of individual retransmissions to non-confirming group members. Once completed the group rekeying process, the Group Manager creates a new empty set of stale Sender IDs associated with the version of the newly distributed group keying material (see {{sssec-stale-sender-ids}}).
 
 In case the rekeying terminates and some group members have not received the new keying material, they will not be able to correctly process following secured messages exchanged in the group. These group members will eventually contact the Group Manager, in order to retrieve the current keying material and its version.
 
@@ -1314,7 +1310,7 @@ When using the "Point-to-Point" group rekeying scheme, the group rekeying messag
 
    - The Group Manager creates an empty CBOR array ARRAY.
 
-   - The Group Manager considers the collection of stale Sender IDs associated with the group (see {{sssec-stale-sender-ids}}), and takes the most recent set X, i.e., the set associated with the current version of the group keying material about to be relinquished.
+   - The Group Manager considers the most recent set of stale Sender IDs for the group (see {{sssec-stale-sender-ids}}), i.e., the set X associated with the current version of the group keying material about to be relinquished.
 
    - For each Sender ID in X, the Group Manager encodes it as a CBOR byte string and adds the result to ARRAY.
 
@@ -1406,7 +1402,7 @@ The handler MUST reply with a 4.00 (Bad Request) error response, if the request 
 
 Otherwise, the handler responds with a 2.05 (Content) Stale Sender IDs Response. The payload of the response is formatted as defined below, where SKEW = (V' - V + 1).
 
-* The Group Manager considers ITEMS as the current number of sets stored in the collection of stale Sender IDs associated with the group (see {{sssec-stale-sender-ids}}).
+* The Group Manager considers ITEMS as the current number of sets of stale Sender IDs for the group (see {{sssec-stale-sender-ids}}).
 
 * If SKEW > ITEMS, the Stale Sender IDs Response MUST NOT have a payload.
 
@@ -1414,7 +1410,7 @@ Otherwise, the handler responds with a 2.05 (Content) Stale Sender IDs Response.
 
    - The Group Manager creates an empty CBOR array ARRAY and an empty set X.
 
-   - The Group Manager considers the SKEW most recent sets stored in the collection of stale Sender IDs associated with the group. Note that the most recent set is the one associate to the latest version of the group keying material.
+   - The Group Manager considers the SKEW most recent sets of stale Sender IDs for the group. Note that the most recent set is the one associated with the latest version of the group keying material.
 
    - The Group Manager copies all the Sender IDs from the selected sets into X. When doing so, the Group Manager MUST discard duplicates. That is, the same Sender ID MUST NOT be present more than once in the final content of X.
 
@@ -1558,7 +1554,7 @@ This section always applies, as related to common configuration parameters.
       These COSE Header Parameters are under pending registration requested by draft-ietf-lake-edhoc.
    \]
 
-* For 'max_stale_sets', the Group Manager SHOULD consider N = 3 as the maximum number of stored sets of stale Sender IDs in the collection associated with the group (see {{sssec-stale-sender-ids}}).
+* For 'max_stale_sets', the Group Manager SHOULD consider N = 3 as the maximum number of stored sets of stale Sender IDs for the group (see {{sssec-stale-sender-ids}}).
 
 ## Group Mode
 
@@ -2105,6 +2101,8 @@ RFC EDITOR: PLEASE REMOVE THIS SECTION.
 ## Version -16 to -17 ## {#sec-16-17}
 
 * Early mentioning of invalid combinations of roles.
+
+* Revised presentation of handling of stale Sender IDs.
 
 * Fixed CDDL notation.
 
