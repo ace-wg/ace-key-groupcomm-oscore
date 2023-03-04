@@ -1069,7 +1069,7 @@ The payload of the 2.05 (Content) Signature Verification Data Response is a CBOR
 
 In order to verify signatures in the group (see {{Section 8.5 of I-D.ietf-core-oscore-groupcomm}}), the signature verifier relies on: the data retrieved from the 2.05 (Content) Signature Verification Data Response; the public keys of the group members signing the messages to verify, retrieved from those members' authentication credentials that can be obtained as defined in {{sec-pub-keys}}; and the public key of the Group Manager, retrieved from the Group Manager's authentication credential that can be obtained as defined in {{sec-gm-pub-key}}.
 
-{{fig-verif-data-req-resp}} gives an overview of the exchange described above,  while {{fig-verif-data-req-resp-ex}} shows an example.
+{{fig-verif-data-req-resp}} gives an overview of the exchange described above,  while {{fig-verif-data-req-resp-ex}} shows and example of Signature Verification Data Request-Response.
 
 ~~~~~~~~~~~
 Signature                                                     Group
@@ -1143,7 +1143,7 @@ Upon learning from a 2.05 (Content) response that the group is currently inactiv
 
 Upon learning from a 2.05 (Content) response that the group has become active again, the group member can resume taking part in communications within the group.
 
-{{fig-key-status-req-resp}} gives an overview of the exchange described above, while {{fig-key-status-req-resp-ex}} shows an example.
+{{fig-key-status-req-resp}} gives an overview of the exchange described above, while {{fig-key-status-req-resp-ex}} shows an example of Group Status Request-Response.
 
 ~~~~~~~~~~~
 Group                                                         Group
@@ -1196,7 +1196,7 @@ Upon receiving the Group Name and URI Retrieval Request, the Group Manager proce
 
 For each of its groups, the Group Manager maintains an association between the group name and the URI to the group-membership resource on one hand, and only the current Gid for that group on the other hand. That is, the Group Manager does not maintain an association between the former pair and any other Gid for that group than the current, most recent one.
 
-{{fig-group-names-req-resp}} gives an overview of the exchanges described above, while {{fig-group-names-req-resp-ex}} shows an example.
+{{fig-group-names-req-resp}} gives an overview of the exchanges described above, while {{fig-group-names-req-resp-ex}} shows an example of Group Name and URI Retrieval Request-Response.
 
 ~~~~~~~~~~~
                                                                 Group
@@ -1418,7 +1418,7 @@ Otherwise, the handler responds with a 2.05 (Content) Stale Sender IDs Response.
 
    - Finally, ARRAY is specified as payload of the Stale Sender IDs Response. Note that ARRAY might result in the empty CBOR array.
 
-{{fig-stale-ids-req-resp}} gives an overview of the exchange described above,  while {{fig-stale-ids-req-resp-ex}} shows an example.
+{{fig-stale-ids-req-resp}} gives an overview of the exchange described above,  while {{fig-stale-ids-req-resp-ex}} shows an example of Stale Sender IDs Request-Response.
 
 ~~~~~~~~~~~
                                                               Group
