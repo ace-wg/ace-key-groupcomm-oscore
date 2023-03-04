@@ -2089,7 +2089,7 @@ If the joining node is recognized as a current group member, e.g., through the o
 <ul class="normal">
 <li class="normal" id="section-6.3-3.1.4.1">The Group Manager MUST assign a new OSCORE Sender ID different than the one currently used by the joining node in the OSCORE group.<a href="#section-6.3-3.1.4.1" class="pilcrow">¶</a>
 </li>
-              <li class="normal" id="section-6.3-3.1.4.2">The Group Manager MUST add the old, relinquished OSCORE Sender ID of the joining node to the most recent set of stale Sender IDs, in the collection associated with the group (see <a href="#sssec-stale-sender-ids" class="auto internal xref">Section 7.1</a>).<a href="#section-6.3-3.1.4.2" class="pilcrow">¶</a>
+              <li class="normal" id="section-6.3-3.1.4.2">The Group Manager MUST add the old, relinquished OSCORE Sender ID of the joining node to the set of stale Sender IDs associated with the current version of the group keying material for the group (see <a href="#sssec-stale-sender-ids" class="auto internal xref">Section 7.1</a>).<a href="#section-6.3-3.1.4.2" class="pilcrow">¶</a>
 </li>
             </ul>
 </li>
@@ -2298,28 +2298,25 @@ Due to the set of stale Sender IDs distributed through the rekeying, this ensure
         <h3 id="name-stale-oscore-sender-ids">
 <a href="#section-7.1" class="section-number selfRef">7.1. </a><a href="#name-stale-oscore-sender-ids" class="section-name selfRef">Stale OSCORE Sender IDs</a>
         </h3>
-<p id="section-7.1-1">Throughout the lifetime of every group, the Group Manager MUST maintain a collection of stale Sender IDs for that group.<a href="#section-7.1-1" class="pilcrow">¶</a></p>
-<p id="section-7.1-2">The collection associated with a group MUST include up to N &gt; 1 ordered sets of stale OSCORE Sender IDs. It is up to the application to specify the value of N, possibly on a per-group basis.<a href="#section-7.1-2" class="pilcrow">¶</a></p>
-<p id="section-7.1-3">The N-th set includes the Sender IDs that have become "stale" under the current version V of the group keying material. The (N - 1)-th set refers to the immediately previous version (V - 1) of the group keying material, and so on.<a href="#section-7.1-3" class="pilcrow">¶</a></p>
-<p id="section-7.1-4">In the following cases, the Group Manager MUST add a new element to the most recent set X, i.e., the set associated with the current version V of the group keying material.<a href="#section-7.1-4" class="pilcrow">¶</a></p>
+<p id="section-7.1-1">For each OSCORE group, the Group Manager MUST maintain N &gt; 1 sets of "stale" OSCORE Sender IDs. It is up to the application to specify the value of N, possibly on a per-group basis.<a href="#section-7.1-1" class="pilcrow">¶</a></p>
+<p id="section-7.1-2">Each set is uniquely associated with one version of the group keying material, and includes the OSCORE Sender IDs that have become "stale" in the OSCORE group under that version of the group keying material.<a href="#section-7.1-2" class="pilcrow">¶</a></p>
+<p id="section-7.1-3">In the following cases, the Group Manager MUST add an element to the set X associated with the current version of the group keying material.<a href="#section-7.1-3" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-7.1-5.1">When a current group member obtains a new Sender ID, its old Sender ID is added to X. This happens when the Group Manager assigns a new Sender ID upon request from the group member (see <a href="#sec-new-key" class="auto internal xref">Section 9.2</a>), or in case the group member re-joins the group (see <a href="#ssec-join-req-sending" class="auto internal xref">Section 6.1</a> and <a href="#ssec-join-resp" class="auto internal xref">Section 6.3</a>), thus also obtaining a new Sender ID.<a href="#section-7.1-5.1" class="pilcrow">¶</a>
+<li class="normal" id="section-7.1-4.1">When a current group member obtains a new Sender ID, its old Sender ID is added to X. This happens when the Group Manager assigns a new Sender ID upon request from the group member (see <a href="#sec-new-key" class="auto internal xref">Section 9.2</a>), or in case the group member re-joins the group (see <a href="#ssec-join-req-sending" class="auto internal xref">Section 6.1</a> and <a href="#ssec-join-resp" class="auto internal xref">Section 6.3</a>), thus also obtaining a new Sender ID.<a href="#section-7.1-4.1" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-7.1-5.2">When a current group member leaves the group, its current Sender ID is added to X. This happens when a group member requests to leave the group (see <a href="#sec-leave-req" class="auto internal xref">Section 9.11</a>) or is forcibly evicted from the group (see <a href="#sec-leaving" class="auto internal xref">Section 10</a>).<a href="#section-7.1-5.2" class="pilcrow">¶</a>
+          <li class="normal" id="section-7.1-4.2">When a current group member leaves the group, its current Sender ID is added to X. This happens when a group member requests to leave the group (see <a href="#sec-leave-req" class="auto internal xref">Section 9.11</a>) or is forcibly evicted from the group (see <a href="#sec-leaving" class="auto internal xref">Section 10</a>).<a href="#section-7.1-4.2" class="pilcrow">¶</a>
 </li>
         </ul>
-<p id="section-7.1-6">The value of N can change throughout the lifetime of the group. If the new value N' is smaller than N, the Group Manager MUST preserve the (up to) N' most recent sets in the collection and MUST delete any possible older set from the collection.<a href="#section-7.1-6" class="pilcrow">¶</a></p>
-<p id="section-7.1-7">Finally, the Group Manager MUST perform the following actions, when the group is rekeyed and the group shifts to the next version V' = (V + 1) of the group keying material.<a href="#section-7.1-7" class="pilcrow">¶</a></p>
-<ol start="1" type="1" class="normal type-1" id="section-7.1-8">
-<li id="section-7.1-8.1">The Group Manager rekeys the group. This includes also distributing the set of stale Sender IDs X associated with the old group keying material with version V (see <a href="#ssec-overview-group-rekeying-process" class="auto internal xref">Section 7</a>).<a href="#section-7.1-8.1" class="pilcrow">¶</a>
+<p id="section-7.1-5">The value of N can change during the lifetime of the group. If the new value N' is smaller than N, the Group Manager MUST preserve the sets associated with the (up to) N' most recent versions of the group keying material.<a href="#section-7.1-5" class="pilcrow">¶</a></p>
+<p id="section-7.1-6">When performing a group rekeying (see <a href="#sec-group-rekeying-process" class="auto internal xref">Section 11</a>) for switching from an old version V to a new version V' = (V + 1) of the group keying material, the Group Manager MUST perform the following actions.<a href="#section-7.1-6" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-7.1-7.1">Before creating the new group keying material with version V', if the number of sets of stale Sender IDs for the group is equal to N, then the Group Manager deletes the oldest set.<a href="#section-7.1-7.1" class="pilcrow">¶</a>
 </li>
-          <li id="section-7.1-8.2">After completing the group rekeying, the Group Manager creates a new empty set X' associated with the new version V' of the newly established group keying material, i.e., V' = (V + 1).<a href="#section-7.1-8.2" class="pilcrow">¶</a>
+          <li class="normal" id="section-7.1-7.2">The Group Manager rekeys the group. This includes also distributing the set of stale Sender IDs associated with the version V of the group keying material (see <a href="#ssec-overview-group-rekeying-process" class="auto internal xref">Section 7</a>).<a href="#section-7.1-7.2" class="pilcrow">¶</a>
 </li>
-          <li id="section-7.1-8.3">If the current collection of stale Sender IDs has size N, the Group Manager deletes the oldest set in the collection.<a href="#section-7.1-8.3" class="pilcrow">¶</a>
+          <li class="normal" id="section-7.1-7.3">After completing the group rekeying, the Group Manager creates an empty set of stale Sender IDs, as associated with the version V' of the group keying material.<a href="#section-7.1-7.3" class="pilcrow">¶</a>
 </li>
-          <li id="section-7.1-8.4">The Group Manager adds the new set X' to the collection of stale Sender IDs, as the most recent set.<a href="#section-7.1-8.4" class="pilcrow">¶</a>
-</li>
-        </ol>
+        </ul>
 </section>
 </div>
 </section>
@@ -2552,7 +2549,7 @@ The Group Manager SHOULD perform a group rekeying only if already scheduled to  
 <p id="section-9.2-6.2.2.2.2">
 Consistently with <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-17#section-2.5.3.1" class="relref">Section 2.5.3.1</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>, the Group Manager MUST assign a new Sender ID that has not been used in the OSCORE group since the latest time when the current Gid value was assigned to the group.<a href="#section-9.2-6.2.2.2.2" class="pilcrow">¶</a></p>
 <p id="section-9.2-6.2.2.2.3">
-Furthermore, the Group Manager MUST add the old, relinquished Sender ID of the group member to the most recent set of stale Sender IDs, in the collection associated with the group (see <a href="#sssec-stale-sender-ids" class="auto internal xref">Section 7.1</a>).<a href="#section-9.2-6.2.2.2.3" class="pilcrow">¶</a></p>
+Furthermore, the Group Manager MUST add the old, relinquished Sender ID of the group member to the most recent set of stale Sender IDs for the group (see <a href="#sssec-stale-sender-ids" class="auto internal xref">Section 7.1</a>).<a href="#section-9.2-6.2.2.2.3" class="pilcrow">¶</a></p>
 <p id="section-9.2-6.2.2.2.4">
 The Group Manager MUST return a 5.03 (Service Unavailable) response in case there are currently no Sender IDs available to assign in the OSCORE group. The response MUST have Content-Format set to application/ace-groupcomm+cbor and is formatted as defined in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-ace-key-groupcomm-16#section-4.1.2" class="relref">Section 4.1.2</a> of [<a href="#I-D.ietf-ace-key-groupcomm" class="cite xref">I-D.ietf-ace-key-groupcomm</a>]</span>. The value of the 'error' field MUST be set to 4 ("No available node identifiers").<a href="#section-9.2-6.2.2.2.4" class="pilcrow">¶</a></p>
 </li>
@@ -2880,7 +2877,7 @@ Node                                                           Manager
 <ul class="normal">
 <li class="normal" id="section-10-7.1">The Group Manager frees the OSCORE Sender ID value of the leaving node. This value MUST NOT become available for possible upcoming joining nodes in the same group, until the group has been rekeyed and assigned a new Group Identifier (Gid).<a href="#section-10-7.1" class="pilcrow">¶</a>
 </li>
-        <li class="normal" id="section-10-7.2">The Group Manager MUST add the relinquished Sender ID of the leaving node to the most recent set of stale Sender IDs, in the collection associated with the group (see <a href="#sssec-stale-sender-ids" class="auto internal xref">Section 7.1</a>).<a href="#section-10-7.2" class="pilcrow">¶</a>
+        <li class="normal" id="section-10-7.2">The Group Manager MUST add the relinquished Sender ID of the leaving node to the most recent set of stale Sender IDs for the group (see <a href="#sssec-stale-sender-ids" class="auto internal xref">Section 7.1</a>).<a href="#section-10-7.2" class="pilcrow">¶</a>
 </li>
         <li class="normal" id="section-10-7.3">The Group Manager cancels the association between, on one hand, the authentication credential of the leaving node and, on the other hand, the Gid associated with the OSCORE group together with the freed Sender ID value. The Group Manager deletes the authentication credential of the leaving node, if that authentication credential has no remaining association with any pair (Gid, Sender ID).<a href="#section-10-7.3" class="pilcrow">¶</a>
 </li>
@@ -2900,14 +2897,14 @@ Node                                                           Manager
 <li class="normal" id="section-11-3.1">Before rekeying the group, the Group Manager MUST check if the new Gid to be distributed coincides with the Birth Gid of any of the current group members (see <a href="#ssec-join-resp" class="auto internal xref">Section 6.3</a>).<a href="#section-11-3.1" class="pilcrow">¶</a>
 </li>
         <li class="normal" id="section-11-3.2">
-          <p id="section-11-3.2.1">If any of such "elder members" is found in the group, the Group Manager MUST evict them from the group. That is, the Group Manager MUST terminate their membership and MUST rekey the group in such a way that the new keying material is not provided to those evicted elder members. This also includes adding their relinquished Sender IDs to the most recent set of stale Sender IDs, in the collection associated with the group (see <a href="#sssec-stale-sender-ids" class="auto internal xref">Section 7.1</a>), before rekeying the group.<a href="#section-11-3.2.1" class="pilcrow">¶</a></p>
+          <p id="section-11-3.2.1">If any of such "elder members" is found in the group, the Group Manager MUST evict them from the group. That is, the Group Manager MUST terminate their membership and MUST rekey the group in such a way that the new keying material is not provided to those evicted elder members. This also includes adding their relinquished Sender IDs to the most recent set of stale Sender IDs for the group (see <a href="#sssec-stale-sender-ids" class="auto internal xref">Section 7.1</a>), before rekeying the group.<a href="#section-11-3.2.1" class="pilcrow">¶</a></p>
 <p id="section-11-3.2.2">
 Until a further following group rekeying, the Group Manager MUST store the list of those latest-evicted elder members. If any of those nodes re-joins the group before a further following group rekeying occurs, the Group Manager MUST NOT rekey the group upon their re-joining. When one of those nodes re-joins the group, the Group Manager can rely, e.g., on the ongoing secure communication association to recognize the node as included in the stored list.<a href="#section-11-3.2.2" class="pilcrow">¶</a></p>
 </li>
       </ul>
 <p id="section-11-4">Across the rekeying execution, the Group Manager MUST preserve the same unchanged OSCORE Sender IDs for all group members intended to remain in the group. This avoids affecting the retrieval of authentication credentials from the Group Manager and the verification of group messages.<a href="#section-11-4" class="pilcrow">¶</a></p>
 <p id="section-11-5">The Group Manager MUST support the "Point-to-Point" group rekeying scheme registered in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-ace-key-groupcomm-16#section-11.12" class="relref">Section 11.12</a> of [<a href="#I-D.ietf-ace-key-groupcomm" class="cite xref">I-D.ietf-ace-key-groupcomm</a>]</span>, as per the detailed use defined in <a href="#sending-rekeying-msg" class="auto internal xref">Section 11.1</a> of this document. Future specifications may define how this application profile can use alternative group rekeying schemes, which MUST comply with the functional steps defined in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-17#section-3.2" class="relref">Section 3.2</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>. The Group Manager MUST indicate the use of such an alternative group rekeying scheme to joining nodes, by means of the 'group_rekeying' parameter included in Join Response messages (see <a href="#ssec-join-resp" class="auto internal xref">Section 6.3</a>).<a href="#section-11-5" class="pilcrow">¶</a></p>
-<p id="section-11-6">It is RECOMMENDED that the Group Manager gets confirmation of successful distribution from the group members, and admits a maximum number of individual retransmissions to non-confirming group members. Once completed the group rekeying process, the Group Manager creates a new empty set X' of stale Sender IDs associated with the version of the newly distributed group keying material. Then, the Group Manager MUST add the set X' to the collection of stale Sender IDs associated with the group (see <a href="#sssec-stale-sender-ids" class="auto internal xref">Section 7.1</a>).<a href="#section-11-6" class="pilcrow">¶</a></p>
+<p id="section-11-6">It is RECOMMENDED that the Group Manager gets confirmation of successful distribution from the group members, and admits a maximum number of individual retransmissions to non-confirming group members. Once completed the group rekeying process, the Group Manager creates a new empty set of stale Sender IDs associated with the version of the newly distributed group keying material (see <a href="#sssec-stale-sender-ids" class="auto internal xref">Section 7.1</a>).<a href="#section-11-6" class="pilcrow">¶</a></p>
 <p id="section-11-7">In case the rekeying terminates and some group members have not received the new keying material, they will not be able to correctly process following secured messages exchanged in the group. These group members will eventually contact the Group Manager, in order to retrieve the current keying material and its version.<a href="#section-11-7" class="pilcrow">¶</a></p>
 <p id="section-11-8">Some of these group members may be in multiple groups, each associated with a different Group Manager. When failing to correctly process messages secured with the new keying material, these group members may not have sufficient information to determine which exact Group Manager they should contact, in order to retrieve the current keying material they are missing.<a href="#section-11-8" class="pilcrow">¶</a></p>
 <p id="section-11-9">If the Gid is formatted as described in Appendix C of <span>[<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>, the Group Prefix can be used as a hint to determine the right Group Manager, as long as no collisions among Group Prefixes are experienced. Otherwise, a group member needs to contact the Group Manager of each group, e.g., by first requesting only the version of the current group keying material (see <a href="#sec-version" class="auto internal xref">Section 9.8</a>) and then possibly requesting the current keying material (see <a href="#ssec-updated-key-only" class="auto internal xref">Section 9.1.1</a>).<a href="#section-11-9" class="pilcrow">¶</a></p>
@@ -2936,7 +2933,7 @@ Until a further following group rekeying, the Group Manager MUST store the list 
 <ul class="normal">
 <li class="normal" id="section-11.1-2.2.2.1">The Group Manager creates an empty CBOR array ARRAY.<a href="#section-11.1-2.2.2.1" class="pilcrow">¶</a>
 </li>
-              <li class="normal" id="section-11.1-2.2.2.2">The Group Manager considers the collection of stale Sender IDs associated with the group (see <a href="#sssec-stale-sender-ids" class="auto internal xref">Section 7.1</a>), and takes the most recent set X, i.e., the set associated with the current version of the group keying material about to be relinquished.<a href="#section-11.1-2.2.2.2" class="pilcrow">¶</a>
+              <li class="normal" id="section-11.1-2.2.2.2">The Group Manager considers the most recent set of stale Sender IDs for the group (see <a href="#sssec-stale-sender-ids" class="auto internal xref">Section 7.1</a>), i.e., the set X associated with the current version of the group keying material about to be relinquished.<a href="#section-11.1-2.2.2.2" class="pilcrow">¶</a>
 </li>
               <li class="normal" id="section-11.1-2.2.2.3">For each Sender ID in X, the Group Manager encodes it as a CBOR byte string and adds the result to ARRAY.<a href="#section-11.1-2.2.2.3" class="pilcrow">¶</a>
 </li>
@@ -3034,7 +3031,7 @@ Then, the group member MUST remove every authentication credential which is not 
 <p id="section-11.3.1-4">The handler MUST reply with a 4.00 (Bad Request) error response, if the request is not formatted correctly. Also, the handler MUST respond with a 4.00 (Bad Request) error response, if the specified version number V is greater or equal than the version number V' associated with the latest keying material in the group, i.e., in case V &gt;= V'.<a href="#section-11.3.1-4" class="pilcrow">¶</a></p>
 <p id="section-11.3.1-5">Otherwise, the handler responds with a 2.05 (Content) Stale Sender IDs Response. The payload of the response is formatted as defined below, where SKEW = (V' - V + 1).<a href="#section-11.3.1-5" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-11.3.1-6.1">The Group Manager considers ITEMS as the current number of sets stored in the collection of stale Sender IDs associated with the group (see <a href="#sssec-stale-sender-ids" class="auto internal xref">Section 7.1</a>).<a href="#section-11.3.1-6.1" class="pilcrow">¶</a>
+<li class="normal" id="section-11.3.1-6.1">The Group Manager considers ITEMS as the current number of sets of stale Sender IDs for the group (see <a href="#sssec-stale-sender-ids" class="auto internal xref">Section 7.1</a>).<a href="#section-11.3.1-6.1" class="pilcrow">¶</a>
 </li>
             <li class="normal" id="section-11.3.1-6.2">If SKEW &gt; ITEMS, the Stale Sender IDs Response MUST NOT have a payload.<a href="#section-11.3.1-6.2" class="pilcrow">¶</a>
 </li>
@@ -3043,7 +3040,7 @@ Then, the group member MUST remove every authentication credential which is not 
 <ul class="normal">
 <li class="normal" id="section-11.3.1-6.3.2.1">The Group Manager creates an empty CBOR array ARRAY and an empty set X.<a href="#section-11.3.1-6.3.2.1" class="pilcrow">¶</a>
 </li>
-                <li class="normal" id="section-11.3.1-6.3.2.2">The Group Manager considers the SKEW most recent sets stored in the collection of stale Sender IDs associated with the group. Note that the most recent set is the one associate to the latest version of the group keying material.<a href="#section-11.3.1-6.3.2.2" class="pilcrow">¶</a>
+                <li class="normal" id="section-11.3.1-6.3.2.2">The Group Manager considers the SKEW most recent sets of stale Sender IDs for the group. Note that the most recent set is the one associated with the latest version of the group keying material.<a href="#section-11.3.1-6.3.2.2" class="pilcrow">¶</a>
 </li>
                 <li class="normal" id="section-11.3.1-6.3.2.3">The Group Manager copies all the Sender IDs from the selected sets into X. When doing so, the Group Manager MUST discard duplicates. That is, the same Sender ID MUST NOT be present more than once in the final content of X.<a href="#section-11.3.1-6.3.2.3" class="pilcrow">¶</a>
 </li>
@@ -3232,7 +3229,7 @@ multicast) MUST support this parameter.<a href="#section-12-8.8" class="pilcrow"
     These COSE Header Parameters are under pending registration requested by draft-ietf-lake-edhoc.
  ]<a href="#section-14.1-2.2.2" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-14.1-2.3">For 'max_stale_sets', the Group Manager SHOULD consider N = 3 as the maximum number of stored sets of stale Sender IDs in the collection associated with the group (see <a href="#sssec-stale-sender-ids" class="auto internal xref">Section 7.1</a>).<a href="#section-14.1-2.3" class="pilcrow">¶</a>
+          <li class="normal" id="section-14.1-2.3">For 'max_stale_sets', the Group Manager SHOULD consider N = 3 as the maximum number of stored sets of stale Sender IDs for the group (see <a href="#sssec-stale-sender-ids" class="auto internal xref">Section 7.1</a>).<a href="#section-14.1-2.3" class="pilcrow">¶</a>
 </li>
         </ul>
 </section>
@@ -4222,9 +4219,11 @@ For example, if 'ecdh_params'[0][0] specifies the key type as capability of the 
 <ul class="normal">
 <li class="normal" id="appendix-C.1-1.1">Early mentioning of invalid combinations of roles.<a href="#appendix-C.1-1.1" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="appendix-C.1-1.2">Fixed CDDL notation.<a href="#appendix-C.1-1.2" class="pilcrow">¶</a>
+          <li class="normal" id="appendix-C.1-1.2">Revised presentation of handling of stale Sender IDs.<a href="#appendix-C.1-1.2" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="appendix-C.1-1.3">Clarifications and editorial fixes.<a href="#appendix-C.1-1.3" class="pilcrow">¶</a>
+          <li class="normal" id="appendix-C.1-1.3">Fixed CDDL notation.<a href="#appendix-C.1-1.3" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="appendix-C.1-1.4">Clarifications and editorial fixes.<a href="#appendix-C.1-1.4" class="pilcrow">¶</a>
 </li>
         </ul>
 </section>
