@@ -953,6 +953,13 @@ Table of Contents
       group name and the role(s) that the joining node wants to take in
       the group.
 
+      The 'scope' parameter MUST NOT specify any of the following sets
+      of roles: ("requester", "monitor") and ("responder", "monitor").
+      Future specifications that define a new role for members of OSCORE
+      groups MUST define possible sets of roles (including the new role
+      and existing roles) that are not acceptable to specify in the
+      'scope' parameter of a Join Request.
+
    *  The 'get_creds' parameter is present only if the joining node
       wants to retrieve the authentication credentials of the group
       members from the Group Manager during the joining process (see
@@ -1112,12 +1119,8 @@ Table of Contents
          joining node.
 
    *  The 'scope' parameter is not present in the Join Request, or it is
-      present and specifies any set of roles not included in the
-      following list: "requester", "responder", "monitor", ("requester",
-      "responder").  Future specifications that define a new role for
-      members of OSCORE groups MUST define possible sets of roles
-      (including the new role and existing roles) that are acceptable to
-      specify in the 'scope' parameter of a Join Request.
+      present and specifies any of the following sets of roles:
+      ("requester", "monitor") and ("responder", "monitor").
 
    *  The Join Request includes the 'client_cred' parameter but does not
       include both the 'cnonce' and 'client_cred_verify' parameters.
@@ -4379,6 +4382,8 @@ Appendix C.  Document Updates
    RFC EDITOR: PLEASE REMOVE THIS SECTION.
 
 C.1.  Version -16 to -17
+
+   *  Early mentioning of invalid combinations of roles.
 
    *  Fixed CDDL notation.
 
