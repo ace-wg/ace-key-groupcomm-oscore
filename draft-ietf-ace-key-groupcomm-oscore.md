@@ -929,7 +929,7 @@ Building on what is defined in {{Section 4.1.1 of I-D.ietf-ace-key-groupcomm}}, 
 
 * GET request to ace-group/GROUPNAME/verif-data, in order for a signature verifier to retrieve data required to verify signatures of messages protected with the group mode of Group OSCORE and sent to a group (see {{Sections 3.1 and 8.5 of I-D.ietf-core-oscore-groupcomm}}). Note that this operation is relevant to support only to signature verifiers.
 
-* FETCH request to ace-group/GROUPNAME/stale-sids, in order to retrieve from the Group Manager the data required to delete some of the stored group members' authentication credentials and associated Recipient Contexts (see {{stale-sids-fetch}}). These data are provided as an aggregated set of stale Sender IDs, which are used as specified in {{missed-rekeying}}.
+* FETCH request to ace-group/GROUPNAME/stale-sids, in order to retrieve from the Group Manager the data required to delete some of the stored group members' authentication credentials and associated Recipient Contexts (see {{stale-sids-fetch}}). This data is provided as an aggregated set of stale Sender IDs, which are used as specified in {{missed-rekeying}}.
 
 # Additional Interactions with the Group Manager # {#sec-additional-interactions}
 
@@ -1188,7 +1188,7 @@ A node may want to retrieve from the Group Manager the group name and the URI of
 
    Furthermore, since it is not a group member, the node does not take part to a possible group rekeying. Thus, following a group rekeying and the consequent change of Gid in a group, the node would retain the old Gid value and cannot correctly associate intercepted messages to the right group, especially if acting as signature verifier in several groups. This in turn prevents the efficient verification of signatures, and especially the retrieval of required, new authentication credentials from the Group Manager.
 
-In either case, the node only knows the current Gid of the group, as learned from received or intercepted messages exchanged in the group. As detailed below, the node can contact the Group Manager, and request the group name and URI to the group-membership resource corresponding to that Gid. Then, it can use that information to either join the group as a candidate group member, get the latest keying material as a current group member, or retrieve authentication credentials used in the group as a signature verifier. To this end, the node sends a Group Name and URI Retrieval Request, as per {{Section 4.2.1.1 of I-D.ietf-ace-key-groupcomm}}.
+In either case, the node only knows the current Gid of the group, as learned from received or intercepted messages exchanged in the group. As detailed below, the node can contact the Group Manager, and request the group name and URI to the group-membership resource corresponding to that Gid. Then, it can use that information to join the group, or get the latest keying material as a current group member, or retrieve authentication credentials used in the group as a signature verifier. To this end, the node sends a Group Name and URI Retrieval Request, as per {{Section 4.2.1.1 of I-D.ietf-ace-key-groupcomm}}.
 
 That is, the node sends a CoAP FETCH request to the endpoint /ace-group at the Group Manager formatted as defined in {{Section 4.2.1 of I-D.ietf-ace-key-groupcomm}}. Each element of the CBOR array 'gid' is a CBOR byte string (REQ13), which encodes the Gid of the group for which the group name and the URI to the group-membership resource are requested.
 
@@ -1290,7 +1290,7 @@ Some of these group members may be in multiple groups, each associated with a di
 
 If the Gid is formatted as described in Appendix C of {{I-D.ietf-core-oscore-groupcomm}}, the Group Prefix can be used as a hint to determine the right Group Manager, as long as no collisions among Group Prefixes are experienced. Otherwise, a group member needs to contact the Group Manager of each group, e.g., by first requesting only the version of the current group keying material (see {{sec-version}}) and then possibly requesting the current keying material (see {{ssec-updated-key-only}}).
 
-Furthermore, some of these group members can be in multiple groups, all of which associated with the same Group Manager. In this case, these group members may also not have sufficient information to determine which exact group they should refer to, when contacting the right Group Manager. Hence, they need to contact a Group Manager multiple times, i.e., separately for each group they belong to and associated with that Group Manager.
+Furthermore, some of these group members can be in multiple groups, all of which are associated with the same Group Manager. In this case, these group members may also not have sufficient information to determine which exact group they should refer to, when contacting the right Group Manager. Hence, they need to contact a Group Manager multiple times, i.e., separately for each group they belong to and associated with that Group Manager.
 
 {{receiving-rekeying-msg}} defines the actions performed by a group member upon receiving the new group keying material. {{missed-rekeying}} discusses how a group member can realize that it has missed one or more rekeying instances, and the actions it is accordingly required to take.
 
@@ -1306,7 +1306,7 @@ When using the "Point-to-Point" group rekeying scheme, the group rekeying messag
 
    - The 'salt' value, specifying the new OSCORE Master Salt value. This parameter MAY be present.
 
-* The parameter 'stale_node_ids' MUST also be included, with CBOR label defined in {{ssec-iana-ace-groupcomm-parameters-registry}}. This parameter is encoded as a CBOR array, where each element is encoded as a CBOR byte string. The CBOR array has to be intended as a set, i.e., the order of its elements is irrelevant. The parameter is populated as follows.
+* The parameter 'stale_node_ids' MUST also be included, with CBOR label defined in {{ssec-iana-ace-groupcomm-parameters-registry}}. This parameter is encoded as a CBOR array, where each element is encoded as a CBOR byte string. The order of elements in the CBOR array is irrelevant. The parameter is populated as follows.
 
    - The Group Manager creates an empty CBOR array ARRAY.
 
@@ -1328,7 +1328,7 @@ Group members and the Group Manager SHOULD additionally support alternative dist
 
 ## Receiving Rekeying Messages {#receiving-rekeying-msg}
 
-Once received the new group keying material, a group member proceeds as follows. Unless otherwise specified, the following is independent of the specifically used group rekeying scheme.
+After having received the new group keying material, a group member proceeds as follows. Unless otherwise specified, the following is independent of the specifically used group rekeying scheme.
 
 The group member considers the stale Sender IDs received from the Group Manager. If the "Point-to-Point" group rekeying scheme as detailed in {{sending-rekeying-msg}} is used, the stale Sender IDs are specified by the 'stale_node_ids' parameter.
 
@@ -1382,7 +1382,7 @@ If case (c) or case (d) applies, the group member SHOULD perform the following a
 
 If case (c) or case (d) applies, the group member can alternatively perform the following actions.
 
-1. The group member re-joins the group (see {{ssec-join-req-sending}}). When doing so, the group member MUST re-join with the same roles it currently has in the group, and MUST request the Group Manager for the authentication credentials of all the current group members. That is, the 'get_creds' parameter of the Join Request MUST be present and MUST be set to the CBOR simple value "null" (0xf6).
+1. The group member re-joins the group (see {{ssec-join-req-sending}}). When doing so, the group member MUST re-join with the same roles it currently has in the group, and MUST request from the Group Manager the authentication credentials of all the current group members. That is, the 'get_creds' parameter of the Join Request MUST be present and MUST be set to the CBOR simple value "null" (0xf6).
 
 2. When receiving the Join Response (see {{ssec-join-resp-processing}} and {{ssec-join-resp-processing}}), the group member retrieves the set Z of authentication credentials specified in the 'creds' parameter.
 
@@ -1406,7 +1406,7 @@ Otherwise, the handler responds with a 2.05 (Content) Stale Sender IDs Response.
 
 * If SKEW > ITEMS, the Stale Sender IDs Response MUST NOT have a payload.
 
-* Otherwise, the payload of the Stale Sender IDs Response MUST include a CBOR array, where each element is encoded as a CBOR byte string. The CBOR array has to be intended as a set, i.e., the order of its elements is irrelevant. The Group Manager populates the CBOR array as follows.
+* Otherwise, the payload of the Stale Sender IDs Response MUST include a CBOR array, where each element is encoded as a CBOR byte string. The order of elements in the CBOR array is irrelevant. The Group Manager populates the CBOR array as follows.
 
    - The Group Manager creates an empty CBOR array ARRAY and an empty set X.
 
@@ -1532,7 +1532,7 @@ A Client supporting the 'error' parameter (see {{Sections 4.1.2 and 8 of I-D.iet
 
 * In case of error 8, the Client should stop sending the request in question to the Group Manager.
 
-* In case of error 9, the Client should wait for a certain (pre-configured) amount of time, before trying re-sending its request to the Group Manager.
+* In case of error 9, the Client should wait for a certain (pre-configured) amount of time, before trying to re-send its request to the Group Manager.
 
 # Default Values for Group Configuration Parameters
 
@@ -1610,7 +1610,7 @@ This profile leverages the following management aspects related to OSCORE groups
 
 * Management of group keying material (see {{Section 3.2 of I-D.ietf-core-oscore-groupcomm}}). The Group Manager is responsible for the renewal and re-distribution of the keying material in the groups of its competence (rekeying).
 
-   The Group Manager performs a rekeying when one ore more members leave the group, thus preserving forward security and ensuring that the security properties of Group OSCORE are fulfilled. According to the specific application requirements, the Group Manager can also rekey the group upon a new node's joining, in case backward security has also to be preserved.
+   The Group Manager performs a rekeying when one or more members leave the group, thus preserving forward security and ensuring that the security properties of Group OSCORE are fulfilled. According to the specific application requirements, the Group Manager can also rekey the group upon a new node's joining, in case backward security has also to be preserved.
 
 * Provisioning and retrieval of authentication credentials (see {{Section 3 of I-D.ietf-core-oscore-groupcomm}}). The Group Manager acts as repository of authentication credentials of group members, and provides them upon request.
 
@@ -1636,7 +1636,7 @@ As defined in {{sssec-challenge-value}}, the way the N\_S value is computed depe
 
 If we consider both N\_C and N\_S to take 8-byte long values, the following considerations hold.
 
-* Let us consider both N\_C and N\_S as taking random values, and the Group Manager to never change the value of the N\_S provided to a Client during the lifetime of an Access Token. Then, as per the birthday paradox, the average collision for N\_S will happen after 2^32 new transferred Access Tokens, while the average collision for N\_C will happen after 2^32 new Join Requests. This amounts to considerably more token provisionings than the expected new joinings of OSCORE groups under a same Group Manager, as well as to considerably more requests to join OSCORE groups from a same Client using a same Access Token under a same Group Manager.
+* Let us consider both N\_C and N\_S as taking random values, and the Group Manager to never change the value of the N\_S provided to a Client during the lifetime of an Access Token. Then, as per the birthday paradox, the average collision for N\_S will happen after 2^32 new transferred Access Tokens, while the average collision for N\_C will happen after 2^32 new Join Requests. This amounts to considerably more token provisionings than the expected new joinings to OSCORE groups under a same Group Manager, as well as to considerably more requests to join OSCORE groups from a same Client using a same Access Token under a same Group Manager.
 
 * {{Section 7 of RFC9203}} as well {{Section B.2 of RFC8613}} recommend the use of 8-byte random values as well. Unlike in those cases, the values of N\_C and N\_S considered in this document are not used for as sensitive operations as the derivation of a Security Context, and thus do not have possible implications in the security of AEAD ciphers.
 
@@ -1920,11 +1920,11 @@ Expert reviewers should take into consideration the following points:
 
 * Clarity and correctness of registrations. Experts are expected to check the clarity of purpose and use of the requested entries. Experts should inspect the entry for the considered role, to verify the correctness of its description against the role as intended in the specification that defined it. Experts should consider requesting an opinion on the correctness of registered parameters from the Authentication and Authorization for Constrained Environments (ACE) Working Group and the Constrained RESTful Environments (CoRE) Working Group.
 
-     Entries that do not meet these objective of clarity and completeness should not be registered.
+     Entries that do not meet these objectives of clarity and completeness should not be registered.
 
 * Duplicated registration and point squatting should be discouraged. Reviewers are encouraged to get sufficient information for registration requests to ensure that the usage is not going to duplicate one that is already registered and that the point is likely to be used in deployments.
 
-* Experts should take into account the expected usage of roles when approving point assignment. Given a 'Value' V as code point, the length of the encoding of (2^(V+1) - 1) should be weighed against the usage of the entry, considering the resources and capabilities of devices it will be used on. Additionally, given a 'Value' V as code point, the length of the encoding of (2^(V+1) - 1) should be weighed against how many code points resulting in that encoding length are left, and the resources and capabilities of devices it will be used on.
+* Experts should take into account the expected usage of roles when approving point assignments. Given a 'Value' V as code point, the length of the encoding of (2^(V+1) - 1) should be weighed against the usage of the entry, considering the resources and capabilities of devices it will be used on. Additionally, given a 'Value' V as code point, the length of the encoding of (2^(V+1) - 1) should be weighed against how many code points resulting in that encoding length are left, and the resources and capabilities of devices it will be used on.
 
 * Specifications are recommended. When specifications are not provided, the description provided needs to have sufficient information to verify the points above.
 
@@ -2053,6 +2053,8 @@ The format of each 'ecdh_info_entry' (see {{ssec-token-post}} and {{ecdh-info}})
 * 'ecdh_key_parameters' is replaced by N elements 'ecdh_capab_i', each of which is a CBOR array.
 
 * The i-th array following 'ecdh_parameters', i.e., 'ecdh_capab_i' (i = 0, ..., N-1), is the array of COSE capabilities for the algorithm capability specified in 'ecdh_parameters'\[i\].
+
+The CDDL notation {{RFC8610}} of the 'ecdh_info_entry' parameter is given below.
 
 ~~~~~~~~~~~ CDDL
 ecdh_info_entry =
