@@ -2290,10 +2290,9 @@ Note that the Gid differs from the group name also introduced in <span>[<a href=
 <p id="section-7-8.2.2">
 Due to the set of stale Sender IDs distributed through the rekeying, this ensures that a node owning the latest group keying material does not store the authentication credentials of former group members (see Sections <a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-17#section-3.2" class="relref">3.2</a> and <a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-17#section-12.1" class="relref">12.1</a> of <span>[<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>).<a href="#section-7-8.2.2" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="section-7-8.3">Extension of group lifetime - That is, the group is rekeyed when the expiration time for the group keying material approaches or has passed, if it is appropriate to extend the group operation beyond that.<a href="#section-7-8.3" class="pilcrow">¶</a>
-</li>
       </ul>
-<p id="section-7-9">The Group Manager MAY rekey the group for other reasons, e.g., according to an application-specific rekeying period or scheduling.<a href="#section-7-9" class="pilcrow">¶</a></p>
+<p id="section-7-9">When the expiration time for the group keying material approaches or has passed, the Group Manager may want to extend the secure group operation, as considered appropriate. If the Group Manager does so, the Group Manager MUST rekey the group.<a href="#section-7-9" class="pilcrow">¶</a></p>
+<p id="section-7-10">The Group Manager MAY rekey the group for other reasons, e.g., according to an application-specific rekeying period or scheduling.<a href="#section-7-10" class="pilcrow">¶</a></p>
 <div id="sssec-stale-sender-ids">
 <section id="section-7.1">
         <h3 id="name-stale-oscore-sender-ids">

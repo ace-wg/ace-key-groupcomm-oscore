@@ -1643,10 +1643,10 @@ Table of Contents
       group members (see Sections 3.2 and 12.1 of
       [I-D.ietf-core-oscore-groupcomm]).
 
-   *  Extension of group lifetime - That is, the group is rekeyed when
-      the expiration time for the group keying material approaches or
-      has passed, if it is appropriate to extend the group operation
-      beyond that.
+   When the expiration time for the group keying material approaches or
+   has passed, the Group Manager may want to extend the secure group
+   operation, as considered appropriate.  If the Group Manager does so,
+   the Group Manager MUST rekey the group.
 
    The Group Manager MAY rekey the group for other reasons, e.g.,
    according to an application-specific rekeying period or scheduling.
