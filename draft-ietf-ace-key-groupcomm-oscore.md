@@ -2069,7 +2069,7 @@ ecdh_info_entry =
   ecdh_capab_2 : [ any ],
   ...,
   ecdh_capab_N : [ any ],
-  cred_fmt = int / null
+  cred_fmt : int / null
 ]
 
 gname = tstr
