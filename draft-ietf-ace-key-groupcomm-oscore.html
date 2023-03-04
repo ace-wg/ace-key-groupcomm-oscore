@@ -1895,8 +1895,8 @@ kdc_dh_creds_res = [ + kdc_dh_creds_entry ] ; in the Token Transfer
 kdc_dh_creds_entry =
 [
   id : gname / [ + gname ],
-  cred_fmt = int,
-  cred = bstr
+  cred_fmt : int,
+  cred : bstr
 ]
 
 gname = tstr
