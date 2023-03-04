@@ -443,7 +443,7 @@ ecdh_info_entry =
   ecdh_alg : int / tstr,
   ecdh_parameters : [ any ],
   ecdh_key_parameters : [ any ],
-  cred_fmt = int
+  cred_fmt : int
 ]
 
 gname = tstr
