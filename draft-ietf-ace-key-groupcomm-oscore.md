@@ -274,7 +274,7 @@ The following CDDL {{RFC8610}} notation defines a scope entry that uses the AIF-
    AIF-OSCORE-GROUPCOMM = AIF-Generic<oscore-gname, oscore-gperm>
 
    oscore-gname = tstr  ; Group name
-   oscore-gperm = uint . bits group-oscore-roles
+   oscore-gperm = uint .bits group-oscore-roles
 
    group-oscore-roles = &(
       Requester: 1,
@@ -2101,6 +2101,8 @@ The format of 'key' (see {{ssec-join-resp}}) is generalized as follows.
 RFC EDITOR: PLEASE REMOVE THIS SECTION.
 
 ## Version -16 to -17 ## {#sec-16-17}
+
+* Fixed CDDL notation.
 
 * Editorial fixes.
 
