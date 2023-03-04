@@ -758,7 +758,7 @@ From then on, the joining node can exchange group messages secured with Group OS
 
 * The joining node MUST NOT use the pairwise mode of Group OSCORE to process messages in the group, if the Join Response did not include the 'ecdh_alg' parameter.
 
-If the application requires backward security, the Group Manager MUST generate updated security parameters and group keying material, and provide it to the current group members, upon the new node's joining (see {{sec-group-rekeying-process}}). In such a case, the joining node is not able to access secure communication in the OSCORE group occurred prior its joining.
+If the application requires backward security, the Group Manager MUST generate updated security parameters and group keying material, and provide it to the current group members, upon the new node's joining (see {{sec-group-rekeying-process}}). In such a case, the joining node is not able to access secure communication in the OSCORE group that occurred prior to its joining.
 
 # Overview of the Group Rekeying Process {#ssec-overview-group-rekeying-process}
 
@@ -784,7 +784,7 @@ Also, the data distributed through a group rekeying MAY include a new value for 
 
 The Group Manager MUST rekey the group in the following cases.
 
-* The application requires backward security - In this case, the group is rekeyed when a node joins the group as a new member. Therefore, a joining node cannot access communications in the group prior its joining.
+* The application requires backward security - In this case, the group is rekeyed when a node joins the group as a new member. Therefore, a joining node cannot access communications in the group prior to its joining.
 
 * One or more nodes leave the group - That is, the group is rekeyed when one or more current members spontaneously request to leave the group (see {{sec-leave-req}}), or when the Group Manager forcibly evicts them from the group, e.g., due to expired or revoked authorization (see {{sec-leaving}}). Therefore, a leaving node cannot access communications in the group after its leaving, thus ensuring forward security in the group.
 
