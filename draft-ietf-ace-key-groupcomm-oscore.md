@@ -504,6 +504,8 @@ The joining node requests to join the OSCORE group by sending a Join Request mes
 
 * The 'scope' parameter MUST be included. Its value encodes one scope entry with the format defined in {{sec-format-scope}}, indicating the group name and the role(s) that the joining node wants to take in the group.
 
+   The 'scope' parameter MUST NOT specify any of the following sets of roles: ("requester", "monitor") and ("responder", "monitor"). Future specifications that define a new role for members of OSCORE groups MUST define possible sets of roles (including the new role and existing roles) that are not acceptable to specify in the 'scope' parameter of a Join Request.
+
 * The 'get_creds' parameter is present only if the joining node wants to retrieve the authentication credentials of the group members from the Group Manager during the joining process (see {{sec-public-keys-of-joining-nodes}}). Otherwise, this parameter MUST NOT be present.
 
    If this parameter is present and its value is not the CBOR simple value "null" (0xf6), each element of the inner CBOR array 'role_filter' is encoded as a CBOR unsigned integer, with the same value of a permission set ("Tperm") indicating that role or combination of roles in a scope entry, as defined in {{sec-format-scope}}.
@@ -576,7 +578,7 @@ The Group Manager MUST reply with a 4.00 (Bad Request) error response in the fol
 
    * The Group Manager stores multiple eligible authentication credentials (e.g., of the format accepted in the group) for the joining node.
 
-* The 'scope' parameter is not present in the Join Request, or it is present and specifies any set of roles not included in the following list: "requester", "responder", "monitor", ("requester", "responder"). Future specifications that define a new role for members of OSCORE groups MUST define possible sets of roles (including the new role and existing roles) that are acceptable to specify in the 'scope' parameter of a Join Request.
+* The 'scope' parameter is not present in the Join Request, or it is present and specifies any of the following sets of roles: ("requester", "monitor") and ("responder", "monitor").
 
 * The Join Request includes the 'client_cred' parameter but does not include both the 'cnonce' and 'client_cred_verify' parameters.
 
@@ -2101,6 +2103,8 @@ The format of 'key' (see {{ssec-join-resp}}) is generalized as follows.
 RFC EDITOR: PLEASE REMOVE THIS SECTION.
 
 ## Version -16 to -17 ## {#sec-16-17}
+
+* Early mentioning of invalid combinations of roles.
 
 * Fixed CDDL notation.
 
