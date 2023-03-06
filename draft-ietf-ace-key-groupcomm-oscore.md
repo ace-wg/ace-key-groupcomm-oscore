@@ -2100,7 +2100,7 @@ The format of 'key' (see {{ssec-join-resp}}) is generalized as follows.
 
 RFC EDITOR: PLEASE REMOVE THIS SECTION.
 
-## Version -16 to -17 ## {#sec-16-17}
+## Version -15 to -16 ## {#sec-15-16}
 
 * Early mentioning of invalid combinations of roles.
 
@@ -2108,15 +2108,11 @@ RFC EDITOR: PLEASE REMOVE THIS SECTION.
 
 * Fixed CDDL notation.
 
-* Clarifications and editorial fixes.
-
-## Version -15 to -16 ## {#sec-15-16}
-
 * Fixed diagnostic notation in examples.
 
 * Possible reason to deviate from default parameter values.
 
-* Editorial fixes.
+* Clarifications and editorial fixes.
 
 ## Version -14 to -15 ## {#sec-14-15}
 
