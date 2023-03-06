@@ -5,10 +5,10 @@
 ACE Working Group                                              M. Tiloca
 Internet-Draft                                                   RISE AB
 Intended status: Standards Track                                 J. Park
-Expires: 5 September 2023                    Universitaet Duisburg-Essen
+Expires: 7 September 2023                    Universitaet Duisburg-Essen
                                                             F. Palombini
                                                              Ericsson AB
-                                                            4 March 2023
+                                                            6 March 2023
 
 
                 Key Management for OSCORE Groups in ACE
@@ -43,7 +43,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 5 September 2023.
+   This Internet-Draft will expire on 7 September 2023.
 
 Copyright Notice
 
@@ -2233,7 +2233,7 @@ Table of Contents
    Section 9.5.
 
    Figure 3 gives an overview of the exchange described above, while
-   Figure 4 shows and example of Signature Verification Data Request-
+   Figure 4 shows an example of Signature Verification Data Request-
    Response.
 
    Signature                                                     Group
@@ -3137,7 +3137,7 @@ Table of Contents
    different from those recommended in this section is to ensure that
    each of those are consistent with what the Group Manager supports,
    e.g., in terms of signature algorithm and format of authentication
-   credentials used in the group.
+   credentials used in the OSCORE group.
 
    This ensures that the Group Manager is able to perform the operations
    defined in this document, e.g., to achieve proof-of-possession of a
