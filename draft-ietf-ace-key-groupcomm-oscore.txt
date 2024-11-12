@@ -24,7 +24,7 @@ Abstract
    group.  This application profile leverages protocol-specific
    transport profiles of ACE to achieve communication security, server
    authentication and proof-of-possession for a key owned by the Client
-   and bound to an OAuth 2.0 Access Token.
+   and bound to an OAuth 2.0 access token.
 
 Status of This Memo
 
@@ -543,9 +543,9 @@ Table of Contents
 
    First, Section 5.1 and Section 5.2 describe how the joining node
    interacts with the AS, in order to be authorized to join an OSCORE
-   group under a given Group Manager and to obtain an Access Token.
+   group under a given Group Manager and to obtain an access token.
    Then, Section 5.3 describes how the joining node transfers the
-   obtained Access Token to the Group Manager.  The following considers
+   obtained access token to the Group Manager.  The following considers
    a joining node that intends to contact the Group Manager for the
    first time.
 
@@ -578,11 +578,11 @@ Table of Contents
    [RFC9594], with the following additions:
 
    *  The AS MUST include the 'expires_in' parameter.  Other means for
-      the AS to specify the lifetime of Access Tokens are out of the
+      the AS to specify the lifetime of access tokens are out of the
       scope of this document.
 
    *  The AS MUST include the 'scope' parameter, when the value included
-      in the Access Token differs from the one specified by the joining
+      in the access token differs from the one specified by the joining
       node in the Authorization Request.  In such a case, the second
       element of each scope entry MUST be present, and specifies the set
       of roles that the joining node is actually authorized to take in
@@ -590,7 +590,7 @@ Table of Contents
       Section 5.1.
 
    Furthermore, the AS MAY use the extended format of scope defined in
-   Section 7 of [RFC9594] for the 'scope' claim of the Access Token.  In
+   Section 7 of [RFC9594] for the 'scope' claim of the access token.  In
    such a case, the AS MUST use the CBOR tag with tag number TAG_NUMBER,
    associated with the CoAP Content-Format CF_ID for the media type
    application/aif+cbor registered in Section 16.9 of this document
@@ -645,7 +645,7 @@ Table of Contents
       private key, upon joining the group (see Section 6.1).
 
       The 'kdcchallenge' parameter MAY be omitted from the Token
-      Transfer Response, if the 'scope' of the Access Token specifies
+      Transfer Response, if the 'scope' of the access token specifies
       only the role "monitor" or only the role "verifier" or only the
       two roles combined, for each and every of the specified groups.
 
@@ -748,7 +748,7 @@ Table of Contents
    In this application profile, this parameter is used to exchange
    information about the ECDH algorithm as well as about the
    authentication credentials and public keys to be used with it, in the
-   groups indicated by the transferred Access Token as per its 'scope'
+   groups indicated by the transferred access token as per its 'scope'
    claim (see Section 3.2 of [RFC9594]).
 
    When used in the Token Transfer Request sent to the Group Manager,
@@ -1003,7 +1003,7 @@ Table of Contents
 
    The value of the N_S challenge is determined as follows.
 
-   1.  If the joining node has provided the Access Token to the Group
+   1.  If the joining node has provided the access token to the Group
        Manager by means of a Token Transfer Request to the /authz-info
        endpoint as in Section 5.3, then N_S takes the same value of the
        most recent 'kdcchallenge' parameter received by the joining node
@@ -1012,8 +1012,8 @@ Table of Contents
        4.00 (Bad Request) error response to a following Join Request
        (see Section 6.2).
 
-   2.  If the provisioning of the Access Token to the Group Manager has
-       relied on the DTLS profile of ACE [RFC9202], and the Access Token
+   2.  If the provisioning of the access token to the Group Manager has
+       relied on the DTLS profile of ACE [RFC9202], and the access token
        was specified:
 
        *  in the "psk_identity" field of the ClientKeyExchange message
@@ -1209,7 +1209,7 @@ Table of Contents
       OSCORE group, and exclusively assigns it to the joining node.  The
       Group Manager MUST NOT assign an OSCORE Sender ID to the joining
       node if this joins the group exclusively with the role of monitor,
-      according to what is specified in the Access Token (see
+      according to what is specified in the access token (see
       Section 5.2).
 
       Consistently with Section 12.2.1.2 of
@@ -1284,8 +1284,8 @@ Table of Contents
          ID assigned to the joining node by the Group Manager, as
          described above.  This parameter MUST be present if and only if
          the node does not join the OSCORE group exclusively with the
-         role of monitor, according to what is specified in the Access
-         Token (see Section 5.2).
+         role of monitor, according to what is specified in the access
+         token (see Section 5.2).
 
       -  The 'cred_fmt' parameter specifies the format of authentication
          credentials used in the OSCORE group.  This parameter MUST be
@@ -1698,8 +1698,8 @@ Table of Contents
    nodes with different roles in the group or as non members (REQ11).
 
    The GROUPNAME segment of the URI path MUST match with the group name
-   specified in the scope entry of the Access Token scope (i.e., 'gname'
-   in Section 3.1 of [RFC9594]) (REQ7).
+   specified in the scope entry of the scope in the access token (i.e.,
+   'gname' in Section 3.1 of [RFC9594]) (REQ7).
 
    The Resource Type (rt=) Link Target Attribute value "core.osc.gm" is
    registered in Section 16.11 (REQ10), and can be used to describe
@@ -1841,15 +1841,15 @@ Table of Contents
 8.4.1.  Signature Verifiers
 
    Just like any candidate group member, a signature verifier provides
-   the Group Manager with an Access Token, as described in Section 5.3.
+   the Group Manager with an access token, as described in Section 5.3.
    However, unlike candidate group members, it does not join any OSCORE
    group, i.e., it does not perform the joining process defined in
    Section 6.
 
-   After successfully transferring an Access Token to the Group Manager,
+   After successfully transferring an access token to the Group Manager,
    a signature verifier is allowed to perform only some operations as
    non-member of a group, and only for the OSCORE groups specified in
-   the validated Access Token.  These are the operations specified in
+   the validated access token.  These are the operations specified in
    Section 9.3, Section 9.5, Section 9.6 and Section 9.10.
 
    Consistently, in case a node is not a member of the group with group
@@ -3019,7 +3019,7 @@ Table of Contents
       these parameters.
 
    *  'kdcchallenge'.  A Client that has an own authentication
-      credential to use in a group and that provides the Access Token to
+      credential to use in a group and that provides the access token to
       the Group Manager through a Token Transfer Request (see
       Section 5.3) MUST support this parameter.
 
@@ -3294,15 +3294,15 @@ Table of Contents
 
    As defined in Section 6.1.1, the way the N_S value is computed
    depends on the particular way the joining node provides the Group
-   Manager with the Access Token, as well as on following interactions
+   Manager with the access token, as well as on following interactions
    between the two.
 
-   *  If the Access Token has not been provided to the Group Manager by
+   *  If the access token has not been provided to the Group Manager by
       means of a Token Transfer Request to the /authz-info endpoint as
       in Section 5.3, then N_S is computed as a 32-byte long challenge.
       For an example, see point (2) of Section 6.1.1.
 
-   *  If the Access Token has been provided to the Group Manager by
+   *  If the access token has been provided to the Group Manager by
       means of a Token Transfer Request to the /authz-info endpoint as
       in Section 5.3, then N_S takes the most recent value provided to
       the Client by the Group Manager in the 'kdcchallenge' parameter,
@@ -3317,14 +3317,14 @@ Table of Contents
 
    *  Let us consider both N_C and N_S as taking random values, and the
       Group Manager to never change the value of the N_S provided to a
-      Client during the lifetime of an Access Token.  Then, as per the
+      Client during the lifetime of an access token.  Then, as per the
       birthday paradox, the average collision for N_S will happen after
-      2^32 new transferred Access Tokens, while the average collision
+      2^32 new transferred access tokens, while the average collision
       for N_C will happen after 2^32 new Join Requests.  This amounts to
       considerably more token provisionings than the expected new
       joinings to OSCORE groups under a same Group Manager, as well as
       to considerably more requests to join OSCORE groups from a same
-      Client using a same Access Token under a same Group Manager.
+      Client using a same access token under a same Group Manager.
 
    *  Section 7 of [RFC9203] as well Appendix B.2 of [RFC8613] recommend
       the use of 8-byte random values as well.  Unlike in those cases,
@@ -3336,7 +3336,7 @@ Table of Contents
 15.3.  Reusage of Nonces for Proof-of-Possession Input
 
    As long as the Group Manager preserves the same N_S value currently
-   associated with an Access Token, i.e., the latest value provided to a
+   associated with an access token, i.e., the latest value provided to a
    Client in a 'kdcchallenge' parameter, the Client is able to
    successfully reuse the same proof-of-possession (PoP) input for
    multiple Join Requests to that Group Manager.
@@ -3349,7 +3349,7 @@ Table of Contents
 
    Unless the Group Manager maintains a list of N_C values already used
    by that Client since the latest update to the N_S value associated
-   with the Access Token, the Group Manager can be forced to falsely
+   with the access token, the Group Manager can be forced to falsely
    believe that the Client possesses its own private key at that point
    in time, upon verifying the PoP evidence in the 'client_cred_verify'
    parameter.
@@ -4034,7 +4034,7 @@ A.1.  Mandatory-to-Address Requirements
       of the "COSE Header Parameters" registry [COSE.Header.Parameters].
 
    *  REQ7 - If the value of the GROUPNAME URI path and the group name
-      in the Access Token scope (gname in Section 3.1 of [RFC9594]) are
+      in the access token scope (gname in Section 3.1 of [RFC9594]) are
       not required to coincide, specify the mechanism to map the
       GROUPNAME value in the URI to the group name: not applicable,
       since a perfect matching is required.
@@ -4151,8 +4151,8 @@ A.2.  Optional-to-Address Requirements
 
       -  'kdc_dh_creds', to ask for and retrieve the Group Manager's
          Diffie-Hellman authentication credentials, in case the joining
-         node supports the pairwise mode of Group OSCORE and the Access
-         Token authorizes to join parwise-only groups (see Section 5.3).
+         node supports the pairwise mode of Group OSCORE and the access
+         token authorizes to join parwise-only groups (see Section 5.3).
 
    *  OPT3 (Optional) - Specify the negotiation of parameter values for
       signature algorithm and signature keys, if 'sign_info' is not
@@ -4355,7 +4355,7 @@ C.3.  Version -14 to -15
 
    *  Updated signaling of semantics for binary encoded scopes.
 
-   *  Considered the upload of Access Tokens in the DTLS 1.3 Handshake.
+   *  Considered the upload of access tokens in the DTLS 1.3 Handshake.
 
    *  Fixes in IANA registrations.
 
@@ -4591,7 +4591,7 @@ C.13.  Version -04 to -05
 
    *  Nonce N_S also in error responses to the Join Requests.
 
-   *  Supporting single Access Token for multiple groups/topics.
+   *  Supporting single access token for multiple groups/topics.
 
    *  Supporting legal requesters/responders using the 'peer_roles'
       parameter.
