@@ -128,7 +128,7 @@ Table of Contents
      16.6.  OSCORE Security Context Parameters
      16.7.  TLS Exporter Labels
      16.8.  AIF Media-Type Sub-Parameters
-     16.9.  CoAP Content-Format
+     16.9.  CoAP Content-Formats
      16.10. Group OSCORE Roles
      16.11. CoRE Resource Type
      16.12. ACE Groupcomm Errors
@@ -3625,7 +3625,7 @@ Table of Contents
 
    *  Reference: [RFC-XXXX]
 
-16.9.  CoAP Content-Format
+16.9.  CoAP Content-Formats
 
    IANA is asked to register the following entries to the "CoAP Content-
    Formats" registry within the "Constrained RESTful Environments (CoRE)
