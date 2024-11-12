@@ -257,17 +257,17 @@ Table of Contents
 
    *  Signature verifier: entity external to the OSCORE group and
       intended to verify the signature of messages exchanged in the
-      group (see Sections 3.1 and 8.5 of
+      group (see Sections 12.3 and 7.5 of
       [I-D.ietf-core-oscore-groupcomm]).  An authorized signature
       verifier does not join the OSCORE group as an actual member, yet
       it can retrieve the authentication credentials of the current
       group members from the Group Manager.
 
    *  Signature-only group: an OSCORE group that uses only the group
-      mode (see Section 8 of [I-D.ietf-core-oscore-groupcomm]).
+      mode (see Section 7 of [I-D.ietf-core-oscore-groupcomm]).
 
    *  Pairwise-only group: an OSCORE group that uses only the pairwise
-      mode (see Section 9 of [I-D.ietf-core-oscore-groupcomm]).
+      mode (see Section 8 of [I-D.ietf-core-oscore-groupcomm]).
 
    Examples throughout this document are expressed in CBOR diagnostic
    notation without the tag and value abbreviations.
@@ -671,7 +671,7 @@ Table of Contents
 
       -  'cred_fmt' takes value from the "Label" column of the "COSE
          Header Parameters" registry [COSE.Header.Parameters] (REQ6).
-         Consistently with Section 2.3 of
+         Consistently with Section 2.4 of
          [I-D.ietf-core-oscore-groupcomm], acceptable values denote a
          format of authentication credential that MUST explicitly
          provide the public key as well as the comprehensive set of
@@ -1118,7 +1118,7 @@ Table of Contents
    In order to prevent the acceptance of Ed25519 and Ed448 public keys
    that cannot be successfully converted to Montgomery coordinates, and
    thus cannot be used for the derivation of pairwise keys (see
-   Section 2.4.1 of [I-D.ietf-core-oscore-groupcomm]), the Group Manager
+   Section 2.5.1 of [I-D.ietf-core-oscore-groupcomm]), the Group Manager
    MAY reply with a 4.00 (Bad Request) error response in case all the
    following conditions hold:
 
@@ -1212,7 +1212,7 @@ Table of Contents
       according to what is specified in the Access Token (see
       Section 5.2).
 
-      Consistently with Section 3.2.1 of
+      Consistently with Section 12.2.1.2 of
       [I-D.ietf-core-oscore-groupcomm], the Group Manager MUST assign an
       OSCORE Sender ID that has not been used in the OSCORE group since
       the latest time when the current Gid value was assigned to the
@@ -1291,7 +1291,7 @@ Table of Contents
          credentials used in the OSCORE group.  This parameter MUST be
          present and it takes value from the "Label" column of the "COSE
          Header Parameters" registry [COSE.Header.Parameters] (REQ6).
-         Consistently with Section 2.3 of
+         Consistently with Section 2.4 of
          [I-D.ietf-core-oscore-groupcomm], acceptable values denote a
          format that MUST explicitly provide the public key as well as a
          comprehensive set of information related to the public key
@@ -1468,17 +1468,17 @@ Table of Contents
 
    *  The 'group_rekeying' parameter MAY be omitted, if the Group
       Manager uses the "Point-to-Point" group rekeying scheme registered
-      in Section 11.12 of [RFC9594] as rekeying scheme in the OSCORE
+      in Section 11.13 of [RFC9594] as rekeying scheme in the OSCORE
       group (OPT9).  Its detailed use for this profile is defined in
       Section 11 of this document.  In any other case, the
       'group_rekeying' parameter MUST be included.
 
    As a last action, if the Group Manager reassigns Gid values during
-   the group's lifetime (see Section 3.2.1.1 of
+   the group's lifetime (see Sections 12.2.1.1 and E of
    [I-D.ietf-core-oscore-groupcomm]), then the Group Manager MUST store
    the Gid specified in the 'contextId' parameter of the 'key'
    parameter, as the Birth Gid of the joining node in the joined group
-   (see Section 3 of [I-D.ietf-core-oscore-groupcomm]).  This applies
+   (see Appendix E of [I-D.ietf-core-oscore-groupcomm]).  This applies
    also in case the joining node is in fact re-joining the group; in
    such a case, the newly determined Birth Gid overwrites the one
    currently stored.
@@ -1527,7 +1527,7 @@ Table of Contents
 
    *  Absent the 'group_rekeying' parameter, the joining node considers
       the "Point-to-Point" group rekeying scheme registered in
-      Section 11.12 of [RFC9594] as the rekeying scheme used in the
+      Section 11.13 of [RFC9594] as the rekeying scheme used in the
       group (OPT9).  Its detailed use for this profile is defined in
       Section 11 of this document.
 
@@ -1563,16 +1563,16 @@ Table of Contents
 
    In a number of cases, the Group Manager has to generate new keying
    material and distribute it to the group (rekeying), as also discussed
-   in Section 3.2 of [I-D.ietf-core-oscore-groupcomm].
+   in Section 12.2 of [I-D.ietf-core-oscore-groupcomm].
 
    To this end the Group Manager MUST support the Group Rekeying Process
    described in Section 11 of this document, as an instance of the
    "Point-to-Point" rekeying scheme defined in Section 6.1 of [RFC9594]
-   and registered in Section 11.12 of [RFC9594].  Future documents may
+   and registered in Section 11.13 of [RFC9594].  Future documents may
    define the use of alternative group rekeying schemes for this
    application profile, together with the corresponding rekeying message
    formats.  The resulting group rekeying process MUST comply with the
-   functional steps defined in Section 3.2 of
+   functional steps defined in Section 12.2 of
    [I-D.ietf-core-oscore-groupcomm].
 
    Upon generating the new group keying material and before starting its
@@ -1604,8 +1604,9 @@ Table of Contents
       every group member to rely on stored authentication credentials,
       in order to confidently assert the group membership of other
       sender nodes, when receiving protected messages in the group (see
-      Section 3.2 of [I-D.ietf-core-oscore-groupcomm]).  More details on
-      the maintenance of stale Sender IDs are provided in Section 7.1.
+      Section 12.2 of [I-D.ietf-core-oscore-groupcomm]).  More details
+      on the maintenance of stale Sender IDs are provided in
+      Section 7.1.
 
    Also, the data distributed through a group rekeying MAY include a new
    value for the Master Salt parameter of the Group OSCORE Common
@@ -1629,7 +1630,7 @@ Table of Contents
       Due to the set of stale Sender IDs distributed through the
       rekeying, this ensures that a node owning the latest group keying
       material does not store the authentication credentials of former
-      group members (see Sections 3.2 and 12.1 of
+      group members (see Sections 12.2 and 13.1 of
       [I-D.ietf-core-oscore-groupcomm]).
 
    When the expiration time for the group keying material approaches or
@@ -1761,7 +1762,7 @@ Table of Contents
    If all verifications succeed, the handler replies with a 2.05
    (Content) response, specifying data that allow also an external
    signature verifier to verify signatures of messages protected with
-   the group mode and sent to the group (see Sections 3.1 and 8.5 of
+   the group mode and sent to the group (see Sections 7.5 and 12.3 of
    [I-D.ietf-core-oscore-groupcomm]).  The response MUST have Content-
    Format set to application/ace-groupcomm+cbor.  The payload of the
    response is a CBOR map, which is formatted as defined in Section 9.6.
@@ -1787,7 +1788,7 @@ Table of Contents
    If all verifications succeed, the handler replies with a 2.05
    (Content) response, specifying data that allow the requesting Client
    to delete the Recipient Contexts and authentication credentials
-   associated with former members of the group (see Section 3.2 of
+   associated with former members of the group (see Section 12.2 of
    [I-D.ietf-core-oscore-groupcomm].  The payload of the response is
    formatted as defined in Section 11.3.1.
 
@@ -1872,7 +1873,7 @@ Table of Contents
    *  GET request to ace-group/GROUPNAME/verif-data, in order for a
       signature verifier to retrieve data required to verify signatures
       of messages protected with the group mode of Group OSCORE and sent
-      to a group (see Sections 3.1 and 8.5 of
+      to a group (see Sections 12.3 and 7.5 of
       [I-D.ietf-core-oscore-groupcomm]).  Note that this operation is
       relevant to support only to signature verifiers.
 
@@ -1961,7 +1962,7 @@ Table of Contents
 
 9.2.  Request to Change Individual Keying Material
 
-   As discussed in Section 2.5.2 of [I-D.ietf-core-oscore-groupcomm], a
+   As discussed in Section 2.6.2 of [I-D.ietf-core-oscore-groupcomm], a
    group member may at some point exhaust its Sender Sequence Numbers in
    the OSCORE group.
 
@@ -2014,7 +2015,7 @@ Table of Contents
           document, specifying the new Sender ID of the group member
           encoded as a CBOR byte string.
 
-          Consistently with Section 2.5.3.1 of
+          Consistently with Section 2.6.3.1 of
           [I-D.ietf-core-oscore-groupcomm], the Group Manager MUST
           assign a new Sender ID that has not been used in the OSCORE
           group since the latest time when the current Gid value was
@@ -2165,9 +2166,10 @@ Table of Contents
 
    A signature verifier may need to retrieve data required to verify
    signatures of messages protected with the group mode and sent to a
-   group (see Sections 3.1 and 8.5 of [I-D.ietf-core-oscore-groupcomm]).
-   To this end, the signature verifier sends a Signature Verification
-   Data Request message to the Group Manager.
+   group (see Sections 7.5 and 12.3 of
+   [I-D.ietf-core-oscore-groupcomm]).  To this end, the signature
+   verifier sends a Signature Verification Data Request message to the
+   Group Manager.
 
    That is, it sends a CoAP GET request to the endpoint /ace-
    group/GROUPNAME/verif-data at the Group Manager defined in
@@ -2193,10 +2195,10 @@ Table of Contents
       defined in Section 16.3.  This parameter specifies the Group
       Encryption Key of the OSCORE Group, encoded as a CBOR byte string.
       The Group Manager derives the Group Encryption Key from the group
-      keying material, as per Section 2.1.6 of
+      keying material, as per Section 2.1.9 of
       [I-D.ietf-core-oscore-groupcomm].  This parameter MUST be present.
 
-   In order to verify signatures in the group (see Section 8.5 of
+   In order to verify signatures in the group (see Section 7.5 of
    [I-D.ietf-core-oscore-groupcomm]), the signature verifier relies on:
    the data retrieved from the 2.05 (Content) Signature Verification
    Data Response; the public keys of the group members signing the
@@ -2357,7 +2359,7 @@ Table of Contents
       Manager (see Section 9.1.1, Section 9.1.2 and Section 9.3).
       However, such messages may specify the current Gid of the group,
       as value of the 'kid_context' field of the OSCORE CoAP option (see
-      Section 6.1 of [RFC8613] and Section 4.2 of
+      Section 6.1 of [RFC8613] and Section 3.2 of
       [I-D.ietf-core-oscore-groupcomm]).
 
    *  As signature verifier, the node also refers to a group name for
@@ -2471,7 +2473,7 @@ Table of Contents
    OSCORE group, e.g., due to expired or revoked authorization.
 
    In either case, if the Group Manager reassigns Gid values during the
-   group's lifetime (see Section 3.2.1.1 of
+   group's lifetime (see Sections 12.2.1.1 and E of
    [I-D.ietf-core-oscore-groupcomm]), the Group Manager "forgets" the
    Birth Gid currently associated with the leaving node in the OSCORE
    group.  This was stored following the Join Response sent to that
@@ -2540,12 +2542,12 @@ Table of Contents
    version number of the group keying material, before starting its
    distribution.
 
-   As per Section 3.2.1.1 of [I-D.ietf-core-oscore-groupcomm], the Group
-   Manager MAY reassign a Gid to the same group over that group's
-   lifetime, e.g., once the whole space of Gid values has been used for
-   the group in question.  If the Group Manager supports reassignment of
-   Gid values and performs it in a group, then the Group Manager
-   additionally takes the following actions.
+   As per Sections 12.2.1.1 and E of [I-D.ietf-core-oscore-groupcomm],
+   the Group Manager MAY reassign a Gid to the same group over that
+   group's lifetime, e.g., once the whole space of Gid values has been
+   used for the group in question.  If the Group Manager supports
+   reassignment of Gid values and performs it in a group, then the Group
+   Manager additionally takes the following actions.
 
    *  Before rekeying the group, the Group Manager MUST check if the new
       Gid to be distributed coincides with the Birth Gid of any of the
@@ -2578,7 +2580,7 @@ Table of Contents
    use defined in Section 11.1 of this document.  Future specifications
    may define how this application profile can use alternative group
    rekeying schemes, which MUST comply with the functional steps defined
-   in Section 3.2 of [I-D.ietf-core-oscore-groupcomm].  The Group
+   in Section 12.2 of [I-D.ietf-core-oscore-groupcomm].  The Group
    Manager MUST indicate the use of such an alternative group rekeying
    scheme to joining nodes, by means of the 'group_rekeying' parameter
    included in Join Response messages (see Section 6.3).
@@ -2715,7 +2717,7 @@ Table of Contents
    detailed in Section 11.1 is used, the stale Sender IDs are specified
    by the 'stale_node_ids' parameter.
 
-   After that, as per Section 3.2 of [I-D.ietf-core-oscore-groupcomm],
+   After that, as per Section 12.2 of [I-D.ietf-core-oscore-groupcomm],
    the group member MUST remove every authentication credential
    associated with a stale Sender ID from its list of group members'
    authentication credentials used in the group, and MUST delete each of
@@ -3228,7 +3230,7 @@ Table of Contents
    OSCORE groups and discussed in the sections of
    [I-D.ietf-core-oscore-groupcomm] referred below.
 
-   *  Management of group keying material (see Section 3.2 of
+   *  Management of group keying material (see Section 12.2 of
       [I-D.ietf-core-oscore-groupcomm]).  The Group Manager is
       responsible for the renewal and re-distribution of the keying
       material in the groups of its competence (rekeying).
@@ -3241,14 +3243,13 @@ Table of Contents
       case backward security has also to be preserved.
 
    *  Provisioning and retrieval of authentication credentials (see
-      Section 3 of [I-D.ietf-core-oscore-groupcomm]).  The Group Manager
-      acts as repository of authentication credentials of group members,
-      and provides them upon request.
+      Section 12 of [I-D.ietf-core-oscore-groupcomm]).  The Group
+      Manager acts as repository of authentication credentials of group
+      members, and provides them upon request.
 
-   *  Synchronization of sequence numbers (see Section 6.3 of
-      [I-D.ietf-core-oscore-groupcomm]).  This concerns how a responder
-      node that has just joined an OSCORE group can synchronize with the
-      sequence number of requesters in the same group.
+   *  Freshness of messages (see Section 5.2 of
+      [I-D.ietf-core-oscore-groupcomm]).  This concerns how a recipient
+      node can assert freshness of messages received within the group.
 
    Before sending the Join Response, the Group Manager MUST verify that
    the joining node actually owns the associated private key.  To this
@@ -3409,7 +3410,7 @@ Table of Contents
 16.3.  ACE Groupcomm Parameters
 
    IANA is asked to register the following entries to the "ACE Groupcomm
-   Parameters" registry defined in Section 11.6 of [RFC9594].
+   Parameters" registry defined in Section 11.7 of [RFC9594].
 
    *  Name: group_senderId
 
@@ -3458,7 +3459,7 @@ Table of Contents
 16.4.  ACE Groupcomm Key Types
 
    IANA is asked to register the following entry to the "ACE Groupcomm
-   Key Types" registry defined in Section 11.7 of [RFC9594].
+   Key Types" registry defined in Section 11.8 of [RFC9594].
 
    *  Name: Group_OSCORE_Input_Material object
 
@@ -3475,7 +3476,7 @@ Table of Contents
 16.5.  ACE Groupcomm Profiles
 
    IANA is asked to register the following entry to the "ACE Groupcomm
-   Profiles" registry defined in Section 11.8 of [RFC9594].
+   Profiles" registry defined in Section 11.9 of [RFC9594].
 
    *  Name: coap_group_oscore_app
 
@@ -3699,7 +3700,7 @@ Table of Contents
 16.12.  ACE Groupcomm Errors
 
    IANA is asked to register the following entries in the "ACE Groupcomm
-   Errors" registry defined in Section 11.11 of [RFC9594].
+   Errors" registry defined in Section 11.12 of [RFC9594].
 
    *  Value: 7
 
@@ -4184,7 +4185,7 @@ A.2.  Optional-to-Address Requirements
    *  OPT9 (Optional) - Define a default group rekeying scheme, to refer
       to in case the 'rekeying_scheme' parameter is not included in the
       Join Response (see Section 4.3.1.1 of [RFC9594]): the "Point-to-
-      Point" rekeying scheme registered in Section 11.12 of [RFC9594],
+      Point" rekeying scheme registered in Section 11.13 of [RFC9594],
       whose detailed use for this profile is defined in Section 11 of
       this document.
 
@@ -4329,6 +4330,8 @@ Appendix C.  Document Updates
 C.1.  Version -16 to -17
 
    *  Updated author list.
+
+   *  Updated references and section numbers of referred documents.
 
    *  Clarifications and editorial fixes.
 
