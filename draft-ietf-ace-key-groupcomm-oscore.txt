@@ -4001,146 +4001,160 @@ Appendix A.  Profile Requirements
 
 A.1.  Mandatory-to-Address Requirements
 
-   *  REQ1 - Specify the format and encoding of 'scope'.  This includes
+   *  REQ1: Specify the format and encoding of scope.  This includes
       defining the set of possible roles and their identifiers, as well
       as the corresponding encoding to use in the scope entries
       according to the used scope format: see Section 3 and Section 5.1.
 
-   *  REQ2 - If the AIF format of 'scope' is used, register its specific
-      instance of "Toid" and "Tperm" as Media Type parameters and a
-      corresponding Content-Format, as per the guidelines in [RFC9237]:
-      see Section 16.8 and Section 16.9.
+   *  REQ2: If scope uses AIF, register its specific instance of "Toid"
+      and "Tperm" as media type parameters and a corresponding Content-
+      Format, as per the guidelines in [RFC9237]: see Section 16.8 and
+      Section 16.9.
 
-   *  REQ3 - if used, specify the acceptable values for 'sign_alg':
-      values from the "Value" column of the "COSE Algorithms" registry
-      [COSE.Algorithms].
+   *  REQ3: If used, specify the acceptable values for the 'sign_alg'
+      parameter: values from the "Value" column of the "COSE Algorithms"
+      registry [COSE.Algorithms].
 
-   *  REQ4 - If used, specify the acceptable values for
-      'sign_parameters': format and values from the COSE algorithm
-      capabilities as specified in the "COSE Algorithms" registry
-      [COSE.Algorithms].
+   *  REQ4: If used, specify the acceptable values and structure for the
+      'sign_parameters' parameter: values and structure from the COSE
+      algorithm capabilities as specified in the "COSE Algorithms"
+      registry [COSE.Algorithms].
 
-   *  REQ5 - If used, specify the acceptable values for
-      'sign_key_parameters': format and values from the COSE key type
-      capabilities as specified in the "COSE Key Types" registry
-      [COSE.Key.Types].
+   *  REQ5: If used, specify the acceptable values and structure for the
+      'sign_key_parameters' parameter: values and structure from the
+      COSE key type capabilities as specified in the "COSE Key Types"
+      registry [COSE.Key.Types].
 
-   *  REQ6 - Specify the acceptable formats for authentication
-      credentials and, if used, the acceptable values for 'cred_fmt':
-      acceptable formats explicitly provide the public key as well as
-      the comprehensive set of information related to the public key
-      algorithm (see Section 5.3 and Section 6.3).  Consistent
-      acceptable values for 'cred_fmt' are taken from the "Label" column
-      of the "COSE Header Parameters" registry [COSE.Header.Parameters].
+   *  REQ6: Specify the acceptable formats for authentication
+      credentials and, if applicable, the acceptable values for the
+      'cred_fmt' parameter: acceptable formats explicitly provide the
+      public key as well as the comprehensive set of information related
+      to the public key algorithm (see Section 5.3 and Section 6.3).
+      Consistent acceptable values for 'cred_fmt' are taken from the
+      "Label" column of the "COSE Header Parameters" registry
+      [COSE.Header.Parameters].
 
-   *  REQ7 - If the value of the GROUPNAME URI path and the group name
-      in the access token scope (gname in Section 3.1 of [RFC9594]) are
-      not required to coincide, specify the mechanism to map the
-      GROUPNAME value in the URI to the group name: not applicable,
-      since a perfect matching is required.
+   *  REQ7: If the value of the GROUPNAME URI path and the group name in
+      the access token scope ('gname') are not required to coincide,
+      specify the mechanism to map the GROUPNAME value in the URI to the
+      group name: not applicable, since a perfect matching is required.
 
-   *  REQ8 - Define whether the KDC has an authentication credential and
-      if this has to be provided through the 'kdc_cred' parameter, see
-      Section 4.1 of [RFC9594]: yes, as required by the Group OSCORE
-      protocol [I-D.ietf-core-oscore-groupcomm], see Section 6.3 of this
-      document.
+   *  REQ8: Define whether the KDC has an authentication credential as
+      required for the correct group operation and if this has to be
+      provided through the 'kdc_cred' parameter: yes, as required by the
+      Group OSCORE protocol [I-D.ietf-core-oscore-groupcomm], see
+      Section 6.3 of this document.
 
-   *  REQ9 - Specify if any part of the KDC interface as defined in
-      Section 4.1 of [RFC9594] is not supported by the KDC: not
-      applicable.
+   *  REQ9: Specify if any part of the KDC interface as defined in
+      [RFC9594] is not supported by the KDC: not applicable.
 
-   *  REQ10 - Register a Resource Type for the root url-path, which is
-      used to discover the correct url to access at the KDC (see
-      Section 4.1 of [RFC9594]): the Resource Type (rt=) Link Target
+   *  REQ10: Register a Resource Type for the group-membership
+      resources, which is used to discover the correct URL for sending a
+      Join Request to the KDC: the Resource Type (rt=) Link Target
       Attribute value "core.osc.gm" is registered in Section 16.11.
 
-   *  REQ11 - Define what specific actions (e.g., CoAP methods) are
-      allowed on each resource provided by the KDC interface, depending
-      on whether the Client is a current group member; the roles that a
-      Client is authorized to take as per the obtained access token; and
-      the roles that the Client has as current group member: see
-      Section 8.4.
+   *  REQ11: Define what specific actions (e.g., CoAP methods) are
+      allowed on each resource accessible through the KDC interface,
+      depending on: whether the Client is a current group member; the
+      roles that a Client is authorized to take as per the obtained
+      access token; and the roles that the Client has as a current group
+      member: see Section 8.4.
 
-   *  REQ12 - Categorize possible newly defined operations for Clients
+   *  REQ12: Categorize possible newly defined operations for Clients
       into primary operations expected to be minimally supported and
       secondary operations, and provide accompanying considerations: see
       Section 8.5.
 
-   *  REQ13 - Specify the encoding of group identifier (see
-      Section 4.2.1 of [RFC9594]): CBOR byte string (see Section 9.10).
+   *  REQ13: Specify the encoding of group identifiers: CBOR byte string
+      (see Section 9.10).
 
-   *  REQ14 - Specify the approaches used to compute and verify the PoP
-      evidence to include in 'client_cred_verify', and which of those
-      approaches is used in which case: see Section 6.1 and Section 6.2.
+   *  REQ14: Specify the approaches used to compute and verify the PoP
+      evidence to include in the 'client_cred_verify' parameter and
+      which of those approaches is used in which case: see Section 6.1
+      and Section 6.2.
 
-   *  REQ15 - Specify how the nonce N_S is generated, if the token is
-      not provided to the KDC through the Token Transfer Request to the
-      authz-info endpoint (e.g., if it is used directly to validate TLS
-      instead): see Section 6.1.1.
+   *  REQ15: Specify how the nonce N_S is generated, if the access token
+      is not provided to the KDC through the Token Transfer Request sent
+      to the /authz-info endpoint (e.g., the access token is instead
+      transferred during the establishment of a secure communication
+      association): see Section 6.1.1.
 
-   *  REQ16 - Define the initial value of the 'num' parameter: the
-      initial value MUST be set to 0 when creating the OSCORE group,
-      e.g., as in [I-D.ietf-ace-oscore-gm-admin].
+   *  REQ16: Define the initial value of the version number for the
+      group keying material: the initial value MUST be set to 0 when
+      creating the OSCORE group, e.g., as in
+      [I-D.ietf-ace-oscore-gm-admin].
 
-   *  REQ17 - Specify the format of the 'key' parameter: see
-      Section 6.3.
+   *  REQ17: Specify the format of the group keying material that is
+      conveyed in the 'key' parameter: see Section 6.3.
 
-   *  REQ18 - Specify acceptable values of the 'gkty' parameter:
+   *  REQ18: Specify the acceptable values of the 'gkty' parameter.  For
+      each of them, register a corresponding entry in the "ACE Groupcomm
+      Key Types" IANA registry if such an entry does not exist already:
       Group_OSCORE_Input_Material object (see Section 6.3).
 
-   *  REQ19 - Specify and register the application profile identifier:
+   *  REQ19: Specify and register the application profile identifier:
       coap_group_oscore_app (see Section 16.5).
 
-   *  REQ20 - If used, specify the format and content of
-      'group_policies' and its entries: see Section 6.3.
+   *  REQ20: If used, specify the format and default values of the
+      entries of the CBOR map to include in the 'group_policies'
+      parameter: see Section 6.3.
 
-   *  REQ21 - Specify the approaches used to compute and verify the PoP
-      evidence to include in 'kdc_cred_verify', and which of those
-      approaches is used in which case: see Section 6.3, Section 6.4 and
-      Section 9.5.
+   *  REQ21: Specify the approaches used to compute and verify the PoP
+      evidence to include in the 'kdc_cred_verify' parameter and which
+      of those approaches is used in which case.  If external signature
+      verifiers are supported, specify how those provide a nonce to the
+      KDC to be used for computing the PoP evidence: see Section 6.3,
+      Section 6.4 and Section 9.5.
 
-   *  REQ22 - Specify the communication protocol that the members of the
-      group must use: CoAP [RFC7252], also for group communication
+   *  REQ22: Specify the communication protocol that members of the
+      group use to communicate with each other (e.g., CoAP for group
+      communication): CoAP [RFC7252], also for group communication
       [I-D.ietf-core-groupcomm-bis].
 
-   *  REQ23 - Specify the security protocols that the group members must
-      use to protect their communication: Group OSCORE
-      [I-D.ietf-core-oscore-groupcomm].
+   *  REQ23: Specify the security protocol that members of the group use
+      to protect the group communication (e.g., Group OSCORE).  This
+      must provide encryption, integrity, and replay protection: Group
+      OSCORE [I-D.ietf-core-oscore-groupcomm].
 
-   *  REQ24 - Specify how the communication is secured between the
-      Client and KDC: by means of any transport profile of ACE [RFC9200]
-      between Client and Group Manager that complies with the
-      requirements in Appendix C of [RFC9200].
+   *  REQ24: Specify how the communication is secured between the Client
+      and the KDC.  Optionally, specify a transport profile of ACE
+      [RFC9200] to use between the Client and the KDC: by means of any
+      transport profile of ACE [RFC9200] between Client and Group
+      Manager that complies with the requirements in Appendix C of
+      [RFC9200].
 
-   *  REQ25 - Specify the format of the identifiers of group members:
-      the Sender ID used in the OSCORE group (see Section 6.3 and
-      Section 9.3).
+   *  REQ25: Specify the format of the node identifiers of group
+      members: the Sender ID used in the OSCORE group (see Section 6.3
+      and Section 9.3).
 
-   *  REQ26 - Specify policies at the KDC to handle member ids that are
-      not included in 'get_creds': see Section 9.3.
+   *  REQ26: Specify policies at the KDC to handle node identifiers that
+      are included in the 'get_creds' parameter but are not associated
+      with any current group member: see Section 9.3.
 
-   *  REQ27 - Specify the format of newly-generated individual keying
-      material for group members, or of the information to derive it,
-      and corresponding CBOR label: see Section 9.2.
+   *  REQ27: Specify the format of (newly generated) individual keying
+      material for group members or of the information to derive such
+      keying material, as well as the corresponding CBOR map key that
+      has to be registered in the "ACE Groupcomm Parameters" registry:
+      see Section 9.2.
 
-   *  REQ28 - Specify which CBOR tag is used for identifying the
+   *  REQ28: Specify which CBOR tag is used for identifying the
       semantics of binary scopes, or register a new CBOR tag if a
       suitable one does not exist already: see Section 5.2.
 
-   *  REQ29 - Categorize newly defined parameters according to the same
+   *  REQ29: Categorize newly defined parameters according to the same
       criteria of Section 8 of [RFC9594]: see Section 12.
 
-   *  REQ30 - Define whether Clients must, should or may support the
-      conditional parameters defined in Section 8 of [RFC9594], and
-      under which circumstances: see Section 12.
+   *  REQ30: Define whether Clients must, should, or may support the
+      conditional parameters defined in Section 8 of [RFC9594] and under
+      which circumstances: see Section 12.
 
 A.2.  Optional-to-Address Requirements
 
-   *  OPT1 (Optional) - If the textual format of 'scope' is used,
-      specify CBOR values to use for abbreviating the role identifiers
-      in the group: not applicable.
+   *  OPT1: Optionally, if the textual format of scope is used, specify
+      CBOR values to use for abbreviating the role identifiers in the
+      group: not applicable.
 
-   *  OPT2 (Optional) - Specify additional parameters used in the
+   *  OPT2: Optionally, specify the additional parameters used in the
       exchange of Token Transfer Request and Response:
 
       -  'ecdh_info', to negotiate the ECDH algorithm, ECDH algorithm
@@ -4154,68 +4168,63 @@ A.2.  Optional-to-Address Requirements
          node supports the pairwise mode of Group OSCORE and the access
          token authorizes to join parwise-only groups (see Section 5.3).
 
-   *  OPT3 (Optional) - Specify the negotiation of parameter values for
-      signature algorithm and signature keys, if 'sign_info' is not
-      used: possible early discovery by using the approach based on the
-      CoRE Resource Directory described in
+   *  OPT3: Optionally, specify the negotiation of parameter values for
+      signature algorithm and signature keys, if the 'sign_info'
+      parameter is not used: possible early discovery by using the
+      approach based on the CoRE Resource Directory described in
       [I-D.tiloca-core-oscore-discovery].
 
-   *  OPT4 (Optional) - Specify possible or required payload formats for
+   *  OPT4: Optionally, specify possible or required payload formats for
       specific error cases: send a 4.00 (Bad Request) error response to
       a Join Request (see Section 6.2).
 
-   *  OPT5 (Optional) - Specify additional identifiers of error types,
-      as values of the 'error' field in an error response from the KDC:
-      see Section 16.12.
+   *  OPT5: Optionally, specify additional identifiers of error types as
+      values of the 'error-id' field within the Custom Problem Detail
+      entry 'ace-groupcomm-error': see Section 16.12.
 
-   *  OPT6 (Optional) - Specify the encoding of 'creds_repo' if the
-      default is not used: no.
+   *  OPT6: Optionally, specify the encoding of the 'creds_repo'
+      parameter if the default one is not used: no.
 
-   *  OPT7 (Optional) - Specify the functionalities implemented at the
-      'control_uri' resource hosted at the Client, including message
-      exchange encoding and other details (see Section 4.3.1 of
-      [RFC9594]): see Section 10 for the eviction of a group member; see
-      Section 11 for the group rekeying process.
+   *  OPT7: Optionally, specify the functionalities implemented at the
+      resource hosted by the Client at the URI indicated in the
+      'control_uri' parameter, including the encoding of exchanged
+      messages and other details: see Section 10 for the eviction of a
+      group member; see Section 11 for the group rekeying process.
 
-   *  OPT8 (Optional) - Specify the behavior of the handler in case of
-      failure to retrieve an authentication credential for the specific
-      node: send a 4.00 (Bad Request) error response to a Join Request
-      (see Section 6.2).
+   *  OPT8: Optionally, specify the behavior of the POST handler of
+      group-membership resources, for the case when it fails to retrieve
+      an authentication credential for the specific Client: send a 4.00
+      (Bad Request) error response to a Join Request (see Section 6.2).
 
-   *  OPT9 (Optional) - Define a default group rekeying scheme, to refer
+   *  OPT9: Optionally, define a default group rekeying scheme to refer
       to in case the 'rekeying_scheme' parameter is not included in the
-      Join Response (see Section 4.3.1.1 of [RFC9594]): the "Point-to-
-      Point" rekeying scheme registered in Section 11.13 of [RFC9594],
-      whose detailed use for this profile is defined in Section 11 of
-      this document.
+      Join Response: the "Point-to-Point" rekeying scheme registered in
+      Section 11.13 of [RFC9594], whose detailed use for this profile is
+      defined in Section 11 of this document.
 
-   *  OPT10 (Optional) - Specify the functionalities implemented at the
-      'control_group_uri' resource hosted at the Client, including
-      message exchange encoding and other details (see Section 4.3.1 of
-      [RFC9594]): see Section 10 for the eviction of multiple group
-      members.
+   *  OPT10: Optionally, specify the functionalities implemented at the
+      resource hosted by the Client at the URI indicated in the
+      'control_group_uri' parameter, including the encoding of exchanged
+      messages and other details: see Section 10 for the eviction of
+      multiple group members.
 
-   *  OPT11 (Optional) - Specify policies that instruct Clients to
-      retain unsuccessfully decrypted messages and for how long, so that
-      they can be decrypted after getting updated keying material: no.
+   *  OPT11: Optionally, specify policies that instruct Clients to
+      retain messages and for how long, if those are unsuccessfully
+      decrypted: no.
 
-   *  OPT12 (Optional) - Specify for the KDC to perform group rekeying
-      (together or instead of renewing individual keying material) when
-      receiving a Key Renewal Request: the Group Manager SHOULD NOT
+   *  OPT12: Optionally, specify for the KDC to perform a group rekeying
+      when receiving a Key Renewal Request, together with or instead of
+      renewing individual keying material: the Group Manager SHOULD NOT
       perform a group rekeying, unless already scheduled to occur
       shortly (see Section 9.2).
 
-   *  OPT13 (Optional) - Specify how the identifier of a group members's
+   *  OPT13: Optionally, specify how the identifier of a group member's
       authentication credential is included in requests sent to other
       group members: no.
 
-   *  OPT14 (Optional) - Specify additional information to include in
+   *  OPT14: Optionally, specify additional information to include in
       rekeying messages for the "Point-to-Point" group rekeying scheme
-      (see Section 6.1 of [RFC9594]): see Section 11.1.
-
-   *  OPT15 (Optional) - Specify if Clients must or should support any
-      of the parameters defined as optional in Section 8 of [RFC9594]:
-      no.
+      (see Section 6 of [RFC9594]): see Section 11.1.
 
 Appendix B.  Extensibility for Future COSE Algorithms
 
@@ -4334,6 +4343,8 @@ C.1.  Version -16 to -17
    *  Updated references and section numbers of referred documents.
 
    *  Fixed name of the error with error code 4.
+
+   *  Aligned requirement formulation with that in RFC 9594.
 
    *  Clarifications and editorial fixes.
 
