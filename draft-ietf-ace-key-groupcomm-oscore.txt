@@ -4,10 +4,8 @@
 
 ACE Working Group                                              M. Tiloca
 Internet-Draft                                                   RISE AB
-Intended status: Standards Track                                 J. Park
-Expires: 16 May 2025                         Universitaet Duisburg-Essen
-                                                            F. Palombini
-                                                             Ericsson AB
+Intended status: Standards Track                            F. Palombini
+Expires: 16 May 2025                                         Ericsson AB
                                                         12 November 2024
 
 
@@ -145,22 +143,23 @@ Table of Contents
      B.1.  Format of 'ecdh_info_entry'
      B.2.  Format of 'key'
    Appendix C.  Document Updates
-     C.1.  Version -15 to -16
-     C.2.  Version -14 to -15
-     C.3.  Version -13 to -14
-     C.4.  Version -12 to -13
-     C.5.  Version -11 to -12
-     C.6.  Version -10 to -11
-     C.7.  Version -09 to -10
-     C.8.  Version -08 to -09
-     C.9.  Version -07 to -08
-     C.10. Version -06 to -07
-     C.11. Version -05 to -06
-     C.12. Version -04 to -05
-     C.13. Version -03 to -04
-     C.14. Version -02 to -03
-     C.15. Version -01 to -02
-     C.16. Version -00 to -01
+     C.1.  Version -16 to -17
+     C.2.  Version -15 to -16
+     C.3.  Version -14 to -15
+     C.4.  Version -13 to -14
+     C.5.  Version -12 to -13
+     C.6.  Version -11 to -12
+     C.7.  Version -10 to -11
+     C.8.  Version -09 to -10
+     C.9.  Version -08 to -09
+     C.10. Version -07 to -08
+     C.11. Version -06 to -07
+     C.12. Version -05 to -06
+     C.13. Version -04 to -05
+     C.14. Version -03 to -04
+     C.15. Version -02 to -03
+     C.16. Version -01 to -02
+     C.17. Version -00 to -01
    Acknowledgments
    Authors' Addresses
 
@@ -4373,7 +4372,13 @@ Appendix C.  Document Updates
 
    This section is to be removed before publishing as an RFC.
 
-C.1.  Version -15 to -16
+C.1.  Version -16 to -17
+
+   *  Updated author list.
+
+   *  Clarifications and editorial fixes.
+
+C.2.  Version -15 to -16
 
    *  Early mentioning of invalid combinations of roles.
 
@@ -4387,7 +4392,7 @@ C.1.  Version -15 to -16
 
    *  Clarifications and editorial fixes.
 
-C.2.  Version -14 to -15
+C.3.  Version -14 to -15
 
    *  Alignment with renaming in draft-ietf-ace-key-groupcomm.
 
@@ -4399,7 +4404,7 @@ C.2.  Version -14 to -15
 
    *  Editorial fixes.
 
-C.3.  Version -13 to -14
+C.4.  Version -13 to -14
 
    *  Major reordering of the document sections.
 
@@ -4411,7 +4416,7 @@ C.3.  Version -13 to -14
 
    *  Clarifications and editorial improvements.
 
-C.4.  Version -12 to -13
+C.5.  Version -12 to -13
 
    *  Renamed parameters about authentication credentials.
 
@@ -4425,7 +4430,7 @@ C.4.  Version -12 to -13
    *  Updated textual description of registered ACE Scope Semantics
       value.
 
-C.5.  Version -11 to -12
+C.6.  Version -11 to -12
 
    *  Clarified semantics of 'ecdh_info' and 'kdc_dh_creds'.
 
@@ -4462,7 +4467,7 @@ C.5.  Version -11 to -12
 
    *  Fixes and editorial improvements.
 
-C.6.  Version -10 to -11
+C.7.  Version -10 to -11
 
    *  Removed redundancy of key type capabilities, from 'sign_info',
       'ecdh_info' and 'key'.
@@ -4509,7 +4514,7 @@ C.6.  Version -10 to -11
    *  General format of parameters related to COSE capabilities,
       supporting future registered COSE algorithms (new Appendix).
 
-C.7.  Version -09 to -10
+C.8.  Version -09 to -10
 
    *  Updated non-recycling policy of Sender IDs.
 
@@ -4529,7 +4534,7 @@ C.7.  Version -09 to -10
 
    *  Renumbered requirements.
 
-C.8.  Version -08 to -09
+C.9.  Version -08 to -09
 
    *  The url-path "ace-group" is used.
 
@@ -4563,7 +4568,7 @@ C.8.  Version -08 to -09
 
    *  Clarifications and editorial revision.
 
-C.9.  Version -07 to -08
+C.10.  Version -07 to -08
 
    *  AIF specific data model to express scope entries.
 
@@ -4582,7 +4587,7 @@ C.9.  Version -07 to -08
 
    *  IANA registrations to support the AIF specific data model.
 
-C.10.  Version -06 to -07
+C.11.  Version -06 to -07
 
    *  Alignments with draft-ietf-core-oscore-groupcomm.
 
@@ -4595,7 +4600,7 @@ C.10.  Version -06 to -07
 
    *  Editorial revision.
 
-C.11.  Version -05 to -06
+C.12.  Version -05 to -06
 
    *  Added role of external signature verifier.
 
@@ -4625,7 +4630,7 @@ C.11.  Version -05 to -06
 
    *  Editorial improvements.
 
-C.12.  Version -04 to -05
+C.13.  Version -04 to -05
 
    *  Nonce N_S also in error responses to the Join Requests.
 
@@ -4655,7 +4660,7 @@ C.12.  Version -04 to -05
 
    *  Added CBOR values to abbreviate role identifiers in the group.
 
-C.13.  Version -03 to -04
+C.14.  Version -03 to -04
 
    *  New abstract.
 
@@ -4677,7 +4682,7 @@ C.13.  Version -03 to -04
 
    *  Editorial improvements.
 
-C.14.  Version -02 to -03
+C.15.  Version -02 to -03
 
    *  New sections, aligned with the interface of ace-key-groupcomm .
 
@@ -4700,7 +4705,7 @@ C.14.  Version -02 to -03
 
    *  More fulfilled profile requirements (Appendix A).
 
-C.15.  Version -01 to -02
+C.16.  Version -01 to -02
 
    *  Editorial fixes.
 
@@ -4739,7 +4744,7 @@ C.15.  Version -01 to -02
    *  Registered one public key encoding in the "ACE Public Key
       Encoding" IANA registry (Section 9).
 
-C.16.  Version -00 to -01
+C.17.  Version -00 to -01
 
    *  Changed name of 'req_aud' to 'audience' in the Authorization
       Request (Section 3.1).
@@ -4760,6 +4765,9 @@ C.16.  Version -00 to -01
 
 Acknowledgments
 
+   Jiye Park contributed as a co-author of initial versions of this
+   document.
+
    The authors sincerely thank Christian Amsüss, Santiago Aragón, Stefan
    Beck, Carsten Bormann, Martin Gunnarsson, Rikard Höglund, Watson
    Ladd, Daniel Migault, Jim Schaad, Ludwig Seitz, Göran Selander and
@@ -4778,14 +4786,6 @@ Authors' Addresses
    SE-164 29 Stockholm Kista
    Sweden
    Email: marco.tiloca@ri.se
-
-
-   Jiye Park
-   Universitaet Duisburg-Essen
-   Schuetzenbahn 70
-   45127 Essen
-   Germany
-   Email: ji-ye.park@uni-due.de
 
 
    Francesca Palombini
