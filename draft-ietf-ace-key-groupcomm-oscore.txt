@@ -618,22 +618,22 @@ Table of Contents
       defined below (OPT2):
 
       -  'ecdh_info' defined in Section 5.3.1 of this document, with
-         value the CBOR simple value "null" (0xf6) to request
-         information about the ECDH algorithm, the ECDH algorithm
-         parameters, the ECDH key parameters and the exact format of
-         authentication credentials used in the groups that the Client
-         has been authorized to join.  This is relevant in case the
-         joining node supports the pairwise mode of Group OSCORE
+         value the CBOR simple value null (0xf6) to request information
+         about the ECDH algorithm, the ECDH algorithm parameters, the
+         ECDH key parameters and the exact format of authentication
+         credentials used in the groups that the Client has been
+         authorized to join.  This is relevant in case the joining node
+         supports the pairwise mode of Group OSCORE
          [I-D.ietf-core-oscore-groupcomm].
 
       -  'kdc_dh_creds' defined in Section 5.3.2 of this document, with
-         value the CBOR simple value "null" (0xf6) to request the
-         Diffie-Hellman authentication credentials of the Group Manager
-         for the groups that the Client has been authorized to join.
-         That is, each of such authentication credentials includes a
-         Diffie-Hellman public key of the Group Manager.  This is
-         relevant in case the joining node supports the pairwise mode of
-         Group OSCORE [I-D.ietf-core-oscore-groupcomm].
+         value the CBOR simple value null (0xf6) to request the Diffie-
+         Hellman authentication credentials of the Group Manager for the
+         groups that the Client has been authorized to join.  That is,
+         each of such authentication credentials includes a Diffie-
+         Hellman public key of the Group Manager.  This is relevant in
+         case the joining node supports the pairwise mode of Group
+         OSCORE [I-D.ietf-core-oscore-groupcomm].
 
       Alternatively, the joining node may retrieve this information by
       other means.
@@ -752,7 +752,7 @@ Table of Contents
    claim (see Section 3.2 of [RFC9594]).
 
    When used in the Token Transfer Request sent to the Group Manager,
-   the 'ecdh_info' parameter has value the CBOR simple value "null"
+   the 'ecdh_info' parameter has value the CBOR simple value null
    (0xf6).  This is done to ask for information about the ECDH algorithm
    as well as about the authentication credentials and public keys to be
    used to compute static-static Diffie-Hellman shared secrets
@@ -861,7 +861,7 @@ Table of Contents
    joining the group (see Section 6.1).
 
    When used in the Token Transfer Request sent to the Group Manager,
-   the 'kdc_dh_creds' parameter has value the CBOR simple value "null"
+   the 'kdc_dh_creds' parameter has value the CBOR simple value null
    (0xf6).  This is done to ask for the Diffie-Hellman authentication
    credentials that the Group Manager uses in the OSCORE groups that the
    Client has been authorized to join.
@@ -958,7 +958,7 @@ Table of Contents
       Section 4).  Otherwise, this parameter MUST NOT be present.
 
       If this parameter is present and its value is not the CBOR simple
-      value "null" (0xf6), each element of the inner CBOR array
+      value null (0xf6), each element of the inner CBOR array
       'role_filter' is encoded as a CBOR unsigned integer, with the same
       value of a permission set ("Tperm") indicating that role or
       combination of roles in a scope entry, as defined in Section 3.
@@ -1396,7 +1396,7 @@ Table of Contents
 
       If the joining node has asked for the authentication credentials
       of all the group members, i.e., 'get_creds' had value the CBOR
-      simple value "null" (0xf6) in the Join Request, then the Group
+      simple value null (0xf6) in the Join Request, then the Group
       Manager provides only the authentication credentials of the group
       members that are relevant to the joining node.  That is, in such a
       case, 'creds' includes only: i) the authentication credentials of
@@ -2049,7 +2049,7 @@ Table of Contents
    *  Each element (if any) of the inner CBOR array 'role_filter' is
       formatted as in the inner CBOR array 'role_filter' of the
       'get_creds' parameter of the Join Request when the parameter value
-      is not the CBOR simple value "null" (0xf6) (see Section 6.1).
+      is not the CBOR simple value null (0xf6) (see Section 6.1).
 
    *  Each element (if any) of the inner CBOR array 'id_filter' is a
       CBOR byte string, which encodes the OSCORE Sender ID of the group
@@ -2295,8 +2295,8 @@ Table of Contents
    OSCORE group.
 
    The payload of the 2.05 (Content) Group Status Response includes the
-   CBOR simple value "true" (0xf5) if the group is currently active, or
-   the CBOR simple value "false" (0xf4) otherwise.  The group is
+   CBOR simple value true (0xf5) if the group is currently active, or
+   the CBOR simple value false (0xf4) otherwise.  The group is
    considered active if it is set to allow new members to join, and if
    communication within the group is fine to happen.
 
@@ -2845,7 +2845,7 @@ Table of Contents
        currently has in the group, and MUST request from the Group
        Manager the authentication credentials of all the current group
        members.  That is, the 'get_creds' parameter of the Join Request
-       MUST be present and MUST be set to the CBOR simple value "null"
+       MUST be present and MUST be set to the CBOR simple value null
        (0xf6).
 
    2.  When receiving the Join Response (see Section 6.4 and
@@ -3394,7 +3394,7 @@ Table of Contents
 
    *  CBOR Key: TBD (range -256 to 255)
 
-   *  Value Type: Simple value "null" / Array
+   *  Value Type: Simple value null / Array
 
    *  Reference: [RFC-XXXX]
 
@@ -3403,7 +3403,7 @@ Table of Contents
 
    *  CBOR Key: TBD (range -256 to 255)
 
-   *  Value Type: Simple value "null" / Array
+   *  Value Type: Simple value null / Array
 
    *  Reference: [RFC-XXXX]
 
