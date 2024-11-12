@@ -345,9 +345,9 @@ Table of Contents
    array [* [Toid, Tperm]], where each [Toid, Tperm] element corresponds
    to one scope entry.
 
-   Furthermore, this document defines the new AIF specific data model
-   AIF-OSCORE-GROUPCOMM, that this profile MUST use to format and encode
-   scope entries.
+   Furthermore, this document defines the new AIF data model AIF-OSCORE-
+   GROUPCOMM, that this profile MUST use to format and encode scope
+   entries.
 
    In particular, the following holds for each scope entry.
 
@@ -4527,7 +4527,7 @@ C.9.  Version -08 to -09
 
 C.10.  Version -07 to -08
 
-   *  AIF specific data model to express scope entries.
+   *  AIF data model to express scope entries.
 
    *  A set of roles is checked as valid when processing the Join
       Request.
@@ -4542,7 +4542,7 @@ C.10.  Version -07 to -08
 
    *  Default values for group configuration parameters.
 
-   *  IANA registrations to support the AIF specific data model.
+   *  IANA registrations to support the AIF data model.
 
 C.11.  Version -06 to -07
 
