@@ -218,7 +218,7 @@ To this end, this profile uses the Authorization Information Format (AIF) {{RFC9
 
 the value of the CBOR byte string used as scope encodes the CBOR array \[* \[Toid, Tperm\]\], where each \[Toid, Tperm\] element corresponds to one scope entry.
 
-Furthermore, this document defines the new AIF specific data model AIF-OSCORE-GROUPCOMM, that this profile MUST use to format and encode scope entries.
+Furthermore, this document defines the new AIF data model AIF-OSCORE-GROUPCOMM, that this profile MUST use to format and encode scope entries.
 
 In particular, the following holds for each scope entry.
 
@@ -2264,7 +2264,7 @@ The format of 'key' (see {{ssec-join-resp}}) is generalized as follows.
 
 ## Version -07 to -08 ## {#sec-07-08}
 
-* AIF specific data model to express scope entries.
+* AIF data model to express scope entries.
 
 * A set of roles is checked as valid when processing the Join Request.
 
@@ -2276,7 +2276,7 @@ The format of 'key' (see {{ssec-join-resp}}) is generalized as follows.
 
 * Default values for group configuration parameters.
 
-* IANA registrations to support the AIF specific data model.
+* IANA registrations to support the AIF data model.
 
 ## Version -06 to -07 ## {#sec-06-07}
 
