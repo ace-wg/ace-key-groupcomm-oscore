@@ -2430,6 +2430,6 @@ The format of 'key' (see {{ssec-join-resp}}) is generalized as follows.
 
 The authors sincerely thank {{{Christian Amsüss}}}, {{{Santiago Aragón}}}, {{{Stefan Beck}}}, {{{Carsten Bormann}}}, {{{Martin Gunnarsson}}}, {{{Rikard Höglund}}}, {{{Watson Ladd}}}, {{{Daniel Migault}}}, {{{Jim Schaad}}}, {{{Ludwig Seitz}}}, {{{Göran Selander}}} and {{{Peter van der Stok}}} for their comments and feedback.
 
-The work on this document has been partly supported by VINNOVA and the Celtic-Next project CRITISEC; by the H2020 project SIFIS-Home (Grant agreement 952652); and by the EIT-Digital High Impact Initiative ACTIVE.
+The work on this document has been partly supported by the Sweden's Innovation Agency VINNOVA and the Celtic-Next projects CRITISEC and CYPRESS; by the H2020 project SIFIS-Home (Grant agreement 952652); and by the EIT-Digital High Impact Initiative ACTIVE.
 
 --- fluff
