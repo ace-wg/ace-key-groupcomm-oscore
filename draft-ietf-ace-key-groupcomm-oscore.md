@@ -1817,7 +1817,7 @@ For the media-types application/aif+cbor and application/aif+json defined in {{S
 * Description/Specification: permissions pertaining OSCORE groups
 * Reference: {{&SELF}}
 
-## CoAP Content-Format {#ssec-iana-coap-content-format-registry}
+## CoAP Content-Formats {#ssec-iana-coap-content-format-registry}
 
 IANA is asked to register the following entries to the "CoAP Content-Formats" registry within the "Constrained RESTful Environments (CoRE) Parameters" registry group.
 
