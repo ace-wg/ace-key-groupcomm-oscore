@@ -1080,8 +1080,8 @@ Table of Contents
       going to join the group exclusively as monitor.  The response MUST
       have Content-Format set to application/ace-groupcomm+cbor and is
       formatted as defined in Section 4.1.2 of [RFC9594].  The value of
-      the 'error' field MUST be set to 4 ("No available node
-      identifiers").
+      the 'error' field MUST be set to 4 ("No available individual
+      keying material").
 
    *  The OSCORE group that the joining node has been trying to join is
       currently inactive (see Section 8.1).  The response MUST have
@@ -2030,8 +2030,8 @@ Table of Contents
           to assign in the OSCORE group.  The response MUST have
           Content-Format set to application/ace-groupcomm+cbor and is
           formatted as defined in Section 4.1.2 of [RFC9594].  The value
-          of the 'error' field MUST be set to 4 ("No available node
-          identifiers").
+          of the 'error' field MUST be set to 4 ("No available
+          individual keying material").
 
 9.3.  Retrieve Authentication Credentials of Group Members
 
@@ -4332,6 +4332,8 @@ C.1.  Version -16 to -17
    *  Updated author list.
 
    *  Updated references and section numbers of referred documents.
+
+   *  Fixed name of the error with error code 4.
 
    *  Clarifications and editorial fixes.
 

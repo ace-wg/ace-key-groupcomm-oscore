@@ -2091,7 +2091,7 @@ then N_S is an exporter value computed as defined in <span><a href="https://rfc-
 <p id="section-6.2-4">The Group Manager <span class="bcp14">MUST</span> reply with a 5.03 (Service Unavailable) error response in the following cases:<a href="#section-6.2-4" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-6.2-5.1">
-            <p id="section-6.2-5.1.1">There are currently no OSCORE Sender IDs available to assign in the OSCORE group and, at the same time, the joining node is not going to join the group exclusively as monitor. The response <span class="bcp14">MUST</span> have Content-Format set to application/ace-groupcomm+cbor and is formatted as defined in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-4.1.2" class="relref">Section 4.1.2</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>. The value of the 'error' field <span class="bcp14">MUST</span> be set to 4 ("No available node identifiers").<a href="#section-6.2-5.1.1" class="pilcrow">¶</a></p>
+            <p id="section-6.2-5.1.1">There are currently no OSCORE Sender IDs available to assign in the OSCORE group and, at the same time, the joining node is not going to join the group exclusively as monitor. The response <span class="bcp14">MUST</span> have Content-Format set to application/ace-groupcomm+cbor and is formatted as defined in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-4.1.2" class="relref">Section 4.1.2</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>. The value of the 'error' field <span class="bcp14">MUST</span> be set to 4 ("No available individual keying material").<a href="#section-6.2-5.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-6.2-5.2">
             <p id="section-6.2-5.2.1">The OSCORE group that the joining node has been trying to join is currently inactive (see <a href="#ssec-resource-active" class="auto internal xref">Section 8.1</a>). The response <span class="bcp14">MUST</span> have Content-Format set to application/ace-groupcomm+cbor and is formatted as defined in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-4.1.2" class="relref">Section 4.1.2</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>. The value of the 'error' field <span class="bcp14">MUST</span> be set to 9 ("Group currently not active").<a href="#section-6.2-5.2.1" class="pilcrow">¶</a></p>
@@ -2710,7 +2710,7 @@ Consistently with <span><a href="https://datatracker.ietf.org/doc/html/draft-iet
 <p id="section-9.2-6.2.2.2.3">
 Furthermore, the Group Manager <span class="bcp14">MUST</span> add the old, relinquished Sender ID of the group member to the most recent set of stale Sender IDs for the group (see <a href="#sssec-stale-sender-ids" class="auto internal xref">Section 7.1</a>).<a href="#section-9.2-6.2.2.2.3" class="pilcrow">¶</a></p>
 <p id="section-9.2-6.2.2.2.4">
-The Group Manager <span class="bcp14">MUST</span> return a 5.03 (Service Unavailable) response in case there are currently no Sender IDs available to assign in the OSCORE group. The response <span class="bcp14">MUST</span> have Content-Format set to application/ace-groupcomm+cbor and is formatted as defined in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-4.1.2" class="relref">Section 4.1.2</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>. The value of the 'error' field <span class="bcp14">MUST</span> be set to 4 ("No available node identifiers").<a href="#section-9.2-6.2.2.2.4" class="pilcrow">¶</a></p>
+The Group Manager <span class="bcp14">MUST</span> return a 5.03 (Service Unavailable) response in case there are currently no Sender IDs available to assign in the OSCORE group. The response <span class="bcp14">MUST</span> have Content-Format set to application/ace-groupcomm+cbor and is formatted as defined in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-4.1.2" class="relref">Section 4.1.2</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>. The value of the 'error' field <span class="bcp14">MUST</span> be set to 4 ("No available individual keying material").<a href="#section-9.2-6.2.2.2.4" class="pilcrow">¶</a></p>
 </li>
             </ul>
 </li>
@@ -4647,7 +4647,10 @@ For example, if 'ecdh_params'[0][0] specifies the key type as capability of the 
             <p id="appendix-C.1-1.2.1">Updated references and section numbers of referred documents.<a href="#appendix-C.1-1.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-C.1-1.3">
-            <p id="appendix-C.1-1.3.1">Clarifications and editorial fixes.<a href="#appendix-C.1-1.3.1" class="pilcrow">¶</a></p>
+            <p id="appendix-C.1-1.3.1">Fixed name of the error with error code 4.<a href="#appendix-C.1-1.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-C.1-1.4">
+            <p id="appendix-C.1-1.4.1">Clarifications and editorial fixes.<a href="#appendix-C.1-1.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
