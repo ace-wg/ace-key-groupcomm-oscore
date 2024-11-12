@@ -347,9 +347,9 @@ The exchange of Token Transfer Request and Token Transfer Response is defined in
 
 * The Token Transfer Request MAY additionally contain the following parameters, which, if included, MUST have the corresponding values defined below (OPT2):
 
-   - 'ecdh_info' defined in {{ecdh-info}} of this document, with value the CBOR simple value "null" (0xf6) to request information about the ECDH algorithm, the ECDH algorithm parameters, the ECDH key parameters and the exact format of authentication credentials used in the groups that the Client has been authorized to join. This is relevant in case the joining node supports the pairwise mode of Group OSCORE {{I-D.ietf-core-oscore-groupcomm}}.
+   - 'ecdh_info' defined in {{ecdh-info}} of this document, with value the CBOR simple value `null` (0xf6) to request information about the ECDH algorithm, the ECDH algorithm parameters, the ECDH key parameters and the exact format of authentication credentials used in the groups that the Client has been authorized to join. This is relevant in case the joining node supports the pairwise mode of Group OSCORE {{I-D.ietf-core-oscore-groupcomm}}.
 
-   - 'kdc_dh_creds' defined in {{gm-dh-info}} of this document, with value the CBOR simple value "null" (0xf6) to request the Diffie-Hellman authentication credentials of the Group Manager for the groups that the Client has been authorized to join. That is, each of such authentication credentials includes a Diffie-Hellman public key of the Group Manager. This is relevant in case the joining node supports the pairwise mode of Group OSCORE {{I-D.ietf-core-oscore-groupcomm}}.
+   - 'kdc_dh_creds' defined in {{gm-dh-info}} of this document, with value the CBOR simple value `null` (0xf6) to request the Diffie-Hellman authentication credentials of the Group Manager for the groups that the Client has been authorized to join. That is, each of such authentication credentials includes a Diffie-Hellman public key of the Group Manager. This is relevant in case the joining node supports the pairwise mode of Group OSCORE {{I-D.ietf-core-oscore-groupcomm}}.
 
    Alternatively, the joining node may retrieve this information by other means.
 
@@ -393,7 +393,7 @@ This parameter allows the Client and the RS to exchange information about an ECD
 
 In this application profile, this parameter is used to exchange information about the ECDH algorithm as well as about the authentication credentials and public keys to be used with it, in the groups indicated by the transferred access token as per its 'scope' claim (see {{Section 3.2 of RFC9594}}).
 
-When used in the Token Transfer Request sent to the Group Manager, the 'ecdh_info' parameter has value the CBOR simple value "null" (0xf6). This is done to ask for information about the ECDH algorithm as well as about the authentication credentials and public keys to be used to compute static-static Diffie-Hellman shared secrets {{NIST-800-56A}}, in the OSCORE groups that the Client has been authorized to join and that use the pairwise mode of Group OSCORE {{I-D.ietf-core-oscore-groupcomm}}.
+When used in the Token Transfer Request sent to the Group Manager, the 'ecdh_info' parameter has value the CBOR simple value `null` (0xf6). This is done to ask for information about the ECDH algorithm as well as about the authentication credentials and public keys to be used to compute static-static Diffie-Hellman shared secrets {{NIST-800-56A}}, in the OSCORE groups that the Client has been authorized to join and that use the pairwise mode of Group OSCORE {{I-D.ietf-core-oscore-groupcomm}}.
 
 When used in the following Token Transfer Response from the Group Manager, the 'ecdh_info' parameter is a CBOR array of one or more elements. The number of elements is at most the number of OSCORE groups that the Client has been authorized to join.
 
@@ -444,7 +444,7 @@ This parameter allows the Client to request and retrieve the Diffie-Hellman auth
 
 In this application profile, this parameter is used to request and retrieve from the Group Manager its Diffie-Hellman authentication credentials to use, in the OSCORE groups that the Client has been authorized to join. The Group Manager has a Diffie-Hellman authentication credential in an OSCORE group if and only if the group is a pairwise-only group. In this case, the early retrieval of the Group Manager's authentication credential is necessary in order for the joining node to prove the possession of its own private key, upon joining the group (see {{ssec-join-req-sending}}).
 
-When used in the Token Transfer Request sent to the Group Manager, the 'kdc_dh_creds' parameter has value the CBOR simple value "null" (0xf6). This is done to ask for the Diffie-Hellman authentication credentials that the Group Manager uses in the OSCORE groups that the Client has been authorized to join.
+When used in the Token Transfer Request sent to the Group Manager, the 'kdc_dh_creds' parameter has value the CBOR simple value `null` (0xf6). This is done to ask for the Diffie-Hellman authentication credentials that the Group Manager uses in the OSCORE groups that the Client has been authorized to join.
 
 When used in the following Token Transfer Response from the Group Manager, the 'kdc_dh_creds' parameter is a CBOR array of one or more elements. The number of elements is at most the number of OSCORE groups that the Client has been authorized to join.
 
@@ -493,7 +493,7 @@ The joining node requests to join the OSCORE group by sending a Join Request mes
 
 * The 'get_creds' parameter is present only if the joining node wants to retrieve the authentication credentials of the group members from the Group Manager during the joining process (see {{sec-public-keys-of-joining-nodes}}). Otherwise, this parameter MUST NOT be present.
 
-   If this parameter is present and its value is not the CBOR simple value "null" (0xf6), each element of the inner CBOR array 'role_filter' is encoded as a CBOR unsigned integer, with the same value of a permission set ("Tperm") indicating that role or combination of roles in a scope entry, as defined in {{sec-format-scope}}.
+   If this parameter is present and its value is not the CBOR simple value `null` (0xf6), each element of the inner CBOR array 'role_filter' is encoded as a CBOR unsigned integer, with the same value of a permission set ("Tperm") indicating that role or combination of roles in a scope entry, as defined in {{sec-format-scope}}.
 
 * 'cnonce' contains a dedicated nonce N_C generated by the joining node. For the N\_C value, it is RECOMMENDED to use an 8-byte long random nonce.
 
@@ -679,7 +679,7 @@ Furthermore, the following applies.
 
 * The 'creds' parameter, if present, includes the authentication credentials requested by the joining node by means of the 'get_creds' parameter in the Join Request.
 
-   If the joining node has asked for the authentication credentials of all the group members, i.e., 'get_creds' had value the CBOR simple value "null" (0xf6) in the Join Request, then the Group Manager provides only the authentication credentials of the group members that are relevant to the joining node. That is, in such a case, 'creds' includes only: i) the authentication credentials of the responders currently in the OSCORE group, in case the joining node is configured (also) as requester; and ii) the authentication credentials of the requesters currently in the OSCORE group, in case the joining node is configured (also) as responder or monitor.
+   If the joining node has asked for the authentication credentials of all the group members, i.e., 'get_creds' had value the CBOR simple value `null` (0xf6) in the Join Request, then the Group Manager provides only the authentication credentials of the group members that are relevant to the joining node. That is, in such a case, 'creds' includes only: i) the authentication credentials of the responders currently in the OSCORE group, in case the joining node is configured (also) as requester; and ii) the authentication credentials of the requesters currently in the OSCORE group, in case the joining node is configured (also) as responder or monitor.
 
 * The 'peer_identifiers' parameter includes the OSCORE Sender ID of each group member whose authentication credential is specified in the 'creds' parameter. That is, a group member's Sender ID is used as identifier for that group member (REQ25).
 
@@ -992,7 +992,7 @@ A group member or a signature verifier may need to retrieve the authentication c
 
 If the Authentication Credential Request uses the method FETCH, the Authentication Credential Request is formatted as defined in {{Section 4.4.1 of RFC9594}}. That is:
 
-* Each element (if any) of the inner CBOR array 'role_filter' is formatted as in the inner CBOR array 'role_filter' of the 'get_creds' parameter of the Join Request when the parameter value is not the CBOR simple value "null" (0xf6) (see {{ssec-join-req-sending}}).
+* Each element (if any) of the inner CBOR array 'role_filter' is formatted as in the inner CBOR array 'role_filter' of the 'get_creds' parameter of the Join Request when the parameter value is not the CBOR simple value `null` (0xf6) (see {{ssec-join-req-sending}}).
 
 * Each element (if any) of the inner CBOR array 'id_filter' is a CBOR byte string, which encodes the OSCORE Sender ID of the group member for which the associated authentication credential is requested (REQ25).
 
@@ -1122,7 +1122,7 @@ A group member may request the current status of the OSCORE group, i.e., active 
 
 That is, the group member sends a CoAP GET request to the endpoint /ace-group/GROUPNAME/active at the Group Manager defined in {{ssec-resource-active}} of this document, where GROUPNAME is the name of the OSCORE group.
 
-The payload of the 2.05 (Content) Group Status Response includes the CBOR simple value "true" (0xf5) if the group is currently active, or the CBOR simple value "false" (0xf4) otherwise. The group is considered active if it is set to allow new members to join, and if communication within the group is fine to happen.
+The payload of the 2.05 (Content) Group Status Response includes the CBOR simple value `true` (0xf5) if the group is currently active, or the CBOR simple value `false` (0xf4) otherwise. The group is considered active if it is set to allow new members to join, and if communication within the group is fine to happen.
 
 Upon learning from a 2.05 (Content) response that the group is currently inactive, the group member SHOULD stop taking part in communications within the group, until it becomes active again.
 
@@ -1367,7 +1367,7 @@ If case (c) or case (d) applies, the group member SHOULD perform the following a
 
 If case (c) or case (d) applies, the group member can alternatively perform the following actions.
 
-1. The group member re-joins the group (see {{ssec-join-req-sending}}). When doing so, the group member MUST re-join with the same roles it currently has in the group, and MUST request from the Group Manager the authentication credentials of all the current group members. That is, the 'get_creds' parameter of the Join Request MUST be present and MUST be set to the CBOR simple value "null" (0xf6).
+1. The group member re-joins the group (see {{ssec-join-req-sending}}). When doing so, the group member MUST re-join with the same roles it currently has in the group, and MUST request from the Group Manager the authentication credentials of all the current group members. That is, the 'get_creds' parameter of the Join Request MUST be present and MUST be set to the CBOR simple value `null` (0xf6).
 
 2. When receiving the Join Response (see {{ssec-join-resp-processing}} and {{ssec-join-resp-processing}}), the group member retrieves the set Z of authentication credentials specified in the 'creds' parameter.
 
@@ -1661,14 +1661,14 @@ IANA is asked to register the following entries to the "OAuth Parameters CBOR Ma
 
 * Name: ecdh_info
 * CBOR Key: TBD (range -256 to 255)
-* Value Type: Simple value "null" / Array
+* Value Type: Simple value `null` / Array
 * Reference: {{&SELF}}
 
 &nbsp;
 
 * Name: kdc_dh_creds
 * CBOR Key: TBD (range -256 to 255)
-* Value Type: Simple value "null" / Array
+* Value Type: Simple value `null` / Array
 * Reference: {{&SELF}}
 
 ## ACE Groupcomm Parameters {#ssec-iana-ace-groupcomm-parameters-registry}
