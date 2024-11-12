@@ -32,15 +32,6 @@ author:
     country: Sweden
     email: marco.tiloca@ri.se
 -
-    ins: J. Park
-    name: Jiye Park
-    org: Universitaet Duisburg-Essen
-    street: Schuetzenbahn 70
-    city: Essen
-    code: 45127
-    country: Germany
-    email: ji-ye.park@uni-due.de
--
     ins: F. Palombini
     name: Francesca Palombini
     org: Ericsson AB
@@ -2093,6 +2084,12 @@ The format of 'key' (see {{ssec-join-resp}}) is generalized as follows.
 # Document Updates # {#sec-document-updates}
 {:removeinrfc}
 
+## Version -16 to -17 ## {#sec-16-17}
+
+* Updated author list.
+
+* Clarifications and editorial fixes.
+
 ## Version -15 to -16 ## {#sec-15-16}
 
 * Early mentioning of invalid combinations of roles.
@@ -2427,6 +2424,8 @@ The format of 'key' (see {{ssec-join-resp}}) is generalized as follows.
 
 # Acknowledgments {#sec-acknowledgments}
 {: numbered="no"}
+
+Jiye Park contributed as a co-author of initial versions of this document.
 
 The authors sincerely thank {{{Christian Amsüss}}}, {{{Santiago Aragón}}}, {{{Stefan Beck}}}, {{{Carsten Bormann}}}, {{{Martin Gunnarsson}}}, {{{Rikard Höglund}}}, {{{Watson Ladd}}}, {{{Daniel Migault}}}, {{{Jim Schaad}}}, {{{Ludwig Seitz}}}, {{{Göran Selander}}} and {{{Peter van der Stok}}} for their comments and feedback.
 
