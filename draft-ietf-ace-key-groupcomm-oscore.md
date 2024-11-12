@@ -63,8 +63,8 @@ normative:
   RFC9203:
   RFC9237:
   RFC9277:
+  RFC9594:
   I-D.ietf-core-oscore-groupcomm:
-  I-D.ietf-ace-key-groupcomm:
   NIST-800-56A:
     author:
       -
@@ -138,7 +138,7 @@ Object Security for Constrained RESTful Environments (OSCORE) {{RFC8613}} is a m
 
 As described in {{I-D.ietf-core-oscore-groupcomm}}, Group OSCORE is used to protect CoAP group communication {{I-D.ietf-core-groupcomm-bis}}, which can employ, for example, IP multicast as underlying data transport. This relies on a Group Manager, which is responsible for managing an OSCORE group and enables the group members to exchange CoAP messages secured with Group OSCORE. The Group Manager can be responsible for multiple groups, coordinates the joining process of new group members, and is entrusted with the distribution and renewal of group keying material.
 
-This document is an application profile of {{I-D.ietf-ace-key-groupcomm}}, which itself builds on the ACE framework for Authentication and Authorization {{RFC9200}}. Message exchanges among the participants as well as message formats and processing follow what specified in {{I-D.ietf-ace-key-groupcomm}} for provisioning and renewing keying material in group communication scenarios, where Group OSCORE is used to protect CoAP group communication.
+This document is an application profile of {{RFC9594}}, which itself builds on the ACE framework for Authentication and Authorization {{RFC9200}}. Message exchanges among the participants as well as message formats and processing follow what specified in {{RFC9594}} for provisioning and renewing keying material in group communication scenarios, where Group OSCORE is used to protect CoAP group communication.
 
 ## Terminology {#ssec-terminology}
 
@@ -148,7 +148,7 @@ Readers are expected to be familiar with:
 
 * The terms and concepts described in the ACE framework for authentication and authorization {{RFC9200}} and in the Authorization Information Format (AIF) {{RFC9237}} to express authorization information. The terminology for entities in the considered architecture is defined in OAuth 2.0 {{RFC6749}}. This includes Client (C), Resource Server (RS), and Authorization Server (AS).
 
-* The terms and concepts related to the message formats and processing specified in {{I-D.ietf-ace-key-groupcomm}}, for provisioning and renewing keying material in group communication scenarios. These include the abbreviations REQx and OPTx denoting the numbered mandatory-to-address and optional-to-address requirements, respectively.
+* The terms and concepts related to the message formats and processing specified in {{RFC9594}}, for provisioning and renewing keying material in group communication scenarios. These include the abbreviations REQx and OPTx denoting the numbered mandatory-to-address and optional-to-address requirements, respectively.
 
 * The terms and concepts described in CBOR {{RFC8949}} and COSE {{RFC9052}}{{RFC9053}}.
 
@@ -180,9 +180,9 @@ Examples throughout this document are expressed in CBOR diagnostic notation with
 
 Group communication for CoAP has been enabled in {{I-D.ietf-core-groupcomm-bis}} and can be secured with Group Object Security for Constrained RESTful Environments (Group OSCORE) as specified in {{I-D.ietf-core-oscore-groupcomm}}. A network node joins an OSCORE group by interacting with the responsible Group Manager. Once registered in the group, the new node can securely exchange messages with other group members.
 
-This document describes how to use {{I-D.ietf-ace-key-groupcomm}} and {{RFC9200}} to perform a number of authentication, authorization and key distribution actions as overviewed in {{Section 2 of I-D.ietf-ace-key-groupcomm}}, when the considered group is specifically an OSCORE group.
+This document describes how to use {{RFC9594}} and {{RFC9200}} to perform a number of authentication, authorization and key distribution actions as overviewed in {{Section 2 of RFC9594}}, when the considered group is specifically an OSCORE group.
 
-With reference to {{I-D.ietf-ace-key-groupcomm}}:
+With reference to {{RFC9594}}:
 
 * The node wishing to join the OSCORE group, i.e., the joining node, is the Client.
 
@@ -190,25 +190,25 @@ With reference to {{I-D.ietf-ace-key-groupcomm}}:
 
 * The Authorization Server associated with the Group Manager is the AS.
 
-A node performs the steps described in {{Sections 3 and 4.3.1.1 of I-D.ietf-ace-key-groupcomm}} in order to obtain an authorization for joining an OSCORE group and then to join that group. The format and processing of messages exchanged during such steps are further specified in {{sec-joining-node-to-AS}} and {{sec-joining-node-to-GM}} of this document.
+A node performs the steps described in {{Sections 3 and 4.3.1.1 of RFC9594}} in order to obtain an authorization for joining an OSCORE group and then to join that group. The format and processing of messages exchanged during such steps are further specified in {{sec-joining-node-to-AS}} and {{sec-joining-node-to-GM}} of this document.
 
 All communications between the involved entities MUST be secured.
 
 In particular, communications between the Client and the Group Manager leverage protocol-specific transport profiles of ACE to achieve communication security, proof-of-possession and server authentication. It is expected that, in the commonly referred base-case of this document, the transport profile to use is pre-configured and well-known to nodes participating in constrained applications.
 
-With respect to what is defined in {{I-D.ietf-ace-key-groupcomm}}:
+With respect to what is defined in {{RFC9594}}:
 
-* The interface provided by the Group Manager extends the original interface defined in {{Section 4.1 of I-D.ietf-ace-key-groupcomm}} for the KDC, as specified in {{sec-interface-GM}} of this document.
+* The interface provided by the Group Manager extends the original interface defined in {{Section 4.1 of RFC9594}} for the KDC, as specified in {{sec-interface-GM}} of this document.
 
-* In addition to those defined in {{Section 8 of I-D.ietf-ace-key-groupcomm}}, additional parameters are defined in this document and summarized in {{ace-groupcomm-params}}.
+* In addition to those defined in {{Section 8 of RFC9594}}, additional parameters are defined in this document and summarized in {{ace-groupcomm-params}}.
 
-* In addition to those defined in {{Section 9 of I-D.ietf-ace-key-groupcomm}}, additional error identifiers are defined in this document and summarized in {{error-types}}.
+* In addition to those defined in {{Section 9 of RFC9594}}, additional error identifiers are defined in this document and summarized in {{error-types}}.
 
-Finally, {{profile-req}} lists the specifications on this application profile of ACE, based on the requirements defined in Appendix A of {{I-D.ietf-ace-key-groupcomm}}.
+Finally, {{profile-req}} lists the specifications on this application profile of ACE, based on the requirements defined in {{Section A of RFC9594}}.
 
 # Format of Scope {#sec-format-scope}
 
-Building on {{Section 3.1 of I-D.ietf-ace-key-groupcomm}}, this section defines the exact format and encoding of scope used in this profile.
+Building on {{Section 3.1 of RFC9594}}, this section defines the exact format and encoding of scope used in this profile.
 
 To this end, this profile uses the Authorization Information Format (AIF) {{RFC9237}}. With reference to the generic AIF model
 
@@ -309,15 +309,15 @@ In particular, the following applies when a node joins an OSCORE group.
 
 # Authorization to Join a Group {#sec-joining-node-to-AS}
 
-This section builds on {{Section 3 of I-D.ietf-ace-key-groupcomm}} and is organized as follows.
+This section builds on {{Section 3 of RFC9594}} and is organized as follows.
 
 First, {{ssec-auth-req}} and {{ssec-auth-resp}} describe how the joining node interacts with the AS, in order to be authorized to join an OSCORE group under a given Group Manager and to obtain an Access Token. Then, {{ssec-token-post}} describes how the joining node transfers the obtained Access Token to the Group Manager. The following considers a joining node that intends to contact the Group Manager for the first time.
 
-Note that what is defined in {{Section 3 of I-D.ietf-ace-key-groupcomm}} applies, and only additions or modifications to that specification are defined in this document.
+Note that what is defined in {{Section 3 of RFC9594}} applies, and only additions or modifications to that specification are defined in this document.
 
 ## Authorization Request {#ssec-auth-req}
 
-The Authorization Request message is as defined in {{Section 3.1 of I-D.ietf-ace-key-groupcomm}}, with the following additions.
+The Authorization Request message is as defined in {{Section 3.1 of RFC9594}}, with the following additions.
 
 * If the 'scope' parameter is present:
 
@@ -329,13 +329,13 @@ The Authorization Request message is as defined in {{Section 3.1 of I-D.ietf-ace
 
 ## Authorization Response {#ssec-auth-resp}
 
-The Authorization Response message is as defined in {{Section 3.2 of I-D.ietf-ace-key-groupcomm}}, with the following additions:
+The Authorization Response message is as defined in {{Section 3.2 of RFC9594}}, with the following additions:
 
 * The AS MUST include the 'expires_in' parameter. Other means for the AS to specify the lifetime of Access Tokens are out of the scope of this document.
 
 * The AS MUST include the 'scope' parameter, when the value included in the Access Token differs from the one specified by the joining node in the Authorization Request. In such a case, the second element of each scope entry MUST be present, and specifies the set of roles that the joining node is actually authorized to take in the OSCORE group for that scope entry, encoded as specified in {{ssec-auth-req}}.
 
-Furthermore, the AS MAY use the extended format of scope defined in {{Section 7 of I-D.ietf-ace-key-groupcomm}} for the 'scope' claim of the Access Token. In such a case, the AS MUST use the CBOR tag with tag number TAG_NUMBER, associated with the CoAP Content-Format CF_ID for the media type application/aif+cbor registered in {{ssec-iana-coap-content-format-registry}} of this document (REQ28).
+Furthermore, the AS MAY use the extended format of scope defined in {{Section 7 of RFC9594}} for the 'scope' claim of the Access Token. In such a case, the AS MUST use the CBOR tag with tag number TAG_NUMBER, associated with the CoAP Content-Format CF_ID for the media type application/aif+cbor registered in {{ssec-iana-coap-content-format-registry}} of this document (REQ28).
 
 Note to RFC Editor: In the previous paragraph, please replace "TAG_NUMBER" with the CBOR tag number computed as TN(ct) in {{Section 4.3 of RFC9277}}, where ct is the ID assigned to the CoAP Content-Format registered in {{ssec-iana-coap-content-format-registry}} of this document. Then, please replace "CF_ID" with the ID assigned to that CoAP Content-Format. Finally, please delete this paragraph.
 
@@ -343,7 +343,7 @@ This indicates that the binary encoded scope, as conveying the actual access con
 
 ## Token Transferring {#ssec-token-post}
 
-The exchange of Token Transfer Request and Token Transfer Response is defined in {{Section 3.3 of I-D.ietf-ace-key-groupcomm}}. In addition to that, the following applies.
+The exchange of Token Transfer Request and Token Transfer Response is defined in {{Section 3.3 of RFC9594}}. In addition to that, the following applies.
 
 * The Token Transfer Request MAY additionally contain the following parameters, which, if included, MUST have the corresponding values defined below (OPT2):
 
@@ -375,7 +375,7 @@ The exchange of Token Transfer Request and Token Transfer Response is defined in
 
      \[ As to C509 certificates, the COSE Header Parameters 'c5b' and 'c5c' are under pending registration requested by draft-ietf-cose-cbor-encoded-cert. \]
 
-  This format is consistent with every signature algorithm currently considered in {{RFC9053}}, i.e., with algorithms that have only the COSE key type as their COSE capability. Appendix B of {{I-D.ietf-ace-key-groupcomm}} describes how the format of each 'sign_info_entry' can be generalized for possible future registered algorithms having a different set of COSE capabilities.
+  This format is consistent with every signature algorithm currently considered in {{RFC9053}}, i.e., with algorithms that have only the COSE key type as their COSE capability. {{Section B of RFC9594}} describes how the format of each 'sign_info_entry' can be generalized for possible future registered algorithms having a different set of COSE capabilities.
 
 * If 'ecdh_info' is included in the Token Transfer Request, the Group Manager SHOULD include the 'ecdh_info' parameter in the Token Transfer Response, as per the format defined in {{ecdh-info}}. Note that the field 'id' of each 'ecdh_info_entry' specifies the name, or array of group names, for which that 'ecdh_info_entry' applies to.
 
@@ -383,7 +383,7 @@ The exchange of Token Transfer Request and Token Transfer Response is defined in
 
 * If 'kdc_dh_creds' is included in the Token Transfer Request and any of the groups that the Client has been authorized to join is a pairwise-only group, then the Group Manager MUST include the 'kdc_dh_creds' parameter in the Token Transfer Response, as per the format defined in {{gm-dh-info}}. Otherwise, if 'kdc_dh_creds' is included in the Token Transfer Request, the Group Manager MAY include the 'kdc_dh_creds' parameter in the Token Transfer Response. Note that the field 'id' specifies the group name, or array of group names, for which the corresponding 'kdc_dh_creds' applies to.
 
-Note that, other than through the above parameters as defined in {{Section 3.3 of I-D.ietf-ace-key-groupcomm}}, the joining node may have obtained such information by alternative means. For example, information conveyed in the 'sign_info' and 'ecdh_info' parameters may have been pre-configured, or the joining node may early retrieve it, e.g., by using the approach described in {{I-D.tiloca-core-oscore-discovery}} to discover the OSCORE group and the link to the associated group-membership resource at the Group Manager (OPT3).
+Note that, other than through the above parameters as defined in {{Section 3.3 of RFC9594}}, the joining node may have obtained such information by alternative means. For example, information conveyed in the 'sign_info' and 'ecdh_info' parameters may have been pre-configured, or the joining node may early retrieve it, e.g., by using the approach described in {{I-D.tiloca-core-oscore-discovery}} to discover the OSCORE group and the link to the associated group-membership resource at the Group Manager (OPT3).
 
 ### 'ecdh_info' Parameter {#ecdh-info}
 
@@ -391,7 +391,7 @@ The 'ecdh_info' parameter is an OPTIONAL parameter of the request and response m
 
 This parameter allows the Client and the RS to exchange information about an ECDH algorithm as well as about the authentication credentials and public keys to accordingly use for deriving Diffie-Hellman secrets. Its exact semantics and content are application specific.
 
-In this application profile, this parameter is used to exchange information about the ECDH algorithm as well as about the authentication credentials and public keys to be used with it, in the groups indicated by the transferred Access Token as per its 'scope' claim (see {{Section 3.2 of I-D.ietf-ace-key-groupcomm}}).
+In this application profile, this parameter is used to exchange information about the ECDH algorithm as well as about the authentication credentials and public keys to be used with it, in the groups indicated by the transferred Access Token as per its 'scope' claim (see {{Section 3.2 of RFC9594}}).
 
 When used in the Token Transfer Request sent to the Group Manager, the 'ecdh_info' parameter has value the CBOR simple value "null" (0xf6). This is done to ask for information about the ECDH algorithm as well as about the authentication credentials and public keys to be used to compute static-static Diffie-Hellman shared secrets {{NIST-800-56A}}, in the OSCORE groups that the Client has been authorized to join and that use the pairwise mode of Group OSCORE {{I-D.ietf-core-oscore-groupcomm}}.
 
@@ -481,11 +481,11 @@ gname = tstr
 
 # Group Joining {#sec-joining-node-to-GM}
 
-This section describes the interactions between the joining node and the Group Manager to join an OSCORE group. The message exchange between the joining node and the Group Manager consists of the messages defined in {{Section 4.3.1.1 of I-D.ietf-ace-key-groupcomm}}. Note that what is defined in {{I-D.ietf-ace-key-groupcomm}} applies, and only additions or modifications to that specification are defined in this document.
+This section describes the interactions between the joining node and the Group Manager to join an OSCORE group. The message exchange between the joining node and the Group Manager consists of the messages defined in {{Section 4.3.1.1 of RFC9594}}. Note that what is defined in {{RFC9594}} applies, and only additions or modifications to that specification are defined in this document.
 
 ## Send the Join Request {#ssec-join-req-sending}
 
-The joining node requests to join the OSCORE group by sending a Join Request message to the related group-membership resource at the Group Manager, as per {{Section 4.3.1.1 of I-D.ietf-ace-key-groupcomm}}. Additionally to what is defined in {{Section 4.3.1 of I-D.ietf-ace-key-groupcomm}}, the following applies.
+The joining node requests to join the OSCORE group by sending a Join Request message to the related group-membership resource at the Group Manager, as per {{Section 4.3.1.1 of RFC9594}}. Additionally to what is defined in {{Section 4.3.1 of RFC9594}}, the following applies.
 
 * The 'scope' parameter MUST be included. Its value encodes one scope entry with the format defined in {{sec-format-scope}}, indicating the group name and the role(s) that the joining node wants to take in the group.
 
@@ -535,7 +535,7 @@ It is up to applications to define how N_S is computed in further alternative se
 
 ## Receive the Join Request {#ssec-join-req-processing}
 
-The Group Manager processes the Join Request as defined in {{Section 4.3.1 of I-D.ietf-ace-key-groupcomm}}, with the following additions.
+The Group Manager processes the Join Request as defined in {{Section 4.3.1 of RFC9594}}, with the following additions.
 
 The Group Manager verifies the PoP evidence contained in 'client_cred_verify' as follows:
 
@@ -549,9 +549,9 @@ The Group Manager verifies the PoP evidence contained in 'client_cred_verify' as
 
 The Group Manager MUST reply with a 5.03 (Service Unavailable) error response in the following cases:
 
-* There are currently no OSCORE Sender IDs available to assign in the OSCORE group and, at the same time, the joining node is not going to join the group exclusively as monitor. The response MUST have Content-Format set to application/ace-groupcomm+cbor and is formatted as defined in {{Section 4.1.2 of I-D.ietf-ace-key-groupcomm}}. The value of the 'error' field MUST be set to 4 ("No available node identifiers").
+* There are currently no OSCORE Sender IDs available to assign in the OSCORE group and, at the same time, the joining node is not going to join the group exclusively as monitor. The response MUST have Content-Format set to application/ace-groupcomm+cbor and is formatted as defined in {{Section 4.1.2 of RFC9594}}. The value of the 'error' field MUST be set to 4 ("No available node identifiers").
 
-* The OSCORE group that the joining node has been trying to join is currently inactive (see {{ssec-resource-active}}). The response MUST have Content-Format set to application/ace-groupcomm+cbor and is formatted as defined in {{Section 4.1.2 of I-D.ietf-ace-key-groupcomm}}. The value of the 'error' field MUST be set to 9 ("Group currently not active").
+* The OSCORE group that the joining node has been trying to join is currently inactive (see {{ssec-resource-active}}). The response MUST have Content-Format set to application/ace-groupcomm+cbor and is formatted as defined in {{Section 4.1.2 of RFC9594}}. The value of the 'error' field MUST be set to 9 ("Group currently not active").
 
 The Group Manager MUST reply with a 4.00 (Bad Request) error response in the following cases:
 
@@ -581,13 +581,13 @@ In order to prevent the acceptance of Ed25519 and Ed448 public keys that cannot 
 
 A 4.00 (Bad Request) error response from the Group Manager to the joining node MUST have content format application/ace-groupcomm+cbor. The response payload is a CBOR map formatted as follows:
 
-* If the group uses (also) the group mode of Group OSCORE, the CBOR map MUST contain the 'sign_info' parameter, whose CBOR label is defined in {{Section 8 of I-D.ietf-ace-key-groupcomm}}. This parameter has the same format of 'sign_info_res' defined in {{Section 3.3.1 of I-D.ietf-ace-key-groupcomm}} and includes a single element 'sign_info_entry', pertaining to the OSCORE group that the joining node has tried to join with the Join Request.
+* If the group uses (also) the group mode of Group OSCORE, the CBOR map MUST contain the 'sign_info' parameter, whose CBOR label is defined in {{Section 8 of RFC9594}}. This parameter has the same format of 'sign_info_res' defined in {{Section 3.3.1 of RFC9594}} and includes a single element 'sign_info_entry', pertaining to the OSCORE group that the joining node has tried to join with the Join Request.
 
 * If the group uses (also) the pairwise mode of Group OSCORE, the CBOR map MUST contain the 'ecdh_info' parameter, whose CBOR label is defined in {{ssec-iana-ace-groupcomm-parameters-registry}}. This parameter has the same format of 'ecdh_info_res' defined in {{ecdh-info}} and includes a single element 'ecdh_info_entry', pertaining to the OSCORE group that the joining node has tried to join with the Join Request.
 
 * If the group is a pairwise-only group, the CBOR map MUST contain the 'kdc_dh_creds' parameter, whose CBOR label is defined in {{ssec-iana-ace-groupcomm-parameters-registry}}. This parameter has the same format of 'kdc_dh_creds_res' defined in {{gm-dh-info}} and includes a single element 'kdc_dh_creds_entry', pertaining to the OSCORE group that the joining node has tried to join with the Join Request.
 
-* The CBOR map MAY include the 'kdcchallenge' parameter, whose CBOR label is defined in {{Section 8 of I-D.ietf-ace-key-groupcomm}}. If present, this parameter is a CBOR byte string, which encodes a newly generated 'kdcchallenge' value that the Client can use when preparing a Join Request (see {{ssec-join-req-sending}}). In such a case the Group Manager MUST store the newly generated value as the 'kdcchallenge' value associated with the joining node, replacing the currently stored value (if any).
+* The CBOR map MAY include the 'kdcchallenge' parameter, whose CBOR label is defined in {{Section 8 of RFC9594}}. If present, this parameter is a CBOR byte string, which encodes a newly generated 'kdcchallenge' value that the Client can use when preparing a Join Request (see {{ssec-join-req-sending}}). In such a case the Group Manager MUST store the newly generated value as the 'kdcchallenge' value associated with the joining node, replacing the currently stored value (if any).
 
 ### Follow-up to a 4.00 (Bad Request) Error Response
 
@@ -601,7 +601,7 @@ When receiving a 4.00 (Bad Request) error response, the joining node MAY send a 
 
 ## Send the Join Response {#ssec-join-resp}
 
-If the processing of the Join Request described in {{ssec-join-req-processing}} is successful, the Group Manager updates the group membership by registering the joining node NODENAME as a new member of the OSCORE group GROUPNAME, as described in {{Section 4.3.1 of I-D.ietf-ace-key-groupcomm}}.
+If the processing of the Join Request described in {{ssec-join-req-processing}} is successful, the Group Manager updates the group membership by registering the joining node NODENAME as a new member of the OSCORE group GROUPNAME, as described in {{Section 4.3.1 of RFC9594}}.
 
 If the joining node has not taken exclusively the role of monitor, the Group Manager performs also the following actions.
 
@@ -617,7 +617,7 @@ If the joining node has not taken exclusively the role of monitor, the Group Man
 
 * The Group Manager stores the association between i) the authentication credential of the joining node; and ii) the Group Identifier (Gid), i.e., the OSCORE ID Context, associated with the OSCORE group together with the OSCORE Sender ID assigned to the joining node in the group. The Group Manager MUST keep this association updated over time.
 
-Then, the Group Manager replies to the joining node, providing the updated security parameters and keying material necessary to participate in the group communication. This success Join Response is formatted as defined in {{Section 4.3.1 of I-D.ietf-ace-key-groupcomm}}, with the following additions:
+Then, the Group Manager replies to the joining node, providing the updated security parameters and keying material necessary to participate in the group communication. This success Join Response is formatted as defined in {{Section 4.3.1 of RFC9594}}, with the following additions:
 
 * The 'gkty' parameter identifies a key of type "Group_OSCORE_Input_Material object", defined in {{ssec-iana-groupcomm-keys-registry}} of this document.
 
@@ -685,9 +685,9 @@ Furthermore, the following applies.
 
 * The 'group_policies' parameter SHOULD be present, and SHOULD include the following elements:
 
-   * "Key Update Check Interval" defined in {{Section 4.3.1 of I-D.ietf-ace-key-groupcomm}}, with default value 3600;
+   * "Key Update Check Interval" defined in {{Section 4.3.1 of RFC9594}}, with default value 3600;
 
-   * "Expiration Delta" defined in {{Section 4.3.1 of I-D.ietf-ace-key-groupcomm}}, with default value 0.
+   * "Expiration Delta" defined in {{Section 4.3.1 of RFC9594}}, with default value 0.
 
 * The 'kdc_cred' parameter MUST be present, specifying the Group Manager's authentication credential in its original binary representation (REQ8). The Group Manager's authentication credential MUST be in the format used in the OSCORE group. Also, the authentication credential as well as the included public key MUST be compatible with the signature or ECDH algorithm, and possible associated parameters used in the OSCORE group.
 
@@ -711,7 +711,7 @@ Furthermore, the following applies.
 
         * L is equal to 8, i.e., the size of the MAC, in bytes.
 
-* The 'group_rekeying' parameter MAY be omitted, if the Group Manager uses the "Point-to-Point" group rekeying scheme registered in {{Section 11.12 of I-D.ietf-ace-key-groupcomm}} as rekeying scheme in the OSCORE group (OPT9). Its detailed use for this profile is defined in {{sec-group-rekeying-process}} of this document. In any other case, the 'group_rekeying' parameter MUST be included.
+* The 'group_rekeying' parameter MAY be omitted, if the Group Manager uses the "Point-to-Point" group rekeying scheme registered in {{Section 11.12 of RFC9594}} as rekeying scheme in the OSCORE group (OPT9). Its detailed use for this profile is defined in {{sec-group-rekeying-process}} of this document. In any other case, the 'group_rekeying' parameter MUST be included.
 
 As a last action, if the Group Manager reassigns Gid values during the group's lifetime (see {{Section 3.2.1.1 of I-D.ietf-core-oscore-groupcomm}}), then the Group Manager MUST store the Gid specified in the 'contextId' parameter of the 'key' parameter, as the Birth Gid of the joining node in the joined group (see {{Section 3 of I-D.ietf-core-oscore-groupcomm}}). This applies also in case the joining node is in fact re-joining the group; in such a case, the newly determined Birth Gid overwrites the one currently stored.
 
@@ -731,7 +731,7 @@ In case of successful verification of the PoP evidence, the joining node uses th
 
 * Absent the 'salt' parameter, the joining node considers the empty byte string as Master Salt to use in the OSCORE group.
 
-* Absent the 'group_rekeying' parameter, the joining node considers the "Point-to-Point" group rekeying scheme registered in {{Section 11.12 of I-D.ietf-ace-key-groupcomm}} as the rekeying scheme used in the group (OPT9). Its detailed use for this profile is defined in {{sec-group-rekeying-process}} of this document.
+* Absent the 'group_rekeying' parameter, the joining node considers the "Point-to-Point" group rekeying scheme registered in {{Section 11.12 of RFC9594}} as the rekeying scheme used in the group (OPT9). Its detailed use for this profile is defined in {{sec-group-rekeying-process}} of this document.
 
 In addition, the joining node maintains an association between each authentication credential retrieved from the 'creds' parameter and the role(s) that the corresponding group member has in the OSCORE group.
 
@@ -749,7 +749,7 @@ If the application requires backward security, the Group Manager MUST generate u
 
 In a number of cases, the Group Manager has to generate new keying material and distribute it to the group (rekeying), as also discussed in {{Section 3.2 of I-D.ietf-core-oscore-groupcomm}}.
 
-To this end the Group Manager MUST support the Group Rekeying Process described in {{sec-group-rekeying-process}} of this document, as an instance of the "Point-to-Point" rekeying scheme defined in {{Section 6.1 of I-D.ietf-ace-key-groupcomm}} and registered in {{Section 11.12 of I-D.ietf-ace-key-groupcomm}}. Future documents may define the use of alternative group rekeying schemes for this application profile, together with the corresponding rekeying message formats. The resulting group rekeying process MUST comply with the functional steps defined in {{Section 3.2 of I-D.ietf-core-oscore-groupcomm}}.
+To this end the Group Manager MUST support the Group Rekeying Process described in {{sec-group-rekeying-process}} of this document, as an instance of the "Point-to-Point" rekeying scheme defined in {{Section 6.1 of RFC9594}} and registered in {{Section 11.12 of RFC9594}}. Future documents may define the use of alternative group rekeying schemes for this application profile, together with the corresponding rekeying message formats. The resulting group rekeying process MUST comply with the functional steps defined in {{Section 3.2 of I-D.ietf-core-oscore-groupcomm}}.
 
 Upon generating the new group keying material and before starting its distribution, the Group Manager MUST increment the version number of the group keying material. When rekeying a group, the Group Manager MUST preserve the current value of the OSCORE Sender ID of each member in that group.
 
@@ -757,9 +757,9 @@ The data distributed to a group through a rekeying MUST include:
 
 * The new version number of the group keying material for the group.
 
-* A new Group Identifier (Gid) for the group as introduced in {{I-D.ietf-ace-key-groupcomm}}, used as ID Context parameter of the Group OSCORE Common Security Context of that group (see {{Section 2 of I-D.ietf-core-oscore-groupcomm}}).
+* A new Group Identifier (Gid) for the group as introduced in {{RFC9594}}, used as ID Context parameter of the Group OSCORE Common Security Context of that group (see {{Section 2 of I-D.ietf-core-oscore-groupcomm}}).
 
-   Note that the Gid differs from the group name also introduced in {{I-D.ietf-ace-key-groupcomm}}, which is a plain, stable and invariant identifier, with no cryptographic relevance and meaning.
+   Note that the Gid differs from the group name also introduced in {{RFC9594}}, which is a plain, stable and invariant identifier, with no cryptographic relevance and meaning.
 
 * A new value for the Master Secret parameter of the Group OSCORE Common Security Context of the group (see {{Section 2 of I-D.ietf-core-oscore-groupcomm}}).
 
@@ -803,11 +803,11 @@ When performing a group rekeying (see {{sec-group-rekeying-process}}) for switch
 
 # Interface at the Group Manager {#sec-interface-GM}
 
-The Group Manager provides the interface defined in {{Section 4.1 of I-D.ietf-ace-key-groupcomm}}, with the additional sub-resources defined from {{ssec-resource-active}} to {{ssec-resource-stale-sids}} of this document.
+The Group Manager provides the interface defined in {{Section 4.1 of RFC9594}}, with the additional sub-resources defined from {{ssec-resource-active}} to {{ssec-resource-stale-sids}} of this document.
 
 Furthermore, {{ssec-admitted-methods}} provides a summary of the CoAP methods admitted to access different resources at the Group Manager, for nodes with different roles in the group or as non members (REQ11).
 
-The GROUPNAME segment of the URI path MUST match with the group name specified in the scope entry of the Access Token scope (i.e., 'gname' in {{Section 3.1 of I-D.ietf-ace-key-groupcomm}}) (REQ7).
+The GROUPNAME segment of the URI path MUST match with the group name specified in the scope entry of the Access Token scope (i.e., 'gname' in {{Section 3.1 of RFC9594}}) (REQ7).
 
 The Resource Type (rt=) Link Target Attribute value "core.osc.gm" is registered in {{iana-rt}} (REQ10), and can be used to describe group-membership resources and its sub-resources at a Group Manager, e.g., by using a link-format document {{RFC6690}}.
 
@@ -821,7 +821,7 @@ This resource implements a GET handler.
 
 The handler expects a GET request.
 
-In addition to what is defined in {{Section 4.1.2 of I-D.ietf-ace-key-groupcomm}}, the handler verifies that the requesting Client is a current member of the group. If the verification fails, the KDC MUST reply with a 4.03 (Forbidden) error response. The response MUST have Content-Format set to application/ace-groupcomm+cbor and is formatted as defined in {{Section 4.1.2 of I-D.ietf-ace-key-groupcomm}}. The value of the 'error' field MUST be set to 0 ("Operation permitted only to group members").
+In addition to what is defined in {{Section 4.1.2 of RFC9594}}, the handler verifies that the requesting Client is a current member of the group. If the verification fails, the KDC MUST reply with a 4.03 (Forbidden) error response. The response MUST have Content-Format set to application/ace-groupcomm+cbor and is formatted as defined in {{Section 4.1.2 of RFC9594}}. The value of the 'error' field MUST be set to 0 ("Operation permitted only to group members").
 
 If all verifications succeed, the handler replies with a 2.05 (Content) response, specifying the current status of the group, i.e., active or inactive. The payload of the response is formatted as defined in {{sec-status}}.
 
@@ -835,11 +835,11 @@ This resource implements a GET handler.
 
 The handler expects a GET request.
 
-In addition to what is defined in {{Section 4.1.2 of I-D.ietf-ace-key-groupcomm}}, the Group Manager performs the following checks.
+In addition to what is defined in {{Section 4.1.2 of RFC9594}}, the Group Manager performs the following checks.
 
-If the requesting Client is a current group member, the Group Manager MUST reply with a 4.03 (Forbidden) error response. The response MUST have Content-Format set to application/ace-groupcomm+cbor and is formatted as defined in {{Section 4.1.2 of I-D.ietf-ace-key-groupcomm}}. The value of the 'error' field MUST be set to 8 ("Operation permitted only to signature verifiers").
+If the requesting Client is a current group member, the Group Manager MUST reply with a 4.03 (Forbidden) error response. The response MUST have Content-Format set to application/ace-groupcomm+cbor and is formatted as defined in {{Section 4.1.2 of RFC9594}}. The value of the 'error' field MUST be set to 8 ("Operation permitted only to signature verifiers").
 
-If GROUPNAME denotes a pairwise-only group, the Group Manager MUST reply with a 4.00 (Bad Request) error response. The response MUST have Content-Format set to application/ace-groupcomm+cbor and is formatted as defined in {{Section 4.1.2 of I-D.ietf-ace-key-groupcomm}}. The value of the 'error' field MUST be set to 7 ("Signatures not used in the group").
+If GROUPNAME denotes a pairwise-only group, the Group Manager MUST reply with a 4.00 (Bad Request) error response. The response MUST have Content-Format set to application/ace-groupcomm+cbor and is formatted as defined in {{Section 4.1.2 of RFC9594}}. The value of the 'error' field MUST be set to 7 ("Signatures not used in the group").
 
 If all verifications succeed, the handler replies with a 2.05 (Content) response, specifying data that allow also an external signature verifier to verify signatures of messages protected with the group mode and sent to the group (see {{Sections 3.1 and 8.5 of I-D.ietf-core-oscore-groupcomm}}). The response MUST have Content-Format set to application/ace-groupcomm+cbor. The payload of the response is a CBOR map, which is formatted as defined in {{sec-verif-data}}.
 
@@ -851,7 +851,7 @@ This resource implements a FETCH handler.
 
 The handler expects a FETCH request, whose payload specifies a version number of the group keying material, encoded as an unsigned CBOR integer.
 
-In addition to what is defined in {{Section 4.1.2 of I-D.ietf-ace-key-groupcomm}}, the handler verifies that the requesting Client is a current member of the group. If the verification fails, the Group Manager MUST reply with a 4.03 (Forbidden) error response. The response MUST have Content-Format set to application/ace-groupcomm+cbor and is formatted as defined in {{Section 4.1.2 of I-D.ietf-ace-key-groupcomm}}. The value of the 'error' field MUST be set to 0 ("Operation permitted only to group members").
+In addition to what is defined in {{Section 4.1.2 of RFC9594}}, the handler verifies that the requesting Client is a current member of the group. If the verification fails, the Group Manager MUST reply with a 4.03 (Forbidden) error response. The response MUST have Content-Format set to application/ace-groupcomm+cbor and is formatted as defined in {{Section 4.1.2 of RFC9594}}. The value of the 'error' field MUST be set to 0 ("Operation permitted only to group members").
 
 If all verifications succeed, the handler replies with a 2.05 (Content) response, specifying data that allow the requesting Client to delete the Recipient Contexts and authentication credentials associated with former members of the group (see {{Section 3.2 of I-D.ietf-core-oscore-groupcomm}}. The payload of the response is formatted as defined in {{sec-retrieve-stale-sids}}.
 
@@ -908,7 +908,7 @@ Consistently, in case a node is not a member of the group with group name GROUPN
 
 ## Operations Supported by Clients {#client-operations}
 
-Building on what is defined in {{Section 4.1.1 of I-D.ietf-ace-key-groupcomm}}, and with reference to the resources at the Group Manager newly defined earlier in {{sec-interface-GM}} of this document, it is expected that a Client minimally supports also the following set of operations and corresponding interactions with the Group Manager (REQ12).
+Building on what is defined in {{Section 4.1.1 of RFC9594}}, and with reference to the resources at the Group Manager newly defined earlier in {{sec-interface-GM}} of this document, it is expected that a Client minimally supports also the following set of operations and corresponding interactions with the Group Manager (REQ12).
 
 * GET request to ace-group/GROUPNAME/active, in order to check the current status of the group.
 
@@ -932,7 +932,7 @@ If the group member wants to retrieve only the latest group keying material, it 
 
 That is, it sends a CoAP GET request to the endpoint /ace-group/GROUPNAME at the Group Manager.
 
-The Group Manager processes the Key Distribution Request according to {{Section 4.3.2 of I-D.ietf-ace-key-groupcomm}}. The Key Distribution Response is formatted as defined in {{Section 4.3.2 of I-D.ietf-ace-key-groupcomm}}, with the following additions.
+The Group Manager processes the Key Distribution Request according to {{Section 4.3.2 of RFC9594}}. The Key Distribution Response is formatted as defined in {{Section 4.3.2 of RFC9594}}, with the following additions.
 
 * The 'key' parameter is formatted as defined in {{ssec-join-resp}} of this document, with the difference that it does not include the 'group_SenderId' parameter.
 
@@ -948,7 +948,7 @@ If the group member wants to retrieve the latest group keying material as well a
 
 That is, it sends a CoAP GET request to the endpoint /ace-group/GROUPNAME/nodes/NODENAME at the Group Manager.
 
-The Group Manager processes the Key Distribution Request according to {{Section 4.8.1 of I-D.ietf-ace-key-groupcomm}}. The Key Distribution Response is formatted as defined in {{Section 4.8.1 of I-D.ietf-ace-key-groupcomm}}, with the following additions.
+The Group Manager processes the Key Distribution Request according to {{Section 4.8.1 of RFC9594}}. The Key Distribution Response is formatted as defined in {{Section 4.8.1 of RFC9594}}, with the following additions.
 
 * The 'key' parameter is formatted as defined in {{ssec-join-resp}} of this document. If the requesting group member has exclusively the role of monitor, then the 'key' parameter does not include the 'group_SenderId'.
 
@@ -962,15 +962,15 @@ Upon receiving the Key Distribution Response, the group member retrieves the upd
 
 As discussed in {{Section 2.5.2 of I-D.ietf-core-oscore-groupcomm}}, a group member may at some point exhaust its Sender Sequence Numbers in the OSCORE group.
 
-When this happens, the group member MUST send a Key Renewal Request message to the Group Manager, as per {{Section 4.8.2.1 of I-D.ietf-ace-key-groupcomm}}. That is, it sends a CoAP PUT request to the endpoint /ace-group/GROUPNAME/nodes/NODENAME at the Group Manager.
+When this happens, the group member MUST send a Key Renewal Request message to the Group Manager, as per {{Section 4.8.2.1 of RFC9594}}. That is, it sends a CoAP PUT request to the endpoint /ace-group/GROUPNAME/nodes/NODENAME at the Group Manager.
 
-Upon receiving the Key Renewal Request, the Group Manager processes it as defined in {{Section 4.8.2 of I-D.ietf-ace-key-groupcomm}}, with the following additions.
+Upon receiving the Key Renewal Request, the Group Manager processes it as defined in {{Section 4.8.2 of RFC9594}}, with the following additions.
 
-The Group Manager MUST return a 5.03 (Service Unavailable) response in case the OSCORE group identified by GROUPNAME is currently inactive (see {{ssec-resource-active}}). The response MUST have Content-Format set to application/ace-groupcomm+cbor and is formatted as defined in {{Section 4.1.2 of I-D.ietf-ace-key-groupcomm}}. The value of the 'error' field MUST be set to 9 ("Group currently not active").
+The Group Manager MUST return a 5.03 (Service Unavailable) response in case the OSCORE group identified by GROUPNAME is currently inactive (see {{ssec-resource-active}}). The response MUST have Content-Format set to application/ace-groupcomm+cbor and is formatted as defined in {{Section 4.1.2 of RFC9594}}. The value of the 'error' field MUST be set to 9 ("Group currently not active").
 
 Otherwise, the Group Manager performs one of the following actions.
 
-1. If the requesting group member has exclusively the role of monitor, the Group Manager replies with a 4.03 (Forbidden) error response. The response MUST have Content-Format set to application/ace-groupcomm+cbor and is formatted as defined in {{Section 4.1.2 of I-D.ietf-ace-key-groupcomm}}. The value of the 'error' field MUST be set to 1 ("Request inconsistent with the current roles").
+1. If the requesting group member has exclusively the role of monitor, the Group Manager replies with a 4.03 (Forbidden) error response. The response MUST have Content-Format set to application/ace-groupcomm+cbor and is formatted as defined in {{Section 4.1.2 of RFC9594}}. The value of the 'error' field MUST be set to 1 ("Request inconsistent with the current roles").
 
 2. Otherwise, the Group Manager takes one of the following actions.
 
@@ -978,47 +978,47 @@ Otherwise, the Group Manager performs one of the following actions.
 
        The Group Manager SHOULD perform a group rekeying only if already scheduled to  occur shortly, e.g., according to an application-specific rekeying period or scheduling, or as a reaction to a recent change in the group membership. In any other case, the Group Manager SHOULD NOT rekey the OSCORE group when receiving a Key Renewal Request (OPT12).
 
-    * The Group Manager determines and assigns a new OSCORE Sender ID for that group member, and replies with a Key Renewal Response formatted as defined in {{Section 4.8.2 of I-D.ietf-ace-key-groupcomm}}. The CBOR Map in the response payload includes a single parameter 'group_SenderId' defined in {{ssec-iana-ace-groupcomm-parameters-registry}} of this document, specifying the new Sender ID of the group member encoded as a CBOR byte string.
+    * The Group Manager determines and assigns a new OSCORE Sender ID for that group member, and replies with a Key Renewal Response formatted as defined in {{Section 4.8.2 of RFC9594}}. The CBOR Map in the response payload includes a single parameter 'group_SenderId' defined in {{ssec-iana-ace-groupcomm-parameters-registry}} of this document, specifying the new Sender ID of the group member encoded as a CBOR byte string.
 
        Consistently with {{Section 2.5.3.1 of I-D.ietf-core-oscore-groupcomm}}, the Group Manager MUST assign a new Sender ID that has not been used in the OSCORE group since the latest time when the current Gid value was assigned to the group.
 
        Furthermore, the Group Manager MUST add the old, relinquished Sender ID of the group member to the most recent set of stale Sender IDs for the group (see {{sssec-stale-sender-ids}}).
 
-       The Group Manager MUST return a 5.03 (Service Unavailable) response in case there are currently no Sender IDs available to assign in the OSCORE group. The response MUST have Content-Format set to application/ace-groupcomm+cbor and is formatted as defined in {{Section 4.1.2 of I-D.ietf-ace-key-groupcomm}}. The value of the 'error' field MUST be set to 4 ("No available node identifiers").
+       The Group Manager MUST return a 5.03 (Service Unavailable) response in case there are currently no Sender IDs available to assign in the OSCORE group. The response MUST have Content-Format set to application/ace-groupcomm+cbor and is formatted as defined in {{Section 4.1.2 of RFC9594}}. The value of the 'error' field MUST be set to 4 ("No available node identifiers").
 
 ## Retrieve Authentication Credentials of Group Members # {#sec-pub-keys}
 
-A group member or a signature verifier may need to retrieve the authentication credentials of (other) group members. To this end, the group member or signature verifier sends an Authentication Credential Request message to the Group Manager, as per {{Sections 4.4.1.1 and 4.4.2.1 of I-D.ietf-ace-key-groupcomm}}. That is, it sends the request to the endpoint /ace-group/GROUPNAME/creds at the Group Manager.
+A group member or a signature verifier may need to retrieve the authentication credentials of (other) group members. To this end, the group member or signature verifier sends an Authentication Credential Request message to the Group Manager, as per {{Sections 4.4.1.1 and 4.4.2.1 of RFC9594}}. That is, it sends the request to the endpoint /ace-group/GROUPNAME/creds at the Group Manager.
 
-If the Authentication Credential Request uses the method FETCH, the Authentication Credential Request is formatted as defined in {{Section 4.4.1 of I-D.ietf-ace-key-groupcomm}}. That is:
+If the Authentication Credential Request uses the method FETCH, the Authentication Credential Request is formatted as defined in {{Section 4.4.1 of RFC9594}}. That is:
 
 * Each element (if any) of the inner CBOR array 'role_filter' is formatted as in the inner CBOR array 'role_filter' of the 'get_creds' parameter of the Join Request when the parameter value is not the CBOR simple value "null" (0xf6) (see {{ssec-join-req-sending}}).
 
 * Each element (if any) of the inner CBOR array 'id_filter' is a CBOR byte string, which encodes the OSCORE Sender ID of the group member for which the associated authentication credential is requested (REQ25).
 
-Upon receiving the Authentication Credential Request, the Group Manager processes it as per Section 4.4.1 or Section 4.4.2 of {{I-D.ietf-ace-key-groupcomm}}, depending on the request method being FETCH or GET, respectively. Additionally, if the Authentication Credential Request uses the method FETCH, the Group Manager silently ignores node identifiers included in the ’get_creds’ parameter of the request that are not associated with any current group member (REQ26).
+Upon receiving the Authentication Credential Request, the Group Manager processes it as per Section 4.4.1 or Section 4.4.2 of {{RFC9594}}, depending on the request method being FETCH or GET, respectively. Additionally, if the Authentication Credential Request uses the method FETCH, the Group Manager silently ignores node identifiers included in the ’get_creds’ parameter of the request that are not associated with any current group member (REQ26).
 
-The success Authentication Credential Response is formatted as defined in Section 4.4.1 or Section 4.4.2 of {{I-D.ietf-ace-key-groupcomm}}, depending on the request method being FETCH or GET, respectively.
+The success Authentication Credential Response is formatted as defined in Section 4.4.1 or Section 4.4.2 of {{RFC9594}}, depending on the request method being FETCH or GET, respectively.
 
 ## Upload a New Authentication Credential # {#sec-update-pub-key}
 
 A group member may need to provide the Group Manager with its new authentication credential to use in the group from then on, hence replacing the current one. This can be the case, for instance, if the signature or ECDH algorithm and possible associated parameters used in the OSCORE group have been changed, and the current authentication credential is not compatible with them.
 
-To this end, the group member sends an Authentication Credential Update Request message to the Group Manager, as per {{Section 4.9.1.1 of I-D.ietf-ace-key-groupcomm}}, with the following addition.
+To this end, the group member sends an Authentication Credential Update Request message to the Group Manager, as per {{Section 4.9.1.1 of RFC9594}}, with the following addition.
 
 * The group member computes the proof-of-possession (PoP) evidence included in 'client_cred_verify' in the same way taken when preparing a Join Request for the OSCORE group in question, as defined in {{ssec-join-req-sending}} (REQ14).
 
 That is, the group member sends a CoAP POST request to the endpoint /ace-group/GROUPNAME/nodes/NODENAME/cred at the Group Manager.
 
-Upon receiving the Authentication Credential Update Request, the Group Manager processes it as per {{Section 4.9.1 of I-D.ietf-ace-key-groupcomm}}, with the following additions.
+Upon receiving the Authentication Credential Update Request, the Group Manager processes it as per {{Section 4.9.1 of RFC9594}}, with the following additions.
 
 * The N\_S challenge used to build the proof-of-possession input is computed as defined in {{sssec-challenge-value}} (REQ15).
 
 * The Group Manager verifies the PoP challenge included in 'client_cred_verify' in the same way as when processing a Join Request for the OSCORE group in question, as defined in {{ssec-join-req-processing}} (REQ14).
 
-* The Group Manager MUST return a 5.03 (Service Unavailable) response in case the OSCORE group identified by GROUPNAME is currently inactive (see {{ssec-resource-active}}). The response MUST have Content-Format set to application/ace-groupcomm+cbor and is formatted as defined in {{Section 4.1.2 of I-D.ietf-ace-key-groupcomm}}. The value of the 'error' field MUST be set to 9 ("Group currently not active").
+* The Group Manager MUST return a 5.03 (Service Unavailable) response in case the OSCORE group identified by GROUPNAME is currently inactive (see {{ssec-resource-active}}). The response MUST have Content-Format set to application/ace-groupcomm+cbor and is formatted as defined in {{Section 4.1.2 of RFC9594}}. The value of the 'error' field MUST be set to 9 ("Group currently not active").
 
-* If the requesting group member has exclusively the role of monitor, the Group Manager replies with a 4.00 (Bad request) error response. The response MUST have Content-Format set to application/ace-groupcomm+cbor and is formatted as defined in {{Section 4.1.2 of I-D.ietf-ace-key-groupcomm}}. The value of the 'error' field MUST be set to 1 ("Request inconsistent with the current roles").
+* If the requesting group member has exclusively the role of monitor, the Group Manager replies with a 4.00 (Bad request) error response. The response MUST have Content-Format set to application/ace-groupcomm+cbor and is formatted as defined in {{Section 4.1.2 of RFC9594}}. The value of the 'error' field MUST be set to 1 ("Request inconsistent with the current roles").
 
 * If the request is successfully processed, the Group Manager stores the association between i) the new authentication credential of the group member; and ii) the Group Identifier (Gid), i.e., the OSCORE ID Context, associated with the OSCORE group together with the OSCORE Sender ID assigned to the group member in the group. The Group Manager MUST keep this association updated over time.
 
@@ -1026,13 +1026,13 @@ Upon receiving the Authentication Credential Update Request, the Group Manager p
 
 A group member or a signature verifier may need to retrieve the authentication credential of the Group Manager. To this end, the requesting Client sends a KDC Authentication Credential Request message to the Group Manager.
 
-That is, it sends a CoAP GET request to the endpoint /ace-group/GROUPNAME/kdc-cred at the Group Manager defined in {{Section 4.5.1.1 of I-D.ietf-ace-key-groupcomm}}, where GROUPNAME is the name of the OSCORE group.
+That is, it sends a CoAP GET request to the endpoint /ace-group/GROUPNAME/kdc-cred at the Group Manager defined in {{Section 4.5.1.1 of RFC9594}}, where GROUPNAME is the name of the OSCORE group.
 
-In addition to what is defined in {{Section 4.5.1 of I-D.ietf-ace-key-groupcomm}}, the Group Manager MUST respond with a 4.00 (Bad Request) error response, if the requesting Client is not a current group member and GROUPNAME denotes a pairwise-only group. The response MUST have Content-Format set to application/ace-groupcomm+cbor and is formatted as defined in {{Section 4.1.2 of I-D.ietf-ace-key-groupcomm}}. The value of the 'error' field MUST be set to 7 ("Signatures not used in the group").
+In addition to what is defined in {{Section 4.5.1 of RFC9594}}, the Group Manager MUST respond with a 4.00 (Bad Request) error response, if the requesting Client is not a current group member and GROUPNAME denotes a pairwise-only group. The response MUST have Content-Format set to application/ace-groupcomm+cbor and is formatted as defined in {{Section 4.1.2 of RFC9594}}. The value of the 'error' field MUST be set to 7 ("Signatures not used in the group").
 
-The payload of the 2.05 (Content) KDC Authentication Credential Response is a CBOR map, which is formatted as defined in {{Section 4.5.1 of I-D.ietf-ace-key-groupcomm}}. The Group Manager specifies the parameters 'kdc_cred', 'kdc_nonce' and 'kdc_challenge' as defined for the Join Response in {{ssec-join-resp}} of this document. This especially applies to the computing of the proof-of-possession (PoP) evidence included in 'kdc_cred_verify' (REQ21).
+The payload of the 2.05 (Content) KDC Authentication Credential Response is a CBOR map, which is formatted as defined in {{Section 4.5.1 of RFC9594}}. The Group Manager specifies the parameters 'kdc_cred', 'kdc_nonce' and 'kdc_challenge' as defined for the Join Response in {{ssec-join-resp}} of this document. This especially applies to the computing of the proof-of-possession (PoP) evidence included in 'kdc_cred_verify' (REQ21).
 
-Upon receiving a 2.05 (Content) KDC Authentication Credential Response, the requesting Client retrieves the Group Manager's authentication credential from the 'kdc_cred' parameter, and proceeds as defined in {{Section 4.5.1.1 of I-D.ietf-ace-key-groupcomm}}. The requesting Client verifies the PoP evidence included in 'kdc_cred_verify' by means of the same method used when processing the Join Response, as defined in {{ssec-join-resp}} of this document (REQ21).
+Upon receiving a 2.05 (Content) KDC Authentication Credential Response, the requesting Client retrieves the Group Manager's authentication credential from the 'kdc_cred' parameter, and proceeds as defined in {{Section 4.5.1.1 of RFC9594}}. The requesting Client verifies the PoP evidence included in 'kdc_cred_verify' by means of the same method used when processing the Join Response, as defined in {{ssec-join-resp}} of this document (REQ21).
 
 Note that a signature verifier would not receive a successful response from the Group Manager, in case GROUPNAME denotes a pairwise-only group.
 
@@ -1106,15 +1106,15 @@ Verifier                                                     Manager
 
 ## Retrieve the Group Policies # {#sec-policies}
 
-A group member may request the current policies used in the OSCORE group. To this end, the group member sends a Policies Request, as per {{Section 4.6.1.1 of I-D.ietf-ace-key-groupcomm}}. That is, it sends a CoAP GET request to the endpoint /ace-group/GROUPNAME/policies at the Group Manager, where GROUPNAME is the name of the OSCORE group.
+A group member may request the current policies used in the OSCORE group. To this end, the group member sends a Policies Request, as per {{Section 4.6.1.1 of RFC9594}}. That is, it sends a CoAP GET request to the endpoint /ace-group/GROUPNAME/policies at the Group Manager, where GROUPNAME is the name of the OSCORE group.
 
-Upon receiving the Policies Request, the Group Manager processes it as per {{Section 4.6.1 of I-D.ietf-ace-key-groupcomm}}. The success Policies Response is formatted as defined in {{Section 4.6.1 of I-D.ietf-ace-key-groupcomm}}.
+Upon receiving the Policies Request, the Group Manager processes it as per {{Section 4.6.1 of RFC9594}}. The success Policies Response is formatted as defined in {{Section 4.6.1 of RFC9594}}.
 
 ## Retrieve the Keying Material Version # {#sec-version}
 
-A group member may request the current version of the keying material used in the OSCORE group. To this end, the group member sends a Version Request, as per {{Section 4.7.1.1 of I-D.ietf-ace-key-groupcomm}}. That is, it sends a CoAP GET request to the endpoint /ace-group/GROUPNAME/num at the Group Manager, where GROUPNAME is the name of the OSCORE group.
+A group member may request the current version of the keying material used in the OSCORE group. To this end, the group member sends a Version Request, as per {{Section 4.7.1.1 of RFC9594}}. That is, it sends a CoAP GET request to the endpoint /ace-group/GROUPNAME/num at the Group Manager, where GROUPNAME is the name of the OSCORE group.
 
-Upon receiving the Version Request, the Group Manager processes it as per {{Section 4.7.1 of I-D.ietf-ace-key-groupcomm}}. The success Version Response is formatted as defined in {{Section 4.7.1 of I-D.ietf-ace-key-groupcomm}}.
+Upon receiving the Version Request, the Group Manager processes it as per {{Section 4.7.1 of RFC9594}}. The success Version Response is formatted as defined in {{Section 4.7.1 of RFC9594}}.
 
 ## Retrieve the Group Status # {#sec-status}
 
@@ -1173,11 +1173,11 @@ A node may want to retrieve from the Group Manager the group name and the URI of
 
    Furthermore, since it is not a group member, the node does not take part to a possible group rekeying. Thus, following a group rekeying and the consequent change of Gid in a group, the node would retain the old Gid value and cannot correctly associate intercepted messages to the right group, especially if acting as signature verifier in several groups. This in turn prevents the efficient verification of signatures, and especially the retrieval of required, new authentication credentials from the Group Manager.
 
-In either case, the node only knows the current Gid of the group, as learned from received or intercepted messages exchanged in the group. As detailed below, the node can contact the Group Manager, and request the group name and URI to the group-membership resource corresponding to that Gid. Then, it can use that information to join the group, or get the latest keying material as a current group member, or retrieve authentication credentials used in the group as a signature verifier. To this end, the node sends a Group Name and URI Retrieval Request, as per {{Section 4.2.1.1 of I-D.ietf-ace-key-groupcomm}}.
+In either case, the node only knows the current Gid of the group, as learned from received or intercepted messages exchanged in the group. As detailed below, the node can contact the Group Manager, and request the group name and URI to the group-membership resource corresponding to that Gid. Then, it can use that information to join the group, or get the latest keying material as a current group member, or retrieve authentication credentials used in the group as a signature verifier. To this end, the node sends a Group Name and URI Retrieval Request, as per {{Section 4.2.1.1 of RFC9594}}.
 
-That is, the node sends a CoAP FETCH request to the endpoint /ace-group at the Group Manager formatted as defined in {{Section 4.2.1 of I-D.ietf-ace-key-groupcomm}}. Each element of the CBOR array 'gid' is a CBOR byte string (REQ13), which encodes the Gid of the group for which the group name and the URI to the group-membership resource are requested.
+That is, the node sends a CoAP FETCH request to the endpoint /ace-group at the Group Manager formatted as defined in {{Section 4.2.1 of RFC9594}}. Each element of the CBOR array 'gid' is a CBOR byte string (REQ13), which encodes the Gid of the group for which the group name and the URI to the group-membership resource are requested.
 
-Upon receiving the Group Name and URI Retrieval Request, the Group Manager processes it as per {{Section 4.2.1 of I-D.ietf-ace-key-groupcomm}}. The success Group Name and URI Retrieval Response is formatted as defined in {{Section 4.2.1 of I-D.ietf-ace-key-groupcomm}}. Each element of the CBOR array 'gid' is a CBOR byte string (REQ13), which encodes the Gid of the group for which the group name and the URI to the group-membership resource are provided.
+Upon receiving the Group Name and URI Retrieval Request, the Group Manager processes it as per {{Section 4.2.1 of RFC9594}}. The success Group Name and URI Retrieval Response is formatted as defined in {{Section 4.2.1 of RFC9594}}. Each element of the CBOR array 'gid' is a CBOR byte string (REQ13), which encodes the Gid of the group for which the group name and the URI to the group-membership resource are provided.
 
 For each of its groups, the Group Manager maintains an association between the group name and the URI to the group-membership resource on one hand, and only the current Gid for that group on the other hand. That is, the Group Manager does not maintain an association between the former pair and any other Gid for that group than the current, most recent one.
 
@@ -1221,9 +1221,9 @@ Node                                                           Manager
 
 ## Leave the Group # {#sec-leave-req}
 
-A group member may request to leave the OSCORE group. To this end, the group member sends a Group Leaving Request, as per {{Section 4.8.3.1 of I-D.ietf-ace-key-groupcomm}}. That is, it sends a CoAP DELETE request to the endpoint /ace-group/GROUPNAME/nodes/NODENAME at the Group Manager.
+A group member may request to leave the OSCORE group. To this end, the group member sends a Group Leaving Request, as per {{Section 4.8.3.1 of RFC9594}}. That is, it sends a CoAP DELETE request to the endpoint /ace-group/GROUPNAME/nodes/NODENAME at the Group Manager.
 
-Upon receiving the Group Leaving Request, the Group Manager processes it as per {{Section 4.8.3 of I-D.ietf-ace-key-groupcomm}}. Then, the Group Manager performs the follow-up actions defined in {{sec-leaving}} of this document.
+Upon receiving the Group Leaving Request, the Group Manager processes it as per {{Section 4.8.3 of RFC9594}}. Then, the Group Manager performs the follow-up actions defined in {{sec-leaving}} of this document.
 
 # Removal of a Group Member # {#sec-leaving}
 
@@ -1233,11 +1233,11 @@ In either case, if the Group Manager reassigns Gid values during the group's lif
 
 If any of the two conditions below holds, the Group Manager MUST inform the leaving node of its eviction as follows. If both conditions hold, the Group Manager MUST inform the leaving node by using only the method corresponding to one of either conditions.
 
-* If, upon joining the group (see {{ssec-join-req-sending}}), the leaving node specified a URI in the 'control_uri' parameter defined in {{Section 4.3.1 of I-D.ietf-ace-key-groupcomm}}, the Group Manager sends a DELETE request targeting the URI specified in the 'control_uri' parameter (OPT7).
+* If, upon joining the group (see {{ssec-join-req-sending}}), the leaving node specified a URI in the 'control_uri' parameter defined in {{Section 4.3.1 of RFC9594}}, the Group Manager sends a DELETE request targeting the URI specified in the 'control_uri' parameter (OPT7).
 
-* If the leaving node has been observing the associated resource at ace-group/GROUPNAME/nodes/NODENAME, the Group Manager sends an unsolicited 4.04 (Not Found) error response to the leaving node, as specified in {{Section 4.3.2 of I-D.ietf-ace-key-groupcomm}}.
+* If the leaving node has been observing the associated resource at ace-group/GROUPNAME/nodes/NODENAME, the Group Manager sends an unsolicited 4.04 (Not Found) error response to the leaving node, as specified in {{Section 4.3.2 of RFC9594}}.
 
-Furthermore, the Group Manager might intend to evict all the current group members from the group at once. In such a case, if the Join Responses sent by the Group Manager to nodes joining the group (see {{ssec-join-resp}}) specify a URI in the 'control_group_uri' parameter defined in {{Section 4.3.1 of I-D.ietf-ace-key-groupcomm}}, then the Group Manager MUST additionally send a DELETE request targeting the URI specified in the 'control_group_uri' parameter (OPT10).
+Furthermore, the Group Manager might intend to evict all the current group members from the group at once. In such a case, if the Join Responses sent by the Group Manager to nodes joining the group (see {{ssec-join-resp}}) specify a URI in the 'control_group_uri' parameter defined in {{Section 4.3.1 of RFC9594}}, then the Group Manager MUST additionally send a DELETE request targeting the URI specified in the 'control_group_uri' parameter (OPT10).
 
 If the leaving node has not exclusively the role of monitor, the Group Manager performs the following actions.
 
@@ -1249,7 +1249,7 @@ If the leaving node has not exclusively the role of monitor, the Group Manager p
 
 Then, the Group Manager MUST generate updated security parameters and group keying material, and provide it to the remaining group members (see {{sec-group-rekeying-process}}). As a consequence, the leaving node is not able to acquire the new security parameters and group keying material distributed after its leaving.
 
-The same considerations from {{Section 5 of I-D.ietf-ace-key-groupcomm}} apply here as well, considering the Group Manager acting as KDC.
+The same considerations from {{Section 5 of RFC9594}} apply here as well, considering the Group Manager acting as KDC.
 
 # Group Rekeying Process {#sec-group-rekeying-process}
 
@@ -1265,7 +1265,7 @@ As per {{Section 3.2.1.1 of I-D.ietf-core-oscore-groupcomm}}, the Group Manager 
 
 Across the rekeying execution, the Group Manager MUST preserve the same unchanged OSCORE Sender IDs for all group members intended to remain in the group. This avoids affecting the retrieval of authentication credentials from the Group Manager and the verification of group messages.
 
-The Group Manager MUST support the "Point-to-Point" group rekeying scheme registered in {{Section 11.12 of I-D.ietf-ace-key-groupcomm}}, as per the detailed use defined in {{sending-rekeying-msg}} of this document. Future specifications may define how this application profile can use alternative group rekeying schemes, which MUST comply with the functional steps defined in {{Section 3.2 of I-D.ietf-core-oscore-groupcomm}}. The Group Manager MUST indicate the use of such an alternative group rekeying scheme to joining nodes, by means of the 'group_rekeying' parameter included in Join Response messages (see {{ssec-join-resp}}).
+The Group Manager MUST support the "Point-to-Point" group rekeying scheme registered in {{Section 11.12 of RFC9594}}, as per the detailed use defined in {{sending-rekeying-msg}} of this document. Future specifications may define how this application profile can use alternative group rekeying schemes, which MUST comply with the functional steps defined in {{Section 3.2 of I-D.ietf-core-oscore-groupcomm}}. The Group Manager MUST indicate the use of such an alternative group rekeying scheme to joining nodes, by means of the 'group_rekeying' parameter included in Join Response messages (see {{ssec-join-resp}}).
 
 It is RECOMMENDED that the Group Manager gets confirmation of successful distribution from the group members, and admits a maximum number of individual retransmissions to non-confirming group members. Once completed the group rekeying process, the Group Manager creates a new empty set of stale Sender IDs associated with the version of the newly distributed group keying material (see {{sssec-stale-sender-ids}}).
 
@@ -1281,7 +1281,7 @@ Furthermore, some of these group members can be in multiple groups, all of which
 
 ## Sending Rekeying Messages {#sending-rekeying-msg}
 
-When using the "Point-to-Point" group rekeying scheme, the group rekeying messages MUST have Content-Format set to application/ace-groupcomm+cbor and have the same format used for the Join Response message in {{ssec-join-resp}}, with the following differences. Note that this extends the minimal content of a rekeying message as defined in {{Section 6 of I-D.ietf-ace-key-groupcomm}} (OPT14).
+When using the "Point-to-Point" group rekeying scheme, the group rekeying messages MUST have Content-Format set to application/ace-groupcomm+cbor and have the same format used for the Join Response message in {{ssec-join-resp}}, with the following differences. Note that this extends the minimal content of a rekeying message as defined in {{Section 6 of RFC9594}} (OPT14).
 
 * From the Join Response, only the parameters 'gkty', 'key', 'num', 'exp', and 'ace_groupcomm_profile' are present. The 'key' parameter includes only the following data.
 
@@ -1305,11 +1305,11 @@ When using the "Point-to-Point" group rekeying scheme, the group rekeying messag
 
 The Group Manager separately sends a group rekeying message formatted as defined above to each group member to be rekeyed.
 
-Each rekeying message MUST be secured with the pairwise secure communication association between the Group Manager and the group member used during the joining process. Each rekeying message can target the 'control_uri' URI path defined in {{Section 4.3.1 of I-D.ietf-ace-key-groupcomm}} (OPT7), if provided by the intended recipient upon joining the group (see {{ssec-join-req-sending}}).
+Each rekeying message MUST be secured with the pairwise secure communication association between the Group Manager and the group member used during the joining process. Each rekeying message can target the 'control_uri' URI path defined in {{Section 4.3.1 of RFC9594}} (OPT7), if provided by the intended recipient upon joining the group (see {{ssec-join-req-sending}}).
 
 This distribution approach requires group members to act (also) as servers, in order to correctly handle unsolicited group rekeying messages from the Group Manager. If a group member and the Group Manager use OSCORE {{RFC8613}} to secure their pairwise communications, the group member MUST create a Replay Window in its own Recipient Context upon establishing the OSCORE Security Context with the Group Manager, e.g., by means of the OSCORE profile of ACE {{RFC9203}}.
 
-Group members and the Group Manager SHOULD additionally support alternative distribution approaches that do not require group members to act (also) as servers. A number of such approaches are defined in {{Section 6 of I-D.ietf-ace-key-groupcomm}}. In particular, a group member may use CoAP Observe {{RFC7641}} and subscribe for updates to the group-membership resource of the group, at the endpoint /ace-group/GROUPNAME/ of the Group Manager (see {{Section 6.1 of I-D.ietf-ace-key-groupcomm}}). Alternatively, a full-fledged Pub-Sub model can be considered {{I-D.ietf-core-coap-pubsub}}, where the Group Manager publishes to a rekeying topic hosted at a Broker, while the group members subscribe to such topic (see {{Section 6.2 of I-D.ietf-ace-key-groupcomm}}).
+Group members and the Group Manager SHOULD additionally support alternative distribution approaches that do not require group members to act (also) as servers. A number of such approaches are defined in {{Section 6 of RFC9594}}. In particular, a group member may use CoAP Observe {{RFC7641}} and subscribe for updates to the group-membership resource of the group, at the endpoint /ace-group/GROUPNAME/ of the Group Manager (see {{Section 6.1 of RFC9594}}). Alternatively, a full-fledged Pub-Sub model can be considered {{I-D.ietf-core-coap-pubsub}}, where the Group Manager publishes to a rekeying topic hosted at a Broker, while the group members subscribe to such topic (see {{Section 6.2 of RFC9594}}).
 
 ## Receiving Rekeying Messages {#receiving-rekeying-msg}
 
@@ -1439,7 +1439,7 @@ Node                                                         Manager
 
 # ACE Groupcomm Parameters {#ace-groupcomm-params}
 
-In addition to those defined in {{Section 8 of I-D.ietf-ace-key-groupcomm}}, this application profile defines additional parameters used during the second part of the message exchange with the Group Manager, i.e., after the exchange of Token Transfer Request and Response (see {{ssec-token-post}}). The table below summarizes them and specifies the CBOR key to use instead of the full descriptive name.
+In addition to those defined in {{Section 8 of RFC9594}}, this application profile defines additional parameters used during the second part of the message exchange with the Group Manager, i.e., after the exchange of Token Transfer Request and Response (see {{ssec-token-post}}). The table below summarizes them and specifies the CBOR key to use instead of the full descriptive name.
 
 Note that the media type application/ace-groupcomm+cbor MUST be used when these parameters are transported in the respective message fields.
 
@@ -1475,7 +1475,7 @@ The Group Manager is expected to support all the parameters above. Instead, a Cl
 
 * 'stale_node_ids' MUST be supported.
 
-When the conditional parameters defined in {{Section 8 of I-D.ietf-ace-key-groupcomm}} are used with this application profile, a Client must, should or may support them as specified below (REQ30).
+When the conditional parameters defined in {{Section 8 of RFC9594}} are used with this application profile, a Client must, should or may support them as specified below (REQ30).
 
 * 'client_cred', 'cnonce', 'client_cred_verify'. A Client that has an own authentication credential to use in a group MUST support these parameters.
 
@@ -1496,7 +1496,7 @@ multicast) MUST support this parameter.
 
 # ACE Groupcomm Error Identifiers {#error-types}
 
-In addition to those defined in {{Section 9 of I-D.ietf-ace-key-groupcomm}}, this application profile defines new values that the Group Manager can include as error identifiers, in the 'error' field of an error response with Content-Format application/ace-groupcomm+cbor.
+In addition to those defined in {{Section 9 of RFC9594}}, this application profile defines new values that the Group Manager can include as error identifiers, in the 'error' field of an error response with Content-Format application/ace-groupcomm+cbor.
 
 ~~~~~~~~~~~
 +-------+-------------------------------------------------+
@@ -1511,7 +1511,7 @@ In addition to those defined in {{Section 9 of I-D.ietf-ace-key-groupcomm}}, thi
 ~~~~~~~~~~~
 {: #fig-ACE-Groupcomm-Error Identifiers title="ACE Groupcomm Error Identifiers" artwork-align="center"}
 
-A Client supporting the 'error' parameter (see {{Sections 4.1.2 and 8 of I-D.ietf-ace-key-groupcomm}}) and able to understand the specified error may use that information to determine what actions to take next. If it is included in the error response and supported by the Client, the 'error_description' parameter may provide additional context. The following guidelines apply.
+A Client supporting the 'error' parameter (see {{Sections 4.1.2 and 8 of RFC9594}}) and able to understand the specified error may use that information to determine what actions to take next. If it is included in the error response and supported by the Client, the 'error_description' parameter may provide additional context. The following guidelines apply.
 
 * In case of error 7, the Client should stop sending the request in question to the Group Manager. In this application profile, this error is relevant only for a signature verifier, in case it tries to access resources related to a pairwise-only group.
 
@@ -1585,7 +1585,7 @@ For the Pairwise Key Agreement Algorithm 'ecdh_alg' and related parameters 'ecdh
 
 # Security Considerations {#sec-security-considerations}
 
-Security considerations for this profile are inherited from {{I-D.ietf-ace-key-groupcomm}}, the ACE framework for Authentication and Authorization {{RFC9200}}, and the specific transport profile of ACE signalled by the AS, such as {{RFC9202}} and {{RFC9203}}.
+Security considerations for this profile are inherited from {{RFC9594}}, the ACE framework for Authentication and Authorization {{RFC9200}}, and the specific transport profile of ACE signalled by the AS, such as {{RFC9202}} and {{RFC9203}}.
 
 The following security considerations also apply for this profile.
 
@@ -1673,7 +1673,7 @@ IANA is asked to register the following entries to the "OAuth Parameters CBOR Ma
 
 ## ACE Groupcomm Parameters {#ssec-iana-ace-groupcomm-parameters-registry}
 
-IANA is asked to register the following entries to the "ACE Groupcomm Parameters" registry defined in {{Section 11.6 of I-D.ietf-ace-key-groupcomm}}.
+IANA is asked to register the following entries to the "ACE Groupcomm Parameters" registry defined in {{Section 11.6 of RFC9594}}.
 
 * Name: group_senderId
 * CBOR Key: TBD
@@ -1710,7 +1710,7 @@ IANA is asked to register the following entries to the "ACE Groupcomm Parameters
 
 ## ACE Groupcomm Key Types {#ssec-iana-groupcomm-keys-registry}
 
-IANA is asked to register the following entry to the "ACE Groupcomm Key Types" registry defined in {{Section 11.7 of I-D.ietf-ace-key-groupcomm}}.
+IANA is asked to register the following entry to the "ACE Groupcomm Key Types" registry defined in {{Section 11.7 of RFC9594}}.
 
 *  Name: Group_OSCORE_Input_Material object
 *  Key Type Value: GROUPCOMM_KEY_TBD
@@ -1720,7 +1720,7 @@ IANA is asked to register the following entry to the "ACE Groupcomm Key Types" r
 
 ## ACE Groupcomm Profiles {#ssec-iana-groupcomm-profile-registry}
 
-IANA is asked to register the following entry to the "ACE Groupcomm Profiles" registry defined in {{Section 11.8 of I-D.ietf-ace-key-groupcomm}}.
+IANA is asked to register the following entry to the "ACE Groupcomm Profiles" registry defined in {{Section 11.8 of RFC9594}}.
 
 *  Name: coap_group_oscore_app
 *  Description: Application profile to provision keying material for participating in group communication protected with Group OSCORE as per {{I-D.ietf-core-oscore-groupcomm}}.
@@ -1873,7 +1873,7 @@ Client applications can use this resource type to discover a group membership re
 
 ## ACE Groupcomm Errors {#iana-ace-groupcomm-errors}
 
-IANA is asked to register the following entries in the "ACE Groupcomm Errors" registry defined in {{Section 11.11 of I-D.ietf-ace-key-groupcomm}}.
+IANA is asked to register the following entries in the "ACE Groupcomm Errors" registry defined in {{Section 11.11 of RFC9594}}.
 
 * Value: 7
 
@@ -1917,7 +1917,7 @@ Expert reviewers should take into consideration the following points:
 
 # Profile Requirements # {#profile-req}
 
-This section lists how this application profile of ACE addresses the requirements defined in Appendix A of {{I-D.ietf-ace-key-groupcomm}}.
+This section lists how this application profile of ACE addresses the requirements defined in {{Section A of RFC9594}}.
 
 ## Mandatory-to-Address Requirements
 
@@ -1933,19 +1933,19 @@ This section lists how this application profile of ACE addresses the requirement
 
 * REQ6 - Specify the acceptable formats for authentication credentials and, if used, the acceptable values for 'cred_fmt': acceptable formats explicitly provide the public key as well as the comprehensive set of information related to the public key algorithm (see {{ssec-token-post}} and {{ssec-join-resp}}). Consistent acceptable values for 'cred_fmt' are taken from the "Label" column of the "COSE Header Parameters" registry {{COSE.Header.Parameters}}.
 
-* REQ7 - If the value of the GROUPNAME URI path and the group name in the Access Token scope (gname in {{Section 3.1 of I-D.ietf-ace-key-groupcomm}}) are not required to coincide, specify the mechanism to map the GROUPNAME value in the URI to the group name: not applicable, since a perfect matching is required.
+* REQ7 - If the value of the GROUPNAME URI path and the group name in the Access Token scope (gname in {{Section 3.1 of RFC9594}}) are not required to coincide, specify the mechanism to map the GROUPNAME value in the URI to the group name: not applicable, since a perfect matching is required.
 
-* REQ8 - Define whether the KDC has an authentication credential and if this has to be provided through the 'kdc_cred' parameter, see {{Section 4.1 of I-D.ietf-ace-key-groupcomm}}: yes, as required by the Group OSCORE protocol {{I-D.ietf-core-oscore-groupcomm}}, see {{ssec-join-resp}} of this document.
+* REQ8 - Define whether the KDC has an authentication credential and if this has to be provided through the 'kdc_cred' parameter, see {{Section 4.1 of RFC9594}}: yes, as required by the Group OSCORE protocol {{I-D.ietf-core-oscore-groupcomm}}, see {{ssec-join-resp}} of this document.
 
-* REQ9 - Specify if any part of the KDC interface as defined in {{Section 4.1 of I-D.ietf-ace-key-groupcomm}} is not supported by the KDC: not applicable.
+* REQ9 - Specify if any part of the KDC interface as defined in {{Section 4.1 of RFC9594}} is not supported by the KDC: not applicable.
 
-* REQ10 - Register a Resource Type for the root url-path, which is used to discover the correct url to access at the KDC (see {{Section 4.1 of I-D.ietf-ace-key-groupcomm}}): the Resource Type (rt=) Link Target Attribute value "core.osc.gm" is registered in {{iana-rt}}.
+* REQ10 - Register a Resource Type for the root url-path, which is used to discover the correct url to access at the KDC (see {{Section 4.1 of RFC9594}}): the Resource Type (rt=) Link Target Attribute value "core.osc.gm" is registered in {{iana-rt}}.
 
 * REQ11 - Define what specific actions (e.g., CoAP methods) are allowed on each resource provided by the KDC interface, depending on whether the Client is a current group member; the roles that a Client is authorized to take as per the obtained access token; and the roles that the Client has as current group member: see {{ssec-admitted-methods}}.
 
 * REQ12 - Categorize possible newly defined operations for Clients into primary operations expected to be minimally supported and secondary operations, and provide accompanying considerations: see {{client-operations}}.
 
-* REQ13 - Specify the encoding of group identifier (see {{Section 4.2.1 of I-D.ietf-ace-key-groupcomm}}): CBOR byte string (see {{sec-retrieve-gnames}}).
+* REQ13 - Specify the encoding of group identifier (see {{Section 4.2.1 of RFC9594}}): CBOR byte string (see {{sec-retrieve-gnames}}).
 
 * REQ14 - Specify the approaches used to compute and verify the PoP evidence to include in 'client_cred_verify', and which of those approaches is used in which case: see {{ssec-join-req-sending}} and {{ssec-join-req-processing}}.
 
@@ -1977,9 +1977,9 @@ This section lists how this application profile of ACE addresses the requirement
 
 * REQ28 - Specify which CBOR tag is used for identifying the semantics of binary scopes, or register a new CBOR tag if a suitable one does not exist already: see {{ssec-auth-resp}}.
 
-* REQ29 - Categorize newly defined parameters according to the same criteria of {{Section 8 of I-D.ietf-ace-key-groupcomm}}: see {{ace-groupcomm-params}}.
+* REQ29 - Categorize newly defined parameters according to the same criteria of {{Section 8 of RFC9594}}: see {{ace-groupcomm-params}}.
 
-* REQ30 - Define whether Clients must, should or may support the conditional parameters defined in {{Section 8 of I-D.ietf-ace-key-groupcomm}}, and under which circumstances: see {{ace-groupcomm-params}}.
+* REQ30 - Define whether Clients must, should or may support the conditional parameters defined in {{Section 8 of RFC9594}}, and under which circumstances: see {{ace-groupcomm-params}}.
 
 ## Optional-to-Address Requirements
 
@@ -1999,13 +1999,13 @@ This section lists how this application profile of ACE addresses the requirement
 
 * OPT6 (Optional) - Specify the encoding of 'creds_repo' if the default is not used: no.
 
-* OPT7 (Optional) - Specify the functionalities implemented at the 'control_uri' resource hosted at the Client, including message exchange encoding and other details (see {{Section 4.3.1 of I-D.ietf-ace-key-groupcomm}}): see {{sec-leaving}} for the eviction of a group member; see {{sec-group-rekeying-process}} for the group rekeying process.
+* OPT7 (Optional) - Specify the functionalities implemented at the 'control_uri' resource hosted at the Client, including message exchange encoding and other details (see {{Section 4.3.1 of RFC9594}}): see {{sec-leaving}} for the eviction of a group member; see {{sec-group-rekeying-process}} for the group rekeying process.
 
 * OPT8 (Optional) - Specify the behavior of the handler in case of failure to retrieve an authentication credential for the specific node: send a 4.00 (Bad Request) error response to a Join Request (see {{ssec-join-req-processing}}).
 
-* OPT9 (Optional) - Define a default group rekeying scheme, to refer to in case the 'rekeying_scheme' parameter is not included in the Join Response (see {{Section 4.3.1.1 of I-D.ietf-ace-key-groupcomm}}): the "Point-to-Point" rekeying scheme registered in {{Section 11.12 of I-D.ietf-ace-key-groupcomm}}, whose detailed use for this profile is defined in {{sec-group-rekeying-process}} of this document.
+* OPT9 (Optional) - Define a default group rekeying scheme, to refer to in case the 'rekeying_scheme' parameter is not included in the Join Response (see {{Section 4.3.1.1 of RFC9594}}): the "Point-to-Point" rekeying scheme registered in {{Section 11.12 of RFC9594}}, whose detailed use for this profile is defined in {{sec-group-rekeying-process}} of this document.
 
-* OPT10 (Optional) - Specify the functionalities implemented at the 'control_group_uri' resource hosted at the Client, including message exchange encoding and other details (see {{Section 4.3.1 of I-D.ietf-ace-key-groupcomm}}): see {{sec-leaving}} for the eviction of multiple group members.
+* OPT10 (Optional) - Specify the functionalities implemented at the 'control_group_uri' resource hosted at the Client, including message exchange encoding and other details (see {{Section 4.3.1 of RFC9594}}): see {{sec-leaving}} for the eviction of multiple group members.
 
 * OPT11 (Optional) - Specify policies that instruct Clients to retain unsuccessfully decrypted messages and for how long, so that they can be decrypted after getting updated keying material: no.
 
@@ -2013,9 +2013,9 @@ This section lists how this application profile of ACE addresses the requirement
 
 * OPT13 (Optional) - Specify how the identifier of a group members's authentication credential is included in requests sent to other group members: no.
 
-* OPT14 (Optional) - Specify additional information to include in rekeying messages for the "Point-to-Point" group rekeying scheme (see {{Section 6.1 of I-D.ietf-ace-key-groupcomm}}): see {{sending-rekeying-msg}}.
+* OPT14 (Optional) - Specify additional information to include in rekeying messages for the "Point-to-Point" group rekeying scheme (see {{Section 6.1 of RFC9594}}): see {{sending-rekeying-msg}}.
 
-* OPT15 (Optional) - Specify if Clients must or should support any of the parameters defined as optional in {{Section 8 of I-D.ietf-ace-key-groupcomm}}: no.
+* OPT15 (Optional) - Specify if Clients must or should support any of the parameters defined as optional in {{Section 8 of RFC9594}}: no.
 
 # Extensibility for Future COSE Algorithms # {#sec-future-cose-algs}
 
@@ -2027,7 +2027,7 @@ To enable the seamless use of such future registered algorithms, this section de
 
 * The 'sign_params' and 'ecdh_params' parameters within the 'key' parameter (see {{ssec-join-resp}}), as part of the response payloads used in {{ssec-join-resp}}, {{ssec-updated-key-only}}, {{ssec-updated-and-individual-key}} and {{sec-group-rekeying-process}}.
 
-Appendix B of {{I-D.ietf-ace-key-groupcomm}} describes the analogous general format for 'sign_info_entry' of the 'sign_info' parameter in the Token Transfer Response (see {{ssec-token-post}} of this document).
+{{Section B of RFC9594}} describes the analogous general format for 'sign_info_entry' of the 'sign_info' parameter in the Token Transfer Response (see {{ssec-token-post}} of this document).
 
 If any of the currently registered COSE algorithms is considered, using this general format yields the same structure defined in this document for the items above, thus ensuring retro-compatibility.
 
