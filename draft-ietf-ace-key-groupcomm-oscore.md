@@ -549,7 +549,7 @@ The Group Manager verifies the PoP evidence contained in 'client_cred_verify' as
 
 The Group Manager MUST reply with a 5.03 (Service Unavailable) error response in the following cases:
 
-* There are currently no OSCORE Sender IDs available to assign in the OSCORE group and, at the same time, the joining node is not going to join the group exclusively as monitor. The response MUST have Content-Format set to application/ace-groupcomm+cbor and is formatted as defined in {{Section 4.1.2 of RFC9594}}. The value of the 'error' field MUST be set to 4 ("No available node identifiers").
+* There are currently no OSCORE Sender IDs available to assign in the OSCORE group and, at the same time, the joining node is not going to join the group exclusively as monitor. The response MUST have Content-Format set to application/ace-groupcomm+cbor and is formatted as defined in {{Section 4.1.2 of RFC9594}}. The value of the 'error' field MUST be set to 4 ("No available individual keying material").
 
 * The OSCORE group that the joining node has been trying to join is currently inactive (see {{ssec-resource-active}}). The response MUST have Content-Format set to application/ace-groupcomm+cbor and is formatted as defined in {{Section 4.1.2 of RFC9594}}. The value of the 'error' field MUST be set to 9 ("Group currently not active").
 
@@ -984,7 +984,7 @@ Otherwise, the Group Manager performs one of the following actions.
 
        Furthermore, the Group Manager MUST add the old, relinquished Sender ID of the group member to the most recent set of stale Sender IDs for the group (see {{sssec-stale-sender-ids}}).
 
-       The Group Manager MUST return a 5.03 (Service Unavailable) response in case there are currently no Sender IDs available to assign in the OSCORE group. The response MUST have Content-Format set to application/ace-groupcomm+cbor and is formatted as defined in {{Section 4.1.2 of RFC9594}}. The value of the 'error' field MUST be set to 4 ("No available node identifiers").
+       The Group Manager MUST return a 5.03 (Service Unavailable) response in case there are currently no Sender IDs available to assign in the OSCORE group. The response MUST have Content-Format set to application/ace-groupcomm+cbor and is formatted as defined in {{Section 4.1.2 of RFC9594}}. The value of the 'error' field MUST be set to 4 ("No available individual keying material").
 
 ## Retrieve Authentication Credentials of Group Members # {#sec-pub-keys}
 
@@ -2089,6 +2089,8 @@ The format of 'key' (see {{ssec-join-resp}}) is generalized as follows.
 * Updated author list.
 
 * Updated references and section numbers of referred documents.
+
+* Fixed name of the error with error code 4.
 
 * Clarifications and editorial fixes.
 
