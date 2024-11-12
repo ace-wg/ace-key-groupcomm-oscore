@@ -5,6 +5,8 @@ title: Key Management for OSCORE Groups in ACE
 abbrev: Key Management for OSCORE Groups in ACE
 docname: draft-ietf-ace-key-groupcomm-oscore-latest
 
+# stand_alone: true
+
 ipr: trust200902
 area: Security
 workgroup: ACE Working Group
@@ -12,18 +14,12 @@ keyword: Internet-Draft
 cat: std
 submissiontype: IETF
 
-# stand_alone: yes
-
 coding: utf-8
+pi:    # can use array (if all yes) or hash here
 
-#pi:    # can use array (if all yes) or hash here
-pi: [toc, sortrefs, symrefs]
-#  - toc
-#  - sortrefs
-#  - symrefs
-#toc: yes
-#sortrefs:   # defaults to yes
-#symrefs: yes
+  toc: yes
+  sortrefs:   # defaults to yes
+  symrefs: yes
 
 author:
 -
@@ -55,7 +51,6 @@ author:
     email: francesca.palombini@ericsson.com
 
 normative:
-  RFC2119:
   RFC5705:
   RFC6347:
   RFC6979:
@@ -64,7 +59,6 @@ normative:
   RFC8017:
   RFC8032:
   RFC8126:
-  RFC8174:
   RFC8446:
   RFC8447:
   RFC8610:
@@ -157,7 +151,7 @@ This document is an application profile of {{I-D.ietf-ace-key-groupcomm}}, which
 
 ## Terminology {#ssec-terminology}
 
-The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in BCP 14 {{RFC2119}}{{RFC8174}} when, and only when, they appear in all capitals, as shown here.
+{::boilerplate bcp14-tagged}
 
 Readers are expected to be familiar with:
 
@@ -2097,8 +2091,7 @@ The format of 'key' (see {{ssec-join-resp}}) is generalized as follows.
    For example, if 'ecdh_params'\[0\]\[0\] specifies the key type as capability of the algorithm, then 'ecdh_params'\[1\] is the array of COSE capabilities for the COSE key type associated with the ECDH algorithm, as specified for that key type in the "Capabilities" column of the "COSE Key Types" registry {{COSE.Key.Types}} (see {{Section 8.2 of RFC9053}}).
 
 # Document Updates # {#sec-document-updates}
-
-RFC EDITOR: PLEASE REMOVE THIS SECTION.
+{:removeinrfc}
 
 ## Version -15 to -16 ## {#sec-15-16}
 
