@@ -5,10 +5,10 @@
 ACE Working Group                                              M. Tiloca
 Internet-Draft                                                   RISE AB
 Intended status: Standards Track                                 J. Park
-Expires: 7 September 2023                    Universitaet Duisburg-Essen
+Expires: 16 May 2025                         Universitaet Duisburg-Essen
                                                             F. Palombini
                                                              Ericsson AB
-                                                            6 March 2023
+                                                        12 November 2024
 
 
                 Key Management for OSCORE Groups in ACE
@@ -43,11 +43,11 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 7 September 2023.
+   This Internet-Draft will expire on 16 May 2025.
 
 Copyright Notice
 
-   Copyright (c) 2023 IETF Trust and the persons identified as the
+   Copyright (c) 2024 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -195,8 +195,8 @@ Table of Contents
 
    The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
    "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
-   "OPTIONAL" in this document are to be interpreted as described in BCP
-   14 [RFC2119][RFC8174] when, and only when, they appear in all
+   "OPTIONAL" in this document are to be interpreted as described in
+   BCP 14 [RFC2119] [RFC8174] when, and only when, they appear in all
    capitals, as shown here.
 
    Readers are expected to be familiar with:
@@ -3830,17 +3830,17 @@ Table of Contents
    [I-D.ietf-ace-key-groupcomm]
               Palombini, F. and M. Tiloca, "Key Provisioning for Group
               Communication using ACE", Work in Progress, Internet-
-              Draft, draft-ietf-ace-key-groupcomm-16, 5 September 2022,
+              Draft, draft-ietf-ace-key-groupcomm-19, 30 April 2024,
               <https://datatracker.ietf.org/doc/html/draft-ietf-ace-key-
-              groupcomm-16>.
+              groupcomm-19>.
 
    [I-D.ietf-core-oscore-groupcomm]
               Tiloca, M., Selander, G., Palombini, F., Mattsson, J. P.,
-              and J. Park, "Group OSCORE - Secure Group Communication
-              for CoAP", Work in Progress, Internet-Draft, draft-ietf-
-              core-oscore-groupcomm-17, 20 December 2022,
-              <https://datatracker.ietf.org/doc/html/draft-ietf-core-
-              oscore-groupcomm-17>.
+              and R. Höglund, "Group Object Security for Constrained
+              RESTful Environments (Group OSCORE)", Work in Progress,
+              Internet-Draft, draft-ietf-core-oscore-groupcomm-23, 26
+              September 2024, <https://datatracker.ietf.org/doc/html/
+              draft-ietf-core-oscore-groupcomm-23>.
 
    [NIST-800-56A]
               Barker, E., Chen, L., Roginsky, A., Vassilev, A., and R.
@@ -3970,41 +3970,41 @@ Table of Contents
               Tiloca, M., Höglund, R., Van der Stok, P., and F.
               Palombini, "Admin Interface for the OSCORE Group Manager",
               Work in Progress, Internet-Draft, draft-ietf-ace-oscore-
-              gm-admin-07, 24 October 2022,
+              gm-admin-12, 8 July 2024,
               <https://datatracker.ietf.org/doc/html/draft-ietf-ace-
-              oscore-gm-admin-07>.
+              oscore-gm-admin-12>.
 
    [I-D.ietf-core-coap-pubsub]
-              Koster, M., Keränen, A., and J. Jimenez, "Publish-
-              Subscribe Broker for the Constrained Application Protocol
-              (CoAP)", Work in Progress, Internet-Draft, draft-ietf-
-              core-coap-pubsub-11, 7 November 2022,
+              Jimenez, J., Koster, M., and A. Keränen, "A publish-
+              subscribe architecture for the Constrained Application
+              Protocol (CoAP)", Work in Progress, Internet-Draft, draft-
+              ietf-core-coap-pubsub-15, 21 October 2024,
               <https://datatracker.ietf.org/doc/html/draft-ietf-core-
-              coap-pubsub-11>.
+              coap-pubsub-15>.
 
    [I-D.ietf-core-groupcomm-bis]
               Dijk, E., Wang, C., and M. Tiloca, "Group Communication
               for the Constrained Application Protocol (CoAP)", Work in
               Progress, Internet-Draft, draft-ietf-core-groupcomm-bis-
-              08, 11 January 2023,
+              12, 21 October 2024,
               <https://datatracker.ietf.org/doc/html/draft-ietf-core-
-              groupcomm-bis-08>.
+              groupcomm-bis-12>.
 
    [I-D.ietf-cose-cbor-encoded-cert]
               Mattsson, J. P., Selander, G., Raza, S., Höglund, J., and
               M. Furuhed, "CBOR Encoded X.509 Certificates (C509
               Certificates)", Work in Progress, Internet-Draft, draft-
-              ietf-cose-cbor-encoded-cert-05, 10 January 2023,
+              ietf-cose-cbor-encoded-cert-11, 8 July 2024,
               <https://datatracker.ietf.org/doc/html/draft-ietf-cose-
-              cbor-encoded-cert-05>.
+              cbor-encoded-cert-11>.
 
    [I-D.tiloca-core-oscore-discovery]
               Tiloca, M., Amsüss, C., and P. Van der Stok, "Discovery of
               OSCORE Groups with the CoRE Resource Directory", Work in
               Progress, Internet-Draft, draft-tiloca-core-oscore-
-              discovery-12, 5 September 2022,
+              discovery-16, 4 September 2024,
               <https://datatracker.ietf.org/doc/html/draft-tiloca-core-
-              oscore-discovery-12>.
+              oscore-discovery-16>.
 
    [RFC5869]  Krawczyk, H. and P. Eronen, "HMAC-based Extract-and-Expand
               Key Derivation Function (HKDF)", RFC 5869,
@@ -4371,7 +4371,7 @@ B.2.  Format of 'key'
 
 Appendix C.  Document Updates
 
-   RFC EDITOR: PLEASE REMOVE THIS SECTION.
+   This section is to be removed before publishing as an RFC.
 
 C.1.  Version -15 to -16
 
@@ -4765,10 +4765,10 @@ Acknowledgments
    Ladd, Daniel Migault, Jim Schaad, Ludwig Seitz, Göran Selander and
    Peter van der Stok for their comments and feedback.
 
-   The work on this document has been partly supported by VINNOVA and
-   the Celtic-Next project CRITISEC; by the H2020 project SIFIS-Home
-   (Grant agreement 952652); and by the EIT-Digital High Impact
-   Initiative ACTIVE.
+   The work on this document has been partly supported by the Sweden's
+   Innovation Agency VINNOVA and the Celtic-Next projects CRITISEC and
+   CYPRESS; by the H2020 project SIFIS-Home (Grant agreement 952652);
+   and by the EIT-Digital High Impact Initiative ACTIVE.
 
 Authors' Addresses
 
