@@ -3577,7 +3577,7 @@ multicast) <span class="bcp14">MUST</span> support this parameter.<a href="#sect
             <p id="section-14.1-2.1.1">For the HKDF Algorithm 'hkdf', the Group Manager <span class="bcp14">SHOULD</span> use HKDF SHA-256, defined as default in <span><a href="https://rfc-editor.org/rfc/rfc8613#section-3.2" class="relref">Section 3.2</a> of [<a href="#RFC8613" class="cite xref">RFC8613</a>]</span>. In the 'hkdf' parameter, this HKDF Algorithm is specified by the HMAC Algorithm HMAC 256/256 (COSE algorithm encoding: 5).<a href="#section-14.1-2.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-14.1-2.2">
-            <p id="section-14.1-2.2.1">For the format 'cred_fmt' used for the authentication credentials in the group, the Group Manager <span class="bcp14">SHOULD</span> use CBOR Web Token (CWT) or CWT Claims Set (CCS) <span>[<a href="#RFC8392" class="cite xref">RFC8392</a>]</span>, i.e., the COSE Header Parameter 'kcwt' and 'kccs', respectively.<a href="#section-14.1-2.2.1" class="pilcrow">¶</a></p>
+            <p id="section-14.1-2.2.1">For the format 'cred_fmt' used for the authentication credentials in the group, the Group Manager <span class="bcp14">SHOULD</span> use CBOR Web Token Claims Set (CCS) <span>[<a href="#RFC8392" class="cite xref">RFC8392</a>]</span>, i.e., the COSE Header Parameter 'kccs'.<a href="#section-14.1-2.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-14.1-2.3">
             <p id="section-14.1-2.3.1">For 'max_stale_sets', the Group Manager <span class="bcp14">SHOULD</span> consider N = 3 as the maximum number of stored sets of stale Sender IDs for the group (see <a href="#sssec-stale-sender-ids" class="auto internal xref">Section 7.1</a>).<a href="#section-14.1-2.3.1" class="pilcrow">¶</a></p>
@@ -4846,10 +4846,13 @@ sign_params = 11
             <p id="appendix-D.1-1.10.1">Revised default values on group configuration parameters.<a href="#appendix-D.1-1.10.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.11">
-            <p id="appendix-D.1-1.11.1">Aligned requirement formulation with that in RFC 9594.<a href="#appendix-D.1-1.11.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.11.1">CCS is used as default format of authentication credential.<a href="#appendix-D.1-1.11.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.12">
-            <p id="appendix-D.1-1.12.1">Clarifications and editorial fixes.<a href="#appendix-D.1-1.12.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.12.1">Aligned requirement formulation with that in RFC 9594.<a href="#appendix-D.1-1.12.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-D.1-1.13">
+            <p id="appendix-D.1-1.13.1">Clarifications and editorial fixes.<a href="#appendix-D.1-1.13.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
