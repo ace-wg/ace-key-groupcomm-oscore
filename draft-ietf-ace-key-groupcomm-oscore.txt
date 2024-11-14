@@ -705,6 +705,10 @@ Table of Contents
          acceptable to use as long as they comply with the criteria
          defined above.
 
+         [ As to C509 certificates, the COSE Header Parameters 'c5b' and
+         'c5c' are under pending registration requested by draft-ietf-
+         cose-cbor-encoded-cert. ]
+
       This format is consistent with every signature algorithm currently
       considered in [RFC9053], i.e., with algorithms that have only the
       COSE key type as their COSE capability.  Appendix B of [RFC9594]
@@ -1316,6 +1320,10 @@ Table of Contents
          Further formats may be available in the future, and would be
          acceptable to use as long as they comply with the criteria
          defined above.
+
+         [ As to C509 certificates, the COSE Header Parameters 'c5b' and
+         'c5c' are under pending registration requested by draft-ietf-
+         cose-cbor-encoded-cert. ]
 
       The 'key' parameter MUST also include the following parameters, if
       and only if the OSCORE group is not a pairwise-only group.
