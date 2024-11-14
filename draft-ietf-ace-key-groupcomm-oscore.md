@@ -1519,7 +1519,7 @@ This section always applies, as related to common configuration parameters.
 
 * For the HKDF Algorithm 'hkdf', the Group Manager SHOULD use HKDF SHA-256, defined as default in {{Section 3.2 of RFC8613}}. In the 'hkdf' parameter, this HKDF Algorithm is specified by the HMAC Algorithm HMAC 256/256 (COSE algorithm encoding: 5).
 
-* For the format 'cred_fmt' used for the authentication credentials in the group, the Group Manager SHOULD use CBOR Web Token (CWT) or CWT Claims Set (CCS) {{RFC8392}}, i.e., the COSE Header Parameter 'kcwt' and 'kccs', respectively.
+* For the format 'cred_fmt' used for the authentication credentials in the group, the Group Manager SHOULD use CBOR Web Token Claims Set (CCS) {{RFC8392}}, i.e., the COSE Header Parameter 'kccs'.
 
 * For 'max_stale_sets', the Group Manager SHOULD consider N = 3 as the maximum number of stored sets of stale Sender IDs for the group (see {{sssec-stale-sender-ids}}).
 
@@ -2108,6 +2108,8 @@ sign_params = 11
 * Added CBOR integer abbreviations for ACE Groupcomm Parameters.
 
 * Revised default values on group configuration parameters.
+
+* CCS is used as default format of authentication credential.
 
 * Aligned requirement formulation with that in RFC 9594.
 
