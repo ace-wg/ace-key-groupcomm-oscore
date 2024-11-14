@@ -2007,21 +2007,29 @@ As defined in {{Section 8.1 of RFC9053}}, future algorithms can be registered in
 
 To enable the seamless use of such future registered algorithms, this section defines a general, agile format for:
 
-* Each 'ecdh_info_entry' of the 'ecdh_info' parameter in the Token Transfer Response (see {{ssec-token-post}} and {{ecdh-info}});
+* Each 'ecdh_info_entry' of the 'ecdh_info' parameter in the Token Transfer Response; see {{ecdh-info}}).
+
+  {{Section B of RFC9594}} describes the analogous general format for each 'sign_info_entry' of the 'sign_info' parameter in the Token Transfer Response (see {{ssec-token-post}} of this document).
 
 * The 'sign_params' and 'ecdh_params' parameters within the 'key' parameter (see {{ssec-join-resp}}), as part of the response payloads used in {{ssec-join-resp}}, {{ssec-updated-key-only}}, {{ssec-updated-and-individual-key}} and {{sec-group-rekeying-process}}.
 
-{{Section B of RFC9594}} describes the analogous general format for 'sign_info_entry' of the 'sign_info' parameter in the Token Transfer Response (see {{ssec-token-post}} of this document).
-
-If any of the currently registered COSE algorithms is considered, using this general format yields the same structure defined in this document for the items above, thus ensuring retro-compatibility.
+If any of the currently registered COSE algorithms is considered, using this general format yields the same structure defined in this document for the items above, thus ensuring backward compatibility.
 
 ## Format of 'ecdh_info_entry' ## {#sec-future-cose-algs-ecdh-info-entry}
 
-The format of each 'ecdh_info_entry' (see {{ssec-token-post}} and {{ecdh-info}}) is generalized as follows. Given N the number of elements of the 'ecdh_parameters' array, i.e., the number of COSE capabilities of the ECDH algorithm, then:
+The format of each 'ecdh_info_entry' (see {{ssec-token-post}} and {{ecdh-info}}) is generalized as follows.
 
-* 'ecdh_key_parameters' is replaced by N elements 'ecdh_capab_i', each of which is a CBOR array.
+* 'ecdh_parameters' includes N >= 0 elements, each of which is a COSE capability of the ECDH algorithm indicated in 'ecdh_alg'.
 
-* The i-th array following 'ecdh_parameters', i.e., 'ecdh_capab_i' (i = 0, ..., N-1), is the array of COSE capabilities for the algorithm capability specified in 'ecdh_parameters'\[i\].
+  In particular, 'ecdh_parameters' has the same format and value of the COSE capabilities array for the ECDH algorithm indicated in 'ecdh_alg', as specified for that algorithm in the 'Capabilities' column of the "COSE Algorithms" registry {{COSE.Algorithms}}.
+
+* 'ecdh_key_parameters' is replaced by N elements 'ecdh_capab', each of which is a CBOR array.
+
+  The i-th 'ecdh_capab' array (i = 0, ..., N-1) is the array of COSE capabilities for the algorithm capability specified in 'ecdh_parameters'\[i\].
+
+  In particular, each 'ecdh_capab' array has the same format and value of the COSE capabilities array for the algorithm capability specified in 'ecdh_parameters'\[i\].
+
+  Such a COSE capabilities array is currently defined for the algorithm capability COSE key type, in the "Capabilities" column of the "COSE Key Types" registry {{COSE.Key.Types}}.
 
 The CDDL notation {{RFC8610}} of the 'ecdh_info_entry' parameter is given below.
 
@@ -2114,6 +2122,8 @@ sign_params = 11
 * Fixed error response code from /ace-group/GROUPNAME/nodes/NODENAME.
 
 * Revised default values on group configuration parameters.
+
+* Revised future-ready generalization of 'ecdh_info_entry'.
 
 * CCS is used as default format of authentication credential.
 
