@@ -429,7 +429,7 @@ ecdh_info_entry =
   id : gname / [+ gname],
   ecdh_alg : int / tstr,
   ecdh_parameters : [any],
-  ecdh_key_parameters : [any],
+  ecdh_key_parameters : [+ parameter : any],
   cred_fmt : int
 ]
 
@@ -2034,17 +2034,11 @@ The CDDL notation {{RFC8610}} of the 'ecdh_info_entry' parameter is given below.
 ~~~~~~~~~~~ CDDL
 ecdh_info_entry =
 [
-  id : gname / [+ gname],
-  ecdh_alg : int / tstr,
-  ecdh_parameters : [alg_capab_1 : any,
-                     alg_capab_2 : any,
-                     ...,
-                     alg_capab_N : any],
-  ecdh_capab_1 : [any],
-  ecdh_capab_2 : [any],
-  ...,
-  ecdh_capab_N : [any],
-  cred_fmt : int / null
+    id : gname / [+ gname],
+    ecdh_alg : int / tstr,
+    ecdh_parameters : [* ecdh_capab : any],
+  * ecdh_capab : [* capab : any],
+    cred_fmt : int / null
 ]
 
 gname = tstr
