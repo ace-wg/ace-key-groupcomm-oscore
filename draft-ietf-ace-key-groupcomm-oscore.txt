@@ -3407,6 +3407,7 @@ Table of Contents
    *  Specification Document(s): [RFC-XXXX]
 
 
+
    *  Parameter name: kdc_dh_creds
 
    *  Parameter usage location: client-rs request, rs-client response
@@ -3428,6 +3429,7 @@ Table of Contents
    *  Value Type: Simple value null / Array
 
    *  Reference: [RFC-XXXX]
+
 
 
    *  Name: kdc_dh_creds
@@ -3452,6 +3454,7 @@ Table of Contents
    *  Reference: [RFC-XXXX] (Section 9.2)
 
 
+
    *  Name: ecdh_info
 
    *  CBOR Key: TBD
@@ -3459,6 +3462,7 @@ Table of Contents
    *  CBOR Type: Array
 
    *  Reference: [RFC-XXXX] (Section 6.2)
+
 
 
    *  Name: kdc_dh_creds
@@ -3470,6 +3474,7 @@ Table of Contents
    *  Reference: [RFC-XXXX] (Section 6.2)
 
 
+
    *  Name: group_enc_key
 
    *  CBOR Key: TBD
@@ -3477,6 +3482,7 @@ Table of Contents
    *  CBOR Type: Byte string
 
    *  Reference: [RFC-XXXX] (Section 8.2.1)
+
 
 
    *  Name: stale_node_ids
@@ -3539,6 +3545,7 @@ Table of Contents
    *  Reference: [RFC-XXXX] (Section 6.3)
 
 
+
    *  Name: cred_fmt
 
    *  CBOR Label: TBD
@@ -3551,6 +3558,7 @@ Table of Contents
       the OSCORE group
 
    *  Reference: [RFC-XXXX] (Section 6.3)
+
 
 
    *  Name: sign_enc_alg
@@ -3566,6 +3574,7 @@ Table of Contents
    *  Reference: [RFC-XXXX] (Section 6.3)
 
 
+
    *  Name: sign_alg
 
    *  CBOR Label: TBD
@@ -3577,6 +3586,7 @@ Table of Contents
    *  Description: OSCORE Signature Algorithm Value
 
    *  Reference: [RFC-XXXX] (Section 6.3)
+
 
 
    *  Name: sign_params
@@ -3592,6 +3602,7 @@ Table of Contents
    *  Reference: [RFC-XXXX] (Section 6.3)
 
 
+
    *  Name: ecdh_alg
 
    *  CBOR Label: TBD
@@ -3603,6 +3614,7 @@ Table of Contents
    *  Description: OSCORE Pairwise Key Agreement Algorithm Value
 
    *  Reference: [RFC-XXXX] (Section 6.3)
+
 
 
    *  Name: ecdh_params
@@ -3648,6 +3660,7 @@ Table of Contents
    *  Reference: [RFC-XXXX]
 
 
+
    *  Parameter: Tperm
 
    *  Name: oscore-gperm
@@ -3670,6 +3683,7 @@ Table of Contents
    *  ID: 292 (suggested)
 
    *  Reference: [RFC-XXXX]
+
 
 
    *  Media Type: application/aif+json;Toid="oscore-
@@ -3740,11 +3754,13 @@ Table of Contents
    *  Reference: [RFC-XXXX]
 
 
+
    *  Value: 8
 
    *  Description: Operation permitted only to signature verifiers.
 
    *  Reference: [RFC-XXXX]
+
 
 
    *  Value: 9
