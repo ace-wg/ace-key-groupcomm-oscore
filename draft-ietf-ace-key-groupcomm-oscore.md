@@ -42,6 +42,7 @@ author:
     email: francesca.palombini@ericsson.com
 
 normative:
+  RFC5246:
   RFC5705:
   RFC6347:
   RFC6979:
@@ -63,6 +64,7 @@ normative:
   RFC9203:
   RFC9237:
   RFC9277:
+  RFC9430:
   RFC9594:
   I-D.ietf-core-oscore-groupcomm:
   NIST-800-56A:
@@ -525,9 +527,13 @@ The value of the N\_S challenge is determined as follows.
 
   Specifically, N\_S is exported from the DTLS session between the joining node and the Group Manager, using an empty context value (i.e., a context value of zero-length), 32 as length value in bytes, and the exporter label "EXPORTER-ACE-Pop-Input-coap-group-oscore-app" defined in {{ssec-iana-tls-esporter-label-registry}} of this document.
 
+  The same as above holds if TLS 1.2 {{RFC5246}} was used instead of DTLS 1.2, as per {{RFC9430}}.
+
 * If the provisioning of the access token to the Group Manager has relied on the DTLS profile of ACE {{RFC9202}}, and the access token was specified in the "identity" field of a PskIdentity within the PreSharedKeyExtension of the ClientHello message when using DTLS 1.3 {{RFC9147}}, then N\_S is an exporter value computed as defined in {{Section 7.5 of RFC8446}} (REQ15).
 
   Specifically, N\_S is exported from the DTLS session between the joining node and the Group Manager, using an empty 'context_value' (i.e., a 'context_value' of zero length), 32 as 'key_length' in bytes, and the exporter label "EXPORTER-ACE-Sign-Challenge-coap-group-oscore-app" defined in {{ssec-iana-tls-esporter-label-registry}} of this document.
+
+  The same as above holds if TLS 1.3 {{RFC8446}} was used instead of DTLS 1.2, as per {{RFC9430}}.
 
 It is up to applications to define how N_S is computed in further alternative settings.
 
