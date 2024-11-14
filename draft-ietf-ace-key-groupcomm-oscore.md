@@ -1,7 +1,7 @@
 ---
 v: 3
 
-title: Key Management for OSCORE Groups in ACE
+title: Key Management for Group Object Security for Constrained RESTful Environments (Group OSCORE) Using Authentication and Authorization for Constrained Environments (ACE)
 abbrev: Key Management for OSCORE Groups in ACE
 docname: draft-ietf-ace-key-groupcomm-oscore-latest
 
