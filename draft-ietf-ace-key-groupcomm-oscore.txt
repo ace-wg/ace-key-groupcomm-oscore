@@ -1042,8 +1042,8 @@ Table of Contents
        of [RFC8446].  Specifically, N_S is exported from the DTLS
        session between the joining node and the Group Manager, using an
        empty 'context_value', 32 bytes as 'key_length', and the exporter
-       label "EXPORTER-ACE-Sign-Challenge-coap-group-oscore-app" defined
-       in Section 16.7 of this document.
+       label "EXPORTER-ACE-Pop-Input-coap-group-oscore-app" defined in
+       Section 16.7 of this document.
 
    It is up to applications to define how N_S is computed in further
    alternative settings.
@@ -3628,7 +3628,7 @@ Table of Contents
    Labels" registry defined in Section 6 of [RFC5705] and updated in
    Section 12 of [RFC8447].
 
-   *  Value: EXPORTER-ACE-Sign-Challenge-coap-group-oscore-app
+   *  Value: EXPORTER-ACE-Pop-Input-coap-group-oscore-app
 
    *  DTLS-OK: Y
 
@@ -4426,6 +4426,8 @@ D.1.  Version -16 to -17
    *  Revised default values on group configuration parameters.
 
    *  CCS is used as default format of authentication credential.
+
+   *  Updated name of TLS exporter label.
 
    *  Aligned requirement formulation with that in RFC 9594.
 
