@@ -533,7 +533,7 @@ The value of the N\_S challenge is determined as follows.
 
   Specifically, N\_S is exported from the DTLS session between the joining node and the Group Manager, using an empty 'context_value' (i.e., a 'context_value' of zero length), 32 as 'key_length' in bytes, and the exporter label "EXPORTER-ACE-Sign-Challenge-coap-group-oscore-app" defined in {{ssec-iana-tls-esporter-label-registry}} of this document.
 
-  The same as above holds if TLS 1.3 {{RFC8446}} was used instead of DTLS 1.2, as per {{RFC9430}}.
+  The same as above holds if TLS 1.3 {{RFC8446}} was used instead of DTLS 1.3, as per {{RFC9430}}.
 
 It is up to applications to define how N_S is computed in further alternative settings.
 
