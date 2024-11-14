@@ -1638,7 +1638,7 @@ IANA is asked to register the following entries to the "OAuth Parameters" regist
 *  Change Controller: IESG
 *  Specification Document(s): {{&SELF}}
 
-&nbsp;
+<br>
 
 *  Parameter name: kdc_dh_creds
 *  Parameter usage location: client-rs request, rs-client response
@@ -1654,7 +1654,7 @@ IANA is asked to register the following entries to the "OAuth Parameters CBOR Ma
 * Value Type: Simple value `null` / Array
 * Reference: {{&SELF}}
 
-&nbsp;
+<br>
 
 * Name: kdc_dh_creds
 * CBOR Key: TBD (range -256 to 255)
@@ -1670,28 +1670,28 @@ IANA is asked to register the following entries to the "ACE Groupcomm Parameters
 * CBOR Type: Byte string
 * Reference: {{&SELF}} ({{sec-new-key}})
 
-&nbsp;
+<br>
 
 * Name: ecdh_info
 * CBOR Key: TBD
 * CBOR Type: Array
 * Reference: {{&SELF}} ({{ssec-join-req-processing}})
 
-&nbsp;
+<br>
 
 * Name: kdc_dh_creds
 * CBOR Key: TBD
 * CBOR Type: Array
 * Reference: {{&SELF}} ({{ssec-join-req-processing}})
 
-&nbsp;
+<br>
 
 * Name: group_enc_key
 * CBOR Key: TBD
 * CBOR Type: Byte string
 * Reference: {{&SELF}} ({{verif-data-get}})
 
-&nbsp;
+<br>
 
 * Name: stale_node_ids
 * CBOR Key: TBD
@@ -1728,7 +1728,7 @@ IANA is asked to register the following entries in the "OSCORE Security Context 
 *  Description: OSCORE Sender ID assigned to a member of an OSCORE group
 *  Reference: {{&SELF}} ({{ssec-join-resp}})
 
-&nbsp;
+<br>
 
 *  Name: cred_fmt
 *  CBOR Label: TBD
@@ -1737,7 +1737,7 @@ IANA is asked to register the following entries in the "OSCORE Security Context 
 *  Description: Format of authentication credentials to be used in the OSCORE group
 *  Reference: {{&SELF}} ({{ssec-join-resp}})
 
-&nbsp;
+<br>
 
 *  Name: sign_enc_alg
 *  CBOR Label: TBD
@@ -1746,7 +1746,7 @@ IANA is asked to register the following entries in the "OSCORE Security Context 
 *  Description: OSCORE Signature Encryption Algorithm Value
 *  Reference: {{&SELF}} ({{ssec-join-resp}})
 
-&nbsp;
+<br>
 
 *  Name: sign_alg
 *  CBOR Label: TBD
@@ -1755,7 +1755,7 @@ IANA is asked to register the following entries in the "OSCORE Security Context 
 *  Description: OSCORE Signature Algorithm Value
 *  Reference: {{&SELF}} ({{ssec-join-resp}})
 
-&nbsp;
+<br>
 
 *  Name: sign_params
 *  CBOR Label: TBD
@@ -1764,7 +1764,7 @@ IANA is asked to register the following entries in the "OSCORE Security Context 
 *  Description: OSCORE Signature Algorithm Parameters
 *  Reference: {{&SELF}} ({{ssec-join-resp}})
 
-&nbsp;
+<br>
 
 *  Name: ecdh_alg
 *  CBOR Label: TBD
@@ -1773,7 +1773,7 @@ IANA is asked to register the following entries in the "OSCORE Security Context 
 *  Description: OSCORE Pairwise Key Agreement Algorithm Value
 *  Reference: {{&SELF}} ({{ssec-join-resp}})
 
-&nbsp;
+<br>
 
 *  Name: ecdh_params
 *  CBOR Label: TBD
@@ -1800,7 +1800,7 @@ For the media-types application/aif+cbor and application/aif+json defined in {{S
 * Description/Specification: OSCORE group name
 * Reference: {{&SELF}}
 
-&nbsp;
+<br>
 
 * Parameter: Tperm
 * Name: oscore-gperm
@@ -1819,7 +1819,7 @@ IANA is asked to register the following entries to the "CoAP Content-Formats" re
 
 * Reference: {{&SELF}}
 
-&nbsp;
+<br>
 
 * Media Type: application/aif+json;Toid="oscore-gname",Tperm="oscore-gperm"
 
@@ -1871,7 +1871,7 @@ IANA is asked to register the following entries in the "ACE Groupcomm Errors" re
 
 * Reference: {{&SELF}}
 
-&nbsp;
+<br>
 
 * Value: 8
 
@@ -1879,7 +1879,7 @@ IANA is asked to register the following entries in the "ACE Groupcomm Errors" re
 
 * Reference: {{&SELF}}
 
-&nbsp;
+<br>
 
 * Value: 9
 
