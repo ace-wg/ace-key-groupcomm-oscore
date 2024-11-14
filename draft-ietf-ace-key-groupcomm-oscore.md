@@ -527,7 +527,7 @@ The value of the N\_S challenge is determined as follows.
 
    - in the "identity" field of a PskIdentity within the PreSharedKeyExtension of the ClientHello message when using DTLS 1.3 {{RFC9147}},
 
-   then N\_S is an exporter value computed as defined in {{Section 7.5 of RFC8446}}. Specifically, N\_S is exported from the DTLS session between the joining node and the Group Manager, using an empty 'context_value', 32 bytes as 'key_length', and the exporter label "EXPORTER-ACE-Sign-Challenge-coap-group-oscore-app" defined in {{ssec-iana-tls-esporter-label-registry}} of this document.
+   then N\_S is an exporter value computed as defined in {{Section 7.5 of RFC8446}}. Specifically, N\_S is exported from the DTLS session between the joining node and the Group Manager, using an empty 'context_value', 32 bytes as 'key_length', and the exporter label "EXPORTER-ACE-Pop-Input-coap-group-oscore-app" defined in {{ssec-iana-tls-esporter-label-registry}} of this document.
 
 It is up to applications to define how N_S is computed in further alternative settings.
 
@@ -1782,7 +1782,7 @@ IANA is asked to register the following entries in the "OSCORE Security Context 
 
 IANA is asked to register the following entry to the "TLS Exporter Labels" registry defined in {{Section 6 of RFC5705}} and updated in {{Section 12 of RFC8447}}.
 
-* Value: EXPORTER-ACE-Sign-Challenge-coap-group-oscore-app
+* Value: EXPORTER-ACE-Pop-Input-coap-group-oscore-app
 * DTLS-OK: Y
 * Recommended: N
 * Reference: {{&SELF}} ({{sssec-challenge-value}})
@@ -2116,6 +2116,8 @@ sign_params = 11
 * Revised default values on group configuration parameters.
 
 * CCS is used as default format of authentication credential.
+
+* Updated name of TLS exporter label.
 
 * Aligned requirement formulation with that in RFC 9594.
 
