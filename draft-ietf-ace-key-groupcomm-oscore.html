@@ -1594,7 +1594,7 @@ appear in all capitals, as shown here.<a href="#section-1.1-1" class="pilcrow">�
 </li>
         </ul>
 <p id="section-1.1-6">Throughout this document, examples for CBOR data items are expressed in CBOR extended diagnostic notation as defined in <span><a href="https://rfc-editor.org/rfc/rfc8949#section-8" class="relref">Section 8</a> of [<a href="#RFC8949" class="cite xref">RFC8949</a>]</span> and <span><a href="https://rfc-editor.org/rfc/rfc8610#appendix-G" class="relref">Appendix G</a> of [<a href="#RFC8610" class="cite xref">RFC8610</a>]</span> ("diagnostic notation"). Diagnostic notation comments are often used to provide a textual representation of the parameters' keys and values.<a href="#section-1.1-6" class="pilcrow">¶</a></p>
-<p id="section-1.1-7">In the CBOR diagnostic notation used in this document, constructs of the form e'SOME_NAME' are replaced by the value assigned to SOME_NAME in the CDDL model shown in <a href="#fig-cddl-model" class="auto internal xref">Figure 14</a> of <a href="#sec-cddl-model" class="auto internal xref">Appendix C</a>. For example, {e'group_senderId': h'a3f1'} stands for {21: h'a3f1'}.<a href="#section-1.1-7" class="pilcrow">¶</a></p>
+<p id="section-1.1-7">In the CBOR diagnostic notation used in this document, constructs of the form e'SOME_NAME' are replaced by the value assigned to SOME_NAME in the CDDL model shown in <a href="#fig-cddl-model" class="auto internal xref">Figure 14</a> of <a href="#sec-cddl-model" class="auto internal xref">Appendix C</a>. For example, {e'sign_enc_alg': 10, e'sign_alg': -8} stands for {9: 10, 10: -8}.<a href="#section-1.1-7" class="pilcrow">¶</a></p>
 <p id="section-1.1-8">Note to RFC Editor: Please delete the paragraph immediately preceding this note. Also, in the CBOR diagnostic notation used in this document, please replace the constructs of the form e'SOME_NAME' with the value assigned to SOME_NAME in the CDDL model shown in <a href="#fig-cddl-model" class="auto internal xref">Figure 14</a> of <a href="#sec-cddl-model" class="auto internal xref">Appendix C</a>. Finally, please delete this note.<a href="#section-1.1-8" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -4641,11 +4641,7 @@ For example, if 'ecdh_params'[0][0] specifies the key type as capability of the 
         <div class="alignLeft art-CDDL art-text artwork" id="appendix-C-2.1">
 <pre>
 ; ACE Groupcomm Parameters
-group_senderId = 21
 group_enc_key = 22
-ecdh_info = 31
-kdc_dh_creds = 32
-stale_node_ids = 33
 
 ; ACE Groupcomm Key Types
 group_oscore_input_material_obj = 1
@@ -4654,22 +4650,10 @@ group_oscore_input_material_obj = 1
 coap_group_oscore_app = 1
 
 ; OSCORE Security Context Parameters
-group_SenderId = 7
 cred_fmt = 8
 sign_enc_alg = 9
 sign_alg = 10
 sign_params = 11
-ecdh_alg = 12
-ecdh_params = 13
-
-; Group OSCORE Roles
-requester = 1
-responder = 2
-monitor = 3
-verifier = 4
-
-; ACE Groupcomm Errors
-group_not_active = 9
 </pre>
 </div>
 <figcaption><a href="#figure-14" class="selfRef">Figure 14</a>:

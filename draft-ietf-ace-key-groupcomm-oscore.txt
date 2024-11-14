@@ -279,7 +279,7 @@ Table of Contents
    In the CBOR diagnostic notation used in this document, constructs of
    the form e'SOME_NAME' are replaced by the value assigned to SOME_NAME
    in the CDDL model shown in Figure 14 of Appendix C.  For example,
-   {e'group_senderId': h'a3f1'} stands for {21: h'a3f1'}.
+   {e'sign_enc_alg': 10, e'sign_alg': -8} stands for {9: 10, 10: -8}.
 
    Note to RFC Editor: Please delete the paragraph immediately preceding
    this note.  Also, in the CBOR diagnostic notation used in this
@@ -4352,11 +4352,7 @@ Appendix C.  CDDL Model
    This section is to be removed before publishing as an RFC.
 
    ; ACE Groupcomm Parameters
-   group_senderId = 21
    group_enc_key = 22
-   ecdh_info = 31
-   kdc_dh_creds = 32
-   stale_node_ids = 33
 
    ; ACE Groupcomm Key Types
    group_oscore_input_material_obj = 1
@@ -4365,22 +4361,10 @@ Appendix C.  CDDL Model
    coap_group_oscore_app = 1
 
    ; OSCORE Security Context Parameters
-   group_SenderId = 7
    cred_fmt = 8
    sign_enc_alg = 9
    sign_alg = 10
    sign_params = 11
-   ecdh_alg = 12
-   ecdh_params = 13
-
-   ; Group OSCORE Roles
-   requester = 1
-   responder = 2
-   monitor = 3
-   verifier = 4
-
-   ; ACE Groupcomm Errors
-   group_not_active = 9
 
                            Figure 14: CDDL model
 
