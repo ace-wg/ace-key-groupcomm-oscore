@@ -348,8 +348,16 @@ Table of Contents
 
 3.  Format of Scope
 
-   Building on Section 3.1 of [RFC9594], this section defines the exact
-   format and encoding of scope used in this profile.
+   Building on the definition in Section 3.3 of [RFC6749] considered in
+   the ACE framework [RFC9200], scope denotes: the permissions that the
+   Client seeks to obtain from the AS for accessing resources at a
+   Resource Server; and the permissions that the AS actually issues to
+   the Client following its request.  This process is detailed in
+   Sections 5.8.1 and 5.8.2 of [RFC9200].
+
+   Consistent with the above and building on Section 3.1 of [RFC9594],
+   this section defines the exact format and encoding of scope used in
+   this profile.
 
    To this end, this profile uses the Authorization Information Format
    (AIF) [RFC9237].  With reference to the generic AIF model
@@ -4450,6 +4458,8 @@ D.1.  Version -16 to -17
    *  Updated references and section numbers of referred documents.
 
    *  Use actual tables.
+
+   *  Add high-level recap of the concept of scope.
 
    *  Fixed name of the error with error code 4.
 

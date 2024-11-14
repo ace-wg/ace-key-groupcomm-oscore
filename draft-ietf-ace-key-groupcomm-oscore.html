@@ -1642,37 +1642,38 @@ appear in all capitals, as shown here.<a href="#section-1.1-1" class="pilcrow">�
       <h2 id="name-format-of-scope">
 <a href="#section-3" class="section-number selfRef">3. </a><a href="#name-format-of-scope" class="section-name selfRef">Format of Scope</a>
       </h2>
-<p id="section-3-1">Building on <span><a href="https://rfc-editor.org/rfc/rfc9594#section-3.1" class="relref">Section 3.1</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>, this section defines the exact format and encoding of scope used in this profile.<a href="#section-3-1" class="pilcrow">¶</a></p>
-<p id="section-3-2">To this end, this profile uses the Authorization Information Format (AIF) <span>[<a href="#RFC9237" class="cite xref">RFC9237</a>]</span>. With reference to the generic AIF model<a href="#section-3-2" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="section-3-3">
+<p id="section-3-1">Building on the definition in <span><a href="https://rfc-editor.org/rfc/rfc6749#section-3.3" class="relref">Section 3.3</a> of [<a href="#RFC6749" class="cite xref">RFC6749</a>]</span> considered in the ACE framework <span>[<a href="#RFC9200" class="cite xref">RFC9200</a>]</span>, scope denotes: the permissions that the Client seeks to obtain from the AS for accessing resources at a Resource Server; and the permissions that the AS actually issues to the Client following its request. This process is detailed in Sections <a href="https://rfc-editor.org/rfc/rfc9200#section-5.8.1" class="relref">5.8.1</a> and <a href="https://rfc-editor.org/rfc/rfc9200#section-5.8.2" class="relref">5.8.2</a> of <span>[<a href="#RFC9200" class="cite xref">RFC9200</a>]</span>.<a href="#section-3-1" class="pilcrow">¶</a></p>
+<p id="section-3-2">Consistent with the above and building on <span><a href="https://rfc-editor.org/rfc/rfc9594#section-3.1" class="relref">Section 3.1</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>, this section defines the exact format and encoding of scope used in this profile.<a href="#section-3-2" class="pilcrow">¶</a></p>
+<p id="section-3-3">To this end, this profile uses the Authorization Information Format (AIF) <span>[<a href="#RFC9237" class="cite xref">RFC9237</a>]</span>. With reference to the generic AIF model<a href="#section-3-3" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-3-4">
 <pre>
    AIF-Generic&lt;Toid, Tperm&gt; = [* [Toid, Tperm]]
-</pre><a href="#section-3-3" class="pilcrow">¶</a>
+</pre><a href="#section-3-4" class="pilcrow">¶</a>
 </div>
-<p id="section-3-4">the value of the CBOR byte string used as scope encodes the CBOR array [* [Toid, Tperm]], where each [Toid, Tperm] element corresponds to one scope entry.<a href="#section-3-4" class="pilcrow">¶</a></p>
-<p id="section-3-5">Furthermore, this document defines the new AIF data model AIF-OSCORE-GROUPCOMM, that this profile <span class="bcp14">MUST</span> use to format and encode scope entries.<a href="#section-3-5" class="pilcrow">¶</a></p>
-<p id="section-3-6">In particular, the following holds for each scope entry.<a href="#section-3-6" class="pilcrow">¶</a></p>
+<p id="section-3-5">the value of the CBOR byte string used as scope encodes the CBOR array [* [Toid, Tperm]], where each [Toid, Tperm] element corresponds to one scope entry.<a href="#section-3-5" class="pilcrow">¶</a></p>
+<p id="section-3-6">Furthermore, this document defines the new AIF data model AIF-OSCORE-GROUPCOMM, that this profile <span class="bcp14">MUST</span> use to format and encode scope entries.<a href="#section-3-6" class="pilcrow">¶</a></p>
+<p id="section-3-7">In particular, the following holds for each scope entry.<a href="#section-3-7" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-3-7.1">
-          <p id="section-3-7.1.1">The object identifier ("Toid") is specialized as a CBOR item specifying the name of the groups pertaining to the scope entry.<a href="#section-3-7.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-3-8.1">
+          <p id="section-3-8.1.1">The object identifier ("Toid") is specialized as a CBOR item specifying the name of the groups pertaining to the scope entry.<a href="#section-3-8.1.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="section-3-7.2">
-          <p id="section-3-7.2.1">The permission set ("Tperm") is specialized as a CBOR unsigned integer with value R, specifying the permissions that the Client wishes to have in the groups indicated by "Toid".<a href="#section-3-7.2.1" class="pilcrow">¶</a></p>
+        <li class="normal" id="section-3-8.2">
+          <p id="section-3-8.2.1">The permission set ("Tperm") is specialized as a CBOR unsigned integer with value R, specifying the permissions that the Client wishes to have in the groups indicated by "Toid".<a href="#section-3-8.2.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
-<p id="section-3-8">More specifically, the following applies when, as defined in this document, a scope entry includes as set of permissions the set of roles to take in an OSCORE group.<a href="#section-3-8" class="pilcrow">¶</a></p>
+<p id="section-3-9">More specifically, the following applies when, as defined in this document, a scope entry includes as set of permissions the set of roles to take in an OSCORE group.<a href="#section-3-9" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-3-9.1">
-          <p id="section-3-9.1.1">The object identifier ("Toid") is a CBOR text string, specifying the group name for the scope entry.<a href="#section-3-9.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-3-10.1">
+          <p id="section-3-10.1.1">The object identifier ("Toid") is a CBOR text string, specifying the group name for the scope entry.<a href="#section-3-10.1.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="section-3-9.2">
-          <p id="section-3-9.2.1">The permission set ("Tperm") is a CBOR unsigned integer with value R, specifying the role(s) that the Client wishes to take in the group (REQ1). The value R is computed as follows.<a href="#section-3-9.2.1" class="pilcrow">¶</a></p>
+        <li class="normal" id="section-3-10.2">
+          <p id="section-3-10.2.1">The permission set ("Tperm") is a CBOR unsigned integer with value R, specifying the role(s) that the Client wishes to take in the group (REQ1). The value R is computed as follows.<a href="#section-3-10.2.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-3-9.2.2.1">
-              <p id="section-3-9.2.2.1.1">Each role in the permission set is converted into the corresponding numeric identifier X from the "Value" column of the "Group OSCORE Roles" registry, for which this document defines the entries in <a href="#tab-role-values" class="auto internal xref">Table 1</a>.<a href="#section-3-9.2.2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-3-10.2.2.1">
+              <p id="section-3-10.2.2.1.1">Each role in the permission set is converted into the corresponding numeric identifier X from the "Value" column of the "Group OSCORE Roles" registry, for which this document defines the entries in <a href="#tab-role-values" class="auto internal xref">Table 1</a>.<a href="#section-3-10.2.2.1.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-3-9.2.2.2">
-              <p id="section-3-9.2.2.2.1">The set of N numbers is converted into the single value R, by taking two to the power of each numeric identifier X_1, X_2, ..., X_N, and then computing the inclusive OR of the binary representations of all the power values.<a href="#section-3-9.2.2.2.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-3-10.2.2.2">
+              <p id="section-3-10.2.2.2.1">The set of N numbers is converted into the single value R, by taking two to the power of each numeric identifier X_1, X_2, ..., X_N, and then computing the inclusive OR of the binary representations of all the power values.<a href="#section-3-10.2.2.2.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 </li>
@@ -1719,8 +1720,8 @@ appear in all capitals, as shown here.<a href="#section-1.1-1" class="pilcrow">�
         </tbody>
       </table>
 </div>
-<p id="section-3-11">The following CDDL <span>[<a href="#RFC8610" class="cite xref">RFC8610</a>]</span> notation defines a scope entry that uses the AIF-OSCORE-GROUPCOMM data model and expresses a set of Group OSCORE roles from those in <a href="#tab-role-values" class="auto internal xref">Table 1</a>.<a href="#section-3-11" class="pilcrow">¶</a></p>
-<div class="lang-CDDL sourcecode" id="section-3-12">
+<p id="section-3-12">The following CDDL <span>[<a href="#RFC8610" class="cite xref">RFC8610</a>]</span> notation defines a scope entry that uses the AIF-OSCORE-GROUPCOMM data model and expresses a set of Group OSCORE roles from those in <a href="#tab-role-values" class="auto internal xref">Table 1</a>.<a href="#section-3-12" class="pilcrow">¶</a></p>
+<div class="lang-CDDL sourcecode" id="section-3-13">
 <pre>
    ;# include rfc9237
 
@@ -1737,12 +1738,12 @@ appear in all capitals, as shown here.<a href="#section-1.1-1" class="pilcrow">�
    )
 
    scope_entry = [oscore-gname, oscore-gperm]
-</pre><a href="#section-3-12" class="pilcrow">¶</a>
+</pre><a href="#section-3-13" class="pilcrow">¶</a>
 </div>
-<p id="section-3-13">Future specifications that define new Group OSCORE roles <span class="bcp14">MUST</span> register a corresponding numeric identifier in the "Group OSCORE Roles" registry defined in <a href="#ssec-iana-group-oscore-roles-registry" class="auto internal xref">Section 16.12</a> of this document.<a href="#section-3-13" class="pilcrow">¶</a></p>
-<p id="section-3-14">Note that the value 0 is not available to use as numeric identifier to specify a Group OSCORE role. It follows that, when expressing Group OSCORE roles to take in a group as per this document, a scope entry has the least significant bit of "Tperm" always set to 0.<a href="#section-3-14" class="pilcrow">¶</a></p>
-<p id="section-3-15">This is an explicit feature of the AIF-OSCORE-GROUPCOMM data model. That is, for each scope entry, the least significant bit of "Tperm" set to 0 explicitly identifies the scope entry as exactly expressing a set of Group OSCORE roles ("Tperm"), pertaining to a single group whose name is specified by the string literal in "Toid".<a href="#section-3-15" class="pilcrow">¶</a></p>
-<p id="section-3-16">Instead, by relying on the same AIF-OSCORE-GROUPCOMM data model, <span>[<a href="#I-D.ietf-ace-oscore-gm-admin" class="cite xref">I-D.ietf-ace-oscore-gm-admin</a>]</span> defines the format of scope entries for Administrator Clients that wish to access an admin interface at the Group Manager. In such scope entries, the least significant bit of "Tperm" is always set to 1.<a href="#section-3-16" class="pilcrow">¶</a></p>
+<p id="section-3-14">Future specifications that define new Group OSCORE roles <span class="bcp14">MUST</span> register a corresponding numeric identifier in the "Group OSCORE Roles" registry defined in <a href="#ssec-iana-group-oscore-roles-registry" class="auto internal xref">Section 16.12</a> of this document.<a href="#section-3-14" class="pilcrow">¶</a></p>
+<p id="section-3-15">Note that the value 0 is not available to use as numeric identifier to specify a Group OSCORE role. It follows that, when expressing Group OSCORE roles to take in a group as per this document, a scope entry has the least significant bit of "Tperm" always set to 0.<a href="#section-3-15" class="pilcrow">¶</a></p>
+<p id="section-3-16">This is an explicit feature of the AIF-OSCORE-GROUPCOMM data model. That is, for each scope entry, the least significant bit of "Tperm" set to 0 explicitly identifies the scope entry as exactly expressing a set of Group OSCORE roles ("Tperm"), pertaining to a single group whose name is specified by the string literal in "Toid".<a href="#section-3-16" class="pilcrow">¶</a></p>
+<p id="section-3-17">Instead, by relying on the same AIF-OSCORE-GROUPCOMM data model, <span>[<a href="#I-D.ietf-ace-oscore-gm-admin" class="cite xref">I-D.ietf-ace-oscore-gm-admin</a>]</span> defines the format of scope entries for Administrator Clients that wish to access an admin interface at the Group Manager. In such scope entries, the least significant bit of "Tperm" is always set to 1.<a href="#section-3-17" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="sec-public-keys-of-joining-nodes">
@@ -4846,57 +4847,60 @@ sign_params = 11
             <p id="appendix-D.1-1.6.1">Use actual tables.<a href="#appendix-D.1-1.6.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.7">
-            <p id="appendix-D.1-1.7.1">Fixed name of the error with error code 4.<a href="#appendix-D.1-1.7.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.7.1">Add high-level recap of the concept of scope.<a href="#appendix-D.1-1.7.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.8">
-            <p id="appendix-D.1-1.8.1">Renamed parameters to align with RFC 9594<a href="#appendix-D.1-1.8.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.8.1">Fixed name of the error with error code 4.<a href="#appendix-D.1-1.8.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-D.1-1.9">
+            <p id="appendix-D.1-1.9.1">Renamed parameters to align with RFC 9594<a href="#appendix-D.1-1.9.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="appendix-D.1-1.8.2.1">
-                <p id="appendix-D.1-1.8.2.1.1">"Group Encryption Key" becomes "Signature Encryption Key"<a href="#appendix-D.1-1.8.2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="appendix-D.1-1.9.2.1">
+                <p id="appendix-D.1-1.9.2.1.1">"Group Encryption Key" becomes "Signature Encryption Key"<a href="#appendix-D.1-1.9.2.1.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="normal" id="appendix-D.1-1.8.2.2">
-                <p id="appendix-D.1-1.8.2.2.1">'group_enc_key' becomes 'sign_enc_key'<a href="#appendix-D.1-1.8.2.2.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="appendix-D.1-1.9.2.2">
+                <p id="appendix-D.1-1.9.2.2.1">'group_enc_key' becomes 'sign_enc_key'<a href="#appendix-D.1-1.9.2.2.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="normal" id="appendix-D.1-1.8.2.3">
-                <p id="appendix-D.1-1.8.2.3.1">"Signature Encryption Algorithm" becomes "Group Encryption Algorithm"<a href="#appendix-D.1-1.8.2.3.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="appendix-D.1-1.9.2.3">
+                <p id="appendix-D.1-1.9.2.3.1">"Signature Encryption Algorithm" becomes "Group Encryption Algorithm"<a href="#appendix-D.1-1.9.2.3.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="normal" id="appendix-D.1-1.8.2.4">
-                <p id="appendix-D.1-1.8.2.4.1">'sign_enc_alg' becomes 'gp_enc_alg'<a href="#appendix-D.1-1.8.2.4.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="appendix-D.1-1.9.2.4">
+                <p id="appendix-D.1-1.9.2.4.1">'sign_enc_alg' becomes 'gp_enc_alg'<a href="#appendix-D.1-1.9.2.4.1" class="pilcrow">¶</a></p>
 </li>
             </ul>
 </li>
-          <li class="normal" id="appendix-D.1-1.9">
-            <p id="appendix-D.1-1.9.1">Added CBOR integer abbreviations for ACE Groupcomm Parameters.<a href="#appendix-D.1-1.9.1" class="pilcrow">¶</a></p>
-</li>
           <li class="normal" id="appendix-D.1-1.10">
-            <p id="appendix-D.1-1.10.1">Revised alternative computing of N_S challenge when DTLS is used.<a href="#appendix-D.1-1.10.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.10.1">Added CBOR integer abbreviations for ACE Groupcomm Parameters.<a href="#appendix-D.1-1.10.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.11">
-            <p id="appendix-D.1-1.11.1">Relation between 'cred_fmt' and Authentication Credential Format.<a href="#appendix-D.1-1.11.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.11.1">Revised alternative computing of N_S challenge when DTLS is used.<a href="#appendix-D.1-1.11.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.12">
-            <p id="appendix-D.1-1.12.1">Fixed error response code from /ace-group/GROUPNAME/nodes/NODENAME.<a href="#appendix-D.1-1.12.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.12.1">Relation between 'cred_fmt' and Authentication Credential Format.<a href="#appendix-D.1-1.12.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.13">
-            <p id="appendix-D.1-1.13.1">Revised default values on group configuration parameters.<a href="#appendix-D.1-1.13.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.13.1">Fixed error response code from /ace-group/GROUPNAME/nodes/NODENAME.<a href="#appendix-D.1-1.13.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.14">
-            <p id="appendix-D.1-1.14.1">Revised future-ready generalization of 'ecdh_info_entry'.<a href="#appendix-D.1-1.14.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.14.1">Revised default values on group configuration parameters.<a href="#appendix-D.1-1.14.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.15">
-            <p id="appendix-D.1-1.15.1">CCS is used as default format of authentication credential.<a href="#appendix-D.1-1.15.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.15.1">Revised future-ready generalization of 'ecdh_info_entry'.<a href="#appendix-D.1-1.15.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.16">
-            <p id="appendix-D.1-1.16.1">Updated name of TLS exporter label.<a href="#appendix-D.1-1.16.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.16.1">CCS is used as default format of authentication credential.<a href="#appendix-D.1-1.16.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.17">
-            <p id="appendix-D.1-1.17.1">Revised IANA considerations.<a href="#appendix-D.1-1.17.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.17.1">Updated name of TLS exporter label.<a href="#appendix-D.1-1.17.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.18">
-            <p id="appendix-D.1-1.18.1">Aligned requirement formulation with that in RFC 9594.<a href="#appendix-D.1-1.18.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.18.1">Revised IANA considerations.<a href="#appendix-D.1-1.18.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.19">
-            <p id="appendix-D.1-1.19.1">Clarifications and editorial fixes.<a href="#appendix-D.1-1.19.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.19.1">Aligned requirement formulation with that in RFC 9594.<a href="#appendix-D.1-1.19.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-D.1-1.20">
+            <p id="appendix-D.1-1.20.1">Clarifications and editorial fixes.<a href="#appendix-D.1-1.20.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
