@@ -3004,15 +3004,15 @@ Table of Contents
           +================+==========+===========+============+
           | Name           | CBOR Key | CBOR Type | Reference  |
           +================+==========+===========+============+
-          | group_senderId | TBD      | bstr      | [RFC-XXXX] |
+          | group_senderId | 21       | bstr      | [RFC-XXXX] |
           +----------------+----------+-----------+------------+
-          | ecdh_info      | TBD      | array     | [RFC-XXXX] |
+          | ecdh_info      | 31       | array     | [RFC-XXXX] |
           +----------------+----------+-----------+------------+
-          | kdc_dh_creds   | TBD      | array     | [RFC-XXXX] |
+          | kdc_dh_creds   | 32       | array     | [RFC-XXXX] |
           +----------------+----------+-----------+------------+
-          | sign_enc_key   | TBD      | bstr      | [RFC-XXXX] |
+          | sign_enc_key   | 33       | bstr      | [RFC-XXXX] |
           +----------------+----------+-----------+------------+
-          | stale_node_ids | TBD      | array     | [RFC-XXXX] |
+          | stale_node_ids | 34       | array     | [RFC-XXXX] |
           +----------------+----------+-----------+------------+
 
                     Table 3: ACE Groupcomm Parameters
@@ -4384,7 +4384,7 @@ Appendix C.  CDDL Model
    This section is to be removed before publishing as an RFC.
 
    ; ACE Groupcomm Parameters
-   sign_enc_key = 22
+   sign_enc_key = 21
 
    ; ACE Groupcomm Key Types
    group_oscore_input_material_obj = 1
@@ -4428,6 +4428,8 @@ D.1.  Version -16 to -17
          Algorithm"
 
       -  'sign_enc_alg' becomes 'gp_enc_alg'
+
+   *  Added CBOR integer abbreviations for ACE Groupcomm Parameters.
 
    *  Aligned requirement formulation with that in RFC 9594.
 
