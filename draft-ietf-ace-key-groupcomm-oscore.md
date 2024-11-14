@@ -176,7 +176,7 @@ Additionally, this document makes use of the following terminology.
 
 Throughout this document, examples for CBOR data items are expressed in CBOR extended diagnostic notation as defined in {{Section 8 of RFC8949}} and {{Appendix G of RFC8610}} ("diagnostic notation"). Diagnostic notation comments are often used to provide a textual representation of the parameters' keys and values.
 
-In the CBOR diagnostic notation used in this document, constructs of the form e'SOME_NAME' are replaced by the value assigned to SOME_NAME in the CDDL model shown in {{fig-cddl-model}} of {{sec-cddl-model}}. For example, {e'group_senderId': h'a3f1'} stands for {21: h'a3f1'}.
+In the CBOR diagnostic notation used in this document, constructs of the form e'SOME_NAME' are replaced by the value assigned to SOME_NAME in the CDDL model shown in {{fig-cddl-model}} of {{sec-cddl-model}}. For example, {e'sign_enc_alg': 10, e'sign_alg': -8} stands for {9: 10, 10: -8}.
 
 Note to RFC Editor: Please delete the paragraph immediately preceding this note. Also, in the CBOR diagnostic notation used in this document, please replace the constructs of the form e'SOME_NAME' with the value assigned to SOME_NAME in the CDDL model shown in {{fig-cddl-model}} of {{sec-cddl-model}}. Finally, please delete this note.
 
@@ -2088,11 +2088,7 @@ The format of 'key' (see {{ssec-join-resp}}) is generalized as follows.
 
 ~~~~~~~~~~~~~~~~~~~~ CDDL
 ; ACE Groupcomm Parameters
-group_senderId = 21
 group_enc_key = 22
-ecdh_info = 31
-kdc_dh_creds = 32
-stale_node_ids = 33
 
 ; ACE Groupcomm Key Types
 group_oscore_input_material_obj = 1
@@ -2101,22 +2097,10 @@ group_oscore_input_material_obj = 1
 coap_group_oscore_app = 1
 
 ; OSCORE Security Context Parameters
-group_SenderId = 7
 cred_fmt = 8
 sign_enc_alg = 9
 sign_alg = 10
 sign_params = 11
-ecdh_alg = 12
-ecdh_params = 13
-
-; Group OSCORE Roles
-requester = 1
-responder = 2
-monitor = 3
-verifier = 4
-
-; ACE Groupcomm Errors
-group_not_active = 9
 ~~~~~~~~~~~~~~~~~~~~
 {: #fig-cddl-model title="CDDL model" artwork-align="left"}
 
