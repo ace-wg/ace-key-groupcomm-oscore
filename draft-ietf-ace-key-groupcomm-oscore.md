@@ -811,7 +811,7 @@ The Resource Type (rt=) Link Target Attribute value "core.osc.gm" is registered 
 
 Applications can use this common resource type to discover links to group-membership resources for joining OSCORE groups, e.g., by using the approach described in {{I-D.tiloca-core-oscore-discovery}}.
 
-## ace-group/GROUPNAME/active {#ssec-resource-active}
+## /ace-group/GROUPNAME/active {#ssec-resource-active}
 
 This resource implements a GET handler.
 
@@ -825,7 +825,7 @@ If all verifications succeed, the handler replies with a 2.05 (Content) response
 
 The method to set the current group status is out of the scope of this document, and is defined for the administrator interface of the Group Manager specified in {{I-D.ietf-ace-oscore-gm-admin}}.
 
-## ace-group/GROUPNAME/verif-data {#ssec-resource-verif-data}
+## /ace-group/GROUPNAME/verif-data {#ssec-resource-verif-data}
 
 This resource implements a GET handler.
 
@@ -841,7 +841,7 @@ If GROUPNAME denotes a pairwise-only group, the Group Manager MUST reply with a 
 
 If all verifications succeed, the handler replies with a 2.05 (Content) response, specifying data that allow also an external signature verifier to verify signatures of messages protected with the group mode and sent to the group (see {{Sections 7.5 and 12.3 of I-D.ietf-core-oscore-groupcomm}}). The response MUST have Content-Format set to application/ace-groupcomm+cbor. The payload of the response is a CBOR map, which is formatted as defined in {{sec-verif-data}}.
 
-## ace-group/GROUPNAME/stale-sids {#ssec-resource-stale-sids}
+## /ace-group/GROUPNAME/stale-sids {#ssec-resource-stale-sids}
 
 This resource implements a FETCH handler.
 
@@ -870,29 +870,29 @@ The table uses the following abbreviations.
 * Type4 = Non-member (not authorized to be signature verifier)
 * (*) = Cannot join the group as signature verifier
 
-| Resource                                   | Type1  | Type2 | Type3 | Type4 |
-|--------------------------------------------|--------|-------|-------|-------|
-| ace-group/                                 | F      | F     | F     | F     |
-|--------------------------------------------|--------|-------|-------|-------|
-| ace-group/GROUPNAME/                       | G Po   | G Po  | Po *  | Po    |
-|--------------------------------------------|--------|-------|-------|-------|
-| ace-group/GROUPNAME/active                 | G      | G     | -     | -     |
-|--------------------------------------------|--------|-------|-------|-------|
-| ace-group/GROUPNAME/verif-data             | -      | -     | G     | -     |
-|--------------------------------------------|--------|-------|-------|-------|
-| ace-group/GROUPNAME/creds                  | G F    | G F   | G F   | -     |
-|--------------------------------------------|--------|-------|-------|-------|
-| ace-group/GROUPNAME/kdc-cred               | G      | G     | G     | -     |
-|--------------------------------------------|--------|-------|-------|-------|
-| ace-group/GROUPNAME/stale-sids             | F      | F     | -     | -     |
-|--------------------------------------------|--------|-------|-------|-------|
-| ace-group/GROUPNAME/policies               | G      | G     | -     | -     |
-|--------------------------------------------|--------|-------|-------|-------|
-| ace-group/GROUPNAME/num                    | G      | G     | -     | -     |
-|--------------------------------------------|--------|-------|-------|-------|
-| ace-group/GROUPNAME/nodes/NODENAME         | G Pu D | G D   | -     | -     |
-|--------------------------------------------|--------|-------|-------|-------|
-| ace-group/GROUPNAME/nodes/NODENAME/pub-key | Po     | -     | -     | -     |
+| Resource                                    | Type1  | Type2 | Type3 | Type4 |
+|---------------------------------------------|--------|-------|-------|-------|
+| /ace-group                                  | F      | F     | F     | F     |
+|---------------------------------------------|--------|-------|-------|-------|
+| /ace-group/GROUPNAME                        | G Po   | G Po  | Po *  | Po    |
+|---------------------------------------------|--------|-------|-------|-------|
+| /ace-group/GROUPNAME/active                 | G      | G     | -     | -     |
+|---------------------------------------------|--------|-------|-------|-------|
+| /ace-group/GROUPNAME/verif-data             | -      | -     | G     | -     |
+|---------------------------------------------|--------|-------|-------|-------|
+| /ace-group/GROUPNAME/creds                  | G F    | G F   | G F   | -     |
+|---------------------------------------------|--------|-------|-------|-------|
+| /ace-group/GROUPNAME/kdc-cred               | G      | G     | G     | -     |
+|---------------------------------------------|--------|-------|-------|-------|
+| /ace-group/GROUPNAME/stale-sids             | F      | F     | -     | -     |
+|---------------------------------------------|--------|-------|-------|-------|
+| /ace-group/GROUPNAME/policies               | G      | G     | -     | -     |
+|---------------------------------------------|--------|-------|-------|-------|
+| /ace-group/GROUPNAME/num                    | G      | G     | -     | -     |
+|---------------------------------------------|--------|-------|-------|-------|
+| /ace-group/GROUPNAME/nodes/NODENAME         | G Pu D | G D   | -     | -     |
+|---------------------------------------------|--------|-------|-------|-------|
+| /ace-group/GROUPNAME/nodes/NODENAME/pub-key | Po     | -     | -     | -     |
 {: #tab-methods title="Admitted CoAP Methods on the Group Manager Resources" align="center"}
 
 ### Signature Verifiers
@@ -901,17 +901,17 @@ Just like any candidate group member, a signature verifier provides the Group Ma
 
 After successfully transferring an access token to the Group Manager, a signature verifier is allowed to perform only some operations as non-member of a group, and only for the OSCORE groups specified in the validated access token. These are the operations specified in {{sec-pub-keys}}, {{sec-gm-pub-key}}, {{sec-verif-data}} and {{sec-retrieve-gnames}}.
 
-Consistently, in case a node is not a member of the group with group name GROUPNAME and is authorized to be only signature verifier for that group, the Group Manager MUST reply with a 4.03 (Forbidden) error response if that node attempts to access any other endpoint than: /ace-group; ace-group/GROUPNAME/verif-data; /ace-group/GROUPNAME/creds; and ace-group/GROUPNAME/kdc-cred.
+Consistently, in case a node is not a member of the group with group name GROUPNAME and is authorized to be only signature verifier for that group, the Group Manager MUST reply with a 4.03 (Forbidden) error response if that node attempts to access any other endpoint than: /ace-group; /ace-group/GROUPNAME/verif-data; /ace-group/GROUPNAME/creds; and /ace-group/GROUPNAME/kdc-cred.
 
 ## Operations Supported by Clients {#client-operations}
 
 Building on what is defined in {{Section 4.1.1 of RFC9594}}, and with reference to the resources at the Group Manager newly defined earlier in {{sec-interface-GM}} of this document, it is expected that a Client minimally supports also the following set of operations and corresponding interactions with the Group Manager (REQ12).
 
-* GET request to ace-group/GROUPNAME/active, in order to check the current status of the group.
+* GET request to /ace-group/GROUPNAME/active, in order to check the current status of the group.
 
-* GET request to ace-group/GROUPNAME/verif-data, in order for a signature verifier to retrieve data required to verify signatures of messages protected with the group mode of Group OSCORE and sent to a group (see {{Sections 12.3 and 7.5 of I-D.ietf-core-oscore-groupcomm}}). Note that this operation is relevant to support only to signature verifiers.
+* GET request to /ace-group/GROUPNAME/verif-data, in order for a signature verifier to retrieve data required to verify signatures of messages protected with the group mode of Group OSCORE and sent to a group (see {{Sections 12.3 and 7.5 of I-D.ietf-core-oscore-groupcomm}}). Note that this operation is relevant to support only to signature verifiers.
 
-* FETCH request to ace-group/GROUPNAME/stale-sids, in order to retrieve from the Group Manager the data required to delete some of the stored group members' authentication credentials and associated Recipient Contexts (see {{stale-sids-fetch}}). This data is provided as an aggregated set of stale Sender IDs, which are used as specified in {{missed-rekeying}}.
+* FETCH request to /ace-group/GROUPNAME/stale-sids, in order to retrieve from the Group Manager the data required to delete some of the stored group members' authentication credentials and associated Recipient Contexts (see {{stale-sids-fetch}}). This data is provided as an aggregated set of stale Sender IDs, which are used as specified in {{missed-rekeying}}.
 
 # Additional Interactions with the Group Manager # {#sec-additional-interactions}
 
@@ -1059,7 +1059,7 @@ Verifier                                                     Manager
   |                                                             |
   |              Signature Verification Data Request            |
   |------------------------------------------------------------>|
-  |              GET ace-group/GROUPNAME/verif-data             |
+  |              GET /ace-group/GROUPNAME/verif-data            |
   |                                                             |
   |<--- Signature Verification Data Response: 2.05 (Content) ---|
   |                                                             |
@@ -1126,13 +1126,13 @@ Upon learning from a 2.05 (Content) response that the group has become active ag
 {{fig-key-status-req-resp}} gives an overview of the exchange described above, while {{fig-key-status-req-resp-ex}} shows an example of Group Status Request-Response.
 
 ~~~~~~~~~~~
-Group                                                         Group
-Member                                                       Manager
-  |                                                             |
-  |--- Group Status Request: GET ace-group/GROUPNAME/active --->|
-  |                                                             |
-  |<---------- Group Status Response: 2.05 (Content) -----------|
-  |                                                             |
+Group                                                          Group
+Member                                                        Manager
+  |                                                              |
+  |--- Group Status Request: GET /ace-group/GROUPNAME/active --->|
+  |                                                              |
+  |<----------- Group Status Response: 2.05 (Content) -----------|
+  |                                                              |
 ~~~~~~~~~~~
 {: #fig-key-status-req-resp title="Message Flow of Group Status Request-Response" artwork-align="center"}
 
@@ -1182,7 +1182,7 @@ For each of its groups, the Group Manager maintains an association between the g
                                                                 Group
 Node                                                           Manager
  |                                                                |
- |---- Group Name and URI Retrieval Request: FETCH ace-group/ --->|
+ |--- Group Name and URI Retrieval Request: FETCH /ace-group/ --->|
  |                                                                |
  |<--- Group Name and URI Retrieval Response: 2.05 (Content) -----|
  |                                                                |
@@ -1209,7 +1209,7 @@ Node                                                           Manager
    {
      / gid /   0: [h'37fc', h'84bd'],
      / gname / 1: ["g1", "g2"],
-     / guri /  2: ["ace-group/g1", "ace-group/g2"]
+     / guri /  2: ["/ace-group/g1", "/ace-group/g2"]
    }
 ~~~~~~~~~~~
 {: #fig-group-names-req-resp-ex title="Example of Group Name and URI Retrieval Request-Response"}
@@ -1230,7 +1230,7 @@ If any of the two conditions below holds, the Group Manager MUST inform the leav
 
 * If, upon joining the group (see {{ssec-join-req-sending}}), the leaving node specified a URI in the 'control_uri' parameter defined in {{Section 4.3.1 of RFC9594}}, the Group Manager sends a DELETE request targeting the URI specified in the 'control_uri' parameter (OPT7).
 
-* If the leaving node has been observing the associated resource at ace-group/GROUPNAME/nodes/NODENAME, the Group Manager sends an unsolicited 4.04 (Not Found) error response to the leaving node, as specified in {{Section 4.3.2 of RFC9594}}.
+* If the leaving node has been observing the associated resource at /ace-group/GROUPNAME/nodes/NODENAME, the Group Manager sends an unsolicited 4.04 (Not Found) error response to the leaving node, as specified in {{Section 4.3.2 of RFC9594}}.
 
 Furthermore, the Group Manager might intend to evict all the current group members from the group at once. In such a case, if the Join Responses sent by the Group Manager to nodes joining the group (see {{ssec-join-resp}}) specify a URI in the 'control_group_uri' parameter defined in {{Section 4.3.1 of RFC9594}}, then the Group Manager MUST additionally send a DELETE request targeting the URI specified in the 'control_group_uri' parameter (OPT10).
 
@@ -1406,7 +1406,7 @@ Node                                                         Manager
   |                                                             |
   |                   Stale Sender IDs Request                  |
   |------------------------------------------------------------>|
-  |             FETCH ace-group/GROUPNAME/stale-sids            |
+  |             FETCH /ace-group/GROUPNAME/stale-sids           |
   |                                                             |
   |<---------- Stale Sender IDs Response: 2.05 (Content) -------|
   |                                                             |
@@ -1428,8 +1428,8 @@ Node                                                         Manager
    Response:
 
    Header: Content (Code=2.05)
-   Payload (in CBOR diagnostic notation):
    Content-Format: 60 (application/cbor)
+   Payload (in CBOR diagnostic notation):
      [h'01', h'fc', h'12ab', h'de44', h'ff']
 ~~~~~~~~~~~
 {: #fig-stale-ids-req-resp-ex title="Example of Stale Sender IDs Request-Response"}
@@ -2175,7 +2175,7 @@ sign_params = 11
 
 * Definition of /ace-group/GROUPNAME/kdc-pub-key moved to draft-ietf-ace-key-groupcomm.
 
-* ace-group/ accessible also to non-members that are not Verifiers.
+* /ace-group accessible also to non-members that are not Verifiers.
 
 * Clarified what resources are accessible to Verifiers.
 
