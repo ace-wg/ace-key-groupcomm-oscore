@@ -236,28 +236,24 @@ More specifically, the following applies when, as defined in this document, a sc
 
 * The permission set ("Tperm") is a CBOR unsigned integer with value R, specifying the role(s) that the Client wishes to take in the group (REQ1). The value R is computed as follows.
 
-   - Each role in the permission set is converted into the corresponding numeric identifier X from the "Value" column of the "Group OSCORE Roles" registry, for which this document defines the entries in {{fig-role-values}}.
+   - Each role in the permission set is converted into the corresponding numeric identifier X from the "Value" column of the "Group OSCORE Roles" registry, for which this document defines the entries in {{tab-role-values}}.
 
    - The set of N numbers is converted into the single value R, by taking two to the power of each numeric identifier X_1, X_2, ..., X_N, and then computing the inclusive OR of the binary representations of all the power values.
 
-~~~~~~~~~~~
-+-----------+-------+-------------------------------------------------+
 | Name      | Value | Description                                     |
-+===========+=======+=================================================+
+|-----------|-------|-------------------------------------------------|
 | Reserved  | 0     | This value is reserved                          |
-|-----------+-------+-------------------------------------------------+
+|-----------|-------|-------------------------------------------------|
 | Requester | 1     | Send requests; receive responses                |
-|-----------+-------+-------------------------------------------------+
+|-----------|-------|-------------------------------------------------|
 | Responder | 2     | Send responses; receive requests                |
-+-----------+-------+-------------------------------------------------+
+|-----------|-------|-------------------------------------------------|
 | Monitor   | 3     | Receive requests; never send requests/responses |
-|-----------+-------+-------------------------------------------------|
+|-----------|-------|-------------------------------------------------|
 | Verifier  | 4     | Verify signature of intercepted messages        |
-+-----------+-------+-------------------------------------------------+
-~~~~~~~~~~~
-{: #fig-role-values title="Numeric identifier of roles in an OSCORE group" artwork-align="center"}
+{: #tab-role-values title="Numeric identifier of roles in an OSCORE group" align="center"}
 
-The following CDDL {{RFC8610}} notation defines a scope entry that uses the AIF-OSCORE-GROUPCOMM data model and expresses a set of Group OSCORE roles from those in {{fig-role-values}}.
+The following CDDL {{RFC8610}} notation defines a scope entry that uses the AIF-OSCORE-GROUPCOMM data model and expresses a set of Group OSCORE roles from those in {{tab-role-values}}.
 
 ~~~~~~~~~~~
    AIF-OSCORE-GROUPCOMM = AIF-Generic<oscore-gname, oscore-gperm>
@@ -329,7 +325,7 @@ The Authorization Request message is as defined in {{Section 3.1 of RFC9594}}, w
 
       - The group name is encoded as a CBOR text string.
 
-      - The set of requested roles is expressed as a single CBOR unsigned integer. This is computed as defined in {{sec-format-scope}}, from the numerical abbreviations of each requested role defined in the "Group OSCORE Roles" registry, for which this document defines the entries in {{fig-role-values}} (REQ1).
+      - The set of requested roles is expressed as a single CBOR unsigned integer. This is computed as defined in {{sec-format-scope}}, from the numerical abbreviations of each requested role defined in the "Group OSCORE Roles" registry, for which this document defines the entries in {{tab-role-values}} (REQ1).
 
 ## Authorization Response {#ssec-auth-resp}
 
@@ -861,46 +857,47 @@ If all verifications succeed, the handler replies with a 2.05 (Content) response
 
 ## Admitted Methods {#ssec-admitted-methods}
 
-The table in {{method-table}} summarizes the CoAP methods admitted to access different resources at the Group Manager, for (non-)members of a group with group name GROUPNAME, and considering different roles. The last two rows of the table apply to a node with node name NODENAME.
+The table in {{tab-methods}} summarizes the CoAP methods admitted to access different resources at the Group Manager, for (non-)members of a group with group name GROUPNAME, and considering different roles. The last two rows of the table apply to a node with node name NODENAME.
 
-~~~~~~~~~~~
-+---------------------------------+--------+-------+-------+-------+
-| Resource                        | Type1  | Type2 | Type3 | Type4 |
-+---------------------------------+--------+-------+-------+-------+
-| ace-group/                      | F      | F     | F     | F     |
-+---------------------------------+--------+-------+-------+-------+
-| ace-group/GROUPNAME/            | G Po   | G Po  | Po *  | Po    |
-+---------------------------------+--------+-------+-------+-------+
-| ace-group/GROUPNAME/active      | G      | G     | -     | -     |
-+---------------------------------+--------+-------+-------+-------+
-| ace-group/GROUPNAME/verif-data  | -      | -     | G     | -     |
-+---------------------------------+--------+-------+-------+-------+
-| ace-group/GROUPNAME/creds       | G F    | G F   | G F   | -     |
-+---------------------------------+--------+-------+-------+-------+
-| ace-group/GROUPNAME/kdc-cred    | G      | G     | G     | -     |
-+---------------------------------+--------+-------+-------+-------+
-| ace-group/GROUPNAME/stale-sids  | F      | F     | -     | -     |
-+---------------------------------+--------+-------+-------+-------+
-| ace-group/GROUPNAME/policies    | G      | G     | -     | -     |
-+---------------------------------+--------+-------+-------+-------+
-| ace-group/GROUPNAME/num         | G      | G     | -     | -     |
-+---------------------------------+--------+-------+-------+-------+
-| ace-group/GROUPNAME/nodes/      | G Pu D | G D   | -     | -     |
-|           NODENAME              |        |       |       |       |
-+---------------------------------+--------+-------+-------+-------+
-| ace-group/GROUPNAME/nodes/      | Po     | -     | -     | -     |
-|           NODENAME/pub-key      |        |       |       |       |
-+---------------------------------+--------+-------+-------+-------+
+The table uses the following abbreviations.
 
-CoAP methods: G = GET; F = FETCH; Po = POST; Pu = PUT; D = DELETE
+* G = CoAP method GET
+* F = CoAP method FETCH
+* Po = CoAP method POST
+* Pu = CoAP method PUT
+* D = CoAP method DELETE
+* Type1 = Member as Requester and/or Responder
+* Type2 = Member as Monitor
+* Type3 = Non-member (authorized to be signature verifier)
+* Type4 = Non-member (not authorized to be signature verifier)
+* (*) = Cannot join the group as signature verifier
 
-Type1 = Member as Requester and/or Responder
-Type2 = Member as Monitor
-Type3 = Non-member (authorized to be signature verifier)
-        (*) = cannot join the group as signature verifier
-Type4 = Non-member (not authorized to be signature verifier)
-~~~~~~~~~~~
-{: #method-table title="Admitted CoAP Methods on the Group Manager Resources" artwork-align="center"}
+| Resource                       | Type1  | Type2 | Type3 | Type4 |
+|--------------------------------|--------|-------|-------|-------|
+| ace-group/                     | F      | F     | F     | F     |
+|--------------------------------|--------|-------|-------|-------|
+| ace-group/GROUPNAME/           | G Po   | G Po  | Po *  | Po    |
+|--------------------------------|--------|-------|-------|-------|
+| ace-group/GROUPNAME/active     | G      | G     | -     | -     |
+|--------------------------------|--------|-------|-------|-------|
+| ace-group/GROUPNAME/verif-data | -      | -     | G     | -     |
+|--------------------------------|--------|-------|-------|-------|
+| ace-group/GROUPNAME/creds      | G F    | G F   | G F   | -     |
+|--------------------------------|--------|-------|-------|-------|
+| ace-group/GROUPNAME/kdc-cred   | G      | G     | G     | -     |
+|--------------------------------|--------|-------|-------|-------|
+| ace-group/GROUPNAME/stale-sids | F      | F     | -     | -     |
+|--------------------------------|--------|-------|-------|-------|
+| ace-group/GROUPNAME/policies   | G      | G     | -     | -     |
+|--------------------------------|--------|-------|-------|-------|
+| ace-group/GROUPNAME/num        | G      | G     | -     | -     |
+|--------------------------------|--------|-------|-------|-------|
+| ace-group/GROUPNAME/nodes/     | G Pu D | G D   | -     | -     |
+|           NODENAME             |        |       |       |       |
+|--------------------------------|--------|-------|-------|-------|
+| ace-group/GROUPNAME/nodes/     | Po     | -     | -     | -     |
+|           NODENAME/pub-key     |        |       |       |       |
+{: #tab-methods title="Admitted CoAP Methods on the Group Manager Resources" align="center"}
 
 ### Signature Verifiers
 
@@ -1447,23 +1444,18 @@ In addition to those defined in {{Section 8 of RFC9594}}, this application profi
 
 Note that the media type application/ace-groupcomm+cbor MUST be used when these parameters are transported in the respective message fields.
 
-~~~~~~~~~~~
-+----------------+------+-------+------------+
-| Name           | CBOR | CBOR  | Reference  |
-|                | Key  | Type  |            |
-+----------------+------+-------+------------+
-| group_senderId | TBD  | bstr  | [RFC-XXXX] |
-+----------------+------+-------+------------+
-| ecdh_info      | TBD  | array | [RFC-XXXX] |
-+----------------+------+-------+------------+
-| kdc_dh_creds   | TBD  | array | [RFC-XXXX] |
-+----------------+------+-------+------------+
-| group_enc_key  | TBD  | bstr  | [RFC-XXXX] |
-+----------------+------+-------+------------+
-| stale_node_ids | TBD  | array | [RFC-XXXX] |
-+----------------+------+-------+------------+
-~~~~~~~~~~~
-{: #fig-ACE-Groupcomm-Parameters title="ACE Groupcomm Parameters" artwork-align="center"}
+| Name           | CBOR Key | CBOR Type | Reference |
++----------------|----------|-----------|-----------|
+| group_senderId | TBD      | bstr      | {{&SELF}} |
++----------------|----------|-----------|-----------|
+| ecdh_info      | TBD      | array     | {{&SELF}} |
++----------------|----------|-----------|-----------|
+| kdc_dh_creds   | TBD      | array     | {{&SELF}} |
++----------------|----------|-----------|-----------|
+| group_enc_key  | TBD      | bstr      | {{&SELF}} |
++----------------|----------|-----------|-----------|
+| stale_node_ids | TBD      | array     | {{&SELF}} |
+{: #tab-ACE-Groupcomm-Parameters title="ACE Groupcomm Parameters" align="center"}
 
 Note to RFC Editor: Please replace all occurrences of "{{&SELF}}" with the RFC number of this specification and delete this paragraph.
 
@@ -1502,18 +1494,14 @@ multicast) MUST support this parameter.
 
 In addition to those defined in {{Section 9 of RFC9594}}, this application profile defines new values that the Group Manager can include as error identifiers, in the 'error' field of an error response with Content-Format application/ace-groupcomm+cbor.
 
-~~~~~~~~~~~
-+-------+-------------------------------------------------+
 | Value |                   Description                   |
-+-------+-------------------------------------------------+
+|-------|-------------------------------------------------|
 |   7   | Signatures not used in the group                |
-+-------+-------------------------------------------------+
+|-------|-------------------------------------------------|
 |   8   | Operation permitted only to signature verifiers |
-+-------+-------------------------------------------------+
+|-------|-------------------------------------------------|
 |   9   | Group currently not active                      |
-+-------+-------------------------------------------------+
-~~~~~~~~~~~
-{: #fig-ACE-Groupcomm-Error Identifiers title="ACE Groupcomm Error Identifiers" artwork-align="center"}
+{: #tab-ACE-Groupcomm-Error-Identifiers title="ACE Groupcomm Error Identifiers" align="center"}
 
 A Client supporting the 'error' parameter (see {{Sections 4.1.2 and 8 of RFC9594}}) and able to understand the specified error may use that information to determine what actions to take next. If it is included in the error response and supported by the Client, the 'error_description' parameter may provide additional context. The following guidelines apply.
 
@@ -1859,7 +1847,7 @@ The columns of this registry are:
 
 * Reference: This contains a pointer to the public specification for the role.
 
-This registry will be initially populated by the values in {{fig-role-values}}.
+This registry will be initially populated by the values in {{tab-role-values}}.
 
 The Reference column for all of these entries will be {{&SELF}}.
 
@@ -2116,6 +2104,8 @@ sign_params = 11
 * Updated author list.
 
 * Updated references and section numbers of referred documents.
+
+* Use actual tables.
 
 * Fixed name of the error with error code 4.
 
