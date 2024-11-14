@@ -278,13 +278,13 @@ Table of Contents
 
    In the CBOR diagnostic notation used in this document, constructs of
    the form e'SOME_NAME' are replaced by the value assigned to SOME_NAME
-   in the CDDL model shown in Figure 14 of Appendix C.  For example,
+   in the CDDL model shown in Figure 10 of Appendix C.  For example,
    {e'sign_enc_alg': 10, e'sign_alg': -8} stands for {9: 10, 10: -8}.
 
    Note to RFC Editor: Please delete the paragraph immediately preceding
    this note.  Also, in the CBOR diagnostic notation used in this
    document, please replace the constructs of the form e'SOME_NAME' with
-   the value assigned to SOME_NAME in the CDDL model shown in Figure 14
+   the value assigned to SOME_NAME in the CDDL model shown in Figure 10
    of Appendix C.  Finally, please delete this note.
 
 2.  Protocol Overview
@@ -387,32 +387,34 @@ Table of Contents
       -  Each role in the permission set is converted into the
          corresponding numeric identifier X from the "Value" column of
          the "Group OSCORE Roles" registry, for which this document
-         defines the entries in Figure 1.
+         defines the entries in Table 1.
 
       -  The set of N numbers is converted into the single value R, by
          taking two to the power of each numeric identifier X_1, X_2,
          ..., X_N, and then computing the inclusive OR of the binary
          representations of all the power values.
 
- +-----------+-------+-------------------------------------------------+
- | Name      | Value | Description                                     |
- +===========+=======+=================================================+
- | Reserved  | 0     | This value is reserved                          |
- |-----------+-------+-------------------------------------------------+
- | Requester | 1     | Send requests; receive responses                |
- |-----------+-------+-------------------------------------------------+
- | Responder | 2     | Send responses; receive requests                |
- +-----------+-------+-------------------------------------------------+
- | Monitor   | 3     | Receive requests; never send requests/responses |
- |-----------+-------+-------------------------------------------------|
- | Verifier  | 4     | Verify signature of intercepted messages        |
- +-----------+-------+-------------------------------------------------+
+         +===========+=======+==================================+
+         | Name      | Value | Description                      |
+         +===========+=======+==================================+
+         | Reserved  | 0     | This value is reserved           |
+         +-----------+-------+----------------------------------+
+         | Requester | 1     | Send requests; receive responses |
+         +-----------+-------+----------------------------------+
+         | Responder | 2     | Send responses; receive requests |
+         +-----------+-------+----------------------------------+
+         | Monitor   | 3     | Receive requests; never send     |
+         |           |       | requests/responses               |
+         +-----------+-------+----------------------------------+
+         | Verifier  | 4     | Verify signature of intercepted  |
+         |           |       | messages                         |
+         +-----------+-------+----------------------------------+
 
-        Figure 1: Numeric identifier of roles in an OSCORE group
+         Table 1: Numeric identifier of roles in an OSCORE group
 
    The following CDDL [RFC8610] notation defines a scope entry that uses
    the AIF-OSCORE-GROUPCOMM data model and expresses a set of Group
-   OSCORE roles from those in Figure 1.
+   OSCORE roles from those in Table 1.
 
       AIF-OSCORE-GROUPCOMM = AIF-Generic<oscore-gname, oscore-gperm>
 
@@ -585,7 +587,7 @@ Table of Contents
             unsigned integer.  This is computed as defined in Section 3,
             from the numerical abbreviations of each requested role
             defined in the "Group OSCORE Roles" registry, for which this
-            document defines the entries in Figure 1 (REQ1).
+            document defines the entries in Table 1 (REQ1).
 
 5.2.  Authorization Response
 
@@ -1809,49 +1811,65 @@ Table of Contents
 
 8.4.  Admitted Methods
 
-   The table in Figure 2 summarizes the CoAP methods admitted to access
+   The table in Table 2 summarizes the CoAP methods admitted to access
    different resources at the Group Manager, for (non-)members of a
    group with group name GROUPNAME, and considering different roles.
    The last two rows of the table apply to a node with node name
    NODENAME.
 
-   +---------------------------------+--------+-------+-------+-------+
-   | Resource                        | Type1  | Type2 | Type3 | Type4 |
-   +---------------------------------+--------+-------+-------+-------+
-   | ace-group/                      | F      | F     | F     | F     |
-   +---------------------------------+--------+-------+-------+-------+
-   | ace-group/GROUPNAME/            | G Po   | G Po  | Po *  | Po    |
-   +---------------------------------+--------+-------+-------+-------+
-   | ace-group/GROUPNAME/active      | G      | G     | -     | -     |
-   +---------------------------------+--------+-------+-------+-------+
-   | ace-group/GROUPNAME/verif-data  | -      | -     | G     | -     |
-   +---------------------------------+--------+-------+-------+-------+
-   | ace-group/GROUPNAME/creds       | G F    | G F   | G F   | -     |
-   +---------------------------------+--------+-------+-------+-------+
-   | ace-group/GROUPNAME/kdc-cred    | G      | G     | G     | -     |
-   +---------------------------------+--------+-------+-------+-------+
-   | ace-group/GROUPNAME/stale-sids  | F      | F     | -     | -     |
-   +---------------------------------+--------+-------+-------+-------+
-   | ace-group/GROUPNAME/policies    | G      | G     | -     | -     |
-   +---------------------------------+--------+-------+-------+-------+
-   | ace-group/GROUPNAME/num         | G      | G     | -     | -     |
-   +---------------------------------+--------+-------+-------+-------+
-   | ace-group/GROUPNAME/nodes/      | G Pu D | G D   | -     | -     |
-   |           NODENAME              |        |       |       |       |
-   +---------------------------------+--------+-------+-------+-------+
-   | ace-group/GROUPNAME/nodes/      | Po     | -     | -     | -     |
-   |           NODENAME/pub-key      |        |       |       |       |
-   +---------------------------------+--------+-------+-------+-------+
+   The table uses the following abbreviations.
 
-   CoAP methods: G = GET; F = FETCH; Po = POST; Pu = PUT; D = DELETE
+   *  G = CoAP method GET
 
-   Type1 = Member as Requester and/or Responder
-   Type2 = Member as Monitor
-   Type3 = Non-member (authorized to be signature verifier)
-           (*) = cannot join the group as signature verifier
-   Type4 = Non-member (not authorized to be signature verifier)
+   *  F = CoAP method FETCH
 
-       Figure 2: Admitted CoAP Methods on the Group Manager Resources
+   *  Po = CoAP method POST
+
+   *  Pu = CoAP method PUT
+
+   *  D = CoAP method DELETE
+
+   *  Type1 = Member as Requester and/or Responder
+
+   *  Type2 = Member as Monitor
+
+   *  Type3 = Non-member (authorized to be signature verifier)
+
+   *  Type4 = Non-member (not authorized to be signature verifier)
+
+   *  (*) = Cannot join the group as signature verifier
+
+    +================================+========+=======+=======+=======+
+    | Resource                       | Type1  | Type2 | Type3 | Type4 |
+    +================================+========+=======+=======+=======+
+    | ace-group/                     | F      | F     | F     | F     |
+    +--------------------------------+--------+-------+-------+-------+
+    | ace-group/GROUPNAME/           | G Po   | G Po  | Po *  | Po    |
+    +--------------------------------+--------+-------+-------+-------+
+    | ace-group/GROUPNAME/active     | G      | G     | -     | -     |
+    +--------------------------------+--------+-------+-------+-------+
+    | ace-group/GROUPNAME/verif-data | -      | -     | G     | -     |
+    +--------------------------------+--------+-------+-------+-------+
+    | ace-group/GROUPNAME/creds      | G F    | G F   | G F   | -     |
+    +--------------------------------+--------+-------+-------+-------+
+    | ace-group/GROUPNAME/kdc-cred   | G      | G     | G     | -     |
+    +--------------------------------+--------+-------+-------+-------+
+    | ace-group/GROUPNAME/stale-sids | F      | F     | -     | -     |
+    +--------------------------------+--------+-------+-------+-------+
+    | ace-group/GROUPNAME/policies   | G      | G     | -     | -     |
+    +--------------------------------+--------+-------+-------+-------+
+    | ace-group/GROUPNAME/num        | G      | G     | -     | -     |
+    +--------------------------------+--------+-------+-------+-------+
+    | ace-group/GROUPNAME/nodes/     | G Pu D | G D   | -     | -     |
+    +--------------------------------+--------+-------+-------+-------+
+    | NODENAME                       |        |       |       |       |
+    +--------------------------------+--------+-------+-------+-------+
+    | ace-group/GROUPNAME/nodes/     | Po     | -     | -     | -     |
+    +--------------------------------+--------+-------+-------+-------+
+    | NODENAME/pub-key               |        |       |       |       |
+    +--------------------------------+--------+-------+-------+-------+
+
+       Table 2: Admitted CoAP Methods on the Group Manager Resources
 
 8.4.1.  Signature Verifiers
 
@@ -2223,8 +2241,8 @@ Table of Contents
    authentication credential that can be obtained as defined in
    Section 9.5.
 
-   Figure 3 gives an overview of the exchange described above, while
-   Figure 4 shows an example of Signature Verification Data Request-
+   Figure 1 gives an overview of the exchange described above, while
+   Figure 2 shows an example of Signature Verification Data Request-
    Response.
 
    Signature                                                     Group
@@ -2237,7 +2255,7 @@ Table of Contents
      |<--- Signature Verification Data Response: 2.05 (Content) ---|
      |                                                             |
 
-       Figure 3: Message Flow of Signature Verification Data Request-
+       Figure 1: Message Flow of Signature Verification Data Request-
                                   Response
 
      Request:
@@ -2270,7 +2288,7 @@ Table of Contents
                    e'group_enc_key': h'bc661fae6742abc3dd01beda1142567c'
      }
 
-    Figure 4: Example of Signature Verification Data Request-Response
+    Figure 2: Example of Signature Verification Data Request-Response
 
 9.7.  Retrieve the Group Policies
 
@@ -2321,8 +2339,8 @@ Table of Contents
    become active again, the group member can resume taking part in
    communications within the group.
 
-   Figure 5 gives an overview of the exchange described above, while
-   Figure 6 shows an example of Group Status Request-Response.
+   Figure 3 gives an overview of the exchange described above, while
+   Figure 4 shows an example of Group Status Request-Response.
 
    Group                                                         Group
    Member                                                       Manager
@@ -2332,7 +2350,7 @@ Table of Contents
      |<---------- Group Status Response: 2.05 (Content) -----------|
      |                                                             |
 
-          Figure 5: Message Flow of Group Status Request-Response
+          Figure 3: Message Flow of Group Status Request-Response
 
       Request:
 
@@ -2349,7 +2367,7 @@ Table of Contents
       Payload (in CBOR diagnostic notation):
         true
 
-             Figure 6: Example of Group Status Request-Response
+             Figure 4: Example of Group Status Request-Response
 
 9.10.  Retrieve Group Names
 
@@ -2427,8 +2445,8 @@ Table of Contents
    between the former pair and any other Gid for that group than the
    current, most recent one.
 
-   Figure 7 gives an overview of the exchanges described above, while
-   Figure 8 shows an example of Group Name and URI Retrieval Request-
+   Figure 5 gives an overview of the exchanges described above, while
+   Figure 6 shows an example of Group Name and URI Retrieval Request-
    Response.
 
                                                                   Group
@@ -2439,7 +2457,7 @@ Table of Contents
    |<--- Group Name and URI Retrieval Response: 2.05 (Content) -----|
    |                                                                |
 
-     Figure 7: Message Flow of Group Name and URI Retrieval Request-
+     Figure 5: Message Flow of Group Name and URI Retrieval Request-
                                  Response
 
       Request:
@@ -2464,7 +2482,7 @@ Table of Contents
         / guri /  2: ["ace-group/g1", "ace-group/g2"]
       }
 
-     Figure 8: Example of Group Name and URI Retrieval Request-Response
+     Figure 6: Example of Group Name and URI Retrieval Request-Response
 
 9.11.  Leave the Group
 
@@ -2936,8 +2954,8 @@ Table of Contents
          Response.  Note that ARRAY might result in the empty CBOR
          array.
 
-   Figure 9 gives an overview of the exchange described above, while
-   Figure 10 shows an example of Stale Sender IDs Request-Response.
+   Figure 7 gives an overview of the exchange described above, while
+   Figure 8 shows an example of Stale Sender IDs Request-Response.
 
                                                                  Group
    Node                                                         Manager
@@ -2949,7 +2967,7 @@ Table of Contents
      |<---------- Stale Sender IDs Response: 2.05 (Content) -------|
      |                                                             |
 
-        Figure 9: Message Flow of Stale Sender IDs Request-Response
+        Figure 7: Message Flow of Stale Sender IDs Request-Response
 
       Request:
 
@@ -2969,7 +2987,7 @@ Table of Contents
       Content-Format: 60 (application/cbor)
         [h'01', h'fc', h'12ab', h'de44', h'ff']
 
-          Figure 10: Example of Stale Sender IDs Request-Response
+           Figure 8: Example of Stale Sender IDs Request-Response
 
 12.  ACE Groupcomm Parameters
 
@@ -2984,22 +3002,21 @@ Table of Contents
    when these parameters are transported in the respective message
    fields.
 
-              +----------------+------+-------+------------+
-              | Name           | CBOR | CBOR  | Reference  |
-              |                | Key  | Type  |            |
-              +----------------+------+-------+------------+
-              | group_senderId | TBD  | bstr  | [RFC-XXXX] |
-              +----------------+------+-------+------------+
-              | ecdh_info      | TBD  | array | [RFC-XXXX] |
-              +----------------+------+-------+------------+
-              | kdc_dh_creds   | TBD  | array | [RFC-XXXX] |
-              +----------------+------+-------+------------+
-              | group_enc_key  | TBD  | bstr  | [RFC-XXXX] |
-              +----------------+------+-------+------------+
-              | stale_node_ids | TBD  | array | [RFC-XXXX] |
-              +----------------+------+-------+------------+
+          +================+==========+===========+============+
+          | Name           | CBOR Key | CBOR Type | Reference  |
+          +================+==========+===========+============+
+          | group_senderId | TBD      | bstr      | [RFC-XXXX] |
+          +----------------+----------+-----------+------------+
+          | ecdh_info      | TBD      | array     | [RFC-XXXX] |
+          +----------------+----------+-----------+------------+
+          | kdc_dh_creds   | TBD      | array     | [RFC-XXXX] |
+          +----------------+----------+-----------+------------+
+          | group_enc_key  | TBD      | bstr      | [RFC-XXXX] |
+          +----------------+----------+-----------+------------+
+          | stale_node_ids | TBD      | array     | [RFC-XXXX] |
+          +----------------+----------+-----------+------------+
 
-                    Figure 11: ACE Groupcomm Parameters
+                    Table 3: ACE Groupcomm Parameters
 
    Note to RFC Editor: Please replace all occurrences of "[RFC-XXXX]"
    with the RFC number of this specification and delete this paragraph.
@@ -3075,17 +3092,17 @@ Table of Contents
    include as error identifiers, in the 'error' field of an error
    response with Content-Format application/ace-groupcomm+cbor.
 
+        +=======+=================================================+
+        | Value | Description                                     |
+        +=======+=================================================+
+        | 7     | Signatures not used in the group                |
         +-------+-------------------------------------------------+
-        | Value |                   Description                   |
+        | 8     | Operation permitted only to signature verifiers |
         +-------+-------------------------------------------------+
-        |   7   | Signatures not used in the group                |
-        +-------+-------------------------------------------------+
-        |   8   | Operation permitted only to signature verifiers |
-        +-------+-------------------------------------------------+
-        |   9   | Group currently not active                      |
+        | 9     | Group currently not active                      |
         +-------+-------------------------------------------------+
 
-                 Figure 12: ACE Groupcomm Error Identifiers
+                  Table 4: ACE Groupcomm Error Identifiers
 
    A Client supporting the 'error' parameter (see Sections 4.1.2 and 8
    of [RFC9594]) and able to understand the specified error may use that
@@ -3692,7 +3709,7 @@ Table of Contents
    *  Reference: This contains a pointer to the public specification for
       the role.
 
-   This registry will be initially populated by the values in Figure 1.
+   This registry will be initially populated by the values in Table 1.
 
    The Reference column for all of these entries will be [RFC-XXXX].
 
@@ -4299,7 +4316,7 @@ B.1.  Format of 'ecdh_info_entry'
 
    gname = tstr
 
-              Figure 13: 'ecdh_info_entry' with general format
+              Figure 9: 'ecdh_info_entry' with general format
 
 B.2.  Format of 'key'
 
@@ -4366,7 +4383,7 @@ Appendix C.  CDDL Model
    sign_alg = 10
    sign_params = 11
 
-                           Figure 14: CDDL model
+                           Figure 10: CDDL model
 
 Appendix D.  Document Updates
 
@@ -4381,6 +4398,8 @@ D.1.  Version -16 to -17
    *  Updated author list.
 
    *  Updated references and section numbers of referred documents.
+
+   *  Use actual tables.
 
    *  Fixed name of the error with error code 4.
 

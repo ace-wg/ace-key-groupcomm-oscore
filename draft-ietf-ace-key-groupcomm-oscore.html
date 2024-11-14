@@ -1594,8 +1594,8 @@ appear in all capitals, as shown here.<a href="#section-1.1-1" class="pilcrow">�
 </li>
         </ul>
 <p id="section-1.1-6">Throughout this document, examples for CBOR data items are expressed in CBOR extended diagnostic notation as defined in <span><a href="https://rfc-editor.org/rfc/rfc8949#section-8" class="relref">Section 8</a> of [<a href="#RFC8949" class="cite xref">RFC8949</a>]</span> and <span><a href="https://rfc-editor.org/rfc/rfc8610#appendix-G" class="relref">Appendix G</a> of [<a href="#RFC8610" class="cite xref">RFC8610</a>]</span> ("diagnostic notation"). Diagnostic notation comments are often used to provide a textual representation of the parameters' keys and values.<a href="#section-1.1-6" class="pilcrow">¶</a></p>
-<p id="section-1.1-7">In the CBOR diagnostic notation used in this document, constructs of the form e'SOME_NAME' are replaced by the value assigned to SOME_NAME in the CDDL model shown in <a href="#fig-cddl-model" class="auto internal xref">Figure 14</a> of <a href="#sec-cddl-model" class="auto internal xref">Appendix C</a>. For example, {e'sign_enc_alg': 10, e'sign_alg': -8} stands for {9: 10, 10: -8}.<a href="#section-1.1-7" class="pilcrow">¶</a></p>
-<p id="section-1.1-8">Note to RFC Editor: Please delete the paragraph immediately preceding this note. Also, in the CBOR diagnostic notation used in this document, please replace the constructs of the form e'SOME_NAME' with the value assigned to SOME_NAME in the CDDL model shown in <a href="#fig-cddl-model" class="auto internal xref">Figure 14</a> of <a href="#sec-cddl-model" class="auto internal xref">Appendix C</a>. Finally, please delete this note.<a href="#section-1.1-8" class="pilcrow">¶</a></p>
+<p id="section-1.1-7">In the CBOR diagnostic notation used in this document, constructs of the form e'SOME_NAME' are replaced by the value assigned to SOME_NAME in the CDDL model shown in <a href="#fig-cddl-model" class="auto internal xref">Figure 10</a> of <a href="#sec-cddl-model" class="auto internal xref">Appendix C</a>. For example, {e'sign_enc_alg': 10, e'sign_alg': -8} stands for {9: 10, 10: -8}.<a href="#section-1.1-7" class="pilcrow">¶</a></p>
+<p id="section-1.1-8">Note to RFC Editor: Please delete the paragraph immediately preceding this note. Also, in the CBOR diagnostic notation used in this document, please replace the constructs of the form e'SOME_NAME' with the value assigned to SOME_NAME in the CDDL model shown in <a href="#fig-cddl-model" class="auto internal xref">Figure 10</a> of <a href="#sec-cddl-model" class="auto internal xref">Appendix C</a>. Finally, please delete this note.<a href="#section-1.1-8" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -1669,7 +1669,7 @@ appear in all capitals, as shown here.<a href="#section-1.1-1" class="pilcrow">�
           <p id="section-3-9.2.1">The permission set ("Tperm") is a CBOR unsigned integer with value R, specifying the role(s) that the Client wishes to take in the group (REQ1). The value R is computed as follows.<a href="#section-3-9.2.1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-3-9.2.2.1">
-              <p id="section-3-9.2.2.1.1">Each role in the permission set is converted into the corresponding numeric identifier X from the "Value" column of the "Group OSCORE Roles" registry, for which this document defines the entries in <a href="#fig-role-values" class="auto internal xref">Figure 1</a>.<a href="#section-3-9.2.2.1.1" class="pilcrow">¶</a></p>
+              <p id="section-3-9.2.2.1.1">Each role in the permission set is converted into the corresponding numeric identifier X from the "Value" column of the "Group OSCORE Roles" registry, for which this document defines the entries in <a href="#tab-role-values" class="auto internal xref">Table 1</a>.<a href="#section-3-9.2.2.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-3-9.2.2.2">
               <p id="section-3-9.2.2.2.1">The set of N numbers is converted into the single value R, by taking two to the power of each numeric identifier X_1, X_2, ..., X_N, and then computing the inclusive OR of the binary representations of all the power values.<a href="#section-3-9.2.2.2.1" class="pilcrow">¶</a></p>
@@ -1677,30 +1677,49 @@ appear in all capitals, as shown here.<a href="#section-1.1-1" class="pilcrow">�
           </ul>
 </li>
       </ul>
-<span id="name-numeric-identifier-of-roles"></span><div id="fig-role-values">
-<figure id="figure-1">
-        <div class="alignCenter art-text artwork" id="section-3-10.1">
-<pre>
-+-----------+-------+-------------------------------------------------+
-| Name      | Value | Description                                     |
-+===========+=======+=================================================+
-| Reserved  | 0     | This value is reserved                          |
-|-----------+-------+-------------------------------------------------+
-| Requester | 1     | Send requests; receive responses                |
-|-----------+-------+-------------------------------------------------+
-| Responder | 2     | Send responses; receive requests                |
-+-----------+-------+-------------------------------------------------+
-| Monitor   | 3     | Receive requests; never send requests/responses |
-|-----------+-------+-------------------------------------------------|
-| Verifier  | 4     | Verify signature of intercepted messages        |
-+-----------+-------+-------------------------------------------------+
-</pre>
-</div>
-<figcaption><a href="#figure-1" class="selfRef">Figure 1</a>:
+<span id="name-numeric-identifier-of-roles"></span><div id="tab-role-values">
+<table class="center" id="table-1">
+        <caption>
+<a href="#table-1" class="selfRef">Table 1</a>:
 <a href="#name-numeric-identifier-of-roles" class="selfRef">Numeric identifier of roles in an OSCORE group</a>
-        </figcaption></figure>
+        </caption>
+<thead>
+          <tr>
+            <th class="text-left" rowspan="1" colspan="1">Name</th>
+            <th class="text-left" rowspan="1" colspan="1">Value</th>
+            <th class="text-left" rowspan="1" colspan="1">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">Reserved</td>
+            <td class="text-left" rowspan="1" colspan="1">0</td>
+            <td class="text-left" rowspan="1" colspan="1">This value is reserved</td>
+          </tr>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">Requester</td>
+            <td class="text-left" rowspan="1" colspan="1">1</td>
+            <td class="text-left" rowspan="1" colspan="1">Send requests; receive responses</td>
+          </tr>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">Responder</td>
+            <td class="text-left" rowspan="1" colspan="1">2</td>
+            <td class="text-left" rowspan="1" colspan="1">Send responses; receive requests</td>
+          </tr>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">Monitor</td>
+            <td class="text-left" rowspan="1" colspan="1">3</td>
+            <td class="text-left" rowspan="1" colspan="1">Receive requests; never send requests/responses</td>
+          </tr>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">Verifier</td>
+            <td class="text-left" rowspan="1" colspan="1">4</td>
+            <td class="text-left" rowspan="1" colspan="1">Verify signature of intercepted messages</td>
+          </tr>
+        </tbody>
+      </table>
 </div>
-<p id="section-3-11">The following CDDL <span>[<a href="#RFC8610" class="cite xref">RFC8610</a>]</span> notation defines a scope entry that uses the AIF-OSCORE-GROUPCOMM data model and expresses a set of Group OSCORE roles from those in <a href="#fig-role-values" class="auto internal xref">Figure 1</a>.<a href="#section-3-11" class="pilcrow">¶</a></p>
+<p id="section-3-11">The following CDDL <span>[<a href="#RFC8610" class="cite xref">RFC8610</a>]</span> notation defines a scope entry that uses the AIF-OSCORE-GROUPCOMM data model and expresses a set of Group OSCORE roles from those in <a href="#tab-role-values" class="auto internal xref">Table 1</a>.<a href="#section-3-11" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-3-12">
 <pre>
    AIF-OSCORE-GROUPCOMM = AIF-Generic&lt;oscore-gname, oscore-gperm&gt;
@@ -1788,7 +1807,7 @@ In this case, the joining node <span class="bcp14">MUST</span> provide a differe
                     <p id="section-5.1-2.1.2.1.2.1.1">The group name is encoded as a CBOR text string.<a href="#section-5.1-2.1.2.1.2.1.1" class="pilcrow">¶</a></p>
 </li>
                   <li class="normal" id="section-5.1-2.1.2.1.2.2">
-                    <p id="section-5.1-2.1.2.1.2.2.1">The set of requested roles is expressed as a single CBOR unsigned integer. This is computed as defined in <a href="#sec-format-scope" class="auto internal xref">Section 3</a>, from the numerical abbreviations of each requested role defined in the "Group OSCORE Roles" registry, for which this document defines the entries in <a href="#fig-role-values" class="auto internal xref">Figure 1</a> (REQ1).<a href="#section-5.1-2.1.2.1.2.2.1" class="pilcrow">¶</a></p>
+                    <p id="section-5.1-2.1.2.1.2.2.1">The set of requested roles is expressed as a single CBOR unsigned integer. This is computed as defined in <a href="#sec-format-scope" class="auto internal xref">Section 3</a>, from the numerical abbreviations of each requested role defined in the "Group OSCORE Roles" registry, for which this document defines the entries in <a href="#tab-role-values" class="auto internal xref">Table 1</a> (REQ1).<a href="#section-5.1-2.1.2.1.2.2.1" class="pilcrow">¶</a></p>
 </li>
                 </ul>
 </li>
@@ -2549,51 +2568,149 @@ Due to the set of stale Sender IDs distributed through the rekeying, this ensure
         <h3 id="name-admitted-methods">
 <a href="#section-8.4" class="section-number selfRef">8.4. </a><a href="#name-admitted-methods" class="section-name selfRef">Admitted Methods</a>
         </h3>
-<p id="section-8.4-1">The table in <a href="#method-table" class="auto internal xref">Figure 2</a> summarizes the CoAP methods admitted to access different resources at the Group Manager, for (non-)members of a group with group name GROUPNAME, and considering different roles. The last two rows of the table apply to a node with node name NODENAME.<a href="#section-8.4-1" class="pilcrow">¶</a></p>
-<span id="name-admitted-coap-methods-on-th"></span><div id="method-table">
-<figure id="figure-2">
-          <div class="alignCenter art-text artwork" id="section-8.4-2.1">
-<pre>
-+---------------------------------+--------+-------+-------+-------+
-| Resource                        | Type1  | Type2 | Type3 | Type4 |
-+---------------------------------+--------+-------+-------+-------+
-| ace-group/                      | F      | F     | F     | F     |
-+---------------------------------+--------+-------+-------+-------+
-| ace-group/GROUPNAME/            | G Po   | G Po  | Po *  | Po    |
-+---------------------------------+--------+-------+-------+-------+
-| ace-group/GROUPNAME/active      | G      | G     | -     | -     |
-+---------------------------------+--------+-------+-------+-------+
-| ace-group/GROUPNAME/verif-data  | -      | -     | G     | -     |
-+---------------------------------+--------+-------+-------+-------+
-| ace-group/GROUPNAME/creds       | G F    | G F   | G F   | -     |
-+---------------------------------+--------+-------+-------+-------+
-| ace-group/GROUPNAME/kdc-cred    | G      | G     | G     | -     |
-+---------------------------------+--------+-------+-------+-------+
-| ace-group/GROUPNAME/stale-sids  | F      | F     | -     | -     |
-+---------------------------------+--------+-------+-------+-------+
-| ace-group/GROUPNAME/policies    | G      | G     | -     | -     |
-+---------------------------------+--------+-------+-------+-------+
-| ace-group/GROUPNAME/num         | G      | G     | -     | -     |
-+---------------------------------+--------+-------+-------+-------+
-| ace-group/GROUPNAME/nodes/      | G Pu D | G D   | -     | -     |
-|           NODENAME              |        |       |       |       |
-+---------------------------------+--------+-------+-------+-------+
-| ace-group/GROUPNAME/nodes/      | Po     | -     | -     | -     |
-|           NODENAME/pub-key      |        |       |       |       |
-+---------------------------------+--------+-------+-------+-------+
-
-CoAP methods: G = GET; F = FETCH; Po = POST; Pu = PUT; D = DELETE
-
-Type1 = Member as Requester and/or Responder
-Type2 = Member as Monitor
-Type3 = Non-member (authorized to be signature verifier)
-        (*) = cannot join the group as signature verifier
-Type4 = Non-member (not authorized to be signature verifier)
-</pre>
-</div>
-<figcaption><a href="#figure-2" class="selfRef">Figure 2</a>:
+<p id="section-8.4-1">The table in <a href="#tab-methods" class="auto internal xref">Table 2</a> summarizes the CoAP methods admitted to access different resources at the Group Manager, for (non-)members of a group with group name GROUPNAME, and considering different roles. The last two rows of the table apply to a node with node name NODENAME.<a href="#section-8.4-1" class="pilcrow">¶</a></p>
+<p id="section-8.4-2">The table uses the following abbreviations.<a href="#section-8.4-2" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-8.4-3.1">
+            <p id="section-8.4-3.1.1">G = CoAP method GET<a href="#section-8.4-3.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-8.4-3.2">
+            <p id="section-8.4-3.2.1">F = CoAP method FETCH<a href="#section-8.4-3.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-8.4-3.3">
+            <p id="section-8.4-3.3.1">Po = CoAP method POST<a href="#section-8.4-3.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-8.4-3.4">
+            <p id="section-8.4-3.4.1">Pu = CoAP method PUT<a href="#section-8.4-3.4.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-8.4-3.5">
+            <p id="section-8.4-3.5.1">D = CoAP method DELETE<a href="#section-8.4-3.5.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-8.4-3.6">
+            <p id="section-8.4-3.6.1">Type1 = Member as Requester and/or Responder<a href="#section-8.4-3.6.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-8.4-3.7">
+            <p id="section-8.4-3.7.1">Type2 = Member as Monitor<a href="#section-8.4-3.7.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-8.4-3.8">
+            <p id="section-8.4-3.8.1">Type3 = Non-member (authorized to be signature verifier)<a href="#section-8.4-3.8.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-8.4-3.9">
+            <p id="section-8.4-3.9.1">Type4 = Non-member (not authorized to be signature verifier)<a href="#section-8.4-3.9.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-8.4-3.10">
+            <p id="section-8.4-3.10.1">(*) = Cannot join the group as signature verifier<a href="#section-8.4-3.10.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+<span id="name-admitted-coap-methods-on-th"></span><div id="tab-methods">
+<table class="center" id="table-2">
+          <caption>
+<a href="#table-2" class="selfRef">Table 2</a>:
 <a href="#name-admitted-coap-methods-on-th" class="selfRef">Admitted CoAP Methods on the Group Manager Resources</a>
-          </figcaption></figure>
+          </caption>
+<thead>
+            <tr>
+              <th class="text-left" rowspan="1" colspan="1">Resource</th>
+              <th class="text-left" rowspan="1" colspan="1">Type1</th>
+              <th class="text-left" rowspan="1" colspan="1">Type2</th>
+              <th class="text-left" rowspan="1" colspan="1">Type3</th>
+              <th class="text-left" rowspan="1" colspan="1">Type4</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">ace-group/</td>
+              <td class="text-left" rowspan="1" colspan="1">F</td>
+              <td class="text-left" rowspan="1" colspan="1">F</td>
+              <td class="text-left" rowspan="1" colspan="1">F</td>
+              <td class="text-left" rowspan="1" colspan="1">F</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">ace-group/GROUPNAME/</td>
+              <td class="text-left" rowspan="1" colspan="1">G Po</td>
+              <td class="text-left" rowspan="1" colspan="1">G Po</td>
+              <td class="text-left" rowspan="1" colspan="1">Po *</td>
+              <td class="text-left" rowspan="1" colspan="1">Po</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">ace-group/GROUPNAME/active</td>
+              <td class="text-left" rowspan="1" colspan="1">G</td>
+              <td class="text-left" rowspan="1" colspan="1">G</td>
+              <td class="text-left" rowspan="1" colspan="1">-</td>
+              <td class="text-left" rowspan="1" colspan="1">-</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">ace-group/GROUPNAME/verif-data</td>
+              <td class="text-left" rowspan="1" colspan="1">-</td>
+              <td class="text-left" rowspan="1" colspan="1">-</td>
+              <td class="text-left" rowspan="1" colspan="1">G</td>
+              <td class="text-left" rowspan="1" colspan="1">-</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">ace-group/GROUPNAME/creds</td>
+              <td class="text-left" rowspan="1" colspan="1">G F</td>
+              <td class="text-left" rowspan="1" colspan="1">G F</td>
+              <td class="text-left" rowspan="1" colspan="1">G F</td>
+              <td class="text-left" rowspan="1" colspan="1">-</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">ace-group/GROUPNAME/kdc-cred</td>
+              <td class="text-left" rowspan="1" colspan="1">G</td>
+              <td class="text-left" rowspan="1" colspan="1">G</td>
+              <td class="text-left" rowspan="1" colspan="1">G</td>
+              <td class="text-left" rowspan="1" colspan="1">-</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">ace-group/GROUPNAME/stale-sids</td>
+              <td class="text-left" rowspan="1" colspan="1">F</td>
+              <td class="text-left" rowspan="1" colspan="1">F</td>
+              <td class="text-left" rowspan="1" colspan="1">-</td>
+              <td class="text-left" rowspan="1" colspan="1">-</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">ace-group/GROUPNAME/policies</td>
+              <td class="text-left" rowspan="1" colspan="1">G</td>
+              <td class="text-left" rowspan="1" colspan="1">G</td>
+              <td class="text-left" rowspan="1" colspan="1">-</td>
+              <td class="text-left" rowspan="1" colspan="1">-</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">ace-group/GROUPNAME/num</td>
+              <td class="text-left" rowspan="1" colspan="1">G</td>
+              <td class="text-left" rowspan="1" colspan="1">G</td>
+              <td class="text-left" rowspan="1" colspan="1">-</td>
+              <td class="text-left" rowspan="1" colspan="1">-</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">ace-group/GROUPNAME/nodes/</td>
+              <td class="text-left" rowspan="1" colspan="1">G Pu D</td>
+              <td class="text-left" rowspan="1" colspan="1">G D</td>
+              <td class="text-left" rowspan="1" colspan="1">-</td>
+              <td class="text-left" rowspan="1" colspan="1">-</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">NODENAME</td>
+              <td class="text-left" rowspan="1" colspan="1"> </td>
+              <td class="text-left" rowspan="1" colspan="1"> </td>
+              <td class="text-left" rowspan="1" colspan="1"> </td>
+              <td class="text-left" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">ace-group/GROUPNAME/nodes/</td>
+              <td class="text-left" rowspan="1" colspan="1">Po</td>
+              <td class="text-left" rowspan="1" colspan="1">-</td>
+              <td class="text-left" rowspan="1" colspan="1">-</td>
+              <td class="text-left" rowspan="1" colspan="1">-</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">NODENAME/pub-key</td>
+              <td class="text-left" rowspan="1" colspan="1"> </td>
+              <td class="text-left" rowspan="1" colspan="1"> </td>
+              <td class="text-left" rowspan="1" colspan="1"> </td>
+              <td class="text-left" rowspan="1" colspan="1"> </td>
+            </tr>
+          </tbody>
+        </table>
 </div>
 <div id="signature-verifiers">
 <section id="section-8.4.1">
@@ -2812,9 +2929,9 @@ The Group Manager <span class="bcp14">MUST</span> return a 5.03 (Service Unavail
 </li>
         </ul>
 <p id="section-9.6-5">In order to verify signatures in the group (see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-23#section-7.5" class="relref">Section 7.5</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>), the signature verifier relies on: the data retrieved from the 2.05 (Content) Signature Verification Data Response; the public keys of the group members signing the messages to verify, retrieved from those members' authentication credentials that can be obtained as defined in <a href="#sec-pub-keys" class="auto internal xref">Section 9.3</a>; and the public key of the Group Manager, retrieved from the Group Manager's authentication credential that can be obtained as defined in <a href="#sec-gm-pub-key" class="auto internal xref">Section 9.5</a>.<a href="#section-9.6-5" class="pilcrow">¶</a></p>
-<p id="section-9.6-6"><a href="#fig-verif-data-req-resp" class="auto internal xref">Figure 3</a> gives an overview of the exchange described above,  while <a href="#fig-verif-data-req-resp-ex" class="auto internal xref">Figure 4</a> shows an example of Signature Verification Data Request-Response.<a href="#section-9.6-6" class="pilcrow">¶</a></p>
+<p id="section-9.6-6"><a href="#fig-verif-data-req-resp" class="auto internal xref">Figure 1</a> gives an overview of the exchange described above,  while <a href="#fig-verif-data-req-resp-ex" class="auto internal xref">Figure 2</a> shows an example of Signature Verification Data Request-Response.<a href="#section-9.6-6" class="pilcrow">¶</a></p>
 <span id="name-message-flow-of-signature-v"></span><div id="fig-verif-data-req-resp">
-<figure id="figure-3">
+<figure id="figure-1">
           <div class="alignCenter art-text artwork" id="section-9.6-7.1">
 <pre>
 Signature                                                     Group
@@ -2828,12 +2945,12 @@ Verifier                                                     Manager
   |                                                             |
 </pre>
 </div>
-<figcaption><a href="#figure-3" class="selfRef">Figure 3</a>:
+<figcaption><a href="#figure-1" class="selfRef">Figure 1</a>:
 <a href="#name-message-flow-of-signature-v" class="selfRef">Message Flow of Signature Verification Data Request-Response</a>
           </figcaption></figure>
 </div>
 <span id="name-example-of-signature-verifi"></span><div id="fig-verif-data-req-resp-ex">
-<figure id="figure-4">
+<figure id="figure-2">
           <div class="alignLeft art-text artwork" id="section-9.6-8.1">
 <pre>
    Request:
@@ -2867,7 +2984,7 @@ Verifier                                                     Manager
    }
 </pre>
 </div>
-<figcaption><a href="#figure-4" class="selfRef">Figure 4</a>:
+<figcaption><a href="#figure-2" class="selfRef">Figure 2</a>:
 <a href="#name-example-of-signature-verifi" class="selfRef">Example of Signature Verification Data Request-Response</a>
           </figcaption></figure>
 </div>
@@ -2901,9 +3018,9 @@ Verifier                                                     Manager
 <p id="section-9.9-3">The payload of the 2.05 (Content) Group Status Response includes the CBOR simple value <code>true</code> (0xf5) if the group is currently active, or the CBOR simple value <code>false</code> (0xf4) otherwise. The group is considered active if it is set to allow new members to join, and if communication within the group is fine to happen.<a href="#section-9.9-3" class="pilcrow">¶</a></p>
 <p id="section-9.9-4">Upon learning from a 2.05 (Content) response that the group is currently inactive, the group member <span class="bcp14">SHOULD</span> stop taking part in communications within the group, until it becomes active again.<a href="#section-9.9-4" class="pilcrow">¶</a></p>
 <p id="section-9.9-5">Upon learning from a 2.05 (Content) response that the group has become active again, the group member can resume taking part in communications within the group.<a href="#section-9.9-5" class="pilcrow">¶</a></p>
-<p id="section-9.9-6"><a href="#fig-key-status-req-resp" class="auto internal xref">Figure 5</a> gives an overview of the exchange described above, while <a href="#fig-key-status-req-resp-ex" class="auto internal xref">Figure 6</a> shows an example of Group Status Request-Response.<a href="#section-9.9-6" class="pilcrow">¶</a></p>
+<p id="section-9.9-6"><a href="#fig-key-status-req-resp" class="auto internal xref">Figure 3</a> gives an overview of the exchange described above, while <a href="#fig-key-status-req-resp-ex" class="auto internal xref">Figure 4</a> shows an example of Group Status Request-Response.<a href="#section-9.9-6" class="pilcrow">¶</a></p>
 <span id="name-message-flow-of-group-statu"></span><div id="fig-key-status-req-resp">
-<figure id="figure-5">
+<figure id="figure-3">
           <div class="alignCenter art-text artwork" id="section-9.9-7.1">
 <pre>
 Group                                                         Group
@@ -2915,12 +3032,12 @@ Member                                                       Manager
   |                                                             |
 </pre>
 </div>
-<figcaption><a href="#figure-5" class="selfRef">Figure 5</a>:
+<figcaption><a href="#figure-3" class="selfRef">Figure 3</a>:
 <a href="#name-message-flow-of-group-statu" class="selfRef">Message Flow of Group Status Request-Response</a>
           </figcaption></figure>
 </div>
 <span id="name-example-of-group-status-req"></span><div id="fig-key-status-req-resp-ex">
-<figure id="figure-6">
+<figure id="figure-4">
           <div class="alignLeft art-text artwork" id="section-9.9-8.1">
 <pre>
    Request:
@@ -2939,7 +3056,7 @@ Member                                                       Manager
      true
 </pre>
 </div>
-<figcaption><a href="#figure-6" class="selfRef">Figure 6</a>:
+<figcaption><a href="#figure-4" class="selfRef">Figure 4</a>:
 <a href="#name-example-of-group-status-req" class="selfRef">Example of Group Status Request-Response</a>
           </figcaption></figure>
 </div>
@@ -2970,9 +3087,9 @@ Furthermore, since it is not a group member, the node does not take part to a po
 <p id="section-9.10-4">That is, the node sends a CoAP FETCH request to the endpoint /ace-group at the Group Manager formatted as defined in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-4.2.1" class="relref">Section 4.2.1</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>. Each element of the CBOR array 'gid' is a CBOR byte string (REQ13), which encodes the Gid of the group for which the group name and the URI to the group-membership resource are requested.<a href="#section-9.10-4" class="pilcrow">¶</a></p>
 <p id="section-9.10-5">Upon receiving the Group Name and URI Retrieval Request, the Group Manager processes it as per <span><a href="https://rfc-editor.org/rfc/rfc9594#section-4.2.1" class="relref">Section 4.2.1</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>. The success Group Name and URI Retrieval Response is formatted as defined in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-4.2.1" class="relref">Section 4.2.1</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>. Each element of the CBOR array 'gid' is a CBOR byte string (REQ13), which encodes the Gid of the group for which the group name and the URI to the group-membership resource are provided.<a href="#section-9.10-5" class="pilcrow">¶</a></p>
 <p id="section-9.10-6">For each of its groups, the Group Manager maintains an association between the group name and the URI to the group-membership resource on one hand, and only the current Gid for that group on the other hand. That is, the Group Manager does not maintain an association between the former pair and any other Gid for that group than the current, most recent one.<a href="#section-9.10-6" class="pilcrow">¶</a></p>
-<p id="section-9.10-7"><a href="#fig-group-names-req-resp" class="auto internal xref">Figure 7</a> gives an overview of the exchanges described above, while <a href="#fig-group-names-req-resp-ex" class="auto internal xref">Figure 8</a> shows an example of Group Name and URI Retrieval Request-Response.<a href="#section-9.10-7" class="pilcrow">¶</a></p>
+<p id="section-9.10-7"><a href="#fig-group-names-req-resp" class="auto internal xref">Figure 5</a> gives an overview of the exchanges described above, while <a href="#fig-group-names-req-resp-ex" class="auto internal xref">Figure 6</a> shows an example of Group Name and URI Retrieval Request-Response.<a href="#section-9.10-7" class="pilcrow">¶</a></p>
 <span id="name-message-flow-of-group-name-"></span><div id="fig-group-names-req-resp">
-<figure id="figure-7">
+<figure id="figure-5">
           <div class="alignCenter art-text artwork" id="section-9.10-8.1">
 <pre>
                                                                 Group
@@ -2984,12 +3101,12 @@ Node                                                           Manager
  |                                                                |
 </pre>
 </div>
-<figcaption><a href="#figure-7" class="selfRef">Figure 7</a>:
+<figcaption><a href="#figure-5" class="selfRef">Figure 5</a>:
 <a href="#name-message-flow-of-group-name-" class="selfRef">Message Flow of Group Name and URI Retrieval Request-Response</a>
           </figcaption></figure>
 </div>
 <span id="name-example-of-group-name-and-u"></span><div id="fig-group-names-req-resp-ex">
-<figure id="figure-8">
+<figure id="figure-6">
           <div class="alignLeft art-text artwork" id="section-9.10-9.1">
 <pre>
    Request:
@@ -3015,7 +3132,7 @@ Node                                                           Manager
    }
 </pre>
 </div>
-<figcaption><a href="#figure-8" class="selfRef">Figure 8</a>:
+<figcaption><a href="#figure-6" class="selfRef">Figure 6</a>:
 <a href="#name-example-of-group-name-and-u" class="selfRef">Example of Group Name and URI Retrieval Request-Response</a>
           </figcaption></figure>
 </div>
@@ -3255,9 +3372,9 @@ Then, the group member <span class="bcp14">MUST</span> remove every authenticati
               </ul>
 </li>
           </ul>
-<p id="section-11.3.1-7"><a href="#fig-stale-ids-req-resp" class="auto internal xref">Figure 9</a> gives an overview of the exchange described above,  while <a href="#fig-stale-ids-req-resp-ex" class="auto internal xref">Figure 10</a> shows an example of Stale Sender IDs Request-Response.<a href="#section-11.3.1-7" class="pilcrow">¶</a></p>
+<p id="section-11.3.1-7"><a href="#fig-stale-ids-req-resp" class="auto internal xref">Figure 7</a> gives an overview of the exchange described above,  while <a href="#fig-stale-ids-req-resp-ex" class="auto internal xref">Figure 8</a> shows an example of Stale Sender IDs Request-Response.<a href="#section-11.3.1-7" class="pilcrow">¶</a></p>
 <span id="name-message-flow-of-stale-sende"></span><div id="fig-stale-ids-req-resp">
-<figure id="figure-9">
+<figure id="figure-7">
             <div class="alignCenter art-text artwork" id="section-11.3.1-8.1">
 <pre>
                                                               Group
@@ -3271,12 +3388,12 @@ Node                                                         Manager
   |                                                             |
 </pre>
 </div>
-<figcaption><a href="#figure-9" class="selfRef">Figure 9</a>:
+<figcaption><a href="#figure-7" class="selfRef">Figure 7</a>:
 <a href="#name-message-flow-of-stale-sende" class="selfRef">Message Flow of Stale Sender IDs Request-Response</a>
             </figcaption></figure>
 </div>
 <span id="name-example-of-stale-sender-ids"></span><div id="fig-stale-ids-req-resp-ex">
-<figure id="figure-10">
+<figure id="figure-8">
             <div class="alignLeft art-text artwork" id="section-11.3.1-9.1">
 <pre>
    Request:
@@ -3298,7 +3415,7 @@ Node                                                         Manager
      [h'01', h'fc', h'12ab', h'de44', h'ff']
 </pre>
 </div>
-<figcaption><a href="#figure-10" class="selfRef">Figure 10</a>:
+<figcaption><a href="#figure-8" class="selfRef">Figure 8</a>:
 <a href="#name-example-of-stale-sender-ids" class="selfRef">Example of Stale Sender IDs Request-Response</a>
             </figcaption></figure>
 </div>
@@ -3315,29 +3432,53 @@ Node                                                         Manager
       </h2>
 <p id="section-12-1">In addition to those defined in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-8" class="relref">Section 8</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>, this application profile defines additional parameters used during the second part of the message exchange with the Group Manager, i.e., after the exchange of Token Transfer Request and Response (see <a href="#ssec-token-post" class="auto internal xref">Section 5.3</a>). The table below summarizes them and specifies the CBOR key to use instead of the full descriptive name.<a href="#section-12-1" class="pilcrow">¶</a></p>
 <p id="section-12-2">Note that the media type application/ace-groupcomm+cbor <span class="bcp14">MUST</span> be used when these parameters are transported in the respective message fields.<a href="#section-12-2" class="pilcrow">¶</a></p>
-<span id="name-ace-groupcomm-parameters-2"></span><div id="fig-ACE-Groupcomm-Parameters">
-<figure id="figure-11">
-        <div class="alignCenter art-text artwork" id="section-12-3.1">
-<pre>
-+----------------+------+-------+------------+
-| Name           | CBOR | CBOR  | Reference  |
-|                | Key  | Type  |            |
-+----------------+------+-------+------------+
-| group_senderId | TBD  | bstr  | [RFC-XXXX] |
-+----------------+------+-------+------------+
-| ecdh_info      | TBD  | array | [RFC-XXXX] |
-+----------------+------+-------+------------+
-| kdc_dh_creds   | TBD  | array | [RFC-XXXX] |
-+----------------+------+-------+------------+
-| group_enc_key  | TBD  | bstr  | [RFC-XXXX] |
-+----------------+------+-------+------------+
-| stale_node_ids | TBD  | array | [RFC-XXXX] |
-+----------------+------+-------+------------+
-</pre>
-</div>
-<figcaption><a href="#figure-11" class="selfRef">Figure 11</a>:
+<span id="name-ace-groupcomm-parameters-2"></span><div id="tab-ACE-Groupcomm-Parameters">
+<table class="center" id="table-3">
+        <caption>
+<a href="#table-3" class="selfRef">Table 3</a>:
 <a href="#name-ace-groupcomm-parameters-2" class="selfRef">ACE Groupcomm Parameters</a>
-        </figcaption></figure>
+        </caption>
+<thead>
+          <tr>
+            <th class="text-left" rowspan="1" colspan="1">Name</th>
+            <th class="text-left" rowspan="1" colspan="1">CBOR Key</th>
+            <th class="text-left" rowspan="1" colspan="1">CBOR Type</th>
+            <th class="text-left" rowspan="1" colspan="1">Reference</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">group_senderId</td>
+            <td class="text-left" rowspan="1" colspan="1">TBD</td>
+            <td class="text-left" rowspan="1" colspan="1">bstr</td>
+            <td class="text-left" rowspan="1" colspan="1">[RFC-XXXX]</td>
+          </tr>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">ecdh_info</td>
+            <td class="text-left" rowspan="1" colspan="1">TBD</td>
+            <td class="text-left" rowspan="1" colspan="1">array</td>
+            <td class="text-left" rowspan="1" colspan="1">[RFC-XXXX]</td>
+          </tr>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">kdc_dh_creds</td>
+            <td class="text-left" rowspan="1" colspan="1">TBD</td>
+            <td class="text-left" rowspan="1" colspan="1">array</td>
+            <td class="text-left" rowspan="1" colspan="1">[RFC-XXXX]</td>
+          </tr>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">group_enc_key</td>
+            <td class="text-left" rowspan="1" colspan="1">TBD</td>
+            <td class="text-left" rowspan="1" colspan="1">bstr</td>
+            <td class="text-left" rowspan="1" colspan="1">[RFC-XXXX]</td>
+          </tr>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">stale_node_ids</td>
+            <td class="text-left" rowspan="1" colspan="1">TBD</td>
+            <td class="text-left" rowspan="1" colspan="1">array</td>
+            <td class="text-left" rowspan="1" colspan="1">[RFC-XXXX]</td>
+          </tr>
+        </tbody>
+      </table>
 </div>
 <p id="section-12-4">Note to RFC Editor: Please replace all occurrences of "[RFC-XXXX]" with the RFC number of this specification and delete this paragraph.<a href="#section-12-4" class="pilcrow">¶</a></p>
 <p id="section-12-5">The Group Manager is expected to support all the parameters above. Instead, a Client is required to support the new parameters defined in this application profile as specified below (REQ29).<a href="#section-12-5" class="pilcrow">¶</a></p>
@@ -3394,24 +3535,33 @@ multicast) <span class="bcp14">MUST</span> support this parameter.<a href="#sect
 <a href="#section-13" class="section-number selfRef">13. </a><a href="#name-ace-groupcomm-error-identif" class="section-name selfRef">ACE Groupcomm Error Identifiers</a>
       </h2>
 <p id="section-13-1">In addition to those defined in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-9" class="relref">Section 9</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>, this application profile defines new values that the Group Manager can include as error identifiers, in the 'error' field of an error response with Content-Format application/ace-groupcomm+cbor.<a href="#section-13-1" class="pilcrow">¶</a></p>
-<span id="name-ace-groupcomm-error-identifi"></span><div id="fig-ACE-Groupcomm-Error">
-<figure id="figure-12">
-        <div class="alignCenter art-text artwork" id="section-13-2.1">
-<pre>
-+-------+-------------------------------------------------+
-| Value |                   Description                   |
-+-------+-------------------------------------------------+
-|   7   | Signatures not used in the group                |
-+-------+-------------------------------------------------+
-|   8   | Operation permitted only to signature verifiers |
-+-------+-------------------------------------------------+
-|   9   | Group currently not active                      |
-+-------+-------------------------------------------------+
-</pre>
-</div>
-<figcaption><a href="#figure-12" class="selfRef">Figure 12</a>:
+<span id="name-ace-groupcomm-error-identifi"></span><div id="tab-ACE-Groupcomm-Error-Identifiers">
+<table class="center" id="table-4">
+        <caption>
+<a href="#table-4" class="selfRef">Table 4</a>:
 <a href="#name-ace-groupcomm-error-identifi" class="selfRef">ACE Groupcomm Error Identifiers</a>
-        </figcaption></figure>
+        </caption>
+<thead>
+          <tr>
+            <th class="text-left" rowspan="1" colspan="1">Value</th>
+            <th class="text-left" rowspan="1" colspan="1">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">7</td>
+            <td class="text-left" rowspan="1" colspan="1">Signatures not used in the group</td>
+          </tr>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">8</td>
+            <td class="text-left" rowspan="1" colspan="1">Operation permitted only to signature verifiers</td>
+          </tr>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">9</td>
+            <td class="text-left" rowspan="1" colspan="1">Group currently not active</td>
+          </tr>
+        </tbody>
+      </table>
 </div>
 <p id="section-13-3">A Client supporting the 'error' parameter (see Sections <a href="https://rfc-editor.org/rfc/rfc9594#section-4.1.2" class="relref">4.1.2</a> and <a href="https://rfc-editor.org/rfc/rfc9594#section-8" class="relref">8</a> of <span>[<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>) and able to understand the specified error may use that information to determine what actions to take next. If it is included in the error response and supported by the Client, the 'error_description' parameter may provide additional context. The following guidelines apply.<a href="#section-13-3" class="pilcrow">¶</a></p>
 <ul class="normal">
@@ -4083,7 +4233,7 @@ The Group Manager performs a rekeying when one or more members leave the group, 
             <p id="section-16.10-4.4.1">Reference: This contains a pointer to the public specification for the role.<a href="#section-16.10-4.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-16.10-5">This registry will be initially populated by the values in <a href="#fig-role-values" class="auto internal xref">Figure 1</a>.<a href="#section-16.10-5" class="pilcrow">¶</a></p>
+<p id="section-16.10-5">This registry will be initially populated by the values in <a href="#tab-role-values" class="auto internal xref">Table 1</a>.<a href="#section-16.10-5" class="pilcrow">¶</a></p>
 <p id="section-16.10-6">The Reference column for all of these entries will be [RFC-XXXX].<a href="#section-16.10-6" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -4565,7 +4715,7 @@ Entries that do not meet these objectives of clarity and completeness should not
         </ul>
 <p id="appendix-B.1-3">The CDDL notation <span>[<a href="#RFC8610" class="cite xref">RFC8610</a>]</span> of the 'ecdh_info_entry' parameter is given below.<a href="#appendix-B.1-3" class="pilcrow">¶</a></p>
 <span id="name-ecdh_info_entry-with-genera"></span><div id="fig-ecdh-info-entry-general">
-<figure id="figure-13">
+<figure id="figure-9">
           <div class="lang-CDDL sourcecode" id="appendix-B.1-4.1">
 <pre>
 ecdh_info_entry =
@@ -4586,7 +4736,7 @@ ecdh_info_entry =
 gname = tstr
 </pre>
 </div>
-<figcaption><a href="#figure-13" class="selfRef">Figure 13</a>:
+<figcaption><a href="#figure-9" class="selfRef">Figure 9</a>:
 <a href="#name-ecdh_info_entry-with-genera" class="selfRef">'ecdh_info_entry' with general format</a>
           </figcaption></figure>
 </div>
@@ -4637,7 +4787,7 @@ For example, if 'ecdh_params'[0][0] specifies the key type as capability of the 
       </h2>
 <p id="appendix-C-1">This section is to be removed before publishing as an RFC.<a href="#appendix-C-1" class="pilcrow">¶</a></p>
 <span id="name-cddl-model-2"></span><div id="fig-cddl-model">
-<figure id="figure-14">
+<figure id="figure-10">
         <div class="alignLeft art-CDDL art-text artwork" id="appendix-C-2.1">
 <pre>
 ; ACE Groupcomm Parameters
@@ -4656,7 +4806,7 @@ sign_alg = 10
 sign_params = 11
 </pre>
 </div>
-<figcaption><a href="#figure-14" class="selfRef">Figure 14</a>:
+<figcaption><a href="#figure-10" class="selfRef">Figure 10</a>:
 <a href="#name-cddl-model-2" class="selfRef">CDDL model</a>
         </figcaption></figure>
 </div>
@@ -4687,13 +4837,16 @@ sign_params = 11
             <p id="appendix-D.1-1.4.1">Updated references and section numbers of referred documents.<a href="#appendix-D.1-1.4.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.5">
-            <p id="appendix-D.1-1.5.1">Fixed name of the error with error code 4.<a href="#appendix-D.1-1.5.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.5.1">Use actual tables.<a href="#appendix-D.1-1.5.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.6">
-            <p id="appendix-D.1-1.6.1">Aligned requirement formulation with that in RFC 9594.<a href="#appendix-D.1-1.6.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.6.1">Fixed name of the error with error code 4.<a href="#appendix-D.1-1.6.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.7">
-            <p id="appendix-D.1-1.7.1">Clarifications and editorial fixes.<a href="#appendix-D.1-1.7.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.7.1">Aligned requirement formulation with that in RFC 9594.<a href="#appendix-D.1-1.7.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-D.1-1.8">
+            <p id="appendix-D.1-1.8.1">Clarifications and editorial fixes.<a href="#appendix-D.1-1.8.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
