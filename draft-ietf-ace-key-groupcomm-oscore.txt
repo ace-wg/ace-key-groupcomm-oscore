@@ -5,8 +5,8 @@
 ACE Working Group                                              M. Tiloca
 Internet-Draft                                                   RISE AB
 Intended status: Standards Track                            F. Palombini
-Expires: 16 May 2025                                         Ericsson AB
-                                                        12 November 2024
+Expires: 18 May 2025                                         Ericsson AB
+                                                        14 November 2024
 
 
                 Key Management for OSCORE Groups in ACE
@@ -41,7 +41,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 16 May 2025.
+   This Internet-Draft will expire on 18 May 2025.
 
 Copyright Notice
 
@@ -142,24 +142,25 @@ Table of Contents
    Appendix B.  Extensibility for Future COSE Algorithms
      B.1.  Format of 'ecdh_info_entry'
      B.2.  Format of 'key'
-   Appendix C.  Document Updates
-     C.1.  Version -16 to -17
-     C.2.  Version -15 to -16
-     C.3.  Version -14 to -15
-     C.4.  Version -13 to -14
-     C.5.  Version -12 to -13
-     C.6.  Version -11 to -12
-     C.7.  Version -10 to -11
-     C.8.  Version -09 to -10
-     C.9.  Version -08 to -09
-     C.10. Version -07 to -08
-     C.11. Version -06 to -07
-     C.12. Version -05 to -06
-     C.13. Version -04 to -05
-     C.14. Version -03 to -04
-     C.15. Version -02 to -03
-     C.16. Version -01 to -02
-     C.17. Version -00 to -01
+   Appendix C.  CDDL Model
+   Appendix D.  Document Updates
+     D.1.  Version -16 to -17
+     D.2.  Version -15 to -16
+     D.3.  Version -14 to -15
+     D.4.  Version -13 to -14
+     D.5.  Version -12 to -13
+     D.6.  Version -11 to -12
+     D.7.  Version -10 to -11
+     D.8.  Version -09 to -10
+     D.9.  Version -08 to -09
+     D.10. Version -07 to -08
+     D.11. Version -06 to -07
+     D.12. Version -05 to -06
+     D.13. Version -04 to -05
+     D.14. Version -03 to -04
+     D.15. Version -02 to -03
+     D.16. Version -01 to -02
+     D.17. Version -00 to -01
    Acknowledgments
    Authors' Addresses
 
@@ -269,8 +270,22 @@ Table of Contents
    *  Pairwise-only group: an OSCORE group that uses only the pairwise
       mode (see Section 8 of [I-D.ietf-core-oscore-groupcomm]).
 
-   Examples throughout this document are expressed in CBOR diagnostic
-   notation without the tag and value abbreviations.
+   Throughout this document, examples for CBOR data items are expressed
+   in CBOR extended diagnostic notation as defined in Section 8 of
+   [RFC8949] and Appendix G of [RFC8610] ("diagnostic notation").
+   Diagnostic notation comments are often used to provide a textual
+   representation of the parameters' keys and values.
+
+   In the CBOR diagnostic notation used in this document, constructs of
+   the form e'SOME_NAME' are replaced by the value assigned to SOME_NAME
+   in the CDDL model shown in Figure 14 of Appendix C.  For example,
+   {e'group_senderId': h'a3f1'} stands for {21: h'a3f1'}.
+
+   Note to RFC Editor: Please delete the paragraph immediately preceding
+   this note.  Also, in the CBOR diagnostic notation used in this
+   document, please replace the constructs of the form e'SOME_NAME' with
+   the value assigned to SOME_NAME in the CDDL model shown in Figure 14
+   of Appendix C.  Finally, please delete this note.
 
 2.  Protocol Overview
 
@@ -2225,39 +2240,37 @@ Table of Contents
        Figure 3: Message Flow of Signature Verification Data Request-
                                   Response
 
-      Request:
+     Request:
 
-      Header: GET (Code=0.01)
-      Uri-Host: "kdc.example.com"
-      Uri-Path: "ace-group"
-      Uri-Path: "g1"
-      Uri-Path: "verif-data"
-      Payload: -
+     Header: GET (Code=0.01)
+     Uri-Host: "kdc.example.com"
+     Uri-Path: "ace-group"
+     Uri-Path: "g1"
+     Uri-Path: "verif-data"
 
-      Response:
+     Response:
 
-      Header: Content (Code=2.05)
-      Content-Format: "application/ace-groupcomm+cbor"
-      Payload (in CBOR diagnostic notation, with GROUPCOMM_KEY_TBD
-               and PROFILE_TBD being CBOR integers, while GROUP_ENC_KEY
-               being a CBOR byte string):
-       {
-         "gkty": GROUPCOMM_KEY_TBD,
-         "key": {
-           "hkdf": 5,                     ; HMAC 256/256
-           "contextId": h'37fc',
-           "cred_fmt": 33,                ; x5chain
-           "sign_enc_alg": 10,            ; AES-CCM-16-64-128
-           "sign_alg": -8,                ; EdDSA
-           "sign_params": [[1], [1, 6]]   ; [[OKP], [OKP, Ed25519]]
-         },
-         "num": 12,
-         "exp": 1609459200,
-         "ace_groupcomm_profile": PROFILE_TBD,
-         "group_enc_key": GROUP_ENC_KEY
-       }
+     Header: Content (Code=2.05)
+     Content-Format: 261 (application/ace-groupcomm+cbor)
+     Payload (in CBOR diagnostic notation):
+     {
+                         / gkty / 7: e'group_oscore_input_material_obj',
+                         / key /  8: {
+                           / hkdf /       3: 5, / HMAC with SHA-256 /
+                           / contextId /  6: h'37fc',
+                                e'cred_fmt': 33, / x5chain /
+                            e'sign_enc_alg': 10, / AES-CCM-16-64-128 /
+                                e'sign_alg': -8, / EdDSA /
+                             e'sign_params': [[1], [1, 6]]
+                                             / [[OKP], [OKP, Ed25519]] /
+                         },
+       / num /                    9: 12,
+       / ace_groupcomm_profile / 10: e'coap_group_oscore_app',
+       / exp /                   11: 1609459200,
+                   e'group_enc_key': h'bc661fae6742abc3dd01beda1142567c'
+     }
 
-     Figure 4: Example of Signature Verification Data Request-Response
+    Figure 4: Example of Signature Verification Data Request-Response
 
 9.7.  Retrieve the Group Policies
 
@@ -2328,11 +2341,11 @@ Table of Contents
       Uri-Path: "ace-group"
       Uri-Path: "g1"
       Uri-Path: "active"
-      Payload: -
 
       Response:
 
       Header: Content (Code=2.05)
+      Content-Format: 60 (application/cbor)
       Payload (in CBOR diagnostic notation):
         true
 
@@ -2434,22 +2447,22 @@ Table of Contents
       Header: FETCH (Code=0.05)
       Uri-Host: "kdc.example.com"
       Uri-Path: "ace-group"
-      Content-Format: "application/ace-groupcomm+cbor"
+      Content-Format: 261 (application/ace-groupcomm+cbor)
       Payload (in CBOR diagnostic notation):
-        {
-          "gid": [h'37fc', h'84bd']
-        }
+      {
+        / gid / 0: [h'37fc', h'84bd']
+      }
 
       Response:
 
       Header: Content (Code=2.05)
-      Content-Format: "application/ace-groupcomm+cbor"
+      Content-Format: 261 (application/ace-groupcomm+cbor)
       Payload (in CBOR diagnostic notation):
-        {
-          "gid": [h'37fc', h'84bd'],
-          "gname": ["g1", "g2"],
-          "guri": ["ace-group/g1", "ace-group/g2"]
-        }
+      {
+        / gid /   0: [h'37fc', h'84bd'],
+        / gname / 1: ["g1", "g2"],
+        / guri /  2: ["ace-group/g1", "ace-group/g2"]
+      }
 
      Figure 8: Example of Group Name and URI Retrieval Request-Response
 
@@ -2945,6 +2958,7 @@ Table of Contents
       Uri-Path: "ace-group"
       Uri-Path: "g1"
       Uri-Path: "stale-sids"
+      Content-Format: 60 (application/cbor)
       Payload (in CBOR diagnostic notation):
         42
 
@@ -2952,6 +2966,7 @@ Table of Contents
 
       Header: Content (Code=2.05)
       Payload (in CBOR diagnostic notation):
+      Content-Format: 60 (application/cbor)
         [h'01', h'fc', h'12ab', h'de44', h'ff']
 
           Figure 10: Example of Stale Sender IDs Request-Response
@@ -4332,11 +4347,52 @@ B.2.  Format of 'key'
       column of the "COSE Key Types" registry [COSE.Key.Types] (see
       Section 8.2 of [RFC9053]).
 
-Appendix C.  Document Updates
+Appendix C.  CDDL Model
 
    This section is to be removed before publishing as an RFC.
 
-C.1.  Version -16 to -17
+   ; ACE Groupcomm Parameters
+   group_senderId = 21
+   group_enc_key = 22
+   ecdh_info = 31
+   kdc_dh_creds = 32
+   stale_node_ids = 33
+
+   ; ACE Groupcomm Key Types
+   group_oscore_input_material_obj = 1
+
+   ; ACE Groupcomm Profiles
+   coap_group_oscore_app = 1
+
+   ; OSCORE Security Context Parameters
+   group_SenderId = 7
+   cred_fmt = 8
+   sign_enc_alg = 9
+   sign_alg = 10
+   sign_params = 11
+   ecdh_alg = 12
+   ecdh_params = 13
+
+   ; Group OSCORE Roles
+   requester = 1
+   responder = 2
+   monitor = 3
+   verifier = 4
+
+   ; ACE Groupcomm Errors
+   group_not_active = 9
+
+                           Figure 14: CDDL model
+
+Appendix D.  Document Updates
+
+   This section is to be removed before publishing as an RFC.
+
+D.1.  Version -16 to -17
+
+   *  CBOR diagnostic notation uses placeholders from a CDDL model.
+
+   *  Fixes in the examples in CBOR diagnostic notation.
 
    *  Updated author list.
 
@@ -4348,7 +4404,7 @@ C.1.  Version -16 to -17
 
    *  Clarifications and editorial fixes.
 
-C.2.  Version -15 to -16
+D.2.  Version -15 to -16
 
    *  Early mentioning of invalid combinations of roles.
 
@@ -4362,7 +4418,7 @@ C.2.  Version -15 to -16
 
    *  Clarifications and editorial fixes.
 
-C.3.  Version -14 to -15
+D.3.  Version -14 to -15
 
    *  Alignment with renaming in draft-ietf-ace-key-groupcomm.
 
@@ -4374,7 +4430,7 @@ C.3.  Version -14 to -15
 
    *  Editorial fixes.
 
-C.4.  Version -13 to -14
+D.4.  Version -13 to -14
 
    *  Major reordering of the document sections.
 
@@ -4386,7 +4442,7 @@ C.4.  Version -13 to -14
 
    *  Clarifications and editorial improvements.
 
-C.5.  Version -12 to -13
+D.5.  Version -12 to -13
 
    *  Renamed parameters about authentication credentials.
 
@@ -4400,7 +4456,7 @@ C.5.  Version -12 to -13
    *  Updated textual description of registered ACE Scope Semantics
       value.
 
-C.6.  Version -11 to -12
+D.6.  Version -11 to -12
 
    *  Clarified semantics of 'ecdh_info' and 'kdc_dh_creds'.
 
@@ -4437,7 +4493,7 @@ C.6.  Version -11 to -12
 
    *  Fixes and editorial improvements.
 
-C.7.  Version -10 to -11
+D.7.  Version -10 to -11
 
    *  Removed redundancy of key type capabilities, from 'sign_info',
       'ecdh_info' and 'key'.
@@ -4484,7 +4540,7 @@ C.7.  Version -10 to -11
    *  General format of parameters related to COSE capabilities,
       supporting future registered COSE algorithms (new Appendix).
 
-C.8.  Version -09 to -10
+D.8.  Version -09 to -10
 
    *  Updated non-recycling policy of Sender IDs.
 
@@ -4504,7 +4560,7 @@ C.8.  Version -09 to -10
 
    *  Renumbered requirements.
 
-C.9.  Version -08 to -09
+D.9.  Version -08 to -09
 
    *  The url-path "ace-group" is used.
 
@@ -4538,7 +4594,7 @@ C.9.  Version -08 to -09
 
    *  Clarifications and editorial revision.
 
-C.10.  Version -07 to -08
+D.10.  Version -07 to -08
 
    *  AIF data model to express scope entries.
 
@@ -4557,7 +4613,7 @@ C.10.  Version -07 to -08
 
    *  IANA registrations to support the AIF data model.
 
-C.11.  Version -06 to -07
+D.11.  Version -06 to -07
 
    *  Alignments with draft-ietf-core-oscore-groupcomm.
 
@@ -4570,7 +4626,7 @@ C.11.  Version -06 to -07
 
    *  Editorial revision.
 
-C.12.  Version -05 to -06
+D.12.  Version -05 to -06
 
    *  Added role of external signature verifier.
 
@@ -4600,7 +4656,7 @@ C.12.  Version -05 to -06
 
    *  Editorial improvements.
 
-C.13.  Version -04 to -05
+D.13.  Version -04 to -05
 
    *  Nonce N_S also in error responses to the Join Requests.
 
@@ -4630,7 +4686,7 @@ C.13.  Version -04 to -05
 
    *  Added CBOR values to abbreviate role identifiers in the group.
 
-C.14.  Version -03 to -04
+D.14.  Version -03 to -04
 
    *  New abstract.
 
@@ -4652,7 +4708,7 @@ C.14.  Version -03 to -04
 
    *  Editorial improvements.
 
-C.15.  Version -02 to -03
+D.15.  Version -02 to -03
 
    *  New sections, aligned with the interface of ace-key-groupcomm .
 
@@ -4675,7 +4731,7 @@ C.15.  Version -02 to -03
 
    *  More fulfilled profile requirements (Appendix A).
 
-C.16.  Version -01 to -02
+D.16.  Version -01 to -02
 
    *  Editorial fixes.
 
@@ -4714,7 +4770,7 @@ C.16.  Version -01 to -02
    *  Registered one public key encoding in the "ACE Public Key
       Encoding" IANA registry (Section 9).
 
-C.17.  Version -00 to -01
+D.17.  Version -00 to -01
 
    *  Changed name of 'req_aud' to 'audience' in the Authorization
       Request (Section 3.1).
