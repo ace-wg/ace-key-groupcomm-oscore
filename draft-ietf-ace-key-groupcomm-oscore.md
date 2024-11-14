@@ -519,15 +519,15 @@ The joining node requests to join the OSCORE group by sending a Join Request mes
 
 The value of the N\_S challenge is determined as follows.
 
-1. If the joining node has provided the access token to the Group Manager by means of a Token Transfer Request to the /authz-info endpoint as in {{ssec-token-post}}, then N\_S takes the same value of the most recent 'kdcchallenge' parameter received by the joining node from the Group Manager. This can be either the one specified in the Token Transfer Response, or the one possibly specified in a 4.00 (Bad Request) error response to a following Join Request (see {{ssec-join-req-processing}}).
+* If the joining node has provided the access token to the Group Manager by means of a Token Transfer Request to the /authz-info endpoint as in {{ssec-token-post}}, then N\_S takes the same value of the most recent 'kdcchallenge' parameter received by the joining node from the Group Manager. This can be either the one specified in the Token Transfer Response, or the one possibly specified in a 4.00 (Bad Request) error response to a following Join Request (see {{ssec-join-req-processing}}).
 
-2. If the provisioning of the access token to the Group Manager has relied on the DTLS profile of ACE {{RFC9202}}, and the access token was specified:
+* If the provisioning of the access token to the Group Manager has relied on the DTLS profile of ACE {{RFC9202}}, and the access token was specified in the "psk_identity" field of the ClientKeyExchange message when using DTLS 1.2 {{RFC6347}}, then N\_S is an exporter value computed as defined in {{Section 4 of RFC5705}} (REQ15).
 
-   - in the "psk_identity" field of the ClientKeyExchange message when using DTLS 1.2 {{RFC6347}}; or
+  Specifically, N\_S is exported from the DTLS session between the joining node and the Group Manager, using an empty context value (i.e., a context value of zero-length), 32 as length value in bytes, and the exporter label "EXPORTER-ACE-Pop-Input-coap-group-oscore-app" defined in {{ssec-iana-tls-esporter-label-registry}} of this document.
 
-   - in the "identity" field of a PskIdentity within the PreSharedKeyExtension of the ClientHello message when using DTLS 1.3 {{RFC9147}},
+* If the provisioning of the access token to the Group Manager has relied on the DTLS profile of ACE {{RFC9202}}, and the access token was specified in the "identity" field of a PskIdentity within the PreSharedKeyExtension of the ClientHello message when using DTLS 1.3 {{RFC9147}}, then N\_S is an exporter value computed as defined in {{Section 7.5 of RFC8446}} (REQ15).
 
-   then N\_S is an exporter value computed as defined in {{Section 7.5 of RFC8446}}. Specifically, N\_S is exported from the DTLS session between the joining node and the Group Manager, using an empty 'context_value', 32 bytes as 'key_length', and the exporter label "EXPORTER-ACE-Pop-Input-coap-group-oscore-app" defined in {{ssec-iana-tls-esporter-label-registry}} of this document.
+  Specifically, N\_S is exported from the DTLS session between the joining node and the Group Manager, using an empty 'context_value' (i.e., a 'context_value' of zero length), 32 as 'key_length' in bytes, and the exporter label "EXPORTER-ACE-Sign-Challenge-coap-group-oscore-app" defined in {{ssec-iana-tls-esporter-label-registry}} of this document.
 
 It is up to applications to define how N_S is computed in further alternative settings.
 
@@ -2118,6 +2118,8 @@ sign_params = 11
   - 'sign_enc_alg' becomes 'gp_enc_alg'
 
 * Added CBOR integer abbreviations for ACE Groupcomm Parameters.
+
+* Revised alternative computing of N_S challenge when DTLS is used.
 
 * Fixed error response code from /ace-group/GROUPNAME/nodes/NODENAME.
 
