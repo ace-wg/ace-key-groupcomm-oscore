@@ -255,7 +255,9 @@ More specifically, the following applies when, as defined in this document, a sc
 
 The following CDDL {{RFC8610}} notation defines a scope entry that uses the AIF-OSCORE-GROUPCOMM data model and expresses a set of Group OSCORE roles from those in {{tab-role-values}}.
 
-~~~~~~~~~~~
+~~~~~~~~~~~ CDDL
+   ;# include rfc9237
+
    AIF-OSCORE-GROUPCOMM = AIF-Generic<oscore-gname, oscore-gperm>
 
    oscore-gname = tstr  ; Group name
@@ -418,16 +420,16 @@ ecdh_info_req = null                  ; in the Token Transfer
                                       ; Request to the
                                       ; Group Manager
 
-ecdh_info_res = [ + ecdh_info_entry ] ; in the Token Transfer
+ecdh_info_res = [+ ecdh_info_entry]   ; in the Token Transfer
                                       ; Response from the
                                       ; Group Manager
 
 ecdh_info_entry =
 [
-  id : gname / [ + gname ],
+  id : gname / [+ gname],
   ecdh_alg : int / tstr,
-  ecdh_parameters : [ any ],
-  ecdh_key_parameters : [ any ],
+  ecdh_parameters : [any],
+  ecdh_key_parameters : [any],
   cred_fmt : int
 ]
 
@@ -465,13 +467,13 @@ kdc_dh_creds_req = null                     ; in the Token Transfer
                                             ; Request to the
                                             ; Group Manager
 
-kdc_dh_creds_res = [ + kdc_dh_creds_entry ] ; in the Token Transfer
+kdc_dh_creds_res = [+ kdc_dh_creds_entry]   ; in the Token Transfer
                                             ; Response from the
                                             ; Group Manager
 
 kdc_dh_creds_entry =
 [
-  id : gname / [ + gname ],
+  id : gname / [+ gname],
   cred_fmt : int,
   cred : bstr
 ]
@@ -2032,16 +2034,16 @@ The CDDL notation {{RFC8610}} of the 'ecdh_info_entry' parameter is given below.
 ~~~~~~~~~~~ CDDL
 ecdh_info_entry =
 [
-  id : gname / [ + gname ],
+  id : gname / [+ gname],
   ecdh_alg : int / tstr,
-  ecdh_parameters : [ alg_capab_1 : any,
-                      alg_capab_2 : any,
-                      ...,
-                      alg_capab_N : any],
-  ecdh_capab_1 : [ any ],
-  ecdh_capab_2 : [ any ],
+  ecdh_parameters : [alg_capab_1 : any,
+                     alg_capab_2 : any,
+                     ...,
+                     alg_capab_N : any],
+  ecdh_capab_1 : [any],
+  ecdh_capab_2 : [any],
   ...,
-  ecdh_capab_N : [ any ],
+  ecdh_capab_N : [any],
   cred_fmt : int / null
 ]
 
@@ -2096,6 +2098,8 @@ sign_params = 11
 ## Version -16 to -17 ## {#sec-16-17}
 
 * CBOR diagnostic notation uses placeholders from a CDDL model.
+
+* Fixes in the CDDL definitions.
 
 * Fixes in the examples in CBOR diagnostic notation.
 
