@@ -1093,14 +1093,14 @@ Table of Contents
    *  There are currently no OSCORE Sender IDs available to assign in
       the OSCORE group and, at the same time, the joining node is not
       going to join the group exclusively as monitor.  The response MUST
-      have Content-Format set to application/ace-groupcomm+cbor and is
+      have Content-Format set to "application/ace-groupcomm+cbor" and is
       formatted as defined in Section 4.1.2 of [RFC9594].  The value of
       the 'error' field MUST be set to 4 ("No available individual
       keying material").
 
    *  The OSCORE group that the joining node has been trying to join is
       currently inactive (see Section 8.1).  The response MUST have
-      Content-Format set to application/ace-groupcomm+cbor and is
+      Content-Format set to "application/ace-groupcomm+cbor" and is
       formatted as defined in Section 4.1.2 of [RFC9594].  The value of
       the 'error' field MUST be set to 9 ("Group currently not active").
 
@@ -1153,8 +1153,9 @@ Table of Contents
          Section 4.2 of [RFC7748].
 
    A 4.00 (Bad Request) error response from the Group Manager to the
-   joining node MUST have content format application/ace-groupcomm+cbor.
-   The response payload is a CBOR map formatted as follows:
+   joining node MUST have Content-Format "application/ace-
+   groupcomm+cbor".  The response payload is a CBOR map formatted as
+   follows:
 
    *  If the group uses (also) the group mode of Group OSCORE, the CBOR
       map MUST contain the 'sign_info' parameter, whose CBOR label is
@@ -1733,9 +1734,9 @@ Table of Contents
    handler verifies that the requesting Client is a current member of
    the group.  If the verification fails, the KDC MUST reply with a 4.03
    (Forbidden) error response.  The response MUST have Content-Format
-   set to application/ace-groupcomm+cbor and is formatted as defined in
-   Section 4.1.2 of [RFC9594].  The value of the 'error' field MUST be
-   set to 0 ("Operation permitted only to group members").
+   set to "application/ace-groupcomm+cbor" and is formatted as defined
+   in Section 4.1.2 of [RFC9594].  The value of the 'error' field MUST
+   be set to 0 ("Operation permitted only to group members").
 
    If all verifications succeed, the handler replies with a 2.05
    (Content) response, specifying the current status of the group, i.e.,
@@ -1759,14 +1760,14 @@ Table of Contents
 
    If the requesting Client is a current group member, the Group Manager
    MUST reply with a 4.03 (Forbidden) error response.  The response MUST
-   have Content-Format set to application/ace-groupcomm+cbor and is
+   have Content-Format set to "application/ace-groupcomm+cbor" and is
    formatted as defined in Section 4.1.2 of [RFC9594].  The value of the
    'error' field MUST be set to 8 ("Operation permitted only to
    signature verifiers").
 
    If GROUPNAME denotes a pairwise-only group, the Group Manager MUST
    reply with a 4.00 (Bad Request) error response.  The response MUST
-   have Content-Format set to application/ace-groupcomm+cbor and is
+   have Content-Format set to "application/ace-groupcomm+cbor" and is
    formatted as defined in Section 4.1.2 of [RFC9594].  The value of the
    'error' field MUST be set to 7 ("Signatures not used in the group").
 
@@ -1775,7 +1776,7 @@ Table of Contents
    signature verifier to verify signatures of messages protected with
    the group mode and sent to the group (see Sections 7.5 and 12.3 of
    [I-D.ietf-core-oscore-groupcomm]).  The response MUST have Content-
-   Format set to application/ace-groupcomm+cbor.  The payload of the
+   Format set to "application/ace-groupcomm+cbor".  The payload of the
    response is a CBOR map, which is formatted as defined in Section 9.6.
 
 8.3.  /ace-group/GROUPNAME/stale-sids
@@ -1792,9 +1793,10 @@ Table of Contents
    handler verifies that the requesting Client is a current member of
    the group.  If the verification fails, the Group Manager MUST reply
    with a 4.03 (Forbidden) error response.  The response MUST have
-   Content-Format set to application/ace-groupcomm+cbor and is formatted
-   as defined in Section 4.1.2 of [RFC9594].  The value of the 'error'
-   field MUST be set to 0 ("Operation permitted only to group members").
+   Content-Format set to "application/ace-groupcomm+cbor" and is
+   formatted as defined in Section 4.1.2 of [RFC9594].  The value of the
+   'error' field MUST be set to 0 ("Operation permitted only to group
+   members").
 
    If all verifications succeed, the handler replies with a 2.05
    (Content) response, specifying data that allow the requesting Client
@@ -2004,16 +2006,16 @@ Table of Contents
    The Group Manager MUST return a 5.03 (Service Unavailable) response
    in case the OSCORE group identified by GROUPNAME is currently
    inactive (see Section 8.1).  The response MUST have Content-Format
-   set to application/ace-groupcomm+cbor and is formatted as defined in
-   Section 4.1.2 of [RFC9594].  The value of the 'error' field MUST be
-   set to 9 ("Group currently not active").
+   set to "application/ace-groupcomm+cbor" and is formatted as defined
+   in Section 4.1.2 of [RFC9594].  The value of the 'error' field MUST
+   be set to 9 ("Group currently not active").
 
    Otherwise, the Group Manager performs one of the following actions.
 
    1.  If the requesting group member has exclusively the role of
        monitor, the Group Manager replies with a 4.03 (Forbidden) error
        response.  The response MUST have Content-Format set to
-       application/ace-groupcomm+cbor and is formatted as defined in
+       "application/ace-groupcomm+cbor" and is formatted as defined in
        Section 4.1.2 of [RFC9594].  The value of the 'error' field MUST
        be set to 1 ("Request inconsistent with the current roles").
 
@@ -2054,7 +2056,7 @@ Table of Contents
           The Group Manager MUST return a 5.03 (Service Unavailable)
           response in case there are currently no Sender IDs available
           to assign in the OSCORE group.  The response MUST have
-          Content-Format set to application/ace-groupcomm+cbor and is
+          Content-Format set to "application/ace-groupcomm+cbor" and is
           formatted as defined in Section 4.1.2 of [RFC9594].  The value
           of the 'error' field MUST be set to 4 ("No available
           individual keying material").
@@ -2130,14 +2132,14 @@ Table of Contents
    *  The Group Manager MUST return a 5.03 (Service Unavailable)
       response in case the OSCORE group identified by GROUPNAME is
       currently inactive (see Section 8.1).  The response MUST have
-      Content-Format set to application/ace-groupcomm+cbor and is
+      Content-Format set to "application/ace-groupcomm+cbor" and is
       formatted as defined in Section 4.1.2 of [RFC9594].  The value of
       the 'error' field MUST be set to 9 ("Group currently not active").
 
    *  If the requesting group member has exclusively the role of
       monitor, the Group Manager replies with a 4.00 (Bad request) error
       response.  The response MUST have Content-Format set to
-      application/ace-groupcomm+cbor and is formatted as defined in
+      "application/ace-groupcomm+cbor" and is formatted as defined in
       Section 4.1.2 of [RFC9594].  The value of the 'error' field MUST
       be set to 1 ("Request inconsistent with the current roles").
 
@@ -2164,9 +2166,9 @@ Table of Contents
    Group Manager MUST respond with a 4.00 (Bad Request) error response,
    if the requesting Client is not a current group member and GROUPNAME
    denotes a pairwise-only group.  The response MUST have Content-Format
-   set to application/ace-groupcomm+cbor and is formatted as defined in
-   Section 4.1.2 of [RFC9594].  The value of the 'error' field MUST be
-   set to 7 ("Signatures not used in the group").
+   set to "application/ace-groupcomm+cbor" and is formatted as defined
+   in Section 4.1.2 of [RFC9594].  The value of the 'error' field MUST
+   be set to 7 ("Signatures not used in the group").
 
    The payload of the 2.05 (Content) KDC Authentication Credential
    Response is a CBOR map, which is formatted as defined in
@@ -2654,8 +2656,8 @@ Table of Contents
 11.1.  Sending Rekeying Messages
 
    When using the "Point-to-Point" group rekeying scheme, the group
-   rekeying messages MUST have Content-Format set to application/ace-
-   groupcomm+cbor and have the same format used for the Join Response
+   rekeying messages MUST have Content-Format set to "application/ace-
+   groupcomm+cbor" and have the same format used for the Join Response
    message in Section 6.3, with the following differences.  Note that
    this extends the minimal content of a rekeying message as defined in
    Section 6 of [RFC9594] (OPT14).
@@ -2991,8 +2993,8 @@ Table of Contents
    Section 5.3).  The table below summarizes them and specifies the CBOR
    key to use instead of the full descriptive name.
 
-   Note that the media type application/ace-groupcomm+cbor MUST be used
-   when these parameters are transported in the respective message
+   Note that the media type "application/ace-groupcomm+cbor" MUST be
+   used when these parameters are transported in the respective message
    fields.
 
           +================+==========+===========+============+
@@ -3083,7 +3085,7 @@ Table of Contents
    In addition to those defined in Section 9 of [RFC9594], this
    application profile defines new values that the Group Manager can
    include as error identifiers, in the 'error' field of an error
-   response with Content-Format application/ace-groupcomm+cbor.
+   response with Content-Format "application/ace-groupcomm+cbor".
 
         +=======+=================================================+
         | Value | Description                                     |
