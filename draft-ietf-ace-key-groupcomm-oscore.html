@@ -1720,8 +1720,10 @@ appear in all capitals, as shown here.<a href="#section-1.1-1" class="pilcrow">�
       </table>
 </div>
 <p id="section-3-11">The following CDDL <span>[<a href="#RFC8610" class="cite xref">RFC8610</a>]</span> notation defines a scope entry that uses the AIF-OSCORE-GROUPCOMM data model and expresses a set of Group OSCORE roles from those in <a href="#tab-role-values" class="auto internal xref">Table 1</a>.<a href="#section-3-11" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="section-3-12">
+<div class="lang-CDDL sourcecode" id="section-3-12">
 <pre>
+   ;# include rfc9237
+
    AIF-OSCORE-GROUPCOMM = AIF-Generic&lt;oscore-gname, oscore-gperm&gt;
 
    oscore-gname = tstr  ; Group name
@@ -1935,16 +1937,16 @@ ecdh_info_req = null                  ; in the Token Transfer
                                       ; Request to the
                                       ; Group Manager
 
-ecdh_info_res = [ + ecdh_info_entry ] ; in the Token Transfer
+ecdh_info_res = [+ ecdh_info_entry]   ; in the Token Transfer
                                       ; Response from the
                                       ; Group Manager
 
 ecdh_info_entry =
 [
-  id : gname / [ + gname ],
+  id : gname / [+ gname],
   ecdh_alg : int / tstr,
-  ecdh_parameters : [ any ],
-  ecdh_key_parameters : [ any ],
+  ecdh_parameters : [any],
+  ecdh_key_parameters : [any],
   cred_fmt : int
 ]
 
@@ -1985,13 +1987,13 @@ kdc_dh_creds_req = null                     ; in the Token Transfer
                                             ; Request to the
                                             ; Group Manager
 
-kdc_dh_creds_res = [ + kdc_dh_creds_entry ] ; in the Token Transfer
+kdc_dh_creds_res = [+ kdc_dh_creds_entry]   ; in the Token Transfer
                                             ; Response from the
                                             ; Group Manager
 
 kdc_dh_creds_entry =
 [
-  id : gname / [ + gname ],
+  id : gname / [+ gname],
   cred_fmt : int,
   cred : bstr
 ]
@@ -4706,16 +4708,16 @@ Entries that do not meet these objectives of clarity and completeness should not
 <pre>
 ecdh_info_entry =
 [
-  id : gname / [ + gname ],
+  id : gname / [+ gname],
   ecdh_alg : int / tstr,
-  ecdh_parameters : [ alg_capab_1 : any,
-                      alg_capab_2 : any,
-                      ...,
-                      alg_capab_N : any],
-  ecdh_capab_1 : [ any ],
-  ecdh_capab_2 : [ any ],
+  ecdh_parameters : [alg_capab_1 : any,
+                     alg_capab_2 : any,
+                     ...,
+                     alg_capab_N : any],
+  ecdh_capab_1 : [any],
+  ecdh_capab_2 : [any],
   ...,
-  ecdh_capab_N : [ any ],
+  ecdh_capab_N : [any],
   cred_fmt : int / null
 ]
 
@@ -4814,45 +4816,48 @@ sign_params = 11
             <p id="appendix-D.1-1.1.1">CBOR diagnostic notation uses placeholders from a CDDL model.<a href="#appendix-D.1-1.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.2">
-            <p id="appendix-D.1-1.2.1">Fixes in the examples in CBOR diagnostic notation.<a href="#appendix-D.1-1.2.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.2.1">Fixes in the CDDL definitions.<a href="#appendix-D.1-1.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.3">
-            <p id="appendix-D.1-1.3.1">Updated author list.<a href="#appendix-D.1-1.3.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.3.1">Fixes in the examples in CBOR diagnostic notation.<a href="#appendix-D.1-1.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.4">
-            <p id="appendix-D.1-1.4.1">Updated references and section numbers of referred documents.<a href="#appendix-D.1-1.4.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.4.1">Updated author list.<a href="#appendix-D.1-1.4.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.5">
-            <p id="appendix-D.1-1.5.1">Use actual tables.<a href="#appendix-D.1-1.5.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.5.1">Updated references and section numbers of referred documents.<a href="#appendix-D.1-1.5.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.6">
-            <p id="appendix-D.1-1.6.1">Fixed name of the error with error code 4.<a href="#appendix-D.1-1.6.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.6.1">Use actual tables.<a href="#appendix-D.1-1.6.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.7">
-            <p id="appendix-D.1-1.7.1">Renamed parameters to align with RFC 9594<a href="#appendix-D.1-1.7.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.7.1">Fixed name of the error with error code 4.<a href="#appendix-D.1-1.7.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-D.1-1.8">
+            <p id="appendix-D.1-1.8.1">Renamed parameters to align with RFC 9594<a href="#appendix-D.1-1.8.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="appendix-D.1-1.7.2.1">
-                <p id="appendix-D.1-1.7.2.1.1">"Group Encryption Key" becomes "Signature Encryption Key"<a href="#appendix-D.1-1.7.2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="appendix-D.1-1.8.2.1">
+                <p id="appendix-D.1-1.8.2.1.1">"Group Encryption Key" becomes "Signature Encryption Key"<a href="#appendix-D.1-1.8.2.1.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="normal" id="appendix-D.1-1.7.2.2">
-                <p id="appendix-D.1-1.7.2.2.1">'group_enc_key' becomes 'sign_enc_key'<a href="#appendix-D.1-1.7.2.2.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="appendix-D.1-1.8.2.2">
+                <p id="appendix-D.1-1.8.2.2.1">'group_enc_key' becomes 'sign_enc_key'<a href="#appendix-D.1-1.8.2.2.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="normal" id="appendix-D.1-1.7.2.3">
-                <p id="appendix-D.1-1.7.2.3.1">"Signature Encryption Algorithm" becomes "Group Encryption Algorithm"<a href="#appendix-D.1-1.7.2.3.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="appendix-D.1-1.8.2.3">
+                <p id="appendix-D.1-1.8.2.3.1">"Signature Encryption Algorithm" becomes "Group Encryption Algorithm"<a href="#appendix-D.1-1.8.2.3.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="normal" id="appendix-D.1-1.7.2.4">
-                <p id="appendix-D.1-1.7.2.4.1">'sign_enc_alg' becomes 'gp_enc_alg'<a href="#appendix-D.1-1.7.2.4.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="appendix-D.1-1.8.2.4">
+                <p id="appendix-D.1-1.8.2.4.1">'sign_enc_alg' becomes 'gp_enc_alg'<a href="#appendix-D.1-1.8.2.4.1" class="pilcrow">¶</a></p>
 </li>
             </ul>
 </li>
-          <li class="normal" id="appendix-D.1-1.8">
-            <p id="appendix-D.1-1.8.1">Added CBOR integer abbreviations for ACE Groupcomm Parameters.<a href="#appendix-D.1-1.8.1" class="pilcrow">¶</a></p>
-</li>
           <li class="normal" id="appendix-D.1-1.9">
-            <p id="appendix-D.1-1.9.1">Aligned requirement formulation with that in RFC 9594.<a href="#appendix-D.1-1.9.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.9.1">Added CBOR integer abbreviations for ACE Groupcomm Parameters.<a href="#appendix-D.1-1.9.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.10">
-            <p id="appendix-D.1-1.10.1">Clarifications and editorial fixes.<a href="#appendix-D.1-1.10.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.10.1">Aligned requirement formulation with that in RFC 9594.<a href="#appendix-D.1-1.10.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-D.1-1.11">
+            <p id="appendix-D.1-1.11.1">Clarifications and editorial fixes.<a href="#appendix-D.1-1.11.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
