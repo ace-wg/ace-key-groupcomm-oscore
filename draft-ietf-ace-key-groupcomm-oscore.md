@@ -174,7 +174,11 @@ Additionally, this document makes use of the following terminology.
 
 * Pairwise-only group: an OSCORE group that uses only the pairwise mode (see {{Section 8 of I-D.ietf-core-oscore-groupcomm}}).
 
-Examples throughout this document are expressed in CBOR diagnostic notation without the tag and value abbreviations.
+Throughout this document, examples for CBOR data items are expressed in CBOR extended diagnostic notation as defined in {{Section 8 of RFC8949}} and {{Appendix G of RFC8610}} ("diagnostic notation"). Diagnostic notation comments are often used to provide a textual representation of the parameters' keys and values.
+
+In the CBOR diagnostic notation used in this document, constructs of the form e'SOME_NAME' are replaced by the value assigned to SOME_NAME in the CDDL model shown in {{fig-cddl-model}} of {{sec-cddl-model}}. For example, {e'group_senderId': h'a3f1'} stands for {21: h'a3f1'}.
+
+Note to RFC Editor: Please delete the paragraph immediately preceding this note. Also, in the CBOR diagnostic notation used in this document, please replace the constructs of the form e'SOME_NAME' with the value assigned to SOME_NAME in the CDDL model shown in {{fig-cddl-model}} of {{sec-cddl-model}}. Finally, please delete this note.
 
 # Protocol Overview {#sec-protocol-overview}
 
@@ -1077,30 +1081,28 @@ Verifier                                                     Manager
    Uri-Path: "ace-group"
    Uri-Path: "g1"
    Uri-Path: "verif-data"
-   Payload: -
 
    Response:
 
    Header: Content (Code=2.05)
-   Content-Format: "application/ace-groupcomm+cbor"
-   Payload (in CBOR diagnostic notation, with GROUPCOMM_KEY_TBD
-            and PROFILE_TBD being CBOR integers, while GROUP_ENC_KEY
-            being a CBOR byte string):
-    {
-      "gkty": GROUPCOMM_KEY_TBD,
-      "key": {
-        "hkdf": 5,                     ; HMAC 256/256
-        "contextId": h'37fc',
-        "cred_fmt": 33,                ; x5chain
-        "sign_enc_alg": 10,            ; AES-CCM-16-64-128
-        "sign_alg": -8,                ; EdDSA
-        "sign_params": [[1], [1, 6]]   ; [[OKP], [OKP, Ed25519]]
-      },
-      "num": 12,
-      "exp": 1609459200,
-      "ace_groupcomm_profile": PROFILE_TBD,
-      "group_enc_key": GROUP_ENC_KEY
-    }
+   Content-Format: 261 (application/ace-groupcomm+cbor)
+   Payload (in CBOR diagnostic notation):
+   {
+                       / gkty / 7: e'group_oscore_input_material_obj',
+                       / key /  8: {
+                         / hkdf /       3: 5, / HMAC with SHA-256 /
+                         / contextId /  6: h'37fc',
+                              e'cred_fmt': 33, / x5chain /
+                          e'sign_enc_alg': 10, / AES-CCM-16-64-128 /
+                              e'sign_alg': -8, / EdDSA /
+                           e'sign_params': [[1], [1, 6]]
+                                           / [[OKP], [OKP, Ed25519]] /
+                       },
+     / num /                    9: 12,
+     / ace_groupcomm_profile / 10: e'coap_group_oscore_app',
+     / exp /                   11: 1609459200,
+                 e'group_enc_key': h'bc661fae6742abc3dd01beda1142567c'
+   }
 ~~~~~~~~~~~
 {: #fig-verif-data-req-resp-ex title="Example of Signature Verification Data Request-Response"}
 
@@ -1149,11 +1151,11 @@ Member                                                       Manager
    Uri-Path: "ace-group"
    Uri-Path: "g1"
    Uri-Path: "active"
-   Payload: -
 
    Response:
 
    Header: Content (Code=2.05)
+   Content-Format: 60 (application/cbor)
    Payload (in CBOR diagnostic notation):
      true
 ~~~~~~~~~~~
@@ -1200,22 +1202,22 @@ Node                                                           Manager
    Header: FETCH (Code=0.05)
    Uri-Host: "kdc.example.com"
    Uri-Path: "ace-group"
-   Content-Format: "application/ace-groupcomm+cbor"
+   Content-Format: 261 (application/ace-groupcomm+cbor)
    Payload (in CBOR diagnostic notation):
-     {
-       "gid": [h'37fc', h'84bd']
-     }
+   {
+     / gid / 0: [h'37fc', h'84bd']
+   }
 
    Response:
 
    Header: Content (Code=2.05)
-   Content-Format: "application/ace-groupcomm+cbor"
+   Content-Format: 261 (application/ace-groupcomm+cbor)
    Payload (in CBOR diagnostic notation):
-     {
-       "gid": [h'37fc', h'84bd'],
-       "gname": ["g1", "g2"],
-       "guri": ["ace-group/g1", "ace-group/g2"]
-     }
+   {
+     / gid /   0: [h'37fc', h'84bd'],
+     / gname / 1: ["g1", "g2"],
+     / guri /  2: ["ace-group/g1", "ace-group/g2"]
+   }
 ~~~~~~~~~~~
 {: #fig-group-names-req-resp-ex title="Example of Group Name and URI Retrieval Request-Response"}
 
@@ -1426,6 +1428,7 @@ Node                                                         Manager
    Uri-Path: "ace-group"
    Uri-Path: "g1"
    Uri-Path: "stale-sids"
+   Content-Format: 60 (application/cbor)
    Payload (in CBOR diagnostic notation):
      42
 
@@ -1433,6 +1436,7 @@ Node                                                         Manager
 
    Header: Content (Code=2.05)
    Payload (in CBOR diagnostic notation):
+   Content-Format: 60 (application/cbor)
      [h'01', h'fc', h'12ab', h'de44', h'ff']
 ~~~~~~~~~~~
 {: #fig-stale-ids-req-resp-ex title="Example of Stale Sender IDs Request-Response"}
@@ -2079,10 +2083,51 @@ The format of 'key' (see {{ssec-join-resp}}) is generalized as follows.
 
    For example, if 'ecdh_params'\[0\]\[0\] specifies the key type as capability of the algorithm, then 'ecdh_params'\[1\] is the array of COSE capabilities for the COSE key type associated with the ECDH algorithm, as specified for that key type in the "Capabilities" column of the "COSE Key Types" registry {{COSE.Key.Types}} (see {{Section 8.2 of RFC9053}}).
 
+# CDDL Model # {#sec-cddl-model}
+{:removeinrfc}
+
+~~~~~~~~~~~~~~~~~~~~ CDDL
+; ACE Groupcomm Parameters
+group_senderId = 21
+group_enc_key = 22
+ecdh_info = 31
+kdc_dh_creds = 32
+stale_node_ids = 33
+
+; ACE Groupcomm Key Types
+group_oscore_input_material_obj = 1
+
+; ACE Groupcomm Profiles
+coap_group_oscore_app = 1
+
+; OSCORE Security Context Parameters
+group_SenderId = 7
+cred_fmt = 8
+sign_enc_alg = 9
+sign_alg = 10
+sign_params = 11
+ecdh_alg = 12
+ecdh_params = 13
+
+; Group OSCORE Roles
+requester = 1
+responder = 2
+monitor = 3
+verifier = 4
+
+; ACE Groupcomm Errors
+group_not_active = 9
+~~~~~~~~~~~~~~~~~~~~
+{: #fig-cddl-model title="CDDL model" artwork-align="left"}
+
 # Document Updates # {#sec-document-updates}
 {:removeinrfc}
 
 ## Version -16 to -17 ## {#sec-16-17}
+
+* CBOR diagnostic notation uses placeholders from a CDDL model.
+
+* Fixes in the examples in CBOR diagnostic notation.
 
 * Updated author list.
 
