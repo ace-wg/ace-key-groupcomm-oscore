@@ -1633,165 +1633,167 @@ Note to RFC Editor: Please replace all occurrences of "{{&SELF}}" with the RFC n
 
 ## OAuth Parameters {#iana-kinfo}
 
-IANA is asked to register the following entries to the "OAuth Parameters" registry, as per the procedure specified in {{Section 11.2 of RFC6749}}.
-
-*  Parameter name: ecdh_info
-*  Parameter usage location: client-rs request, rs-client response
-*  Change Controller: IESG
-*  Specification Document(s): {{&SELF}}
-
-<br>
-
-*  Parameter name: kdc_dh_creds
-*  Parameter usage location: client-rs request, rs-client response
-*  Change Controller: IESG
-*  Specification Document(s): {{&SELF}}
-
-## OAuth Parameters CBOR Mappings {#iana-kinfo-map}
-
-IANA is asked to register the following entries to the "OAuth Parameters CBOR Mappings" registry, as per the procedure specified in {{Section 8.10 of RFC9200}}.
+IANA is asked to register the following entries in the "OAuth Parameters" registry, following the procedure specified in {{Section 11.2 of RFC6749}}.
 
 * Name: ecdh_info
-* CBOR Key: TBD (range -256 to 255)
-* Value Type: Simple value `null` / Array
+* Parameter Usage Location: client-rs request, rs-client response
+* Change Controller: IETF
 * Reference: {{&SELF}}
 
 <br>
 
 * Name: kdc_dh_creds
-* CBOR Key: TBD (range -256 to 255)
-* Value Type: Simple value `null` / Array
+* Parameter Usage Location: client-rs request, rs-client response
+* Change Controller: IETF
 * Reference: {{&SELF}}
+
+## OAuth Parameters CBOR Mappings {#iana-kinfo-map}
+
+IANA is asked to register the following entries in the "OAuth Parameters CBOR Mappings" registry, following the procedure specified in {{Section 8.10 of RFC9200}}.
+
+* Name: ecdh_info
+* CBOR Key: TBD (range -256 to 255)
+* Value Type: Null or array
+* Reference: {{&SELF}}
+* Original Specification: {{&SELF}}
+
+<br>
+
+* Name: kdc_dh_creds
+* CBOR Key: TBD (range -256 to 255)
+* Value Type: Null or array
+* Reference: {{&SELF}}
+* Original Specification: {{&SELF}}
 
 ## ACE Groupcomm Parameters {#ssec-iana-ace-groupcomm-parameters-registry}
 
 IANA is asked to register the following entries to the "ACE Groupcomm Parameters" registry defined in {{Section 11.7 of RFC9594}}.
 
 * Name: group_senderId
-* CBOR Key: TBD
-* CBOR Type: Byte string
-* Reference: {{&SELF}} ({{sec-new-key}})
+* CBOR Key: 21
+* CBOR Type: bstr
+* Reference: {{&SELF}}
 
 <br>
 
 * Name: ecdh_info
-* CBOR Key: TBD
-* CBOR Type: Array
-* Reference: {{&SELF}} ({{ssec-join-req-processing}})
+* CBOR Key: 31
+* CBOR Type: array
+* Reference: {{&SELF}}
 
 <br>
 
 * Name: kdc_dh_creds
-* CBOR Key: TBD
-* CBOR Type: Array
-* Reference: {{&SELF}} ({{ssec-join-req-processing}})
+* CBOR Key: 32
+* CBOR Type: array
+* Reference: {{&SELF}}
 
 <br>
 
 * Name: sign_enc_key
-* CBOR Key: TBD
-* CBOR Type: Byte string
-* Reference: {{&SELF}} ({{verif-data-get}})
+* CBOR Key: 33
+* CBOR Type: bstr
+* Reference: {{&SELF}}
 
 <br>
 
 * Name: stale_node_ids
-* CBOR Key: TBD
-* CBOR Type: Array
-* Reference: {{&SELF}} ({{sec-group-rekeying-process}})
+* CBOR Key: 34
+* CBOR Type: array
+* Reference: {{&SELF}}
 
 ## ACE Groupcomm Key Types {#ssec-iana-groupcomm-keys-registry}
 
-IANA is asked to register the following entry to the "ACE Groupcomm Key Types" registry defined in {{Section 11.8 of RFC9594}}.
+IANA is asked to register the following entry in the "ACE Groupcomm Key Types" registry defined in {{Section 11.8 of RFC9594}}.
 
 *  Name: Group_OSCORE_Input_Material object
 *  Key Type Value: GROUPCOMM_KEY_TBD
 *  Profile: "coap_group_oscore_app", defined in {{ssec-iana-groupcomm-profile-registry}} of this document.
 *  Description: A Group_OSCORE_Input_Material object encoded as described in {{ssec-join-resp}} of this document.
-*  Reference: {{&SELF}} ({{ssec-join-resp}})
+*  Reference: {{&SELF}}
 
 ## ACE Groupcomm Profiles {#ssec-iana-groupcomm-profile-registry}
 
-IANA is asked to register the following entry to the "ACE Groupcomm Profiles" registry defined in {{Section 11.9 of RFC9594}}.
+IANA is asked to register the following entry in the "ACE Groupcomm Profiles" registry defined in {{Section 11.9 of RFC9594}}.
 
 *  Name: coap_group_oscore_app
 *  Description: Application profile to provision keying material for participating in group communication protected with Group OSCORE as per {{I-D.ietf-core-oscore-groupcomm}}.
 *  CBOR Value: PROFILE_TBD
-*  Reference: {{&SELF}} ({{ssec-join-resp}})
+*  Reference: {{&SELF}}
 
 ## OSCORE Security Context Parameters {#ssec-iana-security-context-parameter-registry}
 
 IANA is asked to register the following entries in the "OSCORE Security Context Parameters" registry defined in {{Section 9.4 of RFC9203}}.
 
 *  Name: group_SenderId
-*  CBOR Label: TBD
-*  CBOR Type: Byte string
+*  CBOR Label: 7
+*  CBOR Type: byte string
 *  Registry: -
 *  Description: OSCORE Sender ID assigned to a member of an OSCORE group
-*  Reference: {{&SELF}} ({{ssec-join-resp}})
+*  Reference: {{&SELF}}
 
 <br>
 
 *  Name: cred_fmt
-*  CBOR Label: TBD
-*  CBOR Type: Integer
-*  Registry: COSE Header Parameters
+*  CBOR Label: 8
+*  CBOR Type: integer
+*  Registry: {{COSE.Header.Parameters}} Labels (integer)
 *  Description: Format of authentication credentials to be used in the OSCORE group
-*  Reference: {{&SELF}} ({{ssec-join-resp}})
+*  Reference: {{&SELF}}
 
 <br>
 
 *  Name: gp_enc_alg
-*  CBOR Label: TBD
-*  CBOR Type: Text string / Integer
-*  Registry: COSE Algorithms
+*  CBOR Label: 9
+*  CBOR Type: text string / integer
+*  Registry: {{COSE.Algorithms}} Values
 *  Description: OSCORE Group Encryption Algorithm Value
-*  Reference: {{&SELF}} ({{ssec-join-resp}})
+*  Reference: {{&SELF}}
 
 <br>
 
 *  Name: sign_alg
-*  CBOR Label: TBD
-*  CBOR Type: Text string / Integer
-*  Registry: COSE Algorithms
+*  CBOR Label: 10
+*  CBOR Type: text string / integer
+*  Registry: {{COSE.Algorithms}} Values
 *  Description: OSCORE Signature Algorithm Value
-*  Reference: {{&SELF}} ({{ssec-join-resp}})
+*  Reference: {{&SELF}}
 
 <br>
 
 *  Name: sign_params
-*  CBOR Label: TBD
-*  CBOR Type: Array
-*  Registry: COSE Algorithms, COSE Key Types, COSE Elliptic Curves
+*  CBOR Label: 11
+*  CBOR Type: array
+*  Registry: {{COSE.Algorithms}} Capabilities, {{COSE.Key.Types}} Capabilities, {{COSE.Elliptic.Curves}} Values
 *  Description: OSCORE Signature Algorithm Parameters
-*  Reference: {{&SELF}} ({{ssec-join-resp}})
+*  Reference: {{&SELF}}
 
 <br>
 
 *  Name: ecdh_alg
-*  CBOR Label: TBD
-*  CBOR Type: Text string / Integer
-*  Registry: COSE Algorithms
+*  CBOR Label: 12
+*  CBOR Type: text string / integer
+*  Registry: {{COSE.Algorithms}} Values
 *  Description: OSCORE Pairwise Key Agreement Algorithm Value
-*  Reference: {{&SELF}} ({{ssec-join-resp}})
+*  Reference: {{&SELF}}
 
 <br>
 
 *  Name: ecdh_params
-*  CBOR Label: TBD
-*  CBOR Type: Array
-*  Registry: COSE Algorithms, COSE Key Types, COSE Elliptic Curves
+*  CBOR Label: 13
+*  CBOR Type: array
+*  Registry: {{COSE.Algorithms}} Capabilities, {{COSE.Key.Types}} Capabilities, {{COSE.Elliptic.Curves}} Values
 *  Description: OSCORE Pairwise Key Agreement Algorithm Parameters
-*  Reference: {{&SELF}} ({{ssec-join-resp}})
+*  Reference: {{&SELF}}
 
 ## TLS Exporter Labels {#ssec-iana-tls-esporter-label-registry}
 
-IANA is asked to register the following entry to the "TLS Exporter Labels" registry defined in {{Section 6 of RFC5705}} and updated in {{Section 12 of RFC8447}}.
+IANA is asked to register the following entry in the "TLS Exporter Labels" registry defined in {{Section 6 of RFC5705}} and updated in {{Section 12 of RFC8447}}.
 
 * Value: EXPORTER-ACE-Pop-Input-coap-group-oscore-app
 * DTLS-OK: Y
 * Recommended: N
-* Reference: {{&SELF}} ({{sssec-challenge-value}})
+* Reference: {{&SELF}}
 
 ## AIF Media-Type Sub-Parameters {#ssec-iana-AIF-registry}
 
@@ -1811,11 +1813,11 @@ For the media-types application/aif+cbor and application/aif+json defined in {{S
 
 ## CoAP Content-Formats {#ssec-iana-coap-content-format-registry}
 
-IANA is asked to register the following entries to the "CoAP Content-Formats" registry within the "Constrained RESTful Environments (CoRE) Parameters" registry group.
+IANA is asked to register the following entries in the "CoAP Content-Formats" registry within the "Constrained RESTful Environments (CoRE) Parameters" registry group.
 
-* Media Type: application/aif+cbor;Toid="oscore-gname",Tperm="oscore-gperm"
+* Content Type: application/aif+cbor;Toid="oscore-gname",Tperm="oscore-gperm"
 
-* Encoding: -
+* Content Coding: -
 
 * ID: 292 (suggested)
 
@@ -1823,33 +1825,13 @@ IANA is asked to register the following entries to the "CoAP Content-Formats" re
 
 <br>
 
-* Media Type: application/aif+json;Toid="oscore-gname",Tperm="oscore-gperm"
+* Content Type: application/aif+json;Toid="oscore-gname",Tperm="oscore-gperm"
 
-* Encoding: -
+* Content Coding: -
 
 * ID: 293 (suggested)
 
 * Reference: {{&SELF}}
-
-## Group OSCORE Roles {#ssec-iana-group-oscore-roles-registry}
-
-This document establishes the IANA "Group OSCORE Roles" registry. The registry has been created to use the "Expert Review" registration procedure {{RFC8126}}. Expert review guidelines are provided in {{ssec-iana-expert-review}}.
-
-This registry includes the possible roles that nodes can take in an OSCORE group, each in combination with a numeric identifier. These numeric identifiers are used to express authorization information about joining OSCORE groups, as specified in {{sec-format-scope}} of {{&SELF}}.
-
-The columns of this registry are:
-
-* Name: A value that can be used in documents for easier comprehension, to identify a possible role that nodes can take in an OSCORE group.
-
-* Value: The numeric identifier for this role. Integer values greater than 65535 are marked as "Private Use", all other values use the registration policy "Expert Review" {{RFC8126}}.
-
-* Description: This field contains a brief description of the role.
-
-* Reference: This contains a pointer to the public specification for the role.
-
-This registry will be initially populated by the values in {{tab-role-values}}.
-
-The Reference column for all of these entries will be {{&SELF}}.
 
 ## CoRE Resource Type # {#iana-rt}
 
@@ -1889,6 +1871,24 @@ IANA is asked to register the following entries in the "ACE Groupcomm Errors" re
 
 * Reference: {{&SELF}}
 
+## Group OSCORE Roles {#ssec-iana-group-oscore-roles-registry}
+
+This document establishes the IANA "Group OSCORE Roles" registry. The registry has been created to use the "Expert Review" registration procedure {{RFC8126}}. Expert review guidelines are provided in {{ssec-iana-expert-review}}.
+
+This registry includes the possible roles that nodes can take in an OSCORE group, each in combination with a numeric identifier. These numeric identifiers are used to express authorization information about joining OSCORE groups, as specified in {{sec-format-scope}} of {{&SELF}}.
+
+The columns of this registry are:
+
+* Name: A value that can be used in documents for easier comprehension, to identify a possible role that nodes can take in an OSCORE group.
+
+* Value: The numeric identifier for this role. Integer values greater than 65535 are marked as "Private Use", all other values use the registration policy "Expert Review" {{RFC8126}}.
+
+* Description: This field contains a brief description of the role.
+
+* Reference: This contains a pointer to the public specification for the role.
+
+This registry will be initially populated by the values in {{tab-role-values}}. The Reference column for all of these entries will be {{&SELF}}.
+
 ## Expert Review Instructions {#ssec-iana-expert-review}
 
 The IANA registry established in this document is defined as "Expert Review".  This section gives some general guidelines for what the experts should be looking for, but they are being designated as experts for a reason so they should be given substantial latitude.
@@ -1897,11 +1897,11 @@ Expert reviewers should take into consideration the following points:
 
 * Clarity and correctness of registrations. Experts are expected to check the clarity of purpose and use of the requested entries. Experts should inspect the entry for the considered role, to verify the correctness of its description against the role as intended in the specification that defined it. Experts should consider requesting an opinion on the correctness of registered parameters from the Authentication and Authorization for Constrained Environments (ACE) Working Group and the Constrained RESTful Environments (CoRE) Working Group.
 
-     Entries that do not meet these objectives of clarity and completeness should not be registered.
+  Entries that do not meet these objectives of clarity and completeness should not be registered.
 
 * Duplicated registration and point squatting should be discouraged. Reviewers are encouraged to get sufficient information for registration requests to ensure that the usage is not going to duplicate one that is already registered and that the point is likely to be used in deployments.
 
-* Experts should take into account the expected usage of roles when approving point assignments. Given a 'Value' V as code point, the length of the encoding of (2^(V+1) - 1) should be weighed against the usage of the entry, considering the resources and capabilities of devices it will be used on. Additionally, given a 'Value' V as code point, the length of the encoding of (2^(V+1) - 1) should be weighed against how many code points resulting in that encoding length are left, and the resources and capabilities of devices it will be used on.
+* Experts should take into account the expected usage of roles when approving point assignments. Given a 'Value' V as code point, the length of the encoding of (2<sup>V+1</sup> - 1) should be weighed against the usage of the entry, considering the resources and capabilities of devices it will be used on. Additionally, given a 'Value' V as code point, the length of the encoding of (2<sup>(V+1)</sup> - 1) should be weighed against how many code points resulting in that encoding length are left, and the resources and capabilities of devices it will be used on.
 
 * Specifications are recommended. When specifications are not provided, the description provided needs to have sufficient information to verify the points above.
 
@@ -2138,6 +2138,8 @@ sign_params = 11
 * CCS is used as default format of authentication credential.
 
 * Updated name of TLS exporter label.
+
+* Revised IANA considerations.
 
 * Aligned requirement formulation with that in RFC 9594.
 
