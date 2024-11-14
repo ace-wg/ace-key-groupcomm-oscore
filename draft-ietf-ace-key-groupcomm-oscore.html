@@ -1881,10 +1881,6 @@ The 'kdcchallenge' parameter <span class="bcp14">MAY</span> be omitted from the 
                 <p id="section-5.3-2.3.2.5.1">'cred_fmt' takes value from the "Label" column of the "COSE Header Parameters" registry <span>[<a href="#COSE.Header.Parameters" class="cite xref">COSE.Header.Parameters</a>]</span> (REQ6). Consistently with <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-23#section-2.4" class="relref">Section 2.4</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>, acceptable values denote a format of authentication credential that <span class="bcp14">MUST</span> explicitly provide the public key as well as the comprehensive set of information related to the public key algorithm, including, e.g., the used elliptic curve (when applicable).<a href="#section-5.3-2.3.2.5.1" class="pilcrow">¶</a></p>
 <p id="section-5.3-2.3.2.5.2">
 At the time of writing this specification, acceptable formats of authentication credentials are CBOR Web Tokens (CWTs) and CWT Claims Sets (CCSs) <span>[<a href="#RFC8392" class="cite xref">RFC8392</a>]</span>, X.509 certificates <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span> and C509 certificates <span>[<a href="#I-D.ietf-cose-cbor-encoded-cert" class="cite xref">I-D.ietf-cose-cbor-encoded-cert</a>]</span>. Further formats may be available in the future, and would be acceptable to use as long as they comply with the criteria defined above.<a href="#section-5.3-2.3.2.5.2" class="pilcrow">¶</a></p>
-<p id="section-5.3-2.3.2.5.3">
-[ As to CWTs and CCSs, the COSE Header Parameters 'kcwt' and 'kccs' are under pending registration requested by draft-ietf-lake-edhoc. ]<a href="#section-5.3-2.3.2.5.3" class="pilcrow">¶</a></p>
-<p id="section-5.3-2.3.2.5.4">
-[ As to C509 certificates, the COSE Header Parameters 'c5b' and 'c5c' are under pending registration requested by draft-ietf-cose-cbor-encoded-cert. ]<a href="#section-5.3-2.3.2.5.4" class="pilcrow">¶</a></p>
 </li>
             </ul>
 <p id="section-5.3-2.3.3">
@@ -2260,10 +2256,6 @@ More specifically, the 'key' parameter is composed as follows.<a href="#section-
                 <p id="section-6.3-5.2.4.6.1">The 'cred_fmt' parameter specifies the format of authentication credentials used in the OSCORE group. This parameter <span class="bcp14">MUST</span> be present and it takes value from the "Label" column of the "COSE Header Parameters" registry <span>[<a href="#COSE.Header.Parameters" class="cite xref">COSE.Header.Parameters</a>]</span> (REQ6). Consistently with <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-23#section-2.4" class="relref">Section 2.4</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>, acceptable values denote a format that <span class="bcp14">MUST</span> explicitly provide the public key as well as a comprehensive set of information related to the public key algorithm. This information includes, e.g., the used elliptic curve (when applicable).<a href="#section-6.3-5.2.4.6.1" class="pilcrow">¶</a></p>
 <p id="section-6.3-5.2.4.6.2">
 At the time of writing this specification, acceptable formats of authentication credentials are CBOR Web Tokens (CWTs) and CWT Claims Sets (CCSs) <span>[<a href="#RFC8392" class="cite xref">RFC8392</a>]</span>, X.509 certificates <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span> and C509 certificates <span>[<a href="#I-D.ietf-cose-cbor-encoded-cert" class="cite xref">I-D.ietf-cose-cbor-encoded-cert</a>]</span>. Further formats may be available in the future, and would be acceptable to use as long as they comply with the criteria defined above.<a href="#section-6.3-5.2.4.6.2" class="pilcrow">¶</a></p>
-<p id="section-6.3-5.2.4.6.3">
-[ As to CWTs and CCSs, the COSE Header Parameters 'kcwt' and 'kccs' are under pending registration requested by draft-ietf-lake-edhoc. ]<a href="#section-6.3-5.2.4.6.3" class="pilcrow">¶</a></p>
-<p id="section-6.3-5.2.4.6.4">
-[ As to C509 certificates, the COSE Header Parameters 'c5b' and 'c5c' are under pending registration requested by draft-ietf-cose-cbor-encoded-cert. ]<a href="#section-6.3-5.2.4.6.4" class="pilcrow">¶</a></p>
 </li>
             </ul>
 <p id="section-6.3-5.2.5">
@@ -3573,7 +3565,7 @@ multicast) <span class="bcp14">MUST</span> support this parameter.<a href="#sect
 <p id="section-14-1">This section defines the default values that the Group Manager assumes for the configuration parameters of an OSCORE group, unless differently specified when creating and configuring the group. This can be achieved as specified in <span>[<a href="#I-D.ietf-ace-oscore-gm-admin" class="cite xref">I-D.ietf-ace-oscore-gm-admin</a>]</span>.<a href="#section-14-1" class="pilcrow">¶</a></p>
 <p id="section-14-2">A possible reason for the Group Manager to consider default values different from those recommended in this section is to ensure that each of those are consistent with what the Group Manager supports, e.g., in terms of signature algorithm and format of authentication credentials used in the OSCORE group.<a href="#section-14-2" class="pilcrow">¶</a></p>
 <p id="section-14-3">This ensures that the Group Manager is able to perform the operations defined in this document, e.g., to achieve proof-of-possession of a joining node's private key (see <a href="#ssec-join-req-processing" class="auto internal xref">Section 6.2</a>), as well as to provide a joining node with its own authentication credential and the associated proof-of-possession challenge (see <a href="#ssec-join-resp" class="auto internal xref">Section 6.3</a>).<a href="#section-14-3" class="pilcrow">¶</a></p>
-<p id="section-14-4">The following builds on the "COSE Algorithms" registry <span>[<a href="#COSE.Algorithms" class="cite xref">COSE.Algorithms</a>]</span>, the "COSE Key Types" registry <span>[<a href="#COSE.Key.Types" class="cite xref">COSE.Key.Types</a>]</span> and the "COSE Elliptic Curves" registry <span>[<a href="#COSE.Elliptic.Curves" class="cite xref">COSE.Elliptic.Curves</a>]</span>.<a href="#section-14-4" class="pilcrow">¶</a></p>
+<p id="section-14-4">The following builds on the "COSE Header Parameters" registry <span>[<a href="#COSE.Header.Parameters" class="cite xref">COSE.Header.Parameters</a>]</span>, the "COSE Algorithms" registry <span>[<a href="#COSE.Algorithms" class="cite xref">COSE.Algorithms</a>]</span>, the "COSE Key Types" registry <span>[<a href="#COSE.Key.Types" class="cite xref">COSE.Key.Types</a>]</span> and the "COSE Elliptic Curves" registry <span>[<a href="#COSE.Elliptic.Curves" class="cite xref">COSE.Elliptic.Curves</a>]</span>.<a href="#section-14-4" class="pilcrow">¶</a></p>
 <div id="common">
 <section id="section-14.1">
         <h3 id="name-common">
@@ -3586,10 +3578,6 @@ multicast) <span class="bcp14">MUST</span> support this parameter.<a href="#sect
 </li>
           <li class="normal" id="section-14.1-2.2">
             <p id="section-14.1-2.2.1">For the format 'cred_fmt' used for the authentication credentials in the group, the Group Manager <span class="bcp14">SHOULD</span> use CBOR Web Token (CWT) or CWT Claims Set (CCS) <span>[<a href="#RFC8392" class="cite xref">RFC8392</a>]</span>, i.e., the COSE Header Parameter 'kcwt' and 'kccs', respectively.<a href="#section-14.1-2.2.1" class="pilcrow">¶</a></p>
-<p id="section-14.1-2.2.2">
-[
-    These COSE Header Parameters are under pending registration requested by draft-ietf-lake-edhoc.
- ]<a href="#section-14.1-2.2.2" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-14.1-2.3">
             <p id="section-14.1-2.3.1">For 'max_stale_sets', the Group Manager <span class="bcp14">SHOULD</span> consider N = 3 as the maximum number of stored sets of stale Sender IDs for the group (see <a href="#sssec-stale-sender-ids" class="auto internal xref">Section 7.1</a>).<a href="#section-14.1-2.3.1" class="pilcrow">¶</a></p>
