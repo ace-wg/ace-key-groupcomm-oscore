@@ -4678,26 +4678,34 @@ Entries that do not meet these objectives of clarity and completeness should not
 <p id="appendix-B-2">To enable the seamless use of such future registered algorithms, this section defines a general, agile format for:<a href="#appendix-B-2" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="appendix-B-3.1">
-          <p id="appendix-B-3.1.1">Each 'ecdh_info_entry' of the 'ecdh_info' parameter in the Token Transfer Response (see <a href="#ssec-token-post" class="auto internal xref">Section 5.3</a> and <a href="#ecdh-info" class="auto internal xref">Section 5.3.1</a>);<a href="#appendix-B-3.1.1" class="pilcrow">¶</a></p>
+          <p id="appendix-B-3.1.1">Each 'ecdh_info_entry' of the 'ecdh_info' parameter in the Token Transfer Response; see <a href="#ecdh-info" class="auto internal xref">Section 5.3.1</a>).<a href="#appendix-B-3.1.1" class="pilcrow">¶</a></p>
+<p id="appendix-B-3.1.2"><span><a href="https://rfc-editor.org/rfc/rfc9594#appendix-B" class="relref">Appendix B</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span> describes the analogous general format for each 'sign_info_entry' of the 'sign_info' parameter in the Token Transfer Response (see <a href="#ssec-token-post" class="auto internal xref">Section 5.3</a> of this document).<a href="#appendix-B-3.1.2" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-B-3.2">
           <p id="appendix-B-3.2.1">The 'sign_params' and 'ecdh_params' parameters within the 'key' parameter (see <a href="#ssec-join-resp" class="auto internal xref">Section 6.3</a>), as part of the response payloads used in <a href="#ssec-join-resp" class="auto internal xref">Section 6.3</a>, <a href="#ssec-updated-key-only" class="auto internal xref">Section 9.1.1</a>, <a href="#ssec-updated-and-individual-key" class="auto internal xref">Section 9.1.2</a> and <a href="#sec-group-rekeying-process" class="auto internal xref">Section 11</a>.<a href="#appendix-B-3.2.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
-<p id="appendix-B-4"><span><a href="https://rfc-editor.org/rfc/rfc9594#appendix-B" class="relref">Appendix B</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span> describes the analogous general format for 'sign_info_entry' of the 'sign_info' parameter in the Token Transfer Response (see <a href="#ssec-token-post" class="auto internal xref">Section 5.3</a> of this document).<a href="#appendix-B-4" class="pilcrow">¶</a></p>
-<p id="appendix-B-5">If any of the currently registered COSE algorithms is considered, using this general format yields the same structure defined in this document for the items above, thus ensuring retro-compatibility.<a href="#appendix-B-5" class="pilcrow">¶</a></p>
+<p id="appendix-B-4">If any of the currently registered COSE algorithms is considered, using this general format yields the same structure defined in this document for the items above, thus ensuring backward compatibility.<a href="#appendix-B-4" class="pilcrow">¶</a></p>
 <div id="sec-future-cose-algs-ecdh-info-entry">
 <section id="appendix-B.1">
         <h3 id="name-format-of-ecdh_info_entry">
 <a href="#appendix-B.1" class="section-number selfRef">B.1. </a><a href="#name-format-of-ecdh_info_entry" class="section-name selfRef">Format of 'ecdh_info_entry'</a>
         </h3>
-<p id="appendix-B.1-1">The format of each 'ecdh_info_entry' (see <a href="#ssec-token-post" class="auto internal xref">Section 5.3</a> and <a href="#ecdh-info" class="auto internal xref">Section 5.3.1</a>) is generalized as follows. Given N the number of elements of the 'ecdh_parameters' array, i.e., the number of COSE capabilities of the ECDH algorithm, then:<a href="#appendix-B.1-1" class="pilcrow">¶</a></p>
+<p id="appendix-B.1-1">The format of each 'ecdh_info_entry' (see <a href="#ssec-token-post" class="auto internal xref">Section 5.3</a> and <a href="#ecdh-info" class="auto internal xref">Section 5.3.1</a>) is generalized as follows.<a href="#appendix-B.1-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="appendix-B.1-2.1">
-            <p id="appendix-B.1-2.1.1">'ecdh_key_parameters' is replaced by N elements 'ecdh_capab_i', each of which is a CBOR array.<a href="#appendix-B.1-2.1.1" class="pilcrow">¶</a></p>
+            <p id="appendix-B.1-2.1.1">'ecdh_parameters' includes N &gt;= 0 elements, each of which is a COSE capability of the ECDH algorithm indicated in 'ecdh_alg'.<a href="#appendix-B.1-2.1.1" class="pilcrow">¶</a></p>
+<p id="appendix-B.1-2.1.2">
+In particular, 'ecdh_parameters' has the same format and value of the COSE capabilities array for the ECDH algorithm indicated in 'ecdh_alg', as specified for that algorithm in the 'Capabilities' column of the "COSE Algorithms" registry <span>[<a href="#COSE.Algorithms" class="cite xref">COSE.Algorithms</a>]</span>.<a href="#appendix-B.1-2.1.2" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-B.1-2.2">
-            <p id="appendix-B.1-2.2.1">The i-th array following 'ecdh_parameters', i.e., 'ecdh_capab_i' (i = 0, ..., N-1), is the array of COSE capabilities for the algorithm capability specified in 'ecdh_parameters'[i].<a href="#appendix-B.1-2.2.1" class="pilcrow">¶</a></p>
+            <p id="appendix-B.1-2.2.1">'ecdh_key_parameters' is replaced by N elements 'ecdh_capab', each of which is a CBOR array.<a href="#appendix-B.1-2.2.1" class="pilcrow">¶</a></p>
+<p id="appendix-B.1-2.2.2">
+The i-th 'ecdh_capab' array (i = 0, ..., N-1) is the array of COSE capabilities for the algorithm capability specified in 'ecdh_parameters'[i].<a href="#appendix-B.1-2.2.2" class="pilcrow">¶</a></p>
+<p id="appendix-B.1-2.2.3">
+In particular, each 'ecdh_capab' array has the same format and value of the COSE capabilities array for the algorithm capability specified in 'ecdh_parameters'[i].<a href="#appendix-B.1-2.2.3" class="pilcrow">¶</a></p>
+<p id="appendix-B.1-2.2.4">
+Such a COSE capabilities array is currently defined for the algorithm capability COSE key type, in the "Capabilities" column of the "COSE Key Types" registry <span>[<a href="#COSE.Key.Types" class="cite xref">COSE.Key.Types</a>]</span>.<a href="#appendix-B.1-2.2.4" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <p id="appendix-B.1-3">The CDDL notation <span>[<a href="#RFC8610" class="cite xref">RFC8610</a>]</span> of the 'ecdh_info_entry' parameter is given below.<a href="#appendix-B.1-3" class="pilcrow">¶</a></p>
@@ -4853,16 +4861,19 @@ sign_params = 11
             <p id="appendix-D.1-1.11.1">Revised default values on group configuration parameters.<a href="#appendix-D.1-1.11.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.12">
-            <p id="appendix-D.1-1.12.1">CCS is used as default format of authentication credential.<a href="#appendix-D.1-1.12.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.12.1">Revised future-ready generalization of 'ecdh_info_entry'.<a href="#appendix-D.1-1.12.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.13">
-            <p id="appendix-D.1-1.13.1">Updated name of TLS exporter label.<a href="#appendix-D.1-1.13.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.13.1">CCS is used as default format of authentication credential.<a href="#appendix-D.1-1.13.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.14">
-            <p id="appendix-D.1-1.14.1">Aligned requirement formulation with that in RFC 9594.<a href="#appendix-D.1-1.14.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.14.1">Updated name of TLS exporter label.<a href="#appendix-D.1-1.14.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.15">
-            <p id="appendix-D.1-1.15.1">Clarifications and editorial fixes.<a href="#appendix-D.1-1.15.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.15.1">Aligned requirement formulation with that in RFC 9594.<a href="#appendix-D.1-1.15.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-D.1-1.16">
+            <p id="appendix-D.1-1.16.1">Clarifications and editorial fixes.<a href="#appendix-D.1-1.16.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
