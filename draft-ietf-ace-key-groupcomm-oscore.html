@@ -2256,7 +2256,7 @@ More specifically, the 'key' parameter is composed as follows.<a href="#section-
                 <p id="section-6.3-5.2.4.5.1">The 'group_senderId' parameter has as value the OSCORE Sender ID assigned to the joining node by the Group Manager, as described above. This parameter <span class="bcp14">MUST</span> be present if and only if the node does not join the OSCORE group exclusively with the role of monitor, according to what is specified in the access token (see <a href="#ssec-auth-resp" class="auto internal xref">Section 5.2</a>).<a href="#section-6.3-5.2.4.5.1" class="pilcrow">¶</a></p>
 </li>
               <li class="normal" id="section-6.3-5.2.4.6">
-                <p id="section-6.3-5.2.4.6.1">The 'cred_fmt' parameter specifies the format of authentication credentials used in the OSCORE group. This parameter <span class="bcp14">MUST</span> be present and it takes value from the "Label" column of the "COSE Header Parameters" registry <span>[<a href="#COSE.Header.Parameters" class="cite xref">COSE.Header.Parameters</a>]</span> (REQ6). Consistently with <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-23#section-2.4" class="relref">Section 2.4</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>, acceptable values denote a format that <span class="bcp14">MUST</span> explicitly provide the public key as well as a comprehensive set of information related to the public key algorithm. This information includes, e.g., the used elliptic curve (when applicable).<a href="#section-6.3-5.2.4.6.1" class="pilcrow">¶</a></p>
+                <p id="section-6.3-5.2.4.6.1">The 'cred_fmt' parameter specifies the Authentication Credential Format used in the OSCORE group (see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-23#section-2" class="relref">Section 2</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>). This parameter <span class="bcp14">MUST</span> be present and it takes value from the "Label" column of the "COSE Header Parameters" registry <span>[<a href="#COSE.Header.Parameters" class="cite xref">COSE.Header.Parameters</a>]</span> (REQ6). Consistently with <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-23#section-2.4" class="relref">Section 2.4</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>, acceptable values denote a format that <span class="bcp14">MUST</span> explicitly provide the public key as well as a comprehensive set of information related to the public key algorithm. This information includes, e.g., the used elliptic curve (when applicable).<a href="#section-6.3-5.2.4.6.1" class="pilcrow">¶</a></p>
 <p id="section-6.3-5.2.4.6.2">
 At the time of writing this specification, acceptable formats of authentication credentials are CBOR Web Tokens (CWTs) and CWT Claims Sets (CCSs) <span>[<a href="#RFC8392" class="cite xref">RFC8392</a>]</span>, X.509 certificates <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span> and C509 certificates <span>[<a href="#I-D.ietf-cose-cbor-encoded-cert" class="cite xref">I-D.ietf-cose-cbor-encoded-cert</a>]</span>. Further formats may be available in the future, and would be acceptable to use as long as they comply with the criteria defined above.<a href="#section-6.3-5.2.4.6.2" class="pilcrow">¶</a></p>
 <p id="section-6.3-5.2.4.6.3">
@@ -3582,7 +3582,7 @@ multicast) <span class="bcp14">MUST</span> support this parameter.<a href="#sect
             <p id="section-14.1-2.1.1">For the HKDF Algorithm 'hkdf', the Group Manager <span class="bcp14">SHOULD</span> use HKDF SHA-256, defined as default in <span><a href="https://rfc-editor.org/rfc/rfc8613#section-3.2" class="relref">Section 3.2</a> of [<a href="#RFC8613" class="cite xref">RFC8613</a>]</span>. In the 'hkdf' parameter, this HKDF Algorithm is specified by the HMAC Algorithm HMAC 256/256 (COSE algorithm encoding: 5).<a href="#section-14.1-2.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-14.1-2.2">
-            <p id="section-14.1-2.2.1">For the format 'cred_fmt' used for the authentication credentials in the group, the Group Manager <span class="bcp14">SHOULD</span> use CBOR Web Token Claims Set (CCS) <span>[<a href="#RFC8392" class="cite xref">RFC8392</a>]</span>, i.e., the COSE Header Parameter 'kccs'.<a href="#section-14.1-2.2.1" class="pilcrow">¶</a></p>
+            <p id="section-14.1-2.2.1">For the Authentication Credential Format 'cred_fmt', the Group Manager <span class="bcp14">SHOULD</span> use CBOR Web Token Claims Set (CCS) <span>[<a href="#RFC8392" class="cite xref">RFC8392</a>]</span>, i.e., the COSE Header Parameter 'kccs' (COSE header parameter encoding: 14).<a href="#section-14.1-2.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-14.1-2.3">
             <p id="section-14.1-2.3.1">For 'max_stale_sets', the Group Manager <span class="bcp14">SHOULD</span> consider N = 3 as the maximum number of stored sets of stale Sender IDs for the group (see <a href="#sssec-stale-sender-ids" class="auto internal xref">Section 7.1</a>).<a href="#section-14.1-2.3.1" class="pilcrow">¶</a></p>
@@ -4867,25 +4867,28 @@ sign_params = 11
             <p id="appendix-D.1-1.10.1">Revised alternative computing of N_S challenge when DTLS is used.<a href="#appendix-D.1-1.10.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.11">
-            <p id="appendix-D.1-1.11.1">Fixed error response code from /ace-group/GROUPNAME/nodes/NODENAME.<a href="#appendix-D.1-1.11.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.11.1">Relation between 'cred_fmt' and Authentication Credential Format.<a href="#appendix-D.1-1.11.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.12">
-            <p id="appendix-D.1-1.12.1">Revised default values on group configuration parameters.<a href="#appendix-D.1-1.12.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.12.1">Fixed error response code from /ace-group/GROUPNAME/nodes/NODENAME.<a href="#appendix-D.1-1.12.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.13">
-            <p id="appendix-D.1-1.13.1">Revised future-ready generalization of 'ecdh_info_entry'.<a href="#appendix-D.1-1.13.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.13.1">Revised default values on group configuration parameters.<a href="#appendix-D.1-1.13.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.14">
-            <p id="appendix-D.1-1.14.1">CCS is used as default format of authentication credential.<a href="#appendix-D.1-1.14.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.14.1">Revised future-ready generalization of 'ecdh_info_entry'.<a href="#appendix-D.1-1.14.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.15">
-            <p id="appendix-D.1-1.15.1">Updated name of TLS exporter label.<a href="#appendix-D.1-1.15.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.15.1">CCS is used as default format of authentication credential.<a href="#appendix-D.1-1.15.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.16">
-            <p id="appendix-D.1-1.16.1">Aligned requirement formulation with that in RFC 9594.<a href="#appendix-D.1-1.16.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.16.1">Updated name of TLS exporter label.<a href="#appendix-D.1-1.16.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.17">
-            <p id="appendix-D.1-1.17.1">Clarifications and editorial fixes.<a href="#appendix-D.1-1.17.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.17.1">Aligned requirement formulation with that in RFC 9594.<a href="#appendix-D.1-1.17.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-D.1-1.18">
+            <p id="appendix-D.1-1.18.1">Clarifications and editorial fixes.<a href="#appendix-D.1-1.18.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>

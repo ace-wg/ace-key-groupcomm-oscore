@@ -1316,8 +1316,9 @@ Table of Contents
          role of monitor, according to what is specified in the access
          token (see Section 5.2).
 
-      -  The 'cred_fmt' parameter specifies the format of authentication
-         credentials used in the OSCORE group.  This parameter MUST be
+      -  The 'cred_fmt' parameter specifies the Authentication
+         Credential Format used in the OSCORE group (see Section 2 of
+         [I-D.ietf-core-oscore-groupcomm]).  This parameter MUST be
          present and it takes value from the "Label" column of the "COSE
          Header Parameters" registry [COSE.Header.Parameters] (REQ6).
          Consistently with Section 2.4 of
@@ -3165,9 +3166,10 @@ Table of Contents
       'hkdf' parameter, this HKDF Algorithm is specified by the HMAC
       Algorithm HMAC 256/256 (COSE algorithm encoding: 5).
 
-   *  For the format 'cred_fmt' used for the authentication credentials
-      in the group, the Group Manager SHOULD use CBOR Web Token Claims
-      Set (CCS) [RFC8392], i.e., the COSE Header Parameter 'kccs'.
+   *  For the Authentication Credential Format 'cred_fmt', the Group
+      Manager SHOULD use CBOR Web Token Claims Set (CCS) [RFC8392],
+      i.e., the COSE Header Parameter 'kccs' (COSE header parameter
+      encoding: 14).
 
    *  For 'max_stale_sets', the Group Manager SHOULD consider N = 3 as
       the maximum number of stored sets of stale Sender IDs for the
@@ -4460,6 +4462,8 @@ D.1.  Version -16 to -17
    *  Added CBOR integer abbreviations for ACE Groupcomm Parameters.
 
    *  Revised alternative computing of N_S challenge when DTLS is used.
+
+   *  Relation between 'cred_fmt' and Authentication Credential Format.
 
    *  Fixed error response code from /ace-group/GROUPNAME/nodes/
       NODENAME.
