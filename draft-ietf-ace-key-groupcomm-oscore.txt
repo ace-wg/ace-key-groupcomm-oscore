@@ -829,12 +829,15 @@ Table of Contents
       format of authentication credentials used in the OSCORE group
       identified by 'gname'.  It takes value from the "Label" column of
       the "COSE Header Parameters" registry [COSE.Header.Parameters]
-      (REQ6).  Acceptable values denote a format that MUST explicitly
-      provide the public key as well as a comprehensive set of
-      information related to the public key algorithm.  This information
-      includes, e.g., the used elliptic curve (when applicable).  The
-      same considerations and guidelines for the 'cred_fmt' element of
-      'sign_info' apply (see Section 5.3).
+      (REQ6), with some of those values also indicating the type of
+      container to use for exchanging the authentication credentials
+      with the Group Manager (e.g., a chain or bag of certificates).
+      Acceptable values denote a format that MUST explicitly provide the
+      public key as well as a comprehensive set of information related
+      to the public key algorithm.  This information includes, e.g., the
+      used elliptic curve (when applicable).  The same considerations
+      and guidelines for the 'cred_fmt' element of 'sign_info' apply
+      (see Section 5.3).
 
    The CDDL notation [RFC8610] of the 'ecdh_info' parameter is given
    below.
@@ -912,12 +915,15 @@ Table of Contents
       format of authentication credentials used in the OSCORE group
       identified by 'gname'.  It takes value from the "Label" column of
       the "COSE Header Parameters" registry [COSE.Header.Parameters]
-      (REQ6).  Acceptable values denote a format that MUST explicitly
-      provide the public key as well as a comprehensive set of
-      information related to the public key algorithm.  This information
-      includes, e.g., the used elliptic curve (when applicable).  The
-      same considerations and guidelines for the 'cred_fmt' element of
-      'sign_info' apply (see Section 5.3).
+      (REQ6), with some of those values also indicating the type of
+      container to use for exchanging the authentication credentials
+      with the Group Manager (e.g., a chain or bag of certificates).
+      Acceptable values denote a format that MUST explicitly provide the
+      public key as well as a comprehensive set of information related
+      to the public key algorithm.  This information includes, e.g., the
+      used elliptic curve (when applicable).  The same considerations
+      and guidelines for the 'cred_fmt' element of 'sign_info' apply
+      (see Section 5.3).
 
    *  The third element 'cred' is a CBOR byte string, which encodes the
       Group Manager's Diffie-Hellman authentication credential in its
@@ -1332,7 +1338,10 @@ Table of Contents
          Credential Format used in the OSCORE group (see Section 2 of
          [I-D.ietf-core-oscore-groupcomm]).  This parameter MUST be
          present and it takes value from the "Label" column of the "COSE
-         Header Parameters" registry [COSE.Header.Parameters] (REQ6).
+         Header Parameters" registry [COSE.Header.Parameters] (REQ6),
+         with some of those values also indicating the type of container
+         to use for exchanging the authentication credentials with the
+         Group Manager (e.g., a chain or bag of certificates).
          Consistently with Section 2.4 of
          [I-D.ietf-core-oscore-groupcomm], acceptable values denote a
          format that MUST explicitly provide the public key as well as a
@@ -4116,7 +4125,10 @@ A.1.  Mandatory-to-Address Requirements
       to the public key algorithm (see Section 5.3 and Section 6.3).
       Consistent acceptable values for 'cred_fmt' are taken from the
       "Label" column of the "COSE Header Parameters" registry
-      [COSE.Header.Parameters].
+      [COSE.Header.Parameters], with some of those values also
+      indicating the type of container to use for exchanging the
+      authentication credentials with the Group Manager (e.g., a chain
+      or bag of certificates).
 
    *  REQ7: If the value of the GROUPNAME URI path and the group name in
       the access token scope ('gname') are not required to coincide,
@@ -4481,6 +4493,8 @@ D.1.  Version -16 to -17
    *  Added CBOR integer abbreviations for ACE Groupcomm Parameters.
 
    *  Revised alternative computing of N_S challenge when DTLS is used.
+
+   *  Clarified meaning of 'cred_fmt'.
 
    *  Relation between 'cred_fmt' and Authentication Credential Format.
 
