@@ -1861,7 +1861,7 @@ Table of Contents
     +---------------------------------+-------+-------+-------+-------+
     | /ace-                           | Po    | -     | -     | -     |
     | group/GROUPNAME/nodes/NODENAME/ |       |       |       |       |
-    | pub-key                         |       |       |       |       |
+    | cred                            |       |       |       |       |
     +---------------------------------+-------+-------+-------+-------+
 
        Table 2: Admitted CoAP Methods on the Group Manager Resources
