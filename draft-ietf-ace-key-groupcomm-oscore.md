@@ -176,7 +176,7 @@ Additionally, this document makes use of the following terminology.
 
 Throughout this document, examples for CBOR data items are expressed in CBOR extended diagnostic notation as defined in {{Section 8 of RFC8949}} and {{Appendix G of RFC8610}} ("diagnostic notation"). Diagnostic notation comments are often used to provide a textual representation of the parameters' keys and values.
 
-In the CBOR diagnostic notation used in this document, constructs of the form e'SOME_NAME' are replaced by the value assigned to SOME_NAME in the CDDL model shown in {{fig-cddl-model}} of {{sec-cddl-model}}. For example, {e'sign_enc_alg': 10, e'sign_alg': -8} stands for {9: 10, 10: -8}.
+In the CBOR diagnostic notation used in this document, constructs of the form e'SOME_NAME' are replaced by the value assigned to SOME_NAME in the CDDL model shown in {{fig-cddl-model}} of {{sec-cddl-model}}. For example, {e'gp_enc_alg': 10, e'sign_alg': -8} stands for {9: 10, 10: -8}.
 
 Note to RFC Editor: Please delete the paragraph immediately preceding this note. Also, in the CBOR diagnostic notation used in this document, please replace the constructs of the form e'SOME_NAME' with the value assigned to SOME_NAME in the CDDL model shown in {{fig-cddl-model}} of {{sec-cddl-model}}. Finally, please delete this note.
 
@@ -623,7 +623,7 @@ Then, the Group Manager replies to the joining node, providing the updated secur
 
 * The 'key' parameter includes what the joining node needs in order to set up the Group OSCORE Security Context as per {{Section 2 of I-D.ietf-core-oscore-groupcomm}}.
 
-   This parameter has as value a Group_OSCORE_Input_Material object, which is defined in this document and extends the OSCORE_Input_Material object encoded in CBOR as defined in {{Section 3.2.1 of RFC9203}}. In particular, it contains the additional parameters 'group_senderId', 'cred_fmt', 'sign_enc_alg', 'sign_alg', 'sign_params', 'ecdh_alg' and 'ecdh_params' defined in {{ssec-iana-security-context-parameter-registry}} of this document.
+   This parameter has as value a Group_OSCORE_Input_Material object, which is defined in this document and extends the OSCORE_Input_Material object encoded in CBOR as defined in {{Section 3.2.1 of RFC9203}}. In particular, it contains the additional parameters 'group_senderId', 'cred_fmt', 'gp_enc_alg', 'sign_alg', 'sign_params', 'ecdh_alg' and 'ecdh_params' defined in {{ssec-iana-security-context-parameter-registry}} of this document.
 
    More specifically, the 'key' parameter is composed as follows.
 
@@ -647,7 +647,7 @@ Then, the Group Manager replies to the joining node, providing the updated secur
 
    The 'key' parameter MUST also include the following parameters, if and only if the OSCORE group is not a pairwise-only group.
 
-   * The 'sign_enc_alg' parameter, specifying the Signature Encryption Algorithm used in the OSCORE group to encrypt messages protected with the group mode. This parameter takes values from the "Value" column of the "COSE Algorithms" registry {{COSE.Algorithms}}.
+   * The 'gp_enc_alg' parameter, specifying the Group Encryption Algorithm used in the OSCORE group to encrypt messages protected with the group mode. This parameter takes values from the "Value" column of the "COSE Algorithms" registry {{COSE.Algorithms}}.
 
    * The 'sign_alg' parameter, specifying the Signature Algorithm used to sign messages in the OSCORE group. This parameter takes values from the "Value" column of the "COSE Algorithms" registry {{COSE.Algorithms}}.
 
@@ -1045,11 +1045,11 @@ The payload of the 2.05 (Content) Signature Verification Data Response is a CBOR
 
 * From the Join Response message, only the parameters 'gkty', 'key', 'num', 'exp' and 'ace_groupcomm_profile' are present. The 'key' parameter includes only the following data.
 
-   - The parameters 'hkdf', 'contextId', 'cred_fmt', 'sign_enc_alg', 'sign_alg', 'sign_params'. These parameters MUST be present.
+   - The parameters 'hkdf', 'contextId', 'cred_fmt', 'gp_enc_alg', 'sign_alg', 'sign_params'. These parameters MUST be present.
 
    - The parameters 'alg' and 'ecdh_alg'. These parameters MUST NOT be present if the group is a signature-only group. Otherwise, they MUST be present.
 
-* The parameter 'group_enc_key' is also included, with CBOR label defined in {{ssec-iana-ace-groupcomm-parameters-registry}}. This parameter specifies the Group Encryption Key of the OSCORE Group, encoded as a CBOR byte string. The Group Manager derives the Group Encryption Key from the group keying material, as per {{Section 2.1.9 of I-D.ietf-core-oscore-groupcomm}}. This parameter MUST be present.
+* The parameter 'sign_enc_key' is also included, with CBOR label defined in {{ssec-iana-ace-groupcomm-parameters-registry}}. This parameter specifies the Signature Encryption Key of the OSCORE Group, encoded as a CBOR byte string. The Group Manager derives the Signature Encryption Key from the group keying material, as per {{Section 2.1.9 of I-D.ietf-core-oscore-groupcomm}}. This parameter MUST be present.
 
 In order to verify signatures in the group (see {{Section 7.5 of I-D.ietf-core-oscore-groupcomm}}), the signature verifier relies on: the data retrieved from the 2.05 (Content) Signature Verification Data Response; the public keys of the group members signing the messages to verify, retrieved from those members' authentication credentials that can be obtained as defined in {{sec-pub-keys}}; and the public key of the Group Manager, retrieved from the Group Manager's authentication credential that can be obtained as defined in {{sec-gm-pub-key}}.
 
@@ -1088,7 +1088,7 @@ Verifier                                                     Manager
                          / hkdf /       3: 5, / HMAC with SHA-256 /
                          / contextId /  6: h'37fc',
                               e'cred_fmt': 33, / x5chain /
-                          e'sign_enc_alg': 10, / AES-CCM-16-64-128 /
+                            e'gp_enc_alg': 10, / AES-CCM-16-64-128 /
                               e'sign_alg': -8, / EdDSA /
                            e'sign_params': [[1], [1, 6]]
                                            / [[OKP], [OKP, Ed25519]] /
@@ -1096,7 +1096,7 @@ Verifier                                                     Manager
      / num /                    9: 12,
      / ace_groupcomm_profile / 10: e'coap_group_oscore_app',
      / exp /                   11: 1609459200,
-                 e'group_enc_key': h'bc661fae6742abc3dd01beda1142567c'
+                  e'sign_enc_key': h'bc661fae6742abc3dd01beda1142567c'
    }
 ~~~~~~~~~~~
 {: #fig-verif-data-req-resp-ex title="Example of Signature Verification Data Request-Response"}
@@ -1450,7 +1450,7 @@ Note that the media type application/ace-groupcomm+cbor MUST be used when these 
 +----------------|----------|-----------|-----------|
 | kdc_dh_creds   | TBD      | array     | {{&SELF}} |
 +----------------|----------|-----------|-----------|
-| group_enc_key  | TBD      | bstr      | {{&SELF}} |
+| sign_enc_key   | TBD      | bstr      | {{&SELF}} |
 +----------------|----------|-----------|-----------|
 | stale_node_ids | TBD      | array     | {{&SELF}} |
 {: #tab-ACE-Groupcomm-Parameters title="ACE Groupcomm Parameters" align="center"}
@@ -1465,7 +1465,7 @@ The Group Manager is expected to support all the parameters above. Instead, a Cl
 
 * 'kdc_dh_creds' MUST be supported by a Client that intends to join a group which uses the pairwise mode of Group OSCORE and that does not plan to or cannot rely on an early retrieval of the Group Manager's Diffie-Hellman authentication credential.
 
-* 'group_enc_key' MUST be supported by a Client that intends to join a group which uses the group mode of Group OSCORE or to be signature verifier for that group.
+* 'sign_enc_key' MUST be supported by a Client that intends to join a group which uses the group mode of Group OSCORE or to be signature verifier for that group.
 
 * 'stale_node_ids' MUST be supported.
 
@@ -1535,7 +1535,7 @@ This section always applies, as related to common configuration parameters.
 
 This section applies if the group uses (also) the group mode of Group OSCORE.
 
-* For the Signature Encryption Algorithm 'sign_enc_alg' used to encrypt messages protected with the group mode, the Group Manager SHOULD use AES-CCM-16-64-128 (COSE algorithm encoding: 10) as default value.
+* For the Group Encryption Algorithm 'gp_enc_alg' used to encrypt messages protected with the group mode, the Group Manager SHOULD use AES-CCM-16-64-128 (COSE algorithm encoding: 10) as default value.
 
 The Group Manager SHOULD use the following default values for the Signature Algorithm 'sign_alg' and related parameters 'sign_params', consistently with the "COSE Algorithms" registry {{COSE.Algorithms}}, the "COSE Key Types" registry {{COSE.Key.Types}} and the "COSE Elliptic Curves" registry {{COSE.Elliptic.Curves}}.
 
@@ -1686,7 +1686,7 @@ IANA is asked to register the following entries to the "ACE Groupcomm Parameters
 
 <br>
 
-* Name: group_enc_key
+* Name: sign_enc_key
 * CBOR Key: TBD
 * CBOR Type: Byte string
 * Reference: {{&SELF}} ({{verif-data-get}})
@@ -1739,11 +1739,11 @@ IANA is asked to register the following entries in the "OSCORE Security Context 
 
 <br>
 
-*  Name: sign_enc_alg
+*  Name: gp_enc_alg
 *  CBOR Label: TBD
 *  CBOR Type: Text string / Integer
 *  Registry: COSE Algorithms
-*  Description: OSCORE Signature Encryption Algorithm Value
+*  Description: OSCORE Group Encryption Algorithm Value
 *  Reference: {{&SELF}} ({{ssec-join-resp}})
 
 <br>
@@ -2074,7 +2074,7 @@ The format of 'key' (see {{ssec-join-resp}}) is generalized as follows.
 
 ~~~~~~~~~~~~~~~~~~~~ CDDL
 ; ACE Groupcomm Parameters
-group_enc_key = 22
+sign_enc_key = 22
 
 ; ACE Groupcomm Key Types
 group_oscore_input_material_obj = 1
@@ -2084,7 +2084,7 @@ coap_group_oscore_app = 1
 
 ; OSCORE Security Context Parameters
 cred_fmt = 8
-sign_enc_alg = 9
+gp_enc_alg = 9
 sign_alg = 10
 sign_params = 11
 ~~~~~~~~~~~~~~~~~~~~
@@ -2106,6 +2106,16 @@ sign_params = 11
 * Use actual tables.
 
 * Fixed name of the error with error code 4.
+
+* Renamed parameters to align with RFC 9594
+
+  - "Group Encryption Key" becomes "Signature Encryption Key"
+
+  - 'group_enc_key' becomes 'sign_enc_key'
+
+  - "Signature Encryption Algorithm" becomes "Group Encryption Algorithm"
+
+  - 'sign_enc_alg' becomes 'gp_enc_alg'
 
 * Aligned requirement formulation with that in RFC 9594.
 
@@ -2203,7 +2213,7 @@ sign_params = 11
 
 * New resource to retrieve material for Signature Verifiers.
 
-* New parameter 'sign_enc_alg' related to the group mode.
+* New parameter 'gp_enc_alg' related to the group mode.
 
 * 'cred_fmt' takes value from the COSE Header Parameters registry.
 
