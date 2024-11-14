@@ -1444,15 +1444,15 @@ Note that the media type application/ace-groupcomm+cbor MUST be used when these 
 
 | Name           | CBOR Key | CBOR Type | Reference |
 +----------------|----------|-----------|-----------|
-| group_senderId | TBD      | bstr      | {{&SELF}} |
+| group_senderId | 21       | bstr      | {{&SELF}} |
 +----------------|----------|-----------|-----------|
-| ecdh_info      | TBD      | array     | {{&SELF}} |
+| ecdh_info      | 31       | array     | {{&SELF}} |
 +----------------|----------|-----------|-----------|
-| kdc_dh_creds   | TBD      | array     | {{&SELF}} |
+| kdc_dh_creds   | 32       | array     | {{&SELF}} |
 +----------------|----------|-----------|-----------|
-| sign_enc_key   | TBD      | bstr      | {{&SELF}} |
+| sign_enc_key   | 33       | bstr      | {{&SELF}} |
 +----------------|----------|-----------|-----------|
-| stale_node_ids | TBD      | array     | {{&SELF}} |
+| stale_node_ids | 34       | array     | {{&SELF}} |
 {: #tab-ACE-Groupcomm-Parameters title="ACE Groupcomm Parameters" align="center"}
 
 Note to RFC Editor: Please replace all occurrences of "{{&SELF}}" with the RFC number of this specification and delete this paragraph.
@@ -2074,7 +2074,7 @@ The format of 'key' (see {{ssec-join-resp}}) is generalized as follows.
 
 ~~~~~~~~~~~~~~~~~~~~ CDDL
 ; ACE Groupcomm Parameters
-sign_enc_key = 22
+sign_enc_key = 21
 
 ; ACE Groupcomm Key Types
 group_oscore_input_material_obj = 1
@@ -2116,6 +2116,8 @@ sign_params = 11
   - "Signature Encryption Algorithm" becomes "Group Encryption Algorithm"
 
   - 'sign_enc_alg' becomes 'gp_enc_alg'
+
+* Added CBOR integer abbreviations for ACE Groupcomm Parameters.
 
 * Aligned requirement formulation with that in RFC 9594.
 
