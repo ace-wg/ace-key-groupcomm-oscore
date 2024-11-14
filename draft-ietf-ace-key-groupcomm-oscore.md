@@ -1519,6 +1519,8 @@ A possible reason for the Group Manager to consider default values different fro
 
 This ensures that the Group Manager is able to perform the operations defined in this document, e.g., to achieve proof-of-possession of a joining node's private key (see {{ssec-join-req-processing}}), as well as to provide a joining node with its own authentication credential and the associated proof-of-possession challenge (see {{ssec-join-resp}}).
 
+The following builds on the "COSE Algorithms" registry {{COSE.Algorithms}}, the "COSE Key Types" registry {{COSE.Key.Types}} and the "COSE Elliptic Curves" registry {{COSE.Elliptic.Curves}}.
+
 ## Common
 
 This section always applies, as related to common configuration parameters.
@@ -1537,13 +1539,11 @@ This section always applies, as related to common configuration parameters.
 
 This section applies if the group uses (also) the group mode of Group OSCORE.
 
-* For the Group Encryption Algorithm 'gp_enc_alg' used to encrypt messages protected with the group mode, the Group Manager SHOULD use AES-CCM-16-64-128 (COSE algorithm encoding: 10) as default value.
+* For the Group Encryption Algorithm 'gp_enc_alg' used to encrypt messages protected with the group mode, the Group Manager SHOULD use AES-CCM-16-64-128 (COSE algorithm encoding: 10).
 
-The Group Manager SHOULD use the following default values for the Signature Algorithm 'sign_alg' and related parameters 'sign_params', consistently with the "COSE Algorithms" registry {{COSE.Algorithms}}, the "COSE Key Types" registry {{COSE.Key.Types}} and the "COSE Elliptic Curves" registry {{COSE.Elliptic.Curves}}.
+* For the Signature Algorithm 'sign_alg' used to sign messages protected with the group mode, the Group Manager SHOULD use EdDSA {{RFC8032}}.
 
-* For the Signature Algorithm 'sign_alg' used to sign messages protected with the group mode, the signature algorithm EdDSA {{RFC8032}}.
-
-* For the parameters 'sign_params' of the Signature Algorithm:
+* For the parameters 'sign_params' of the Signature Algorithm, the Group Manager SHOULD use the following:
 
     - The array \[\[OKP\], \[OKP, Ed25519\]\], in case EdDSA is assumed or specified for 'sign_alg'. This indicates to use the COSE key type OKP and the elliptic curve Ed25519 {{RFC8032}}.
 
@@ -1559,13 +1559,15 @@ The Group Manager SHOULD use the following default values for the Signature Algo
 
 This section applies if the group uses (also) the pairwise mode of Group OSCORE.
 
-For the AEAD Algorithm 'alg' used to encrypt messages protected with the pairwise mode, the Group Manager SHOULD use the same default value defined in {{Section 3.2 of RFC8613}}, i.e., AES-CCM-16-64-128 (COSE algorithm encoding: 10).
+* For the AEAD Algorithm 'alg' used to encrypt messages protected with the pairwise mode, the Group Manager SHOULD use the same default value defined in {{Section 3.2 of RFC8613}}, i.e., AES-CCM-16-64-128 (COSE algorithm encoding: 10).
 
-For the Pairwise Key Agreement Algorithm 'ecdh_alg' and related parameters 'ecdh_params', the Group Manager SHOULD use the following default values, consistently with the "COSE Algorithms" registry {{COSE.Algorithms}}, the "COSE Key Types" registry {{COSE.Key.Types}} and the "COSE Elliptic Curves" registry {{COSE.Elliptic.Curves}}.
+* For the Pairwise Key Agreement Algorithm 'ecdh_alg' used to compute static-static Diffie-Hellman shared secrets, the Group Manager SHOULD use the following:
 
-* For the Pairwise Key Agreement Algorithm 'ecdh_alg' used to compute static-static Diffie-Hellman shared secrets, the ECDH algorithm ECDH-SS + HKDF-256 specified in {{Section 6.3.1 of RFC9053}}.
+  - The ECDH algorithm ECDH-SS + HKDF-256 (COSE algorithm encoding: -27), in case the HKDF Algorithm assumed or specified for 'hkdf' is HKDF SHA-256 (specified by the HMAC Algorithm HMAC 256/256).
 
-* For the parameters 'ecdh_params' of the Pairwise Key Agreement Algorithm:
+  - The ECDH algorithm ECDH-SS + HKDF-512 (COSE algorithm encoding: -28), in case the HKDF Algorithm specified for 'hkdf' is HKDF SHA-512 (specified by the HMAC Algorithm HMAC HMAC 512/512).
+
+* For the parameter 'ecdh_params' of the Pairwise Key Agreement Algorithm, the Group Manager SHOULD use the following:
 
     - The array \[\[OKP\], \[OKP, X25519\]\], in case EdDSA is assumed or specified for 'sign_alg', or in case the group is a pairwise-only group. This indicates to use the COSE key type OKP and the elliptic curve X25519 {{RFC8032}}.
 
@@ -2116,6 +2118,8 @@ sign_params = 11
   - 'sign_enc_alg' becomes 'gp_enc_alg'
 
 * Added CBOR integer abbreviations for ACE Groupcomm Parameters.
+
+* Revised default values on group configuration parameters.
 
 * Aligned requirement formulation with that in RFC 9594.
 
