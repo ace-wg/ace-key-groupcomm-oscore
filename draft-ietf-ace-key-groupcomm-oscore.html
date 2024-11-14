@@ -3573,6 +3573,7 @@ multicast) <span class="bcp14">MUST</span> support this parameter.<a href="#sect
 <p id="section-14-1">This section defines the default values that the Group Manager assumes for the configuration parameters of an OSCORE group, unless differently specified when creating and configuring the group. This can be achieved as specified in <span>[<a href="#I-D.ietf-ace-oscore-gm-admin" class="cite xref">I-D.ietf-ace-oscore-gm-admin</a>]</span>.<a href="#section-14-1" class="pilcrow">¶</a></p>
 <p id="section-14-2">A possible reason for the Group Manager to consider default values different from those recommended in this section is to ensure that each of those are consistent with what the Group Manager supports, e.g., in terms of signature algorithm and format of authentication credentials used in the OSCORE group.<a href="#section-14-2" class="pilcrow">¶</a></p>
 <p id="section-14-3">This ensures that the Group Manager is able to perform the operations defined in this document, e.g., to achieve proof-of-possession of a joining node's private key (see <a href="#ssec-join-req-processing" class="auto internal xref">Section 6.2</a>), as well as to provide a joining node with its own authentication credential and the associated proof-of-possession challenge (see <a href="#ssec-join-resp" class="auto internal xref">Section 6.3</a>).<a href="#section-14-3" class="pilcrow">¶</a></p>
+<p id="section-14-4">The following builds on the "COSE Algorithms" registry <span>[<a href="#COSE.Algorithms" class="cite xref">COSE.Algorithms</a>]</span>, the "COSE Key Types" registry <span>[<a href="#COSE.Key.Types" class="cite xref">COSE.Key.Types</a>]</span> and the "COSE Elliptic Curves" registry <span>[<a href="#COSE.Elliptic.Curves" class="cite xref">COSE.Elliptic.Curves</a>]</span>.<a href="#section-14-4" class="pilcrow">¶</a></p>
 <div id="common">
 <section id="section-14.1">
         <h3 id="name-common">
@@ -3604,31 +3605,28 @@ multicast) <span class="bcp14">MUST</span> support this parameter.<a href="#sect
 <p id="section-14.2-1">This section applies if the group uses (also) the group mode of Group OSCORE.<a href="#section-14.2-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-14.2-2.1">
-            <p id="section-14.2-2.1.1">For the Group Encryption Algorithm 'gp_enc_alg' used to encrypt messages protected with the group mode, the Group Manager <span class="bcp14">SHOULD</span> use AES-CCM-16-64-128 (COSE algorithm encoding: 10) as default value.<a href="#section-14.2-2.1.1" class="pilcrow">¶</a></p>
+            <p id="section-14.2-2.1.1">For the Group Encryption Algorithm 'gp_enc_alg' used to encrypt messages protected with the group mode, the Group Manager <span class="bcp14">SHOULD</span> use AES-CCM-16-64-128 (COSE algorithm encoding: 10).<a href="#section-14.2-2.1.1" class="pilcrow">¶</a></p>
 </li>
-        </ul>
-<p id="section-14.2-3">The Group Manager <span class="bcp14">SHOULD</span> use the following default values for the Signature Algorithm 'sign_alg' and related parameters 'sign_params', consistently with the "COSE Algorithms" registry <span>[<a href="#COSE.Algorithms" class="cite xref">COSE.Algorithms</a>]</span>, the "COSE Key Types" registry <span>[<a href="#COSE.Key.Types" class="cite xref">COSE.Key.Types</a>]</span> and the "COSE Elliptic Curves" registry <span>[<a href="#COSE.Elliptic.Curves" class="cite xref">COSE.Elliptic.Curves</a>]</span>.<a href="#section-14.2-3" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-14.2-2.2">
+            <p id="section-14.2-2.2.1">For the Signature Algorithm 'sign_alg' used to sign messages protected with the group mode, the Group Manager <span class="bcp14">SHOULD</span> use EdDSA <span>[<a href="#RFC8032" class="cite xref">RFC8032</a>]</span>.<a href="#section-14.2-2.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-14.2-2.3">
+            <p id="section-14.2-2.3.1">For the parameters 'sign_params' of the Signature Algorithm, the Group Manager <span class="bcp14">SHOULD</span> use the following:<a href="#section-14.2-2.3.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-14.2-4.1">
-            <p id="section-14.2-4.1.1">For the Signature Algorithm 'sign_alg' used to sign messages protected with the group mode, the signature algorithm EdDSA <span>[<a href="#RFC8032" class="cite xref">RFC8032</a>]</span>.<a href="#section-14.2-4.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-14.2-2.3.2.1">
+                <p id="section-14.2-2.3.2.1.1">The array [[OKP], [OKP, Ed25519]], in case EdDSA is assumed or specified for 'sign_alg'. This indicates to use the COSE key type OKP and the elliptic curve Ed25519 <span>[<a href="#RFC8032" class="cite xref">RFC8032</a>]</span>.<a href="#section-14.2-2.3.2.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-14.2-4.2">
-            <p id="section-14.2-4.2.1">For the parameters 'sign_params' of the Signature Algorithm:<a href="#section-14.2-4.2.1" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-14.2-4.2.2.1">
-                <p id="section-14.2-4.2.2.1.1">The array [[OKP], [OKP, Ed25519]], in case EdDSA is assumed or specified for 'sign_alg'. This indicates to use the COSE key type OKP and the elliptic curve Ed25519 <span>[<a href="#RFC8032" class="cite xref">RFC8032</a>]</span>.<a href="#section-14.2-4.2.2.1.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="section-14.2-2.3.2.2">
+                <p id="section-14.2-2.3.2.2.1">The array [[EC2], [EC2, P-256]], in case ES256 <span>[<a href="#RFC6979" class="cite xref">RFC6979</a>]</span> is specified for 'sign_alg'. This indicates to use the COSE key type EC2 and the elliptic curve P-256.<a href="#section-14.2-2.3.2.2.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="normal" id="section-14.2-4.2.2.2">
-                <p id="section-14.2-4.2.2.2.1">The array [[EC2], [EC2, P-256]], in case ES256 <span>[<a href="#RFC6979" class="cite xref">RFC6979</a>]</span> is specified for 'sign_alg'. This indicates to use the COSE key type EC2 and the elliptic curve P-256.<a href="#section-14.2-4.2.2.2.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="section-14.2-2.3.2.3">
+                <p id="section-14.2-2.3.2.3.1">The array [[EC2], [EC2, P-384]], in case ES384 <span>[<a href="#RFC6979" class="cite xref">RFC6979</a>]</span> is specified for 'sign_alg'. This indicates to use the COSE key type EC2 and the elliptic curve P-384.<a href="#section-14.2-2.3.2.3.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="normal" id="section-14.2-4.2.2.3">
-                <p id="section-14.2-4.2.2.3.1">The array [[EC2], [EC2, P-384]], in case ES384 <span>[<a href="#RFC6979" class="cite xref">RFC6979</a>]</span> is specified for 'sign_alg'. This indicates to use the COSE key type EC2 and the elliptic curve P-384.<a href="#section-14.2-4.2.2.3.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="section-14.2-2.3.2.4">
+                <p id="section-14.2-2.3.2.4.1">The array [[EC2], [EC2, P-521]], in case ES512 <span>[<a href="#RFC6979" class="cite xref">RFC6979</a>]</span> is specified for 'sign_alg'. This indicates to use the COSE key type EC2 and the elliptic curve P-521.<a href="#section-14.2-2.3.2.4.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="normal" id="section-14.2-4.2.2.4">
-                <p id="section-14.2-4.2.2.4.1">The array [[EC2], [EC2, P-521]], in case ES512 <span>[<a href="#RFC6979" class="cite xref">RFC6979</a>]</span> is specified for 'sign_alg'. This indicates to use the COSE key type EC2 and the elliptic curve P-521.<a href="#section-14.2-4.2.2.4.1" class="pilcrow">¶</a></p>
-</li>
-              <li class="normal" id="section-14.2-4.2.2.5">
-                <p id="section-14.2-4.2.2.5.1">The array [[RSA], [RSA]], in case PS256, PS384 or PS512 <span>[<a href="#RFC8017" class="cite xref">RFC8017</a>]</span> is specified for 'sign_alg'. This indicates to use the COSE key type RSA.<a href="#section-14.2-4.2.2.5.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="section-14.2-2.3.2.5">
+                <p id="section-14.2-2.3.2.5.1">The array [[RSA], [RSA]], in case PS256, PS384 or PS512 <span>[<a href="#RFC8017" class="cite xref">RFC8017</a>]</span> is specified for 'sign_alg'. This indicates to use the COSE key type RSA.<a href="#section-14.2-2.3.2.5.1" class="pilcrow">¶</a></p>
 </li>
             </ul>
 </li>
@@ -3641,26 +3639,35 @@ multicast) <span class="bcp14">MUST</span> support this parameter.<a href="#sect
 <a href="#section-14.3" class="section-number selfRef">14.3. </a><a href="#name-pairwise-mode" class="section-name selfRef">Pairwise Mode</a>
         </h3>
 <p id="section-14.3-1">This section applies if the group uses (also) the pairwise mode of Group OSCORE.<a href="#section-14.3-1" class="pilcrow">¶</a></p>
-<p id="section-14.3-2">For the AEAD Algorithm 'alg' used to encrypt messages protected with the pairwise mode, the Group Manager <span class="bcp14">SHOULD</span> use the same default value defined in <span><a href="https://rfc-editor.org/rfc/rfc8613#section-3.2" class="relref">Section 3.2</a> of [<a href="#RFC8613" class="cite xref">RFC8613</a>]</span>, i.e., AES-CCM-16-64-128 (COSE algorithm encoding: 10).<a href="#section-14.3-2" class="pilcrow">¶</a></p>
-<p id="section-14.3-3">For the Pairwise Key Agreement Algorithm 'ecdh_alg' and related parameters 'ecdh_params', the Group Manager <span class="bcp14">SHOULD</span> use the following default values, consistently with the "COSE Algorithms" registry <span>[<a href="#COSE.Algorithms" class="cite xref">COSE.Algorithms</a>]</span>, the "COSE Key Types" registry <span>[<a href="#COSE.Key.Types" class="cite xref">COSE.Key.Types</a>]</span> and the "COSE Elliptic Curves" registry <span>[<a href="#COSE.Elliptic.Curves" class="cite xref">COSE.Elliptic.Curves</a>]</span>.<a href="#section-14.3-3" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-14.3-4.1">
-            <p id="section-14.3-4.1.1">For the Pairwise Key Agreement Algorithm 'ecdh_alg' used to compute static-static Diffie-Hellman shared secrets, the ECDH algorithm ECDH-SS + HKDF-256 specified in <span><a href="https://rfc-editor.org/rfc/rfc9053#section-6.3.1" class="relref">Section 6.3.1</a> of [<a href="#RFC9053" class="cite xref">RFC9053</a>]</span>.<a href="#section-14.3-4.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-14.3-2.1">
+            <p id="section-14.3-2.1.1">For the AEAD Algorithm 'alg' used to encrypt messages protected with the pairwise mode, the Group Manager <span class="bcp14">SHOULD</span> use the same default value defined in <span><a href="https://rfc-editor.org/rfc/rfc8613#section-3.2" class="relref">Section 3.2</a> of [<a href="#RFC8613" class="cite xref">RFC8613</a>]</span>, i.e., AES-CCM-16-64-128 (COSE algorithm encoding: 10).<a href="#section-14.3-2.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-14.3-4.2">
-            <p id="section-14.3-4.2.1">For the parameters 'ecdh_params' of the Pairwise Key Agreement Algorithm:<a href="#section-14.3-4.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-14.3-2.2">
+            <p id="section-14.3-2.2.1">For the Pairwise Key Agreement Algorithm 'ecdh_alg' used to compute static-static Diffie-Hellman shared secrets, the Group Manager <span class="bcp14">SHOULD</span> use the following:<a href="#section-14.3-2.2.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-14.3-4.2.2.1">
-                <p id="section-14.3-4.2.2.1.1">The array [[OKP], [OKP, X25519]], in case EdDSA is assumed or specified for 'sign_alg', or in case the group is a pairwise-only group. This indicates to use the COSE key type OKP and the elliptic curve X25519 <span>[<a href="#RFC8032" class="cite xref">RFC8032</a>]</span>.<a href="#section-14.3-4.2.2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-14.3-2.2.2.1">
+                <p id="section-14.3-2.2.2.1.1">The ECDH algorithm ECDH-SS + HKDF-256 (COSE algorithm encoding: -27), in case the HKDF Algorithm assumed or specified for 'hkdf' is HKDF SHA-256 (specified by the HMAC Algorithm HMAC 256/256).<a href="#section-14.3-2.2.2.1.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="normal" id="section-14.3-4.2.2.2">
-                <p id="section-14.3-4.2.2.2.1">The array [[EC2], [EC2, P-256]], in case ES256 <span>[<a href="#RFC6979" class="cite xref">RFC6979</a>]</span> is specified for 'sign_alg'. This indicates to use the COSE key type EC2 and the elliptic curve P-256.<a href="#section-14.3-4.2.2.2.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="section-14.3-2.2.2.2">
+                <p id="section-14.3-2.2.2.2.1">The ECDH algorithm ECDH-SS + HKDF-512 (COSE algorithm encoding: -28), in case the HKDF Algorithm specified for 'hkdf' is HKDF SHA-512 (specified by the HMAC Algorithm HMAC HMAC 512/512).<a href="#section-14.3-2.2.2.2.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="normal" id="section-14.3-4.2.2.3">
-                <p id="section-14.3-4.2.2.3.1">The array [[EC2], [EC2, P-384]], in case ES384 <span>[<a href="#RFC6979" class="cite xref">RFC6979</a>]</span> is specified for 'sign_alg'. This indicates to use the COSE key type EC2 and the elliptic curve P-384.<a href="#section-14.3-4.2.2.3.1" class="pilcrow">¶</a></p>
+            </ul>
 </li>
-              <li class="normal" id="section-14.3-4.2.2.4">
-                <p id="section-14.3-4.2.2.4.1">The array [[EC2], [EC2, P-521]], in case ES512 <span>[<a href="#RFC6979" class="cite xref">RFC6979</a>]</span> is specified for 'sign_alg'. This indicates to use the COSE key type EC2 and the elliptic curve P-521.<a href="#section-14.3-4.2.2.4.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-14.3-2.3">
+            <p id="section-14.3-2.3.1">For the parameter 'ecdh_params' of the Pairwise Key Agreement Algorithm, the Group Manager <span class="bcp14">SHOULD</span> use the following:<a href="#section-14.3-2.3.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-14.3-2.3.2.1">
+                <p id="section-14.3-2.3.2.1.1">The array [[OKP], [OKP, X25519]], in case EdDSA is assumed or specified for 'sign_alg', or in case the group is a pairwise-only group. This indicates to use the COSE key type OKP and the elliptic curve X25519 <span>[<a href="#RFC8032" class="cite xref">RFC8032</a>]</span>.<a href="#section-14.3-2.3.2.1.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-14.3-2.3.2.2">
+                <p id="section-14.3-2.3.2.2.1">The array [[EC2], [EC2, P-256]], in case ES256 <span>[<a href="#RFC6979" class="cite xref">RFC6979</a>]</span> is specified for 'sign_alg'. This indicates to use the COSE key type EC2 and the elliptic curve P-256.<a href="#section-14.3-2.3.2.2.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-14.3-2.3.2.3">
+                <p id="section-14.3-2.3.2.3.1">The array [[EC2], [EC2, P-384]], in case ES384 <span>[<a href="#RFC6979" class="cite xref">RFC6979</a>]</span> is specified for 'sign_alg'. This indicates to use the COSE key type EC2 and the elliptic curve P-384.<a href="#section-14.3-2.3.2.3.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-14.3-2.3.2.4">
+                <p id="section-14.3-2.3.2.4.1">The array [[EC2], [EC2, P-521]], in case ES512 <span>[<a href="#RFC6979" class="cite xref">RFC6979</a>]</span> is specified for 'sign_alg'. This indicates to use the COSE key type EC2 and the elliptic curve P-521.<a href="#section-14.3-2.3.2.4.1" class="pilcrow">¶</a></p>
 </li>
             </ul>
 </li>
@@ -4848,10 +4855,13 @@ sign_params = 11
             <p id="appendix-D.1-1.9.1">Added CBOR integer abbreviations for ACE Groupcomm Parameters.<a href="#appendix-D.1-1.9.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.10">
-            <p id="appendix-D.1-1.10.1">Aligned requirement formulation with that in RFC 9594.<a href="#appendix-D.1-1.10.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.10.1">Revised default values on group configuration parameters.<a href="#appendix-D.1-1.10.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.11">
-            <p id="appendix-D.1-1.11.1">Clarifications and editorial fixes.<a href="#appendix-D.1-1.11.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.11.1">Aligned requirement formulation with that in RFC 9594.<a href="#appendix-D.1-1.11.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-D.1-1.12">
+            <p id="appendix-D.1-1.12.1">Clarifications and editorial fixes.<a href="#appendix-D.1-1.12.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
