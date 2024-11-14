@@ -129,9 +129,9 @@ Table of Contents
      16.7.  TLS Exporter Labels
      16.8.  AIF Media-Type Sub-Parameters
      16.9.  CoAP Content-Formats
-     16.10. Group OSCORE Roles
-     16.11. CoRE Resource Type
-     16.12. ACE Groupcomm Errors
+     16.10. CoRE Resource Type
+     16.11. ACE Groupcomm Errors
+     16.12. Group OSCORE Roles
      16.13. Expert Review Instructions
    17. References
      17.1.  Normative References
@@ -434,7 +434,7 @@ Table of Contents
 
    Future specifications that define new Group OSCORE roles MUST
    register a corresponding numeric identifier in the "Group OSCORE
-   Roles" registry defined in Section 16.10 of this document.
+   Roles" registry defined in Section 16.12 of this document.
 
    Note that the value 0 is not available to use as numeric identifier
    to specify a Group OSCORE role.  It follows that, when expressing
@@ -1728,7 +1728,7 @@ Table of Contents
    'gname' in Section 3.1 of [RFC9594]) (REQ7).
 
    The Resource Type (rt=) Link Target Attribute value "core.osc.gm" is
-   registered in Section 16.11 (REQ10), and can be used to describe
+   registered in Section 16.10 (REQ10), and can be used to describe
    group-membership resources and its sub-resources at a Group Manager,
    e.g., by using a link-format document [RFC6690].
 
@@ -3402,39 +3402,15 @@ Table of Contents
 
 16.1.  OAuth Parameters
 
-   IANA is asked to register the following entries to the "OAuth
-   Parameters" registry, as per the procedure specified in Section 11.2
-   of [RFC6749].
-
-   *  Parameter name: ecdh_info
-
-   *  Parameter usage location: client-rs request, rs-client response
-
-   *  Change Controller: IESG
-
-   *  Specification Document(s): [RFC-XXXX]
-
-
-
-   *  Parameter name: kdc_dh_creds
-
-   *  Parameter usage location: client-rs request, rs-client response
-
-   *  Change Controller: IESG
-
-   *  Specification Document(s): [RFC-XXXX]
-
-16.2.  OAuth Parameters CBOR Mappings
-
-   IANA is asked to register the following entries to the "OAuth
-   Parameters CBOR Mappings" registry, as per the procedure specified in
-   Section 8.10 of [RFC9200].
+   IANA is asked to register the following entries in the "OAuth
+   Parameters" registry, following the procedure specified in
+   Section 11.2 of [RFC6749].
 
    *  Name: ecdh_info
 
-   *  CBOR Key: TBD (range -256 to 255)
+   *  Parameter Usage Location: client-rs request, rs-client response
 
-   *  Value Type: Simple value null / Array
+   *  Change Controller: IETF
 
    *  Reference: [RFC-XXXX]
 
@@ -3442,11 +3418,39 @@ Table of Contents
 
    *  Name: kdc_dh_creds
 
-   *  CBOR Key: TBD (range -256 to 255)
+   *  Parameter Usage Location: client-rs request, rs-client response
 
-   *  Value Type: Simple value null / Array
+   *  Change Controller: IETF
 
    *  Reference: [RFC-XXXX]
+
+16.2.  OAuth Parameters CBOR Mappings
+
+   IANA is asked to register the following entries in the "OAuth
+   Parameters CBOR Mappings" registry, following the procedure specified
+   in Section 8.10 of [RFC9200].
+
+   *  Name: ecdh_info
+
+   *  CBOR Key: TBD (range -256 to 255)
+
+   *  Value Type: Null or array
+
+   *  Reference: [RFC-XXXX]
+
+   *  Original Specification: [RFC-XXXX]
+
+
+
+   *  Name: kdc_dh_creds
+
+   *  CBOR Key: TBD (range -256 to 255)
+
+   *  Value Type: Null or array
+
+   *  Reference: [RFC-XXXX]
+
+   *  Original Specification: [RFC-XXXX]
 
 16.3.  ACE Groupcomm Parameters
 
@@ -3455,55 +3459,55 @@ Table of Contents
 
    *  Name: group_senderId
 
-   *  CBOR Key: TBD
+   *  CBOR Key: 21
 
-   *  CBOR Type: Byte string
+   *  CBOR Type: bstr
 
-   *  Reference: [RFC-XXXX] (Section 9.2)
+   *  Reference: [RFC-XXXX]
 
 
 
    *  Name: ecdh_info
 
-   *  CBOR Key: TBD
+   *  CBOR Key: 31
 
-   *  CBOR Type: Array
+   *  CBOR Type: array
 
-   *  Reference: [RFC-XXXX] (Section 6.2)
+   *  Reference: [RFC-XXXX]
 
 
 
    *  Name: kdc_dh_creds
 
-   *  CBOR Key: TBD
+   *  CBOR Key: 32
 
-   *  CBOR Type: Array
+   *  CBOR Type: array
 
-   *  Reference: [RFC-XXXX] (Section 6.2)
+   *  Reference: [RFC-XXXX]
 
 
 
    *  Name: sign_enc_key
 
-   *  CBOR Key: TBD
+   *  CBOR Key: 33
 
-   *  CBOR Type: Byte string
+   *  CBOR Type: bstr
 
-   *  Reference: [RFC-XXXX] (Section 8.2.1)
+   *  Reference: [RFC-XXXX]
 
 
 
    *  Name: stale_node_ids
 
-   *  CBOR Key: TBD
+   *  CBOR Key: 34
 
-   *  CBOR Type: Array
+   *  CBOR Type: array
 
-   *  Reference: [RFC-XXXX] (Section 11)
+   *  Reference: [RFC-XXXX]
 
 16.4.  ACE Groupcomm Key Types
 
-   IANA is asked to register the following entry to the "ACE Groupcomm
+   IANA is asked to register the following entry in the "ACE Groupcomm
    Key Types" registry defined in Section 11.8 of [RFC9594].
 
    *  Name: Group_OSCORE_Input_Material object
@@ -3516,11 +3520,11 @@ Table of Contents
    *  Description: A Group_OSCORE_Input_Material object encoded as
       described in Section 6.3 of this document.
 
-   *  Reference: [RFC-XXXX] (Section 6.3)
+   *  Reference: [RFC-XXXX]
 
 16.5.  ACE Groupcomm Profiles
 
-   IANA is asked to register the following entry to the "ACE Groupcomm
+   IANA is asked to register the following entry in the "ACE Groupcomm
    Profiles" registry defined in Section 11.9 of [RFC9594].
 
    *  Name: coap_group_oscore_app
@@ -3531,7 +3535,7 @@ Table of Contents
 
    *  CBOR Value: PROFILE_TBD
 
-   *  Reference: [RFC-XXXX] (Section 6.3)
+   *  Reference: [RFC-XXXX]
 
 16.6.  OSCORE Security Context Parameters
 
@@ -3541,105 +3545,107 @@ Table of Contents
 
    *  Name: group_SenderId
 
-   *  CBOR Label: TBD
+   *  CBOR Label: 7
 
-   *  CBOR Type: Byte string
+   *  CBOR Type: byte string
 
    *  Registry: -
 
    *  Description: OSCORE Sender ID assigned to a member of an OSCORE
       group
 
-   *  Reference: [RFC-XXXX] (Section 6.3)
+   *  Reference: [RFC-XXXX]
 
 
 
    *  Name: cred_fmt
 
-   *  CBOR Label: TBD
+   *  CBOR Label: 8
 
-   *  CBOR Type: Integer
+   *  CBOR Type: integer
 
-   *  Registry: COSE Header Parameters
+   *  Registry: [COSE.Header.Parameters] Labels (integer)
 
    *  Description: Format of authentication credentials to be used in
       the OSCORE group
 
-   *  Reference: [RFC-XXXX] (Section 6.3)
+   *  Reference: [RFC-XXXX]
 
 
 
    *  Name: gp_enc_alg
 
-   *  CBOR Label: TBD
+   *  CBOR Label: 9
 
-   *  CBOR Type: Text string / Integer
+   *  CBOR Type: text string / integer
 
-   *  Registry: COSE Algorithms
+   *  Registry: [COSE.Algorithms] Values
 
    *  Description: OSCORE Group Encryption Algorithm Value
 
-   *  Reference: [RFC-XXXX] (Section 6.3)
+   *  Reference: [RFC-XXXX]
 
 
 
    *  Name: sign_alg
 
-   *  CBOR Label: TBD
+   *  CBOR Label: 10
 
-   *  CBOR Type: Text string / Integer
+   *  CBOR Type: text string / integer
 
-   *  Registry: COSE Algorithms
+   *  Registry: [COSE.Algorithms] Values
 
    *  Description: OSCORE Signature Algorithm Value
 
-   *  Reference: [RFC-XXXX] (Section 6.3)
+   *  Reference: [RFC-XXXX]
 
 
 
    *  Name: sign_params
 
-   *  CBOR Label: TBD
+   *  CBOR Label: 11
 
-   *  CBOR Type: Array
+   *  CBOR Type: array
 
-   *  Registry: COSE Algorithms, COSE Key Types, COSE Elliptic Curves
+   *  Registry: [COSE.Algorithms] Capabilities, [COSE.Key.Types]
+      Capabilities, [COSE.Elliptic.Curves] Values
 
    *  Description: OSCORE Signature Algorithm Parameters
 
-   *  Reference: [RFC-XXXX] (Section 6.3)
+   *  Reference: [RFC-XXXX]
 
 
 
    *  Name: ecdh_alg
 
-   *  CBOR Label: TBD
+   *  CBOR Label: 12
 
-   *  CBOR Type: Text string / Integer
+   *  CBOR Type: text string / integer
 
-   *  Registry: COSE Algorithms
+   *  Registry: [COSE.Algorithms] Values
 
    *  Description: OSCORE Pairwise Key Agreement Algorithm Value
 
-   *  Reference: [RFC-XXXX] (Section 6.3)
+   *  Reference: [RFC-XXXX]
 
 
 
    *  Name: ecdh_params
 
-   *  CBOR Label: TBD
+   *  CBOR Label: 13
 
-   *  CBOR Type: Array
+   *  CBOR Type: array
 
-   *  Registry: COSE Algorithms, COSE Key Types, COSE Elliptic Curves
+   *  Registry: [COSE.Algorithms] Capabilities, [COSE.Key.Types]
+      Capabilities, [COSE.Elliptic.Curves] Values
 
    *  Description: OSCORE Pairwise Key Agreement Algorithm Parameters
 
-   *  Reference: [RFC-XXXX] (Section 6.3)
+   *  Reference: [RFC-XXXX]
 
 16.7.  TLS Exporter Labels
 
-   IANA is asked to register the following entry to the "TLS Exporter
+   IANA is asked to register the following entry in the "TLS Exporter
    Labels" registry defined in Section 6 of [RFC5705] and updated in
    Section 12 of [RFC8447].
 
@@ -3649,7 +3655,7 @@ Table of Contents
 
    *  Recommended: N
 
-   *  Reference: [RFC-XXXX] (Section 6.1.1)
+   *  Reference: [RFC-XXXX]
 
 16.8.  AIF Media-Type Sub-Parameters
 
@@ -3679,14 +3685,14 @@ Table of Contents
 
 16.9.  CoAP Content-Formats
 
-   IANA is asked to register the following entries to the "CoAP Content-
+   IANA is asked to register the following entries in the "CoAP Content-
    Formats" registry within the "Constrained RESTful Environments (CoRE)
    Parameters" registry group.
 
-   *  Media Type: application/aif+cbor;Toid="oscore-
+   *  Content Type: application/aif+cbor;Toid="oscore-
       gname",Tperm="oscore-gperm"
 
-   *  Encoding: -
+   *  Content Coding: -
 
    *  ID: 292 (suggested)
 
@@ -3694,16 +3700,59 @@ Table of Contents
 
 
 
-   *  Media Type: application/aif+json;Toid="oscore-
+   *  Content Type: application/aif+json;Toid="oscore-
       gname",Tperm="oscore-gperm"
 
-   *  Encoding: -
+   *  Content Coding: -
 
    *  ID: 293 (suggested)
 
    *  Reference: [RFC-XXXX]
 
-16.10.  Group OSCORE Roles
+16.10.  CoRE Resource Type
+
+   IANA is asked to register the following entry in the "Resource Type
+   (rt=) Link Target Attribute Values" registry within the "Constrained
+   Restful Environments (CoRE) Parameters" registry group.
+
+   *  Value: "core.osc.gm"
+
+   *  Description: Group-membership resource of an OSCORE Group Manager.
+
+   *  Reference: [RFC-XXXX]
+
+   Client applications can use this resource type to discover a group
+   membership resource at an OSCORE Group Manager, where to send a
+   request for joining the corresponding OSCORE group.
+
+16.11.  ACE Groupcomm Errors
+
+   IANA is asked to register the following entries in the "ACE Groupcomm
+   Errors" registry defined in Section 11.12 of [RFC9594].
+
+   *  Value: 7
+
+   *  Description: Signatures not used in the group.
+
+   *  Reference: [RFC-XXXX]
+
+
+
+   *  Value: 8
+
+   *  Description: Operation permitted only to signature verifiers.
+
+   *  Reference: [RFC-XXXX]
+
+
+
+   *  Value: 9
+
+   *  Description: Group currently not active.
+
+   *  Reference: [RFC-XXXX]
+
+16.12.  Group OSCORE Roles
 
    This document establishes the IANA "Group OSCORE Roles" registry.
    The registry has been created to use the "Expert Review" registration
@@ -3731,51 +3780,7 @@ Table of Contents
       the role.
 
    This registry will be initially populated by the values in Table 1.
-
    The Reference column for all of these entries will be [RFC-XXXX].
-
-16.11.  CoRE Resource Type
-
-   IANA is asked to register the following entry in the "Resource Type
-   (rt=) Link Target Attribute Values" registry within the "Constrained
-   Restful Environments (CoRE) Parameters" registry group.
-
-   *  Value: "core.osc.gm"
-
-   *  Description: Group-membership resource of an OSCORE Group Manager.
-
-   *  Reference: [RFC-XXXX]
-
-   Client applications can use this resource type to discover a group
-   membership resource at an OSCORE Group Manager, where to send a
-   request for joining the corresponding OSCORE group.
-
-16.12.  ACE Groupcomm Errors
-
-   IANA is asked to register the following entries in the "ACE Groupcomm
-   Errors" registry defined in Section 11.12 of [RFC9594].
-
-   *  Value: 7
-
-   *  Description: Signatures not used in the group.
-
-   *  Reference: [RFC-XXXX]
-
-
-
-   *  Value: 8
-
-   *  Description: Operation permitted only to signature verifiers.
-
-   *  Reference: [RFC-XXXX]
-
-
-
-   *  Value: 9
-
-   *  Description: Group currently not active.
-
-   *  Reference: [RFC-XXXX]
 
 16.13.  Expert Review Instructions
 
@@ -4118,7 +4123,7 @@ A.1.  Mandatory-to-Address Requirements
    *  REQ10: Register a Resource Type for the group-membership
       resources, which is used to discover the correct URL for sending a
       Join Request to the KDC: the Resource Type (rt=) Link Target
-      Attribute value "core.osc.gm" is registered in Section 16.11.
+      Attribute value "core.osc.gm" is registered in Section 16.10.
 
    *  REQ11: Define what specific actions (e.g., CoAP methods) are
       allowed on each resource accessible through the KDC interface,
@@ -4247,7 +4252,7 @@ A.2.  Optional-to-Address Requirements
 
    *  OPT5: Optionally, specify additional identifiers of error types as
       values of the 'error-id' field within the Custom Problem Detail
-      entry 'ace-groupcomm-error': see Section 16.12.
+      entry 'ace-groupcomm-error': see Section 16.11.
 
    *  OPT6: Optionally, specify the encoding of the 'creds_repo'
       parameter if the default one is not used: no.
@@ -4475,6 +4480,8 @@ D.1.  Version -16 to -17
    *  CCS is used as default format of authentication credential.
 
    *  Updated name of TLS exporter label.
+
+   *  Revised IANA considerations.
 
    *  Aligned requirement formulation with that in RFC 9594.
 

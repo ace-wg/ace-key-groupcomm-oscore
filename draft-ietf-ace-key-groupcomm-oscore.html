@@ -1414,13 +1414,13 @@ svg :is([fill="white"], [fill^="#fff"]) {
                 <p id="section-toc.1-1.16.2.9.1"><a href="#section-16.9" class="auto internal xref">16.9</a>.  <a href="#name-coap-content-formats" class="internal xref">CoAP Content-Formats</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.16.2.10">
-                <p id="section-toc.1-1.16.2.10.1"><a href="#section-16.10" class="auto internal xref">16.10</a>. <a href="#name-group-oscore-roles" class="internal xref">Group OSCORE Roles</a></p>
+                <p id="section-toc.1-1.16.2.10.1"><a href="#section-16.10" class="auto internal xref">16.10</a>. <a href="#name-core-resource-type" class="internal xref">CoRE Resource Type</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.16.2.11">
-                <p id="section-toc.1-1.16.2.11.1"><a href="#section-16.11" class="auto internal xref">16.11</a>. <a href="#name-core-resource-type" class="internal xref">CoRE Resource Type</a></p>
+                <p id="section-toc.1-1.16.2.11.1"><a href="#section-16.11" class="auto internal xref">16.11</a>. <a href="#name-ace-groupcomm-errors" class="internal xref">ACE Groupcomm Errors</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.16.2.12">
-                <p id="section-toc.1-1.16.2.12.1"><a href="#section-16.12" class="auto internal xref">16.12</a>. <a href="#name-ace-groupcomm-errors" class="internal xref">ACE Groupcomm Errors</a></p>
+                <p id="section-toc.1-1.16.2.12.1"><a href="#section-16.12" class="auto internal xref">16.12</a>. <a href="#name-group-oscore-roles" class="internal xref">Group OSCORE Roles</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.16.2.13">
                 <p id="section-toc.1-1.16.2.13.1"><a href="#section-16.13" class="auto internal xref">16.13</a>. <a href="#name-expert-review-instructions" class="internal xref">Expert Review Instructions</a></p>
@@ -1739,7 +1739,7 @@ appear in all capitals, as shown here.<a href="#section-1.1-1" class="pilcrow">�
    scope_entry = [oscore-gname, oscore-gperm]
 </pre><a href="#section-3-12" class="pilcrow">¶</a>
 </div>
-<p id="section-3-13">Future specifications that define new Group OSCORE roles <span class="bcp14">MUST</span> register a corresponding numeric identifier in the "Group OSCORE Roles" registry defined in <a href="#ssec-iana-group-oscore-roles-registry" class="auto internal xref">Section 16.10</a> of this document.<a href="#section-3-13" class="pilcrow">¶</a></p>
+<p id="section-3-13">Future specifications that define new Group OSCORE roles <span class="bcp14">MUST</span> register a corresponding numeric identifier in the "Group OSCORE Roles" registry defined in <a href="#ssec-iana-group-oscore-roles-registry" class="auto internal xref">Section 16.12</a> of this document.<a href="#section-3-13" class="pilcrow">¶</a></p>
 <p id="section-3-14">Note that the value 0 is not available to use as numeric identifier to specify a Group OSCORE role. It follows that, when expressing Group OSCORE roles to take in a group as per this document, a scope entry has the least significant bit of "Tperm" always set to 0.<a href="#section-3-14" class="pilcrow">¶</a></p>
 <p id="section-3-15">This is an explicit feature of the AIF-OSCORE-GROUPCOMM data model. That is, for each scope entry, the least significant bit of "Tperm" set to 0 explicitly identifies the scope entry as exactly expressing a set of Group OSCORE roles ("Tperm"), pertaining to a single group whose name is specified by the string literal in "Toid".<a href="#section-3-15" class="pilcrow">¶</a></p>
 <p id="section-3-16">Instead, by relying on the same AIF-OSCORE-GROUPCOMM data model, <span>[<a href="#I-D.ietf-ace-oscore-gm-admin" class="cite xref">I-D.ietf-ace-oscore-gm-admin</a>]</span> defines the format of scope entries for Administrator Clients that wish to access an admin interface at the Group Manager. In such scope entries, the least significant bit of "Tperm" is always set to 1.<a href="#section-3-16" class="pilcrow">¶</a></p>
@@ -2503,7 +2503,7 @@ Due to the set of stale Sender IDs distributed through the rekeying, this ensure
 <p id="section-8-1">The Group Manager provides the interface defined in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-4.1" class="relref">Section 4.1</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>, with the additional sub-resources defined from <a href="#ssec-resource-active" class="auto internal xref">Section 8.1</a> to <a href="#ssec-resource-stale-sids" class="auto internal xref">Section 8.3</a> of this document.<a href="#section-8-1" class="pilcrow">¶</a></p>
 <p id="section-8-2">Furthermore, <a href="#ssec-admitted-methods" class="auto internal xref">Section 8.4</a> provides a summary of the CoAP methods admitted to access different resources at the Group Manager, for nodes with different roles in the group or as non members (REQ11).<a href="#section-8-2" class="pilcrow">¶</a></p>
 <p id="section-8-3">The GROUPNAME segment of the URI path <span class="bcp14">MUST</span> match with the group name specified in the scope entry of the scope in the access token (i.e., 'gname' in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-3.1" class="relref">Section 3.1</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>) (REQ7).<a href="#section-8-3" class="pilcrow">¶</a></p>
-<p id="section-8-4">The Resource Type (rt=) Link Target Attribute value "core.osc.gm" is registered in <a href="#iana-rt" class="auto internal xref">Section 16.11</a> (REQ10), and can be used to describe group-membership resources and its sub-resources at a Group Manager, e.g., by using a link-format document <span>[<a href="#RFC6690" class="cite xref">RFC6690</a>]</span>.<a href="#section-8-4" class="pilcrow">¶</a></p>
+<p id="section-8-4">The Resource Type (rt=) Link Target Attribute value "core.osc.gm" is registered in <a href="#iana-rt" class="auto internal xref">Section 16.10</a> (REQ10), and can be used to describe group-membership resources and its sub-resources at a Group Manager, e.g., by using a link-format document <span>[<a href="#RFC6690" class="cite xref">RFC6690</a>]</span>.<a href="#section-8-4" class="pilcrow">¶</a></p>
 <p id="section-8-5">Applications can use this common resource type to discover links to group-membership resources for joining OSCORE groups, e.g., by using the approach described in <span>[<a href="#I-D.tiloca-core-oscore-discovery" class="cite xref">I-D.tiloca-core-oscore-discovery</a>]</span>.<a href="#section-8-5" class="pilcrow">¶</a></p>
 <div id="ssec-resource-active">
 <section id="section-8.1">
@@ -3751,34 +3751,34 @@ The Group Manager performs a rekeying when one or more members leave the group, 
         <h3 id="name-oauth-parameters">
 <a href="#section-16.1" class="section-number selfRef">16.1. </a><a href="#name-oauth-parameters" class="section-name selfRef">OAuth Parameters</a>
         </h3>
-<p id="section-16.1-1">IANA is asked to register the following entries to the "OAuth Parameters" registry, as per the procedure specified in <span><a href="https://rfc-editor.org/rfc/rfc6749#section-11.2" class="relref">Section 11.2</a> of [<a href="#RFC6749" class="cite xref">RFC6749</a>]</span>.<a href="#section-16.1-1" class="pilcrow">¶</a></p>
+<p id="section-16.1-1">IANA is asked to register the following entries in the "OAuth Parameters" registry, following the procedure specified in <span><a href="https://rfc-editor.org/rfc/rfc6749#section-11.2" class="relref">Section 11.2</a> of [<a href="#RFC6749" class="cite xref">RFC6749</a>]</span>.<a href="#section-16.1-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-16.1-2.1">
-            <p id="section-16.1-2.1.1">Parameter name: ecdh_info<a href="#section-16.1-2.1.1" class="pilcrow">¶</a></p>
+            <p id="section-16.1-2.1.1">Name: ecdh_info<a href="#section-16.1-2.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.1-2.2">
-            <p id="section-16.1-2.2.1">Parameter usage location: client-rs request, rs-client response<a href="#section-16.1-2.2.1" class="pilcrow">¶</a></p>
+            <p id="section-16.1-2.2.1">Parameter Usage Location: client-rs request, rs-client response<a href="#section-16.1-2.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.1-2.3">
-            <p id="section-16.1-2.3.1">Change Controller: IESG<a href="#section-16.1-2.3.1" class="pilcrow">¶</a></p>
+            <p id="section-16.1-2.3.1">Change Controller: IETF<a href="#section-16.1-2.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.1-2.4">
-            <p id="section-16.1-2.4.1">Specification Document(s): [RFC-XXXX]<a href="#section-16.1-2.4.1" class="pilcrow">¶</a></p>
+            <p id="section-16.1-2.4.1">Reference: [RFC-XXXX]<a href="#section-16.1-2.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <p id="section-16.1-3"><br></p>
 <ul class="normal">
 <li class="normal" id="section-16.1-4.1">
-            <p id="section-16.1-4.1.1">Parameter name: kdc_dh_creds<a href="#section-16.1-4.1.1" class="pilcrow">¶</a></p>
+            <p id="section-16.1-4.1.1">Name: kdc_dh_creds<a href="#section-16.1-4.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.1-4.2">
-            <p id="section-16.1-4.2.1">Parameter usage location: client-rs request, rs-client response<a href="#section-16.1-4.2.1" class="pilcrow">¶</a></p>
+            <p id="section-16.1-4.2.1">Parameter Usage Location: client-rs request, rs-client response<a href="#section-16.1-4.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.1-4.3">
-            <p id="section-16.1-4.3.1">Change Controller: IESG<a href="#section-16.1-4.3.1" class="pilcrow">¶</a></p>
+            <p id="section-16.1-4.3.1">Change Controller: IETF<a href="#section-16.1-4.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.1-4.4">
-            <p id="section-16.1-4.4.1">Specification Document(s): [RFC-XXXX]<a href="#section-16.1-4.4.1" class="pilcrow">¶</a></p>
+            <p id="section-16.1-4.4.1">Reference: [RFC-XXXX]<a href="#section-16.1-4.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
@@ -3788,7 +3788,7 @@ The Group Manager performs a rekeying when one or more members leave the group, 
         <h3 id="name-oauth-parameters-cbor-mappi">
 <a href="#section-16.2" class="section-number selfRef">16.2. </a><a href="#name-oauth-parameters-cbor-mappi" class="section-name selfRef">OAuth Parameters CBOR Mappings</a>
         </h3>
-<p id="section-16.2-1">IANA is asked to register the following entries to the "OAuth Parameters CBOR Mappings" registry, as per the procedure specified in <span><a href="https://rfc-editor.org/rfc/rfc9200#section-8.10" class="relref">Section 8.10</a> of [<a href="#RFC9200" class="cite xref">RFC9200</a>]</span>.<a href="#section-16.2-1" class="pilcrow">¶</a></p>
+<p id="section-16.2-1">IANA is asked to register the following entries in the "OAuth Parameters CBOR Mappings" registry, following the procedure specified in <span><a href="https://rfc-editor.org/rfc/rfc9200#section-8.10" class="relref">Section 8.10</a> of [<a href="#RFC9200" class="cite xref">RFC9200</a>]</span>.<a href="#section-16.2-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-16.2-2.1">
             <p id="section-16.2-2.1.1">Name: ecdh_info<a href="#section-16.2-2.1.1" class="pilcrow">¶</a></p>
@@ -3797,10 +3797,13 @@ The Group Manager performs a rekeying when one or more members leave the group, 
             <p id="section-16.2-2.2.1">CBOR Key: TBD (range -256 to 255)<a href="#section-16.2-2.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.2-2.3">
-            <p id="section-16.2-2.3.1">Value Type: Simple value <code>null</code> / Array<a href="#section-16.2-2.3.1" class="pilcrow">¶</a></p>
+            <p id="section-16.2-2.3.1">Value Type: Null or array<a href="#section-16.2-2.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.2-2.4">
             <p id="section-16.2-2.4.1">Reference: [RFC-XXXX]<a href="#section-16.2-2.4.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-16.2-2.5">
+            <p id="section-16.2-2.5.1">Original Specification: [RFC-XXXX]<a href="#section-16.2-2.5.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <p id="section-16.2-3"><br></p>
@@ -3812,10 +3815,13 @@ The Group Manager performs a rekeying when one or more members leave the group, 
             <p id="section-16.2-4.2.1">CBOR Key: TBD (range -256 to 255)<a href="#section-16.2-4.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.2-4.3">
-            <p id="section-16.2-4.3.1">Value Type: Simple value <code>null</code> / Array<a href="#section-16.2-4.3.1" class="pilcrow">¶</a></p>
+            <p id="section-16.2-4.3.1">Value Type: Null or array<a href="#section-16.2-4.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.2-4.4">
             <p id="section-16.2-4.4.1">Reference: [RFC-XXXX]<a href="#section-16.2-4.4.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-16.2-4.5">
+            <p id="section-16.2-4.5.1">Original Specification: [RFC-XXXX]<a href="#section-16.2-4.5.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
@@ -3831,13 +3837,13 @@ The Group Manager performs a rekeying when one or more members leave the group, 
             <p id="section-16.3-2.1.1">Name: group_senderId<a href="#section-16.3-2.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.3-2.2">
-            <p id="section-16.3-2.2.1">CBOR Key: TBD<a href="#section-16.3-2.2.1" class="pilcrow">¶</a></p>
+            <p id="section-16.3-2.2.1">CBOR Key: 21<a href="#section-16.3-2.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.3-2.3">
-            <p id="section-16.3-2.3.1">CBOR Type: Byte string<a href="#section-16.3-2.3.1" class="pilcrow">¶</a></p>
+            <p id="section-16.3-2.3.1">CBOR Type: bstr<a href="#section-16.3-2.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.3-2.4">
-            <p id="section-16.3-2.4.1">Reference: [RFC-XXXX] (<a href="#sec-new-key" class="auto internal xref">Section 9.2</a>)<a href="#section-16.3-2.4.1" class="pilcrow">¶</a></p>
+            <p id="section-16.3-2.4.1">Reference: [RFC-XXXX]<a href="#section-16.3-2.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <p id="section-16.3-3"><br></p>
@@ -3846,13 +3852,13 @@ The Group Manager performs a rekeying when one or more members leave the group, 
             <p id="section-16.3-4.1.1">Name: ecdh_info<a href="#section-16.3-4.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.3-4.2">
-            <p id="section-16.3-4.2.1">CBOR Key: TBD<a href="#section-16.3-4.2.1" class="pilcrow">¶</a></p>
+            <p id="section-16.3-4.2.1">CBOR Key: 31<a href="#section-16.3-4.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.3-4.3">
-            <p id="section-16.3-4.3.1">CBOR Type: Array<a href="#section-16.3-4.3.1" class="pilcrow">¶</a></p>
+            <p id="section-16.3-4.3.1">CBOR Type: array<a href="#section-16.3-4.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.3-4.4">
-            <p id="section-16.3-4.4.1">Reference: [RFC-XXXX] (<a href="#ssec-join-req-processing" class="auto internal xref">Section 6.2</a>)<a href="#section-16.3-4.4.1" class="pilcrow">¶</a></p>
+            <p id="section-16.3-4.4.1">Reference: [RFC-XXXX]<a href="#section-16.3-4.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <p id="section-16.3-5"><br></p>
@@ -3861,13 +3867,13 @@ The Group Manager performs a rekeying when one or more members leave the group, 
             <p id="section-16.3-6.1.1">Name: kdc_dh_creds<a href="#section-16.3-6.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.3-6.2">
-            <p id="section-16.3-6.2.1">CBOR Key: TBD<a href="#section-16.3-6.2.1" class="pilcrow">¶</a></p>
+            <p id="section-16.3-6.2.1">CBOR Key: 32<a href="#section-16.3-6.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.3-6.3">
-            <p id="section-16.3-6.3.1">CBOR Type: Array<a href="#section-16.3-6.3.1" class="pilcrow">¶</a></p>
+            <p id="section-16.3-6.3.1">CBOR Type: array<a href="#section-16.3-6.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.3-6.4">
-            <p id="section-16.3-6.4.1">Reference: [RFC-XXXX] (<a href="#ssec-join-req-processing" class="auto internal xref">Section 6.2</a>)<a href="#section-16.3-6.4.1" class="pilcrow">¶</a></p>
+            <p id="section-16.3-6.4.1">Reference: [RFC-XXXX]<a href="#section-16.3-6.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <p id="section-16.3-7"><br></p>
@@ -3876,13 +3882,13 @@ The Group Manager performs a rekeying when one or more members leave the group, 
             <p id="section-16.3-8.1.1">Name: sign_enc_key<a href="#section-16.3-8.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.3-8.2">
-            <p id="section-16.3-8.2.1">CBOR Key: TBD<a href="#section-16.3-8.2.1" class="pilcrow">¶</a></p>
+            <p id="section-16.3-8.2.1">CBOR Key: 33<a href="#section-16.3-8.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.3-8.3">
-            <p id="section-16.3-8.3.1">CBOR Type: Byte string<a href="#section-16.3-8.3.1" class="pilcrow">¶</a></p>
+            <p id="section-16.3-8.3.1">CBOR Type: bstr<a href="#section-16.3-8.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.3-8.4">
-            <p id="section-16.3-8.4.1">Reference: [RFC-XXXX] (<a href="#verif-data-get" class="auto internal xref">Section 8.2.1</a>)<a href="#section-16.3-8.4.1" class="pilcrow">¶</a></p>
+            <p id="section-16.3-8.4.1">Reference: [RFC-XXXX]<a href="#section-16.3-8.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <p id="section-16.3-9"><br></p>
@@ -3891,13 +3897,13 @@ The Group Manager performs a rekeying when one or more members leave the group, 
             <p id="section-16.3-10.1.1">Name: stale_node_ids<a href="#section-16.3-10.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.3-10.2">
-            <p id="section-16.3-10.2.1">CBOR Key: TBD<a href="#section-16.3-10.2.1" class="pilcrow">¶</a></p>
+            <p id="section-16.3-10.2.1">CBOR Key: 34<a href="#section-16.3-10.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.3-10.3">
-            <p id="section-16.3-10.3.1">CBOR Type: Array<a href="#section-16.3-10.3.1" class="pilcrow">¶</a></p>
+            <p id="section-16.3-10.3.1">CBOR Type: array<a href="#section-16.3-10.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.3-10.4">
-            <p id="section-16.3-10.4.1">Reference: [RFC-XXXX] (<a href="#sec-group-rekeying-process" class="auto internal xref">Section 11</a>)<a href="#section-16.3-10.4.1" class="pilcrow">¶</a></p>
+            <p id="section-16.3-10.4.1">Reference: [RFC-XXXX]<a href="#section-16.3-10.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
@@ -3907,7 +3913,7 @@ The Group Manager performs a rekeying when one or more members leave the group, 
         <h3 id="name-ace-groupcomm-key-types">
 <a href="#section-16.4" class="section-number selfRef">16.4. </a><a href="#name-ace-groupcomm-key-types" class="section-name selfRef">ACE Groupcomm Key Types</a>
         </h3>
-<p id="section-16.4-1">IANA is asked to register the following entry to the "ACE Groupcomm Key Types" registry defined in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-11.8" class="relref">Section 11.8</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>.<a href="#section-16.4-1" class="pilcrow">¶</a></p>
+<p id="section-16.4-1">IANA is asked to register the following entry in the "ACE Groupcomm Key Types" registry defined in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-11.8" class="relref">Section 11.8</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>.<a href="#section-16.4-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-16.4-2.1">
             <p id="section-16.4-2.1.1">Name: Group_OSCORE_Input_Material object<a href="#section-16.4-2.1.1" class="pilcrow">¶</a></p>
@@ -3922,7 +3928,7 @@ The Group Manager performs a rekeying when one or more members leave the group, 
             <p id="section-16.4-2.4.1">Description: A Group_OSCORE_Input_Material object encoded as described in <a href="#ssec-join-resp" class="auto internal xref">Section 6.3</a> of this document.<a href="#section-16.4-2.4.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.4-2.5">
-            <p id="section-16.4-2.5.1">Reference: [RFC-XXXX] (<a href="#ssec-join-resp" class="auto internal xref">Section 6.3</a>)<a href="#section-16.4-2.5.1" class="pilcrow">¶</a></p>
+            <p id="section-16.4-2.5.1">Reference: [RFC-XXXX]<a href="#section-16.4-2.5.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
@@ -3932,7 +3938,7 @@ The Group Manager performs a rekeying when one or more members leave the group, 
         <h3 id="name-ace-groupcomm-profiles">
 <a href="#section-16.5" class="section-number selfRef">16.5. </a><a href="#name-ace-groupcomm-profiles" class="section-name selfRef">ACE Groupcomm Profiles</a>
         </h3>
-<p id="section-16.5-1">IANA is asked to register the following entry to the "ACE Groupcomm Profiles" registry defined in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-11.9" class="relref">Section 11.9</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>.<a href="#section-16.5-1" class="pilcrow">¶</a></p>
+<p id="section-16.5-1">IANA is asked to register the following entry in the "ACE Groupcomm Profiles" registry defined in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-11.9" class="relref">Section 11.9</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>.<a href="#section-16.5-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-16.5-2.1">
             <p id="section-16.5-2.1.1">Name: coap_group_oscore_app<a href="#section-16.5-2.1.1" class="pilcrow">¶</a></p>
@@ -3944,7 +3950,7 @@ The Group Manager performs a rekeying when one or more members leave the group, 
             <p id="section-16.5-2.3.1">CBOR Value: PROFILE_TBD<a href="#section-16.5-2.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.5-2.4">
-            <p id="section-16.5-2.4.1">Reference: [RFC-XXXX] (<a href="#ssec-join-resp" class="auto internal xref">Section 6.3</a>)<a href="#section-16.5-2.4.1" class="pilcrow">¶</a></p>
+            <p id="section-16.5-2.4.1">Reference: [RFC-XXXX]<a href="#section-16.5-2.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
@@ -3960,10 +3966,10 @@ The Group Manager performs a rekeying when one or more members leave the group, 
             <p id="section-16.6-2.1.1">Name: group_SenderId<a href="#section-16.6-2.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.6-2.2">
-            <p id="section-16.6-2.2.1">CBOR Label: TBD<a href="#section-16.6-2.2.1" class="pilcrow">¶</a></p>
+            <p id="section-16.6-2.2.1">CBOR Label: 7<a href="#section-16.6-2.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.6-2.3">
-            <p id="section-16.6-2.3.1">CBOR Type: Byte string<a href="#section-16.6-2.3.1" class="pilcrow">¶</a></p>
+            <p id="section-16.6-2.3.1">CBOR Type: byte string<a href="#section-16.6-2.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.6-2.4">
             <p id="section-16.6-2.4.1">Registry: -<a href="#section-16.6-2.4.1" class="pilcrow">¶</a></p>
@@ -3972,7 +3978,7 @@ The Group Manager performs a rekeying when one or more members leave the group, 
             <p id="section-16.6-2.5.1">Description: OSCORE Sender ID assigned to a member of an OSCORE group<a href="#section-16.6-2.5.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.6-2.6">
-            <p id="section-16.6-2.6.1">Reference: [RFC-XXXX] (<a href="#ssec-join-resp" class="auto internal xref">Section 6.3</a>)<a href="#section-16.6-2.6.1" class="pilcrow">¶</a></p>
+            <p id="section-16.6-2.6.1">Reference: [RFC-XXXX]<a href="#section-16.6-2.6.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <p id="section-16.6-3"><br></p>
@@ -3981,19 +3987,19 @@ The Group Manager performs a rekeying when one or more members leave the group, 
             <p id="section-16.6-4.1.1">Name: cred_fmt<a href="#section-16.6-4.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.6-4.2">
-            <p id="section-16.6-4.2.1">CBOR Label: TBD<a href="#section-16.6-4.2.1" class="pilcrow">¶</a></p>
+            <p id="section-16.6-4.2.1">CBOR Label: 8<a href="#section-16.6-4.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.6-4.3">
-            <p id="section-16.6-4.3.1">CBOR Type: Integer<a href="#section-16.6-4.3.1" class="pilcrow">¶</a></p>
+            <p id="section-16.6-4.3.1">CBOR Type: integer<a href="#section-16.6-4.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.6-4.4">
-            <p id="section-16.6-4.4.1">Registry: COSE Header Parameters<a href="#section-16.6-4.4.1" class="pilcrow">¶</a></p>
+            <p id="section-16.6-4.4.1">Registry: <span>[<a href="#COSE.Header.Parameters" class="cite xref">COSE.Header.Parameters</a>]</span> Labels (integer)<a href="#section-16.6-4.4.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.6-4.5">
             <p id="section-16.6-4.5.1">Description: Format of authentication credentials to be used in the OSCORE group<a href="#section-16.6-4.5.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.6-4.6">
-            <p id="section-16.6-4.6.1">Reference: [RFC-XXXX] (<a href="#ssec-join-resp" class="auto internal xref">Section 6.3</a>)<a href="#section-16.6-4.6.1" class="pilcrow">¶</a></p>
+            <p id="section-16.6-4.6.1">Reference: [RFC-XXXX]<a href="#section-16.6-4.6.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <p id="section-16.6-5"><br></p>
@@ -4002,19 +4008,19 @@ The Group Manager performs a rekeying when one or more members leave the group, 
             <p id="section-16.6-6.1.1">Name: gp_enc_alg<a href="#section-16.6-6.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.6-6.2">
-            <p id="section-16.6-6.2.1">CBOR Label: TBD<a href="#section-16.6-6.2.1" class="pilcrow">¶</a></p>
+            <p id="section-16.6-6.2.1">CBOR Label: 9<a href="#section-16.6-6.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.6-6.3">
-            <p id="section-16.6-6.3.1">CBOR Type: Text string / Integer<a href="#section-16.6-6.3.1" class="pilcrow">¶</a></p>
+            <p id="section-16.6-6.3.1">CBOR Type: text string / integer<a href="#section-16.6-6.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.6-6.4">
-            <p id="section-16.6-6.4.1">Registry: COSE Algorithms<a href="#section-16.6-6.4.1" class="pilcrow">¶</a></p>
+            <p id="section-16.6-6.4.1">Registry: <span>[<a href="#COSE.Algorithms" class="cite xref">COSE.Algorithms</a>]</span> Values<a href="#section-16.6-6.4.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.6-6.5">
             <p id="section-16.6-6.5.1">Description: OSCORE Group Encryption Algorithm Value<a href="#section-16.6-6.5.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.6-6.6">
-            <p id="section-16.6-6.6.1">Reference: [RFC-XXXX] (<a href="#ssec-join-resp" class="auto internal xref">Section 6.3</a>)<a href="#section-16.6-6.6.1" class="pilcrow">¶</a></p>
+            <p id="section-16.6-6.6.1">Reference: [RFC-XXXX]<a href="#section-16.6-6.6.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <p id="section-16.6-7"><br></p>
@@ -4023,19 +4029,19 @@ The Group Manager performs a rekeying when one or more members leave the group, 
             <p id="section-16.6-8.1.1">Name: sign_alg<a href="#section-16.6-8.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.6-8.2">
-            <p id="section-16.6-8.2.1">CBOR Label: TBD<a href="#section-16.6-8.2.1" class="pilcrow">¶</a></p>
+            <p id="section-16.6-8.2.1">CBOR Label: 10<a href="#section-16.6-8.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.6-8.3">
-            <p id="section-16.6-8.3.1">CBOR Type: Text string / Integer<a href="#section-16.6-8.3.1" class="pilcrow">¶</a></p>
+            <p id="section-16.6-8.3.1">CBOR Type: text string / integer<a href="#section-16.6-8.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.6-8.4">
-            <p id="section-16.6-8.4.1">Registry: COSE Algorithms<a href="#section-16.6-8.4.1" class="pilcrow">¶</a></p>
+            <p id="section-16.6-8.4.1">Registry: <span>[<a href="#COSE.Algorithms" class="cite xref">COSE.Algorithms</a>]</span> Values<a href="#section-16.6-8.4.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.6-8.5">
             <p id="section-16.6-8.5.1">Description: OSCORE Signature Algorithm Value<a href="#section-16.6-8.5.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.6-8.6">
-            <p id="section-16.6-8.6.1">Reference: [RFC-XXXX] (<a href="#ssec-join-resp" class="auto internal xref">Section 6.3</a>)<a href="#section-16.6-8.6.1" class="pilcrow">¶</a></p>
+            <p id="section-16.6-8.6.1">Reference: [RFC-XXXX]<a href="#section-16.6-8.6.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <p id="section-16.6-9"><br></p>
@@ -4044,19 +4050,19 @@ The Group Manager performs a rekeying when one or more members leave the group, 
             <p id="section-16.6-10.1.1">Name: sign_params<a href="#section-16.6-10.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.6-10.2">
-            <p id="section-16.6-10.2.1">CBOR Label: TBD<a href="#section-16.6-10.2.1" class="pilcrow">¶</a></p>
+            <p id="section-16.6-10.2.1">CBOR Label: 11<a href="#section-16.6-10.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.6-10.3">
-            <p id="section-16.6-10.3.1">CBOR Type: Array<a href="#section-16.6-10.3.1" class="pilcrow">¶</a></p>
+            <p id="section-16.6-10.3.1">CBOR Type: array<a href="#section-16.6-10.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.6-10.4">
-            <p id="section-16.6-10.4.1">Registry: COSE Algorithms, COSE Key Types, COSE Elliptic Curves<a href="#section-16.6-10.4.1" class="pilcrow">¶</a></p>
+            <p id="section-16.6-10.4.1">Registry: <span>[<a href="#COSE.Algorithms" class="cite xref">COSE.Algorithms</a>]</span> Capabilities, <span>[<a href="#COSE.Key.Types" class="cite xref">COSE.Key.Types</a>]</span> Capabilities, <span>[<a href="#COSE.Elliptic.Curves" class="cite xref">COSE.Elliptic.Curves</a>]</span> Values<a href="#section-16.6-10.4.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.6-10.5">
             <p id="section-16.6-10.5.1">Description: OSCORE Signature Algorithm Parameters<a href="#section-16.6-10.5.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.6-10.6">
-            <p id="section-16.6-10.6.1">Reference: [RFC-XXXX] (<a href="#ssec-join-resp" class="auto internal xref">Section 6.3</a>)<a href="#section-16.6-10.6.1" class="pilcrow">¶</a></p>
+            <p id="section-16.6-10.6.1">Reference: [RFC-XXXX]<a href="#section-16.6-10.6.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <p id="section-16.6-11"><br></p>
@@ -4065,19 +4071,19 @@ The Group Manager performs a rekeying when one or more members leave the group, 
             <p id="section-16.6-12.1.1">Name: ecdh_alg<a href="#section-16.6-12.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.6-12.2">
-            <p id="section-16.6-12.2.1">CBOR Label: TBD<a href="#section-16.6-12.2.1" class="pilcrow">¶</a></p>
+            <p id="section-16.6-12.2.1">CBOR Label: 12<a href="#section-16.6-12.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.6-12.3">
-            <p id="section-16.6-12.3.1">CBOR Type: Text string / Integer<a href="#section-16.6-12.3.1" class="pilcrow">¶</a></p>
+            <p id="section-16.6-12.3.1">CBOR Type: text string / integer<a href="#section-16.6-12.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.6-12.4">
-            <p id="section-16.6-12.4.1">Registry: COSE Algorithms<a href="#section-16.6-12.4.1" class="pilcrow">¶</a></p>
+            <p id="section-16.6-12.4.1">Registry: <span>[<a href="#COSE.Algorithms" class="cite xref">COSE.Algorithms</a>]</span> Values<a href="#section-16.6-12.4.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.6-12.5">
             <p id="section-16.6-12.5.1">Description: OSCORE Pairwise Key Agreement Algorithm Value<a href="#section-16.6-12.5.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.6-12.6">
-            <p id="section-16.6-12.6.1">Reference: [RFC-XXXX] (<a href="#ssec-join-resp" class="auto internal xref">Section 6.3</a>)<a href="#section-16.6-12.6.1" class="pilcrow">¶</a></p>
+            <p id="section-16.6-12.6.1">Reference: [RFC-XXXX]<a href="#section-16.6-12.6.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <p id="section-16.6-13"><br></p>
@@ -4086,19 +4092,19 @@ The Group Manager performs a rekeying when one or more members leave the group, 
             <p id="section-16.6-14.1.1">Name: ecdh_params<a href="#section-16.6-14.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.6-14.2">
-            <p id="section-16.6-14.2.1">CBOR Label: TBD<a href="#section-16.6-14.2.1" class="pilcrow">¶</a></p>
+            <p id="section-16.6-14.2.1">CBOR Label: 13<a href="#section-16.6-14.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.6-14.3">
-            <p id="section-16.6-14.3.1">CBOR Type: Array<a href="#section-16.6-14.3.1" class="pilcrow">¶</a></p>
+            <p id="section-16.6-14.3.1">CBOR Type: array<a href="#section-16.6-14.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.6-14.4">
-            <p id="section-16.6-14.4.1">Registry: COSE Algorithms, COSE Key Types, COSE Elliptic Curves<a href="#section-16.6-14.4.1" class="pilcrow">¶</a></p>
+            <p id="section-16.6-14.4.1">Registry: <span>[<a href="#COSE.Algorithms" class="cite xref">COSE.Algorithms</a>]</span> Capabilities, <span>[<a href="#COSE.Key.Types" class="cite xref">COSE.Key.Types</a>]</span> Capabilities, <span>[<a href="#COSE.Elliptic.Curves" class="cite xref">COSE.Elliptic.Curves</a>]</span> Values<a href="#section-16.6-14.4.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.6-14.5">
             <p id="section-16.6-14.5.1">Description: OSCORE Pairwise Key Agreement Algorithm Parameters<a href="#section-16.6-14.5.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.6-14.6">
-            <p id="section-16.6-14.6.1">Reference: [RFC-XXXX] (<a href="#ssec-join-resp" class="auto internal xref">Section 6.3</a>)<a href="#section-16.6-14.6.1" class="pilcrow">¶</a></p>
+            <p id="section-16.6-14.6.1">Reference: [RFC-XXXX]<a href="#section-16.6-14.6.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
@@ -4108,7 +4114,7 @@ The Group Manager performs a rekeying when one or more members leave the group, 
         <h3 id="name-tls-exporter-labels">
 <a href="#section-16.7" class="section-number selfRef">16.7. </a><a href="#name-tls-exporter-labels" class="section-name selfRef">TLS Exporter Labels</a>
         </h3>
-<p id="section-16.7-1">IANA is asked to register the following entry to the "TLS Exporter Labels" registry defined in <span><a href="https://rfc-editor.org/rfc/rfc5705#section-6" class="relref">Section 6</a> of [<a href="#RFC5705" class="cite xref">RFC5705</a>]</span> and updated in <span><a href="https://rfc-editor.org/rfc/rfc8447#section-12" class="relref">Section 12</a> of [<a href="#RFC8447" class="cite xref">RFC8447</a>]</span>.<a href="#section-16.7-1" class="pilcrow">¶</a></p>
+<p id="section-16.7-1">IANA is asked to register the following entry in the "TLS Exporter Labels" registry defined in <span><a href="https://rfc-editor.org/rfc/rfc5705#section-6" class="relref">Section 6</a> of [<a href="#RFC5705" class="cite xref">RFC5705</a>]</span> and updated in <span><a href="https://rfc-editor.org/rfc/rfc8447#section-12" class="relref">Section 12</a> of [<a href="#RFC8447" class="cite xref">RFC8447</a>]</span>.<a href="#section-16.7-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-16.7-2.1">
             <p id="section-16.7-2.1.1">Value: EXPORTER-ACE-Pop-Input-coap-group-oscore-app<a href="#section-16.7-2.1.1" class="pilcrow">¶</a></p>
@@ -4120,7 +4126,7 @@ The Group Manager performs a rekeying when one or more members leave the group, 
             <p id="section-16.7-2.3.1">Recommended: N<a href="#section-16.7-2.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.7-2.4">
-            <p id="section-16.7-2.4.1">Reference: [RFC-XXXX] (<a href="#sssec-challenge-value" class="auto internal xref">Section 6.1.1</a>)<a href="#section-16.7-2.4.1" class="pilcrow">¶</a></p>
+            <p id="section-16.7-2.4.1">Reference: [RFC-XXXX]<a href="#section-16.7-2.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
@@ -4167,13 +4173,13 @@ The Group Manager performs a rekeying when one or more members leave the group, 
         <h3 id="name-coap-content-formats">
 <a href="#section-16.9" class="section-number selfRef">16.9. </a><a href="#name-coap-content-formats" class="section-name selfRef">CoAP Content-Formats</a>
         </h3>
-<p id="section-16.9-1">IANA is asked to register the following entries to the "CoAP Content-Formats" registry within the "Constrained RESTful Environments (CoRE) Parameters" registry group.<a href="#section-16.9-1" class="pilcrow">¶</a></p>
+<p id="section-16.9-1">IANA is asked to register the following entries in the "CoAP Content-Formats" registry within the "Constrained RESTful Environments (CoRE) Parameters" registry group.<a href="#section-16.9-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-16.9-2.1">
-            <p id="section-16.9-2.1.1">Media Type: application/aif+cbor;Toid="oscore-gname",Tperm="oscore-gperm"<a href="#section-16.9-2.1.1" class="pilcrow">¶</a></p>
+            <p id="section-16.9-2.1.1">Content Type: application/aif+cbor;Toid="oscore-gname",Tperm="oscore-gperm"<a href="#section-16.9-2.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.9-2.2">
-            <p id="section-16.9-2.2.1">Encoding: -<a href="#section-16.9-2.2.1" class="pilcrow">¶</a></p>
+            <p id="section-16.9-2.2.1">Content Coding: -<a href="#section-16.9-2.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.9-2.3">
             <p id="section-16.9-2.3.1">ID: 292 (suggested)<a href="#section-16.9-2.3.1" class="pilcrow">¶</a></p>
@@ -4185,10 +4191,10 @@ The Group Manager performs a rekeying when one or more members leave the group, 
 <p id="section-16.9-3"><br></p>
 <ul class="normal">
 <li class="normal" id="section-16.9-4.1">
-            <p id="section-16.9-4.1.1">Media Type: application/aif+json;Toid="oscore-gname",Tperm="oscore-gperm"<a href="#section-16.9-4.1.1" class="pilcrow">¶</a></p>
+            <p id="section-16.9-4.1.1">Content Type: application/aif+json;Toid="oscore-gname",Tperm="oscore-gperm"<a href="#section-16.9-4.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.9-4.2">
-            <p id="section-16.9-4.2.1">Encoding: -<a href="#section-16.9-4.2.1" class="pilcrow">¶</a></p>
+            <p id="section-16.9-4.2.1">Content Coding: -<a href="#section-16.9-4.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.9-4.3">
             <p id="section-16.9-4.3.1">ID: 293 (suggested)<a href="#section-16.9-4.3.1" class="pilcrow">¶</a></p>
@@ -4199,93 +4205,92 @@ The Group Manager performs a rekeying when one or more members leave the group, 
         </ul>
 </section>
 </div>
-<div id="ssec-iana-group-oscore-roles-registry">
+<div id="iana-rt">
 <section id="section-16.10">
-        <h3 id="name-group-oscore-roles">
-<a href="#section-16.10" class="section-number selfRef">16.10. </a><a href="#name-group-oscore-roles" class="section-name selfRef">Group OSCORE Roles</a>
+        <h3 id="name-core-resource-type">
+<a href="#section-16.10" class="section-number selfRef">16.10. </a><a href="#name-core-resource-type" class="section-name selfRef">CoRE Resource Type</a>
         </h3>
-<p id="section-16.10-1">This document establishes the IANA "Group OSCORE Roles" registry. The registry has been created to use the "Expert Review" registration procedure <span>[<a href="#RFC8126" class="cite xref">RFC8126</a>]</span>. Expert review guidelines are provided in <a href="#ssec-iana-expert-review" class="auto internal xref">Section 16.13</a>.<a href="#section-16.10-1" class="pilcrow">¶</a></p>
-<p id="section-16.10-2">This registry includes the possible roles that nodes can take in an OSCORE group, each in combination with a numeric identifier. These numeric identifiers are used to express authorization information about joining OSCORE groups, as specified in <a href="#sec-format-scope" class="auto internal xref">Section 3</a> of [RFC-XXXX].<a href="#section-16.10-2" class="pilcrow">¶</a></p>
-<p id="section-16.10-3">The columns of this registry are:<a href="#section-16.10-3" class="pilcrow">¶</a></p>
+<p id="section-16.10-1">IANA is asked to register the following entry in the "Resource Type (rt=) Link Target Attribute Values" registry within the "Constrained Restful Environments (CoRE) Parameters" registry group.<a href="#section-16.10-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-16.10-4.1">
-            <p id="section-16.10-4.1.1">Name: A value that can be used in documents for easier comprehension, to identify a possible role that nodes can take in an OSCORE group.<a href="#section-16.10-4.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-16.10-2.1">
+            <p id="section-16.10-2.1.1">Value: "core.osc.gm"<a href="#section-16.10-2.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-16.10-4.2">
-            <p id="section-16.10-4.2.1">Value: The numeric identifier for this role. Integer values greater than 65535 are marked as "Private Use", all other values use the registration policy "Expert Review" <span>[<a href="#RFC8126" class="cite xref">RFC8126</a>]</span>.<a href="#section-16.10-4.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-16.10-2.2">
+            <p id="section-16.10-2.2.1">Description: Group-membership resource of an OSCORE Group Manager.<a href="#section-16.10-2.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-16.10-4.3">
-            <p id="section-16.10-4.3.1">Description: This field contains a brief description of the role.<a href="#section-16.10-4.3.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-16.10-4.4">
-            <p id="section-16.10-4.4.1">Reference: This contains a pointer to the public specification for the role.<a href="#section-16.10-4.4.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-16.10-2.3">
+            <p id="section-16.10-2.3.1">Reference: [RFC-XXXX]<a href="#section-16.10-2.3.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-16.10-5">This registry will be initially populated by the values in <a href="#tab-role-values" class="auto internal xref">Table 1</a>.<a href="#section-16.10-5" class="pilcrow">¶</a></p>
-<p id="section-16.10-6">The Reference column for all of these entries will be [RFC-XXXX].<a href="#section-16.10-6" class="pilcrow">¶</a></p>
+<p id="section-16.10-3">Client applications can use this resource type to discover a group membership resource at an OSCORE Group Manager, where to send a request for joining the corresponding OSCORE group.<a href="#section-16.10-3" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="iana-rt">
+<div id="iana-ace-groupcomm-errors">
 <section id="section-16.11">
-        <h3 id="name-core-resource-type">
-<a href="#section-16.11" class="section-number selfRef">16.11. </a><a href="#name-core-resource-type" class="section-name selfRef">CoRE Resource Type</a>
+        <h3 id="name-ace-groupcomm-errors">
+<a href="#section-16.11" class="section-number selfRef">16.11. </a><a href="#name-ace-groupcomm-errors" class="section-name selfRef">ACE Groupcomm Errors</a>
         </h3>
-<p id="section-16.11-1">IANA is asked to register the following entry in the "Resource Type (rt=) Link Target Attribute Values" registry within the "Constrained Restful Environments (CoRE) Parameters" registry group.<a href="#section-16.11-1" class="pilcrow">¶</a></p>
+<p id="section-16.11-1">IANA is asked to register the following entries in the "ACE Groupcomm Errors" registry defined in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-11.12" class="relref">Section 11.12</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>.<a href="#section-16.11-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-16.11-2.1">
-            <p id="section-16.11-2.1.1">Value: "core.osc.gm"<a href="#section-16.11-2.1.1" class="pilcrow">¶</a></p>
+            <p id="section-16.11-2.1.1">Value: 7<a href="#section-16.11-2.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.11-2.2">
-            <p id="section-16.11-2.2.1">Description: Group-membership resource of an OSCORE Group Manager.<a href="#section-16.11-2.2.1" class="pilcrow">¶</a></p>
+            <p id="section-16.11-2.2.1">Description: Signatures not used in the group.<a href="#section-16.11-2.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.11-2.3">
             <p id="section-16.11-2.3.1">Reference: [RFC-XXXX]<a href="#section-16.11-2.3.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-16.11-3">Client applications can use this resource type to discover a group membership resource at an OSCORE Group Manager, where to send a request for joining the corresponding OSCORE group.<a href="#section-16.11-3" class="pilcrow">¶</a></p>
+<p id="section-16.11-3"><br></p>
+<ul class="normal">
+<li class="normal" id="section-16.11-4.1">
+            <p id="section-16.11-4.1.1">Value: 8<a href="#section-16.11-4.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-16.11-4.2">
+            <p id="section-16.11-4.2.1">Description: Operation permitted only to signature verifiers.<a href="#section-16.11-4.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-16.11-4.3">
+            <p id="section-16.11-4.3.1">Reference: [RFC-XXXX]<a href="#section-16.11-4.3.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+<p id="section-16.11-5"><br></p>
+<ul class="normal">
+<li class="normal" id="section-16.11-6.1">
+            <p id="section-16.11-6.1.1">Value: 9<a href="#section-16.11-6.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-16.11-6.2">
+            <p id="section-16.11-6.2.1">Description: Group currently not active.<a href="#section-16.11-6.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-16.11-6.3">
+            <p id="section-16.11-6.3.1">Reference: [RFC-XXXX]<a href="#section-16.11-6.3.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
 </section>
 </div>
-<div id="iana-ace-groupcomm-errors">
+<div id="ssec-iana-group-oscore-roles-registry">
 <section id="section-16.12">
-        <h3 id="name-ace-groupcomm-errors">
-<a href="#section-16.12" class="section-number selfRef">16.12. </a><a href="#name-ace-groupcomm-errors" class="section-name selfRef">ACE Groupcomm Errors</a>
+        <h3 id="name-group-oscore-roles">
+<a href="#section-16.12" class="section-number selfRef">16.12. </a><a href="#name-group-oscore-roles" class="section-name selfRef">Group OSCORE Roles</a>
         </h3>
-<p id="section-16.12-1">IANA is asked to register the following entries in the "ACE Groupcomm Errors" registry defined in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-11.12" class="relref">Section 11.12</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>.<a href="#section-16.12-1" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-16.12-2.1">
-            <p id="section-16.12-2.1.1">Value: 7<a href="#section-16.12-2.1.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-16.12-2.2">
-            <p id="section-16.12-2.2.1">Description: Signatures not used in the group.<a href="#section-16.12-2.2.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-16.12-2.3">
-            <p id="section-16.12-2.3.1">Reference: [RFC-XXXX]<a href="#section-16.12-2.3.1" class="pilcrow">¶</a></p>
-</li>
-        </ul>
-<p id="section-16.12-3"><br></p>
+<p id="section-16.12-1">This document establishes the IANA "Group OSCORE Roles" registry. The registry has been created to use the "Expert Review" registration procedure <span>[<a href="#RFC8126" class="cite xref">RFC8126</a>]</span>. Expert review guidelines are provided in <a href="#ssec-iana-expert-review" class="auto internal xref">Section 16.13</a>.<a href="#section-16.12-1" class="pilcrow">¶</a></p>
+<p id="section-16.12-2">This registry includes the possible roles that nodes can take in an OSCORE group, each in combination with a numeric identifier. These numeric identifiers are used to express authorization information about joining OSCORE groups, as specified in <a href="#sec-format-scope" class="auto internal xref">Section 3</a> of [RFC-XXXX].<a href="#section-16.12-2" class="pilcrow">¶</a></p>
+<p id="section-16.12-3">The columns of this registry are:<a href="#section-16.12-3" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-16.12-4.1">
-            <p id="section-16.12-4.1.1">Value: 8<a href="#section-16.12-4.1.1" class="pilcrow">¶</a></p>
+            <p id="section-16.12-4.1.1">Name: A value that can be used in documents for easier comprehension, to identify a possible role that nodes can take in an OSCORE group.<a href="#section-16.12-4.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.12-4.2">
-            <p id="section-16.12-4.2.1">Description: Operation permitted only to signature verifiers.<a href="#section-16.12-4.2.1" class="pilcrow">¶</a></p>
+            <p id="section-16.12-4.2.1">Value: The numeric identifier for this role. Integer values greater than 65535 are marked as "Private Use", all other values use the registration policy "Expert Review" <span>[<a href="#RFC8126" class="cite xref">RFC8126</a>]</span>.<a href="#section-16.12-4.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.12-4.3">
-            <p id="section-16.12-4.3.1">Reference: [RFC-XXXX]<a href="#section-16.12-4.3.1" class="pilcrow">¶</a></p>
+            <p id="section-16.12-4.3.1">Description: This field contains a brief description of the role.<a href="#section-16.12-4.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-16.12-4.4">
+            <p id="section-16.12-4.4.1">Reference: This contains a pointer to the public specification for the role.<a href="#section-16.12-4.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-16.12-5"><br></p>
-<ul class="normal">
-<li class="normal" id="section-16.12-6.1">
-            <p id="section-16.12-6.1.1">Value: 9<a href="#section-16.12-6.1.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-16.12-6.2">
-            <p id="section-16.12-6.2.1">Description: Group currently not active.<a href="#section-16.12-6.2.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-16.12-6.3">
-            <p id="section-16.12-6.3.1">Reference: [RFC-XXXX]<a href="#section-16.12-6.3.1" class="pilcrow">¶</a></p>
-</li>
-        </ul>
+<p id="section-16.12-5">This registry will be initially populated by the values in <a href="#tab-role-values" class="auto internal xref">Table 1</a>. The Reference column for all of these entries will be [RFC-XXXX].<a href="#section-16.12-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="ssec-iana-expert-review">
@@ -4305,7 +4310,7 @@ Entries that do not meet these objectives of clarity and completeness should not
             <p id="section-16.13-3.2.1">Duplicated registration and point squatting should be discouraged. Reviewers are encouraged to get sufficient information for registration requests to ensure that the usage is not going to duplicate one that is already registered and that the point is likely to be used in deployments.<a href="#section-16.13-3.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.13-3.3">
-            <p id="section-16.13-3.3.1">Experts should take into account the expected usage of roles when approving point assignments. Given a 'Value' V as code point, the length of the encoding of (2^(V+1) - 1) should be weighed against the usage of the entry, considering the resources and capabilities of devices it will be used on. Additionally, given a 'Value' V as code point, the length of the encoding of (2^(V+1) - 1) should be weighed against how many code points resulting in that encoding length are left, and the resources and capabilities of devices it will be used on.<a href="#section-16.13-3.3.1" class="pilcrow">¶</a></p>
+            <p id="section-16.13-3.3.1">Experts should take into account the expected usage of roles when approving point assignments. Given a 'Value' V as code point, the length of the encoding of (2<sup>V+1</sup> - 1) should be weighed against the usage of the entry, considering the resources and capabilities of devices it will be used on. Additionally, given a 'Value' V as code point, the length of the encoding of (2<sup>(V+1)</sup> - 1) should be weighed against how many code points resulting in that encoding length are left, and the resources and capabilities of devices it will be used on.<a href="#section-16.13-3.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.13-3.4">
             <p id="section-16.13-3.4.1">Specifications are recommended. When specifications are not provided, the description provided needs to have sufficient information to verify the points above.<a href="#section-16.13-3.4.1" class="pilcrow">¶</a></p>
@@ -4552,7 +4557,7 @@ Entries that do not meet these objectives of clarity and completeness should not
             <p id="appendix-A.1-1.9.1">REQ9: Specify if any part of the KDC interface as defined in <span>[<a href="#RFC9594" class="cite xref">RFC9594</a>]</span> is not supported by the KDC: not applicable.<a href="#appendix-A.1-1.9.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-A.1-1.10">
-            <p id="appendix-A.1-1.10.1">REQ10: Register a Resource Type for the group-membership resources, which is used to discover the correct URL for sending a Join Request to the KDC: the Resource Type (rt=) Link Target Attribute value "core.osc.gm" is registered in <a href="#iana-rt" class="auto internal xref">Section 16.11</a>.<a href="#appendix-A.1-1.10.1" class="pilcrow">¶</a></p>
+            <p id="appendix-A.1-1.10.1">REQ10: Register a Resource Type for the group-membership resources, which is used to discover the correct URL for sending a Join Request to the KDC: the Resource Type (rt=) Link Target Attribute value "core.osc.gm" is registered in <a href="#iana-rt" class="auto internal xref">Section 16.10</a>.<a href="#appendix-A.1-1.10.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-A.1-1.11">
             <p id="appendix-A.1-1.11.1">REQ11: Define what specific actions (e.g., CoAP methods) are allowed on each resource accessible through the KDC interface, depending on: whether the Client is a current group member; the roles that a Client is authorized to take as per the obtained access token; and the roles that the Client has as a current group member: see <a href="#ssec-admitted-methods" class="auto internal xref">Section 8.4</a>.<a href="#appendix-A.1-1.11.1" class="pilcrow">¶</a></p>
@@ -4644,7 +4649,7 @@ Entries that do not meet these objectives of clarity and completeness should not
             <p id="appendix-A.2-1.4.1">OPT4: Optionally, specify possible or required payload formats for specific error cases: send a 4.00 (Bad Request) error response to a Join Request (see <a href="#ssec-join-req-processing" class="auto internal xref">Section 6.2</a>).<a href="#appendix-A.2-1.4.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-A.2-1.5">
-            <p id="appendix-A.2-1.5.1">OPT5: Optionally, specify additional identifiers of error types as values of the 'error-id' field within the Custom Problem Detail entry 'ace-groupcomm-error': see <a href="#iana-ace-groupcomm-errors" class="auto internal xref">Section 16.12</a>.<a href="#appendix-A.2-1.5.1" class="pilcrow">¶</a></p>
+            <p id="appendix-A.2-1.5.1">OPT5: Optionally, specify additional identifiers of error types as values of the 'error-id' field within the Custom Problem Detail entry 'ace-groupcomm-error': see <a href="#iana-ace-groupcomm-errors" class="auto internal xref">Section 16.11</a>.<a href="#appendix-A.2-1.5.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-A.2-1.6">
             <p id="appendix-A.2-1.6.1">OPT6: Optionally, specify the encoding of the 'creds_repo' parameter if the default one is not used: no.<a href="#appendix-A.2-1.6.1" class="pilcrow">¶</a></p>
@@ -4885,10 +4890,13 @@ sign_params = 11
             <p id="appendix-D.1-1.16.1">Updated name of TLS exporter label.<a href="#appendix-D.1-1.16.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.17">
-            <p id="appendix-D.1-1.17.1">Aligned requirement formulation with that in RFC 9594.<a href="#appendix-D.1-1.17.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.17.1">Revised IANA considerations.<a href="#appendix-D.1-1.17.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.18">
-            <p id="appendix-D.1-1.18.1">Clarifications and editorial fixes.<a href="#appendix-D.1-1.18.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.18.1">Aligned requirement formulation with that in RFC 9594.<a href="#appendix-D.1-1.18.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-D.1-1.19">
+            <p id="appendix-D.1-1.19.1">Clarifications and editorial fixes.<a href="#appendix-D.1-1.19.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
