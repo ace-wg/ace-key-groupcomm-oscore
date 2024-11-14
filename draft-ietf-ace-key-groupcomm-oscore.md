@@ -967,7 +967,7 @@ The Group Manager MUST return a 5.03 (Service Unavailable) response in case the 
 
 Otherwise, the Group Manager performs one of the following actions.
 
-1. If the requesting group member has exclusively the role of monitor, the Group Manager replies with a 4.03 (Forbidden) error response. The response MUST have Content-Format set to "application/ace-groupcomm+cbor" and is formatted as defined in {{Section 4.1.2 of RFC9594}}. The value of the 'error' field MUST be set to 1 ("Request inconsistent with the current roles").
+1. If the requesting group member has exclusively the role of monitor, the Group Manager replies with a 4.00 (Bad Request) error response. The response MUST have Content-Format set to "application/ace-groupcomm+cbor" and is formatted as defined in {{Section 4.1.2 of RFC9594}}. The value of the 'error' field MUST be set to 1 ("Request inconsistent with the current roles").
 
 2. Otherwise, the Group Manager takes one of the following actions.
 
@@ -2110,6 +2110,8 @@ sign_params = 11
   - 'sign_enc_alg' becomes 'gp_enc_alg'
 
 * Added CBOR integer abbreviations for ACE Groupcomm Parameters.
+
+* Fixed error response code from /ace-group/GROUPNAME/nodes/NODENAME.
 
 * Revised default values on group configuration parameters.
 
