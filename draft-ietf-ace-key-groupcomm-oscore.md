@@ -869,8 +869,7 @@ The table uses the following abbreviations.
 
 * G = CoAP method GET
 * F = CoAP method FETCH
-* Po = CoAP method POST
-* Pu = CoAP method PUT
+* P = CoAP method POST
 * D = CoAP method DELETE
 * Type1 = Member as Requester and/or Responder
 * Type2 = Member as Monitor
@@ -878,29 +877,29 @@ The table uses the following abbreviations.
 * Type4 = Non-member (not authorized to be signature verifier)
 * (*) = Cannot join the group as signature verifier
 
-| Resource                                 | Type1  | Type2 | Type3 | Type4 |
-|------------------------------------------|--------|-------|-------|-------|
-| /ace-group                               | F      | F     | F     | F     |
-|------------------------------------------|--------|-------|-------|-------|
-| /ace-group/GROUPNAME                     | G Po   | G Po  | Po *  | Po    |
-|------------------------------------------|--------|-------|-------|-------|
-| /ace-group/GROUPNAME/active              | G      | G     | -     | -     |
-|------------------------------------------|--------|-------|-------|-------|
-| /ace-group/GROUPNAME/verif-data          | -      | -     | G     | -     |
-|------------------------------------------|--------|-------|-------|-------|
-| /ace-group/GROUPNAME/creds               | G F    | G F   | G F   | -     |
-|------------------------------------------|--------|-------|-------|-------|
-| /ace-group/GROUPNAME/kdc-cred            | G      | G     | G     | -     |
-|------------------------------------------|--------|-------|-------|-------|
-| /ace-group/GROUPNAME/stale-sids          | F      | F     | -     | -     |
-|------------------------------------------|--------|-------|-------|-------|
-| /ace-group/GROUPNAME/policies            | G      | G     | -     | -     |
-|------------------------------------------|--------|-------|-------|-------|
-| /ace-group/GROUPNAME/num                 | G      | G     | -     | -     |
-|------------------------------------------|--------|-------|-------|-------|
-| /ace-group/GROUPNAME/nodes/NODENAME      | G Pu D | G D   | -     | -     |
-|------------------------------------------|--------|-------|-------|-------|
-| /ace-group/GROUPNAME/nodes/NODENAME/cred | Po     | -     | -     | -     |
+| Resource                                 | Type1 | Type2 | Type3 | Type4 |
+|------------------------------------------|-------|-------|-------|-------|
+| /ace-group                               | F     | F     | F     | F     |
+|------------------------------------------|-------|-------|-------|-------|
+| /ace-group/GROUPNAME                     | G P   | G P   | P *   | P     |
+|------------------------------------------|-------|-------|-------|-------|
+| /ace-group/GROUPNAME/active              | G     | G     | -     | -     |
+|------------------------------------------|-------|-------|-------|-------|
+| /ace-group/GROUPNAME/verif-data          | -     | -     | G     | -     |
+|------------------------------------------|-------|-------|-------|-------|
+| /ace-group/GROUPNAME/creds               | G F   | G F   | G F   | -     |
+|------------------------------------------|-------|-------|-------|-------|
+| /ace-group/GROUPNAME/kdc-cred            | G     | G     | G     | -     |
+|------------------------------------------|-------|-------|-------|-------|
+| /ace-group/GROUPNAME/stale-sids          | F     | F     | -     | -     |
+|------------------------------------------|-------|-------|-------|-------|
+| /ace-group/GROUPNAME/policies            | G     | G     | -     | -     |
+|------------------------------------------|-------|-------|-------|-------|
+| /ace-group/GROUPNAME/num                 | G     | G     | -     | -     |
+|------------------------------------------|-------|-------|-------|-------|
+| /ace-group/GROUPNAME/nodes/NODENAME      | G P D | G D   | -     | -     |
+|------------------------------------------|-------|-------|-------|-------|
+| /ace-group/GROUPNAME/nodes/NODENAME/cred | P     | -     | -     | -     |
 {: #tab-methods title="Admitted CoAP Methods on the Group Manager Resources" align="center"}
 
 ### Signature Verifiers
@@ -967,7 +966,7 @@ Upon receiving the Key Distribution Response, the group member retrieves the upd
 
 As discussed in {{Section 2.6.2 of I-D.ietf-core-oscore-groupcomm}}, a group member may at some point exhaust its Sender Sequence Numbers in the OSCORE group.
 
-When this happens, the group member MUST send a Key Renewal Request message to the Group Manager, as per {{Section 4.8.2.1 of RFC9594}}. That is, it sends a CoAP PUT request to the endpoint /ace-group/GROUPNAME/nodes/NODENAME at the Group Manager.
+When this happens, the group member MUST send a Key Renewal Request message to the Group Manager, as per {{Section 4.8.2.1 of RFC9594}}. That is, it sends a CoAP POST request to the endpoint /ace-group/GROUPNAME/nodes/NODENAME at the Group Manager.
 
 Upon receiving the Key Renewal Request, the Group Manager processes it as defined in {{Section 4.8.2 of RFC9594}}, with the following additions.
 
@@ -2134,6 +2133,8 @@ sign_params = 11
 * Clarified meaning of 'cred_fmt'.
 
 * Relation between 'cred_fmt' and Authentication Credential Format.
+
+* PUT becomes POST for for ace-group/GROUPNAME/nodes/NODENAME.
 
 * Fixed error response code from /ace-group/GROUPNAME/nodes/NODENAME.
 
