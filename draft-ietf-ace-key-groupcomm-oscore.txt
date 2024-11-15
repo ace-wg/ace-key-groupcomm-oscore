@@ -5,8 +5,8 @@
 ACE Working Group                                              M. Tiloca
 Internet-Draft                                                   RISE AB
 Intended status: Standards Track                            F. Palombini
-Expires: 18 May 2025                                         Ericsson AB
-                                                        14 November 2024
+Expires: 19 May 2025                                         Ericsson AB
+                                                        15 November 2024
 
 
     Key Management for Group Object Security for Constrained RESTful
@@ -44,7 +44,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 18 May 2025.
+   This Internet-Draft will expire on 19 May 2025.
 
 Copyright Notice
 
@@ -1854,9 +1854,7 @@ Table of Contents
 
    *  F = CoAP method FETCH
 
-   *  Po = CoAP method POST
-
-   *  Pu = CoAP method PUT
+   *  P = CoAP method POST
 
    *  D = CoAP method DELETE
 
@@ -1875,7 +1873,7 @@ Table of Contents
     +=================================+=======+=======+=======+=======+
     | /ace-group                      | F     | F     | F     | F     |
     +---------------------------------+-------+-------+-------+-------+
-    | /ace-group/GROUPNAME            | G Po  | G Po  | Po *  | Po    |
+    | /ace-group/GROUPNAME            | G P   | G P   | P *   | P     |
     +---------------------------------+-------+-------+-------+-------+
     | /ace-group/GROUPNAME/active     | G     | G     | -     | -     |
     +---------------------------------+-------+-------+-------+-------+
@@ -1891,10 +1889,10 @@ Table of Contents
     +---------------------------------+-------+-------+-------+-------+
     | /ace-group/GROUPNAME/num        | G     | G     | -     | -     |
     +---------------------------------+-------+-------+-------+-------+
-    | /ace-group/GROUPNAME/nodes/     | G Pu  | G D   | -     | -     |
-    | NODENAME                        | D     |       |       |       |
+    | /ace-group/GROUPNAME/nodes/     | G P D | G D   | -     | -     |
+    | NODENAME                        |       |       |       |       |
     +---------------------------------+-------+-------+-------+-------+
-    | /ace-                           | Po    | -     | -     | -     |
+    | /ace-                           | P     | -     | -     | -     |
     | group/GROUPNAME/nodes/NODENAME/ |       |       |       |       |
     | cred                            |       |       |       |       |
     +---------------------------------+-------+-------+-------+-------+
@@ -2031,7 +2029,7 @@ Table of Contents
 
    When this happens, the group member MUST send a Key Renewal Request
    message to the Group Manager, as per Section 4.8.2.1 of [RFC9594].
-   That is, it sends a CoAP PUT request to the endpoint /ace-
+   That is, it sends a CoAP POST request to the endpoint /ace-
    group/GROUPNAME/nodes/NODENAME at the Group Manager.
 
    Upon receiving the Key Renewal Request, the Group Manager processes
@@ -4497,6 +4495,8 @@ D.1.  Version -16 to -17
    *  Clarified meaning of 'cred_fmt'.
 
    *  Relation between 'cred_fmt' and Authentication Credential Format.
+
+   *  PUT becomes POST for for ace-group/GROUPNAME/nodes/NODENAME.
 
    *  Fixed error response code from /ace-group/GROUPNAME/nodes/
       NODENAME.

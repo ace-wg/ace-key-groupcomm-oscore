@@ -1082,7 +1082,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Tiloca &amp; Palombini</td>
-<td class="center">Expires 18 May 2025</td>
+<td class="center">Expires 19 May 2025</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1095,12 +1095,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-ace-key-groupcomm-oscore-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2024-11-14" class="published">14 November 2024</time>
+<time datetime="2024-11-15" class="published">15 November 2024</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2025-05-18">18 May 2025</time></dd>
+<dd class="expires"><time datetime="2025-05-19">19 May 2025</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1138,7 +1138,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 18 May 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 19 May 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -2578,28 +2578,25 @@ Due to the set of stale Sender IDs distributed through the rekeying, this ensure
             <p id="section-8.4-3.2.1">F = CoAP method FETCH<a href="#section-8.4-3.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-8.4-3.3">
-            <p id="section-8.4-3.3.1">Po = CoAP method POST<a href="#section-8.4-3.3.1" class="pilcrow">¶</a></p>
+            <p id="section-8.4-3.3.1">P = CoAP method POST<a href="#section-8.4-3.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-8.4-3.4">
-            <p id="section-8.4-3.4.1">Pu = CoAP method PUT<a href="#section-8.4-3.4.1" class="pilcrow">¶</a></p>
+            <p id="section-8.4-3.4.1">D = CoAP method DELETE<a href="#section-8.4-3.4.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-8.4-3.5">
-            <p id="section-8.4-3.5.1">D = CoAP method DELETE<a href="#section-8.4-3.5.1" class="pilcrow">¶</a></p>
+            <p id="section-8.4-3.5.1">Type1 = Member as Requester and/or Responder<a href="#section-8.4-3.5.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-8.4-3.6">
-            <p id="section-8.4-3.6.1">Type1 = Member as Requester and/or Responder<a href="#section-8.4-3.6.1" class="pilcrow">¶</a></p>
+            <p id="section-8.4-3.6.1">Type2 = Member as Monitor<a href="#section-8.4-3.6.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-8.4-3.7">
-            <p id="section-8.4-3.7.1">Type2 = Member as Monitor<a href="#section-8.4-3.7.1" class="pilcrow">¶</a></p>
+            <p id="section-8.4-3.7.1">Type3 = Non-member (authorized to be signature verifier)<a href="#section-8.4-3.7.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-8.4-3.8">
-            <p id="section-8.4-3.8.1">Type3 = Non-member (authorized to be signature verifier)<a href="#section-8.4-3.8.1" class="pilcrow">¶</a></p>
+            <p id="section-8.4-3.8.1">Type4 = Non-member (not authorized to be signature verifier)<a href="#section-8.4-3.8.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-8.4-3.9">
-            <p id="section-8.4-3.9.1">Type4 = Non-member (not authorized to be signature verifier)<a href="#section-8.4-3.9.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-8.4-3.10">
-            <p id="section-8.4-3.10.1">(*) = Cannot join the group as signature verifier<a href="#section-8.4-3.10.1" class="pilcrow">¶</a></p>
+            <p id="section-8.4-3.9.1">(*) = Cannot join the group as signature verifier<a href="#section-8.4-3.9.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <span id="name-admitted-coap-methods-on-th"></span><div id="tab-methods">
@@ -2627,10 +2624,10 @@ Due to the set of stale Sender IDs distributed through the rekeying, this ensure
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">/ace-group/GROUPNAME</td>
-              <td class="text-left" rowspan="1" colspan="1">G Po</td>
-              <td class="text-left" rowspan="1" colspan="1">G Po</td>
-              <td class="text-left" rowspan="1" colspan="1">Po *</td>
-              <td class="text-left" rowspan="1" colspan="1">Po</td>
+              <td class="text-left" rowspan="1" colspan="1">G P</td>
+              <td class="text-left" rowspan="1" colspan="1">G P</td>
+              <td class="text-left" rowspan="1" colspan="1">P *</td>
+              <td class="text-left" rowspan="1" colspan="1">P</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">/ace-group/GROUPNAME/active</td>
@@ -2683,14 +2680,14 @@ Due to the set of stale Sender IDs distributed through the rekeying, this ensure
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">/ace-group/GROUPNAME/nodes/NODENAME</td>
-              <td class="text-left" rowspan="1" colspan="1">G Pu D</td>
+              <td class="text-left" rowspan="1" colspan="1">G P D</td>
               <td class="text-left" rowspan="1" colspan="1">G D</td>
               <td class="text-left" rowspan="1" colspan="1">-</td>
               <td class="text-left" rowspan="1" colspan="1">-</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">/ace-group/GROUPNAME/nodes/NODENAME/cred</td>
-              <td class="text-left" rowspan="1" colspan="1">Po</td>
+              <td class="text-left" rowspan="1" colspan="1">P</td>
               <td class="text-left" rowspan="1" colspan="1">-</td>
               <td class="text-left" rowspan="1" colspan="1">-</td>
               <td class="text-left" rowspan="1" colspan="1">-</td>
@@ -2795,7 +2792,7 @@ Note that, in any other case, the current Sender ID of the group member is not s
 <a href="#section-9.2" class="section-number selfRef">9.2. </a><a href="#name-request-to-change-individua" class="section-name selfRef">Request to Change Individual Keying Material</a>
         </h3>
 <p id="section-9.2-1">As discussed in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-23#section-2.6.2" class="relref">Section 2.6.2</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>, a group member may at some point exhaust its Sender Sequence Numbers in the OSCORE group.<a href="#section-9.2-1" class="pilcrow">¶</a></p>
-<p id="section-9.2-2">When this happens, the group member <span class="bcp14">MUST</span> send a Key Renewal Request message to the Group Manager, as per <span><a href="https://rfc-editor.org/rfc/rfc9594#section-4.8.2.1" class="relref">Section 4.8.2.1</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>. That is, it sends a CoAP PUT request to the endpoint /ace-group/GROUPNAME/nodes/NODENAME at the Group Manager.<a href="#section-9.2-2" class="pilcrow">¶</a></p>
+<p id="section-9.2-2">When this happens, the group member <span class="bcp14">MUST</span> send a Key Renewal Request message to the Group Manager, as per <span><a href="https://rfc-editor.org/rfc/rfc9594#section-4.8.2.1" class="relref">Section 4.8.2.1</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>. That is, it sends a CoAP POST request to the endpoint /ace-group/GROUPNAME/nodes/NODENAME at the Group Manager.<a href="#section-9.2-2" class="pilcrow">¶</a></p>
 <p id="section-9.2-3">Upon receiving the Key Renewal Request, the Group Manager processes it as defined in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-4.8.2" class="relref">Section 4.8.2</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>, with the following additions.<a href="#section-9.2-3" class="pilcrow">¶</a></p>
 <p id="section-9.2-4">The Group Manager <span class="bcp14">MUST</span> return a 5.03 (Service Unavailable) response in case the OSCORE group identified by GROUPNAME is currently inactive (see <a href="#ssec-resource-active" class="auto internal xref">Section 8.1</a>). The response <span class="bcp14">MUST</span> have Content-Format set to "application/ace-groupcomm+cbor" and is formatted as defined in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-4.1.2" class="relref">Section 4.1.2</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>. The value of the 'error' field <span class="bcp14">MUST</span> be set to 9 ("Group currently not active").<a href="#section-9.2-4" class="pilcrow">¶</a></p>
 <p id="section-9.2-5">Otherwise, the Group Manager performs one of the following actions.<a href="#section-9.2-5" class="pilcrow">¶</a></p>
@@ -4882,28 +4879,31 @@ sign_params = 11
             <p id="appendix-D.1-1.13.1">Relation between 'cred_fmt' and Authentication Credential Format.<a href="#appendix-D.1-1.13.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.14">
-            <p id="appendix-D.1-1.14.1">Fixed error response code from /ace-group/GROUPNAME/nodes/NODENAME.<a href="#appendix-D.1-1.14.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.14.1">PUT becomes POST for for ace-group/GROUPNAME/nodes/NODENAME.<a href="#appendix-D.1-1.14.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.15">
-            <p id="appendix-D.1-1.15.1">Revised default values on group configuration parameters.<a href="#appendix-D.1-1.15.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.15.1">Fixed error response code from /ace-group/GROUPNAME/nodes/NODENAME.<a href="#appendix-D.1-1.15.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.16">
-            <p id="appendix-D.1-1.16.1">Revised future-ready generalization of 'ecdh_info_entry'.<a href="#appendix-D.1-1.16.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.16.1">Revised default values on group configuration parameters.<a href="#appendix-D.1-1.16.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.17">
-            <p id="appendix-D.1-1.17.1">CCS is used as default format of authentication credential.<a href="#appendix-D.1-1.17.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.17.1">Revised future-ready generalization of 'ecdh_info_entry'.<a href="#appendix-D.1-1.17.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.18">
-            <p id="appendix-D.1-1.18.1">Updated name of TLS exporter label.<a href="#appendix-D.1-1.18.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.18.1">CCS is used as default format of authentication credential.<a href="#appendix-D.1-1.18.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.19">
-            <p id="appendix-D.1-1.19.1">Revised IANA considerations.<a href="#appendix-D.1-1.19.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.19.1">Updated name of TLS exporter label.<a href="#appendix-D.1-1.19.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.20">
-            <p id="appendix-D.1-1.20.1">Aligned requirement formulation with that in RFC 9594.<a href="#appendix-D.1-1.20.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.20.1">Revised IANA considerations.<a href="#appendix-D.1-1.20.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.21">
-            <p id="appendix-D.1-1.21.1">Clarifications and editorial fixes.<a href="#appendix-D.1-1.21.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.21.1">Aligned requirement formulation with that in RFC 9594.<a href="#appendix-D.1-1.21.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-D.1-1.22">
+            <p id="appendix-D.1-1.22.1">Clarifications and editorial fixes.<a href="#appendix-D.1-1.22.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
