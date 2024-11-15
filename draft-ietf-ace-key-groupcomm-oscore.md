@@ -2134,7 +2134,7 @@ sign_params = 11
 
 * Relation between 'cred_fmt' and Authentication Credential Format.
 
-* PUT becomes POST for for ace-group/GROUPNAME/nodes/NODENAME.
+* PUT becomes POST for ace-group/GROUPNAME/nodes/NODENAME.
 
 * Fixed error response code from /ace-group/GROUPNAME/nodes/NODENAME.
 
