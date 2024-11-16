@@ -732,7 +732,19 @@ Upon receiving the Join Response, the joining node retrieves the Group Manager's
 
 In case of failed verification of the PoP evidence, the joining node MUST stop processing the Join Response and MAY send a new Join Request to the Group Manager (see {{ssec-join-req-sending}}).
 
-In case of successful verification of the PoP evidence, the joining node uses the information received in the Join Response to set up the Group OSCORE Security Context, as described in {{Section 2 of I-D.ietf-core-oscore-groupcomm}}. If the following parameters were not included in the 'key' parameter of the Join Response, the joining node considers the default values specified below, consistently with {{Section 3.2 of RFC8613}}.
+In case of successful verification of the PoP evidence, the joining node uses the information received in the Join Response to set up the Group OSCORE Security Context, as described in {{Section 2 of I-D.ietf-core-oscore-groupcomm}}. In particular, the following applies.
+
+If the following parameters were not included in the 'key' parameter of the Join Response, the joining node performs the following actions.
+
+* Absent the 'gp_enc_alg' parameter, the parameter Group Encryption Algorithm in the Common Context of the Group OSCORE Security Context is not set.
+
+* Absent the 'sign_alg' parameter, the parameter Signature Algorithm in the Common Context of the Group OSCORE Security Context is not set.
+
+* Absent the 'alg' parameter, the parameter AEAD Algorithm in the Security Context of the Group OSCORE Security Context is not set.
+
+* Absent the 'ecdh_alg' parameter, the parameter Pairwise Key Agreement Algorithm in the Common Context of the Group OSCORE Security Context is not set.
+
+If the following parameters were not included in the 'key' parameter of the Join Response, considers the default values specified below, consistently with {{Section 3.2 of RFC8613}}.
 
 * Absent the 'hkdf' parameter, the joining node considers HKDF SHA-256 as HKDF Algorithm to use in the OSCORE group.
 
@@ -2143,6 +2155,8 @@ sign_params = 11
 * Revised alternative computing of N_S challenge when DTLS is used.
 
 * Clarified maximum size of the OSCORE Sender ID.
+
+* Clarified parameters left "not set" in the Security Context.
 
 * Clarified meaning of 'cred_fmt'.
 
