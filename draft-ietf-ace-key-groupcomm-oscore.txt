@@ -1266,7 +1266,8 @@ Table of Contents
       [I-D.ietf-core-oscore-groupcomm], the Group Manager MUST assign an
       OSCORE Sender ID that has not been used in the OSCORE group since
       the latest time when the current Gid value was assigned to the
-      group.
+      group.  The maximum length of a Sender ID in bytes is determined
+      as defined in Section 2.2 of [I-D.ietf-core-oscore-groupcomm].
 
       If the joining node is recognized as a current group member, e.g.,
       through the ongoing secure communication association, the
@@ -2084,13 +2085,17 @@ Table of Contents
           other case, the Group Manager SHOULD NOT rekey the OSCORE
           group when receiving a Key Renewal Request (OPT12).
 
-       *  The Group Manager determines and assigns a new OSCORE Sender
-          ID for that group member, and replies with a Key Renewal
-          Response formatted as defined in Section 4.8.2 of [RFC9594].
-          The CBOR Map in the response payload includes a single
-          parameter 'group_SenderId' defined in Section 16.3 of this
-          document, specifying the new Sender ID of the group member
-          encoded as a CBOR byte string.
+       *  The Group Manager selects and assigns a new OSCORE Sender ID
+          for that group member, according to the same criteria defined
+          in Section 6.3 for selecting and assigning an OSCORE Sender ID
+          to include in a Join Response.
+
+          Then, the Group Manager replies with a Key Renewal Response
+          formatted as defined in Section 4.8.2 of [RFC9594].  The CBOR
+          Map in the response payload includes a single parameter
+          'group_SenderId' defined in Section 16.3 of this document,
+          specifying the new Sender ID of the group member encoded as a
+          CBOR byte string.
 
           Consistently with Section 2.6.3.1 of
           [I-D.ietf-core-oscore-groupcomm], the Group Manager MUST
@@ -4529,6 +4534,8 @@ D.1.  Version -16 to -17
    *  Added CBOR integer abbreviations for ACE Groupcomm Parameters.
 
    *  Revised alternative computing of N_S challenge when DTLS is used.
+
+   *  Clarified maximum size of the OSCORE Sender ID.
 
    *  Clarified meaning of 'cred_fmt'.
 
