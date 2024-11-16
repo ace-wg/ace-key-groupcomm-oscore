@@ -2294,13 +2294,13 @@ Table of Contents
    the same method used when processing the Join Response, as defined in
    Section 6.3 of this document (REQ21).
 
-   Note that a signature verifier would not receive a successful
-   response from the Group Manager, in case GROUPNAME denotes a
-   pairwise-only group.
-
 9.5.2.  Retrieval for Signature Verifiers
 
    TBD
+
+   Note that a signature verifier would not receive a successful
+   response from the Group Manager, in case GROUPNAME denotes a
+   pairwise-only group.
 
 9.6.  Retrieve Signature Verification Data
 
