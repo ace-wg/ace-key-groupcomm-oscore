@@ -5,8 +5,8 @@
 ACE Working Group                                              M. Tiloca
 Internet-Draft                                                   RISE AB
 Intended status: Standards Track                            F. Palombini
-Expires: 19 May 2025                                         Ericsson AB
-                                                        15 November 2024
+Expires: 20 May 2025                                         Ericsson AB
+                                                        16 November 2024
 
 
     Key Management for Group Object Security for Constrained RESTful
@@ -44,7 +44,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 19 May 2025.
+   This Internet-Draft will expire on 20 May 2025.
 
 Copyright Notice
 
@@ -1124,16 +1124,19 @@ Table of Contents
    *  There are currently no OSCORE Sender IDs available to assign in
       the OSCORE group and, at the same time, the joining node is not
       going to join the group exclusively as monitor.  The response MUST
-      have Content-Format set to "application/ace-groupcomm+cbor" and is
-      formatted as defined in Section 4.1.2 of [RFC9594].  The value of
-      the 'error' field MUST be set to 4 ("No available individual
-      keying material").
+      have Content-Format set to "application/concise-problem-
+      details+cbor" [RFC9290] and is formatted as defined in
+      Section 4.1.2 of [RFC9594].  Within the Custom Problem Detail
+      entry 'ace-groupcomm-error', the value of the 'error-id' field
+      MUST be set to 4 ("No available individual keying material").
 
    *  The OSCORE group that the joining node has been trying to join is
       currently inactive (see Section 8.1).  The response MUST have
-      Content-Format set to "application/ace-groupcomm+cbor" and is
-      formatted as defined in Section 4.1.2 of [RFC9594].  The value of
-      the 'error' field MUST be set to 9 ("Group currently not active").
+      Content-Format set to "application/concise-problem-details+cbor"
+      [RFC9290] and is formatted as defined in Section 4.1.2 of
+      [RFC9594].  Within the Custom Problem Detail entry 'ace-groupcomm-
+      error', the value of the 'error-id' field MUST be set to 9 ("Group
+      currently not active").
 
    The Group Manager MUST reply with a 4.00 (Bad Request) error response
    in the following cases:
@@ -1769,9 +1772,11 @@ Table of Contents
    handler verifies that the requesting Client is a current member of
    the group.  If the verification fails, the KDC MUST reply with a 4.03
    (Forbidden) error response.  The response MUST have Content-Format
-   set to "application/ace-groupcomm+cbor" and is formatted as defined
-   in Section 4.1.2 of [RFC9594].  The value of the 'error' field MUST
-   be set to 0 ("Operation permitted only to group members").
+   set to "application/concise-problem-details+cbor" [RFC9290] and is
+   formatted as defined in Section 4.1.2 of [RFC9594].  Within the
+   Custom Problem Detail entry 'ace-groupcomm-error', the value of the
+   'error-id' field MUST be set to 0 ("Operation permitted only to group
+   members").
 
    If all verifications succeed, the handler replies with a 2.05
    (Content) response, specifying the current status of the group, i.e.,
@@ -1795,16 +1800,19 @@ Table of Contents
 
    If the requesting Client is a current group member, the Group Manager
    MUST reply with a 4.03 (Forbidden) error response.  The response MUST
-   have Content-Format set to "application/ace-groupcomm+cbor" and is
-   formatted as defined in Section 4.1.2 of [RFC9594].  The value of the
-   'error' field MUST be set to 8 ("Operation permitted only to
-   signature verifiers").
+   have Content-Format set to "application/concise-problem-details+cbor"
+   [RFC9290] and is formatted as defined in Section 4.1.2 of [RFC9594].
+   Within the Custom Problem Detail entry 'ace-groupcomm-error', the
+   value of the 'error-id' field MUST be set to 8 ("Operation permitted
+   only to signature verifiers").
 
    If GROUPNAME denotes a pairwise-only group, the Group Manager MUST
    reply with a 4.00 (Bad Request) error response.  The response MUST
-   have Content-Format set to "application/ace-groupcomm+cbor" and is
-   formatted as defined in Section 4.1.2 of [RFC9594].  The value of the
-   'error' field MUST be set to 7 ("Signatures not used in the group").
+   have Content-Format set to "application/concise-problem-details+cbor"
+   [RFC9290] and is formatted as defined in Section 4.1.2 of [RFC9594].
+   Within the Custom Problem Detail entry 'ace-groupcomm-error', the
+   value of the 'error-id' field MUST be set to 7 ("Signatures not used
+   in the group").
 
    If all verifications succeed, the handler replies with a 2.05
    (Content) response, specifying data that allow also an external
@@ -1828,10 +1836,11 @@ Table of Contents
    handler verifies that the requesting Client is a current member of
    the group.  If the verification fails, the Group Manager MUST reply
    with a 4.03 (Forbidden) error response.  The response MUST have
-   Content-Format set to "application/ace-groupcomm+cbor" and is
-   formatted as defined in Section 4.1.2 of [RFC9594].  The value of the
-   'error' field MUST be set to 0 ("Operation permitted only to group
-   members").
+   Content-Format set to "application/concise-problem-details+cbor"
+   [RFC9290] and is formatted as defined in Section 4.1.2 of [RFC9594].
+   Within the Custom Problem Detail entry 'ace-groupcomm-error', the
+   value of the 'error-id' field MUST be set to 0 ("Operation permitted
+   only to group members").
 
    If all verifications succeed, the handler replies with a 2.05
    (Content) response, specifying data that allow the requesting Client
@@ -2039,18 +2048,21 @@ Table of Contents
    The Group Manager MUST return a 5.03 (Service Unavailable) response
    in case the OSCORE group identified by GROUPNAME is currently
    inactive (see Section 8.1).  The response MUST have Content-Format
-   set to "application/ace-groupcomm+cbor" and is formatted as defined
-   in Section 4.1.2 of [RFC9594].  The value of the 'error' field MUST
-   be set to 9 ("Group currently not active").
+   set to "application/concise-problem-details+cbor" [RFC9290] and is
+   formatted as defined in Section 4.1.2 of [RFC9594].  Within the
+   Custom Problem Detail entry 'ace-groupcomm-error', the value of the
+   'error-id' field MUST be set to 9 ("Group currently not active").
 
    Otherwise, the Group Manager performs one of the following actions.
 
    1.  If the requesting group member has exclusively the role of
        monitor, the Group Manager replies with a 4.00 (Bad Request)
        error response.  The response MUST have Content-Format set to
-       "application/ace-groupcomm+cbor" and is formatted as defined in
-       Section 4.1.2 of [RFC9594].  The value of the 'error' field MUST
-       be set to 1 ("Request inconsistent with the current roles").
+       "application/concise-problem-details+cbor" [RFC9290] and is
+       formatted as defined in Section 4.1.2 of [RFC9594].  Within the
+       Custom Problem Detail entry 'ace-groupcomm-error', the value of
+       the 'error-id' field MUST be set to 1 ("Request inconsistent with
+       the current roles").
 
    2.  Otherwise, the Group Manager takes one of the following actions.
 
@@ -2089,10 +2101,11 @@ Table of Contents
           The Group Manager MUST return a 5.03 (Service Unavailable)
           response in case there are currently no Sender IDs available
           to assign in the OSCORE group.  The response MUST have
-          Content-Format set to "application/ace-groupcomm+cbor" and is
-          formatted as defined in Section 4.1.2 of [RFC9594].  The value
-          of the 'error' field MUST be set to 4 ("No available
-          individual keying material").
+          Content-Format set to "application/concise-problem-
+          details+cbor" [RFC9290] and is formatted as defined in
+          Section 4.1.2 of [RFC9594].  Within the Custom Problem Detail
+          entry 'ace-groupcomm-error', the value of the 'error-id' field
+          MUST be set to 4 ("No available individual keying material").
 
 9.3.  Retrieve Authentication Credentials of Group Members
 
@@ -2165,16 +2178,20 @@ Table of Contents
    *  The Group Manager MUST return a 5.03 (Service Unavailable)
       response in case the OSCORE group identified by GROUPNAME is
       currently inactive (see Section 8.1).  The response MUST have
-      Content-Format set to "application/ace-groupcomm+cbor" and is
-      formatted as defined in Section 4.1.2 of [RFC9594].  The value of
-      the 'error' field MUST be set to 9 ("Group currently not active").
+      Content-Format set to "application/concise-problem-details+cbor"
+      [RFC9290] and is formatted as defined in Section 4.1.2 of
+      [RFC9594].  Within the Custom Problem Detail entry 'ace-groupcomm-
+      error', the value of the 'error-id' field MUST be set to 9 ("Group
+      currently not active").
 
    *  If the requesting group member has exclusively the role of
       monitor, the Group Manager replies with a 4.00 (Bad request) error
       response.  The response MUST have Content-Format set to
-      "application/ace-groupcomm+cbor" and is formatted as defined in
-      Section 4.1.2 of [RFC9594].  The value of the 'error' field MUST
-      be set to 1 ("Request inconsistent with the current roles").
+      "application/concise-problem-details+cbor" [RFC9290] and is
+      formatted as defined in Section 4.1.2 of [RFC9594].  Within the
+      Custom Problem Detail entry 'ace-groupcomm-error', the value of
+      the 'error-id' field MUST be set to 1 ("Request inconsistent with
+      the current roles").
 
    *  If the request is successfully processed, the Group Manager stores
       the association between i) the new authentication credential of
@@ -2199,9 +2216,11 @@ Table of Contents
    Group Manager MUST respond with a 4.00 (Bad Request) error response,
    if the requesting Client is not a current group member and GROUPNAME
    denotes a pairwise-only group.  The response MUST have Content-Format
-   set to "application/ace-groupcomm+cbor" and is formatted as defined
-   in Section 4.1.2 of [RFC9594].  The value of the 'error' field MUST
-   be set to 7 ("Signatures not used in the group").
+   set to "application/concise-problem-details+cbor" [RFC9290] and is
+   formatted as defined in Section 4.1.2 of [RFC9594].  Within the
+   Custom Problem Detail entry 'ace-groupcomm-error', the value of the
+   'error-id' field MUST be set to 7 ("Signatures not used in the
+   group").
 
    The payload of the 2.05 (Content) KDC Authentication Credential
    Response is a CBOR map, which is formatted as defined in
@@ -3019,7 +3038,7 @@ Table of Contents
 
 12.  ACE Groupcomm Parameters
 
-   In addition to those defined in Section 8 of [RFC9594], this
+   In addition to what is defined in Section 8 of [RFC9594], this
    application profile defines additional parameters used during the
    second part of the message exchange with the Group Manager, i.e.,
    after the exchange of Token Transfer Request and Response (see
@@ -3115,10 +3134,12 @@ Table of Contents
 
 13.  ACE Groupcomm Error Identifiers
 
-   In addition to those defined in Section 9 of [RFC9594], this
-   application profile defines new values that the Group Manager can
-   include as error identifiers, in the 'error' field of an error
-   response with Content-Format "application/ace-groupcomm+cbor".
+   In addition to what is defined in Section 9 of [RFC9594], this
+   document defines new values that the Group Manager can use as error
+   identifiers.  These are used in error responses with Content-Format
+   "application/concise-problem-details+cbor" [RFC9290], as values of
+   the 'error-id' field within the Custom Problem Detail entry 'ace-
+   groupcomm-error' (see Section 4.1.2 of [RFC9594]).
 
         +=======+=================================================+
         | Value | Description                                     |
@@ -3132,12 +3153,14 @@ Table of Contents
 
                   Table 4: ACE Groupcomm Error Identifiers
 
-   A Client supporting the 'error' parameter (see Sections 4.1.2 and 8
-   of [RFC9594]) and able to understand the specified error may use that
-   information to determine what actions to take next.  If it is
-   included in the error response and supported by the Client, the
-   'error_description' parameter may provide additional context.  The
-   following guidelines apply.
+   If the Client supports the problem-details format [RFC9290] and the
+   Custom Problem Detail entry 'ace-groupcomm-error' defined in
+   Section 4.1.2 of [RFC9594], and is able to understand the error
+   specified in the 'error-id' field therein, then the Client may use
+   that information to determine what actions to take next.  If the
+   Concise Problem Details data item specified in the error response
+   includes the 'detail' entry and the Client supports it, such an entry
+   may provide additional context.
 
    *  In case of error 7, the Client should stop sending the request in
       question to the Group Manager.  In this application profile, this
@@ -4002,6 +4025,11 @@ Table of Contents
               RFC 9277, DOI 10.17487/RFC9277, August 2022,
               <https://www.rfc-editor.org/rfc/rfc9277>.
 
+   [RFC9290]  Fossati, T. and C. Bormann, "Concise Problem Details for
+              Constrained Application Protocol (CoAP) APIs", RFC 9290,
+              DOI 10.17487/RFC9290, October 2022,
+              <https://www.rfc-editor.org/rfc/rfc9290>.
+
    [RFC9430]  Bergmann, O., Preuß Mattsson, J., and G. Selander,
               "Extension of the Datagram Transport Layer Security (DTLS)
               Profile for Authentication and Authorization for
@@ -4500,6 +4528,8 @@ D.1.  Version -16 to -17
 
    *  Fixed error response code from /ace-group/GROUPNAME/nodes/
       NODENAME.
+
+   *  Use concise problem details (RFC9290) for error responses.
 
    *  Revised default values on group configuration parameters.
 
