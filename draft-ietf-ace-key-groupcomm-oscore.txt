@@ -1434,7 +1434,7 @@ Table of Contents
 
    Furthermore, the following applies.
 
-   *  The 'exp' parameter MUST be present.
+   *  The 'exi' parameter MUST be present.
 
    *  The 'ace_groupcomm_profile' parameter MUST be present and has
       value coap_group_oscore_app (PROFILE_TBD), which is defined in
@@ -1965,7 +1965,7 @@ Table of Contents
    Context invalid and to be renewed.  This happens, for instance, after
    a number of unsuccessful security processing of incoming messages
    from other group members, or when the Security Context expires as
-   specified by the 'exp' parameter of the Join Response.
+   specified by the 'exp' or 'exi' parameter of the Join Response.
 
    When this happens, the group member retrieves updated security
    parameters and group keying material.  This can occur in the two
@@ -1988,7 +1988,9 @@ Table of Contents
       document, with the difference that it does not include the
       'group_SenderId' parameter.
 
-   *  The 'exp' parameter MUST be present.
+   *  The 'exp' parameter SHOULD be present.
+
+   *  The 'exi' parameter MUST be present.
 
    *  The 'ace_groupcomm_profile' parameter MUST be present and has
       value coap_group_oscore_app.
@@ -2022,7 +2024,9 @@ Table of Contents
       member is not specified as a separate parameter, but rather
       specified by 'group_SenderId' within the 'key' parameter.
 
-   *  The 'exp' parameter MUST be present.
+   *  The 'exp' parameter SHOULD be present.
+
+   *  The 'exi' parameter MUST be present.
 
    Upon receiving the Key Distribution Response, the group member
    retrieves the updated security parameters, group keying material and
@@ -2260,9 +2264,12 @@ Table of Contents
    Response is a CBOR map, which has the format used for the Join
    Response message in Section 6.3, with the following differences.
 
-   *  From the Join Response message, only the parameters 'gkty', 'key',
-      'num', 'exp' and 'ace_groupcomm_profile' are present.  The 'key'
-      parameter includes only the following data.
+   *  Of the parameters present in the Join Response message, only the
+      parameters 'gkty', 'key', 'num', 'exp', 'exi', and
+      'ace_groupcomm_profile' are present in the Signature Verification
+      Data Response.
+
+      The 'key' parameter includes only the following data.
 
       -  The parameters 'hkdf', 'contextId', 'cred_fmt', 'gp_enc_alg',
          'sign_alg', 'sign_params'.  These parameters MUST be present.
@@ -2332,6 +2339,7 @@ Table of Contents
        / num /                    9: 12,
        / ace_groupcomm_profile / 10: e'coap_group_oscore_app',
        / exp /                   11: 1609459200,
+       / exi /                   12: 2592000,
                     e'sign_enc_key': h'bc661fae6742abc3dd01beda1142567c'
      }
 
@@ -2714,9 +2722,11 @@ Table of Contents
    this extends the minimal content of a rekeying message as defined in
    Section 6 of [RFC9594] (OPT14).
 
-   *  From the Join Response, only the parameters 'gkty', 'key', 'num',
-      'exp', and 'ace_groupcomm_profile' are present.  The 'key'
-      parameter includes only the following data.
+   *  Of the parameters present in the Join Response message, only the
+      parameters 'gkty', 'key', 'num', 'exp', 'exi', and
+      'ace_groupcomm_profile' are present.
+
+      The 'key' parameter includes only the following data.
 
       -  The 'ms' parameter, specifying the new OSCORE Master Secret
          value.  This parameter MUST be present.
@@ -4528,6 +4538,8 @@ D.1.  Version -16 to -17
 
    *  Fixed error response code from /ace-group/GROUPNAME/nodes/
       NODENAME.
+
+   *  Consistent use of the 'exi' ACE Groupcomm Parameter.
 
    *  Use concise problem details (RFC9290) for error responses.
 

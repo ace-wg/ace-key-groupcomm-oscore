@@ -2313,7 +2313,7 @@ The format of 'key' defined above is consistent with every signature algorithm a
 <p id="section-6.3-6">Furthermore, the following applies.<a href="#section-6.3-6" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-6.3-7.1">
-            <p id="section-6.3-7.1.1">The 'exp' parameter <span class="bcp14">MUST</span> be present.<a href="#section-6.3-7.1.1" class="pilcrow">¶</a></p>
+            <p id="section-6.3-7.1.1">The 'exi' parameter <span class="bcp14">MUST</span> be present.<a href="#section-6.3-7.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-6.3-7.2">
             <p id="section-6.3-7.2.1">The 'ace_groupcomm_profile' parameter <span class="bcp14">MUST</span> be present and has value coap_group_oscore_app (PROFILE_TBD), which is defined in <a href="#ssec-iana-groupcomm-profile-registry" class="auto internal xref">Section 16.5</a> of this document.<a href="#section-6.3-7.2.1" class="pilcrow">¶</a></p>
@@ -2739,7 +2739,7 @@ Due to the set of stale Sender IDs distributed through the rekeying, this ensure
         <h3 id="name-retrieve-updated-keying-mat">
 <a href="#section-9.1" class="section-number selfRef">9.1. </a><a href="#name-retrieve-updated-keying-mat" class="section-name selfRef">Retrieve Updated Keying Material</a>
         </h3>
-<p id="section-9.1-1">At some point, a group member considers the Group OSCORE Security Context invalid and to be renewed. This happens, for instance, after a number of unsuccessful security processing of incoming messages from other group members, or when the Security Context expires as specified by the 'exp' parameter of the Join Response.<a href="#section-9.1-1" class="pilcrow">¶</a></p>
+<p id="section-9.1-1">At some point, a group member considers the Group OSCORE Security Context invalid and to be renewed. This happens, for instance, after a number of unsuccessful security processing of incoming messages from other group members, or when the Security Context expires as specified by the 'exp' or 'exi' parameter of the Join Response.<a href="#section-9.1-1" class="pilcrow">¶</a></p>
 <p id="section-9.1-2">When this happens, the group member retrieves updated security parameters and group keying material. This can occur in the two different ways described below.<a href="#section-9.1-2" class="pilcrow">¶</a></p>
 <div id="ssec-updated-key-only">
 <section id="section-9.1.1">
@@ -2754,10 +2754,13 @@ Due to the set of stale Sender IDs distributed through the rekeying, this ensure
               <p id="section-9.1.1-4.1.1">The 'key' parameter is formatted as defined in <a href="#ssec-join-resp" class="auto internal xref">Section 6.3</a> of this document, with the difference that it does not include the 'group_SenderId' parameter.<a href="#section-9.1.1-4.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-9.1.1-4.2">
-              <p id="section-9.1.1-4.2.1">The 'exp' parameter <span class="bcp14">MUST</span> be present.<a href="#section-9.1.1-4.2.1" class="pilcrow">¶</a></p>
+              <p id="section-9.1.1-4.2.1">The 'exp' parameter <span class="bcp14">SHOULD</span> be present.<a href="#section-9.1.1-4.2.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-9.1.1-4.3">
-              <p id="section-9.1.1-4.3.1">The 'ace_groupcomm_profile' parameter <span class="bcp14">MUST</span> be present and has value coap_group_oscore_app.<a href="#section-9.1.1-4.3.1" class="pilcrow">¶</a></p>
+              <p id="section-9.1.1-4.3.1">The 'exi' parameter <span class="bcp14">MUST</span> be present.<a href="#section-9.1.1-4.3.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-9.1.1-4.4">
+              <p id="section-9.1.1-4.4.1">The 'ace_groupcomm_profile' parameter <span class="bcp14">MUST</span> be present and has value coap_group_oscore_app.<a href="#section-9.1.1-4.4.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 <p id="section-9.1.1-5">Upon receiving the Key Distribution Response, the group member retrieves the updated security parameters and group keying material, and, if they differ from the current ones, uses them to set up the new Group OSCORE Security Context as described in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-23#section-2" class="relref">Section 2</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>.<a href="#section-9.1.1-5" class="pilcrow">¶</a></p>
@@ -2778,7 +2781,10 @@ Due to the set of stale Sender IDs distributed through the rekeying, this ensure
 Note that, in any other case, the current Sender ID of the group member is not specified as a separate parameter, but rather specified by 'group_SenderId' within the 'key' parameter.<a href="#section-9.1.2-4.1.2" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-9.1.2-4.2">
-              <p id="section-9.1.2-4.2.1">The 'exp' parameter <span class="bcp14">MUST</span> be present.<a href="#section-9.1.2-4.2.1" class="pilcrow">¶</a></p>
+              <p id="section-9.1.2-4.2.1">The 'exp' parameter <span class="bcp14">SHOULD</span> be present.<a href="#section-9.1.2-4.2.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-9.1.2-4.3">
+              <p id="section-9.1.2-4.3.1">The 'exi' parameter <span class="bcp14">MUST</span> be present.<a href="#section-9.1.2-4.3.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 <p id="section-9.1.2-5">Upon receiving the Key Distribution Response, the group member retrieves the updated security parameters, group keying material and Sender ID, and, if they differ from the current ones, uses them to set up the new Group OSCORE Security Context as described in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-23#section-2" class="relref">Section 2</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>.<a href="#section-9.1.2-5" class="pilcrow">¶</a></p>
@@ -2897,13 +2903,15 @@ The Group Manager <span class="bcp14">MUST</span> return a 5.03 (Service Unavail
 <p id="section-9.6-3">The payload of the 2.05 (Content) Signature Verification Data Response is a CBOR map, which has the format used for the Join Response message in <a href="#ssec-join-resp" class="auto internal xref">Section 6.3</a>, with the following differences.<a href="#section-9.6-3" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-9.6-4.1">
-            <p id="section-9.6-4.1.1">From the Join Response message, only the parameters 'gkty', 'key', 'num', 'exp' and 'ace_groupcomm_profile' are present. The 'key' parameter includes only the following data.<a href="#section-9.6-4.1.1" class="pilcrow">¶</a></p>
+            <p id="section-9.6-4.1.1">Of the parameters present in the Join Response message, only the parameters 'gkty', 'key', 'num', 'exp', 'exi', and 'ace_groupcomm_profile' are present in the Signature Verification Data Response.<a href="#section-9.6-4.1.1" class="pilcrow">¶</a></p>
+<p id="section-9.6-4.1.2">
+The 'key' parameter includes only the following data.<a href="#section-9.6-4.1.2" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-9.6-4.1.2.1">
-                <p id="section-9.6-4.1.2.1.1">The parameters 'hkdf', 'contextId', 'cred_fmt', 'gp_enc_alg', 'sign_alg', 'sign_params'. These parameters <span class="bcp14">MUST</span> be present.<a href="#section-9.6-4.1.2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-9.6-4.1.3.1">
+                <p id="section-9.6-4.1.3.1.1">The parameters 'hkdf', 'contextId', 'cred_fmt', 'gp_enc_alg', 'sign_alg', 'sign_params'. These parameters <span class="bcp14">MUST</span> be present.<a href="#section-9.6-4.1.3.1.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="normal" id="section-9.6-4.1.2.2">
-                <p id="section-9.6-4.1.2.2.1">The parameters 'alg' and 'ecdh_alg'. These parameters <span class="bcp14">MUST NOT</span> be present if the group is a signature-only group. Otherwise, they <span class="bcp14">MUST</span> be present.<a href="#section-9.6-4.1.2.2.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="section-9.6-4.1.3.2">
+                <p id="section-9.6-4.1.3.2.1">The parameters 'alg' and 'ecdh_alg'. These parameters <span class="bcp14">MUST NOT</span> be present if the group is a signature-only group. Otherwise, they <span class="bcp14">MUST</span> be present.<a href="#section-9.6-4.1.3.2.1" class="pilcrow">¶</a></p>
 </li>
             </ul>
 </li>
@@ -2963,6 +2971,7 @@ Verifier                                                     Manager
      / num /                    9: 12,
      / ace_groupcomm_profile / 10: e'coap_group_oscore_app',
      / exp /                   11: 1609459200,
+     / exi /                   12: 2592000,
                   e'sign_enc_key': h'bc661fae6742abc3dd01beda1142567c'
    }
 </pre>
@@ -3198,16 +3207,18 @@ Until a further following group rekeying, the Group Manager <span class="bcp14">
 <p id="section-11.1-1">When using the "Point-to-Point" group rekeying scheme, the group rekeying messages <span class="bcp14">MUST</span> have Content-Format set to "application/ace-groupcomm+cbor" and have the same format used for the Join Response message in <a href="#ssec-join-resp" class="auto internal xref">Section 6.3</a>, with the following differences. Note that this extends the minimal content of a rekeying message as defined in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-6" class="relref">Section 6</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span> (OPT14).<a href="#section-11.1-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-11.1-2.1">
-            <p id="section-11.1-2.1.1">From the Join Response, only the parameters 'gkty', 'key', 'num', 'exp', and 'ace_groupcomm_profile' are present. The 'key' parameter includes only the following data.<a href="#section-11.1-2.1.1" class="pilcrow">¶</a></p>
+            <p id="section-11.1-2.1.1">Of the parameters present in the Join Response message, only the parameters 'gkty', 'key', 'num', 'exp', 'exi', and 'ace_groupcomm_profile' are present.<a href="#section-11.1-2.1.1" class="pilcrow">¶</a></p>
+<p id="section-11.1-2.1.2">
+The 'key' parameter includes only the following data.<a href="#section-11.1-2.1.2" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-11.1-2.1.2.1">
-                <p id="section-11.1-2.1.2.1.1">The 'ms' parameter, specifying the new OSCORE Master Secret value. This parameter <span class="bcp14">MUST</span> be present.<a href="#section-11.1-2.1.2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-11.1-2.1.3.1">
+                <p id="section-11.1-2.1.3.1.1">The 'ms' parameter, specifying the new OSCORE Master Secret value. This parameter <span class="bcp14">MUST</span> be present.<a href="#section-11.1-2.1.3.1.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="normal" id="section-11.1-2.1.2.2">
-                <p id="section-11.1-2.1.2.2.1">The 'contextId' parameter, specifying the new Gid to use as OSCORE ID Context value. This parameter <span class="bcp14">MUST</span> be present.<a href="#section-11.1-2.1.2.2.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="section-11.1-2.1.3.2">
+                <p id="section-11.1-2.1.3.2.1">The 'contextId' parameter, specifying the new Gid to use as OSCORE ID Context value. This parameter <span class="bcp14">MUST</span> be present.<a href="#section-11.1-2.1.3.2.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="normal" id="section-11.1-2.1.2.3">
-                <p id="section-11.1-2.1.2.3.1">The 'salt' value, specifying the new OSCORE Master Salt value. This parameter <span class="bcp14">MAY</span> be present.<a href="#section-11.1-2.1.2.3.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="section-11.1-2.1.3.3">
+                <p id="section-11.1-2.1.3.3.1">The 'salt' value, specifying the new OSCORE Master Salt value. This parameter <span class="bcp14">MAY</span> be present.<a href="#section-11.1-2.1.3.3.1" class="pilcrow">¶</a></p>
 </li>
             </ul>
 </li>
@@ -4889,28 +4900,31 @@ sign_params = 11
             <p id="appendix-D.1-1.15.1">Fixed error response code from /ace-group/GROUPNAME/nodes/NODENAME.<a href="#appendix-D.1-1.15.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.16">
-            <p id="appendix-D.1-1.16.1">Use concise problem details (RFC9290) for error responses.<a href="#appendix-D.1-1.16.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.16.1">Consistent use of the 'exi' ACE Groupcomm Parameter.<a href="#appendix-D.1-1.16.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.17">
-            <p id="appendix-D.1-1.17.1">Revised default values on group configuration parameters.<a href="#appendix-D.1-1.17.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.17.1">Use concise problem details (RFC9290) for error responses.<a href="#appendix-D.1-1.17.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.18">
-            <p id="appendix-D.1-1.18.1">Revised future-ready generalization of 'ecdh_info_entry'.<a href="#appendix-D.1-1.18.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.18.1">Revised default values on group configuration parameters.<a href="#appendix-D.1-1.18.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.19">
-            <p id="appendix-D.1-1.19.1">CCS is used as default format of authentication credential.<a href="#appendix-D.1-1.19.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.19.1">Revised future-ready generalization of 'ecdh_info_entry'.<a href="#appendix-D.1-1.19.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.20">
-            <p id="appendix-D.1-1.20.1">Updated name of TLS exporter label.<a href="#appendix-D.1-1.20.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.20.1">CCS is used as default format of authentication credential.<a href="#appendix-D.1-1.20.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.21">
-            <p id="appendix-D.1-1.21.1">Revised IANA considerations.<a href="#appendix-D.1-1.21.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.21.1">Updated name of TLS exporter label.<a href="#appendix-D.1-1.21.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.22">
-            <p id="appendix-D.1-1.22.1">Aligned requirement formulation with that in RFC 9594.<a href="#appendix-D.1-1.22.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.22.1">Revised IANA considerations.<a href="#appendix-D.1-1.22.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.23">
-            <p id="appendix-D.1-1.23.1">Clarifications and editorial fixes.<a href="#appendix-D.1-1.23.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.23.1">Aligned requirement formulation with that in RFC 9594.<a href="#appendix-D.1-1.23.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-D.1-1.24">
+            <p id="appendix-D.1-1.24.1">Clarifications and editorial fixes.<a href="#appendix-D.1-1.24.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
