@@ -680,7 +680,7 @@ Then, the Group Manager replies to the joining node, providing the updated secur
 
 Furthermore, the following applies.
 
-* The 'exp' parameter MUST be present.
+* The 'exi' parameter MUST be present.
 
 * The 'ace_groupcomm_profile' parameter MUST be present and has value coap_group_oscore_app (PROFILE_TBD), which is defined in {{ssec-iana-groupcomm-profile-registry}} of this document.
 
@@ -927,7 +927,7 @@ This section defines the possible interactions with the Group Manager, in additi
 
 ## Retrieve Updated Keying Material # {#sec-updated-key}
 
-At some point, a group member considers the Group OSCORE Security Context invalid and to be renewed. This happens, for instance, after a number of unsuccessful security processing of incoming messages from other group members, or when the Security Context expires as specified by the 'exp' parameter of the Join Response.
+At some point, a group member considers the Group OSCORE Security Context invalid and to be renewed. This happens, for instance, after a number of unsuccessful security processing of incoming messages from other group members, or when the Security Context expires as specified by the 'exp' or 'exi' parameter of the Join Response.
 
 When this happens, the group member retrieves updated security parameters and group keying material. This can occur in the two different ways described below.
 
@@ -941,7 +941,9 @@ The Group Manager processes the Key Distribution Request according to {{Section 
 
 * The 'key' parameter is formatted as defined in {{ssec-join-resp}} of this document, with the difference that it does not include the 'group_SenderId' parameter.
 
-* The 'exp' parameter MUST be present.
+* The 'exp' parameter SHOULD be present.
+
+* The 'exi' parameter MUST be present.
 
 * The 'ace_groupcomm_profile' parameter MUST be present and has value coap_group_oscore_app.
 
@@ -959,7 +961,9 @@ The Group Manager processes the Key Distribution Request according to {{Section 
 
    Note that, in any other case, the current Sender ID of the group member is not specified as a separate parameter, but rather specified by 'group_SenderId' within the 'key' parameter.
 
-* The 'exp' parameter MUST be present.
+* The 'exp' parameter SHOULD be present.
+
+* The 'exi' parameter MUST be present.
 
 Upon receiving the Key Distribution Response, the group member retrieves the updated security parameters, group keying material and Sender ID, and, if they differ from the current ones, uses them to set up the new Group OSCORE Security Context as described in {{Section 2 of I-D.ietf-core-oscore-groupcomm}}.
 
@@ -1049,7 +1053,9 @@ That is, it sends a CoAP GET request to the endpoint /ace-group/GROUPNAME/verif-
 
 The payload of the 2.05 (Content) Signature Verification Data Response is a CBOR map, which has the format used for the Join Response message in {{ssec-join-resp}}, with the following differences.
 
-* From the Join Response message, only the parameters 'gkty', 'key', 'num', 'exp' and 'ace_groupcomm_profile' are present. The 'key' parameter includes only the following data.
+* Of the parameters present in the Join Response message, only the parameters 'gkty', 'key', 'num', 'exp', 'exi', and 'ace_groupcomm_profile' are present in the Signature Verification Data Response.
+
+   The 'key' parameter includes only the following data.
 
    - The parameters 'hkdf', 'contextId', 'cred_fmt', 'gp_enc_alg', 'sign_alg', 'sign_params'. These parameters MUST be present.
 
@@ -1102,6 +1108,7 @@ Verifier                                                     Manager
      / num /                    9: 12,
      / ace_groupcomm_profile / 10: e'coap_group_oscore_app',
      / exp /                   11: 1609459200,
+     / exi /                   12: 2592000,
                   e'sign_enc_key': h'bc661fae6742abc3dd01beda1142567c'
    }
 ~~~~~~~~~~~
@@ -1286,13 +1293,15 @@ Furthermore, some of these group members can be in multiple groups, all of which
 
 When using the "Point-to-Point" group rekeying scheme, the group rekeying messages MUST have Content-Format set to "application/ace-groupcomm+cbor" and have the same format used for the Join Response message in {{ssec-join-resp}}, with the following differences. Note that this extends the minimal content of a rekeying message as defined in {{Section 6 of RFC9594}} (OPT14).
 
-* From the Join Response, only the parameters 'gkty', 'key', 'num', 'exp', and 'ace_groupcomm_profile' are present. The 'key' parameter includes only the following data.
+* Of the parameters present in the Join Response message, only the parameters 'gkty', 'key', 'num', 'exp', 'exi', and 'ace_groupcomm_profile' are present.
 
-   - The 'ms' parameter, specifying the new OSCORE Master Secret value. This parameter MUST be present.
+  The 'key' parameter includes only the following data.
 
-   - The 'contextId' parameter, specifying the new Gid to use as OSCORE ID Context value. This parameter MUST be present.
+  - The 'ms' parameter, specifying the new OSCORE Master Secret value. This parameter MUST be present.
 
-   - The 'salt' value, specifying the new OSCORE Master Salt value. This parameter MAY be present.
+  - The 'contextId' parameter, specifying the new Gid to use as OSCORE ID Context value. This parameter MUST be present.
+
+  - The 'salt' value, specifying the new OSCORE Master Salt value. This parameter MAY be present.
 
 * The parameter 'stale_node_ids' MUST also be included, with CBOR label defined in {{ssec-iana-ace-groupcomm-parameters-registry}}. This parameter is encoded as a CBOR array, where each element is encoded as a CBOR byte string. The order of elements in the CBOR array is irrelevant. The parameter is populated as follows.
 
@@ -2138,6 +2147,8 @@ sign_params = 11
 * PUT becomes POST for ace-group/GROUPNAME/nodes/NODENAME.
 
 * Fixed error response code from /ace-group/GROUPNAME/nodes/NODENAME.
+
+* Consistent use of the 'exi' ACE Groupcomm Parameter.
 
 * Use concise problem details (RFC9290) for error responses.
 
