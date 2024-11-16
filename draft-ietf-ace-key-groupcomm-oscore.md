@@ -688,7 +688,7 @@ Furthermore, the following applies.
 
    If the joining node has asked for the authentication credentials of all the group members, i.e., 'get_creds' had value the CBOR simple value `null` (0xf6) in the Join Request, then the Group Manager provides only the authentication credentials of the group members that are relevant to the joining node. That is, in such a case, 'creds' includes only: i) the authentication credentials of the responders currently in the OSCORE group, in case the joining node is configured (also) as requester; and ii) the authentication credentials of the requesters currently in the OSCORE group, in case the joining node is configured (also) as responder or monitor.
 
-* The 'peer_identifiers' parameter includes the OSCORE Sender ID of each group member whose authentication credential is specified in the 'creds' parameter. That is, a group member's Sender ID is used as identifier for that group member (REQ25).
+* The 'peer_identifiers' parameter, if present, includes the OSCORE Sender ID of each group member whose authentication credential is specified in the 'creds' parameter. That is, a group member's Sender ID is used as identifier for that group member (REQ25).
 
 * The 'group_policies' parameter SHOULD be present, and SHOULD include the following elements:
 
