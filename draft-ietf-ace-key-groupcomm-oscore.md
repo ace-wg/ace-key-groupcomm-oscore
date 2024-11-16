@@ -822,15 +822,27 @@ When performing a group rekeying (see {{sec-group-rekeying-process}}) for switch
 
 # Interface at the Group Manager {#sec-interface-GM}
 
-The Group Manager provides the interface defined in {{Section 4.1 of RFC9594}}, with the additional sub-resources defined from {{ssec-resource-active}} to {{ssec-resource-stale-sids}} of this document.
+The Group Manager provides the interface defined in {{Section 4.1 of RFC9594}}, with the following additions:
 
-Furthermore, {{ssec-admitted-methods}} provides a summary of the CoAP methods admitted to access different resources at the Group Manager, for nodes with different roles in the group or as non members (REQ11).
+* The new FETCH handler is defined for the sub-resource /ace-group/GROUPNAME/kdc-cred (see {{sec-gm-pub-key-fetch}} of this document).
+
+* Three new sub-resources are defined (see {{ssec-resource-active}}, {{ssec-resource-verif-data}}, and {{ssec-resource-stale-sids}} of this document).
+
+{{ssec-admitted-methods}} provides a summary of the CoAP methods admitted to access different resources at the Group Manager, for nodes with different roles in the group or as non members (REQ11).
 
 The GROUPNAME segment of the URI path MUST match with the group name specified in the scope entry of the scope in the access token (i.e., 'gname' in {{Section 3.1 of RFC9594}}) (REQ7).
 
 The Resource Type (rt=) Link Target Attribute value "core.osc.gm" is registered in {{iana-rt}} (REQ10), and can be used to describe group-membership resources and its sub-resources at a Group Manager, e.g., by using a link-format document {{RFC6690}}.
 
 Applications can use this common resource type to discover links to group-membership resources for joining OSCORE groups, e.g., by using the approach described in {{I-D.tiloca-core-oscore-discovery}}.
+
+## /ace-group/GROUPNAME/kdc-cred {#sec-gm-pub-key-fetch}
+
+In addition to what is defined in {{Section 4.5 of RFC9594}}, this resource also implements a FETCH handler.
+
+### FETCH Handler {#kdc-cred-fetch}
+
+TBD
 
 ## /ace-group/GROUPNAME/active {#ssec-resource-active}
 
@@ -902,7 +914,7 @@ The table uses the following abbreviations.
 |------------------------------------------|-------|-------|-------|-------|
 | /ace-group/GROUPNAME/creds               | G F   | G F   | G F   | -     |
 |------------------------------------------|-------|-------|-------|-------|
-| /ace-group/GROUPNAME/kdc-cred            | G     | G     | G     | -     |
+| /ace-group/GROUPNAME/kdc-cred            | G     | G     | F     | -     |
 |------------------------------------------|-------|-------|-------|-------|
 | /ace-group/GROUPNAME/stale-sids          | F     | F     | -     | -     |
 |------------------------------------------|-------|-------|-------|-------|
@@ -1049,15 +1061,25 @@ Upon receiving the Authentication Credential Update Request, the Group Manager p
 
 A group member or a signature verifier may need to retrieve the authentication credential of the Group Manager. To this end, the requesting Client sends a KDC Authentication Credential Request message to the Group Manager.
 
-That is, it sends a CoAP GET request to the endpoint /ace-group/GROUPNAME/kdc-cred at the Group Manager defined in {{Section 4.5.1.1 of RFC9594}}, where GROUPNAME is the name of the OSCORE group.
+{{sec-gm-pub-key-group-member}} defines how this operation is performed by a group member, building on {{Section 4.5.1.1 of RFC9594}}.
 
-In addition to what is defined in {{Section 4.5.1 of RFC9594}}, the Group Manager MUST respond with a 4.00 (Bad Request) error response, if the requesting Client is not a current group member and GROUPNAME denotes a pairwise-only group. The response MUST have Content-Format set to "application/concise-problem-details+cbor" {{RFC9290}} and is formatted as defined in {{Section 4.1.2 of RFC9594}}. Within the Custom Problem Detail entry 'ace-groupcomm-error', the value of the 'error-id' field MUST be set to 7 ("Signatures not used in the group").
+{{sec-gm-pub-key-signature-verifier}} defines how this operation is performed by a signature verifier, by relying on the additional FETCH handler defined in {{kdc-cred-fetch}} of this document.
+
+### Retrieval for Group Members # {#sec-gm-pub-key-group-member}
+
+A group member sends a CoAP GET request to the endpoint /ace-group/GROUPNAME/kdc-cred at the Group Manager defined in {{Section 4.5.1.1 of RFC9594}}, where GROUPNAME is the name of the OSCORE group.
+
+In addition to what is defined in {{Section 4.5.1 of RFC9594}}, the Group Manager MUST respond with a 4.03 (Forbidden) error response, if the requesting Client is not a current group member. The response MUST have Content-Format set to "application/concise-problem-details+cbor" {{RFC9290}} and is formatted as defined in {{Section 4.1.2 of RFC9594}}. Within the Custom Problem Detail entry 'ace-groupcomm-error', the value of the 'error-id' field MUST be set to 0 ("Operation permitted only to group members").
 
 The payload of the 2.05 (Content) KDC Authentication Credential Response is a CBOR map, which is formatted as defined in {{Section 4.5.1 of RFC9594}}. The Group Manager specifies the parameters 'kdc_cred', 'kdc_nonce' and 'kdc_challenge' as defined for the Join Response in {{ssec-join-resp}} of this document. This especially applies to the computing of the proof-of-possession (PoP) evidence included in 'kdc_cred_verify' (REQ21).
 
 Upon receiving a 2.05 (Content) KDC Authentication Credential Response, the requesting Client retrieves the Group Manager's authentication credential from the 'kdc_cred' parameter, and proceeds as defined in {{Section 4.5.1.1 of RFC9594}}. The requesting Client verifies the PoP evidence included in 'kdc_cred_verify' by means of the same method used when processing the Join Response, as defined in {{ssec-join-resp}} of this document (REQ21).
 
 Note that a signature verifier would not receive a successful response from the Group Manager, in case GROUPNAME denotes a pairwise-only group.
+
+### Retrieval for Signature Verifiers # {#sec-gm-pub-key-signature-verifier}
+
+TBD
 
 ## Retrieve Signature Verification Data # {#sec-verif-data}
 
@@ -2161,6 +2183,8 @@ sign_params = 11
 * Clarified meaning of 'cred_fmt'.
 
 * Relation between 'cred_fmt' and Authentication Credential Format.
+
+* GET to ace-group/GROUPNAME/kdc-cred only for group members.
 
 * PUT becomes POST for ace-group/GROUPNAME/nodes/NODENAME.
 
