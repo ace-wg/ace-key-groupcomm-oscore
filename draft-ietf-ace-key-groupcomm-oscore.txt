@@ -501,8 +501,7 @@ Table of Contents
       public key.  In case the joining node still provides an
       authentication credential in the 'client_cred' parameter of the
       Join Request (see Section 6.1), the Group Manager silently ignores
-      that parameter, as well as the related parameters 'cnonce' and
-      'client_cred_verify'.
+      that parameter and the related parameter 'client_cred_verify'.
 
    *  The Group Manager already acquired the authentication credential
       of the joining node during a past joining process.  In this case,
@@ -1489,8 +1488,6 @@ Table of Contents
 
    *  The 'kdc_cred_verify' parameter MUST be present, specifying the
       proof-of-possession (PoP) evidence computed by the Group Manager.
-      The PoP evidence is computed over the nonce N_KDC, which is
-      specified in the 'kdc_nonce' parameter and taken as PoP input.
       The PoP evidence is computed as defined below (REQ21).
 
       -  If the group is not a pairwise-only group, the PoP evidence
@@ -3159,9 +3156,9 @@ Table of Contents
    used with this application profile, a Client must, should or may
    support them as specified below (REQ30).
 
-   *  'client_cred', 'cnonce', 'client_cred_verify'.  A Client that has
-      an own authentication credential to use in a group MUST support
-      these parameters.
+   *  'client_cred' and 'client_cred_verify'.  A Client that has an own
+      authentication credential to use in a group MUST support these
+      parameters.
 
    *  'kdcchallenge'.  A Client that has an own authentication
       credential to use in a group and that provides the access token to
@@ -4591,6 +4588,8 @@ D.1.  Version -16 to -17
    *  Clarified parameters left "not set" in the Security Context.
 
    *  Clarified meaning of 'cred_fmt'.
+
+   *  Consistent mandatory use of 'cnonce'.
 
    *  Relation between 'cred_fmt' and Authentication Credential Format.
 
