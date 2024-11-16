@@ -64,6 +64,7 @@ normative:
   RFC9203:
   RFC9237:
   RFC9277:
+  RFC9290:
   RFC9430:
   RFC9594:
   I-D.ietf-core-oscore-groupcomm:
@@ -557,9 +558,9 @@ The Group Manager verifies the PoP evidence contained in 'client_cred_verify' as
 
 The Group Manager MUST reply with a 5.03 (Service Unavailable) error response in the following cases:
 
-* There are currently no OSCORE Sender IDs available to assign in the OSCORE group and, at the same time, the joining node is not going to join the group exclusively as monitor. The response MUST have Content-Format set to "application/ace-groupcomm+cbor" and is formatted as defined in {{Section 4.1.2 of RFC9594}}. The value of the 'error' field MUST be set to 4 ("No available individual keying material").
+* There are currently no OSCORE Sender IDs available to assign in the OSCORE group and, at the same time, the joining node is not going to join the group exclusively as monitor. The response MUST have Content-Format set to "application/concise-problem-details+cbor" {{RFC9290}} and is formatted as defined in {{Section 4.1.2 of RFC9594}}. Within the Custom Problem Detail entry 'ace-groupcomm-error', the value of the 'error-id' field MUST be set to 4 ("No available individual keying material").
 
-* The OSCORE group that the joining node has been trying to join is currently inactive (see {{ssec-resource-active}}). The response MUST have Content-Format set to "application/ace-groupcomm+cbor" and is formatted as defined in {{Section 4.1.2 of RFC9594}}. The value of the 'error' field MUST be set to 9 ("Group currently not active").
+* The OSCORE group that the joining node has been trying to join is currently inactive (see {{ssec-resource-active}}). The response MUST have Content-Format set to "application/concise-problem-details+cbor" {{RFC9290}} and is formatted as defined in {{Section 4.1.2 of RFC9594}}. Within the Custom Problem Detail entry 'ace-groupcomm-error', the value of the 'error-id' field MUST be set to 9 ("Group currently not active").
 
 The Group Manager MUST reply with a 4.00 (Bad Request) error response in the following cases:
 
@@ -827,7 +828,7 @@ This resource implements a GET handler.
 
 The handler expects a GET request.
 
-In addition to what is defined in {{Section 4.1.2 of RFC9594}}, the handler verifies that the requesting Client is a current member of the group. If the verification fails, the KDC MUST reply with a 4.03 (Forbidden) error response. The response MUST have Content-Format set to "application/ace-groupcomm+cbor" and is formatted as defined in {{Section 4.1.2 of RFC9594}}. The value of the 'error' field MUST be set to 0 ("Operation permitted only to group members").
+In addition to what is defined in {{Section 4.1.2 of RFC9594}}, the handler verifies that the requesting Client is a current member of the group. If the verification fails, the KDC MUST reply with a 4.03 (Forbidden) error response. The response MUST have Content-Format set to "application/concise-problem-details+cbor" {{RFC9290}} and is formatted as defined in {{Section 4.1.2 of RFC9594}}. Within the Custom Problem Detail entry 'ace-groupcomm-error', the value of the 'error-id' field MUST be set to 0 ("Operation permitted only to group members").
 
 If all verifications succeed, the handler replies with a 2.05 (Content) response, specifying the current status of the group, i.e., active or inactive. The payload of the response is formatted as defined in {{sec-status}}.
 
@@ -843,9 +844,9 @@ The handler expects a GET request.
 
 In addition to what is defined in {{Section 4.1.2 of RFC9594}}, the Group Manager performs the following checks.
 
-If the requesting Client is a current group member, the Group Manager MUST reply with a 4.03 (Forbidden) error response. The response MUST have Content-Format set to "application/ace-groupcomm+cbor" and is formatted as defined in {{Section 4.1.2 of RFC9594}}. The value of the 'error' field MUST be set to 8 ("Operation permitted only to signature verifiers").
+If the requesting Client is a current group member, the Group Manager MUST reply with a 4.03 (Forbidden) error response. The response MUST have Content-Format set to "application/concise-problem-details+cbor" {{RFC9290}} and is formatted as defined in {{Section 4.1.2 of RFC9594}}. Within the Custom Problem Detail entry 'ace-groupcomm-error', the value of the 'error-id' field MUST be set to 8 ("Operation permitted only to signature verifiers").
 
-If GROUPNAME denotes a pairwise-only group, the Group Manager MUST reply with a 4.00 (Bad Request) error response. The response MUST have Content-Format set to "application/ace-groupcomm+cbor" and is formatted as defined in {{Section 4.1.2 of RFC9594}}. The value of the 'error' field MUST be set to 7 ("Signatures not used in the group").
+If GROUPNAME denotes a pairwise-only group, the Group Manager MUST reply with a 4.00 (Bad Request) error response. The response MUST have Content-Format set to "application/concise-problem-details+cbor" {{RFC9290}} and is formatted as defined in {{Section 4.1.2 of RFC9594}}. Within the Custom Problem Detail entry 'ace-groupcomm-error', the value of the 'error-id' field MUST be set to 7 ("Signatures not used in the group").
 
 If all verifications succeed, the handler replies with a 2.05 (Content) response, specifying data that allow also an external signature verifier to verify signatures of messages protected with the group mode and sent to the group (see {{Sections 7.5 and 12.3 of I-D.ietf-core-oscore-groupcomm}}). The response MUST have Content-Format set to "application/ace-groupcomm+cbor". The payload of the response is a CBOR map, which is formatted as defined in {{sec-verif-data}}.
 
@@ -857,7 +858,7 @@ This resource implements a FETCH handler.
 
 The handler expects a FETCH request, whose payload specifies a version number of the group keying material, encoded as an unsigned CBOR integer.
 
-In addition to what is defined in {{Section 4.1.2 of RFC9594}}, the handler verifies that the requesting Client is a current member of the group. If the verification fails, the Group Manager MUST reply with a 4.03 (Forbidden) error response. The response MUST have Content-Format set to "application/ace-groupcomm+cbor" and is formatted as defined in {{Section 4.1.2 of RFC9594}}. The value of the 'error' field MUST be set to 0 ("Operation permitted only to group members").
+In addition to what is defined in {{Section 4.1.2 of RFC9594}}, the handler verifies that the requesting Client is a current member of the group. If the verification fails, the Group Manager MUST reply with a 4.03 (Forbidden) error response. The response MUST have Content-Format set to "application/concise-problem-details+cbor" {{RFC9290}} and is formatted as defined in {{Section 4.1.2 of RFC9594}}. Within the Custom Problem Detail entry 'ace-groupcomm-error', the value of the 'error-id' field MUST be set to 0 ("Operation permitted only to group members").
 
 If all verifications succeed, the handler replies with a 2.05 (Content) response, specifying data that allow the requesting Client to delete the Recipient Contexts and authentication credentials associated with former members of the group (see {{Section 12.2 of I-D.ietf-core-oscore-groupcomm}}. The payload of the response is formatted as defined in {{sec-retrieve-stale-sids}}.
 
@@ -970,11 +971,11 @@ When this happens, the group member MUST send a Key Renewal Request message to t
 
 Upon receiving the Key Renewal Request, the Group Manager processes it as defined in {{Section 4.8.2 of RFC9594}}, with the following additions.
 
-The Group Manager MUST return a 5.03 (Service Unavailable) response in case the OSCORE group identified by GROUPNAME is currently inactive (see {{ssec-resource-active}}). The response MUST have Content-Format set to "application/ace-groupcomm+cbor" and is formatted as defined in {{Section 4.1.2 of RFC9594}}. The value of the 'error' field MUST be set to 9 ("Group currently not active").
+The Group Manager MUST return a 5.03 (Service Unavailable) response in case the OSCORE group identified by GROUPNAME is currently inactive (see {{ssec-resource-active}}). The response MUST have Content-Format set to "application/concise-problem-details+cbor" {{RFC9290}} and is formatted as defined in {{Section 4.1.2 of RFC9594}}. Within the Custom Problem Detail entry 'ace-groupcomm-error', the value of the 'error-id' field MUST be set to 9 ("Group currently not active").
 
 Otherwise, the Group Manager performs one of the following actions.
 
-1. If the requesting group member has exclusively the role of monitor, the Group Manager replies with a 4.00 (Bad Request) error response. The response MUST have Content-Format set to "application/ace-groupcomm+cbor" and is formatted as defined in {{Section 4.1.2 of RFC9594}}. The value of the 'error' field MUST be set to 1 ("Request inconsistent with the current roles").
+1. If the requesting group member has exclusively the role of monitor, the Group Manager replies with a 4.00 (Bad Request) error response.  The response MUST have Content-Format set to "application/concise-problem-details+cbor" {{RFC9290}} and is formatted as defined in {{Section 4.1.2 of RFC9594}}. Within the Custom Problem Detail entry 'ace-groupcomm-error', the value of the 'error-id' field MUST be set to 1 ("Request inconsistent with the current roles").
 
 2. Otherwise, the Group Manager takes one of the following actions.
 
@@ -988,7 +989,7 @@ Otherwise, the Group Manager performs one of the following actions.
 
        Furthermore, the Group Manager MUST add the old, relinquished Sender ID of the group member to the most recent set of stale Sender IDs for the group (see {{sssec-stale-sender-ids}}).
 
-       The Group Manager MUST return a 5.03 (Service Unavailable) response in case there are currently no Sender IDs available to assign in the OSCORE group. The response MUST have Content-Format set to "application/ace-groupcomm+cbor" and is formatted as defined in {{Section 4.1.2 of RFC9594}}. The value of the 'error' field MUST be set to 4 ("No available individual keying material").
+       The Group Manager MUST return a 5.03 (Service Unavailable) response in case there are currently no Sender IDs available to assign in the OSCORE group. The response MUST have Content-Format set to "application/concise-problem-details+cbor" {{RFC9290}} and is formatted as defined in {{Section 4.1.2 of RFC9594}}. Within the Custom Problem Detail entry 'ace-groupcomm-error', the value of the 'error-id' field MUST be set to 4 ("No available individual keying material").
 
 ## Retrieve Authentication Credentials of Group Members # {#sec-pub-keys}
 
@@ -1020,9 +1021,9 @@ Upon receiving the Authentication Credential Update Request, the Group Manager p
 
 * The Group Manager verifies the PoP challenge included in 'client_cred_verify' in the same way as when processing a Join Request for the OSCORE group in question, as defined in {{ssec-join-req-processing}} (REQ14).
 
-* The Group Manager MUST return a 5.03 (Service Unavailable) response in case the OSCORE group identified by GROUPNAME is currently inactive (see {{ssec-resource-active}}). The response MUST have Content-Format set to "application/ace-groupcomm+cbor" and is formatted as defined in {{Section 4.1.2 of RFC9594}}. The value of the 'error' field MUST be set to 9 ("Group currently not active").
+* The Group Manager MUST return a 5.03 (Service Unavailable) response in case the OSCORE group identified by GROUPNAME is currently inactive (see {{ssec-resource-active}}). The response MUST have Content-Format set to "application/concise-problem-details+cbor" {{RFC9290}} and is formatted as defined in {{Section 4.1.2 of RFC9594}}. Within the Custom Problem Detail entry 'ace-groupcomm-error', the value of the 'error-id' field MUST be set to 9 ("Group currently not active").
 
-* If the requesting group member has exclusively the role of monitor, the Group Manager replies with a 4.00 (Bad request) error response. The response MUST have Content-Format set to "application/ace-groupcomm+cbor" and is formatted as defined in {{Section 4.1.2 of RFC9594}}. The value of the 'error' field MUST be set to 1 ("Request inconsistent with the current roles").
+* If the requesting group member has exclusively the role of monitor, the Group Manager replies with a 4.00 (Bad request) error response. The response MUST have Content-Format set to "application/concise-problem-details+cbor" {{RFC9290}} and is formatted as defined in {{Section 4.1.2 of RFC9594}}. Within the Custom Problem Detail entry 'ace-groupcomm-error', the value of the 'error-id' field MUST be set to 1 ("Request inconsistent with the current roles").
 
 * If the request is successfully processed, the Group Manager stores the association between i) the new authentication credential of the group member; and ii) the Group Identifier (Gid), i.e., the OSCORE ID Context, associated with the OSCORE group together with the OSCORE Sender ID assigned to the group member in the group. The Group Manager MUST keep this association updated over time.
 
@@ -1032,7 +1033,7 @@ A group member or a signature verifier may need to retrieve the authentication c
 
 That is, it sends a CoAP GET request to the endpoint /ace-group/GROUPNAME/kdc-cred at the Group Manager defined in {{Section 4.5.1.1 of RFC9594}}, where GROUPNAME is the name of the OSCORE group.
 
-In addition to what is defined in {{Section 4.5.1 of RFC9594}}, the Group Manager MUST respond with a 4.00 (Bad Request) error response, if the requesting Client is not a current group member and GROUPNAME denotes a pairwise-only group. The response MUST have Content-Format set to "application/ace-groupcomm+cbor" and is formatted as defined in {{Section 4.1.2 of RFC9594}}. The value of the 'error' field MUST be set to 7 ("Signatures not used in the group").
+In addition to what is defined in {{Section 4.5.1 of RFC9594}}, the Group Manager MUST respond with a 4.00 (Bad Request) error response, if the requesting Client is not a current group member and GROUPNAME denotes a pairwise-only group. The response MUST have Content-Format set to "application/concise-problem-details+cbor" {{RFC9290}} and is formatted as defined in {{Section 4.1.2 of RFC9594}}. Within the Custom Problem Detail entry 'ace-groupcomm-error', the value of the 'error-id' field MUST be set to 7 ("Signatures not used in the group").
 
 The payload of the 2.05 (Content) KDC Authentication Credential Response is a CBOR map, which is formatted as defined in {{Section 4.5.1 of RFC9594}}. The Group Manager specifies the parameters 'kdc_cred', 'kdc_nonce' and 'kdc_challenge' as defined for the Join Response in {{ssec-join-resp}} of this document. This especially applies to the computing of the proof-of-possession (PoP) evidence included in 'kdc_cred_verify' (REQ21).
 
@@ -1443,7 +1444,7 @@ Node                                                         Manager
 
 # ACE Groupcomm Parameters {#ace-groupcomm-params}
 
-In addition to those defined in {{Section 8 of RFC9594}}, this application profile defines additional parameters used during the second part of the message exchange with the Group Manager, i.e., after the exchange of Token Transfer Request and Response (see {{ssec-token-post}}). The table below summarizes them and specifies the CBOR key to use instead of the full descriptive name.
+In addition to what is defined in {{Section 8 of RFC9594}}, this application profile defines additional parameters used during the second part of the message exchange with the Group Manager, i.e., after the exchange of Token Transfer Request and Response (see {{ssec-token-post}}). The table below summarizes them and specifies the CBOR key to use instead of the full descriptive name.
 
 Note that the media type "application/ace-groupcomm+cbor" MUST be used when these parameters are transported in the respective message fields.
 
@@ -1495,7 +1496,7 @@ multicast) MUST support this parameter.
 
 # ACE Groupcomm Error Identifiers {#error-types}
 
-In addition to those defined in {{Section 9 of RFC9594}}, this application profile defines new values that the Group Manager can include as error identifiers, in the 'error' field of an error response with Content-Format "application/ace-groupcomm+cbor".
+In addition to what is defined in {{Section 9 of RFC9594}}, this document defines new values that the Group Manager can use as error identifiers. These are used in error responses with Content-Format "application/concise-problem-details+cbor" {{RFC9290}}, as values of the 'error-id' field within the Custom Problem Detail entry 'ace- groupcomm-error' (see {{Section 4.1.2 of RFC9594}}).
 
 | Value |                   Description                   |
 |-------|-------------------------------------------------|
@@ -1506,7 +1507,7 @@ In addition to those defined in {{Section 9 of RFC9594}}, this application profi
 |   9   | Group currently not active                      |
 {: #tab-ACE-Groupcomm-Error-Identifiers title="ACE Groupcomm Error Identifiers" align="center"}
 
-A Client supporting the 'error' parameter (see {{Sections 4.1.2 and 8 of RFC9594}}) and able to understand the specified error may use that information to determine what actions to take next. If it is included in the error response and supported by the Client, the 'error_description' parameter may provide additional context. The following guidelines apply.
+If the Client supports the problem-details format {{RFC9290}} and the Custom Problem Detail entry 'ace-groupcomm-error' defined in {{Section 4.1.2 of RFC9594}}, and is able to understand the error specified in the 'error-id' field therein, then the Client may use that information to determine what actions to take next. If the Concise Problem Details data item specified in the error response includes the 'detail' entry and the Client supports it, such an entry may provide additional context.
 
 * In case of error 7, the Client should stop sending the request in question to the Group Manager. In this application profile, this error is relevant only for a signature verifier, in case it tries to access resources related to a pairwise-only group.
 
@@ -2137,6 +2138,8 @@ sign_params = 11
 * PUT becomes POST for ace-group/GROUPNAME/nodes/NODENAME.
 
 * Fixed error response code from /ace-group/GROUPNAME/nodes/NODENAME.
+
+* Use concise problem details (RFC9290) for error responses.
 
 * Revised default values on group configuration parameters.
 
