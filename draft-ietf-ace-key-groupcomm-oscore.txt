@@ -222,7 +222,7 @@ Table of Contents
       the abbreviations REQx and OPTx denoting the numbered mandatory-
       to-address and optional-to-address requirements, respectively.
 
-   *  The terms and concepts related to CDDL [RFC8610], CBOR [RFC8949]
+   *  The terms and concepts related to CDDL [RFC8610], CBOR [RFC8949],
       and COSE [RFC9052][RFC9053].
 
    *  The terms and concepts related in CoAP [RFC7252] and group
@@ -246,7 +246,7 @@ Table of Contents
          with an entity, including that entity's public key and
          parameters associated with the public key.  Examples of
          authentication credentials are CBOR Web Tokens (CWTs) and CWT
-         Claims Sets (CCSs) [RFC8392], X.509 certificates [RFC5280] and
+         Claims Sets (CCSs) [RFC8392], X.509 certificates [RFC5280], and
          C509 certificates [I-D.ietf-cose-cbor-encoded-cert].
 
    Additionally, this document makes use of the following terminology.
@@ -306,7 +306,7 @@ Table of Contents
    messages with other group members.
 
    This document describes how to use [RFC9594] and [RFC9200] to perform
-   a number of authentication, authorization and key distribution
+   a number of authentication, authorization, and key distribution
    actions as overviewed in Section 2 of [RFC9594], when the considered
    group is specifically an OSCORE group.
 
@@ -526,8 +526,8 @@ Table of Contents
           OSCORE group and including the asymmetric proof-of-possession
           key as public key.  Also, such authentication credential and
           the proof-of-possession key are compatible with the signature
-          or ECDH algorithm, and possible associated parameters used in
-          the OSCORE group.
+          or ECDH algorithm, and with possible associated parameters
+          used in the OSCORE group.
 
           In this case, the Group Manager considers the authentication
           credential as the one associated with the joining node in the
@@ -551,8 +551,8 @@ Table of Contents
       2.  The authentication credential is not in the format used in the
           OSCORE group, or else the authentication credential and the
           proof-of-possession key included as public key are not
-          compatible with the signature or ECDH algorithm, and possible
-          associated parameters used in the OSCORE group.
+          compatible with the signature or ECDH algorithm, and with
+          possible associated parameters used in the OSCORE group.
 
           In this case, the joining node MUST provide a different
           compatible authentication credential and public key included
@@ -654,7 +654,7 @@ Table of Contents
       -  'ecdh_info' defined in Section 5.3.1 of this document, with
          value the CBOR simple value null (0xf6) to request information
          about the ECDH algorithm, the ECDH algorithm parameters, the
-         ECDH key parameters and the exact format of authentication
+         ECDH key parameters, and the exact format of authentication
          credentials used in the groups that the Client has been
          authorized to join.  This is relevant in case the joining node
          supports the pairwise mode of Group OSCORE
@@ -714,7 +714,7 @@ Table of Contents
 
          At the time of writing this specification, acceptable formats
          of authentication credentials are CBOR Web Tokens (CWTs) and
-         CWT Claims Sets (CCSs) [RFC8392], X.509 certificates [RFC5280]
+         CWT Claims Sets (CCSs) [RFC8392], X.509 certificates [RFC5280],
          and C509 certificates [I-D.ietf-cose-cbor-encoded-cert].
          Further formats may be available in the future, and would be
          acceptable to use as long as they comply with the criteria
@@ -1049,7 +1049,7 @@ Table of Contents
       Section 6.2).
 
    *  If the provisioning of the access token to the Group Manager has
-      relied on the DTLS profile of ACE [RFC9202], and the access token
+      relied on the DTLS profile of ACE [RFC9202] and the access token
       was specified in the "psk_identity" field of the ClientKeyExchange
       message when using DTLS 1.2 [RFC6347], then N_S is an exporter
       value computed as defined in Section 4 of [RFC5705] (REQ15).
@@ -1064,7 +1064,7 @@ Table of Contents
       DTLS 1.2, as per [RFC9430].
 
    *  If the provisioning of the access token to the Group Manager has
-      relied on the DTLS profile of ACE [RFC9202], and the access token
+      relied on the DTLS profile of ACE [RFC9202] and the access token
       was specified in the "identity" field of a PskIdentity within the
       PreSharedKeyExtension of the ClientHello message when using DTLS
       1.3 [RFC9147], then N_S is an exporter value computed as defined
@@ -1236,15 +1236,15 @@ Table of Contents
    *  The 'client_cred' parameter MUST include an authentication
       credential in the format indicated by the Group Manager.  Also,
       the authentication credential as well as the included public key
-      MUST be compatible with the signature or ECDH algorithm, and
+      MUST be compatible with the signature or ECDH algorithm, and with
       possible associated parameters.
 
    *  The 'client_cred_verify' parameter MUST include a PoP evidence
       computed as described in Section 6.1, by using the private key
       associated with the authentication credential specified in the
       current 'client_cred' parameter, with the signature or ECDH
-      algorithm, and possible associated parameters indicated by the
-      Group Manager.  If the error response from the Group Manager
+      algorithm, and with possible associated parameters indicated by
+      the Group Manager.  If the error response from the Group Manager
       includes the 'kdcchallenge' parameter, the joining node MUST use
       its content as new N_S challenge to compute the PoP evidence.
 
@@ -1311,8 +1311,8 @@ Table of Contents
       OSCORE_Input_Material object encoded in CBOR as defined in
       Section 3.2.1 of [RFC9203].  In particular, it contains the
       additional parameters 'group_senderId', 'cred_fmt', 'gp_enc_alg',
-      'sign_alg', 'sign_params', 'ecdh_alg' and 'ecdh_params' defined in
-      Section 16.6 of this document.
+      'sign_alg', 'sign_params', 'ecdh_alg', and 'ecdh_params' defined
+      in Section 16.6 of this document.
 
       More specifically, the 'key' parameter is composed as follows.
 
@@ -1358,7 +1358,7 @@ Table of Contents
 
          At the time of writing this specification, acceptable formats
          of authentication credentials are CBOR Web Tokens (CWTs) and
-         CWT Claims Sets (CCSs) [RFC8392], X.509 certificates [RFC5280]
+         CWT Claims Sets (CCSs) [RFC8392], X.509 certificates [RFC5280],
          and C509 certificates [I-D.ietf-cose-cbor-encoded-cert].
          Further formats may be available in the future, and would be
          acceptable to use as long as they comply with the criteria
@@ -1479,7 +1479,7 @@ Table of Contents
       representation (REQ8).  The Group Manager's authentication
       credential MUST be in the format used in the OSCORE group.  Also,
       the authentication credential as well as the included public key
-      MUST be compatible with the signature or ECDH algorithm, and
+      MUST be compatible with the signature or ECDH algorithm, and with
       possible associated parameters used in the OSCORE group.
 
    *  The 'kdc_nonce' parameter MUST be present, specifying the
@@ -1664,8 +1664,8 @@ Table of Contents
       [I-D.ietf-core-oscore-groupcomm]).
 
       Note that the Gid differs from the group name also introduced in
-      [RFC9594], which is a plain, stable and invariant identifier, with
-      no cryptographic relevance and meaning.
+      [RFC9594], which is a plain, stable, and invariant identifier,
+      with no cryptographic relevance and meaning.
 
    *  A new value for the Master Secret parameter of the Group OSCORE
       Common Security Context of the group (see Section 2 of
@@ -1957,7 +1957,7 @@ Table of Contents
    a signature verifier is allowed to perform only some operations as
    non-member of a group, and only for the OSCORE groups specified in
    the validated access token.  These are the operations specified in
-   Section 9.3, Section 9.5, Section 9.6 and Section 9.10.
+   Section 9.3, Section 9.5, Section 9.6, and Section 9.10.
 
    Consistently, in case a node is not a member of the group with group
    name GROUPNAME and is authorized to be only signature verifier for
@@ -2066,7 +2066,7 @@ Table of Contents
    *  The 'exi' parameter MUST be present.
 
    Upon receiving the Key Distribution Response, the group member
-   retrieves the updated security parameters, group keying material and
+   retrieves the updated security parameters, group keying material, and
    Sender ID, and, if they differ from the current ones, uses them to
    set up the new Group OSCORE Security Context as described in
    Section 2 of [I-D.ietf-core-oscore-groupcomm].
@@ -2495,7 +2495,7 @@ Table of Contents
       Such messages do not provide a direct hint to the correct group
       name, that the node would need in order to retrieve the latest
       keying material and authentication credentials from the Group
-      Manager (see Section 9.1.1, Section 9.1.2 and Section 9.3).
+      Manager (see Section 9.1.1, Section 9.1.2, and Section 9.3).
       However, such messages may specify the current Gid of the group,
       as value of the 'kid_context' field of the OSCORE CoAP option (see
       Section 6.1 of [RFC8613] and Section 3.2 of
@@ -2808,11 +2808,11 @@ Table of Contents
 
       -  The parameter 'stale_node_ids' takes ARRAY as value.
 
-   *  The parameters 'creds', 'peer_roles' and 'peer_identifiers' SHOULD
-      be present, if the group rekeying is performed due to one or
-      multiple Clients that have requested to join the group.  Following
-      the same semantics used in the Join Response message (see
-      Section 6.3), the three parameters specify the authentication
+   *  The parameters 'creds', 'peer_roles', and 'peer_identifiers'
+      SHOULD be present, if the group rekeying is performed due to one
+      or multiple Clients that have requested to join the group.
+      Following the same semantics used in the Join Response message
+      (see Section 6.3), the three parameters specify the authentication
       credential, roles in the group and node identifier of each of the
       Clients that have requested to join the group.  The Group Manager
       MUST NOT include a non-empty subset of these three parameters.
@@ -3179,7 +3179,7 @@ Table of Contents
       of the group member associated with each authentication
       credential.
 
-   *  'kdc_nonce', 'kdc_cred' and 'kdc_cred_verify'.  A Client MUST
+   *  'kdc_nonce', 'kdc_cred', and 'kdc_cred_verify'.  A Client MUST
       support these parameters, since the Group Manager's authentication
       credential is required to process messages protected with Group
       OSCORE (see Section 4.3 of [I-D.ietf-core-oscore-groupcomm]).
@@ -3258,8 +3258,8 @@ Table of Contents
 
    The following builds on the "COSE Header Parameters" registry
    [COSE.Header.Parameters], the "COSE Algorithms" registry
-   [COSE.Algorithms], the "COSE Key Types" registry [COSE.Key.Types] and
-   the "COSE Elliptic Curves" registry [COSE.Elliptic.Curves].
+   [COSE.Algorithms], the "COSE Key Types" registry [COSE.Key.Types],
+   and the "COSE Elliptic Curves" registry [COSE.Elliptic.Curves].
 
 14.1.  Common
 
@@ -3410,8 +3410,8 @@ Table of Contents
    authentication credential to be in the format used in the OSCORE
    group, and that both the authentication credential of the joining
    node and the included public key are compatible with the signature or
-   ECDH algorithm, and possible associated parameters used in the OSCORE
-   group.
+   ECDH algorithm, and with possible associated parameters used in the
+   OSCORE group.
 
    A node may have joined multiple OSCORE groups under different non-
    synchronized Group Managers.  Therefore, it can happen that those
@@ -4429,7 +4429,7 @@ Appendix B.  Extensibility for Future COSE Algorithms
 
    *  The 'sign_params' and 'ecdh_params' parameters within the 'key'
       parameter (see Section 6.3), as part of the response payloads used
-      in Section 6.3, Section 9.1.1, Section 9.1.2 and Section 11.
+      in Section 6.3, Section 9.1.1, Section 9.1.2, and Section 11.
 
    If any of the currently registered COSE algorithms is considered,
    using this general format yields the same structure defined in this
@@ -5010,7 +5010,7 @@ Acknowledgments
 
    The authors sincerely thank Christian Amsüss, Santiago Aragón, Stefan
    Beck, Carsten Bormann, Martin Gunnarsson, Rikard Höglund, Watson
-   Ladd, Daniel Migault, Jim Schaad, Ludwig Seitz, Göran Selander and
+   Ladd, Daniel Migault, Jim Schaad, Ludwig Seitz, Göran Selander, and
    Peter van der Stok for their comments and feedback.
 
    The work on this document has been partly supported by the Sweden's
