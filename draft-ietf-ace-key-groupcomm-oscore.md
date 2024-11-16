@@ -1075,11 +1075,11 @@ The payload of the 2.05 (Content) KDC Authentication Credential Response is a CB
 
 Upon receiving a 2.05 (Content) KDC Authentication Credential Response, the requesting Client retrieves the Group Manager's authentication credential from the 'kdc_cred' parameter, and proceeds as defined in {{Section 4.5.1.1 of RFC9594}}. The requesting Client verifies the PoP evidence included in 'kdc_cred_verify' by means of the same method used when processing the Join Response, as defined in {{ssec-join-resp}} of this document (REQ21).
 
-Note that a signature verifier would not receive a successful response from the Group Manager, in case GROUPNAME denotes a pairwise-only group.
-
 ### Retrieval for Signature Verifiers # {#sec-gm-pub-key-signature-verifier}
 
 TBD
+
+Note that a signature verifier would not receive a successful response from the Group Manager, in case GROUPNAME denotes a pairwise-only group.
 
 ## Retrieve Signature Verification Data # {#sec-verif-data}
 
