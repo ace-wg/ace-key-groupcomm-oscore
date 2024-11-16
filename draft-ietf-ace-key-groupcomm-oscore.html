@@ -2394,32 +2394,48 @@ The input parameters of HKDF are as follows.<a href="#section-6.3-7.8.2.2.3" cla
 </li>
         </ul>
 <p id="section-6.4-3">In case of failed verification of the PoP evidence, the joining node <span class="bcp14">MUST</span> stop processing the Join Response and <span class="bcp14">MAY</span> send a new Join Request to the Group Manager (see <a href="#ssec-join-req-sending" class="auto internal xref">Section 6.1</a>).<a href="#section-6.4-3" class="pilcrow">¶</a></p>
-<p id="section-6.4-4">In case of successful verification of the PoP evidence, the joining node uses the information received in the Join Response to set up the Group OSCORE Security Context, as described in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-23#section-2" class="relref">Section 2</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>. If the following parameters were not included in the 'key' parameter of the Join Response, the joining node considers the default values specified below, consistently with <span><a href="https://rfc-editor.org/rfc/rfc8613#section-3.2" class="relref">Section 3.2</a> of [<a href="#RFC8613" class="cite xref">RFC8613</a>]</span>.<a href="#section-6.4-4" class="pilcrow">¶</a></p>
+<p id="section-6.4-4">In case of successful verification of the PoP evidence, the joining node uses the information received in the Join Response to set up the Group OSCORE Security Context, as described in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-23#section-2" class="relref">Section 2</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>. In particular, the following applies.<a href="#section-6.4-4" class="pilcrow">¶</a></p>
+<p id="section-6.4-5">If the following parameters were not included in the 'key' parameter of the Join Response, the joining node performs the following actions.<a href="#section-6.4-5" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-6.4-5.1">
-            <p id="section-6.4-5.1.1">Absent the 'hkdf' parameter, the joining node considers HKDF SHA-256 as HKDF Algorithm to use in the OSCORE group.<a href="#section-6.4-5.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-6.4-6.1">
+            <p id="section-6.4-6.1.1">Absent the 'gp_enc_alg' parameter, the parameter Group Encryption Algorithm in the Common Context of the Group OSCORE Security Context is not set.<a href="#section-6.4-6.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-6.4-5.2">
-            <p id="section-6.4-5.2.1">Absent the 'salt' parameter, the joining node considers the empty byte string as Master Salt to use in the OSCORE group.<a href="#section-6.4-5.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-6.4-6.2">
+            <p id="section-6.4-6.2.1">Absent the 'sign_alg' parameter, the parameter Signature Algorithm in the Common Context of the Group OSCORE Security Context is not set.<a href="#section-6.4-6.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-6.4-5.3">
-            <p id="section-6.4-5.3.1">Absent the 'group_rekeying' parameter, the joining node considers the "Point-to-Point" group rekeying scheme registered in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-11.13" class="relref">Section 11.13</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span> as the rekeying scheme used in the group (OPT9). Its detailed use for this profile is defined in <a href="#sec-group-rekeying-process" class="auto internal xref">Section 11</a> of this document.<a href="#section-6.4-5.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-6.4-6.3">
+            <p id="section-6.4-6.3.1">Absent the 'alg' parameter, the parameter AEAD Algorithm in the Security Context of the Group OSCORE Security Context is not set.<a href="#section-6.4-6.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-6.4-6.4">
+            <p id="section-6.4-6.4.1">Absent the 'ecdh_alg' parameter, the parameter Pairwise Key Agreement Algorithm in the Common Context of the Group OSCORE Security Context is not set.<a href="#section-6.4-6.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-6.4-6">In addition, the joining node maintains an association between each authentication credential retrieved from the 'creds' parameter and the role(s) that the corresponding group member has in the OSCORE group.<a href="#section-6.4-6" class="pilcrow">¶</a></p>
-<p id="section-6.4-7">From then on, the joining node can exchange group messages secured with Group OSCORE as described in <span>[<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>. When doing so:<a href="#section-6.4-7" class="pilcrow">¶</a></p>
+<p id="section-6.4-7">If the following parameters were not included in the 'key' parameter of the Join Response, considers the default values specified below, consistently with <span><a href="https://rfc-editor.org/rfc/rfc8613#section-3.2" class="relref">Section 3.2</a> of [<a href="#RFC8613" class="cite xref">RFC8613</a>]</span>.<a href="#section-6.4-7" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-6.4-8.1">
-            <p id="section-6.4-8.1.1">The joining node <span class="bcp14">MUST NOT</span> process an incoming request message, if protected by a group member whose authentication credential is not associated with the role "Requester".<a href="#section-6.4-8.1.1" class="pilcrow">¶</a></p>
+            <p id="section-6.4-8.1.1">Absent the 'hkdf' parameter, the joining node considers HKDF SHA-256 as HKDF Algorithm to use in the OSCORE group.<a href="#section-6.4-8.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-6.4-8.2">
-            <p id="section-6.4-8.2.1">The joining node <span class="bcp14">MUST NOT</span> process an incoming response message, if protected by a group member whose authentication credential is not associated with the role "Responder".<a href="#section-6.4-8.2.1" class="pilcrow">¶</a></p>
+            <p id="section-6.4-8.2.1">Absent the 'salt' parameter, the joining node considers the empty byte string as Master Salt to use in the OSCORE group.<a href="#section-6.4-8.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-6.4-8.3">
-            <p id="section-6.4-8.3.1">The joining node <span class="bcp14">MUST NOT</span> use the pairwise mode of Group OSCORE to process messages in the group, if the Join Response did not include the 'ecdh_alg' parameter.<a href="#section-6.4-8.3.1" class="pilcrow">¶</a></p>
+            <p id="section-6.4-8.3.1">Absent the 'group_rekeying' parameter, the joining node considers the "Point-to-Point" group rekeying scheme registered in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-11.13" class="relref">Section 11.13</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span> as the rekeying scheme used in the group (OPT9). Its detailed use for this profile is defined in <a href="#sec-group-rekeying-process" class="auto internal xref">Section 11</a> of this document.<a href="#section-6.4-8.3.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-6.4-9">If the application requires backward security, the Group Manager <span class="bcp14">MUST</span> generate updated security parameters and group keying material, and provide it to the current group members, upon the new node's joining (see <a href="#sec-group-rekeying-process" class="auto internal xref">Section 11</a>). In such a case, the joining node is not able to access secure communication in the OSCORE group that occurred prior to its joining.<a href="#section-6.4-9" class="pilcrow">¶</a></p>
+<p id="section-6.4-9">In addition, the joining node maintains an association between each authentication credential retrieved from the 'creds' parameter and the role(s) that the corresponding group member has in the OSCORE group.<a href="#section-6.4-9" class="pilcrow">¶</a></p>
+<p id="section-6.4-10">From then on, the joining node can exchange group messages secured with Group OSCORE as described in <span>[<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>. When doing so:<a href="#section-6.4-10" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-6.4-11.1">
+            <p id="section-6.4-11.1.1">The joining node <span class="bcp14">MUST NOT</span> process an incoming request message, if protected by a group member whose authentication credential is not associated with the role "Requester".<a href="#section-6.4-11.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-6.4-11.2">
+            <p id="section-6.4-11.2.1">The joining node <span class="bcp14">MUST NOT</span> process an incoming response message, if protected by a group member whose authentication credential is not associated with the role "Responder".<a href="#section-6.4-11.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-6.4-11.3">
+            <p id="section-6.4-11.3.1">The joining node <span class="bcp14">MUST NOT</span> use the pairwise mode of Group OSCORE to process messages in the group, if the Join Response did not include the 'ecdh_alg' parameter.<a href="#section-6.4-11.3.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+<p id="section-6.4-12">If the application requires backward security, the Group Manager <span class="bcp14">MUST</span> generate updated security parameters and group keying material, and provide it to the current group members, upon the new node's joining (see <a href="#sec-group-rekeying-process" class="auto internal xref">Section 11</a>). In such a case, the joining node is not able to access secure communication in the OSCORE group that occurred prior to its joining.<a href="#section-6.4-12" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -4893,43 +4909,46 @@ sign_params = 11
             <p id="appendix-D.1-1.12.1">Clarified maximum size of the OSCORE Sender ID.<a href="#appendix-D.1-1.12.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.13">
-            <p id="appendix-D.1-1.13.1">Clarified meaning of 'cred_fmt'.<a href="#appendix-D.1-1.13.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.13.1">Clarified parameters left "not set" in the Security Context.<a href="#appendix-D.1-1.13.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.14">
-            <p id="appendix-D.1-1.14.1">Relation between 'cred_fmt' and Authentication Credential Format.<a href="#appendix-D.1-1.14.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.14.1">Clarified meaning of 'cred_fmt'.<a href="#appendix-D.1-1.14.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.15">
-            <p id="appendix-D.1-1.15.1">PUT becomes POST for ace-group/GROUPNAME/nodes/NODENAME.<a href="#appendix-D.1-1.15.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.15.1">Relation between 'cred_fmt' and Authentication Credential Format.<a href="#appendix-D.1-1.15.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.16">
-            <p id="appendix-D.1-1.16.1">Fixed error response code from /ace-group/GROUPNAME/nodes/NODENAME.<a href="#appendix-D.1-1.16.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.16.1">PUT becomes POST for ace-group/GROUPNAME/nodes/NODENAME.<a href="#appendix-D.1-1.16.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.17">
-            <p id="appendix-D.1-1.17.1">Consistent use of the 'exi' ACE Groupcomm Parameter.<a href="#appendix-D.1-1.17.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.17.1">Fixed error response code from /ace-group/GROUPNAME/nodes/NODENAME.<a href="#appendix-D.1-1.17.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.18">
-            <p id="appendix-D.1-1.18.1">Use concise problem details (RFC9290) for error responses.<a href="#appendix-D.1-1.18.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.18.1">Consistent use of the 'exi' ACE Groupcomm Parameter.<a href="#appendix-D.1-1.18.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.19">
-            <p id="appendix-D.1-1.19.1">Revised default values on group configuration parameters.<a href="#appendix-D.1-1.19.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.19.1">Use concise problem details (RFC9290) for error responses.<a href="#appendix-D.1-1.19.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.20">
-            <p id="appendix-D.1-1.20.1">Revised future-ready generalization of 'ecdh_info_entry'.<a href="#appendix-D.1-1.20.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.20.1">Revised default values on group configuration parameters.<a href="#appendix-D.1-1.20.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.21">
-            <p id="appendix-D.1-1.21.1">CCS is used as default format of authentication credential.<a href="#appendix-D.1-1.21.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.21.1">Revised future-ready generalization of 'ecdh_info_entry'.<a href="#appendix-D.1-1.21.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.22">
-            <p id="appendix-D.1-1.22.1">Updated name of TLS exporter label.<a href="#appendix-D.1-1.22.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.22.1">CCS is used as default format of authentication credential.<a href="#appendix-D.1-1.22.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.23">
-            <p id="appendix-D.1-1.23.1">Revised IANA considerations.<a href="#appendix-D.1-1.23.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.23.1">Updated name of TLS exporter label.<a href="#appendix-D.1-1.23.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.24">
-            <p id="appendix-D.1-1.24.1">Aligned requirement formulation with that in RFC 9594.<a href="#appendix-D.1-1.24.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.24.1">Revised IANA considerations.<a href="#appendix-D.1-1.24.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.25">
-            <p id="appendix-D.1-1.25.1">Clarifications and editorial fixes.<a href="#appendix-D.1-1.25.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.25.1">Aligned requirement formulation with that in RFC 9594.<a href="#appendix-D.1-1.25.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-D.1-1.26">
+            <p id="appendix-D.1-1.26.1">Clarifications and editorial fixes.<a href="#appendix-D.1-1.26.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
