@@ -842,7 +842,15 @@ In addition to what is defined in {{Section 4.5 of RFC9594}}, this resource also
 
 ### FETCH Handler {#kdc-cred-fetch}
 
-TBD
+The handler expects a FETCH request, whose payload is a CBOR map including a nonce N_C (see {{sec-gm-pub-key-signature-verifier}}).
+
+In addition to what is defined in {{Section 4.1.2 of RFC9594}}, the Group Manager performs the following checks.
+
+In case the requesting Client is a current group member, the Group Manager MUST reply with a 4.03 (Forbidden) error response. The response MUST have Content-Format set to "application/concise-problem-details+cbor" {{RFC9290}} and is formatted as defined in {{Section 4.1.2 of RFC9594}}. Within the Custom Problem Detail entry 'ace-groupcomm-error', the value of the 'error-id' field MUST be set to 8 ("Operation permitted only to signature verifiers").
+
+In case GROUPNAME denotes a pairwise-only group, the Group Manager MUST reply with a 4.00 (Bad Request) error response. The response MUST have Content-Format set to "application/concise-problem-details+cbor" {{RFC9290}} and is formatted as defined in {{Section 4.1.2 of RFC9594}}. Within the Custom Problem Detail entry 'ace-groupcomm-error', the value of the 'error-id' field MUST be set to 7 ("Signatures not used in the group").
+
+If all verifications succeed, the handler replies with a 2.05 (Content) response, specifying the authentication credential of the Group Manager together with a proof-of-possession (PoP) evidence. The payload of the response is formatted as defined in {{sec-gm-pub-key-signature-verifier}}.
 
 ## /ace-group/GROUPNAME/active {#ssec-resource-active}
 
@@ -866,11 +874,11 @@ This resource implements a GET handler.
 
 The handler expects a GET request.
 
-In addition to what is defined in {{Section 4.1.2 of RFC9594}}, the Group Manager performs the following checks.
+In addition to what is defined in {{Section 4.1.2 of RFC9594}}, the handler performs the following actions.
 
-If the requesting Client is a current group member, the Group Manager MUST reply with a 4.03 (Forbidden) error response. The response MUST have Content-Format set to "application/concise-problem-details+cbor" {{RFC9290}} and is formatted as defined in {{Section 4.1.2 of RFC9594}}. Within the Custom Problem Detail entry 'ace-groupcomm-error', the value of the 'error-id' field MUST be set to 8 ("Operation permitted only to signature verifiers").
+In case the requesting Client is a current group member, the Group Manager MUST reply with a 4.03 (Forbidden) error response. The response MUST have Content-Format set to "application/concise-problem-details+cbor" {{RFC9290}} and is formatted as defined in {{Section 4.1.2 of RFC9594}}. Within the Custom Problem Detail entry 'ace-groupcomm-error', the value of the 'error-id' field MUST be set to 8 ("Operation permitted only to signature verifiers").
 
-If GROUPNAME denotes a pairwise-only group, the Group Manager MUST reply with a 4.00 (Bad Request) error response. The response MUST have Content-Format set to "application/concise-problem-details+cbor" {{RFC9290}} and is formatted as defined in {{Section 4.1.2 of RFC9594}}. Within the Custom Problem Detail entry 'ace-groupcomm-error', the value of the 'error-id' field MUST be set to 7 ("Signatures not used in the group").
+In case GROUPNAME denotes a pairwise-only group, the Group Manager MUST reply with a 4.00 (Bad Request) error response. The response MUST have Content-Format set to "application/concise-problem-details+cbor" {{RFC9290}} and is formatted as defined in {{Section 4.1.2 of RFC9594}}. Within the Custom Problem Detail entry 'ace-groupcomm-error', the value of the 'error-id' field MUST be set to 7 ("Signatures not used in the group").
 
 If all verifications succeed, the handler replies with a 2.05 (Content) response, specifying data that allow also an external signature verifier to verify signatures of messages protected with the group mode and sent to the group (see {{Sections 7.5 and 12.3 of I-D.ietf-core-oscore-groupcomm}}). The response MUST have Content-Format set to "application/ace-groupcomm+cbor". The payload of the response is a CBOR map, which is formatted as defined in {{sec-verif-data}}.
 
@@ -880,7 +888,7 @@ This resource implements a FETCH handler.
 
 ### FETCH Handler {#stale-sids-fetch}
 
-The handler expects a FETCH request, whose payload specifies a version number of the group keying material, encoded as an unsigned CBOR integer.
+The handler expects a FETCH request, whose payload specifies a version number of the group keying material, encoded as an unsigned CBOR integer (see {{sec-retrieve-stale-sids}}).
 
 In addition to what is defined in {{Section 4.1.2 of RFC9594}}, the handler verifies that the requesting Client is a current member of the group. If the verification fails, the Group Manager MUST reply with a 4.03 (Forbidden) error response. The response MUST have Content-Format set to "application/concise-problem-details+cbor" {{RFC9290}} and is formatted as defined in {{Section 4.1.2 of RFC9594}}. Within the Custom Problem Detail entry 'ace-groupcomm-error', the value of the 'error-id' field MUST be set to 0 ("Operation permitted only to group members").
 
@@ -1067,17 +1075,33 @@ A group member or a signature verifier may need to retrieve the authentication c
 
 ### Retrieval for Group Members # {#sec-gm-pub-key-group-member}
 
-A group member sends a CoAP GET request to the endpoint /ace-group/GROUPNAME/kdc-cred at the Group Manager defined in {{Section 4.5.1.1 of RFC9594}}, where GROUPNAME is the name of the OSCORE group.
+A group member sends a CoAP GET request to the endpoint /ace-group/GROUPNAME/kdc-cred at the Group Manager as per {{Section 4.5.1.1 of RFC9594}}, where GROUPNAME is the name of the OSCORE group.
 
 In addition to what is defined in {{Section 4.5.1 of RFC9594}}, the Group Manager MUST respond with a 4.03 (Forbidden) error response, if the requesting Client is not a current group member. The response MUST have Content-Format set to "application/concise-problem-details+cbor" {{RFC9290}} and is formatted as defined in {{Section 4.1.2 of RFC9594}}. Within the Custom Problem Detail entry 'ace-groupcomm-error', the value of the 'error-id' field MUST be set to 0 ("Operation permitted only to group members").
 
-The payload of the 2.05 (Content) KDC Authentication Credential Response is a CBOR map, which is formatted as defined in {{Section 4.5.1 of RFC9594}}. The Group Manager specifies the parameters 'kdc_cred', 'kdc_nonce' and 'kdc_challenge' as defined for the Join Response in {{ssec-join-resp}} of this document. This especially applies to the computing of the proof-of-possession (PoP) evidence included in 'kdc_cred_verify' (REQ21).
+The payload of the 2.05 (Content) KDC Authentication Credential Response is a CBOR map, which is formatted as defined in {{Section 4.5.1 of RFC9594}}. The Group Manager specifies the parameters 'kdc_cred', 'kdc_nonce', and 'kdc_challenge' as defined for the Join Response in {{ssec-join-resp}} of this document. This especially applies to the computing of the proof-of-possession (PoP) evidence included in 'kdc_cred_verify' (REQ21).
 
 Upon receiving a 2.05 (Content) KDC Authentication Credential Response, the requesting Client retrieves the Group Manager's authentication credential from the 'kdc_cred' parameter, and proceeds as defined in {{Section 4.5.1.1 of RFC9594}}. The requesting Client verifies the PoP evidence included in 'kdc_cred_verify' by means of the same method used when processing the Join Response, as defined in {{ssec-join-resp}} of this document (REQ21).
 
 ### Retrieval for Signature Verifiers # {#sec-gm-pub-key-signature-verifier}
 
-TBD
+A Client signature verifier sends a CoAP FETCH request to the endpoint /ace-group/GROUPNAME/kdc-cred at the Group Manager defined in {{Section 4.5 of RFC9594}}, where GROUPNAME is the name of the OSCORE group.
+
+The request MUST have Content-Format "application/ace-groupcomm+cbor". The payload of the request is formatted as a CBOR map, which MUST contain the following field with the value specified below:
+
+* 'cnonce': encoded as a CBOR byte string, whose value is a dedicated nonce N_C generated by the Client. For the N_C value, it is RECOMMENDED to use an 8-byte long random nonce.
+
+The payload of the 2.05 (Content) KDC Authentication Credential Response is a CBOR map, which is formatted as defined in {{Section 4.5.1 of RFC9594}}, with the following difference:
+
+* The field 'kdc_cred_verify' specifies the PoP evidence computed by the Group Manager over the following PoP input: the nonce N_C (encoded as a CBOR byte string) concatenated with the nonce N_KDC (encoded as a CBOR byte string), where:
+
+  - N_C is the nonce generated by the Client signature verifier and specified in the 'cnonce' parameter of the received request.
+
+  - N_KDC is the nonce generated by the Group Manager and specified in the 'kdc_nonce' parameter.
+
+The Group Manager specifies the parameters 'kdc_cred' and 'kdc_nonce' as defined for the Join Response in {{ssec-join-resp}} of this document. The computed PoP evidence included in 'kdc_cred_verify' is always a signature computed over the PoP input defined above (REQ21).
+
+Upon receiving a 2.05 (Content) KDC Authentication Credential Response, the requesting Client retrieves the Group Manager's authentication credential from the 'kdc_cred' parameter. Then, it proceeds as defined in {{Section 4.5.1.1 of RFC9594}}, with the difference that it verifies the PoP evidence included in 'kdc_cred_verify' by verifying a signature and using the PoP input defined above (REQ21)
 
 Note that a signature verifier would not receive a successful response from the Group Manager, in case GROUPNAME denotes a pairwise-only group.
 
@@ -2000,7 +2024,7 @@ This section lists how this application profile of ACE addresses the requirement
 
 * REQ20: If used, specify the format and default values of the entries of the CBOR map to include in the 'group_policies' parameter: see {{ssec-join-resp}}.
 
-* REQ21: Specify the approaches used to compute and verify the PoP evidence to include in the 'kdc_cred_verify' parameter and which of those approaches is used in which case. If external signature verifiers are supported, specify how those provide a nonce to the KDC to be used for computing the PoP evidence: see {{ssec-join-resp}}, {{ssec-join-resp-processing}} and {{sec-gm-pub-key}}.
+* REQ21: Specify the approaches used to compute and verify the PoP evidence to include in the 'kdc_cred_verify' parameter and which of those approaches is used in which case. If external signature verifiers are supported, specify how those provide a nonce to the KDC to be used for computing the PoP evidence: see {{ssec-join-resp}}, {{ssec-join-resp-processing}} and {{sec-gm-pub-key-signature-verifier}}.
 
 * REQ22: Specify the communication protocol that members of the group use to communicate with each other (e.g., CoAP for group communication): CoAP {{RFC7252}}, also for group communication {{I-D.ietf-core-groupcomm-bis}}.
 
@@ -2187,6 +2211,8 @@ sign_params = 11
 * Relation between 'cred_fmt' and Authentication Credential Format.
 
 * GET to ace-group/GROUPNAME/kdc-cred only for group members.
+
+* Added FETCH handler for /ace-group/GROUPNAME/kdc-cred.
 
 * PUT becomes POST for ace-group/GROUPNAME/nodes/NODENAME.
 
