@@ -2367,18 +2367,18 @@ Table of Contents
    Figure 2 shows an example of Signature Verification Data Request-
    Response.
 
-   Signature                                                     Group
-   Verifier                                                     Manager
-     |                                                             |
-     |             KDC Authentication Credential Request           |
-     |------------------------------------------------------------>|
-     |              FETCH /ace-group/GROUPNAME/kdc-cred            |
-     |                                                             |
-     |<-- KDC Authentication Credential Response: 2.05 (Content) --|
-     |                                                             |
+  Signature                                                       Group
+  Verifier                                                       Manager
+    |                                                               |
+    |              KDC Authentication Credential Request            |
+    |-------------------------------------------------------------->|
+    |               FETCH /ace-group/GROUPNAME/kdc-cred             |
+    |                                                               |
+    |<--- KDC Authentication Credential Response: 2.05 (Content) ---|
+    |                                                               |
 
-      Figure 1: Message Flow of KDC Authentication Credential Request-
-          Response, with a Signature Verifier as Requesting Client
+     Figure 1: Message Flow of KDC Authentication Credential Request-
+         Response, with a Signature Verifier as Requesting Client
 
       Request:
 
@@ -4738,6 +4738,8 @@ D.1.  Version -16 to -17
    *  Revised IANA considerations.
 
    *  Aligned requirement formulation with that in RFC 9594.
+
+   *  Use of AASVG in message diagrams.
 
    *  Clarifications and editorial fixes.
 

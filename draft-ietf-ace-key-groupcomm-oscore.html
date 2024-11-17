@@ -2993,18 +2993,36 @@ The Group Manager <span class="bcp14">MUST</span> return a 5.03 (Service Unavail
 <p id="section-9.5.2-9"><a href="#fig-gm-pub-key-signature-verifier-req-resp" class="auto internal xref">Figure 1</a> gives an overview of the exchange described above,  while <a href="#fig-gm-pub-key-signature-verifier-resp-ex" class="auto internal xref">Figure 2</a> shows an example of Signature Verification Data Request-Response.<a href="#section-9.5.2-9" class="pilcrow">¶</a></p>
 <span id="name-message-flow-of-kdc-authent"></span><div id="fig-gm-pub-key-signature-verifier-req-resp">
 <figure id="figure-1">
-            <div class="alignCenter art-text artwork" id="section-9.5.2-10.1">
-<pre>
-Signature                                                     Group
-Verifier                                                     Manager
-  |                                                             |
-  |             KDC Authentication Credential Request           |
-  |------------------------------------------------------------&gt;|
-  |              FETCH /ace-group/GROUPNAME/kdc-cred            |
-  |                                                             |
-  |&lt;-- KDC Authentication Credential Response: 2.05 (Content) --|
-  |                                                             |
-</pre>
+            <div id="section-9.5.2-10.1">
+              <div class="alignCenter art-svg artwork" id="section-9.5.2-10.1.1">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="176" width="568" viewBox="0 0 568 176" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
+                  <path d="M 24,64 L 24,160" fill="none" stroke="black"></path>
+                  <path d="M 536,64 L 536,160" fill="none" stroke="black"></path>
+                  <path d="M 32,96 L 528,96" fill="none" stroke="black"></path>
+                  <path d="M 32,144 L 56,144" fill="none" stroke="black"></path>
+                  <path d="M 512,144 L 528,144" fill="none" stroke="black"></path>
+                  <polygon class="arrowhead" points="536,96 524,90.4 524,101.6" fill="black" transform="rotate(0,528,96)"></polygon>
+                  <polygon class="arrowhead" points="40,144 28,138.4 28,149.6" fill="black" transform="rotate(180,32,144)"></polygon>
+                  <g class="text">
+                    <text x="40" y="36">Signature</text>
+                    <text x="536" y="36">Group</text>
+                    <text x="36" y="52">Verifier</text>
+                    <text x="536" y="52">Manager</text>
+                    <text x="152" y="84">KDC</text>
+                    <text x="228" y="84">Authentication</text>
+                    <text x="332" y="84">Credential</text>
+                    <text x="408" y="84">Request</text>
+                    <text x="168" y="116">FETCH</text>
+                    <text x="312" y="116">/ace-group/GROUPNAME/kdc-cred</text>
+                    <text x="80" y="148">KDC</text>
+                    <text x="156" y="148">Authentication</text>
+                    <text x="260" y="148">Credential</text>
+                    <text x="344" y="148">Response:</text>
+                    <text x="404" y="148">2.05</text>
+                    <text x="464" y="148">(Content)</text>
+                  </g>
+                </svg><a href="#section-9.5.2-10.1.1" class="pilcrow">¶</a>
+</div>
 </div>
 <figcaption><a href="#figure-1" class="selfRef">Figure 1</a>:
 <a href="#name-message-flow-of-kdc-authent" class="selfRef">Message Flow of KDC Authentication Credential Request-Response, with a Signature Verifier as Requesting Client</a>
@@ -3086,18 +3104,36 @@ The 'key' parameter includes only the following data.<a href="#section-9.6-4.1.2
 <p id="section-9.6-6"><a href="#fig-verif-data-req-resp" class="auto internal xref">Figure 3</a> gives an overview of the exchange described above,  while <a href="#fig-verif-data-req-resp-ex" class="auto internal xref">Figure 4</a> shows an example of Signature Verification Data Request-Response.<a href="#section-9.6-6" class="pilcrow">¶</a></p>
 <span id="name-message-flow-of-signature-v"></span><div id="fig-verif-data-req-resp">
 <figure id="figure-3">
-          <div class="alignCenter art-text artwork" id="section-9.6-7.1">
-<pre>
-Signature                                                     Group
-Verifier                                                     Manager
-  |                                                             |
-  |              Signature Verification Data Request            |
-  |------------------------------------------------------------&gt;|
-  |              GET /ace-group/GROUPNAME/verif-data            |
-  |                                                             |
-  |&lt;--- Signature Verification Data Response: 2.05 (Content) ---|
-  |                                                             |
-</pre>
+          <div id="section-9.6-7.1">
+            <div class="alignCenter art-svg artwork" id="section-9.6-7.1.1">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="176" width="552" viewBox="0 0 552 176" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
+                <path d="M 24,64 L 24,160" fill="none" stroke="black"></path>
+                <path d="M 520,64 L 520,160" fill="none" stroke="black"></path>
+                <path d="M 32,96 L 512,96" fill="none" stroke="black"></path>
+                <path d="M 32,144 L 56,144" fill="none" stroke="black"></path>
+                <path d="M 496,144 L 512,144" fill="none" stroke="black"></path>
+                <polygon class="arrowhead" points="520,96 508,90.4 508,101.6" fill="black" transform="rotate(0,512,96)"></polygon>
+                <polygon class="arrowhead" points="40,144 28,138.4 28,149.6" fill="black" transform="rotate(180,32,144)"></polygon>
+                <g class="text">
+                  <text x="40" y="36">Signature</text>
+                  <text x="520" y="36">Group</text>
+                  <text x="36" y="52">Verifier</text>
+                  <text x="520" y="52">Manager</text>
+                  <text x="176" y="84">Signature</text>
+                  <text x="268" y="84">Verification</text>
+                  <text x="340" y="84">Data</text>
+                  <text x="392" y="84">Request</text>
+                  <text x="152" y="116">GET</text>
+                  <text x="296" y="116">/ace-group/GROUPNAME/verif-data</text>
+                  <text x="104" y="148">Signature</text>
+                  <text x="196" y="148">Verification</text>
+                  <text x="268" y="148">Data</text>
+                  <text x="328" y="148">Response:</text>
+                  <text x="388" y="148">2.05</text>
+                  <text x="448" y="148">(Content)</text>
+                </g>
+              </svg><a href="#section-9.6-7.1.1" class="pilcrow">¶</a>
+</div>
 </div>
 <figcaption><a href="#figure-3" class="selfRef">Figure 3</a>:
 <a href="#name-message-flow-of-signature-v" class="selfRef">Message Flow of Signature Verification Data Request-Response</a>
@@ -3177,16 +3213,35 @@ Verifier                                                     Manager
 <p id="section-9.9-6"><a href="#fig-key-status-req-resp" class="auto internal xref">Figure 5</a> gives an overview of the exchange described above, while <a href="#fig-key-status-req-resp-ex" class="auto internal xref">Figure 6</a> shows an example of Group Status Request-Response.<a href="#section-9.9-6" class="pilcrow">¶</a></p>
 <span id="name-message-flow-of-group-statu"></span><div id="fig-key-status-req-resp">
 <figure id="figure-5">
-          <div class="alignCenter art-text artwork" id="section-9.9-7.1">
-<pre>
-Group                                                          Group
-Member                                                        Manager
-  |                                                              |
-  |--- Group Status Request: GET /ace-group/GROUPNAME/active ---&gt;|
-  |                                                              |
-  |&lt;----------- Group Status Response: 2.05 (Content) -----------|
-  |                                                              |
-</pre>
+          <div id="section-9.9-7.1">
+            <div class="alignCenter art-svg artwork" id="section-9.9-7.1.1">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="144" width="560" viewBox="0 0 560 144" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
+                <path d="M 24,64 L 24,128" fill="none" stroke="black"></path>
+                <path d="M 528,64 L 528,128" fill="none" stroke="black"></path>
+                <path d="M 32,80 L 48,80" fill="none" stroke="black"></path>
+                <path d="M 496,80 L 520,80" fill="none" stroke="black"></path>
+                <path d="M 32,112 L 120,112" fill="none" stroke="black"></path>
+                <path d="M 440,112 L 520,112" fill="none" stroke="black"></path>
+                <polygon class="arrowhead" points="528,80 516,74.4 516,85.6" fill="black" transform="rotate(0,520,80)"></polygon>
+                <polygon class="arrowhead" points="40,112 28,106.4 28,117.6" fill="black" transform="rotate(180,32,112)"></polygon>
+                <g class="text">
+                  <text x="24" y="36">Group</text>
+                  <text x="528" y="36">Group</text>
+                  <text x="28" y="52">Member</text>
+                  <text x="528" y="52">Manager</text>
+                  <text x="80" y="84">Group</text>
+                  <text x="132" y="84">Status</text>
+                  <text x="196" y="84">Request:</text>
+                  <text x="248" y="84">GET</text>
+                  <text x="376" y="84">/ace-group/GROUPNAME/active</text>
+                  <text x="152" y="116">Group</text>
+                  <text x="204" y="116">Status</text>
+                  <text x="272" y="116">Response:</text>
+                  <text x="332" y="116">2.05</text>
+                  <text x="392" y="116">(Content)</text>
+                </g>
+              </svg><a href="#section-9.9-7.1.1" class="pilcrow">¶</a>
+</div>
 </div>
 <figcaption><a href="#figure-5" class="selfRef">Figure 5</a>:
 <a href="#name-message-flow-of-group-statu" class="selfRef">Message Flow of Group Status Request-Response</a>
@@ -3247,16 +3302,40 @@ Furthermore, since it is not a group member, the node does not take part to a po
 <p id="section-9.10-7"><a href="#fig-group-names-req-resp" class="auto internal xref">Figure 7</a> gives an overview of the exchanges described above, while <a href="#fig-group-names-req-resp-ex" class="auto internal xref">Figure 8</a> shows an example of Group Name and URI Retrieval Request-Response.<a href="#section-9.10-7" class="pilcrow">¶</a></p>
 <span id="name-message-flow-of-group-name-"></span><div id="fig-group-names-req-resp">
 <figure id="figure-7">
-          <div class="alignCenter art-text artwork" id="section-9.10-8.1">
-<pre>
-                                                                Group
-Node                                                           Manager
- |                                                                |
- |--- Group Name and URI Retrieval Request: FETCH /ace-group/ ---&gt;|
- |                                                                |
- |&lt;--- Group Name and URI Retrieval Response: 2.05 (Content) -----|
- |                                                                |
-</pre>
+          <div id="section-9.10-8.1">
+            <div class="alignCenter art-svg artwork" id="section-9.10-8.1.1">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="144" width="568" viewBox="0 0 568 144" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
+                <path d="M 16,64 L 16,128" fill="none" stroke="black"></path>
+                <path d="M 536,64 L 536,128" fill="none" stroke="black"></path>
+                <path d="M 24,80 L 40,80" fill="none" stroke="black"></path>
+                <path d="M 504,80 L 528,80" fill="none" stroke="black"></path>
+                <path d="M 24,112 L 48,112" fill="none" stroke="black"></path>
+                <path d="M 496,112 L 528,112" fill="none" stroke="black"></path>
+                <polygon class="arrowhead" points="536,80 524,74.4 524,85.6" fill="black" transform="rotate(0,528,80)"></polygon>
+                <polygon class="arrowhead" points="32,112 20,106.4 20,117.6" fill="black" transform="rotate(180,24,112)"></polygon>
+                <g class="text">
+                  <text x="536" y="36">Group</text>
+                  <text x="20" y="52">Node</text>
+                  <text x="536" y="52">Manager</text>
+                  <text x="72" y="84">Group</text>
+                  <text x="116" y="84">Name</text>
+                  <text x="152" y="84">and</text>
+                  <text x="184" y="84">URI</text>
+                  <text x="240" y="84">Retrieval</text>
+                  <text x="316" y="84">Request:</text>
+                  <text x="376" y="84">FETCH</text>
+                  <text x="448" y="84">/ace-group/</text>
+                  <text x="80" y="116">Group</text>
+                  <text x="124" y="116">Name</text>
+                  <text x="160" y="116">and</text>
+                  <text x="192" y="116">URI</text>
+                  <text x="248" y="116">Retrieval</text>
+                  <text x="328" y="116">Response:</text>
+                  <text x="388" y="116">2.05</text>
+                  <text x="448" y="116">(Content)</text>
+                </g>
+              </svg><a href="#section-9.10-8.1.1" class="pilcrow">¶</a>
+</div>
 </div>
 <figcaption><a href="#figure-7" class="selfRef">Figure 7</a>:
 <a href="#name-message-flow-of-group-name-" class="selfRef">Message Flow of Group Name and URI Retrieval Request-Response</a>
@@ -3535,18 +3614,35 @@ Then, the group member <span class="bcp14">MUST</span> remove every authenticati
 <p id="section-11.3.1-7"><a href="#fig-stale-ids-req-resp" class="auto internal xref">Figure 9</a> gives an overview of the exchange described above,  while <a href="#fig-stale-ids-req-resp-ex" class="auto internal xref">Figure 10</a> shows an example of Stale Sender IDs Request-Response.<a href="#section-11.3.1-7" class="pilcrow">¶</a></p>
 <span id="name-message-flow-of-stale-sende"></span><div id="fig-stale-ids-req-resp">
 <figure id="figure-9">
-            <div class="alignCenter art-text artwork" id="section-11.3.1-8.1">
-<pre>
-                                                              Group
-Node                                                         Manager
-  |                                                             |
-  |                   Stale Sender IDs Request                  |
-  |------------------------------------------------------------&gt;|
-  |             FETCH /ace-group/GROUPNAME/stale-sids           |
-  |                                                             |
-  |&lt;---------- Stale Sender IDs Response: 2.05 (Content) -------|
-  |                                                             |
-</pre>
+            <div id="section-11.3.1-8.1">
+              <div class="alignCenter art-svg artwork" id="section-11.3.1-8.1.1">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="176" width="552" viewBox="0 0 552 176" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
+                  <path d="M 24,64 L 24,160" fill="none" stroke="black"></path>
+                  <path d="M 520,64 L 520,160" fill="none" stroke="black"></path>
+                  <path d="M 32,96 L 512,96" fill="none" stroke="black"></path>
+                  <path d="M 32,144 L 112,144" fill="none" stroke="black"></path>
+                  <path d="M 464,144 L 512,144" fill="none" stroke="black"></path>
+                  <polygon class="arrowhead" points="520,96 508,90.4 508,101.6" fill="black" transform="rotate(0,512,96)"></polygon>
+                  <polygon class="arrowhead" points="40,144 28,138.4 28,149.6" fill="black" transform="rotate(180,32,144)"></polygon>
+                  <g class="text">
+                    <text x="520" y="36">Group</text>
+                    <text x="20" y="52">Node</text>
+                    <text x="520" y="52">Manager</text>
+                    <text x="200" y="84">Stale</text>
+                    <text x="252" y="84">Sender</text>
+                    <text x="296" y="84">IDs</text>
+                    <text x="344" y="84">Request</text>
+                    <text x="152" y="116">FETCH</text>
+                    <text x="304" y="116">/ace-group/GROUPNAME/stale-sids</text>
+                    <text x="144" y="148">Stale</text>
+                    <text x="196" y="148">Sender</text>
+                    <text x="240" y="148">IDs</text>
+                    <text x="296" y="148">Response:</text>
+                    <text x="356" y="148">2.05</text>
+                    <text x="416" y="148">(Content)</text>
+                  </g>
+                </svg><a href="#section-11.3.1-8.1.1" class="pilcrow">¶</a>
+</div>
 </div>
 <figcaption><a href="#figure-9" class="selfRef">Figure 9</a>:
 <a href="#name-message-flow-of-stale-sende" class="selfRef">Message Flow of Stale Sender IDs Request-Response</a>
@@ -5106,7 +5202,10 @@ sign_params = 11
             <p id="appendix-D.1-1.28.1">Aligned requirement formulation with that in RFC 9594.<a href="#appendix-D.1-1.28.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.29">
-            <p id="appendix-D.1-1.29.1">Clarifications and editorial fixes.<a href="#appendix-D.1-1.29.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.29.1">Use of AASVG in message diagrams.<a href="#appendix-D.1-1.29.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-D.1-1.30">
+            <p id="appendix-D.1-1.30.1">Clarifications and editorial fixes.<a href="#appendix-D.1-1.30.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
