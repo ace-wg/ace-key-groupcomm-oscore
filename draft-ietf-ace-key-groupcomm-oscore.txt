@@ -655,7 +655,7 @@ Table of Contents
          value the CBOR simple value null (0xf6) to request information
          about the ECDH algorithm, the ECDH algorithm parameters, the
          ECDH key parameters, and the exact format of authentication
-         credentials used in the groups that the Client has been
+         credentials used in the OSCORE groups that the Client has been
          authorized to join.  This is relevant in case the joining node
          supports the pairwise mode of Group OSCORE
          [I-D.ietf-core-oscore-groupcomm].
@@ -663,11 +663,12 @@ Table of Contents
       -  'kdc_dh_creds' defined in Section 5.3.2 of this document, with
          value the CBOR simple value null (0xf6) to request the Diffie-
          Hellman authentication credentials of the Group Manager for the
-         groups that the Client has been authorized to join.  That is,
-         each of such authentication credentials includes a Diffie-
-         Hellman public key of the Group Manager.  This is relevant in
-         case the joining node supports the pairwise mode of Group
-         OSCORE [I-D.ietf-core-oscore-groupcomm].
+         OSCORE groups that the Client has been authorized to join.
+         That is, each of such authentication credentials includes a
+         Diffie-Hellman public key of the Group Manager.  This is
+         relevant in case the joining node supports the pairwise mode of
+         Group OSCORE [I-D.ietf-core-oscore-groupcomm] and the access
+         token authorizes to join parwise-only groups.
 
       Alternatively, the joining node may retrieve this information by
       other means.
@@ -690,7 +691,7 @@ Table of Contents
          groups.
 
       -  'sign_alg' takes value from the "Value" column of the "COSE
-         Algorithms" registry [COSE.Algorithms].
+         Algorithms" registry [COSE.Algorithms] (REQ3).
 
       -  'sign_parameters' has the same format and value of the COSE
          capabilities array for the algorithm indicated in 'sign_alg',
@@ -731,16 +732,40 @@ Table of Contents
       generalized for possible future registered algorithms having a
       different set of COSE capabilities.
 
-   *  If 'ecdh_info' is included in the Token Transfer Request, the
-      Group Manager SHOULD include the 'ecdh_info' parameter in the
-      Token Transfer Response, as per the format defined in
-      Section 5.3.1.  Note that the field 'id' of each 'ecdh_info_entry'
-      specifies the name, or array of group names, for which that
-      'ecdh_info_entry' applies to.
+   *  If the 'ecdh_info' parameter is present in the response, the
+      following applies for each element 'ecdh_info_entry'.
 
-      As an exception, the KDC MAY omit the 'ecdh_info' parameter in the
-      Token Transfer Response even if 'ecdh_info' is included in the
-      Token Transfer Request, in case all the groups that the Client is
+      -  'id' MUST NOT refer to OSCORE groups that are signature-only
+         groups.
+
+      -  'ecdh_alg' takes value from the "Value" column of the "COSE
+         Algorithms" registry [COSE.Algorithms].
+
+      -  'ecdh_parameters' has the same format and value of the COSE
+         capabilities array for the algorithm indicated in 'ecdh_alg',
+         as specified for that algorithm in the "Capabilities" column of
+         the "COSE Algorithms" registry [COSE.Algorithms].
+
+      -  'ecdh_key_parameters' has the same format and value of the COSE
+         capabilities array for the COSE key type of the keys used with
+         the algorithm indicated in 'ecdh_alg', as specified for that
+         key type in the "Capabilities" column of the "COSE Key Types"
+         registry [COSE.Key.Types].
+
+      -  'cred_fmt' takes value from the "Label" column of the "COSE
+         Header Parameters" registry [COSE.Header.Parameters].
+         Consistently with Section 2.4 of
+         [I-D.ietf-core-oscore-groupcomm], acceptable values denote a
+         format of authentication credential that MUST explicitly
+         provide the public key as well as the comprehensive set of
+         information related to the public key algorithm, including,
+         e.g., the used elliptic curve (when applicable).  The same
+         considerations provided above on acceptable formats currently
+         available for the 'cred_fmt' element of 'sign_info' apply.
+
+      The Group Manager MAY omit the 'ecdh_info' parameter in the Token
+      Transfer Response even if 'ecdh_info' is included in the Token
+      Transfer Request, in case all the OSCORE groups that the Client is
       authorized to join are signature-only groups.
 
    *  If 'kdc_dh_creds' is included in the Token Transfer Request and
@@ -766,7 +791,7 @@ Table of Contents
 5.3.1.  'ecdh_info' Parameter
 
    The 'ecdh_info' parameter is an OPTIONAL parameter of the request and
-   response messages exchanged between the Client and the authz-info
+   response messages exchanged between the Client and the /authz-info
    endpoint at the RS (see Section 5.10.1. of [RFC9200]).
 
    This parameter allows the Client and the RS to exchange information
@@ -775,93 +800,104 @@ Table of Contents
    Hellman secrets.  Its exact semantics and content are application
    specific.
 
-   In this application profile, this parameter is used to exchange
-   information about the ECDH algorithm as well as about the
-   authentication credentials and public keys to be used with it, in the
-   groups indicated by the transferred access token as per its 'scope'
-   claim (see Section 3.2 of [RFC9594]).
+   In application profiles that build on [RFC9594], this parameter is
+   used to exchange information about the ECDH algorithm as well as
+   about the authentication credentials and public keys to be used with
+   it, in the groups indicated by the transferred access token as per
+   its 'scope' claim (see Section 3.2 of [RFC9594]).
 
-   When used in the Token Transfer Request sent to the Group Manager,
-   the 'ecdh_info' parameter has value the CBOR simple value null
-   (0xf6).  This is done to ask for information about the ECDH algorithm
-   as well as about the authentication credentials and public keys to be
+   When used in the Token Transfer Request sent to the KDC (see
+   Section 3.3 of [RFC9594]), the 'ecdh_info' parameter specifies the
+   CBOR simple value null (0xf6).  This is done to ask for information
+   about the ECDH algorithm and about the authentication credentials
    used to compute static-static Diffie-Hellman shared secrets
-   [NIST-800-56A], in the OSCORE groups that the Client has been
-   authorized to join and that use the pairwise mode of Group OSCORE
-   [I-D.ietf-core-oscore-groupcomm].
+   [NIST-800-56A], in the groups that the Client has been authorized to
+   join or interact with.
 
-   When used in the following Token Transfer Response from the Group
-   Manager, the 'ecdh_info' parameter is a CBOR array of one or more
-   elements.  The number of elements is at most the number of OSCORE
-   groups that the Client has been authorized to join.
+   When used in the following Token Transfer Response from the KDC (see
+   Section 3.3 of [RFC9594]), the 'ecdh_info' parameter is a CBOR array
+   of one or more elements.  The number of elements is at most the
+   number of groups that the Client has been authorized to join or
+   interact with.  Each element contains information about ECDH
+   parameters and about authentication credentials for one or more
+   groups and is formatted as follows.
 
-   Each element contains information about ECDH parameters as well as
-   about authentication credentials and public keys, for one or more
-   OSCORE groups that use the pairwise mode of Group OSCORE and that the
-   Client has been authorized to join.  Each element is formatted as
-   follows.
+   *  The first element 'id' is a group name or a CBOR array of group
+      names, which is associated with groups for which the next four
+      elements apply.  Each specified group name is a CBOR text string
+      and is hereafter referred to as 'gname'.
 
-   *  The first element 'id' is the group name of the OSCORE group or an
-      array of group names for the OSCORE groups for which the specified
-      information applies.  In the following, each specified group name
-      is referred to as 'gname'.  The 'id' element MUST NOT refer to
-      OSCORE groups that are signature-only groups.
+   *  The second element 'ecdh_alg' is a CBOR integer or a text string
+      that indicates the ECDH algorithm used in the groups identified by
+      the 'gname' values.
 
-   *  The second element 'ecdh_alg' is a CBOR integer or a CBOR text
-      string indicating the ECDH algorithm used in the OSCORE group
-      identified by 'gname'.  Values are taken from the "Value" column
-      of the "COSE Algorithms" registry [COSE.Algorithms].
+      For application profiles that use the 'ecdh_info' parameter, it is
+      REQUIRED to define specific values that 'ecdh_alg' can take, which
+      are selected from the set of signing algorithms of the "COSE
+      Algorithms" registry [COSE.Algorithms].
 
-   *  The third element 'ecdh_parameters' is a CBOR array indicating the
-      parameters of the ECDH algorithm used in the OSCORE group
-      identified by 'gname'.  Its format and value are the same of the
-      COSE capabilities array for the algorithm indicated in 'ecdh_alg',
-      as specified for that algorithm in the "Capabilities" column of
-      the "COSE Algorithms" registry [COSE.Algorithms].
+   *  The third element 'ecdh_parameters' is a CBOR array that indicates
+      the parameters of the ECDH algorithm used in the groups identified
+      by the 'gname' values.  Its content depends on the value of
+      'ecdh_alg'.
 
-   *  The fourth element 'ecdh_key_parameters' is a CBOR array
-      indicating the parameters of the keys used with the ECDH algorithm
-      in the OSCORE group identified by 'gname'.  Its content depends on
-      the value of 'ecdh_alg'.  In particular, its format and value are
-      the same of the COSE capabilities array for the COSE key type of
-      the keys used with the algorithm indicated in 'ecdh_alg', as
-      specified for that key type in the "Capabilities" column of the
-      "COSE Key Types" registry [COSE.Key.Types].
+      For application profiles that use the 'ecdh_info' parameter, it is
+      REQUIRED to define the possible values and structure for the
+      elements of 'ecdh_parameters'.
 
-   *  The fifth element 'cred_fmt' is a CBOR integer indicating the
-      format of authentication credentials used in the OSCORE group
-      identified by 'gname'.  It takes value from the "Label" column of
-      the "COSE Header Parameters" registry [COSE.Header.Parameters]
-      (REQ6), with some of those values also indicating the type of
-      container to use for exchanging the authentication credentials
-      with the Group Manager (e.g., a chain or bag of certificates).
-      Acceptable values denote a format that MUST explicitly provide the
-      public key as well as a comprehensive set of information related
-      to the public key algorithm.  This information includes, e.g., the
-      used elliptic curve (when applicable).  The same considerations
-      and guidelines for the 'cred_fmt' element of 'sign_info' apply
-      (see Section 5.3).
+   *  The fourth element 'ecdh_key_parameters' is a CBOR array that
+      indicates the parameters of the key used with the ECDH algorithm
+      in the groups identified by the 'gname' values.  Its content
+      depends on the value of 'ecdh_alg'.
+
+      For application profiles that use the 'ecdh_info' parameter, it is
+      REQUIRED to define the possible values and structure for the
+      elements of 'ecdh_key_parameters'.
+
+   *  The fifth element 'cred_fmt' either is a CBOR integer indicating
+      the format of authentication credentials used in the groups
+      identified by the 'gname' values or is the CBOR simple value null
+      (0xf6), which indicates that the KDC does not act as a repository
+      of authentication credentials for group members.  Its acceptable
+      integer values are taken from the "Label" column of the "COSE
+      Header Parameters" registry [COSE.Header.Parameters], with some of
+      those values also indicating the type of container to use for
+      exchanging the authentication credentials with the KDC (e.g., a
+      chain or bag of certificates).
+
+      For application profiles that use the 'ecdh_info' parameter, it is
+      REQUIRED to define specific values to use for 'cred_fmt',
+      consistently with the acceptable formats of authentication
+      credentials.
+
+   If 'ecdh_info' is included in the Token Transfer Request, the KDC
+   SHOULD include the 'ecdh_info' parameter in the Token Transfer
+   Response, as per the format defined above.  Note that the field 'id'
+   of each 'ecdh_info_entry' specifies the name, or array of group names
+   to which that 'ecdh_info_entry' applies.  As an exception, the KDC
+   MAY omit the 'ecdh_info' parameter in the Token Transfer Response
+   even if 'ecdh_info' is included in the Token Transfer Request, in
+   case none of the groups that the Client is authorized to join uses an
+   ECDH algorithm to derive Diffie-Hellman secrets.
 
    The CDDL notation [RFC8610] of the 'ecdh_info' parameter is given
    below.
 
    ecdh_info = ecdh_info_req / ecdh_info_resp
 
-   ecdh_info_req = null                  ; in the Token Transfer
-                                         ; Request to the
-                                         ; Group Manager
+   ecdh_info_req = null                   ; in the Token Transfer
+                                          ; Request to the KDC
 
-   ecdh_info_res = [+ ecdh_info_entry]   ; in the Token Transfer
-                                         ; Response from the
-                                         ; Group Manager
+   ecdh_info_resp = [+ ecdh_info_entry]   ; in the Token Transfer
+                                          ; Response from the KDC
 
    ecdh_info_entry =
    [
-     id : gname / [+ gname],
-     ecdh_alg : int / tstr,
-     ecdh_parameters : [any],
-     ecdh_key_parameters : [+ parameter : any],
-     cred_fmt : int
+     id: gname / [+ gname],
+     ecdh_alg: int / tstr,
+     ecdh_parameters: [any],
+     ecdh_key_parameters: [+ parameter: any],
+     cred_fmt: int / null
    ]
 
    gname = tstr
@@ -876,8 +912,8 @@ Table of Contents
 5.3.2.  'kdc_dh_creds' Parameter
 
    The 'kdc_dh_creds' parameter is an OPTIONAL parameter of the request
-   and response messages exchanged between the Client and the authz-info
-   endpoint at the RS (see Section 5.10.1. of [RFC9200]).
+   and response messages exchanged between the Client and the /authz-
+   info endpoint at the RS (see Section 5.10.1. of [RFC9200]).
 
    This parameter allows the Client to request and retrieve the Diffie-
    Hellman authentication credentials of the RS, i.e., authentication
@@ -953,9 +989,9 @@ Table of Contents
 
    kdc_dh_creds_entry =
    [
-     id : gname / [+ gname],
-     cred_fmt : int,
-     cred : bstr
+     id: gname / [+ gname],
+     cred_fmt: int,
+     cred: bstr
    ]
 
    gname = tstr
@@ -4464,7 +4500,7 @@ A.2.  Optional-to-Address Requirements
       exchange of Token Transfer Request and Response:
 
       -  'ecdh_info', to negotiate the ECDH algorithm, ECDH algorithm
-         parameters, ECDH key parameters and exact format of
+         parameters, ECDH key parameters, and exact format of
          authentication credentials used in the group, in case the
          joining node supports the pairwise mode of Group OSCORE (see
          Section 5.3).
@@ -4589,11 +4625,11 @@ B.1.  Format of 'ecdh_info_entry'
 
    ecdh_info_entry =
    [
-       id : gname / [+ gname],
-       ecdh_alg : int / tstr,
-       ecdh_parameters : [* ecdh_capab : any],
-     * ecdh_capab : [* capab : any],
-       cred_fmt : int / null
+       id: gname / [+ gname],
+       ecdh_alg: int / tstr,
+       ecdh_parameters : [* ecdh_capab: any],
+     * ecdh_capab: [* capab: any],
+       cred_fmt: int / null
    ]
 
    gname = tstr
@@ -4703,6 +4739,8 @@ D.1.  Version -16 to -17
    *  Added CBOR integer abbreviations for ACE Groupcomm Parameters.
 
    *  Revised alternative computing of N_S challenge when DTLS is used.
+
+   *  Generalized definition of ecdh_info.
 
    *  Clarified maximum size of the OSCORE Sender ID.
 
