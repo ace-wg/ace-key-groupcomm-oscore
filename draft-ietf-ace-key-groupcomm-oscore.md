@@ -394,9 +394,15 @@ The exchange of Token Transfer Request and Token Transfer Response is defined in
 
   * 'cred_fmt' takes value from the "Label" column of the "COSE Header Parameters" registry {{COSE.Header.Parameters}}. Consistently with {{Section 2.4 of I-D.ietf-core-oscore-groupcomm}}, acceptable values denote a format of authentication credential that MUST explicitly provide the public key as well as the comprehensive set of information related to the public key algorithm, including, e.g., the used elliptic curve (when applicable). The same considerations provided above on acceptable formats currently available for the 'cred_fmt' element of 'sign_info' apply.
 
-  The Group Manager MAY omit the 'ecdh_info' parameter in the Token Transfer Response even if 'ecdh_info' is included in the Token Transfer Request, in case all the OSCORE groups that the Client is authorized to join are signature-only groups.
+  The Group Manager omits the 'ecdh_info' parameter in the Token Transfer Response even if 'ecdh_info' is included in the Token Transfer Request, in case all the OSCORE groups that the Client is authorized to join are signature-only groups.
 
-* If 'kdc_dh_creds' is included in the Token Transfer Request and any of the groups that the Client has been authorized to join is a pairwise-only group, then the Group Manager MUST include the 'kdc_dh_creds' parameter in the Token Transfer Response, as per the format defined in {{gm-dh-info}}. Otherwise, if 'kdc_dh_creds' is included in the Token Transfer Request, the Group Manager MAY include the 'kdc_dh_creds' parameter in the Token Transfer Response. Note that the field 'id' specifies the group name, or array of group names, for which the corresponding 'kdc_dh_creds' applies to.
+* If the 'kdc_dh_creds' parameter is present in the response, the following applies for each element 'kdc_dh_creds_entry'.
+
+  * 'id' MUST refer exclusively to OSCORE groups that are pairwise-only groups.
+
+  * 'cred_fmt' takes value from the "Label" column of the "COSE Header Parameters" registry {{COSE.Header.Parameters}}. Consistently with {{Section 2.4 of I-D.ietf-core-oscore-groupcomm}}, acceptable values denote a format of authentication credential that MUST explicitly provide the public key as well as the comprehensive set of information related to the public key algorithm, including, e.g., the used elliptic curve (when applicable). The same considerations provided above on acceptable formats currently available for the 'cred_fmt' element of 'sign_info' apply.
+
+  The Group Manager omits the 'kdc_dh_creds' parameter in the Token Transfer Response even if 'ecdh_info' is included in the Token Transfer Request, in case none of the OSCORE groups that the Client is authorized to join is a pairwise-only group.
 
 Note that, other than through the above parameters as defined in {{Section 3.3 of RFC9594}}, the joining node may have obtained such information by alternative means. For example, information conveyed in the 'sign_info' and 'ecdh_info' parameters may have been pre-configured, or the joining node may early retrieve it, e.g., by using the approach described in {{I-D.tiloca-core-oscore-discovery}} to discover the OSCORE group and the link to the associated group-membership resource at the Group Manager (OPT3).
 
@@ -416,19 +422,19 @@ When used in the following Token Transfer Response from the KDC (see {{Section 3
 
 * The second element 'ecdh_alg' is a CBOR integer or a text string that indicates the ECDH algorithm used in the groups identified by the 'gname' values.
 
-  For application profiles that use the 'ecdh_info' parameter, it is REQUIRED to define specific values that 'ecdh_alg' can take, which are selected from the set of signing algorithms of the "COSE Algorithms" registry {{COSE.Algorithms}}.
+  For application profiles of {{RFC9594}} that use the 'ecdh_info' parameter, it is REQUIRED to define specific values that 'ecdh_alg' can take, which are selected from the set of signing algorithms of the "COSE Algorithms" registry {{COSE.Algorithms}}.
 
 * The third element 'ecdh_parameters' is a CBOR array that indicates the parameters of the ECDH algorithm used in the groups identified by the 'gname' values. Its content depends on the value of 'ecdh_alg'.
 
-  For application profiles that use the 'ecdh_info' parameter, it is REQUIRED to define the possible values and structure for the elements of 'ecdh_parameters'.
+  For application profiles of {{RFC9594}} that use the 'ecdh_info' parameter, it is REQUIRED to define the possible values and structure for the elements of 'ecdh_parameters'.
 
 * The fourth element 'ecdh_key_parameters' is a CBOR array that indicates the parameters of the key used with the ECDH algorithm in the groups identified by the 'gname' values. Its content depends on the value of 'ecdh_alg'.
 
-  For application profiles that use the 'ecdh_info' parameter, it is REQUIRED to define the possible values and structure for the elements of 'ecdh_key_parameters'.
+  For application profiles of {{RFC9594}} that use the 'ecdh_info' parameter, it is REQUIRED to define the possible values and structure for the elements of 'ecdh_key_parameters'.
 
 * The fifth element 'cred_fmt' either is a CBOR integer indicating the format of authentication credentials used in the groups identified by the 'gname' values or is the CBOR simple value `null` (0xf6), which indicates that the KDC does not act as a repository of authentication credentials for group members. Its acceptable integer values are taken from the "Label" column of the "COSE Header Parameters" registry {{COSE.Header.Parameters}}, with some of those values also indicating the type of container to use for exchanging the authentication credentials with the KDC (e.g., a chain or bag of certificates).
 
-  For application profiles that use the 'ecdh_info' parameter, it is REQUIRED to define specific values to use for 'cred_fmt', consistently with the acceptable formats of authentication credentials.
+  For application profiles of {{RFC9594}} that use the 'ecdh_info' parameter, it is REQUIRED to define specific values to use for 'cred_fmt', consistently with the acceptable formats of authentication credentials.
 
 If 'ecdh_info' is included in the Token Transfer Request, the KDC SHOULD include the 'ecdh_info' parameter in the Token Transfer Response, as per the format defined above. Note that the field 'id' of each 'ecdh_info_entry' specifies the name, or array of group names to which that 'ecdh_info_entry' applies. As an exception, the KDC MAY omit the 'ecdh_info' parameter in the Token Transfer Response even if 'ecdh_info' is included in the Token Transfer Request, in case none of the groups that the Client is authorized to join uses an ECDH algorithm to derive Diffie-Hellman secrets.
 
@@ -437,11 +443,11 @@ The CDDL notation {{RFC8610}} of the 'ecdh_info' parameter is given below.
 ~~~~~~~~~~~ CDDL
 ecdh_info = ecdh_info_req / ecdh_info_resp
 
-ecdh_info_req = null                   ; in the Token Transfer
-                                       ; Request to the KDC
+ecdh_info_req = null                  ; in the Token Transfer
+                                      ; Request to the KDC
 
-ecdh_info_resp = [+ ecdh_info_entry]   ; in the Token Transfer
-                                       ; Response from the KDC
+ecdh_info_resp = [+ ecdh_info_entry]  ; in the Token Transfer
+                                      ; Response from the KDC
 
 ecdh_info_entry =
 [
@@ -463,19 +469,21 @@ The 'kdc_dh_creds' parameter is an OPTIONAL parameter of the request and respons
 
 This parameter allows the Client to request and retrieve the Diffie-Hellman authentication credentials of the RS, i.e., authentication credentials including a Diffie-Hellman public key of the RS.
 
-In this application profile, this parameter is used to request and retrieve from the Group Manager its Diffie-Hellman authentication credentials to use, in the OSCORE groups that the Client has been authorized to join. The Group Manager has a Diffie-Hellman authentication credential in an OSCORE group if and only if the group is a pairwise-only group. In this case, the early retrieval of the Group Manager's authentication credential is necessary in order for the joining node to prove the possession of its own private key, upon joining the group (see {{ssec-join-req-sending}}).
+In application profiles that build on {{RFC9594}}, this parameter is used to request and retrieve from the KDC its Diffie-Hellman authentication credentials to use, in the groups indicated by the transferred access token as per its 'scope' claim (see {{Section 3.2 of RFC9594}}).
 
-When used in the Token Transfer Request sent to the Group Manager, the 'kdc_dh_creds' parameter has value the CBOR simple value `null` (0xf6). This is done to ask for the Diffie-Hellman authentication credentials that the Group Manager uses in the OSCORE groups that the Client has been authorized to join.
+When used in the Token Transfer Request sent to the KDC (see {{Section 3.3 of RFC9594}}), the 'kdc_dh_creds' parameter specifies the CBOR simple value `null` (0xf6). This is done to ask for the Diffie-Hellman authentication credentials that the KDC uses in the groups that the Client has been authorized to join or interact with.
 
-When used in the following Token Transfer Response from the Group Manager, the 'kdc_dh_creds' parameter is a CBOR array of one or more elements. The number of elements is at most the number of OSCORE groups that the Client has been authorized to join.
+When used in the following Token Transfer Response from the KDC (see {{Section 3.2 of RFC9594}}), the 'kdc_dh_creds' parameter is a CBOR array of one or more elements. The number of elements is at most the number of groups that the Client has been authorized to join or interact with. Each element contains information about the KDC's Diffie-Hellman authentication credentials for one or more groups and is formatted as follows.
 
-Each element 'kdc_dh_creds_entry' contains information about the Group Manager's Diffie-Hellman authentication credentials, for one or more OSCORE groups that are pairwise-only groups and that the Client has been authorized to join. Each element is formatted as follows.
+* The first element 'id' is a group name or a CBOR array of group names, which is associated with groups for which the next two elements apply. Each specified group name is a CBOR text string and is hereafter referred to as 'gname'.
 
-* The first element 'id' is the group name of the OSCORE group or an array of group names for the OSCORE groups for which the specified information applies. In particular, 'id' MUST refer exclusively to OSCORE groups that are pairwise-only groups.
+* The second element 'cred_fmt' is a CBOR integer indicating the format of the KDC's authentication credential used in the groups identified by the 'gname' values and specified by the following element 'cred'. Its acceptable integer values are taken from the "Label" column of the "COSE Header Parameters" registry {{COSE.Header.Parameters}}, with some of those values also indicating the type of container to use for exchanging the authentication credentials with the KDC (e.g., a chain or bag of certificates).
 
-* The second element 'cred_fmt' is a CBOR integer indicating the format of authentication credentials used in the OSCORE group identified by 'gname'. It takes value from the "Label" column of the "COSE Header Parameters" registry {{COSE.Header.Parameters}} (REQ6), with some of those values also indicating the type of container to use for exchanging the authentication credentials with the Group Manager (e.g., a chain or bag of certificates). Acceptable values denote a format that MUST explicitly provide the public key as well as a comprehensive set of information related to the public key algorithm. This information includes, e.g., the used elliptic curve (when applicable). The same considerations and guidelines for the 'cred_fmt' element of 'sign_info' apply (see {{ssec-token-post}}).
+  For application profiles of {{RFC9594}} that use the 'kdc_dh_creds' parameter, it is REQUIRED to define specific values to use for 'cred_fmt', consistently with the acceptable formats of the KDC's authentication credentials.
 
-* The third element 'cred' is a CBOR byte string, which encodes the Group Manager's Diffie-Hellman authentication credential in its original binary representation made available to other endpoints in the group. That is, the original binary representation complies with the format specified by the 'cred_fmt' element. Note that the authentication credential provides the comprehensive set of information related to its public key algorithm, i.e., the ECDH algorithm used in the OSCORE group as pairwise key agreement algorithm.
+* The third element 'cred' is a CBOR byte string encoding the original binary representation of the Diffie-Hellman authentication credential that the KDC uses in the groups identified by the 'gname' values. The authentication credential complies with the format specified by the 'cred_fmt' element.
+
+If 'kdc_dh_creds' is included in the Token Transfer Request, the KDC SHOULD include the 'kdc_dh_creds' parameter in the Token Transfer Response, as per the format defined above. Note that the field 'id' of each 'kdc_dh_creds_entry' specifies the name, or array of group names to which that 'kdc_dh_creds_entry' applies. As an exception, the KDC MAY omit the 'kdc_dh_creds' parameter in the Token Transfer Response even if 'kdc_dh_creds' is included in the Token Transfer Request, in case the KDC does not use a Diffie-Hellman authentication credential in any of the groups that the Client is authorized to join.
 
 The CDDL notation {{RFC8610}} of the 'kdc_dh_creds' parameter is given below.
 
@@ -483,12 +491,10 @@ The CDDL notation {{RFC8610}} of the 'kdc_dh_creds' parameter is given below.
 kdc_dh_creds = kdc_dh_creds_req / kdc_dh_creds_resp
 
 kdc_dh_creds_req = null                     ; in the Token Transfer
-                                            ; Request to the
-                                            ; Group Manager
+                                            ; Request to the KDC
 
-kdc_dh_creds_res = [+ kdc_dh_creds_entry]   ; in the Token Transfer
-                                            ; Response from the
-                                            ; Group Manager
+kdc_dh_creds_resp = [+ kdc_dh_creds_entry]  ; in the Token Transfer
+                                            ; Response from the KDC
 
 kdc_dh_creds_entry =
 [
@@ -2272,6 +2278,8 @@ sign_params = 11
 * Revised alternative computing of N_S challenge when DTLS is used.
 
 * Generalized definition of ecdh_info.
+
+* Generalized definition of kdc_dh_creds.
 
 * Clarified maximum size of the OSCORE Sender ID.
 
