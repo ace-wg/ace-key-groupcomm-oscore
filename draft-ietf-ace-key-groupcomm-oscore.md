@@ -1105,22 +1105,18 @@ Upon receiving a 2.05 (Content) KDC Authentication Credential Response, the requ
 
 Note that a signature verifier would not receive a successful response from the Group Manager, in case GROUPNAME denotes a pairwise-only group.
 
-
-
-
-
 {{fig-gm-pub-key-signature-verifier-req-resp}} gives an overview of the exchange described above,  while {{fig-gm-pub-key-signature-verifier-resp-ex}} shows an example of Signature Verification Data Request-Response.
 
-~~~~~~~~~~~
-Signature                                                     Group
-Verifier                                                     Manager
-  |                                                             |
-  |             KDC Authentication Credential Request           |
-  |------------------------------------------------------------>|
-  |              FETCH /ace-group/GROUPNAME/kdc-cred            |
-  |                                                             |
-  |<-- KDC Authentication Credential Response: 2.05 (Content) --|
-  |                                                             |
+~~~~~~~~~~~ aasvg
+Signature                                                       Group
+Verifier                                                       Manager
+  |                                                               |
+  |              KDC Authentication Credential Request            |
+  |-------------------------------------------------------------->|
+  |               FETCH /ace-group/GROUPNAME/kdc-cred             |
+  |                                                               |
+  |<--- KDC Authentication Credential Response: 2.05 (Content) ---|
+  |                                                               |
 ~~~~~~~~~~~
 {: #fig-gm-pub-key-signature-verifier-req-resp title="Message Flow of KDC Authentication Credential Request-Response, with a Signature Verifier as Requesting Client" artwork-align="center"}
 
@@ -1182,7 +1178,7 @@ In order to verify signatures in the group (see {{Section 7.5 of I-D.ietf-core-o
 
 {{fig-verif-data-req-resp}} gives an overview of the exchange described above,  while {{fig-verif-data-req-resp-ex}} shows an example of Signature Verification Data Request-Response.
 
-~~~~~~~~~~~
+~~~~~~~~~~~ aasvg
 Signature                                                     Group
 Verifier                                                     Manager
   |                                                             |
@@ -1256,7 +1252,7 @@ Upon learning from a 2.05 (Content) response that the group has become active ag
 
 {{fig-key-status-req-resp}} gives an overview of the exchange described above, while {{fig-key-status-req-resp-ex}} shows an example of Group Status Request-Response.
 
-~~~~~~~~~~~
+~~~~~~~~~~~ aasvg
 Group                                                          Group
 Member                                                        Manager
   |                                                              |
@@ -1310,7 +1306,7 @@ For each of its groups, the Group Manager maintains an association between the g
 
 {{fig-group-names-req-resp}} gives an overview of the exchanges described above, while {{fig-group-names-req-resp-ex}} shows an example of Group Name and URI Retrieval Request-Response.
 
-~~~~~~~~~~~
+~~~~~~~~~~~ aasvg
                                                                 Group
 Node                                                           Manager
  |                                                                |
@@ -1535,7 +1531,7 @@ Otherwise, the handler responds with a 2.05 (Content) Stale Sender IDs Response.
 
 {{fig-stale-ids-req-resp}} gives an overview of the exchange described above,  while {{fig-stale-ids-req-resp-ex}} shows an example of Stale Sender IDs Request-Response.
 
-~~~~~~~~~~~
+~~~~~~~~~~~ aasvg
                                                               Group
 Node                                                         Manager
   |                                                             |
@@ -2292,6 +2288,8 @@ sign_params = 11
 * Revised IANA considerations.
 
 * Aligned requirement formulation with that in RFC 9594.
+
+* Use of AASVG in message diagrams.
 
 * Clarifications and editorial fixes.
 
