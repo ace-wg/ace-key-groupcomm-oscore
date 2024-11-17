@@ -1105,6 +1105,61 @@ Upon receiving a 2.05 (Content) KDC Authentication Credential Response, the requ
 
 Note that a signature verifier would not receive a successful response from the Group Manager, in case GROUPNAME denotes a pairwise-only group.
 
+
+
+
+
+{{fig-gm-pub-key-signature-verifier-req-resp}} gives an overview of the exchange described above,  while {{fig-gm-pub-key-signature-verifier-resp-ex}} shows an example of Signature Verification Data Request-Response.
+
+~~~~~~~~~~~
+Signature                                                     Group
+Verifier                                                     Manager
+  |                                                             |
+  |             KDC Authentication Credential Request           |
+  |------------------------------------------------------------>|
+  |              FETCH /ace-group/GROUPNAME/kdc-cred            |
+  |                                                             |
+  |<-- KDC Authentication Credential Response: 2.05 (Content) --|
+  |                                                             |
+~~~~~~~~~~~
+{: #fig-gm-pub-key-signature-verifier-req-resp title="Message Flow of KDC Authentication Credential Request-Response, with a Signature Verifier as Requesting Client" artwork-align="center"}
+
+~~~~~~~~~~~
+   Request:
+
+   Header: FETCH (Code=0.05)
+   Uri-Host: "kdc.example.com"
+   Uri-Path: "ace-group"
+   Uri-Path: "g1"
+   Uri-Path: "kdc-cred"
+   Content-Format: 261 (application/ace-groupcomm+cbor)
+   Payload (in CBOR diagnostic notation):
+   {
+     / cnonce / 6: h'6c5a8891bbcf4199'
+   }
+
+
+   Response:
+
+   Header: Content (Code=2.05)
+   Content-Format: 261 (application/ace-groupcomm+cbor)
+   Payload (in CBOR diagnostic notation):
+   {
+     / kdc_cred /        17: h'a2026008a101a5010202419920012158
+                               2065eda5a12577c2bae829437fe33870
+                               1a10aaa375e1bb5b5de108de439c0855
+                               1d2258201e52ed75701163f7f9e40ddf
+                               9f341b3dc9ba860af7e0ca7ca7e9eecd
+                               0084d19c',
+     / kdc_nonce /       18: h'aff56da30b7db12a',
+     / kdc_cred_verify / 19: h'f3e4be39445b1a3e83e1510d1aca2f2e
+                               3fc54702aa56e1b2cb20284294c9106a
+                               8a7c081c7645042b18aba9d1fad1bd9c
+                               63f91bac658d69351210a031d8fc7c5f'
+   }
+~~~~~~~~~~~
+{: #fig-gm-pub-key-signature-verifier-resp-ex title="Example of KDC Authentication Credential Request-Response, with a Signature Verifier as Requesting Client"}
+
 ## Retrieve Signature Verification Data # {#sec-verif-data}
 
 A signature verifier may need to retrieve data required to verify signatures of messages protected with the group mode and sent to a group (see {{Sections 7.5 and 12.3 of I-D.ietf-core-oscore-groupcomm}}). To this end, the signature verifier sends a Signature Verification Data Request message to the Group Manager.
@@ -1123,7 +1178,7 @@ The payload of the 2.05 (Content) Signature Verification Data Response is a CBOR
 
 * The parameter 'sign_enc_key' is also included, with CBOR label defined in {{ssec-iana-ace-groupcomm-parameters-registry}}. This parameter specifies the Signature Encryption Key of the OSCORE Group, encoded as a CBOR byte string. The Group Manager derives the Signature Encryption Key from the group keying material, as per {{Section 2.1.9 of I-D.ietf-core-oscore-groupcomm}}. This parameter MUST be present.
 
-In order to verify signatures in the group (see {{Section 7.5 of I-D.ietf-core-oscore-groupcomm}}), the signature verifier relies on: the data retrieved from the 2.05 (Content) Signature Verification Data Response; the public keys of the group members signing the messages to verify, retrieved from those members' authentication credentials that can be obtained as defined in {{sec-pub-keys}}; and the public key of the Group Manager, retrieved from the Group Manager's authentication credential that can be obtained as defined in {{sec-gm-pub-key}}.
+In order to verify signatures in the group (see {{Section 7.5 of I-D.ietf-core-oscore-groupcomm}}), the signature verifier relies on: the data retrieved from the 2.05 (Content) Signature Verification Data Response; the public keys of the group members signing the messages to verify, retrieved from those members' authentication credentials that can be obtained as defined in {{sec-pub-keys}}; and the public key of the Group Manager, retrieved from the Group Manager's authentication credential that can be obtained as defined in {{sec-gm-pub-key-signature-verifier}}.
 
 {{fig-verif-data-req-resp}} gives an overview of the exchange described above,  while {{fig-verif-data-req-resp-ex}} shows an example of Signature Verification Data Request-Response.
 
@@ -1148,6 +1203,7 @@ Verifier                                                     Manager
    Uri-Path: "ace-group"
    Uri-Path: "g1"
    Uri-Path: "verif-data"
+
 
    Response:
 
@@ -1220,6 +1276,7 @@ Member                                                        Manager
    Uri-Path: "g1"
    Uri-Path: "active"
 
+
    Response:
 
    Header: Content (Code=2.05)
@@ -1275,6 +1332,7 @@ Node                                                           Manager
    {
      / gid / 0: [h'37fc', h'84bd']
    }
+
 
    Response:
 
@@ -1501,6 +1559,7 @@ Node                                                         Manager
    Content-Format: 60 (application/cbor)
    Payload (in CBOR diagnostic notation):
      42
+
 
    Response:
 
