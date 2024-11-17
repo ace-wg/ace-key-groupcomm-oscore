@@ -1610,8 +1610,8 @@ appear in all capitals, as shown here.<a href="#section-1.1-1" class="pilcrow">�
 </li>
         </ul>
 <p id="section-1.1-6">Throughout this document, examples for CBOR data items are expressed in CBOR extended diagnostic notation as defined in <span><a href="https://rfc-editor.org/rfc/rfc8949#section-8" class="relref">Section 8</a> of [<a href="#RFC8949" class="cite xref">RFC8949</a>]</span> and <span><a href="https://rfc-editor.org/rfc/rfc8610#appendix-G" class="relref">Appendix G</a> of [<a href="#RFC8610" class="cite xref">RFC8610</a>]</span> ("diagnostic notation"). Diagnostic notation comments are often used to provide a textual representation of the parameters' keys and values.<a href="#section-1.1-6" class="pilcrow">¶</a></p>
-<p id="section-1.1-7">In the CBOR diagnostic notation used in this document, constructs of the form e'SOME_NAME' are replaced by the value assigned to SOME_NAME in the CDDL model shown in <a href="#fig-cddl-model" class="auto internal xref">Figure 10</a> of <a href="#sec-cddl-model" class="auto internal xref">Appendix C</a>. For example, {e'gp_enc_alg': 10, e'sign_alg': -8} stands for {9: 10, 10: -8}.<a href="#section-1.1-7" class="pilcrow">¶</a></p>
-<p id="section-1.1-8">Note to RFC Editor: Please delete the paragraph immediately preceding this note. Also, in the CBOR diagnostic notation used in this document, please replace the constructs of the form e'SOME_NAME' with the value assigned to SOME_NAME in the CDDL model shown in <a href="#fig-cddl-model" class="auto internal xref">Figure 10</a> of <a href="#sec-cddl-model" class="auto internal xref">Appendix C</a>. Finally, please delete this note.<a href="#section-1.1-8" class="pilcrow">¶</a></p>
+<p id="section-1.1-7">In the CBOR diagnostic notation used in this document, constructs of the form e'SOME_NAME' are replaced by the value assigned to SOME_NAME in the CDDL model shown in <a href="#fig-cddl-model" class="auto internal xref">Figure 12</a> of <a href="#sec-cddl-model" class="auto internal xref">Appendix C</a>. For example, {e'gp_enc_alg': 10, e'sign_alg': -8} stands for {9: 10, 10: -8}.<a href="#section-1.1-7" class="pilcrow">¶</a></p>
+<p id="section-1.1-8">Note to RFC Editor: Please delete the paragraph immediately preceding this note. Also, in the CBOR diagnostic notation used in this document, please replace the constructs of the form e'SOME_NAME' with the value assigned to SOME_NAME in the CDDL model shown in <a href="#fig-cddl-model" class="auto internal xref">Figure 12</a> of <a href="#sec-cddl-model" class="auto internal xref">Appendix C</a>. Finally, please delete this note.<a href="#section-1.1-8" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -2990,6 +2990,68 @@ The Group Manager <span class="bcp14">MUST</span> return a 5.03 (Service Unavail
 <p id="section-9.5.2-6">The Group Manager specifies the parameters 'kdc_cred' and 'kdc_nonce' as defined for the Join Response in <a href="#ssec-join-resp" class="auto internal xref">Section 6.3</a> of this document. The computed PoP evidence included in 'kdc_cred_verify' is always a signature computed over the PoP input defined above (REQ21).<a href="#section-9.5.2-6" class="pilcrow">¶</a></p>
 <p id="section-9.5.2-7">Upon receiving a 2.05 (Content) KDC Authentication Credential Response, the requesting Client retrieves the Group Manager's authentication credential from the 'kdc_cred' parameter. Then, it proceeds as defined in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-4.5.1.1" class="relref">Section 4.5.1.1</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>, with the difference that it verifies the PoP evidence included in 'kdc_cred_verify' by verifying a signature and using the PoP input defined above (REQ21)<a href="#section-9.5.2-7" class="pilcrow">¶</a></p>
 <p id="section-9.5.2-8">Note that a signature verifier would not receive a successful response from the Group Manager, in case GROUPNAME denotes a pairwise-only group.<a href="#section-9.5.2-8" class="pilcrow">¶</a></p>
+<p id="section-9.5.2-9"><a href="#fig-gm-pub-key-signature-verifier-req-resp" class="auto internal xref">Figure 1</a> gives an overview of the exchange described above,  while <a href="#fig-gm-pub-key-signature-verifier-resp-ex" class="auto internal xref">Figure 2</a> shows an example of Signature Verification Data Request-Response.<a href="#section-9.5.2-9" class="pilcrow">¶</a></p>
+<span id="name-message-flow-of-kdc-authent"></span><div id="fig-gm-pub-key-signature-verifier-req-resp">
+<figure id="figure-1">
+            <div class="alignCenter art-text artwork" id="section-9.5.2-10.1">
+<pre>
+Signature                                                     Group
+Verifier                                                     Manager
+  |                                                             |
+  |             KDC Authentication Credential Request           |
+  |------------------------------------------------------------&gt;|
+  |              FETCH /ace-group/GROUPNAME/kdc-cred            |
+  |                                                             |
+  |&lt;-- KDC Authentication Credential Response: 2.05 (Content) --|
+  |                                                             |
+</pre>
+</div>
+<figcaption><a href="#figure-1" class="selfRef">Figure 1</a>:
+<a href="#name-message-flow-of-kdc-authent" class="selfRef">Message Flow of KDC Authentication Credential Request-Response, with a Signature Verifier as Requesting Client</a>
+            </figcaption></figure>
+</div>
+<span id="name-example-of-kdc-authenticati"></span><div id="fig-gm-pub-key-signature-verifier-resp-ex">
+<figure id="figure-2">
+            <div class="alignLeft art-text artwork" id="section-9.5.2-11.1">
+<pre>
+   Request:
+
+   Header: FETCH (Code=0.05)
+   Uri-Host: "kdc.example.com"
+   Uri-Path: "ace-group"
+   Uri-Path: "g1"
+   Uri-Path: "kdc-cred"
+   Content-Format: 261 (application/ace-groupcomm+cbor)
+   Payload (in CBOR diagnostic notation):
+   {
+     / cnonce / 6: h'6c5a8891bbcf4199'
+   }
+
+
+   Response:
+
+   Header: Content (Code=2.05)
+   Content-Format: 261 (application/ace-groupcomm+cbor)
+   Payload (in CBOR diagnostic notation):
+   {
+     / kdc_cred /        17: h'a2026008a101a5010202419920012158
+                               2065eda5a12577c2bae829437fe33870
+                               1a10aaa375e1bb5b5de108de439c0855
+                               1d2258201e52ed75701163f7f9e40ddf
+                               9f341b3dc9ba860af7e0ca7ca7e9eecd
+                               0084d19c',
+     / kdc_nonce /       18: h'aff56da30b7db12a',
+     / kdc_cred_verify / 19: h'f3e4be39445b1a3e83e1510d1aca2f2e
+                               3fc54702aa56e1b2cb20284294c9106a
+                               8a7c081c7645042b18aba9d1fad1bd9c
+                               63f91bac658d69351210a031d8fc7c5f'
+   }
+</pre>
+</div>
+<figcaption><a href="#figure-2" class="selfRef">Figure 2</a>:
+<a href="#name-example-of-kdc-authenticati" class="selfRef">Example of KDC Authentication Credential Request-Response, with a Signature Verifier as Requesting Client</a>
+            </figcaption></figure>
+</div>
 </section>
 </div>
 </section>
@@ -3020,10 +3082,10 @@ The 'key' parameter includes only the following data.<a href="#section-9.6-4.1.2
             <p id="section-9.6-4.2.1">The parameter 'sign_enc_key' is also included, with CBOR label defined in <a href="#ssec-iana-ace-groupcomm-parameters-registry" class="auto internal xref">Section 16.3</a>. This parameter specifies the Signature Encryption Key of the OSCORE Group, encoded as a CBOR byte string. The Group Manager derives the Signature Encryption Key from the group keying material, as per <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-23#section-2.1.9" class="relref">Section 2.1.9</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>. This parameter <span class="bcp14">MUST</span> be present.<a href="#section-9.6-4.2.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-9.6-5">In order to verify signatures in the group (see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-23#section-7.5" class="relref">Section 7.5</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>), the signature verifier relies on: the data retrieved from the 2.05 (Content) Signature Verification Data Response; the public keys of the group members signing the messages to verify, retrieved from those members' authentication credentials that can be obtained as defined in <a href="#sec-pub-keys" class="auto internal xref">Section 9.3</a>; and the public key of the Group Manager, retrieved from the Group Manager's authentication credential that can be obtained as defined in <a href="#sec-gm-pub-key" class="auto internal xref">Section 9.5</a>.<a href="#section-9.6-5" class="pilcrow">¶</a></p>
-<p id="section-9.6-6"><a href="#fig-verif-data-req-resp" class="auto internal xref">Figure 1</a> gives an overview of the exchange described above,  while <a href="#fig-verif-data-req-resp-ex" class="auto internal xref">Figure 2</a> shows an example of Signature Verification Data Request-Response.<a href="#section-9.6-6" class="pilcrow">¶</a></p>
+<p id="section-9.6-5">In order to verify signatures in the group (see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-23#section-7.5" class="relref">Section 7.5</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>), the signature verifier relies on: the data retrieved from the 2.05 (Content) Signature Verification Data Response; the public keys of the group members signing the messages to verify, retrieved from those members' authentication credentials that can be obtained as defined in <a href="#sec-pub-keys" class="auto internal xref">Section 9.3</a>; and the public key of the Group Manager, retrieved from the Group Manager's authentication credential that can be obtained as defined in <a href="#sec-gm-pub-key-signature-verifier" class="auto internal xref">Section 9.5.2</a>.<a href="#section-9.6-5" class="pilcrow">¶</a></p>
+<p id="section-9.6-6"><a href="#fig-verif-data-req-resp" class="auto internal xref">Figure 3</a> gives an overview of the exchange described above,  while <a href="#fig-verif-data-req-resp-ex" class="auto internal xref">Figure 4</a> shows an example of Signature Verification Data Request-Response.<a href="#section-9.6-6" class="pilcrow">¶</a></p>
 <span id="name-message-flow-of-signature-v"></span><div id="fig-verif-data-req-resp">
-<figure id="figure-1">
+<figure id="figure-3">
           <div class="alignCenter art-text artwork" id="section-9.6-7.1">
 <pre>
 Signature                                                     Group
@@ -3037,12 +3099,12 @@ Verifier                                                     Manager
   |                                                             |
 </pre>
 </div>
-<figcaption><a href="#figure-1" class="selfRef">Figure 1</a>:
+<figcaption><a href="#figure-3" class="selfRef">Figure 3</a>:
 <a href="#name-message-flow-of-signature-v" class="selfRef">Message Flow of Signature Verification Data Request-Response</a>
           </figcaption></figure>
 </div>
 <span id="name-example-of-signature-verifi"></span><div id="fig-verif-data-req-resp-ex">
-<figure id="figure-2">
+<figure id="figure-4">
           <div class="alignLeft art-text artwork" id="section-9.6-8.1">
 <pre>
    Request:
@@ -3052,6 +3114,7 @@ Verifier                                                     Manager
    Uri-Path: "ace-group"
    Uri-Path: "g1"
    Uri-Path: "verif-data"
+
 
    Response:
 
@@ -3077,7 +3140,7 @@ Verifier                                                     Manager
    }
 </pre>
 </div>
-<figcaption><a href="#figure-2" class="selfRef">Figure 2</a>:
+<figcaption><a href="#figure-4" class="selfRef">Figure 4</a>:
 <a href="#name-example-of-signature-verifi" class="selfRef">Example of Signature Verification Data Request-Response</a>
           </figcaption></figure>
 </div>
@@ -3111,9 +3174,9 @@ Verifier                                                     Manager
 <p id="section-9.9-3">The payload of the 2.05 (Content) Group Status Response includes the CBOR simple value <code>true</code> (0xf5) if the group is currently active, or the CBOR simple value <code>false</code> (0xf4) otherwise. The group is considered active if it is set to allow new members to join, and if communication within the group is fine to happen.<a href="#section-9.9-3" class="pilcrow">¶</a></p>
 <p id="section-9.9-4">Upon learning from a 2.05 (Content) response that the group is currently inactive, the group member <span class="bcp14">SHOULD</span> stop taking part in communications within the group, until it becomes active again.<a href="#section-9.9-4" class="pilcrow">¶</a></p>
 <p id="section-9.9-5">Upon learning from a 2.05 (Content) response that the group has become active again, the group member can resume taking part in communications within the group.<a href="#section-9.9-5" class="pilcrow">¶</a></p>
-<p id="section-9.9-6"><a href="#fig-key-status-req-resp" class="auto internal xref">Figure 3</a> gives an overview of the exchange described above, while <a href="#fig-key-status-req-resp-ex" class="auto internal xref">Figure 4</a> shows an example of Group Status Request-Response.<a href="#section-9.9-6" class="pilcrow">¶</a></p>
+<p id="section-9.9-6"><a href="#fig-key-status-req-resp" class="auto internal xref">Figure 5</a> gives an overview of the exchange described above, while <a href="#fig-key-status-req-resp-ex" class="auto internal xref">Figure 6</a> shows an example of Group Status Request-Response.<a href="#section-9.9-6" class="pilcrow">¶</a></p>
 <span id="name-message-flow-of-group-statu"></span><div id="fig-key-status-req-resp">
-<figure id="figure-3">
+<figure id="figure-5">
           <div class="alignCenter art-text artwork" id="section-9.9-7.1">
 <pre>
 Group                                                          Group
@@ -3125,12 +3188,12 @@ Member                                                        Manager
   |                                                              |
 </pre>
 </div>
-<figcaption><a href="#figure-3" class="selfRef">Figure 3</a>:
+<figcaption><a href="#figure-5" class="selfRef">Figure 5</a>:
 <a href="#name-message-flow-of-group-statu" class="selfRef">Message Flow of Group Status Request-Response</a>
           </figcaption></figure>
 </div>
 <span id="name-example-of-group-status-req"></span><div id="fig-key-status-req-resp-ex">
-<figure id="figure-4">
+<figure id="figure-6">
           <div class="alignLeft art-text artwork" id="section-9.9-8.1">
 <pre>
    Request:
@@ -3141,6 +3204,7 @@ Member                                                        Manager
    Uri-Path: "g1"
    Uri-Path: "active"
 
+
    Response:
 
    Header: Content (Code=2.05)
@@ -3149,7 +3213,7 @@ Member                                                        Manager
      true
 </pre>
 </div>
-<figcaption><a href="#figure-4" class="selfRef">Figure 4</a>:
+<figcaption><a href="#figure-6" class="selfRef">Figure 6</a>:
 <a href="#name-example-of-group-status-req" class="selfRef">Example of Group Status Request-Response</a>
           </figcaption></figure>
 </div>
@@ -3180,9 +3244,9 @@ Furthermore, since it is not a group member, the node does not take part to a po
 <p id="section-9.10-4">That is, the node sends a CoAP FETCH request to the endpoint /ace-group at the Group Manager formatted as defined in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-4.2.1" class="relref">Section 4.2.1</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>. Each element of the CBOR array 'gid' is a CBOR byte string (REQ13), which encodes the Gid of the group for which the group name and the URI to the group-membership resource are requested.<a href="#section-9.10-4" class="pilcrow">¶</a></p>
 <p id="section-9.10-5">Upon receiving the Group Name and URI Retrieval Request, the Group Manager processes it as per <span><a href="https://rfc-editor.org/rfc/rfc9594#section-4.2.1" class="relref">Section 4.2.1</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>. The success Group Name and URI Retrieval Response is formatted as defined in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-4.2.1" class="relref">Section 4.2.1</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>. Each element of the CBOR array 'gid' is a CBOR byte string (REQ13), which encodes the Gid of the group for which the group name and the URI to the group-membership resource are provided.<a href="#section-9.10-5" class="pilcrow">¶</a></p>
 <p id="section-9.10-6">For each of its groups, the Group Manager maintains an association between the group name and the URI to the group-membership resource on one hand, and only the current Gid for that group on the other hand. That is, the Group Manager does not maintain an association between the former pair and any other Gid for that group than the current, most recent one.<a href="#section-9.10-6" class="pilcrow">¶</a></p>
-<p id="section-9.10-7"><a href="#fig-group-names-req-resp" class="auto internal xref">Figure 5</a> gives an overview of the exchanges described above, while <a href="#fig-group-names-req-resp-ex" class="auto internal xref">Figure 6</a> shows an example of Group Name and URI Retrieval Request-Response.<a href="#section-9.10-7" class="pilcrow">¶</a></p>
+<p id="section-9.10-7"><a href="#fig-group-names-req-resp" class="auto internal xref">Figure 7</a> gives an overview of the exchanges described above, while <a href="#fig-group-names-req-resp-ex" class="auto internal xref">Figure 8</a> shows an example of Group Name and URI Retrieval Request-Response.<a href="#section-9.10-7" class="pilcrow">¶</a></p>
 <span id="name-message-flow-of-group-name-"></span><div id="fig-group-names-req-resp">
-<figure id="figure-5">
+<figure id="figure-7">
           <div class="alignCenter art-text artwork" id="section-9.10-8.1">
 <pre>
                                                                 Group
@@ -3194,12 +3258,12 @@ Node                                                           Manager
  |                                                                |
 </pre>
 </div>
-<figcaption><a href="#figure-5" class="selfRef">Figure 5</a>:
+<figcaption><a href="#figure-7" class="selfRef">Figure 7</a>:
 <a href="#name-message-flow-of-group-name-" class="selfRef">Message Flow of Group Name and URI Retrieval Request-Response</a>
           </figcaption></figure>
 </div>
 <span id="name-example-of-group-name-and-u"></span><div id="fig-group-names-req-resp-ex">
-<figure id="figure-6">
+<figure id="figure-8">
           <div class="alignLeft art-text artwork" id="section-9.10-9.1">
 <pre>
    Request:
@@ -3213,6 +3277,7 @@ Node                                                           Manager
      / gid / 0: [h'37fc', h'84bd']
    }
 
+
    Response:
 
    Header: Content (Code=2.05)
@@ -3225,7 +3290,7 @@ Node                                                           Manager
    }
 </pre>
 </div>
-<figcaption><a href="#figure-6" class="selfRef">Figure 6</a>:
+<figcaption><a href="#figure-8" class="selfRef">Figure 8</a>:
 <a href="#name-example-of-group-name-and-u" class="selfRef">Example of Group Name and URI Retrieval Request-Response</a>
           </figcaption></figure>
 </div>
@@ -3467,9 +3532,9 @@ Then, the group member <span class="bcp14">MUST</span> remove every authenticati
               </ul>
 </li>
           </ul>
-<p id="section-11.3.1-7"><a href="#fig-stale-ids-req-resp" class="auto internal xref">Figure 7</a> gives an overview of the exchange described above,  while <a href="#fig-stale-ids-req-resp-ex" class="auto internal xref">Figure 8</a> shows an example of Stale Sender IDs Request-Response.<a href="#section-11.3.1-7" class="pilcrow">¶</a></p>
+<p id="section-11.3.1-7"><a href="#fig-stale-ids-req-resp" class="auto internal xref">Figure 9</a> gives an overview of the exchange described above,  while <a href="#fig-stale-ids-req-resp-ex" class="auto internal xref">Figure 10</a> shows an example of Stale Sender IDs Request-Response.<a href="#section-11.3.1-7" class="pilcrow">¶</a></p>
 <span id="name-message-flow-of-stale-sende"></span><div id="fig-stale-ids-req-resp">
-<figure id="figure-7">
+<figure id="figure-9">
             <div class="alignCenter art-text artwork" id="section-11.3.1-8.1">
 <pre>
                                                               Group
@@ -3483,12 +3548,12 @@ Node                                                         Manager
   |                                                             |
 </pre>
 </div>
-<figcaption><a href="#figure-7" class="selfRef">Figure 7</a>:
+<figcaption><a href="#figure-9" class="selfRef">Figure 9</a>:
 <a href="#name-message-flow-of-stale-sende" class="selfRef">Message Flow of Stale Sender IDs Request-Response</a>
             </figcaption></figure>
 </div>
 <span id="name-example-of-stale-sender-ids"></span><div id="fig-stale-ids-req-resp-ex">
-<figure id="figure-8">
+<figure id="figure-10">
             <div class="alignLeft art-text artwork" id="section-11.3.1-9.1">
 <pre>
    Request:
@@ -3502,6 +3567,7 @@ Node                                                         Manager
    Payload (in CBOR diagnostic notation):
      42
 
+
    Response:
 
    Header: Content (Code=2.05)
@@ -3510,7 +3576,7 @@ Node                                                         Manager
      [h'01', h'fc', h'12ab', h'de44', h'ff']
 </pre>
 </div>
-<figcaption><a href="#figure-8" class="selfRef">Figure 8</a>:
+<figcaption><a href="#figure-10" class="selfRef">Figure 10</a>:
 <a href="#name-example-of-stale-sender-ids" class="selfRef">Example of Stale Sender IDs Request-Response</a>
             </figcaption></figure>
 </div>
@@ -4838,7 +4904,7 @@ Such a COSE capabilities array is currently defined for the algorithm capability
         </ul>
 <p id="appendix-B.1-3">The CDDL notation <span>[<a href="#RFC8610" class="cite xref">RFC8610</a>]</span> of the 'ecdh_info_entry' parameter is given below.<a href="#appendix-B.1-3" class="pilcrow">¶</a></p>
 <span id="name-ecdh_info_entry-with-genera"></span><div id="fig-ecdh-info-entry-general">
-<figure id="figure-9">
+<figure id="figure-11">
           <div class="lang-CDDL sourcecode" id="appendix-B.1-4.1">
 <pre>
 ecdh_info_entry =
@@ -4853,7 +4919,7 @@ ecdh_info_entry =
 gname = tstr
 </pre>
 </div>
-<figcaption><a href="#figure-9" class="selfRef">Figure 9</a>:
+<figcaption><a href="#figure-11" class="selfRef">Figure 11</a>:
 <a href="#name-ecdh_info_entry-with-genera" class="selfRef">'ecdh_info_entry' with general format</a>
           </figcaption></figure>
 </div>
@@ -4904,7 +4970,7 @@ For example, if 'ecdh_params'[0][0] specifies the key type as capability of the 
       </h2>
 <p id="appendix-C-1">This section is to be removed before publishing as an RFC.<a href="#appendix-C-1" class="pilcrow">¶</a></p>
 <span id="name-cddl-model-2"></span><div id="fig-cddl-model">
-<figure id="figure-10">
+<figure id="figure-12">
         <div class="alignLeft art-CDDL art-text artwork" id="appendix-C-2.1">
 <pre>
 ; ACE Groupcomm Parameters
@@ -4923,7 +4989,7 @@ sign_alg = 10
 sign_params = 11
 </pre>
 </div>
-<figcaption><a href="#figure-10" class="selfRef">Figure 10</a>:
+<figcaption><a href="#figure-12" class="selfRef">Figure 12</a>:
 <a href="#name-cddl-model-2" class="selfRef">CDDL model</a>
         </figcaption></figure>
 </div>

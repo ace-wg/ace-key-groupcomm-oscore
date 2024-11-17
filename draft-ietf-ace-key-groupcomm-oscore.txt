@@ -286,13 +286,13 @@ Table of Contents
 
    In the CBOR diagnostic notation used in this document, constructs of
    the form e'SOME_NAME' are replaced by the value assigned to SOME_NAME
-   in the CDDL model shown in Figure 10 of Appendix C.  For example,
+   in the CDDL model shown in Figure 12 of Appendix C.  For example,
    {e'gp_enc_alg': 10, e'sign_alg': -8} stands for {9: 10, 10: -8}.
 
    Note to RFC Editor: Please delete the paragraph immediately preceding
    this note.  Also, in the CBOR diagnostic notation used in this
    document, please replace the constructs of the form e'SOME_NAME' with
-   the value assigned to SOME_NAME in the CDDL model shown in Figure 10
+   the value assigned to SOME_NAME in the CDDL model shown in Figure 12
    of Appendix C.  Finally, please delete this note.
 
 2.  Protocol Overview
@@ -2363,6 +2363,59 @@ Table of Contents
    response from the Group Manager, in case GROUPNAME denotes a
    pairwise-only group.
 
+   Figure 1 gives an overview of the exchange described above, while
+   Figure 2 shows an example of Signature Verification Data Request-
+   Response.
+
+   Signature                                                     Group
+   Verifier                                                     Manager
+     |                                                             |
+     |             KDC Authentication Credential Request           |
+     |------------------------------------------------------------>|
+     |              FETCH /ace-group/GROUPNAME/kdc-cred            |
+     |                                                             |
+     |<-- KDC Authentication Credential Response: 2.05 (Content) --|
+     |                                                             |
+
+      Figure 1: Message Flow of KDC Authentication Credential Request-
+          Response, with a Signature Verifier as Requesting Client
+
+      Request:
+
+      Header: FETCH (Code=0.05)
+      Uri-Host: "kdc.example.com"
+      Uri-Path: "ace-group"
+      Uri-Path: "g1"
+      Uri-Path: "kdc-cred"
+      Content-Format: 261 (application/ace-groupcomm+cbor)
+      Payload (in CBOR diagnostic notation):
+      {
+        / cnonce / 6: h'6c5a8891bbcf4199'
+      }
+
+
+      Response:
+
+      Header: Content (Code=2.05)
+      Content-Format: 261 (application/ace-groupcomm+cbor)
+      Payload (in CBOR diagnostic notation):
+      {
+        / kdc_cred /        17: h'a2026008a101a5010202419920012158
+                                  2065eda5a12577c2bae829437fe33870
+                                  1a10aaa375e1bb5b5de108de439c0855
+                                  1d2258201e52ed75701163f7f9e40ddf
+                                  9f341b3dc9ba860af7e0ca7ca7e9eecd
+                                  0084d19c',
+        / kdc_nonce /       18: h'aff56da30b7db12a',
+        / kdc_cred_verify / 19: h'f3e4be39445b1a3e83e1510d1aca2f2e
+                                  3fc54702aa56e1b2cb20284294c9106a
+                                  8a7c081c7645042b18aba9d1fad1bd9c
+                                  63f91bac658d69351210a031d8fc7c5f'
+      }
+
+        Figure 2: Example of KDC Authentication Credential Request-
+          Response, with a Signature Verifier as Requesting Client
+
 9.6.  Retrieve Signature Verification Data
 
    A signature verifier may need to retrieve data required to verify
@@ -2410,10 +2463,10 @@ Table of Contents
    credentials that can be obtained as defined in Section 9.3; and the
    public key of the Group Manager, retrieved from the Group Manager's
    authentication credential that can be obtained as defined in
-   Section 9.5.
+   Section 9.5.2.
 
-   Figure 1 gives an overview of the exchange described above, while
-   Figure 2 shows an example of Signature Verification Data Request-
+   Figure 3 gives an overview of the exchange described above, while
+   Figure 4 shows an example of Signature Verification Data Request-
    Response.
 
    Signature                                                     Group
@@ -2426,7 +2479,7 @@ Table of Contents
      |<--- Signature Verification Data Response: 2.05 (Content) ---|
      |                                                             |
 
-       Figure 1: Message Flow of Signature Verification Data Request-
+       Figure 3: Message Flow of Signature Verification Data Request-
                                   Response
 
      Request:
@@ -2436,6 +2489,7 @@ Table of Contents
      Uri-Path: "ace-group"
      Uri-Path: "g1"
      Uri-Path: "verif-data"
+
 
      Response:
 
@@ -2460,7 +2514,7 @@ Table of Contents
                     e'sign_enc_key': h'bc661fae6742abc3dd01beda1142567c'
      }
 
-    Figure 2: Example of Signature Verification Data Request-Response
+    Figure 4: Example of Signature Verification Data Request-Response
 
 9.7.  Retrieve the Group Policies
 
@@ -2511,8 +2565,8 @@ Table of Contents
    become active again, the group member can resume taking part in
    communications within the group.
 
-   Figure 3 gives an overview of the exchange described above, while
-   Figure 4 shows an example of Group Status Request-Response.
+   Figure 5 gives an overview of the exchange described above, while
+   Figure 6 shows an example of Group Status Request-Response.
 
    Group                                                          Group
    Member                                                        Manager
@@ -2522,7 +2576,7 @@ Table of Contents
      |<----------- Group Status Response: 2.05 (Content) -----------|
      |                                                              |
 
-          Figure 3: Message Flow of Group Status Request-Response
+          Figure 5: Message Flow of Group Status Request-Response
 
       Request:
 
@@ -2532,6 +2586,7 @@ Table of Contents
       Uri-Path: "g1"
       Uri-Path: "active"
 
+
       Response:
 
       Header: Content (Code=2.05)
@@ -2539,7 +2594,7 @@ Table of Contents
       Payload (in CBOR diagnostic notation):
         true
 
-             Figure 4: Example of Group Status Request-Response
+             Figure 6: Example of Group Status Request-Response
 
 9.10.  Retrieve Group Names
 
@@ -2617,8 +2672,8 @@ Table of Contents
    between the former pair and any other Gid for that group than the
    current, most recent one.
 
-   Figure 5 gives an overview of the exchanges described above, while
-   Figure 6 shows an example of Group Name and URI Retrieval Request-
+   Figure 7 gives an overview of the exchanges described above, while
+   Figure 8 shows an example of Group Name and URI Retrieval Request-
    Response.
 
                                                                   Group
@@ -2629,7 +2684,7 @@ Table of Contents
    |<--- Group Name and URI Retrieval Response: 2.05 (Content) -----|
    |                                                                |
 
-     Figure 5: Message Flow of Group Name and URI Retrieval Request-
+     Figure 7: Message Flow of Group Name and URI Retrieval Request-
                                  Response
 
       Request:
@@ -2643,6 +2698,7 @@ Table of Contents
         / gid / 0: [h'37fc', h'84bd']
       }
 
+
       Response:
 
       Header: Content (Code=2.05)
@@ -2654,7 +2710,7 @@ Table of Contents
         / guri /  2: ["/ace-group/g1", "/ace-group/g2"]
       }
 
-     Figure 6: Example of Group Name and URI Retrieval Request-Response
+     Figure 8: Example of Group Name and URI Retrieval Request-Response
 
 9.11.  Leave the Group
 
@@ -3128,8 +3184,8 @@ Table of Contents
          Response.  Note that ARRAY might result in the empty CBOR
          array.
 
-   Figure 7 gives an overview of the exchange described above, while
-   Figure 8 shows an example of Stale Sender IDs Request-Response.
+   Figure 9 gives an overview of the exchange described above, while
+   Figure 10 shows an example of Stale Sender IDs Request-Response.
 
                                                                  Group
    Node                                                         Manager
@@ -3141,7 +3197,7 @@ Table of Contents
      |<---------- Stale Sender IDs Response: 2.05 (Content) -------|
      |                                                             |
 
-        Figure 7: Message Flow of Stale Sender IDs Request-Response
+        Figure 9: Message Flow of Stale Sender IDs Request-Response
 
       Request:
 
@@ -3154,6 +3210,7 @@ Table of Contents
       Payload (in CBOR diagnostic notation):
         42
 
+
       Response:
 
       Header: Content (Code=2.05)
@@ -3161,7 +3218,7 @@ Table of Contents
       Payload (in CBOR diagnostic notation):
         [h'01', h'fc', h'12ab', h'de44', h'ff']
 
-           Figure 8: Example of Stale Sender IDs Request-Response
+          Figure 10: Example of Stale Sender IDs Request-Response
 
 12.  ACE Groupcomm Parameters
 
@@ -4541,7 +4598,7 @@ B.1.  Format of 'ecdh_info_entry'
 
    gname = tstr
 
-              Figure 9: 'ecdh_info_entry' with general format
+              Figure 11: 'ecdh_info_entry' with general format
 
 B.2.  Format of 'key'
 
@@ -4608,7 +4665,7 @@ Appendix C.  CDDL Model
    sign_alg = 10
    sign_params = 11
 
-                           Figure 10: CDDL model
+                           Figure 12: CDDL model
 
 Appendix D.  Document Updates
 
