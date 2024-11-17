@@ -1925,10 +1925,20 @@ This format is consistent with every signature algorithm currently considered in
 </li>
             </ul>
 <p id="section-5.3-2.4.3">
-The Group Manager <span class="bcp14">MAY</span> omit the 'ecdh_info' parameter in the Token Transfer Response even if 'ecdh_info' is included in the Token Transfer Request, in case all the OSCORE groups that the Client is authorized to join are signature-only groups.<a href="#section-5.3-2.4.3" class="pilcrow">¶</a></p>
+The Group Manager omits the 'ecdh_info' parameter in the Token Transfer Response even if 'ecdh_info' is included in the Token Transfer Request, in case all the OSCORE groups that the Client is authorized to join are signature-only groups.<a href="#section-5.3-2.4.3" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.3-2.5">
-            <p id="section-5.3-2.5.1">If 'kdc_dh_creds' is included in the Token Transfer Request and any of the groups that the Client has been authorized to join is a pairwise-only group, then the Group Manager <span class="bcp14">MUST</span> include the 'kdc_dh_creds' parameter in the Token Transfer Response, as per the format defined in <a href="#gm-dh-info" class="auto internal xref">Section 5.3.2</a>. Otherwise, if 'kdc_dh_creds' is included in the Token Transfer Request, the Group Manager <span class="bcp14">MAY</span> include the 'kdc_dh_creds' parameter in the Token Transfer Response. Note that the field 'id' specifies the group name, or array of group names, for which the corresponding 'kdc_dh_creds' applies to.<a href="#section-5.3-2.5.1" class="pilcrow">¶</a></p>
+            <p id="section-5.3-2.5.1">If the 'kdc_dh_creds' parameter is present in the response, the following applies for each element 'kdc_dh_creds_entry'.<a href="#section-5.3-2.5.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-5.3-2.5.2.1">
+                <p id="section-5.3-2.5.2.1.1">'id' <span class="bcp14">MUST</span> refer exclusively to OSCORE groups that are pairwise-only groups.<a href="#section-5.3-2.5.2.1.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-5.3-2.5.2.2">
+                <p id="section-5.3-2.5.2.2.1">'cred_fmt' takes value from the "Label" column of the "COSE Header Parameters" registry <span>[<a href="#COSE.Header.Parameters" class="cite xref">COSE.Header.Parameters</a>]</span>. Consistently with <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-23#section-2.4" class="relref">Section 2.4</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>, acceptable values denote a format of authentication credential that <span class="bcp14">MUST</span> explicitly provide the public key as well as the comprehensive set of information related to the public key algorithm, including, e.g., the used elliptic curve (when applicable). The same considerations provided above on acceptable formats currently available for the 'cred_fmt' element of 'sign_info' apply.<a href="#section-5.3-2.5.2.2.1" class="pilcrow">¶</a></p>
+</li>
+            </ul>
+<p id="section-5.3-2.5.3">
+The Group Manager omits the 'kdc_dh_creds' parameter in the Token Transfer Response even if 'ecdh_info' is included in the Token Transfer Request, in case none of the OSCORE groups that the Client is authorized to join is a pairwise-only group.<a href="#section-5.3-2.5.3" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <p id="section-5.3-3">Note that, other than through the above parameters as defined in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-3.3" class="relref">Section 3.3</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>, the joining node may have obtained such information by alternative means. For example, information conveyed in the 'sign_info' and 'ecdh_info' parameters may have been pre-configured, or the joining node may early retrieve it, e.g., by using the approach described in <span>[<a href="#I-D.tiloca-core-oscore-discovery" class="cite xref">I-D.tiloca-core-oscore-discovery</a>]</span> to discover the OSCORE group and the link to the associated group-membership resource at the Group Manager (OPT3).<a href="#section-5.3-3" class="pilcrow">¶</a></p>
@@ -1949,22 +1959,22 @@ The Group Manager <span class="bcp14">MAY</span> omit the 'ecdh_info' parameter 
             <li class="normal" id="section-5.3.1-6.2">
               <p id="section-5.3.1-6.2.1">The second element 'ecdh_alg' is a CBOR integer or a text string that indicates the ECDH algorithm used in the groups identified by the 'gname' values.<a href="#section-5.3.1-6.2.1" class="pilcrow">¶</a></p>
 <p id="section-5.3.1-6.2.2">
-For application profiles that use the 'ecdh_info' parameter, it is <span class="bcp14">REQUIRED</span> to define specific values that 'ecdh_alg' can take, which are selected from the set of signing algorithms of the "COSE Algorithms" registry <span>[<a href="#COSE.Algorithms" class="cite xref">COSE.Algorithms</a>]</span>.<a href="#section-5.3.1-6.2.2" class="pilcrow">¶</a></p>
+For application profiles of <span>[<a href="#RFC9594" class="cite xref">RFC9594</a>]</span> that use the 'ecdh_info' parameter, it is <span class="bcp14">REQUIRED</span> to define specific values that 'ecdh_alg' can take, which are selected from the set of signing algorithms of the "COSE Algorithms" registry <span>[<a href="#COSE.Algorithms" class="cite xref">COSE.Algorithms</a>]</span>.<a href="#section-5.3.1-6.2.2" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-5.3.1-6.3">
               <p id="section-5.3.1-6.3.1">The third element 'ecdh_parameters' is a CBOR array that indicates the parameters of the ECDH algorithm used in the groups identified by the 'gname' values. Its content depends on the value of 'ecdh_alg'.<a href="#section-5.3.1-6.3.1" class="pilcrow">¶</a></p>
 <p id="section-5.3.1-6.3.2">
-For application profiles that use the 'ecdh_info' parameter, it is <span class="bcp14">REQUIRED</span> to define the possible values and structure for the elements of 'ecdh_parameters'.<a href="#section-5.3.1-6.3.2" class="pilcrow">¶</a></p>
+For application profiles of <span>[<a href="#RFC9594" class="cite xref">RFC9594</a>]</span> that use the 'ecdh_info' parameter, it is <span class="bcp14">REQUIRED</span> to define the possible values and structure for the elements of 'ecdh_parameters'.<a href="#section-5.3.1-6.3.2" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-5.3.1-6.4">
               <p id="section-5.3.1-6.4.1">The fourth element 'ecdh_key_parameters' is a CBOR array that indicates the parameters of the key used with the ECDH algorithm in the groups identified by the 'gname' values. Its content depends on the value of 'ecdh_alg'.<a href="#section-5.3.1-6.4.1" class="pilcrow">¶</a></p>
 <p id="section-5.3.1-6.4.2">
-For application profiles that use the 'ecdh_info' parameter, it is <span class="bcp14">REQUIRED</span> to define the possible values and structure for the elements of 'ecdh_key_parameters'.<a href="#section-5.3.1-6.4.2" class="pilcrow">¶</a></p>
+For application profiles of <span>[<a href="#RFC9594" class="cite xref">RFC9594</a>]</span> that use the 'ecdh_info' parameter, it is <span class="bcp14">REQUIRED</span> to define the possible values and structure for the elements of 'ecdh_key_parameters'.<a href="#section-5.3.1-6.4.2" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-5.3.1-6.5">
               <p id="section-5.3.1-6.5.1">The fifth element 'cred_fmt' either is a CBOR integer indicating the format of authentication credentials used in the groups identified by the 'gname' values or is the CBOR simple value <code>null</code> (0xf6), which indicates that the KDC does not act as a repository of authentication credentials for group members. Its acceptable integer values are taken from the "Label" column of the "COSE Header Parameters" registry <span>[<a href="#COSE.Header.Parameters" class="cite xref">COSE.Header.Parameters</a>]</span>, with some of those values also indicating the type of container to use for exchanging the authentication credentials with the KDC (e.g., a chain or bag of certificates).<a href="#section-5.3.1-6.5.1" class="pilcrow">¶</a></p>
 <p id="section-5.3.1-6.5.2">
-For application profiles that use the 'ecdh_info' parameter, it is <span class="bcp14">REQUIRED</span> to define specific values to use for 'cred_fmt', consistently with the acceptable formats of authentication credentials.<a href="#section-5.3.1-6.5.2" class="pilcrow">¶</a></p>
+For application profiles of <span>[<a href="#RFC9594" class="cite xref">RFC9594</a>]</span> that use the 'ecdh_info' parameter, it is <span class="bcp14">REQUIRED</span> to define specific values to use for 'cred_fmt', consistently with the acceptable formats of authentication credentials.<a href="#section-5.3.1-6.5.2" class="pilcrow">¶</a></p>
 </li>
           </ul>
 <p id="section-5.3.1-7">If 'ecdh_info' is included in the Token Transfer Request, the KDC <span class="bcp14">SHOULD</span> include the 'ecdh_info' parameter in the Token Transfer Response, as per the format defined above. Note that the field 'id' of each 'ecdh_info_entry' specifies the name, or array of group names to which that 'ecdh_info_entry' applies. As an exception, the KDC <span class="bcp14">MAY</span> omit the 'ecdh_info' parameter in the Token Transfer Response even if 'ecdh_info' is included in the Token Transfer Request, in case none of the groups that the Client is authorized to join uses an ECDH algorithm to derive Diffie-Hellman secrets.<a href="#section-5.3.1-7" class="pilcrow">¶</a></p>
@@ -1973,11 +1983,11 @@ For application profiles that use the 'ecdh_info' parameter, it is <span class="
 <pre>
 ecdh_info = ecdh_info_req / ecdh_info_resp
 
-ecdh_info_req = null                   ; in the Token Transfer
-                                       ; Request to the KDC
+ecdh_info_req = null                  ; in the Token Transfer
+                                      ; Request to the KDC
 
-ecdh_info_resp = [+ ecdh_info_entry]   ; in the Token Transfer
-                                       ; Response from the KDC
+ecdh_info_resp = [+ ecdh_info_entry]  ; in the Token Transfer
+                                      ; Response from the KDC
 
 ecdh_info_entry =
 [
@@ -2001,33 +2011,33 @@ gname = tstr
           </h4>
 <p id="section-5.3.2-1">The 'kdc_dh_creds' parameter is an <span class="bcp14">OPTIONAL</span> parameter of the request and response messages exchanged between the Client and the /authz-info endpoint at the RS (see <span><a href="https://rfc-editor.org/rfc/rfc9200#section-5.10.1." class="relref">Section 5.10.1.</a> of [<a href="#RFC9200" class="cite xref">RFC9200</a>]</span>).<a href="#section-5.3.2-1" class="pilcrow">¶</a></p>
 <p id="section-5.3.2-2">This parameter allows the Client to request and retrieve the Diffie-Hellman authentication credentials of the RS, i.e., authentication credentials including a Diffie-Hellman public key of the RS.<a href="#section-5.3.2-2" class="pilcrow">¶</a></p>
-<p id="section-5.3.2-3">In this application profile, this parameter is used to request and retrieve from the Group Manager its Diffie-Hellman authentication credentials to use, in the OSCORE groups that the Client has been authorized to join. The Group Manager has a Diffie-Hellman authentication credential in an OSCORE group if and only if the group is a pairwise-only group. In this case, the early retrieval of the Group Manager's authentication credential is necessary in order for the joining node to prove the possession of its own private key, upon joining the group (see <a href="#ssec-join-req-sending" class="auto internal xref">Section 6.1</a>).<a href="#section-5.3.2-3" class="pilcrow">¶</a></p>
-<p id="section-5.3.2-4">When used in the Token Transfer Request sent to the Group Manager, the 'kdc_dh_creds' parameter has value the CBOR simple value <code>null</code> (0xf6). This is done to ask for the Diffie-Hellman authentication credentials that the Group Manager uses in the OSCORE groups that the Client has been authorized to join.<a href="#section-5.3.2-4" class="pilcrow">¶</a></p>
-<p id="section-5.3.2-5">When used in the following Token Transfer Response from the Group Manager, the 'kdc_dh_creds' parameter is a CBOR array of one or more elements. The number of elements is at most the number of OSCORE groups that the Client has been authorized to join.<a href="#section-5.3.2-5" class="pilcrow">¶</a></p>
-<p id="section-5.3.2-6">Each element 'kdc_dh_creds_entry' contains information about the Group Manager's Diffie-Hellman authentication credentials, for one or more OSCORE groups that are pairwise-only groups and that the Client has been authorized to join. Each element is formatted as follows.<a href="#section-5.3.2-6" class="pilcrow">¶</a></p>
+<p id="section-5.3.2-3">In application profiles that build on <span>[<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>, this parameter is used to request and retrieve from the KDC its Diffie-Hellman authentication credentials to use, in the groups indicated by the transferred access token as per its 'scope' claim (see <span><a href="https://rfc-editor.org/rfc/rfc9594#section-3.2" class="relref">Section 3.2</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>).<a href="#section-5.3.2-3" class="pilcrow">¶</a></p>
+<p id="section-5.3.2-4">When used in the Token Transfer Request sent to the KDC (see <span><a href="https://rfc-editor.org/rfc/rfc9594#section-3.3" class="relref">Section 3.3</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>), the 'kdc_dh_creds' parameter specifies the CBOR simple value <code>null</code> (0xf6). This is done to ask for the Diffie-Hellman authentication credentials that the KDC uses in the groups that the Client has been authorized to join or interact with.<a href="#section-5.3.2-4" class="pilcrow">¶</a></p>
+<p id="section-5.3.2-5">When used in the following Token Transfer Response from the KDC (see <span><a href="https://rfc-editor.org/rfc/rfc9594#section-3.2" class="relref">Section 3.2</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>), the 'kdc_dh_creds' parameter is a CBOR array of one or more elements. The number of elements is at most the number of groups that the Client has been authorized to join or interact with. Each element contains information about the KDC's Diffie-Hellman authentication credentials for one or more groups and is formatted as follows.<a href="#section-5.3.2-5" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-5.3.2-7.1">
-              <p id="section-5.3.2-7.1.1">The first element 'id' is the group name of the OSCORE group or an array of group names for the OSCORE groups for which the specified information applies. In particular, 'id' <span class="bcp14">MUST</span> refer exclusively to OSCORE groups that are pairwise-only groups.<a href="#section-5.3.2-7.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-5.3.2-6.1">
+              <p id="section-5.3.2-6.1.1">The first element 'id' is a group name or a CBOR array of group names, which is associated with groups for which the next two elements apply. Each specified group name is a CBOR text string and is hereafter referred to as 'gname'.<a href="#section-5.3.2-6.1.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-5.3.2-7.2">
-              <p id="section-5.3.2-7.2.1">The second element 'cred_fmt' is a CBOR integer indicating the format of authentication credentials used in the OSCORE group identified by 'gname'. It takes value from the "Label" column of the "COSE Header Parameters" registry <span>[<a href="#COSE.Header.Parameters" class="cite xref">COSE.Header.Parameters</a>]</span> (REQ6), with some of those values also indicating the type of container to use for exchanging the authentication credentials with the Group Manager (e.g., a chain or bag of certificates). Acceptable values denote a format that <span class="bcp14">MUST</span> explicitly provide the public key as well as a comprehensive set of information related to the public key algorithm. This information includes, e.g., the used elliptic curve (when applicable). The same considerations and guidelines for the 'cred_fmt' element of 'sign_info' apply (see <a href="#ssec-token-post" class="auto internal xref">Section 5.3</a>).<a href="#section-5.3.2-7.2.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-5.3.2-6.2">
+              <p id="section-5.3.2-6.2.1">The second element 'cred_fmt' is a CBOR integer indicating the format of the KDC's authentication credential used in the groups identified by the 'gname' values and specified by the following element 'cred'. Its acceptable integer values are taken from the "Label" column of the "COSE Header Parameters" registry <span>[<a href="#COSE.Header.Parameters" class="cite xref">COSE.Header.Parameters</a>]</span>, with some of those values also indicating the type of container to use for exchanging the authentication credentials with the KDC (e.g., a chain or bag of certificates).<a href="#section-5.3.2-6.2.1" class="pilcrow">¶</a></p>
+<p id="section-5.3.2-6.2.2">
+For application profiles of <span>[<a href="#RFC9594" class="cite xref">RFC9594</a>]</span> that use the 'kdc_dh_creds' parameter, it is <span class="bcp14">REQUIRED</span> to define specific values to use for 'cred_fmt', consistently with the acceptable formats of the KDC's authentication credentials.<a href="#section-5.3.2-6.2.2" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-5.3.2-7.3">
-              <p id="section-5.3.2-7.3.1">The third element 'cred' is a CBOR byte string, which encodes the Group Manager's Diffie-Hellman authentication credential in its original binary representation made available to other endpoints in the group. That is, the original binary representation complies with the format specified by the 'cred_fmt' element. Note that the authentication credential provides the comprehensive set of information related to its public key algorithm, i.e., the ECDH algorithm used in the OSCORE group as pairwise key agreement algorithm.<a href="#section-5.3.2-7.3.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-5.3.2-6.3">
+              <p id="section-5.3.2-6.3.1">The third element 'cred' is a CBOR byte string encoding the original binary representation of the Diffie-Hellman authentication credential that the KDC uses in the groups identified by the 'gname' values. The authentication credential complies with the format specified by the 'cred_fmt' element.<a href="#section-5.3.2-6.3.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
+<p id="section-5.3.2-7">If 'kdc_dh_creds' is included in the Token Transfer Request, the KDC <span class="bcp14">SHOULD</span> include the 'kdc_dh_creds' parameter in the Token Transfer Response, as per the format defined above. Note that the field 'id' of each 'kdc_dh_creds_entry' specifies the name, or array of group names to which that 'kdc_dh_creds_entry' applies. As an exception, the KDC <span class="bcp14">MAY</span> omit the 'kdc_dh_creds' parameter in the Token Transfer Response even if 'kdc_dh_creds' is included in the Token Transfer Request, in case the KDC does not use a Diffie-Hellman authentication credential in any of the groups that the Client is authorized to join.<a href="#section-5.3.2-7" class="pilcrow">¶</a></p>
 <p id="section-5.3.2-8">The CDDL notation <span>[<a href="#RFC8610" class="cite xref">RFC8610</a>]</span> of the 'kdc_dh_creds' parameter is given below.<a href="#section-5.3.2-8" class="pilcrow">¶</a></p>
 <div class="lang-CDDL sourcecode" id="section-5.3.2-9">
 <pre>
 kdc_dh_creds = kdc_dh_creds_req / kdc_dh_creds_resp
 
 kdc_dh_creds_req = null                     ; in the Token Transfer
-                                            ; Request to the
-                                            ; Group Manager
+                                            ; Request to the KDC
 
-kdc_dh_creds_res = [+ kdc_dh_creds_entry]   ; in the Token Transfer
-                                            ; Response from the
-                                            ; Group Manager
+kdc_dh_creds_resp = [+ kdc_dh_creds_entry]  ; in the Token Transfer
+                                            ; Response from the KDC
 
 kdc_dh_creds_entry =
 [
@@ -5177,61 +5187,64 @@ sign_params = 11
             <p id="appendix-D.1-1.12.1">Generalized definition of ecdh_info.<a href="#appendix-D.1-1.12.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.13">
-            <p id="appendix-D.1-1.13.1">Clarified maximum size of the OSCORE Sender ID.<a href="#appendix-D.1-1.13.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.13.1">Generalized definition of kdc_dh_creds.<a href="#appendix-D.1-1.13.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.14">
-            <p id="appendix-D.1-1.14.1">Clarified parameters left "not set" in the Security Context.<a href="#appendix-D.1-1.14.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.14.1">Clarified maximum size of the OSCORE Sender ID.<a href="#appendix-D.1-1.14.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.15">
-            <p id="appendix-D.1-1.15.1">Clarified meaning of 'cred_fmt'.<a href="#appendix-D.1-1.15.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.15.1">Clarified parameters left "not set" in the Security Context.<a href="#appendix-D.1-1.15.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.16">
-            <p id="appendix-D.1-1.16.1">Consistent mandatory use of 'cnonce'.<a href="#appendix-D.1-1.16.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.16.1">Clarified meaning of 'cred_fmt'.<a href="#appendix-D.1-1.16.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.17">
-            <p id="appendix-D.1-1.17.1">Relation between 'cred_fmt' and Authentication Credential Format.<a href="#appendix-D.1-1.17.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.17.1">Consistent mandatory use of 'cnonce'.<a href="#appendix-D.1-1.17.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.18">
-            <p id="appendix-D.1-1.18.1">GET to ace-group/GROUPNAME/kdc-cred only for group members.<a href="#appendix-D.1-1.18.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.18.1">Relation between 'cred_fmt' and Authentication Credential Format.<a href="#appendix-D.1-1.18.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.19">
-            <p id="appendix-D.1-1.19.1">Added FETCH handler for /ace-group/GROUPNAME/kdc-cred.<a href="#appendix-D.1-1.19.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.19.1">GET to ace-group/GROUPNAME/kdc-cred only for group members.<a href="#appendix-D.1-1.19.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.20">
-            <p id="appendix-D.1-1.20.1">PUT becomes POST for ace-group/GROUPNAME/nodes/NODENAME.<a href="#appendix-D.1-1.20.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.20.1">Added FETCH handler for /ace-group/GROUPNAME/kdc-cred.<a href="#appendix-D.1-1.20.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.21">
-            <p id="appendix-D.1-1.21.1">Fixed error response code from /ace-group/GROUPNAME/nodes/NODENAME.<a href="#appendix-D.1-1.21.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.21.1">PUT becomes POST for ace-group/GROUPNAME/nodes/NODENAME.<a href="#appendix-D.1-1.21.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.22">
-            <p id="appendix-D.1-1.22.1">Consistent use of the 'exi' ACE Groupcomm Parameter.<a href="#appendix-D.1-1.22.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.22.1">Fixed error response code from /ace-group/GROUPNAME/nodes/NODENAME.<a href="#appendix-D.1-1.22.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.23">
-            <p id="appendix-D.1-1.23.1">Use concise problem details (RFC9290) for error responses.<a href="#appendix-D.1-1.23.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.23.1">Consistent use of the 'exi' ACE Groupcomm Parameter.<a href="#appendix-D.1-1.23.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.24">
-            <p id="appendix-D.1-1.24.1">Revised default values on group configuration parameters.<a href="#appendix-D.1-1.24.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.24.1">Use concise problem details (RFC9290) for error responses.<a href="#appendix-D.1-1.24.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.25">
-            <p id="appendix-D.1-1.25.1">Revised future-ready generalization of 'ecdh_info_entry'.<a href="#appendix-D.1-1.25.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.25.1">Revised default values on group configuration parameters.<a href="#appendix-D.1-1.25.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.26">
-            <p id="appendix-D.1-1.26.1">CCS is used as default format of authentication credential.<a href="#appendix-D.1-1.26.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.26.1">Revised future-ready generalization of 'ecdh_info_entry'.<a href="#appendix-D.1-1.26.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.27">
-            <p id="appendix-D.1-1.27.1">Updated name of TLS exporter label.<a href="#appendix-D.1-1.27.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.27.1">CCS is used as default format of authentication credential.<a href="#appendix-D.1-1.27.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.28">
-            <p id="appendix-D.1-1.28.1">Revised IANA considerations.<a href="#appendix-D.1-1.28.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.28.1">Updated name of TLS exporter label.<a href="#appendix-D.1-1.28.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.29">
-            <p id="appendix-D.1-1.29.1">Aligned requirement formulation with that in RFC 9594.<a href="#appendix-D.1-1.29.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.29.1">Revised IANA considerations.<a href="#appendix-D.1-1.29.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.30">
-            <p id="appendix-D.1-1.30.1">Use of AASVG in message diagrams.<a href="#appendix-D.1-1.30.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.30.1">Aligned requirement formulation with that in RFC 9594.<a href="#appendix-D.1-1.30.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.31">
-            <p id="appendix-D.1-1.31.1">Clarifications and editorial fixes.<a href="#appendix-D.1-1.31.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.31.1">Use of AASVG in message diagrams.<a href="#appendix-D.1-1.31.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-D.1-1.32">
+            <p id="appendix-D.1-1.32.1">Clarifications and editorial fixes.<a href="#appendix-D.1-1.32.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
