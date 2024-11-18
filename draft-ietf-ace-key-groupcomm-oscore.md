@@ -356,7 +356,7 @@ The exchange of Token Transfer Request and Token Transfer Response is defined in
 
    - 'ecdh_info' defined in {{ecdh-info}} of this document, with value the CBOR simple value `null` (0xf6) to request information about the ECDH algorithm, the ECDH algorithm parameters, the ECDH key parameters, and the exact format of authentication credentials used in the OSCORE groups that the Client has been authorized to join. This is relevant in case the joining node supports the pairwise mode of Group OSCORE {{I-D.ietf-core-oscore-groupcomm}}.
 
-   - 'kdc_dh_creds' defined in {{gm-dh-info}} of this document, with value the CBOR simple value `null` (0xf6) to request the Diffie-Hellman authentication credentials of the Group Manager for the OSCORE groups that the Client has been authorized to join. That is, each of such authentication credentials includes a Diffie-Hellman public key of the Group Manager. This is relevant in case the joining node supports the pairwise mode of Group OSCORE {{I-D.ietf-core-oscore-groupcomm}} and the access token authorizes to join parwise-only groups.
+   - 'kdc_dh_creds' defined in {{gm-dh-info}} of this document, with value the CBOR simple value `null` (0xf6) to request the Diffie-Hellman authentication credentials of the Group Manager for the OSCORE groups that the Client has been authorized to join. That is, each of such authentication credentials includes a Diffie-Hellman public key of the Group Manager. This is relevant in case the joining node supports the pairwise mode of Group OSCORE {{I-D.ietf-core-oscore-groupcomm}} and the access token authorizes to join pairwise-only groups.
 
    Alternatively, the joining node may retrieve this information by other means.
 
@@ -532,7 +532,7 @@ The joining node requests to join the OSCORE group by sending a Join Request mes
 
      The joining node MAY avoid providing the PoP evidence, and instead specify the empty CBOR byte string (0x40) as value of the 'client_cred_verify' parameter, if the following held upon completing the establishment of the secure communication association used to protect the Join Request:
 
-       * The Group Manager authenticated the joinining node by means of AUTH_CRED_C.
+       * The Group Manager authenticated the joining node by means of AUTH_CRED_C.
 
        * The Group Manager achieved proof-of-possession of the joining node's private key associated with AUTH_CRED_C.
 
@@ -586,7 +586,7 @@ The Group Manager processes the Join Request as defined in {{Section 4.3.1 of RF
 
   The Group Manager checks whether the following held upon completing the establishment of the secure communication association used to protect the Join Request:
 
-  * The Group Manager authenticated the joinining node by means of AUTH_CRED_C.
+  * The Group Manager authenticated the joining node by means of AUTH_CRED_C.
 
   * The Group Manager achieved proof-of-possession of the joining node's private key associated with AUTH_CRED_C.
 
@@ -1773,7 +1773,7 @@ This section applies if the group uses (also) the pairwise mode of Group OSCORE.
 
 # Security Considerations {#sec-security-considerations}
 
-Security considerations for this profile are inherited from {{RFC9594}}, the ACE framework for Authentication and Authorization {{RFC9200}}, and the specific transport profile of ACE signalled by the AS, such as {{RFC9202}} and {{RFC9203}}.
+Security considerations for this profile are inherited from {{RFC9594}}, the ACE framework for Authentication and Authorization {{RFC9200}}, and the specific transport profile of ACE signaled by the AS, such as {{RFC9202}} and {{RFC9203}}.
 
 The following security considerations also apply for this profile.
 
@@ -2177,7 +2177,7 @@ This section lists how this application profile of ACE addresses the requirement
 
    - 'ecdh_info', to negotiate the ECDH algorithm, ECDH algorithm parameters, ECDH key parameters, and exact format of authentication credentials used in the group, in case the joining node supports the pairwise mode of Group OSCORE (see {{ssec-token-post}}).
 
-   - 'kdc_dh_creds', to ask for and retrieve the Group Manager's Diffie-Hellman authentication credentials, in case the joining node supports the pairwise mode of Group OSCORE and the access token authorizes to join parwise-only groups (see {{ssec-token-post}}).
+   - 'kdc_dh_creds', to ask for and retrieve the Group Manager's Diffie-Hellman authentication credentials, in case the joining node supports the pairwise mode of Group OSCORE and the access token authorizes to join pairwise-only groups (see {{ssec-token-post}}).
 
 * OPT3: Optionally, specify the negotiation of parameter values for signature algorithm and signature keys, if the 'sign_info' parameter is not used: possible early discovery by using the approach based on the CoRE Resource Directory described in {{I-D.tiloca-core-oscore-discovery}}.
 
@@ -2339,7 +2339,7 @@ sign_params = 11
 
 * Relation between 'cred_fmt' and Authentication Credential Format.
 
-* Skip verication of PoP evidence if PoP was already achieved.
+* Skip verification of PoP evidence if PoP was already achieved.
 
 * GET to ace-group/GROUPNAME/kdc-cred only for group members.
 
@@ -2433,7 +2433,7 @@ sign_params = 11
 
 * Revised use of CoAP error codes.
 
-* Use of "Token Tranfer Request" and "Token Transfer Response".
+* Use of "Token Transfer Request" and "Token Transfer Response".
 
 * New parameter 'rekeying_scheme'.
 
