@@ -5,8 +5,8 @@
 ACE Working Group                                              M. Tiloca
 Internet-Draft                                                   RISE AB
 Intended status: Standards Track                            F. Palombini
-Expires: 21 May 2025                                         Ericsson AB
-                                                        17 November 2024
+Expires: 22 May 2025                                         Ericsson AB
+                                                        18 November 2024
 
 
     Key Management for Group Object Security for Constrained RESTful
@@ -44,7 +44,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 21 May 2025.
+   This Internet-Draft will expire on 22 May 2025.
 
 Copyright Notice
 
@@ -668,7 +668,7 @@ Table of Contents
          Diffie-Hellman public key of the Group Manager.  This is
          relevant in case the joining node supports the pairwise mode of
          Group OSCORE [I-D.ietf-core-oscore-groupcomm] and the access
-         token authorizes to join parwise-only groups.
+         token authorizes to join pairwise-only groups.
 
       Alternatively, the joining node may retrieve this information by
       other means.
@@ -1073,8 +1073,8 @@ Table of Contents
          completing the establishment of the secure communication
          association used to protect the Join Request:
 
-         o  The Group Manager authenticated the joinining node by means
-            of AUTH_CRED_C.
+         o  The Group Manager authenticated the joining node by means of
+            AUTH_CRED_C.
 
          o  The Group Manager achieved proof-of-possession of the
             joining node's private key associated with AUTH_CRED_C.
@@ -1182,7 +1182,7 @@ Table of Contents
       completing the establishment of the secure communication
       association used to protect the Join Request:
 
-      -  The Group Manager authenticated the joinining node by means of
+      -  The Group Manager authenticated the joining node by means of
          AUTH_CRED_C.
 
       -  The Group Manager achieved proof-of-possession of the joining
@@ -3639,7 +3639,7 @@ Table of Contents
 
    Security considerations for this profile are inherited from
    [RFC9594], the ACE framework for Authentication and Authorization
-   [RFC9200], and the specific transport profile of ACE signalled by the
+   [RFC9200], and the specific transport profile of ACE signaled by the
    AS, such as [RFC9202] and [RFC9203].
 
    The following security considerations also apply for this profile.
@@ -4627,7 +4627,8 @@ A.2.  Optional-to-Address Requirements
       -  'kdc_dh_creds', to ask for and retrieve the Group Manager's
          Diffie-Hellman authentication credentials, in case the joining
          node supports the pairwise mode of Group OSCORE and the access
-         token authorizes to join parwise-only groups (see Section 5.3).
+         token authorizes to join pairwise-only groups (see
+         Section 5.3).
 
    *  OPT3: Optionally, specify the negotiation of parameter values for
       signature algorithm and signature keys, if the 'sign_info'
@@ -4873,7 +4874,7 @@ D.1.  Version -16 to -17
 
    *  Relation between 'cred_fmt' and Authentication Credential Format.
 
-   *  Skip verication of PoP evidence if PoP was already achieved.
+   *  Skip verification of PoP evidence if PoP was already achieved.
 
    *  GET to ace-group/GROUPNAME/kdc-cred only for group members.
 
@@ -4971,7 +4972,7 @@ D.6.  Version -11 to -12
 
    *  Revised use of CoAP error codes.
 
-   *  Use of "Token Tranfer Request" and "Token Transfer Response".
+   *  Use of "Token Transfer Request" and "Token Transfer Response".
 
    *  New parameter 'rekeying_scheme'.
 
