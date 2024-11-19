@@ -483,10 +483,10 @@ Table of Contents
    protected with Group OSCORE is ensured by means of a digital
    signature embedded in the message (in group mode), or by integrity-
    protecting the message with pairwise keying material derived from the
-   asymmetric keys of sender and recipient (in pairwise mode).
+   asymmetric keys of the sender and recipient (in pairwise mode).
 
    Therefore, group members must be able to retrieve each other's
-   authentication credential from a trusted repository, in order to
+   authentication credentials from a trusted repository, in order to
    verify source authenticity of incoming group messages.
 
    As also discussed in [I-D.ietf-core-oscore-groupcomm], the Group
@@ -496,46 +496,52 @@ Table of Contents
    joining node is thus expected to provide its own authentication
    credential to the Group Manager.
 
-   In particular, the following applies when a node joins an OSCORE
-   group.
+   The following applies when a node joins an OSCORE group, depending on
+   the specific circumstances.
 
    *  The joining node is going to join the group exclusively as
-      monitor, i.e., it is not going to send messages to the group.  In
-      this case, the joining node is not required to provide its own
+      monitor, i.e., it is not going to send protected messages to the
+      group.
+
+      In this case, the joining node is not required to provide its own
       authentication credential to the Group Manager, which thus does
       not have to perform any check related to the format of the
       authentication credential, to a signature or ECDH algorithm, and
       to possible parameters associated with the algorithm and the
-      public key.  In case the joining node still provides an
-      authentication credential in the 'client_cred' parameter of the
-      Join Request (see Section 6.1), the Group Manager silently ignores
-      that parameter and the related parameter 'client_cred_verify'.
+      public key.
+
+      If the joining node still provides an authentication credential in
+      the 'client_cred' parameter of the Join Request (see Section 6.1),
+      the Group Manager silently ignores that parameter and the related
+      parameter 'client_cred_verify'.
 
    *  The Group Manager already acquired the authentication credential
-      of the joining node during a past joining process.  In this case,
-      the joining node MAY choose not to provide again its own
-      authentication credential to the Group Manager, in order to limit
-      the size of the Join Request.  The joining node MUST provide its
-      own authentication credential again if it has provided the Group
-      Manager with multiple authentication credentials during past
-      joining processes, intended for different OSCORE groups.  If the
-      joining node provides its own authentication credential, the Group
-      Manager performs consistency checks as per Section 6.2 and, in
-      case of success, considers it as the authentication credential
-      associated with the joining node in the OSCORE group.
+      of the joining node during a past joining process.
+
+      In this case, the joining node MAY choose not to provide again its
+      own authentication credential to the Group Manager, in order to
+      limit the size of the Join Request.  The joining node MUST provide
+      its own authentication credential again, if it has provided the
+      Group Manager with multiple authentication credentials during past
+      joining processes intended for different OSCORE groups.
+
+      If the joining node provides its own authentication credential,
+      the Group Manager performs consistency checks as per Section 6.2
+      and, in case of success, considers the authentication credential
+      as the one associated with the joining node in the OSCORE group.
 
    *  The joining node and the Group Manager use an asymmetric proof-of-
       possession key to establish a secure communication association.
-      Then, two cases can occur.
+      Then, two cases can occur:
 
       1.  When establishing the secure communication association, the
-          Group Manager obtained from the joining node the joining
-          node's authentication credential, in the format used in the
-          OSCORE group and including the asymmetric proof-of-possession
-          key as public key.  Also, such authentication credential and
-          the proof-of-possession key are compatible with the signature
-          or ECDH algorithm, and with possible associated parameters
-          used in the OSCORE group.
+          Group Manager obtained the joining node's authentication
+          credential, which has the same format used in the OSCORE group
+          and includes the asymmetric proof-of-possession key as public
+          key.  Also, such authentication credential and the proof-of-
+          possession key are compatible with the signature or ECDH
+          algorithm, and with possible associated parameters used in the
+          OSCORE group.
 
           In this case, the Group Manager considers the authentication
           credential as the one associated with the joining node in the
@@ -573,6 +579,7 @@ Table of Contents
 
    *  The joining node and the Group Manager use a symmetric proof-of-
       possession key to establish a secure communication association.
+
       In this case, upon performing a joining process with that Group
       Manager for the first time, the joining node specifies its own
       authentication credential in the 'client_cred' parameter of the
