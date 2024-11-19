@@ -263,17 +263,20 @@ Table of Contents
       sent the request message.
 
    *  Monitor: member of an OSCORE group that is configured as responder
-      and never replies back to requesters after receiving request
-      messages.  This corresponds to the term "silent server" used in
+      and never sends response messages protected with Group OSCORE.
+      This corresponds to the term "silent server" used in
       [I-D.ietf-core-oscore-groupcomm].
 
-   *  Signature verifier: entity external to the OSCORE group and
+   *  Signature verifier: entity external to the OSCORE group, and
       intended to verify the signature of messages exchanged in the
-      group (see Sections 12.3 and 7.5 of
-      [I-D.ietf-core-oscore-groupcomm]).  An authorized signature
-      verifier does not join the OSCORE group as an actual member, yet
-      it can retrieve the authentication credentials of the current
-      group members from the Group Manager.
+      group that are protected with the group mode (see Sections 12.3,
+      7, and 7.5 of [I-D.ietf-core-oscore-groupcomm]).
+
+      An authorized signature verifier does not join the OSCORE group as
+      an actual member.  However, it can interact with the Group Manager
+      in order to retrieve what is needed to perform signature
+      verifications, e.g., the authentication credentials of the current
+      group members and of the Group Manager.
 
    *  Signature-only group: an OSCORE group that uses only the group
       mode (see Section 7 of [I-D.ietf-core-oscore-groupcomm]).
