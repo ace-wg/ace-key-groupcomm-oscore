@@ -308,7 +308,7 @@ The following applies when a node joins an OSCORE group, depending on the specif
 
 * The Group Manager already acquired the authentication credential of the joining node during a past joining process.
 
-  In this case, the joining node MAY choose not to provide again its own authentication credential to the Group Manager, in order to limit the size of the Join Request. The joining node MUST provide its own authentication credential again, if it has provided the Group Manager with multiple authentication credentials during past joining processes intended for different OSCORE groups.
+  In this case, the joining node MAY choose to not provide again its own authentication credential to the Group Manager, in order to limit the size of the Join Request. The joining node MUST provide its own authentication credential again, if it has provided the Group Manager with multiple authentication credentials during past joining processes intended for different OSCORE groups.
 
   If the joining node provides its own authentication credential, the Group Manager performs consistency checks as per {{ssec-join-req-processing}} and, in case of success, considers the authentication credential as the one associated with the joining node in the OSCORE group.
 
