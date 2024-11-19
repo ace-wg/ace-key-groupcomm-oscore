@@ -5,8 +5,8 @@
 ACE Working Group                                              M. Tiloca
 Internet-Draft                                                   RISE AB
 Intended status: Standards Track                            F. Palombini
-Expires: 22 May 2025                                         Ericsson AB
-                                                        18 November 2024
+Expires: 23 May 2025                                         Ericsson AB
+                                                        19 November 2024
 
 
     Key Management for Group Object Security for Constrained RESTful
@@ -44,7 +44,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 22 May 2025.
+   This Internet-Draft will expire on 23 May 2025.
 
 Copyright Notice
 
@@ -224,10 +224,11 @@ Table of Contents
       the abbreviations REQx and OPTx denoting the numbered mandatory-
       to-address and optional-to-address requirements, respectively.
 
-   *  The terms and concepts related to CDDL [RFC8610], CBOR [RFC8949],
-      and COSE [RFC9052][RFC9053].
+   *  The terms and concepts related to Concise Data Definition Language
+      (CDDL) [RFC8610], Concise Binary Object Representation (CBOR)
+      [RFC8949], and COSE [RFC9052][RFC9053].
 
-   *  The terms and concepts related in CoAP [RFC7252] and group
+   *  The terms and concepts related to CoAP [RFC7252] and group
       communication for CoAP [I-D.ietf-core-groupcomm-bis].  Unless
       otherwise indicated, the term "endpoint" is used here following
       its OAuth definition, aimed at denoting resources such as /token
@@ -251,7 +252,7 @@ Table of Contents
          Claims Sets (CCSs) [RFC8392], X.509 certificates [RFC5280], and
          C509 certificates [I-D.ietf-cose-cbor-encoded-cert].
 
-   Additionally, this document makes use of the following terminology.
+   Additionally, this document makes use of the following terminology:
 
    *  Requester: member of an OSCORE group that sends request messages
       to other members of the group.
