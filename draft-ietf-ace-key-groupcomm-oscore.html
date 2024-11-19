@@ -1748,7 +1748,7 @@ If the joining node still provides an authentication credential in the 'client_c
         <li class="normal" id="section-4-5.2">
           <p id="section-4-5.2.1">The Group Manager already acquired the authentication credential of the joining node during a past joining process.<a href="#section-4-5.2.1" class="pilcrow">¶</a></p>
 <p id="section-4-5.2.2">
-In this case, the joining node <span class="bcp14">MAY</span> choose not to provide again its own authentication credential to the Group Manager, in order to limit the size of the Join Request. The joining node <span class="bcp14">MUST</span> provide its own authentication credential again, if it has provided the Group Manager with multiple authentication credentials during past joining processes intended for different OSCORE groups.<a href="#section-4-5.2.2" class="pilcrow">¶</a></p>
+In this case, the joining node <span class="bcp14">MAY</span> choose to not provide again its own authentication credential to the Group Manager, in order to limit the size of the Join Request. The joining node <span class="bcp14">MUST</span> provide its own authentication credential again, if it has provided the Group Manager with multiple authentication credentials during past joining processes intended for different OSCORE groups.<a href="#section-4-5.2.2" class="pilcrow">¶</a></p>
 <p id="section-4-5.2.3">
 If the joining node provides its own authentication credential, the Group Manager performs consistency checks as per <a href="#ssec-join-req-processing" class="auto internal xref">Section 6.2</a> and, in case of success, considers the authentication credential as the one associated with the joining node in the OSCORE group.<a href="#section-4-5.2.3" class="pilcrow">¶</a></p>
 </li>
