@@ -1587,7 +1587,7 @@ An authorized signature verifier does not join the OSCORE group as an actual mem
       <h2 id="name-protocol-overview">
 <a href="#section-2" class="section-number selfRef">2. </a><a href="#name-protocol-overview" class="section-name selfRef">Protocol Overview</a>
       </h2>
-<p id="section-2-1">Group communication for CoAP has been enabled in <span>[<a href="#I-D.ietf-core-groupcomm-bis" class="cite xref">I-D.ietf-core-groupcomm-bis</a>]</span> and can be secured with Group Object Security for Constrained RESTful Environments (Group OSCORE) as specified in <span>[<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>. A network node joins an OSCORE group by interacting with the responsible Group Manager. Once registered in the group, the new node can securely exchange messages with other group members.<a href="#section-2-1" class="pilcrow">¶</a></p>
+<p id="section-2-1">Group communication for CoAP has been enabled in <span>[<a href="#I-D.ietf-core-groupcomm-bis" class="cite xref">I-D.ietf-core-groupcomm-bis</a>]</span> and can be secured by using Group OSCORE <span>[<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>. A network node can join an OSCORE group by interacting with the responsible Group Manager. Once registered in the group, the new node can securely exchange messages with other group members.<a href="#section-2-1" class="pilcrow">¶</a></p>
 <p id="section-2-2">This document describes how to use <span>[<a href="#RFC9594" class="cite xref">RFC9594</a>]</span> and <span>[<a href="#RFC9200" class="cite xref">RFC9200</a>]</span> to perform a number of authentication, authorization, and key distribution actions as overviewed in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-2" class="relref">Section 2</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>, when the considered group is specifically an OSCORE group.<a href="#section-2-2" class="pilcrow">¶</a></p>
 <p id="section-2-3">With reference to <span>[<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>:<a href="#section-2-3" class="pilcrow">¶</a></p>
 <ul class="normal">
@@ -1603,7 +1603,7 @@ An authorized signature verifier does not join the OSCORE group as an actual mem
       </ul>
 <p id="section-2-5">A node performs the steps described in Sections <a href="https://rfc-editor.org/rfc/rfc9594#section-3" class="relref">3</a> and <a href="https://rfc-editor.org/rfc/rfc9594#section-4.3.1.1" class="relref">4.3.1.1</a> of <span>[<a href="#RFC9594" class="cite xref">RFC9594</a>]</span> in order to obtain an authorization for joining an OSCORE group and then to join that group. The format and processing of messages exchanged during such steps are further specified in <a href="#sec-joining-node-to-AS" class="auto internal xref">Section 5</a> and <a href="#sec-joining-node-to-GM" class="auto internal xref">Section 6</a> of this document.<a href="#section-2-5" class="pilcrow">¶</a></p>
 <p id="section-2-6">All communications between the involved entities <span class="bcp14">MUST</span> be secured.<a href="#section-2-6" class="pilcrow">¶</a></p>
-<p id="section-2-7">In particular, communications between the Client and the Group Manager leverage protocol-specific transport profiles of ACE to achieve communication security, proof-of-possession and server authentication. It is expected that, in the commonly referred base-case of this document, the transport profile to use is pre-configured and well-known to nodes participating in constrained applications.<a href="#section-2-7" class="pilcrow">¶</a></p>
+<p id="section-2-7">In particular, communications between the Client and the Group Manager leverage protocol-specific transport profiles of ACE to achieve communication security, proof-of-possession, and server authentication. It is expected that, in the commonly referred base-case of this document, the transport profile to use is pre-configured and well-known to nodes participating in constrained applications.<a href="#section-2-7" class="pilcrow">¶</a></p>
 <p id="section-2-8">With respect to what is defined in <span>[<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>:<a href="#section-2-8" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-2-9.1">
@@ -1633,11 +1633,11 @@ An authorized signature verifier does not join the OSCORE group as an actual mem
 </pre><a href="#section-3-4" class="pilcrow">¶</a>
 </div>
 <p id="section-3-5">the value of the CBOR byte string used as scope encodes the CBOR array [* [Toid, Tperm]], where each [Toid, Tperm] element corresponds to one scope entry.<a href="#section-3-5" class="pilcrow">¶</a></p>
-<p id="section-3-6">Furthermore, this document defines the new AIF data model AIF-OSCORE-GROUPCOMM, that this profile <span class="bcp14">MUST</span> use to format and encode scope entries.<a href="#section-3-6" class="pilcrow">¶</a></p>
-<p id="section-3-7">In particular, the following holds for each scope entry.<a href="#section-3-7" class="pilcrow">¶</a></p>
+<p id="section-3-6">Furthermore, this document defines the new AIF data model AIF-OSCORE-GROUPCOMM, which this profile <span class="bcp14">MUST</span> use to format and encode scope entries.<a href="#section-3-6" class="pilcrow">¶</a></p>
+<p id="section-3-7">In particular, the following holds for each scope entry:<a href="#section-3-7" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-3-8.1">
-          <p id="section-3-8.1.1">The object identifier ("Toid") is specialized as a CBOR item specifying the name of the groups pertaining to the scope entry.<a href="#section-3-8.1.1" class="pilcrow">¶</a></p>
+          <p id="section-3-8.1.1">The object identifier ("Toid") is specialized as a CBOR data item specifying the name of the groups pertaining to the scope entry.<a href="#section-3-8.1.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="section-3-8.2">
           <p id="section-3-8.2.1">The permission set ("Tperm") is specialized as a CBOR unsigned integer with value R, specifying the permissions that the Client wishes to have in the groups indicated by "Toid".<a href="#section-3-8.2.1" class="pilcrow">¶</a></p>
@@ -1652,7 +1652,7 @@ An authorized signature verifier does not join the OSCORE group as an actual mem
           <p id="section-3-10.2.1">The permission set ("Tperm") is a CBOR unsigned integer with value R, specifying the role(s) that the Client wishes to take in the group (REQ1). The value R is computed as follows.<a href="#section-3-10.2.1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-3-10.2.2.1">
-              <p id="section-3-10.2.2.1.1">Each role in the permission set is converted into the corresponding numeric identifier X from the "Value" column of the "Group OSCORE Roles" registry, for which this document defines the entries in <a href="#tab-role-values" class="auto internal xref">Table 1</a>.<a href="#section-3-10.2.2.1.1" class="pilcrow">¶</a></p>
+              <p id="section-3-10.2.2.1.1">Each role in the permission set is converted into the corresponding numeric identifier X from the "Value" column of the "Group OSCORE Roles" registry defined in <a href="#ssec-iana-group-oscore-roles-registry" class="auto internal xref">Section 16.12</a> of this document, for which the initial entries are specified in <a href="#tab-role-values" class="auto internal xref">Table 1</a>.<a href="#section-3-10.2.2.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-3-10.2.2.2">
               <p id="section-3-10.2.2.2.1">The set of N numbers is converted into the single value R, by taking two to the power of each numeric identifier X_1, X_2, ..., X_N, and then computing the inclusive OR of the binary representations of all the power values.<a href="#section-3-10.2.2.2.1" class="pilcrow">¶</a></p>
@@ -1664,7 +1664,7 @@ An authorized signature verifier does not join the OSCORE group as an actual mem
 <table class="center" id="table-1">
         <caption>
 <a href="#table-1" class="selfRef">Table 1</a>:
-<a href="#name-numeric-identifier-of-roles" class="selfRef">Numeric identifier of roles in an OSCORE group</a>
+<a href="#name-numeric-identifier-of-roles" class="selfRef">Numeric Identifier of Roles in an OSCORE Group</a>
         </caption>
 <thead>
           <tr>
@@ -1682,22 +1682,22 @@ An authorized signature verifier does not join the OSCORE group as an actual mem
           <tr>
             <td class="text-left" rowspan="1" colspan="1">Requester</td>
             <td class="text-left" rowspan="1" colspan="1">1</td>
-            <td class="text-left" rowspan="1" colspan="1">Send requests; receive responses</td>
+            <td class="text-left" rowspan="1" colspan="1">Send protected requests; receive protected responses</td>
           </tr>
           <tr>
             <td class="text-left" rowspan="1" colspan="1">Responder</td>
             <td class="text-left" rowspan="1" colspan="1">2</td>
-            <td class="text-left" rowspan="1" colspan="1">Send responses; receive requests</td>
+            <td class="text-left" rowspan="1" colspan="1">Send protected responses; receive protected requests</td>
           </tr>
           <tr>
             <td class="text-left" rowspan="1" colspan="1">Monitor</td>
             <td class="text-left" rowspan="1" colspan="1">3</td>
-            <td class="text-left" rowspan="1" colspan="1">Receive requests; never send requests/responses</td>
+            <td class="text-left" rowspan="1" colspan="1">Receive protected requests; never send protected messages</td>
           </tr>
           <tr>
             <td class="text-left" rowspan="1" colspan="1">Verifier</td>
             <td class="text-left" rowspan="1" colspan="1">4</td>
-            <td class="text-left" rowspan="1" colspan="1">Verify signature of intercepted messages</td>
+            <td class="text-left" rowspan="1" colspan="1">Verify signature of intercepted messages protected with the group mode</td>
           </tr>
         </tbody>
       </table>
@@ -1722,7 +1722,7 @@ An authorized signature verifier does not join the OSCORE group as an actual mem
    scope_entry = [oscore-gname, oscore-gperm]
 </pre><a href="#section-3-13" class="pilcrow">¶</a>
 </div>
-<p id="section-3-14">Future specifications that define new Group OSCORE roles <span class="bcp14">MUST</span> register a corresponding numeric identifier in the "Group OSCORE Roles" registry defined in <a href="#ssec-iana-group-oscore-roles-registry" class="auto internal xref">Section 16.12</a> of this document.<a href="#section-3-14" class="pilcrow">¶</a></p>
+<p id="section-3-14">Future specifications that define new Group OSCORE roles <span class="bcp14">MUST</span> register a corresponding numeric identifier in the "Group OSCORE Roles" registry.<a href="#section-3-14" class="pilcrow">¶</a></p>
 <p id="section-3-15">Note that the value 0 is not available to use as numeric identifier to specify a Group OSCORE role. It follows that, when expressing Group OSCORE roles to take in a group as per this document, a scope entry has the least significant bit of "Tperm" always set to 0.<a href="#section-3-15" class="pilcrow">¶</a></p>
 <p id="section-3-16">This is an explicit feature of the AIF-OSCORE-GROUPCOMM data model. That is, for each scope entry, the least significant bit of "Tperm" set to 0 explicitly identifies the scope entry as exactly expressing a set of Group OSCORE roles ("Tperm"), pertaining to a single group whose name is specified by the string literal in "Toid".<a href="#section-3-16" class="pilcrow">¶</a></p>
 <p id="section-3-17">Instead, by relying on the same AIF-OSCORE-GROUPCOMM data model, <span>[<a href="#I-D.ietf-ace-oscore-gm-admin" class="cite xref">I-D.ietf-ace-oscore-gm-admin</a>]</span> defines the format of scope entries for Administrator Clients that wish to access an admin interface at the Group Manager. In such scope entries, the least significant bit of "Tperm" is always set to 1.<a href="#section-3-17" class="pilcrow">¶</a></p>
