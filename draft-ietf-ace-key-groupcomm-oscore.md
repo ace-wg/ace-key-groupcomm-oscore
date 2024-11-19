@@ -332,7 +332,9 @@ The following applies when a node joins an OSCORE group, depending on the specif
 
 This section builds on {{Section 3 of RFC9594}} and is organized as follows.
 
-First, {{ssec-auth-req}} and {{ssec-auth-resp}} describe how the joining node interacts with the AS, in order to be authorized to join an OSCORE group under a given Group Manager and to obtain an access token. Then, {{ssec-token-post}} describes how the joining node transfers the obtained access token to the Group Manager. The following considers a joining node that intends to contact the Group Manager for the first time.
+First, {{ssec-auth-req}} and {{ssec-auth-resp}} describe how the joining node interacts with the AS, in order to be authorized to join an OSCORE group under a given Group Manager and to obtain an access token. Then, {{ssec-token-post}} describes how the joining node transfers the obtained access token to the Group Manager.
+
+The following considers a joining node that intends to contact the Group Manager for the first time.
 
 Note that what is defined in {{Section 3 of RFC9594}} applies, and only additions or modifications to that specification are defined in this document.
 
@@ -342,11 +344,11 @@ The Authorization Request message is as defined in {{Section 3.1 of RFC9594}}, w
 
 * If the 'scope' parameter is present:
 
-   - The value of the CBOR byte string encodes a CBOR array, whose format MUST follow the data model AIF-OSCORE-GROUPCOMM defined in {{sec-format-scope}}. For each OSCORE group to join:
+   - The value of the CBOR byte string encodes a CBOR array, whose format MUST follow the data model AIF-OSCORE-GROUPCOMM defined in {{sec-format-scope}} of this document. For each OSCORE group to join:
 
       - The group name is encoded as a CBOR text string.
 
-      - The set of requested roles is expressed as a single CBOR unsigned integer. This is computed as defined in {{sec-format-scope}}, from the numerical abbreviations of each requested role defined in the "Group OSCORE Roles" registry, for which this document defines the entries in {{tab-role-values}} (REQ1).
+      - The set of requested roles is expressed as a single CBOR unsigned integer. This is computed as defined in {{sec-format-scope}} of this document, from the numerical abbreviations of each requested role defined in the "Group OSCORE Roles" registry, for which this document defines the entries in {{tab-role-values}} (REQ1).
 
 ## Authorization Response {#ssec-auth-resp}
 
@@ -354,9 +356,9 @@ The Authorization Response message is as defined in {{Section 3.2 of RFC9594}}, 
 
 * The AS MUST include the 'expires_in' parameter. Other means for the AS to specify the lifetime of access tokens are out of the scope of this document.
 
-* The AS MUST include the 'scope' parameter, when the value included in the access token differs from the one specified by the joining node in the Authorization Request. In such a case, the second element of each scope entry MUST be present, and specifies the set of roles that the joining node is actually authorized to take in the OSCORE group for that scope entry, encoded as specified in {{ssec-auth-req}}.
+* The AS MUST include the 'scope' parameter, when the value included in the access token differs from the one specified by the joining node in the Authorization Request. In such a case, the second element of each scope entry MUST be present, and specifies the set of roles that the joining node is actually authorized to take in the OSCORE group for that scope entry, encoded as specified in {{ssec-auth-req}} of this document.
 
-Furthermore, the AS MAY use the extended format of scope defined in {{Section 7 of RFC9594}} for the 'scope' claim of the access token. In such a case, the AS MUST use the CBOR tag with tag number TAG_NUMBER, associated with the CoAP Content-Format CF_ID for the media type application/aif+cbor registered in {{ssec-iana-coap-content-format-registry}} of this document (REQ28).
+Furthermore, the AS MAY use the extended format of scope defined in {{Section 7 of RFC9594}} for the 'scope' claim of the access token. In such a case, the AS MUST use the CBOR tag with tag number TAG_NUMBER, associated with the CoAP Content-Format CF_ID for the media type "application/aif+cbor" registered in {{ssec-iana-coap-content-format-registry}} of this document (REQ28).
 
 Note to RFC Editor: In the previous paragraph, please replace "TAG_NUMBER" with the CBOR tag number computed as TN(ct) in {{Section 4.3 of RFC9277}}, where ct is the ID assigned to the CoAP Content-Format registered in {{ssec-iana-coap-content-format-registry}} of this document. Then, please replace "CF_ID" with the ID assigned to that CoAP Content-Format. Finally, please delete this paragraph.
 
@@ -374,11 +376,11 @@ The exchange of Token Transfer Request and Token Transfer Response is defined in
 
    Alternatively, the joining node may retrieve this information by other means.
 
-* The 'kdcchallenge' parameter contains a dedicated nonce N_S generated by the Group Manager. For the N\_S value, it is RECOMMENDED to use an 8-byte long random nonce. The joining node can use this nonce in order to prove the possession of its own private key, upon joining the group (see {{ssec-join-req-sending}}).
+* The 'kdcchallenge' parameter contains a dedicated nonce N_S generated by the Group Manager. For the N\_S value, it is RECOMMENDED to use an 8-byte long random nonce. The joining node can use this nonce in order to prove the possession of its own private key, upon joining the group (see {{ssec-join-req-sending}} of this document).
 
-    The 'kdcchallenge' parameter MAY be omitted from the Token Transfer Response, if the 'scope' of the access token specifies only the role "monitor" or only the role "verifier" or only the two roles combined, for each and every of the specified groups.
+    The 'kdcchallenge' parameter MAY be omitted from the Token Transfer Response, if the 'scope' of the access token specifies only the role "monitor", or only the role "verifier", or only the two roles combined, for each and every of the specified groups.
 
-* If the 'sign_info' parameter is present in the response, the following applies for each element 'sign_info_entry'.
+* If the 'sign_info' parameter is present in the Token Transfer Response, the following applies for each element 'sign_info_entry'.
 
   * 'id' MUST NOT refer to OSCORE groups that are pairwise-only groups.
 
@@ -396,7 +398,7 @@ The exchange of Token Transfer Request and Token Transfer Response is defined in
 
   This format is consistent with every signature algorithm currently considered in {{RFC9053}}, i.e., with algorithms that have only the COSE key type as their COSE capability. {{Section B of RFC9594}} describes how the format of each 'sign_info_entry' can be generalized for possible future registered algorithms having a different set of COSE capabilities.
 
-* If the 'ecdh_info' parameter is present in the response, the following applies for each element 'ecdh_info_entry'.
+* If the 'ecdh_info' parameter is present in the Token Transfer Response, the following applies for each element 'ecdh_info_entry'.
 
   * 'id' MUST NOT refer to OSCORE groups that are signature-only groups.
 
@@ -410,7 +412,7 @@ The exchange of Token Transfer Request and Token Transfer Response is defined in
 
   The Group Manager omits the 'ecdh_info' parameter in the Token Transfer Response even if 'ecdh_info' is included in the Token Transfer Request, in case all the OSCORE groups that the Client is authorized to join are signature-only groups.
 
-* If the 'kdc_dh_creds' parameter is present in the response, the following applies for each element 'kdc_dh_creds_entry'.
+* If the 'kdc_dh_creds' parameter is present in the Token Transfer Response, the following applies for each element 'kdc_dh_creds_entry'.
 
   * 'id' MUST refer exclusively to OSCORE groups that are pairwise-only groups.
 
