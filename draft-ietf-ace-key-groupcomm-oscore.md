@@ -189,7 +189,7 @@ Note to RFC Editor: Please delete the paragraph immediately preceding this note.
 
 # Protocol Overview {#sec-protocol-overview}
 
-Group communication for CoAP has been enabled in {{I-D.ietf-core-groupcomm-bis}} and can be secured with Group Object Security for Constrained RESTful Environments (Group OSCORE) as specified in {{I-D.ietf-core-oscore-groupcomm}}. A network node joins an OSCORE group by interacting with the responsible Group Manager. Once registered in the group, the new node can securely exchange messages with other group members.
+Group communication for CoAP has been enabled in {{I-D.ietf-core-groupcomm-bis}} and can be secured by using Group OSCORE {{I-D.ietf-core-oscore-groupcomm}}. A network node can join an OSCORE group by interacting with the responsible Group Manager. Once registered in the group, the new node can securely exchange messages with other group members.
 
 This document describes how to use {{RFC9594}} and {{RFC9200}} to perform a number of authentication, authorization, and key distribution actions as overviewed in {{Section 2 of RFC9594}}, when the considered group is specifically an OSCORE group.
 
@@ -205,7 +205,7 @@ A node performs the steps described in {{Sections 3 and 4.3.1.1 of RFC9594}} in 
 
 All communications between the involved entities MUST be secured.
 
-In particular, communications between the Client and the Group Manager leverage protocol-specific transport profiles of ACE to achieve communication security, proof-of-possession and server authentication. It is expected that, in the commonly referred base-case of this document, the transport profile to use is pre-configured and well-known to nodes participating in constrained applications.
+In particular, communications between the Client and the Group Manager leverage protocol-specific transport profiles of ACE to achieve communication security, proof-of-possession, and server authentication. It is expected that, in the commonly referred base-case of this document, the transport profile to use is pre-configured and well-known to nodes participating in constrained applications.
 
 With respect to what is defined in {{RFC9594}}:
 
@@ -231,11 +231,11 @@ To this end, this profile uses the Authorization Information Format (AIF) {{RFC9
 
 the value of the CBOR byte string used as scope encodes the CBOR array \[* \[Toid, Tperm\]\], where each \[Toid, Tperm\] element corresponds to one scope entry.
 
-Furthermore, this document defines the new AIF data model AIF-OSCORE-GROUPCOMM, that this profile MUST use to format and encode scope entries.
+Furthermore, this document defines the new AIF data model AIF-OSCORE-GROUPCOMM, which this profile MUST use to format and encode scope entries.
 
-In particular, the following holds for each scope entry.
+In particular, the following holds for each scope entry:
 
-* The object identifier ("Toid") is specialized as a CBOR item specifying the name of the groups pertaining to the scope entry.
+* The object identifier ("Toid") is specialized as a CBOR data item specifying the name of the groups pertaining to the scope entry.
 
 * The permission set ("Tperm") is specialized as a CBOR unsigned integer with value R, specifying the permissions that the Client wishes to have in the groups indicated by "Toid".
 
@@ -245,22 +245,22 @@ More specifically, the following applies when, as defined in this document, a sc
 
 * The permission set ("Tperm") is a CBOR unsigned integer with value R, specifying the role(s) that the Client wishes to take in the group (REQ1). The value R is computed as follows.
 
-   - Each role in the permission set is converted into the corresponding numeric identifier X from the "Value" column of the "Group OSCORE Roles" registry, for which this document defines the entries in {{tab-role-values}}.
+   - Each role in the permission set is converted into the corresponding numeric identifier X from the "Value" column of the "Group OSCORE Roles" registry defined in {{ssec-iana-group-oscore-roles-registry}} of this document, for which the initial entries are specified in {{tab-role-values}}.
 
    - The set of N numbers is converted into the single value R, by taking two to the power of each numeric identifier X_1, X_2, ..., X_N, and then computing the inclusive OR of the binary representations of all the power values.
 
-| Name      | Value | Description                                     |
-|-----------|-------|-------------------------------------------------|
-| Reserved  | 0     | This value is reserved                          |
-|-----------|-------|-------------------------------------------------|
-| Requester | 1     | Send requests; receive responses                |
-|-----------|-------|-------------------------------------------------|
-| Responder | 2     | Send responses; receive requests                |
-|-----------|-------|-------------------------------------------------|
-| Monitor   | 3     | Receive requests; never send requests/responses |
-|-----------|-------|-------------------------------------------------|
-| Verifier  | 4     | Verify signature of intercepted messages        |
-{: #tab-role-values title="Numeric identifier of roles in an OSCORE group" align="center"}
+| Name      | Value | Description                                                            |
+|-----------|-------|------------------------------------------------------------------------|
+| Reserved  | 0     | This value is reserved                                                 |
+|-----------|-------|------------------------------------------------------------------------|
+| Requester | 1     | Send protected requests; receive protected responses                   |
+|-----------|-------|------------------------------------------------------------------------|
+| Responder | 2     | Send protected responses; receive protected requests                   |
+|-----------|-------|------------------------------------------------------------------------|
+| Monitor   | 3     | Receive protected requests; never send protected messages              |
+|-----------|-------|------------------------------------------------------------------------|
+| Verifier  | 4     | Verify signature of intercepted messages protected with the group mode |
+{: #tab-role-values title="Numeric Identifier of Roles in an OSCORE Group" align="center"}
 
 The following CDDL {{RFC8610}} notation defines a scope entry that uses the AIF-OSCORE-GROUPCOMM data model and expresses a set of Group OSCORE roles from those in {{tab-role-values}}.
 
@@ -282,7 +282,7 @@ The following CDDL {{RFC8610}} notation defines a scope entry that uses the AIF-
    scope_entry = [oscore-gname, oscore-gperm]
 ~~~~~~~~~~~
 
-Future specifications that define new Group OSCORE roles MUST register a corresponding numeric identifier in the "Group OSCORE Roles" registry defined in {{ssec-iana-group-oscore-roles-registry}} of this document.
+Future specifications that define new Group OSCORE roles MUST register a corresponding numeric identifier in the "Group OSCORE Roles" registry.
 
 Note that the value 0 is not available to use as numeric identifier to specify a Group OSCORE role. It follows that, when expressing Group OSCORE roles to take in a group as per this document, a scope entry has the least significant bit of "Tperm" always set to 0.
 
