@@ -2159,7 +2159,7 @@ The Group Manager checks whether the following held upon completing the establis
 </li>
             </ul>
 <p id="section-6.2-2.1.5">
-In case of successful verification of the conditions above, the Group Manager skips the verification of the PoP evidence. Otherwise, the Group Manager <span class="bcp14">MUST</span> reply with a 4.00 (Bad Request) error response.<a href="#section-6.2-2.1.5" class="pilcrow">¶</a></p>
+In case of successful verification of the conditions above, the Group Manager continues processing the Join Request as if the PoP evidence was successfully verified. Otherwise, the Group Manager <span class="bcp14">MUST</span> fail the verification of the PoP evidence.<a href="#section-6.2-2.1.5" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-6.2-2.2">
             <p id="section-6.2-2.2.1">If the 'client_cred_verify' parameter of the Join Request specifies a value different from the empty CBOR byte string (0x40), then the Group Manager verifies the PoP evidence contained in 'client_cred_verify' as follows:<a href="#section-6.2-2.2.1" class="pilcrow">¶</a></p>

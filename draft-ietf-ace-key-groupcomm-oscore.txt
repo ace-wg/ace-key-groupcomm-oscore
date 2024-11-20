@@ -1220,9 +1220,9 @@ Table of Contents
          node's private key associated with AUTH_CRED_C.
 
       In case of successful verification of the conditions above, the
-      Group Manager skips the verification of the PoP evidence.
-      Otherwise, the Group Manager MUST reply with a 4.00 (Bad Request)
-      error response.
+      Group Manager continues processing the Join Request as if the PoP
+      evidence was successfully verified.  Otherwise, the Group Manager
+      MUST fail the verification of the PoP evidence.
 
    *  If the 'client_cred_verify' parameter of the Join Request
       specifies a value different from the empty CBOR byte string
