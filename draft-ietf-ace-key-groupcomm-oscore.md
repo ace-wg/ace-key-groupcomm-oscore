@@ -764,18 +764,6 @@ Furthermore, the following applies.
 
 * The 'kdc_cred_verify' parameter MUST be present, specifying the proof-of-possession (PoP) evidence computed by the Group Manager. The PoP evidence is computed as defined below (REQ21).
 
-   - Under specific circumstances, the joining node can already have achieved proof-of-possession of the Group Manager's private key associated with the Group manager's authentication credential.
-
-     The following refers to AUTH_CRED_GM as the authentication credential specified in the 'kdc_cred' parameter.
-
-     The Group Manager MAY avoid providing the PoP evidence, and instead specify the empty CBOR byte string (0x40) as value of the 'kdc_cred_verify' parameter, if the following held upon completing the establishment of the secure communication association used to protect the Join Response:
-
-     * The joining node authenticated the Group Manager by means of AUTH_CRED_GM.
-
-     * The joining node achieved proof-of-possession of the Group Manager's private key associated with AUTH_CRED_GM.
-
-     If the conditions above do not hold or the Group Manager prefers to specify the PoP evidence in the 'kdc_cred_verify' parameter, then the Group Manager computes the PoP evidence as specified below.
-
    - If the group is not a pairwise-only group, the PoP evidence MUST be a signature. The Group Manager computes the signature by using the signature algorithm used in the OSCORE group, as well as its own private key associated with the authentication credential specified in the 'kdc_cred' parameter.
 
    - If the group is a pairwise-only group, the PoP evidence MUST be a MAC computed as follows, by using the HKDF Algorithm HKDF SHA-256, which consists of composing the HKDF-Extract and HKDF-Expand steps {{RFC5869}}.
@@ -798,23 +786,11 @@ As a last action, if the Group Manager reassigns Gid values during the group's l
 
 ## Receive the Join Response {#ssec-join-resp-processing}
 
-Upon receiving the Join Response, the joining node retrieves the Group Manager's authentication credential AUTH_CRED_GM from the 'kdc_cred' parameter.
+Upon receiving the Join Response, the joining node retrieves the Group Manager's authentication credential from the 'kdc_cred' parameter. The joining node MUST verify the proof-of-possession (PoP) evidence specified in the 'kdc_cred_verify' parameter of the Join Response as defined below (REQ21).
 
-The joining node MUST verify the proof-of-possession (PoP) evidence specified in the 'kdc_cred_verify' parameter of the Join Response as defined below (REQ21).
+* If the group is not a pairwise-only group, the PoP evidence is a signature. The joining node verifies it by using the public key of the Group Manager from the received authentication credential, as well as the signature algorithm used in the OSCORE group and possible corresponding parameters.
 
-* If the 'kdc_cred_verify' parameter of the Join Response specifies the empty CBOR byte string (0x40), the joining node checks whether the following held upon completing the establishment of the secure communication association used to protect the Join Response:
-
-  * The joining node authenticated the Group Manager by means of AUTH_CRED_GM.
-
-  * The joining node achieved proof-of-possession of the Group Manager's private key associated with AUTH_CRED_GM.
-
-  In case of successful verification of the conditions above, the joining node skips the verification of the PoP evidence. Otherwise, the joining node MUST stop processing the Join Response and MAY send a new Join Request to the Group Manager (see {{ssec-join-req-sending}}).
-
-* If the 'kdc_cred_verify' parameter of the Join Response specifies a value different from the empty CBOR byte string (0x40), then the joining node verifies the PoP evidence contained in 'kdc_cred_verify' as follows:
-
-  * If the group is not a pairwise-only group, the PoP evidence is a signature. The joining node verifies it by using the public key of the Group Manager from the received authentication credential, as well as the signature algorithm used in the OSCORE group and possible corresponding parameters.
-
-  * If the group is a pairwise-only group, the PoP evidence is a MAC. The joining node recomputes the MAC through the same process taken by the Group Manager when computing the value of the 'kdc_cred_verify' parameter (see {{ssec-join-resp}}), with the difference that the joining node uses its own Diffie-Hellman private key and the Diffie-Hellman public key of the Group Manager from the received authentication credential. The verification succeeds if and only if the recomputed MAC is equal to the MAC conveyed as PoP evidence in the Join Response.
+* If the group is a pairwise-only group, the PoP evidence is a MAC. The joining node recomputes the MAC through the same process taken by the Group Manager when computing the value of the 'kdc_cred_verify' parameter (see {{ssec-join-resp}}), with the difference that the joining node uses its own Diffie-Hellman private key and the Diffie-Hellman public key of the Group Manager from the received authentication credential. The verification succeeds if and only if the recomputed MAC is equal to the MAC conveyed as PoP evidence in the Join Response.
 
 In case of failed verification of the PoP evidence, the joining node MUST stop processing the Join Response and MAY send a new Join Request to the Group Manager (see {{ssec-join-req-sending}}).
 
