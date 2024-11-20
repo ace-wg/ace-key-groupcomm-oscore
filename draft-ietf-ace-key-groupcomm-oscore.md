@@ -298,9 +298,9 @@ Therefore, group members must be able to retrieve each other's authentication cr
 
 As also discussed in {{I-D.ietf-core-oscore-groupcomm}}, the Group Manager acts as trusted repository of the authentication credentials of the group members, and provides those authentication credentials to group members if requested to.
 
-Upon joining an OSCORE group, a joining node is thus expected to provide its authentication credential to the Group Manager (see {{ssec-join-req-sending}}). Later on as a group member, that node can provide the Group Manager with a different authentication credential that replaces the old one (see {{sec-update-pub-key}}). In either situation, the authentication credential can be provided within a chain or a bag (e.g., as the end-entity certificate in a chain of certificates), in which case the Group Manager stores the whole chain or bag. Consistently, the Group Manager specifies the whole chain or bag when providing that authentication credential in an Authentication Credential Response to a Client requesting for it (see {{sec-pub-keys}}).
+Upon joining an OSCORE group, a joining node is thus expected to provide its authentication credential to the Group Manager (see {{ssec-join-req-sending}}). Later on as a group member, that node can provide the Group Manager with a different authentication credential that replaces the old one (see {{sec-update-pub-key}}). In either situation, the authentication credential can be provided within a chain or a bag (e.g., as the end-entity certificate in a chain of certificates), in which case the Group Manager stores the whole chain or bag. Consistently, the Group Manager specifies the whole chain or bag when providing that authentication credential, within the 'creds' parameter of a Join Response (see {{ssec-join-resp}}) or of an Authentication Credential Response (see {{sec-pub-keys}}).
 
-The following applies when a node joins an OSCORE group, depending on the specific circumstances.
+In the following circumstances, a joining node is not required to provide its authentication credential to the Group Manager when joining an OSCORE group.
 
 * The joining node is going to join the group exclusively as monitor, i.e., it is not going to send protected messages to the group.
 
@@ -308,27 +308,9 @@ The following applies when a node joins an OSCORE group, depending on the specif
 
   If the joining node still provides an authentication credential in the 'client_cred' parameter of the Join Request (see {{ssec-join-req-sending}}), the Group Manager silently ignores that parameter and the related parameter 'client_cred_verify'.
 
-* The Group Manager already acquired the authentication credential of the joining node during a past joining process.
+* The joining node is currently a group member, and it is re-joining the group not exclusively as monitor.
 
-  In this case, the joining node MAY choose to not provide again its own authentication credential to the Group Manager, in order to limit the size of the Join Request. The joining node MUST provide its own authentication credential again, if it has provided the Group Manager with multiple authentication credentials during past joining processes intended for different OSCORE groups.
-
-  If the joining node provides its own authentication credential, the Group Manager performs consistency checks as per {{ssec-join-req-processing}} and, in case of success, considers the authentication credential as the one associated with the joining node in the OSCORE group.
-
-* The joining node and the Group Manager use an asymmetric proof-of-possession key to establish a secure communication association. Then, two cases can occur:
-
-   1. When establishing the secure communication association, the Group Manager obtained the joining node's authentication credential, which has the same format used in the OSCORE group and includes the asymmetric proof-of-possession key as public key. Also, such authentication credential and the proof-of-possession key are compatible with the signature or ECDH algorithm, and with possible associated parameters used in the OSCORE group.
-
-      In this case, the Group Manager considers the authentication credential as the one associated with the joining node in the OSCORE group. If the joining node is aware that the authentication credential and the public key included thereof are also valid for the OSCORE group, then the joining node MAY choose to not provide again its own authentication credential to the Group Manager.
-
-      The joining node MUST provide again its own authentication credential if it has provided the Group Manager with multiple authentication credentials during past joining processes, intended for different OSCORE groups. If the joining node provides its own authentication credential in the 'client_cred' parameter of the Join Request (see {{ssec-join-req-sending}}), the Group Manager performs consistency checks as per {{ssec-join-req-processing}} and, in case of success, considers it as the authentication credential associated with the joining node in the OSCORE group.
-
-   2. The authentication credential is not in the format used in the OSCORE group, or else the authentication credential and the proof-of-possession key included as public key are not compatible with the signature or ECDH algorithm, and with possible associated parameters used in the OSCORE group.
-
-       In this case, the joining node MUST provide a different compatible authentication credential and public key included thereof to the Group Manager in the 'client_cred' parameter of the Join Request (see {{ssec-join-req-sending}}). Then, the Group Manager performs consistency checks on this latest provided authentication credential as per {{ssec-join-req-processing}} and, in case of success, considers it as the authentication credential associated with the joining node in the OSCORE group.
-
-* The joining node and the Group Manager use a symmetric proof-of-possession key to establish a secure communication association.
-
-  In this case, upon performing a joining process with that Group Manager for the first time, the joining node specifies its own authentication credential in the 'client_cred' parameter of the Join Request (see {{ssec-join-req-sending}}).
+  In this case, the joining node MAY choose to omit the 'client_cred' parameter in the Join Request, if it intends to use the same authentication credential that it is currently using in the group (see {{Section 4.3.1.1 of RFC9594}}).
 
 # Authorization to Join a Group {#sec-joining-node-to-AS}
 
@@ -2292,6 +2274,8 @@ sign_params = 11
   - 'sign_enc_alg' becomes 'gp_enc_alg'
 
 * Added CBOR integer abbreviations for ACE Groupcomm Parameters.
+
+* Considerations on authentication credentials consistent with RFC 9594.
 
 * Revised alternative computing of N_S challenge when DTLS is used.
 
