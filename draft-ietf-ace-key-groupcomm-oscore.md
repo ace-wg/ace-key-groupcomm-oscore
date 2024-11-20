@@ -608,7 +608,7 @@ The Group Manager processes the Join Request as defined in {{Section 4.3.1 of RF
 
   * The Group Manager achieved proof-of-possession of the joining node's private key associated with AUTH_CRED_C.
 
-  In case of successful verification of the conditions above, the Group Manager skips the verification of the PoP evidence. Otherwise, the Group Manager MUST reply with a 4.00 (Bad Request) error response.
+  In case of successful verification of the conditions above, the Group Manager continues processing the Join Request as if the PoP evidence was successfully verified. Otherwise, the Group Manager MUST fail the verification of the PoP evidence.
 
 * If the 'client_cred_verify' parameter of the Join Request specifies a value different from the empty CBOR byte string (0x40), then the Group Manager verifies the PoP evidence contained in 'client_cred_verify' as follows:
 
