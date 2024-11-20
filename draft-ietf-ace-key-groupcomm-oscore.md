@@ -296,7 +296,9 @@ Source authentication of a message sent within the group and protected with Grou
 
 Therefore, group members must be able to retrieve each other's authentication credentials from a trusted repository, in order to verify source authenticity of incoming group messages.
 
-As also discussed in {{I-D.ietf-core-oscore-groupcomm}}, the Group Manager acts as trusted repository of the authentication credentials of the group members, and provides those authentication credentials to group members if requested to. Upon joining an OSCORE group, a joining node is thus expected to provide its own authentication credential to the Group Manager.
+As also discussed in {{I-D.ietf-core-oscore-groupcomm}}, the Group Manager acts as trusted repository of the authentication credentials of the group members, and provides those authentication credentials to group members if requested to.
+
+Upon joining an OSCORE group, a joining node is thus expected to provide its authentication credential to the Group Manager (see {{ssec-join-req-sending}}). Later on as a group member, that node can provide the Group Manager with a different authentication credential that replaces the old one (see {{sec-update-pub-key}}). In either situation, the authentication credential can be provided within a chain or a bag (e.g., as the end-entity certificate in a chain of certificates), in which case the Group Manager stores the whole chain or bag. Consistently, the Group Manager specifies the whole chain or bag when providing that authentication credential in an Authentication Credential Response to a Client requesting for it (see {{sec-pub-keys}}).
 
 The following applies when a node joins an OSCORE group, depending on the specific circumstances.
 
