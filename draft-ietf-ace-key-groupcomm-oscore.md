@@ -876,7 +876,7 @@ The Group Manager provides the interface defined in {{Section 4.1 of RFC9594}}, 
 
 The GROUPNAME segment of the URI path MUST match with the group name specified in the scope entry of the scope in the access token (i.e., 'gname' in {{Section 3.1 of RFC9594}}) (REQ7).
 
-The Resource Type (rt=) Link Target Attribute value "core.osc.gm" is registered in {{iana-rt}} (REQ10), and can be used to describe group-membership resources and its sub-resources at a Group Manager, e.g., by using a link-format document {{RFC6690}}.
+The Resource Type (rt=) Link Target Attribute value "core.osc.gm" is registered in {{iana-rt}} (REQ10), and can be used to describe group-membership resources and its sub-resources at a Group Manager, e.g., by using a CoRE link-format document {{RFC6690}}.
 
 Applications can use this common resource type to discover links to group-membership resources for joining OSCORE groups, e.g., by using the approach described in {{I-D.tiloca-core-oscore-discovery}}.
 
@@ -940,7 +940,7 @@ If all verifications succeed, the handler replies with a 2.05 (Content) response
 
 ## Admitted Methods {#ssec-admitted-methods}
 
-The table in {{tab-methods}} summarizes the CoAP methods admitted to access different resources at the Group Manager, for (non-)members of a group with group name GROUPNAME, and considering different roles. The last two rows of the table apply to a node with node name NODENAME.
+{{tab-methods}} summarizes the CoAP methods admitted to access different resources at the Group Manager, for (non-)members of a group with group name GROUPNAME, and considering different roles. The last two rows of the table apply to a node with node name NODENAME.
 
 The table uses the following abbreviations.
 
@@ -952,7 +952,7 @@ The table uses the following abbreviations.
 * Type2 = Member as Monitor
 * Type3 = Non-member (authorized to be signature verifier)
 * Type4 = Non-member (not authorized to be signature verifier)
-* (*) = Cannot join the group as signature verifier
+* \* = Cannot join the group as signature verifier
 
 | Resource                                 | Type1 | Type2 | Type3 | Type4 |
 |------------------------------------------|-------|-------|-------|-------|
@@ -985,13 +985,18 @@ Just like any candidate group member, a signature verifier provides the Group Ma
 
 After successfully transferring an access token to the Group Manager, a signature verifier is allowed to perform only some operations as non-member of a group, and only for the OSCORE groups specified in the validated access token. These are the operations specified in {{sec-pub-keys}}, {{sec-gm-pub-key}}, {{sec-verif-data}}, and {{sec-retrieve-gnames}}.
 
-Consistently, in case a node is not a member of the group with group name GROUPNAME and is authorized to be only signature verifier for that group, the Group Manager MUST reply with a 4.03 (Forbidden) error response if that node attempts to access any other endpoint than: /ace-group; /ace-group/GROUPNAME/verif-data; /ace-group/GROUPNAME/creds; and /ace-group/GROUPNAME/kdc-cred.
+Consistently, in case a node is not a member of the group with group name GROUPNAME and is authorized to be only signature verifier for that group, the Group Manager MUST reply with a 4.03 (Forbidden) error response if that node attempts to access any other endpoint than the following ones:
+
+* /ace-group
+* /ace-group/GROUPNAME/verif-data
+* /ace-group/GROUPNAME/creds
+* /ace-group/GROUPNAME/kdc-cred
 
 ## Operations Supported by Clients {#client-operations}
 
 Building on what is defined in {{Section 4.1.1 of RFC9594}}, and with reference to the resources at the Group Manager newly defined earlier in {{sec-interface-GM}} of this document, it is expected that a Client minimally supports also the following set of operations and corresponding interactions with the Group Manager (REQ12).
 
-* GET request to /ace-group/GROUPNAME/active, in order to check the current status of the group.
+* GET request to /ace-group/GROUPNAME/active, in order to check the current status of the OSCORE group.
 
 * GET request to /ace-group/GROUPNAME/verif-data, in order for a signature verifier to retrieve data required to verify signatures of messages protected with the group mode of Group OSCORE and sent to a group (see {{Sections 12.3 and 7.5 of I-D.ietf-core-oscore-groupcomm}}). Note that this operation is relevant to support only to signature verifiers.
 
