@@ -1879,7 +1879,7 @@ Table of Contents
    The Resource Type (rt=) Link Target Attribute value "core.osc.gm" is
    registered in Section 16.10 (REQ10), and can be used to describe
    group-membership resources and its sub-resources at a Group Manager,
-   e.g., by using a link-format document [RFC6690].
+   e.g., by using a CoRE link-format document [RFC6690].
 
    Applications can use this common resource type to discover links to
    group-membership resources for joining OSCORE groups, e.g., by using
@@ -2010,11 +2010,10 @@ Table of Contents
 
 8.5.  Admitted Methods
 
-   The table in Table 2 summarizes the CoAP methods admitted to access
-   different resources at the Group Manager, for (non-)members of a
-   group with group name GROUPNAME, and considering different roles.
-   The last two rows of the table apply to a node with node name
-   NODENAME.
+   Table 2 summarizes the CoAP methods admitted to access different
+   resources at the Group Manager, for (non-)members of a group with
+   group name GROUPNAME, and considering different roles.  The last two
+   rows of the table apply to a node with node name NODENAME.
 
    The table uses the following abbreviations.
 
@@ -2034,7 +2033,7 @@ Table of Contents
 
    *  Type4 = Non-member (not authorized to be signature verifier)
 
-   *  (*) = Cannot join the group as signature verifier
+   *  * = Cannot join the group as signature verifier
 
     +=================================+=======+=======+=======+=======+
     | Resource                        | Type1 | Type2 | Type3 | Type4 |
@@ -2085,8 +2084,15 @@ Table of Contents
    name GROUPNAME and is authorized to be only signature verifier for
    that group, the Group Manager MUST reply with a 4.03 (Forbidden)
    error response if that node attempts to access any other endpoint
-   than: /ace-group; /ace-group/GROUPNAME/verif-data; /ace-
-   group/GROUPNAME/creds; and /ace-group/GROUPNAME/kdc-cred.
+   than the following ones:
+
+   *  /ace-group
+
+   *  /ace-group/GROUPNAME/verif-data
+
+   *  /ace-group/GROUPNAME/creds
+
+   *  /ace-group/GROUPNAME/kdc-cred
 
 8.6.  Operations Supported by Clients
 
@@ -2097,7 +2103,7 @@ Table of Contents
    interactions with the Group Manager (REQ12).
 
    *  GET request to /ace-group/GROUPNAME/active, in order to check the
-      current status of the group.
+      current status of the OSCORE group.
 
    *  GET request to /ace-group/GROUPNAME/verif-data, in order for a
       signature verifier to retrieve data required to verify signatures

@@ -2562,7 +2562,7 @@ Due to the set of stale Sender IDs distributed through the rekeying, this ensure
       </ul>
 <p id="section-8-3"><a href="#ssec-admitted-methods" class="auto internal xref">Section 8.5</a> provides a summary of the CoAP methods admitted to access different resources at the Group Manager, for nodes with different roles in the group or as non members (REQ11).<a href="#section-8-3" class="pilcrow">¶</a></p>
 <p id="section-8-4">The GROUPNAME segment of the URI path <span class="bcp14">MUST</span> match with the group name specified in the scope entry of the scope in the access token (i.e., 'gname' in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-3.1" class="relref">Section 3.1</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>) (REQ7).<a href="#section-8-4" class="pilcrow">¶</a></p>
-<p id="section-8-5">The Resource Type (rt=) Link Target Attribute value "core.osc.gm" is registered in <a href="#iana-rt" class="auto internal xref">Section 16.10</a> (REQ10), and can be used to describe group-membership resources and its sub-resources at a Group Manager, e.g., by using a link-format document <span>[<a href="#RFC6690" class="cite xref">RFC6690</a>]</span>.<a href="#section-8-5" class="pilcrow">¶</a></p>
+<p id="section-8-5">The Resource Type (rt=) Link Target Attribute value "core.osc.gm" is registered in <a href="#iana-rt" class="auto internal xref">Section 16.10</a> (REQ10), and can be used to describe group-membership resources and its sub-resources at a Group Manager, e.g., by using a CoRE link-format document <span>[<a href="#RFC6690" class="cite xref">RFC6690</a>]</span>.<a href="#section-8-5" class="pilcrow">¶</a></p>
 <p id="section-8-6">Applications can use this common resource type to discover links to group-membership resources for joining OSCORE groups, e.g., by using the approach described in <span>[<a href="#I-D.tiloca-core-oscore-discovery" class="cite xref">I-D.tiloca-core-oscore-discovery</a>]</span>.<a href="#section-8-6" class="pilcrow">¶</a></p>
 <div id="sec-gm-pub-key-fetch">
 <section id="section-8.1">
@@ -2646,7 +2646,7 @@ Due to the set of stale Sender IDs distributed through the rekeying, this ensure
         <h3 id="name-admitted-methods">
 <a href="#section-8.5" class="section-number selfRef">8.5. </a><a href="#name-admitted-methods" class="section-name selfRef">Admitted Methods</a>
         </h3>
-<p id="section-8.5-1">The table in <a href="#tab-methods" class="auto internal xref">Table 2</a> summarizes the CoAP methods admitted to access different resources at the Group Manager, for (non-)members of a group with group name GROUPNAME, and considering different roles. The last two rows of the table apply to a node with node name NODENAME.<a href="#section-8.5-1" class="pilcrow">¶</a></p>
+<p id="section-8.5-1"><a href="#tab-methods" class="auto internal xref">Table 2</a> summarizes the CoAP methods admitted to access different resources at the Group Manager, for (non-)members of a group with group name GROUPNAME, and considering different roles. The last two rows of the table apply to a node with node name NODENAME.<a href="#section-8.5-1" class="pilcrow">¶</a></p>
 <p id="section-8.5-2">The table uses the following abbreviations.<a href="#section-8.5-2" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-8.5-3.1">
@@ -2674,7 +2674,7 @@ Due to the set of stale Sender IDs distributed through the rekeying, this ensure
             <p id="section-8.5-3.8.1">Type4 = Non-member (not authorized to be signature verifier)<a href="#section-8.5-3.8.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-8.5-3.9">
-            <p id="section-8.5-3.9.1">(*) = Cannot join the group as signature verifier<a href="#section-8.5-3.9.1" class="pilcrow">¶</a></p>
+            <p id="section-8.5-3.9.1">* = Cannot join the group as signature verifier<a href="#section-8.5-3.9.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <span id="name-admitted-coap-methods-on-th"></span><div id="tab-methods">
@@ -2780,7 +2780,21 @@ Due to the set of stale Sender IDs distributed through the rekeying, this ensure
           </h4>
 <p id="section-8.5.1-1">Just like any candidate group member, a signature verifier provides the Group Manager with an access token, as described in <a href="#ssec-token-post" class="auto internal xref">Section 5.3</a>. However, unlike candidate group members, it does not join any OSCORE group, i.e., it does not perform the joining process defined in <a href="#sec-joining-node-to-GM" class="auto internal xref">Section 6</a>.<a href="#section-8.5.1-1" class="pilcrow">¶</a></p>
 <p id="section-8.5.1-2">After successfully transferring an access token to the Group Manager, a signature verifier is allowed to perform only some operations as non-member of a group, and only for the OSCORE groups specified in the validated access token. These are the operations specified in <a href="#sec-pub-keys" class="auto internal xref">Section 9.3</a>, <a href="#sec-gm-pub-key" class="auto internal xref">Section 9.5</a>, <a href="#sec-verif-data" class="auto internal xref">Section 9.6</a>, and <a href="#sec-retrieve-gnames" class="auto internal xref">Section 9.10</a>.<a href="#section-8.5.1-2" class="pilcrow">¶</a></p>
-<p id="section-8.5.1-3">Consistently, in case a node is not a member of the group with group name GROUPNAME and is authorized to be only signature verifier for that group, the Group Manager <span class="bcp14">MUST</span> reply with a 4.03 (Forbidden) error response if that node attempts to access any other endpoint than: /ace-group; /ace-group/GROUPNAME/verif-data; /ace-group/GROUPNAME/creds; and /ace-group/GROUPNAME/kdc-cred.<a href="#section-8.5.1-3" class="pilcrow">¶</a></p>
+<p id="section-8.5.1-3">Consistently, in case a node is not a member of the group with group name GROUPNAME and is authorized to be only signature verifier for that group, the Group Manager <span class="bcp14">MUST</span> reply with a 4.03 (Forbidden) error response if that node attempts to access any other endpoint than the following ones:<a href="#section-8.5.1-3" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-8.5.1-4.1">
+              <p id="section-8.5.1-4.1.1">/ace-group<a href="#section-8.5.1-4.1.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-8.5.1-4.2">
+              <p id="section-8.5.1-4.2.1">/ace-group/GROUPNAME/verif-data<a href="#section-8.5.1-4.2.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-8.5.1-4.3">
+              <p id="section-8.5.1-4.3.1">/ace-group/GROUPNAME/creds<a href="#section-8.5.1-4.3.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-8.5.1-4.4">
+              <p id="section-8.5.1-4.4.1">/ace-group/GROUPNAME/kdc-cred<a href="#section-8.5.1-4.4.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
 </section>
 </div>
 </section>
@@ -2793,7 +2807,7 @@ Due to the set of stale Sender IDs distributed through the rekeying, this ensure
 <p id="section-8.6-1">Building on what is defined in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-4.1.1" class="relref">Section 4.1.1</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>, and with reference to the resources at the Group Manager newly defined earlier in <a href="#sec-interface-GM" class="auto internal xref">Section 8</a> of this document, it is expected that a Client minimally supports also the following set of operations and corresponding interactions with the Group Manager (REQ12).<a href="#section-8.6-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-8.6-2.1">
-            <p id="section-8.6-2.1.1">GET request to /ace-group/GROUPNAME/active, in order to check the current status of the group.<a href="#section-8.6-2.1.1" class="pilcrow">¶</a></p>
+            <p id="section-8.6-2.1.1">GET request to /ace-group/GROUPNAME/active, in order to check the current status of the OSCORE group.<a href="#section-8.6-2.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-8.6-2.2">
             <p id="section-8.6-2.2.1">GET request to /ace-group/GROUPNAME/verif-data, in order for a signature verifier to retrieve data required to verify signatures of messages protected with the group mode of Group OSCORE and sent to a group (see Sections <a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-23#section-12.3" class="relref">12.3</a> and <a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-23#section-7.5" class="relref">7.5</a> of <span>[<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>). Note that this operation is relevant to support only to signature verifiers.<a href="#section-8.6-2.2.1" class="pilcrow">¶</a></p>
