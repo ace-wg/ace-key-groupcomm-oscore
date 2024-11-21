@@ -538,21 +538,21 @@ The joining node requests to join the OSCORE group by sending a Join Request mes
 
   * If the conditions above do not hold or the joining node prefers to compute a non-empty PoP evidence, then the joining node  proceeds as follows. In either case, the N_S used to build the PoP input is as defined in {{sssec-challenge-value}}.
 
-    - If the group is not a pairwise-only group, the PoP evidence MUST be a signature. The joining node computes the signature by using the same private key and signature algorithm it intends to use for signing messages in the OSCORE group.
+    - If the group is not a pairwise-only group, the PoP evidence MUST be a signature. The joining node computes the signature by using the same private key and signature algorithm that it intends to use for signing messages in the OSCORE group.
 
     - If the group is a pairwise-only group, the PoP evidence MUST be a MAC computed as follows, by using the HKDF Algorithm HKDF SHA-256, which consists of composing the HKDF-Extract and HKDF-Expand steps {{RFC5869}}.
 
       MAC = HKDF(salt, IKM, info, L)
 
-      The input parameters of HKDF are as follows.
+      The input parameters of HKDF are as follows:
 
-        * salt takes as value the empty byte string.
+      * salt takes as value the empty byte string.
 
-        * IKM is computed as a cofactor Diffie-Hellman shared secret, see Section 5.7.1.2 of {{NIST-800-56A}}, using the ECDH algorithm used in the OSCORE group. The joining node uses its own Diffie-Hellman private key and the Diffie-Hellman public key of the Group Manager. For X25519 and X448, the procedure is described in {{Section 5 of RFC7748}}.
+      * IKM is computed as a cofactor Diffie-Hellman shared secret, see Section 5.7.1.2 of {{NIST-800-56A}}, using the ECDH algorithm used in the OSCORE group. The joining node uses its own Diffie-Hellman private key and the Diffie-Hellman public key of the Group Manager. For X25519 and X448, the procedure is described in {{Section 5 of RFC7748}}.
 
-        * info takes as value the PoP input.
+      * info takes as value the PoP input.
 
-        * L is equal to 8, i.e., the size of the MAC, in bytes.
+      * L is equal to 8, i.e., the size of the MAC, in bytes.
 
 ### Value of the N\_S Challenge {#sssec-challenge-value}
 
@@ -568,7 +568,7 @@ The value of the N\_S challenge is determined as follows.
 
 * If the provisioning of the access token to the Group Manager has relied on the DTLS profile of ACE {{RFC9202}} and the access token was specified in the "identity" field of a PskIdentity within the PreSharedKeyExtension of the ClientHello message when using DTLS 1.3 {{RFC9147}}, then N\_S is an exporter value computed as defined in {{Section 7.5 of RFC8446}} (REQ15).
 
-  Specifically, N\_S is exported from the DTLS session between the joining node and the Group Manager, using an empty 'context_value' (i.e., a 'context_value' of zero length), 32 as 'key_length' in bytes, and the exporter label "EXPORTER-ACE-Sign-Challenge-coap-group-oscore-app" defined in {{ssec-iana-tls-esporter-label-registry}} of this document.
+  Specifically, N\_S is exported from the DTLS session between the joining node and the Group Manager, using an empty 'context_value' (i.e., a 'context_value' of zero length), 32 as 'key_length' in bytes, and the exporter label "EXPORTER-ACE-Pop-Input-coap-group-oscore-app" defined in {{ssec-iana-tls-esporter-label-registry}} of this document.
 
   The same as above holds if TLS 1.3 {{RFC8446}} was used instead of DTLS 1.3, as per {{RFC9430}}.
 
@@ -578,25 +578,27 @@ It is up to applications to define how N_S is computed in further alternative se
 
 ## Receive the Join Request {#ssec-join-req-processing}
 
-The Group Manager processes the Join Request as defined in {{Section 4.3.1 of RFC9594}}, with the following additions.
+The Group Manager processes the Join Request as defined in {{Section 4.3.1 of RFC9594}}, with the following additions. Note that the Group Manager can determine whether the joining node is a current group member, e.g., based on the ongoing secure communication association that is used to protect the Join Request.
 
-In case the joining node is a current member of the group and the 'client_cred_verify' parameter is not present, then the following applies:
+In case the joining node is going to join the group exclusively as monitor, then the Group Manager silently ignores the parameters 'client_cred' and 'client_cred_verify', if present.
+
+In case the joining node is not going to join the group exclusively as monitor, it is a current member of the group, and the 'client_cred_verify' parameter is not present, then the following applies:
 
 * If the 'client_cred' parameter is present, the Group Manager verifies that it is already storing the authentication credential specified therein, as associated with the joining node in the group. If the verification fails, the Group Manager MUST reply with a 4.00 (Bad Request) error response.
 
 * If case the 'client_cred' parameter is not present, the Group Manager verifies that it is already storing an authentication credential, as associated with the joining node in the group. If the verification fails, the Group Manager MUST reply with a 4.00 (Bad Request) error response.
 
-In case the 'client_cred_verify' parameter specifies the empty CBOR byte string (0x40), then the Group Manager checks whether it has already achieved proof-of-possession of the joining node's private key associated with the authentication credential specified in the 'client_cred' parameter. If such verification fails, then the Group Manager MUST reply with a 4.00 (Bad Request) error response. The response MUST have Content-Format set to "application/concise-problem-details+cbor" {{RFC9290}} and is formatted as defined in {{Section 4.1.2 of RFC9594}}. Within the Custom Problem Detail entry 'ace-groupcomm-error', the value of the 'error-id' field MUST be set to 3 ("Invalid proof-of-possession evidence"). After receiving that response, the client MUST NOT specify an empty PoP evidence in the 'client_cred_verify' parameter of a follow-up Join Request for joining the same group.
+In case the joining node is not going to join the group exclusively as monitor and the 'client_cred_verify' parameter specifies the empty CBOR byte string (0x40), the Group Manager checks whether it has already achieved proof-of-possession of the joining node's private key associated with the authentication credential that is specified in the 'client_cred' parameter. If such verification fails, then the Group Manager MUST reply with a 4.00 (Bad Request) error response. The response MUST have Content-Format set to "application/concise-problem-details+cbor" {{RFC9290}} and is formatted as defined in {{Section 4.1.2 of RFC9594}}. Within the Custom Problem Detail entry 'ace-groupcomm-error', the value of the 'error-id' field MUST be set to 3 ("Invalid proof-of-possession evidence"). After receiving that response, the client MUST NOT specify an empty PoP evidence in the 'client_cred_verify' parameter of a follow-up Join Request for joining the same group.
 
-In case the 'client_cred_verify' parameter specifies a value different from the empty CBOR byte string (0x40), then the Group Manager verifies the PoP evidence contained as follows:
+In case the joining node is not going to join the group exclusively as monitor and the 'client_cred_verify' parameter specifies a value different from the empty CBOR byte string (0x40), then the Group Manager verifies the PoP evidence therein as follows:
 
 * As PoP input, the Group Manager uses the value of the 'scope' parameter from the Join Request as a CBOR byte string, concatenated with N_S encoded as a CBOR byte string, concatenated with N_C encoded as a CBOR byte string. The value of N_S is determined as described in {{sssec-challenge-value}}, while N_C is the nonce provided in the 'cnonce' parameter of the Join Request.
 
-* As public key of the joining node, the Group Manager uses either the one included in the authentication credential retrieved from the 'client_cred' parameter of the Join Request, or the one from the already stored authentication credential as acquired from previous interactions with the joining node (see {{sec-public-keys-of-joining-nodes}}).
+* As public key of the joining node, the Group Manager uses either the one included in the authentication credential retrieved from the 'client_cred' parameter of the Join Request, or the one from the already stored authentication credential as acquired from previous interactions with the joining node (see above).
 
 * If the group is not a pairwise-only group, the PoP evidence is a signature. The Group Manager verifies it by using the public key of the joining node, as well as the signature algorithm used in the OSCORE group and possible corresponding parameters.
 
-* If the group is a pairwise-only group, the PoP evidence is a MAC. The Group Manager recomputes the MAC through the same process taken by the joining node when preparing the value of the 'client_cred_verify' parameter for the Join Request (see {{ssec-join-req-sending}}), with the difference that the Group Manager uses its own Diffie-Hellman private key and the Diffie-Hellman public key of the joining node. The verification succeeds if and only if the recomputed MAC is equal to the MAC conveyed as PoP evidence in the Join Request.
+* If the group is a pairwise-only group, the PoP evidence is a MAC. The Group Manager recomputes the MAC through the same process that is taken by the joining node when preparing the value of the 'client_cred_verify' parameter for the Join Request (see {{ssec-join-req-sending}}), with the difference that the Group Manager uses its own Diffie-Hellman private key and the Diffie-Hellman public key of the joining node. The verification succeeds if and only if the recomputed MAC is equal to the MAC conveyed as PoP evidence in the Join Request.
 
 The Group Manager MUST reply with a 5.03 (Service Unavailable) error response in the following cases:
 
@@ -606,17 +608,13 @@ The Group Manager MUST reply with a 5.03 (Service Unavailable) error response in
 
 The Group Manager MUST reply with a 4.00 (Bad Request) error response in the following cases:
 
-* The 'client_cred' parameter is present in the Join Request and its value is not an eligible authentication credential (e.g., it is not of the format accepted in the group).
-
-* The 'client_cred' parameter is not present in the Join Request while the joining node is not going to join the group exclusively as monitor, and any of the following conditions holds:
-
-   * The Group Manager does not store an eligible authentication credential (e.g., of the format accepted in the group) for the joining node.
-
-   * The Group Manager stores multiple eligible authentication credentials (e.g., of the format accepted in the group) for the joining node.
-
 * The 'scope' parameter is not present in the Join Request, or it is present and specifies any of the following sets of roles: ("requester", "monitor") and ("responder", "monitor").
 
-* The Join Request includes the 'client_cred' parameter but does not include both the 'cnonce' and 'client_cred_verify' parameters.
+* The joining node is not going to join the group exclusively as monitor, and any of the following holds:
+
+  - The joining node is not a current member of the group, and the 'client_cred' parameter and the 'client_cred_verify' parameter are not both present in the Join Request.
+
+  - The 'client_cred' parameter is present in the Join Request and its value is not an eligible authentication credential (e.g., it is not of the format accepted in the group).
 
 In order to prevent the acceptance of Ed25519 and Ed448 public keys that cannot be successfully converted to Montgomery coordinates, and thus cannot be used for the derivation of pairwise keys (see {{Section 2.5.1 of I-D.ietf-core-oscore-groupcomm}}), the Group Manager MAY reply with a 4.00 (Bad Request) error response in case all the following conditions hold:
 
@@ -626,19 +624,19 @@ In order to prevent the acceptance of Ed25519 and Ed448 public keys that cannot 
 
 * The authentication credential of the joining node from the 'client_cred' parameter includes a public key which:
 
-   - Is for the elliptic curve Ed25519 and has its Y coordinate equal to -1 or 1 (mod p), with p = (2^255 - 19), see {{Section 4.1 of RFC7748}}; or
+   - Is for the elliptic curve Ed25519 and has its Y coordinate equal to -1 or 1 (mod p), with p = (2<sup>255</sup> - 19), see {{Section 4.1 of RFC7748}}; or
 
-   - Is for the elliptic curve Ed448 and has its Y coordinate equal to -1 or 1 (mod p), with p =  (2^448 - 2^224 - 1), see {{Section 4.2 of RFC7748}}.
+   - Is for the elliptic curve Ed448 and has its Y coordinate equal to -1 or 1 (mod p), with p =  (2<sup>448</sup> - 2<sup>224</sup> - 1), see {{Section 4.2 of RFC7748}}.
 
 A 4.00 (Bad Request) error response from the Group Manager to the joining node MUST have Content-Format "application/ace-groupcomm+cbor". The response payload is a CBOR map formatted as follows:
 
-* If the group uses (also) the group mode of Group OSCORE, the CBOR map MUST contain the 'sign_info' parameter, whose CBOR label is defined in {{Section 8 of RFC9594}}. This parameter has the same format of 'sign_info_res' defined in {{Section 3.3.1 of RFC9594}} and includes a single element 'sign_info_entry', pertaining to the OSCORE group that the joining node has tried to join with the Join Request.
+* If the group uses (also) the group mode of Group OSCORE, then the CBOR map MUST contain the 'sign_info' parameter, whose CBOR label is defined in {{Section 8 of RFC9594}}. This parameter has the same format of 'sign_info_res' defined in {{Section 3.3.1 of RFC9594}} and includes a single element 'sign_info_entry', which pertains to the OSCORE group that the joining node has tried to join with the Join Request.
 
-* If the group uses (also) the pairwise mode of Group OSCORE, the CBOR map MUST contain the 'ecdh_info' parameter, whose CBOR label is defined in {{ssec-iana-ace-groupcomm-parameters-registry}}. This parameter has the same format of 'ecdh_info_res' defined in {{ecdh-info}} and includes a single element 'ecdh_info_entry', pertaining to the OSCORE group that the joining node has tried to join with the Join Request.
+* If the group uses (also) the pairwise mode of Group OSCORE, then the CBOR map MUST contain the 'ecdh_info' parameter, whose CBOR label is defined in {{ssec-iana-ace-groupcomm-parameters-registry}}. This parameter has the same format of 'ecdh_info_res' defined in {{ecdh-info}} and includes a single element 'ecdh_info_entry', which pertains to the OSCORE group that the joining node has tried to join with the Join Request.
 
-* If the group is a pairwise-only group, the CBOR map MUST contain the 'kdc_dh_creds' parameter, whose CBOR label is defined in {{ssec-iana-ace-groupcomm-parameters-registry}}. This parameter has the same format of 'kdc_dh_creds_res' defined in {{gm-dh-info}} and includes a single element 'kdc_dh_creds_entry', pertaining to the OSCORE group that the joining node has tried to join with the Join Request.
+* If the group is a pairwise-only group, the CBOR map MUST contain the 'kdc_dh_creds' parameter, whose CBOR label is defined in {{ssec-iana-ace-groupcomm-parameters-registry}}. This parameter has the same format of 'kdc_dh_creds_res' defined in {{gm-dh-info}} and includes a single element 'kdc_dh_creds_entry', which pertains to the OSCORE group that the joining node has tried to join with the Join Request.
 
-* The CBOR map MAY include the 'kdcchallenge' parameter, whose CBOR label is defined in {{Section 8 of RFC9594}}. If present, this parameter is a CBOR byte string, which encodes a newly generated 'kdcchallenge' value that the Client can use when preparing a Join Request (see {{ssec-join-req-sending}}). In such a case the Group Manager MUST store the newly generated value as the 'kdcchallenge' value associated with the joining node, replacing the currently stored value (if any).
+* The CBOR map MAY include the 'kdcchallenge' parameter, whose CBOR label is defined in {{Section 8 of RFC9594}}. If present, this parameter is a CBOR byte string, which encodes a newly generated 'kdcchallenge' value that the Client can use when preparing a new Join Request (see {{ssec-join-req-sending}}). In such a case the Group Manager MUST store the newly generated value as the 'kdcchallenge' value associated with the joining node, thus replacing the currently stored value (if any).
 
 ### Follow-up to a 4.00 (Bad Request) Error Response
 
@@ -646,9 +644,11 @@ When receiving a 4.00 (Bad Request) error response, the joining node MAY send a 
 
 * The 'cnonce' parameter MUST include a new dedicated nonce N\_C generated by the joining node.
 
-* The 'client_cred' parameter MUST include an authentication credential in the format indicated by the Group Manager. Also, the authentication credential as well as the included public key MUST be compatible with the signature or ECDH algorithm, and with possible associated parameters.
+* In case the joining node is going to join the group exclusively as monitor, then the following applies:
 
-* The 'client_cred_verify' parameter MUST include a PoP evidence computed as described in {{ssec-join-req-sending}}, by using the private key associated with the authentication credential specified in the current 'client_cred' parameter, with the signature or ECDH algorithm, and with possible associated parameters indicated by the Group Manager. If the error response from the Group Manager includes the 'kdcchallenge' parameter, the joining node MUST use its content as new N\_S challenge to compute the PoP evidence.
+  - If present, the 'client_cred' parameter MUST include an authentication credential in the format indicated by the Group Manager. Also, the authentication credential as well as the included public key MUST be compatible with the signature or ECDH algorithm, and with possible associated parameters.
+
+  - If present, the 'client_cred_verify' parameter MUST include a PoP evidence computed as described in {{ssec-join-req-sending}}. The private key to use is the one associated with the authentication credential specified in the current 'client_cred' parameter, with the signature or ECDH algorithm, and with possible associated parameters indicated by the Group Manager. If the error response from the Group Manager includes the 'kdcchallenge' parameter, the joining node MUST use its content as new N\_S challenge to compute the PoP evidence.
 
 ## Send the Join Response {#ssec-join-resp}
 
@@ -660,33 +660,33 @@ If the joining node has not taken exclusively the role of monitor, the Group Man
 
    Consistently with {{Section 12.2.1.2 of I-D.ietf-core-oscore-groupcomm}}, the Group Manager MUST assign an OSCORE Sender ID that has not been used in the OSCORE group since the latest time when the current Gid value was assigned to the group. The maximum length of a Sender ID in bytes is determined as defined in {{Section 2.2 of I-D.ietf-core-oscore-groupcomm}}.
 
-   If the joining node is recognized as a current group member, e.g., through the ongoing secure communication association, the following also applies.
+   If the joining node is recognized as a current group member, e.g., through the ongoing secure communication association that is used to protect the Join Request, then the following also applies:
 
-     - The Group Manager MUST assign a new OSCORE Sender ID different than the one currently used by the joining node in the OSCORE group.
+     - The Group Manager MUST assign a new OSCORE Sender ID different from the one currently used by the joining node in the OSCORE group.
 
      - The Group Manager MUST add the old, relinquished OSCORE Sender ID of the joining node to the set of stale Sender IDs associated with the current version of the group keying material for the group (see {{sssec-stale-sender-ids}}).
 
-* The Group Manager stores the association between i) the authentication credential of the joining node; and ii) the Group Identifier (Gid), i.e., the OSCORE ID Context, associated with the OSCORE group together with the OSCORE Sender ID assigned to the joining node in the group. The Group Manager MUST keep this association updated over time.
+* The Group Manager stores the association between: i) the authentication credential of the joining node; and ii) the Group Identifier (Gid), i.e., the OSCORE ID Context associated with the OSCORE group, together with the OSCORE Sender ID assigned to the joining node in the group. The Group Manager MUST keep this association updated over time.
 
 Then, the Group Manager replies to the joining node, providing the updated security parameters and keying material necessary to participate in the group communication. This success Join Response is formatted as defined in {{Section 4.3.1 of RFC9594}}, with the following additions:
 
-* The 'gkty' parameter identifies a key of type "Group_OSCORE_Input_Material object", defined in {{ssec-iana-groupcomm-keys-registry}} of this document.
+* The 'gkty' parameter identifies a key of type "Group_OSCORE_Input_Material object", which is defined in {{ssec-iana-groupcomm-keys-registry}} of this document.
 
 * The 'key' parameter includes what the joining node needs in order to set up the Group OSCORE Security Context as per {{Section 2 of I-D.ietf-core-oscore-groupcomm}}.
 
-   This parameter has as value a Group_OSCORE_Input_Material object, which is defined in this document and extends the OSCORE_Input_Material object encoded in CBOR as defined in {{Section 3.2.1 of RFC9203}}. In particular, it contains the additional parameters 'group_senderId', 'cred_fmt', 'gp_enc_alg', 'sign_alg', 'sign_params', 'ecdh_alg', and 'ecdh_params' defined in {{ssec-iana-security-context-parameter-registry}} of this document.
+   This parameter has as value a Group_OSCORE_Input_Material object, which is defined in this document and extends the OSCORE_Input_Material object encoded in CBOR as defined in {{Section 3.2.1 of RFC9203}}. In particular, it contains the additional parameters 'group_senderId', 'cred_fmt', 'gp_enc_alg', 'sign_alg', 'sign_params', 'ecdh_alg', and 'ecdh_params', which are defined in {{ssec-iana-security-context-parameter-registry}} of this document.
 
    More specifically, the 'key' parameter is composed as follows.
 
-   * The 'hkdf' parameter, if present, specifies the HKDF Algorithm used in the OSCORE group. The HKDF Algorithm is specified by the HMAC Algorithm value. This parameter MAY be omitted, if the HKDF Algorithm used in the group is HKDF SHA-256. Otherwise, this parameter MUST be present.
+   * The 'hkdf' parameter, if present, specifies the HKDF Algorithm that is used in the OSCORE group. The HKDF Algorithm is specified by the HMAC Algorithm value. This parameter MAY be omitted, if the HKDF Algorithm used in the group is HKDF SHA-256. Otherwise, this parameter MUST be present.
 
-   * The 'salt' parameter, if present, has as value the OSCORE Master Salt used in the OSCORE group. This parameter MAY be omitted, if the Master Salt used in the group is the empty byte string. Otherwise, this parameter MUST be present.
+   * The 'salt' parameter, if present, has as value the OSCORE Master Salt that is used in the OSCORE group. This parameter MAY be omitted, if the Master Salt used in the group is the empty byte string. Otherwise, this parameter MUST be present.
 
-   * The 'ms' parameter includes the OSCORE Master Secret value used in the OSCORE group. This parameter MUST be present.
+   * The 'ms' parameter has as value the OSCORE Master Secret that is used in the OSCORE group. This parameter MUST be present.
 
    * The 'contextId' parameter has as value the Group Identifier (Gid), i.e., the OSCORE ID Context of the OSCORE group. This parameter MUST be present.
 
-   * The 'group_senderId' parameter has as value the OSCORE Sender ID assigned to the joining node by the Group Manager, as described above. This parameter MUST be present if and only if the node does not join the OSCORE group exclusively with the role of monitor, according to what is specified in the access token (see {{ssec-auth-resp}}).
+   * The 'group_senderId' parameter has as value the OSCORE Sender ID that the Group Manager has assigned to the joining node in the OSCORE group, as described above. This parameter MUST be present if and only if the node does not join the OSCORE group exclusively with the role of monitor, according to what is specified in the access token (see {{ssec-auth-resp}}).
 
    * The 'cred_fmt' parameter specifies the Authentication Credential Format used in the OSCORE group (see {{Section 2 of I-D.ietf-core-oscore-groupcomm}}). This parameter MUST be present and it takes value from the "Label" column of the "COSE Header Parameters" registry {{COSE.Header.Parameters}} (REQ6), with some of those values also indicating the type of container to use for exchanging the authentication credentials with the Group Manager (e.g., a chain or bag of certificates). Consistently with {{Section 2.4 of I-D.ietf-core-oscore-groupcomm}}, acceptable values denote a format that MUST explicitly provide the public key as well as a comprehensive set of information related to the public key algorithm. This information includes, e.g., the used elliptic curve (when applicable).
 
@@ -696,9 +696,9 @@ Then, the Group Manager replies to the joining node, providing the updated secur
 
    The 'key' parameter MUST also include the following parameters, if and only if the OSCORE group is not a pairwise-only group.
 
-   * The 'gp_enc_alg' parameter, specifying the Group Encryption Algorithm used in the OSCORE group to encrypt messages protected with the group mode. This parameter takes values from the "Value" column of the "COSE Algorithms" registry {{COSE.Algorithms}}.
+   * The 'gp_enc_alg' parameter, specifying the Group Encryption Algorithm that is used in the OSCORE group to encrypt messages protected with the group mode. This parameter takes values from the "Value" column of the "COSE Algorithms" registry {{COSE.Algorithms}}.
 
-   * The 'sign_alg' parameter, specifying the Signature Algorithm used to sign messages in the OSCORE group. This parameter takes values from the "Value" column of the "COSE Algorithms" registry {{COSE.Algorithms}}.
+   * The 'sign_alg' parameter, specifying the Signature Algorithm that is used in the OSCORE group to sign messages protected with the group mode. This parameter takes values from the "Value" column of the "COSE Algorithms" registry {{COSE.Algorithms}}.
 
    * The 'sign_params' parameter, specifying the parameters of the Signature Algorithm. This parameter is a CBOR array, which includes the following two elements:
 
@@ -710,7 +710,7 @@ Then, the Group Manager replies to the joining node, providing the updated secur
 
    * The 'alg' parameter, specifying the AEAD Algorithm used in the OSCORE group to encrypt messages protected with the pairwise mode.
 
-   * The 'ecdh_alg' parameter, specifying the Pairwise Key Agreement Algorithm used in the OSCORE group. This parameter takes values from the "Value" column of the "COSE Algorithms" registry {{COSE.Algorithms}}.
+   * The 'ecdh_alg' parameter, specifying the Pairwise Key Agreement Algorithm used in the OSCORE group to derive the pairwise keys for the pairwise mode. This parameter takes values from the "Value" column of the "COSE Algorithms" registry {{COSE.Algorithms}}.
 
    * The 'ecdh_params' parameter, specifying the parameters of the Pairwise Key Agreement Algorithm. This parameter is a CBOR array, which includes the following two elements:
 
@@ -718,25 +718,25 @@ Then, the Group Manager replies to the joining node, providing the updated secur
 
       - 'ecdh_key_type_capab': a CBOR array, with the same format and value of the COSE capabilities array for the COSE key type of the keys used with the algorithm indicated in 'ecdh_alg', as specified for that key type in the "Capabilities" column of the "COSE Key Types" registry {{COSE.Key.Types}}.
 
-   The format of 'key' defined above is consistent with every signature algorithm and ECDH algorithm currently considered in {{RFC9053}}, i.e., with algorithms that have only the COSE key type as their COSE capability. {{sec-future-cose-algs}} of this document describes how the format of the 'key' parameter can be generalized for possible future registered algorithms having a different set of COSE capabilities.
+   The format of 'key' defined above is consistent with every signature algorithm and ECDH algorithm currently considered in {{RFC9053}}, i.e., with algorithms that have only the COSE key type as their COSE capability. {{sec-future-cose-algs-key}} of this document describes how the format of the 'key' parameter can be generalized for possible future registered algorithms having a different set of COSE capabilities.
 
 Furthermore, the following applies.
 
 * The 'exi' parameter MUST be present.
 
-* The 'ace_groupcomm_profile' parameter MUST be present and has value coap_group_oscore_app (PROFILE_TBD), which is defined in {{ssec-iana-groupcomm-profile-registry}} of this document.
+* The 'ace_groupcomm_profile' parameter MUST be present and has value coap_group_oscore_app (PROFILE_TBD), which is registered in {{ssec-iana-groupcomm-profile-registry}} of this document.
 
-* The 'creds' parameter, if present, includes the authentication credentials requested by the joining node by means of the 'get_creds' parameter in the Join Request.
+* The 'creds' parameter, if present, specifies the authentication credentials requested by the joining node by means of the 'get_creds' parameter that was specified in the Join Request.
 
-   If the joining node has asked for the authentication credentials of all the group members, i.e., 'get_creds' had value the CBOR simple value `null` (0xf6) in the Join Request, then the Group Manager provides only the authentication credentials of the group members that are relevant to the joining node. That is, in such a case, 'creds' includes only: i) the authentication credentials of the responders currently in the OSCORE group, in case the joining node is configured (also) as requester; and ii) the authentication credentials of the requesters currently in the OSCORE group, in case the joining node is configured (also) as responder or monitor.
+  If the joining node has asked for the authentication credentials of all the group members, i.e., the 'get_creds' parameter in the Join Request had value the CBOR Simple Value `null` (0xf6), then the Group Manager provides only the authentication credentials of the group members that are relevant to the joining node. That is, in such a case, the 'creds' parameter specifies only: i) the authentication credentials of the responders currently in the OSCORE group, in case the joining node is configured (also) as requester; and ii) the authentication credentials of the requesters currently in the OSCORE group, in case the joining node is configured (also) as responder or monitor.
 
-* The 'peer_identifiers' parameter, if present, includes the OSCORE Sender ID of each group member whose authentication credential is specified in the 'creds' parameter. That is, a group member's Sender ID is used as identifier for that group member (REQ25).
+* The 'peer_identifiers' parameter, if present, specifies the OSCORE Sender ID of each group member whose authentication credential is specified in the 'creds' parameter. That is, a group member's Sender ID is used as identifier for that group member (REQ25).
 
 * The 'group_policies' parameter SHOULD be present, and SHOULD include the following elements:
 
-   * "Key Update Check Interval" defined in {{Section 4.3.1 of RFC9594}}, with default value 3600;
+  * "Key Update Check Interval" (see {{Section 4.3.1 of RFC9594}}), with default value 3600;
 
-   * "Expiration Delta" defined in {{Section 4.3.1 of RFC9594}}, with default value 0.
+  * "Expiration Delta" (see {{Section 4.3.1 of RFC9594}}), with default value 0.
 
 * The 'kdc_cred' parameter MUST be present, specifying the Group Manager's authentication credential in its original binary representation (REQ8). The Group Manager's authentication credential MUST be in the format used in the OSCORE group. Also, the authentication credential as well as the included public key MUST be compatible with the signature or ECDH algorithm, and with possible associated parameters used in the OSCORE group.
 
@@ -744,9 +744,9 @@ Furthermore, the following applies.
 
 * The 'kdc_cred_verify' parameter MUST be present, specifying the proof-of-possession (PoP) evidence computed by the Group Manager. The PoP evidence is computed as defined below (REQ21).
 
-   - If the group is not a pairwise-only group, the PoP evidence MUST be a signature. The Group Manager computes the signature by using the signature algorithm used in the OSCORE group, as well as its own private key associated with the authentication credential specified in the 'kdc_cred' parameter.
+   - If the group is not a pairwise-only group, then the PoP evidence MUST be a signature. The Group Manager computes the signature by using the signature algorithm used in the OSCORE group, as well as its own private key associated with the authentication credential specified in the 'kdc_cred' parameter.
 
-   - If the group is a pairwise-only group, the PoP evidence MUST be a MAC computed as follows, by using the HKDF Algorithm HKDF SHA-256, which consists of composing the HKDF-Extract and HKDF-Expand steps {{RFC5869}}.
+   - If the group is a pairwise-only group, then the PoP evidence MUST be a MAC computed as follows, by using the HKDF Algorithm HKDF SHA-256, which consists of composing the HKDF-Extract and HKDF-Expand steps {{RFC5869}}.
 
       MAC = HKDF(salt, IKM, info, L)
 
@@ -770,13 +770,13 @@ Upon receiving the Join Response, the joining node retrieves the Group Manager's
 
 * If the group is not a pairwise-only group, the PoP evidence is a signature. The joining node verifies it by using the public key of the Group Manager from the received authentication credential, as well as the signature algorithm used in the OSCORE group and possible corresponding parameters.
 
-* If the group is a pairwise-only group, the PoP evidence is a MAC. The joining node recomputes the MAC through the same process taken by the Group Manager when computing the value of the 'kdc_cred_verify' parameter (see {{ssec-join-resp}}), with the difference that the joining node uses its own Diffie-Hellman private key and the Diffie-Hellman public key of the Group Manager from the received authentication credential. The verification succeeds if and only if the recomputed MAC is equal to the MAC conveyed as PoP evidence in the Join Response.
+* If the group is a pairwise-only group, the PoP evidence is a MAC. The joining node recomputes the MAC through the same process that is taken by the Group Manager when computing the value of the 'kdc_cred_verify' parameter (see {{ssec-join-resp}}), with the difference that the joining node uses its own Diffie-Hellman private key and the Diffie-Hellman public key of the Group Manager from the received authentication credential. The verification succeeds if and only if the recomputed MAC is equal to the MAC conveyed as PoP evidence in the Join Response.
 
 In case of failed verification of the PoP evidence, the joining node MUST stop processing the Join Response and MAY send a new Join Request to the Group Manager (see {{ssec-join-req-sending}}).
 
 In case of successful verification of the PoP evidence, the joining node uses the information received in the Join Response to set up the Group OSCORE Security Context, as described in {{Section 2 of I-D.ietf-core-oscore-groupcomm}}. In particular, the following applies.
 
-If the following parameters were not included in the 'key' parameter of the Join Response, the joining node performs the following actions.
+If the following parameters were not included in the 'key' parameter of the Join Response, then the joining node performs the following actions.
 
 * Absent the 'gp_enc_alg' parameter, the parameter Group Encryption Algorithm in the Common Context of the Group OSCORE Security Context is not set.
 
@@ -786,13 +786,13 @@ If the following parameters were not included in the 'key' parameter of the Join
 
 * Absent the 'ecdh_alg' parameter, the parameter Pairwise Key Agreement Algorithm in the Common Context of the Group OSCORE Security Context is not set.
 
-If the following parameters were not included in the 'key' parameter of the Join Response, considers the default values specified below, consistently with {{Section 3.2 of RFC8613}}.
+If the following parameters were not included in the 'key' parameter of the Join Response, then the joining node considers the default values specified below, consistently with {{Section 3.2 of RFC8613}}.
 
-* Absent the 'hkdf' parameter, the joining node considers HKDF SHA-256 as HKDF Algorithm to use in the OSCORE group.
+* Absent the 'hkdf' parameter, the joining node considers HKDF SHA-256 as the HKDF Algorithm to use in the OSCORE group.
 
-* Absent the 'salt' parameter, the joining node considers the empty byte string as Master Salt to use in the OSCORE group.
+* Absent the 'salt' parameter, the joining node considers the empty byte string as the Master Salt to use in the OSCORE group.
 
-* Absent the 'group_rekeying' parameter, the joining node considers the "Point-to-Point" group rekeying scheme registered in {{Section 11.13 of RFC9594}} as the rekeying scheme used in the group (OPT9). Its detailed use for this profile is defined in {{sec-group-rekeying-process}} of this document.
+* Absent the 'group_rekeying' parameter, the joining node considers the "Point-to-Point" group rekeying scheme registered in {{Section 11.13 of RFC9594}} as the rekeying scheme used in the OSCORE group (OPT9). The detailed use of that rekeying scheme for this profile is defined in {{sec-group-rekeying-process}} of this document.
 
 In addition, the joining node maintains an association between each authentication credential retrieved from the 'creds' parameter and the role(s) that the corresponding group member has in the OSCORE group.
 
@@ -802,7 +802,9 @@ From then on, the joining node can exchange group messages secured with Group OS
 
 * The joining node MUST NOT process an incoming response message, if protected by a group member whose authentication credential is not associated with the role "Responder".
 
-* The joining node MUST NOT use the pairwise mode of Group OSCORE to process messages in the group, if the Join Response did not include the 'ecdh_alg' parameter.
+* The joining node MUST NOT use the group mode of Group OSCORE to process messages in the group, if the Join Response did not include both the 'gp_enc_alg' parameter and the 'sign_alg' parameter.
+
+* The joining node MUST NOT use the pairwise mode of Group OSCORE to process messages in the group, if the Join Response did not include both the 'alg' parameter and the 'ecdh_alg' parameter.
 
 If the application requires backward security, the Group Manager MUST generate updated security parameters and group keying material, and provide it to the current group members, upon the new node's joining (see {{sec-group-rekeying-process}}). In such a case, the joining node is not able to access secure communication in the OSCORE group that occurred prior to its joining.
 
@@ -818,15 +820,15 @@ The data distributed to a group through a rekeying MUST include:
 
 * The new version number of the group keying material for the group.
 
-* A new Group Identifier (Gid) for the group as introduced in {{RFC9594}}, used as ID Context parameter of the Group OSCORE Common Security Context of that group (see {{Section 2 of I-D.ietf-core-oscore-groupcomm}}).
+* A new Group Identifier (Gid) for the group as introduced in {{RFC9594}}, which is used as ID Context parameter of the Group OSCORE Common Security Context of that group (see {{Section 2 of I-D.ietf-core-oscore-groupcomm}}).
 
-   Note that the Gid differs from the group name also introduced in {{RFC9594}}, which is a plain, stable, and invariant identifier, with no cryptographic relevance and meaning.
+  Note that the Gid differs from the group name also introduced in {{RFC9594}}, which is a plain, stable, and invariant identifier, with no cryptographic relevance and meaning.
 
-* A new value for the Master Secret parameter of the Group OSCORE Common Security Context of the group (see {{Section 2 of I-D.ietf-core-oscore-groupcomm}}).
+* A new value for the Master Secret parameter of the Group OSCORE Common Security Context of that group (see {{Section 2 of I-D.ietf-core-oscore-groupcomm}}).
 
 * A set of stale Sender IDs, which allows each rekeyed node to purge authentication credentials and Recipient Contexts used in the group and associated with those Sender IDs. This in turn allows every group member to rely on stored authentication credentials, in order to confidently assert the group membership of other sender nodes, when receiving protected messages in the group (see {{Section 12.2 of I-D.ietf-core-oscore-groupcomm}}). More details on the maintenance of stale Sender IDs are provided in {{sssec-stale-sender-ids}}.
 
-Also, the data distributed through a group rekeying MAY include a new value for the Master Salt parameter of the Group OSCORE Common Security Context of that group.
+The data distributed through a group rekeying MAY also include a new value for the Master Salt parameter of the Group OSCORE Common Security Context of that group.
 
 The Group Manager MUST rekey the group in the following cases.
 
@@ -834,7 +836,7 @@ The Group Manager MUST rekey the group in the following cases.
 
 * One or more nodes leave the group - That is, the group is rekeyed when one or more current members spontaneously request to leave the group (see {{sec-leave-req}}), or when the Group Manager forcibly evicts them from the group, e.g., due to expired or revoked authorization (see {{sec-leaving}}). Therefore, a leaving node cannot access communications in the group after its leaving, thus ensuring forward security in the group.
 
-   Due to the set of stale Sender IDs distributed through the rekeying, this ensures that a node owning the latest group keying material does not store the authentication credentials of former group members (see {{Sections 12.2 and 13.1 of I-D.ietf-core-oscore-groupcomm}}).
+  Due to the set of stale Sender IDs distributed through the rekeying, this ensures that a node storing the latest group keying material does not store the authentication credentials of former group members (see {{Sections 12.2 and 13.1 of I-D.ietf-core-oscore-groupcomm}}).
 
 When the expiration time for the group keying material approaches or has passed, the Group Manager may want to extend the secure group operation, as considered appropriate. If the Group Manager does so, the Group Manager MUST rekey the group.
 
@@ -852,9 +854,9 @@ In the following cases, the Group Manager MUST add an element to the set X assoc
 
 * When a current group member leaves the group, its current Sender ID is added to X. This happens when a group member requests to leave the group (see {{sec-leave-req}}) or is forcibly evicted from the group (see {{sec-leaving}}).
 
-The value of N can change during the lifetime of the group. If the new value N' is smaller than N, the Group Manager MUST preserve the sets associated with the (up to) N' most recent versions of the group keying material.
+The value of N can change during the lifetime of the group. If the new value N' is smaller than N, then the Group Manager MUST preserve the sets associated with the (up to) N' most recent versions of the group keying material.
 
-When performing a group rekeying (see {{sec-group-rekeying-process}}) for switching from an old version V to a new version V' = (V + 1) of the group keying material, the Group Manager MUST perform the following actions.
+When performing a group rekeying (see {{sec-group-rekeying-process}}) for switching from an old version V of the group keying material to a new version V' = (V + 1), the Group Manager MUST perform the following actions.
 
 * Before creating the new group keying material with version V', if the number of sets of stale Sender IDs for the group is equal to N, then the Group Manager deletes the oldest set.
 
