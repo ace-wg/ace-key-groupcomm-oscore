@@ -628,7 +628,7 @@ In order to prevent the acceptance of Ed25519 and Ed448 public keys that cannot 
 
    - Is for the elliptic curve Ed448 and has its Y coordinate equal to -1 or 1 (mod p), with p =  (2<sup>448</sup> - 2<sup>224</sup> - 1), see {{Section 4.2 of RFC7748}}.
 
-A 4.00 (Bad Request) error response from the Group Manager to the joining node MUST have Content-Format "application/ace-groupcomm+cbor". The response payload is a CBOR map formatted as follows:
+Unless it is already intended to use Content-Format "application/concise-problem-details+cbor", a 4.00 (Bad Request) error response from the Group Manager to the joining node MUST have Content-Format "application/ace-groupcomm+cbor". In such a case, the response payload is a CBOR map formatted as follows:
 
 * If the group uses (also) the group mode of Group OSCORE, then the CBOR map MUST contain the 'sign_info' parameter, whose CBOR label is defined in {{Section 8 of RFC9594}}. This parameter has the same format of 'sign_info_res' defined in {{Section 3.3.1 of RFC9594}} and includes a single element 'sign_info_entry', which pertains to the OSCORE group that the joining node has tried to join with the Join Request.
 
