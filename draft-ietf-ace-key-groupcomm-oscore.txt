@@ -5,8 +5,8 @@
 ACE Working Group                                              M. Tiloca
 Internet-Draft                                                   RISE AB
 Intended status: Standards Track                            F. Palombini
-Expires: 25 May 2025                                         Ericsson AB
-                                                        21 November 2024
+Expires: 10 June 2025                                        Ericsson AB
+                                                         7 December 2024
 
 
     Key Management for Group Object Security for Constrained RESTful
@@ -44,7 +44,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 25 May 2025.
+   This Internet-Draft will expire on 10 June 2025.
 
 Copyright Notice
 
@@ -1275,10 +1275,11 @@ Table of Contents
          to -1 or 1 (mod p), with p = (2^448 - 2^224 - 1), see
          Section 4.2 of [RFC7748].
 
-   A 4.00 (Bad Request) error response from the Group Manager to the
-   joining node MUST have Content-Format "application/ace-
-   groupcomm+cbor".  The response payload is a CBOR map formatted as
-   follows:
+   Unless it is already intended to use Content-Format "application/
+   concise-problem-details+cbor", a 4.00 (Bad Request) error response
+   from the Group Manager to the joining node MUST have Content-Format
+   "application/ace-groupcomm+cbor".  In such a case, the response
+   payload is a CBOR map formatted as follows:
 
    *  If the group uses (also) the group mode of Group OSCORE, then the
       CBOR map MUST contain the 'sign_info' parameter, whose CBOR label
