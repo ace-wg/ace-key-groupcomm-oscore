@@ -1855,35 +1855,35 @@ IANA is asked to register the following entries in the "OAuth Parameters CBOR Ma
 IANA is asked to register the following entries to the "ACE Groupcomm Parameters" registry defined in {{Section 11.7 of RFC9594}}.
 
 * Name: group_senderId
-* CBOR Key: 21
+* CBOR Key: 21 (suggested)
 * CBOR Type: bstr
 * Reference: {{&SELF}}
 
 <br>
 
 * Name: ecdh_info
-* CBOR Key: 31
+* CBOR Key: 31 (suggested)
 * CBOR Type: array
 * Reference: {{&SELF}}
 
 <br>
 
 * Name: kdc_dh_creds
-* CBOR Key: 32
+* CBOR Key: 32 (suggested)
 * CBOR Type: array
 * Reference: {{&SELF}}
 
 <br>
 
 * Name: sign_enc_key
-* CBOR Key: 33
+* CBOR Key: 33 (suggested)
 * CBOR Type: bstr
 * Reference: {{&SELF}}
 
 <br>
 
 * Name: stale_node_ids
-* CBOR Key: 34
+* CBOR Key: 34 (suggested)
 * CBOR Type: array
 * Reference: {{&SELF}}
 
@@ -1911,7 +1911,7 @@ IANA is asked to register the following entry in the "ACE Groupcomm Profiles" re
 IANA is asked to register the following entries in the "OSCORE Security Context Parameters" registry defined in {{Section 9.4 of RFC9203}}.
 
 *  Name: group_SenderId
-*  CBOR Label: 7
+*  CBOR Label: 7 (suggested)
 *  CBOR Type: byte string
 *  Registry: -
 *  Description: OSCORE Sender ID assigned to a member of an OSCORE group
@@ -1920,7 +1920,7 @@ IANA is asked to register the following entries in the "OSCORE Security Context 
 <br>
 
 *  Name: cred_fmt
-*  CBOR Label: 8
+*  CBOR Label: 8 (suggested)
 *  CBOR Type: integer
 *  Registry: {{COSE.Header.Parameters}} Labels (integer)
 *  Description: Format of authentication credentials to be used in the OSCORE group
@@ -1929,7 +1929,7 @@ IANA is asked to register the following entries in the "OSCORE Security Context 
 <br>
 
 *  Name: gp_enc_alg
-*  CBOR Label: 9
+*  CBOR Label: 9 (suggested)
 *  CBOR Type: text string / integer
 *  Registry: {{COSE.Algorithms}} Values
 *  Description: OSCORE Group Encryption Algorithm Value
@@ -1938,7 +1938,7 @@ IANA is asked to register the following entries in the "OSCORE Security Context 
 <br>
 
 *  Name: sign_alg
-*  CBOR Label: 10
+*  CBOR Label: 10 (suggested)
 *  CBOR Type: text string / integer
 *  Registry: {{COSE.Algorithms}} Values
 *  Description: OSCORE Signature Algorithm Value
@@ -1947,7 +1947,7 @@ IANA is asked to register the following entries in the "OSCORE Security Context 
 <br>
 
 *  Name: sign_params
-*  CBOR Label: 11
+*  CBOR Label: 11 (suggested)
 *  CBOR Type: array
 *  Registry: {{COSE.Algorithms}} Capabilities, {{COSE.Key.Types}} Capabilities, {{COSE.Elliptic.Curves}} Values
 *  Description: OSCORE Signature Algorithm Parameters
@@ -1956,7 +1956,7 @@ IANA is asked to register the following entries in the "OSCORE Security Context 
 <br>
 
 *  Name: ecdh_alg
-*  CBOR Label: 12
+*  CBOR Label: 12 (suggested)
 *  CBOR Type: text string / integer
 *  Registry: {{COSE.Algorithms}} Values
 *  Description: OSCORE Pairwise Key Agreement Algorithm Value
@@ -1965,7 +1965,7 @@ IANA is asked to register the following entries in the "OSCORE Security Context 
 <br>
 
 *  Name: ecdh_params
-*  CBOR Label: 13
+*  CBOR Label: 13 (suggested)
 *  CBOR Type: array
 *  Registry: {{COSE.Algorithms}} Capabilities, {{COSE.Key.Types}} Capabilities, {{COSE.Elliptic.Curves}} Values
 *  Description: OSCORE Pairwise Key Agreement Algorithm Parameters
@@ -2034,7 +2034,7 @@ Client applications can use this resource type to discover a group-membership re
 
 IANA is asked to register the following entries in the "ACE Groupcomm Errors" registry defined in {{Section 11.12 of RFC9594}}.
 
-* Value: 7
+* Value: 7 (suggested)
 
 * Description: Signatures not used in the group.
 
@@ -2042,7 +2042,7 @@ IANA is asked to register the following entries in the "ACE Groupcomm Errors" re
 
 <br>
 
-* Value: 8
+* Value: 8 (suggested)
 
 * Description: Operation permitted only to signature verifiers.
 
@@ -2050,7 +2050,7 @@ IANA is asked to register the following entries in the "ACE Groupcomm Errors" re
 
 <br>
 
-* Value: 9
+* Value: 9 (suggested)
 
 * Description: Group currently not active.
 
