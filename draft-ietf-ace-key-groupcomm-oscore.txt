@@ -5,8 +5,8 @@
 ACE Working Group                                              M. Tiloca
 Internet-Draft                                                   RISE AB
 Intended status: Standards Track                            F. Palombini
-Expires: 10 June 2025                                        Ericsson AB
-                                                         7 December 2024
+Expires: 6 July 2025                                         Ericsson AB
+                                                          2 January 2025
 
 
     Key Management for Group Object Security for Constrained RESTful
@@ -44,11 +44,11 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 10 June 2025.
+   This Internet-Draft will expire on 6 July 2025.
 
 Copyright Notice
 
-   Copyright (c) 2024 IETF Trust and the persons identified as the
+   Copyright (c) 2025 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -3796,7 +3796,7 @@ Table of Contents
 
    *  Name: group_senderId
 
-   *  CBOR Key: 21
+   *  CBOR Key: 21 (suggested)
 
    *  CBOR Type: bstr
 
@@ -3806,7 +3806,7 @@ Table of Contents
 
    *  Name: ecdh_info
 
-   *  CBOR Key: 31
+   *  CBOR Key: 31 (suggested)
 
    *  CBOR Type: array
 
@@ -3816,7 +3816,7 @@ Table of Contents
 
    *  Name: kdc_dh_creds
 
-   *  CBOR Key: 32
+   *  CBOR Key: 32 (suggested)
 
    *  CBOR Type: array
 
@@ -3826,7 +3826,7 @@ Table of Contents
 
    *  Name: sign_enc_key
 
-   *  CBOR Key: 33
+   *  CBOR Key: 33 (suggested)
 
    *  CBOR Type: bstr
 
@@ -3836,7 +3836,7 @@ Table of Contents
 
    *  Name: stale_node_ids
 
-   *  CBOR Key: 34
+   *  CBOR Key: 34 (suggested)
 
    *  CBOR Type: array
 
@@ -3882,7 +3882,7 @@ Table of Contents
 
    *  Name: group_SenderId
 
-   *  CBOR Label: 7
+   *  CBOR Label: 7 (suggested)
 
    *  CBOR Type: byte string
 
@@ -3897,7 +3897,7 @@ Table of Contents
 
    *  Name: cred_fmt
 
-   *  CBOR Label: 8
+   *  CBOR Label: 8 (suggested)
 
    *  CBOR Type: integer
 
@@ -3912,7 +3912,7 @@ Table of Contents
 
    *  Name: gp_enc_alg
 
-   *  CBOR Label: 9
+   *  CBOR Label: 9 (suggested)
 
    *  CBOR Type: text string / integer
 
@@ -3926,7 +3926,7 @@ Table of Contents
 
    *  Name: sign_alg
 
-   *  CBOR Label: 10
+   *  CBOR Label: 10 (suggested)
 
    *  CBOR Type: text string / integer
 
@@ -3940,7 +3940,7 @@ Table of Contents
 
    *  Name: sign_params
 
-   *  CBOR Label: 11
+   *  CBOR Label: 11 (suggested)
 
    *  CBOR Type: array
 
@@ -3955,7 +3955,7 @@ Table of Contents
 
    *  Name: ecdh_alg
 
-   *  CBOR Label: 12
+   *  CBOR Label: 12 (suggested)
 
    *  CBOR Type: text string / integer
 
@@ -3969,7 +3969,7 @@ Table of Contents
 
    *  Name: ecdh_params
 
-   *  CBOR Label: 13
+   *  CBOR Label: 13 (suggested)
 
    *  CBOR Type: array
 
@@ -4067,7 +4067,7 @@ Table of Contents
    IANA is asked to register the following entries in the "ACE Groupcomm
    Errors" registry defined in Section 11.12 of [RFC9594].
 
-   *  Value: 7
+   *  Value: 7 (suggested)
 
    *  Description: Signatures not used in the group.
 
@@ -4075,7 +4075,7 @@ Table of Contents
 
 
 
-   *  Value: 8
+   *  Value: 8 (suggested)
 
    *  Description: Operation permitted only to signature verifiers.
 
@@ -4083,7 +4083,7 @@ Table of Contents
 
 
 
-   *  Value: 9
+   *  Value: 9 (suggested)
 
    *  Description: Group currently not active.
 

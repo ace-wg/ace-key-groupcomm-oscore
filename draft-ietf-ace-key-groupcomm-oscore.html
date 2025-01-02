@@ -15,15 +15,15 @@
 <meta content="draft-ietf-ace-key-groupcomm-oscore-latest" name="ietf.draft">
 <!-- Generator version information:
   xml2rfc 3.25.0
-    Python 3.12.7
+    Python 3.12.8
     ConfigArgParse 1.7
     google-i18n-address 3.1.1
     intervaltree 3.1.0
     Jinja2 3.1.4
     lxml 5.3.0
     platformdirs 4.3.6
-    pycountry 22.3.5
-    PyYAML 6.0.1
+    pycountry 24.6.1
+    PyYAML 6.0.2
     requests 2.32.3
     setuptools 70.3.0
     wcwidth 0.2.13
@@ -535,7 +535,11 @@ figcaption, caption {
   }
   pre, svg {
     display: inline-block;
-    overflow-x: auto;
+    /* In the horizontal direction, sometimes people make over-sized figures.
+       Scrollbars for those is therefore necessary: auto adds them as necessary..
+       In the vertical direction, the line-height can combine with the font
+       asender/descender height to produce scrollbars: hidden avoids that. */
+    overflow: auto hidden;
   }
   pre {
     max-width: 100%;
@@ -1041,11 +1045,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">Key Management for Group OSCORE Using AC</td>
-<td class="right">December 2024</td>
+<td class="right">January 2025</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Tiloca &amp; Palombini</td>
-<td class="center">Expires 10 June 2025</td>
+<td class="center">Expires 6 July 2025</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1058,12 +1062,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-ace-key-groupcomm-oscore-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2024-12-07" class="published">7 December 2024</time>
+<time datetime="2025-01-02" class="published">2 January 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2025-06-10">10 June 2025</time></dd>
+<dd class="expires"><time datetime="2025-07-06">6 July 2025</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1101,7 +1105,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 10 June 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 6 July 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1110,7 +1114,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <a href="#name-copyright-notice" class="section-name selfRef">Copyright Notice</a>
         </h2>
 <p id="section-boilerplate.2-1">
-            Copyright (c) 2024 IETF Trust and the persons identified as the
+            Copyright (c) 2025 IETF Trust and the persons identified as the
             document authors. All rights reserved.<a href="#section-boilerplate.2-1" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.2-2">
             This document is subject to BCP 78 and the IETF Trust's Legal
@@ -4157,7 +4161,7 @@ The Group Manager performs a rekeying when one or more members leave the group, 
             <p id="section-16.3-2.1.1">Name: group_senderId<a href="#section-16.3-2.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.3-2.2">
-            <p id="section-16.3-2.2.1">CBOR Key: 21<a href="#section-16.3-2.2.1" class="pilcrow">¶</a></p>
+            <p id="section-16.3-2.2.1">CBOR Key: 21 (suggested)<a href="#section-16.3-2.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.3-2.3">
             <p id="section-16.3-2.3.1">CBOR Type: bstr<a href="#section-16.3-2.3.1" class="pilcrow">¶</a></p>
@@ -4172,7 +4176,7 @@ The Group Manager performs a rekeying when one or more members leave the group, 
             <p id="section-16.3-4.1.1">Name: ecdh_info<a href="#section-16.3-4.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.3-4.2">
-            <p id="section-16.3-4.2.1">CBOR Key: 31<a href="#section-16.3-4.2.1" class="pilcrow">¶</a></p>
+            <p id="section-16.3-4.2.1">CBOR Key: 31 (suggested)<a href="#section-16.3-4.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.3-4.3">
             <p id="section-16.3-4.3.1">CBOR Type: array<a href="#section-16.3-4.3.1" class="pilcrow">¶</a></p>
@@ -4187,7 +4191,7 @@ The Group Manager performs a rekeying when one or more members leave the group, 
             <p id="section-16.3-6.1.1">Name: kdc_dh_creds<a href="#section-16.3-6.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.3-6.2">
-            <p id="section-16.3-6.2.1">CBOR Key: 32<a href="#section-16.3-6.2.1" class="pilcrow">¶</a></p>
+            <p id="section-16.3-6.2.1">CBOR Key: 32 (suggested)<a href="#section-16.3-6.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.3-6.3">
             <p id="section-16.3-6.3.1">CBOR Type: array<a href="#section-16.3-6.3.1" class="pilcrow">¶</a></p>
@@ -4202,7 +4206,7 @@ The Group Manager performs a rekeying when one or more members leave the group, 
             <p id="section-16.3-8.1.1">Name: sign_enc_key<a href="#section-16.3-8.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.3-8.2">
-            <p id="section-16.3-8.2.1">CBOR Key: 33<a href="#section-16.3-8.2.1" class="pilcrow">¶</a></p>
+            <p id="section-16.3-8.2.1">CBOR Key: 33 (suggested)<a href="#section-16.3-8.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.3-8.3">
             <p id="section-16.3-8.3.1">CBOR Type: bstr<a href="#section-16.3-8.3.1" class="pilcrow">¶</a></p>
@@ -4217,7 +4221,7 @@ The Group Manager performs a rekeying when one or more members leave the group, 
             <p id="section-16.3-10.1.1">Name: stale_node_ids<a href="#section-16.3-10.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.3-10.2">
-            <p id="section-16.3-10.2.1">CBOR Key: 34<a href="#section-16.3-10.2.1" class="pilcrow">¶</a></p>
+            <p id="section-16.3-10.2.1">CBOR Key: 34 (suggested)<a href="#section-16.3-10.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.3-10.3">
             <p id="section-16.3-10.3.1">CBOR Type: array<a href="#section-16.3-10.3.1" class="pilcrow">¶</a></p>
@@ -4286,7 +4290,7 @@ The Group Manager performs a rekeying when one or more members leave the group, 
             <p id="section-16.6-2.1.1">Name: group_SenderId<a href="#section-16.6-2.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.6-2.2">
-            <p id="section-16.6-2.2.1">CBOR Label: 7<a href="#section-16.6-2.2.1" class="pilcrow">¶</a></p>
+            <p id="section-16.6-2.2.1">CBOR Label: 7 (suggested)<a href="#section-16.6-2.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.6-2.3">
             <p id="section-16.6-2.3.1">CBOR Type: byte string<a href="#section-16.6-2.3.1" class="pilcrow">¶</a></p>
@@ -4307,7 +4311,7 @@ The Group Manager performs a rekeying when one or more members leave the group, 
             <p id="section-16.6-4.1.1">Name: cred_fmt<a href="#section-16.6-4.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.6-4.2">
-            <p id="section-16.6-4.2.1">CBOR Label: 8<a href="#section-16.6-4.2.1" class="pilcrow">¶</a></p>
+            <p id="section-16.6-4.2.1">CBOR Label: 8 (suggested)<a href="#section-16.6-4.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.6-4.3">
             <p id="section-16.6-4.3.1">CBOR Type: integer<a href="#section-16.6-4.3.1" class="pilcrow">¶</a></p>
@@ -4328,7 +4332,7 @@ The Group Manager performs a rekeying when one or more members leave the group, 
             <p id="section-16.6-6.1.1">Name: gp_enc_alg<a href="#section-16.6-6.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.6-6.2">
-            <p id="section-16.6-6.2.1">CBOR Label: 9<a href="#section-16.6-6.2.1" class="pilcrow">¶</a></p>
+            <p id="section-16.6-6.2.1">CBOR Label: 9 (suggested)<a href="#section-16.6-6.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.6-6.3">
             <p id="section-16.6-6.3.1">CBOR Type: text string / integer<a href="#section-16.6-6.3.1" class="pilcrow">¶</a></p>
@@ -4349,7 +4353,7 @@ The Group Manager performs a rekeying when one or more members leave the group, 
             <p id="section-16.6-8.1.1">Name: sign_alg<a href="#section-16.6-8.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.6-8.2">
-            <p id="section-16.6-8.2.1">CBOR Label: 10<a href="#section-16.6-8.2.1" class="pilcrow">¶</a></p>
+            <p id="section-16.6-8.2.1">CBOR Label: 10 (suggested)<a href="#section-16.6-8.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.6-8.3">
             <p id="section-16.6-8.3.1">CBOR Type: text string / integer<a href="#section-16.6-8.3.1" class="pilcrow">¶</a></p>
@@ -4370,7 +4374,7 @@ The Group Manager performs a rekeying when one or more members leave the group, 
             <p id="section-16.6-10.1.1">Name: sign_params<a href="#section-16.6-10.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.6-10.2">
-            <p id="section-16.6-10.2.1">CBOR Label: 11<a href="#section-16.6-10.2.1" class="pilcrow">¶</a></p>
+            <p id="section-16.6-10.2.1">CBOR Label: 11 (suggested)<a href="#section-16.6-10.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.6-10.3">
             <p id="section-16.6-10.3.1">CBOR Type: array<a href="#section-16.6-10.3.1" class="pilcrow">¶</a></p>
@@ -4391,7 +4395,7 @@ The Group Manager performs a rekeying when one or more members leave the group, 
             <p id="section-16.6-12.1.1">Name: ecdh_alg<a href="#section-16.6-12.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.6-12.2">
-            <p id="section-16.6-12.2.1">CBOR Label: 12<a href="#section-16.6-12.2.1" class="pilcrow">¶</a></p>
+            <p id="section-16.6-12.2.1">CBOR Label: 12 (suggested)<a href="#section-16.6-12.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.6-12.3">
             <p id="section-16.6-12.3.1">CBOR Type: text string / integer<a href="#section-16.6-12.3.1" class="pilcrow">¶</a></p>
@@ -4412,7 +4416,7 @@ The Group Manager performs a rekeying when one or more members leave the group, 
             <p id="section-16.6-14.1.1">Name: ecdh_params<a href="#section-16.6-14.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.6-14.2">
-            <p id="section-16.6-14.2.1">CBOR Label: 13<a href="#section-16.6-14.2.1" class="pilcrow">¶</a></p>
+            <p id="section-16.6-14.2.1">CBOR Label: 13 (suggested)<a href="#section-16.6-14.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.6-14.3">
             <p id="section-16.6-14.3.1">CBOR Type: array<a href="#section-16.6-14.3.1" class="pilcrow">¶</a></p>
@@ -4553,7 +4557,7 @@ The Group Manager performs a rekeying when one or more members leave the group, 
 <p id="section-16.11-1">IANA is asked to register the following entries in the "ACE Groupcomm Errors" registry defined in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-11.12" class="relref">Section 11.12</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>.<a href="#section-16.11-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-16.11-2.1">
-            <p id="section-16.11-2.1.1">Value: 7<a href="#section-16.11-2.1.1" class="pilcrow">¶</a></p>
+            <p id="section-16.11-2.1.1">Value: 7 (suggested)<a href="#section-16.11-2.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.11-2.2">
             <p id="section-16.11-2.2.1">Description: Signatures not used in the group.<a href="#section-16.11-2.2.1" class="pilcrow">¶</a></p>
@@ -4565,7 +4569,7 @@ The Group Manager performs a rekeying when one or more members leave the group, 
 <p id="section-16.11-3"><br></p>
 <ul class="normal">
 <li class="normal" id="section-16.11-4.1">
-            <p id="section-16.11-4.1.1">Value: 8<a href="#section-16.11-4.1.1" class="pilcrow">¶</a></p>
+            <p id="section-16.11-4.1.1">Value: 8 (suggested)<a href="#section-16.11-4.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.11-4.2">
             <p id="section-16.11-4.2.1">Description: Operation permitted only to signature verifiers.<a href="#section-16.11-4.2.1" class="pilcrow">¶</a></p>
@@ -4577,7 +4581,7 @@ The Group Manager performs a rekeying when one or more members leave the group, 
 <p id="section-16.11-5"><br></p>
 <ul class="normal">
 <li class="normal" id="section-16.11-6.1">
-            <p id="section-16.11-6.1.1">Value: 9<a href="#section-16.11-6.1.1" class="pilcrow">¶</a></p>
+            <p id="section-16.11-6.1.1">Value: 9 (suggested)<a href="#section-16.11-6.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.11-6.2">
             <p id="section-16.11-6.2.1">Description: Group currently not active.<a href="#section-16.11-6.2.1" class="pilcrow">¶</a></p>
