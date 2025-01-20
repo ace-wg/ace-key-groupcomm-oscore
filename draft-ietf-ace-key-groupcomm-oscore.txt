@@ -5,8 +5,8 @@
 ACE Working Group                                              M. Tiloca
 Internet-Draft                                                   RISE AB
 Intended status: Standards Track                            F. Palombini
-Expires: 6 July 2025                                         Ericsson AB
-                                                          2 January 2025
+Expires: 24 July 2025                                        Ericsson AB
+                                                         20 January 2025
 
 
     Key Management for Group Object Security for Constrained RESTful
@@ -44,7 +44,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 6 July 2025.
+   This Internet-Draft will expire on 24 July 2025.
 
 Copyright Notice
 
@@ -681,7 +681,7 @@ Table of Contents
          format of authentication credential that MUST explicitly
          provide the public key as well as the comprehensive set of
          information related to the public key algorithm, including,
-         e.g., the used elliptic curve (when applicable).
+         e.g., the used elliptic curve.
 
          At the time of writing this specification, acceptable formats
          of authentication credentials are CBOR Web Tokens (CWTs) and
@@ -730,9 +730,9 @@ Table of Contents
          format of authentication credential that MUST explicitly
          provide the public key as well as the comprehensive set of
          information related to the public key algorithm, including,
-         e.g., the used elliptic curve (when applicable).  The same
-         considerations provided above on acceptable formats currently
-         available for the 'cred_fmt' element of 'sign_info' apply.
+         e.g., the used elliptic curve.  The same considerations
+         provided above on acceptable formats currently available for
+         the 'cred_fmt' element of 'sign_info' apply.
 
       The Group Manager omits the 'ecdh_info' parameter in the Token
       Transfer Response even if 'ecdh_info' is included in the Token
@@ -753,9 +753,9 @@ Table of Contents
          format of authentication credential that MUST explicitly
          provide the public key as well as the comprehensive set of
          information related to the public key algorithm, including,
-         e.g., the used elliptic curve (when applicable).  The same
-         considerations provided above on acceptable formats currently
-         available for the 'cred_fmt' element of 'sign_info' apply.
+         e.g., the used elliptic curve.  The same considerations
+         provided above on acceptable formats currently available for
+         the 'cred_fmt' element of 'sign_info' apply.
 
       The Group Manager omits the 'kdc_dh_creds' parameter in the Token
       Transfer Response even if 'ecdh_info' is included in the Token
@@ -1446,7 +1446,7 @@ Table of Contents
          format that MUST explicitly provide the public key as well as a
          comprehensive set of information related to the public key
          algorithm.  This information includes, e.g., the used elliptic
-         curve (when applicable).
+         curve.
 
          At the time of writing this specification, acceptable formats
          of authentication credentials are CBOR Web Tokens (CWTs) and
@@ -4344,9 +4344,9 @@ Table of Contents
               Tiloca, M., Höglund, R., Van der Stok, P., and F.
               Palombini, "Admin Interface for the OSCORE Group Manager",
               Work in Progress, Internet-Draft, draft-ietf-ace-oscore-
-              gm-admin-12, 8 July 2024,
+              gm-admin-13, 8 January 2025,
               <https://datatracker.ietf.org/doc/html/draft-ietf-ace-
-              oscore-gm-admin-12>.
+              oscore-gm-admin-13>.
 
    [I-D.ietf-core-coap-pubsub]
               Jimenez, J., Koster, M., and A. Keränen, "A publish-
@@ -4368,9 +4368,9 @@ Table of Contents
               Mattsson, J. P., Selander, G., Raza, S., Höglund, J., and
               M. Furuhed, "CBOR Encoded X.509 Certificates (C509
               Certificates)", Work in Progress, Internet-Draft, draft-
-              ietf-cose-cbor-encoded-cert-11, 8 July 2024,
+              ietf-cose-cbor-encoded-cert-12, 8 January 2025,
               <https://datatracker.ietf.org/doc/html/draft-ietf-cose-
-              cbor-encoded-cert-11>.
+              cbor-encoded-cert-12>.
 
    [I-D.tiloca-core-oscore-discovery]
               Tiloca, M., Amsüss, C., and P. Van der Stok, "Discovery of
