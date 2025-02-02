@@ -5,8 +5,8 @@
 ACE Working Group                                              M. Tiloca
 Internet-Draft                                                   RISE AB
 Intended status: Standards Track                            F. Palombini
-Expires: 24 July 2025                                        Ericsson AB
-                                                         20 January 2025
+Expires: 6 August 2025                                       Ericsson AB
+                                                         2 February 2025
 
 
     Key Management for Group Object Security for Constrained RESTful
@@ -44,7 +44,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 24 July 2025.
+   This Internet-Draft will expire on 6 August 2025.
 
 Copyright Notice
 
@@ -4352,9 +4352,9 @@ Table of Contents
               Jimenez, J., Koster, M., and A. Keränen, "A publish-
               subscribe architecture for the Constrained Application
               Protocol (CoAP)", Work in Progress, Internet-Draft, draft-
-              ietf-core-coap-pubsub-15, 21 October 2024,
+              ietf-core-coap-pubsub-16, 28 January 2025,
               <https://datatracker.ietf.org/doc/html/draft-ietf-core-
-              coap-pubsub-15>.
+              coap-pubsub-16>.
 
    [I-D.ietf-core-groupcomm-bis]
               Dijk, E., Wang, C., and M. Tiloca, "Group Communication
