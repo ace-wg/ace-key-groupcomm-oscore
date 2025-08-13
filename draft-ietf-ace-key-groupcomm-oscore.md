@@ -310,7 +310,7 @@ In the following circumstances, a joining node is not required to provide its au
 
 * The joining node is currently a group member, and it is re-joining the group not exclusively as monitor.
 
-  In this case, the joining node MAY choose to omit the 'client_cred' parameter and the 'client_cred_verify' parameter in the Join Request, if it intends to use the same authentication credential that it is currently using in the group (see {{Section 4.3.1.1 of RFC9594}}).
+  In this case, if the joining node intends to use the latest authentication credential provided to the Group Manager in a previous Join Request (i.e., the same authentication credential that it is currently using in the group), then the joining node MAY choose to omit the 'client_cred' parameter and the 'client_cred_verify' parameter in the Join Request (see {{Section 4.3.1.1 of RFC9594}}).
 
 # Authorization to Join a Group {#sec-joining-node-to-AS}
 
