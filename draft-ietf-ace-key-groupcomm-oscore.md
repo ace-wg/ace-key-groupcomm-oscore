@@ -318,7 +318,7 @@ This section builds on {{Section 3 of RFC9594}} and is organized as follows.
 
 First, {{ssec-auth-req}} and {{ssec-auth-resp}} describe how the joining node interacts with the AS, in order to be authorized to join an OSCORE group under a given Group Manager and to obtain an access token. Then, {{ssec-token-post}} describes how the joining node transfers the obtained access token to the Group Manager.
 
-The following considers a joining node that intends to contact the Group Manager for the first time.
+This section considers a joining node that intends to contact the Group Manager for the first time.
 
 Note that what is defined in {{Section 3 of RFC9594}} applies, and only additions or modifications to that specification are defined in this document.
 
