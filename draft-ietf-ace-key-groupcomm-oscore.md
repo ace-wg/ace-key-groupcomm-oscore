@@ -239,7 +239,7 @@ For each scope entry:
 
 * The permission set ("Tperm") is specialized as a CBOR unsigned integer with value R, specifying the permissions that the Client wishes to have in the groups indicated by "Toid".
 
-More specifically, the following applies when, as defined in this document, a scope entry includes as set of permissions the set of roles to take in an OSCORE group.
+For the application profile of {{RFC9594}} defined in this document, a scope entry includes the name of an OSCORE group and the set of roles to take in that OSCORE group as a set of permissions. Specifically:
 
 * The object identifier ("Toid") is a CBOR text string, specifying the group name for the scope entry.
 
