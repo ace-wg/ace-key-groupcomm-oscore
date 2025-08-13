@@ -5,8 +5,8 @@
 ACE Working Group                                              M. Tiloca
 Internet-Draft                                                   RISE AB
 Intended status: Standards Track                            F. Palombini
-Expires: 29 January 2026                                     Ericsson AB
-                                                            28 July 2025
+Expires: 14 February 2026                                    Ericsson AB
+                                                          13 August 2025
 
 
     Key Management for Group Object Security for Constrained RESTful
@@ -44,7 +44,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 29 January 2026.
+   This Internet-Draft will expire on 14 February 2026.
 
 Copyright Notice
 
@@ -381,11 +381,10 @@ Table of Contents
    array [* [Toid, Tperm]], where each [Toid, Tperm] element corresponds
    to one scope entry.
 
-   Furthermore, this document defines the new AIF data model AIF-OSCORE-
-   GROUPCOMM, which this profile MUST use to format and encode scope
-   entries.
+   This document defines the new AIF data model AIF-OSCORE-GROUPCOMM,
+   which this profile MUST use to format and encode scope entries.
 
-   In particular, the following holds for each scope entry:
+   For each scope entry:
 
    *  The object identifier ("Toid") is specialized as a CBOR data item
       specifying the name of the groups pertaining to the scope entry.
@@ -394,9 +393,9 @@ Table of Contents
       integer with value R, specifying the permissions that the Client
       wishes to have in the groups indicated by "Toid".
 
-   More specifically, the following applies when, as defined in this
-   document, a scope entry includes as set of permissions the set of
-   roles to take in an OSCORE group.
+   For the application profile of [RFC9594] defined in this document, a
+   scope entry includes the name of an OSCORE group and the set of roles
+   to take in that OSCORE group as a set of permissions.  Specifically:
 
    *  The object identifier ("Toid") is a CBOR text string, specifying
       the group name for the scope entry.
@@ -489,10 +488,10 @@ Table of Contents
    authentication credentials from a trusted repository, in order to
    verify source authenticity of incoming group messages.
 
-   As also discussed in [I-D.ietf-core-oscore-groupcomm], the Group
-   Manager acts as trusted repository of the authentication credentials
-   of the group members, and provides those authentication credentials
-   to group members if requested to.
+   As discussed in [I-D.ietf-core-oscore-groupcomm], the Group Manager
+   acts as trusted repository of the authentication credentials of the
+   group members, and provides those authentication credentials to group
+   members if requested to.
 
    Upon joining an OSCORE group, a joining node is thus expected to
    provide its authentication credential to the Group Manager (see
