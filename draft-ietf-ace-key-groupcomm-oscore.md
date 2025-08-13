@@ -231,9 +231,9 @@ To this end, this profile uses the Authorization Information Format (AIF) {{RFC9
 
 the value of the CBOR byte string used as scope encodes the CBOR array \[* \[Toid, Tperm\]\], where each \[Toid, Tperm\] element corresponds to one scope entry.
 
-Furthermore, this document defines the new AIF data model AIF-OSCORE-GROUPCOMM, which this profile MUST use to format and encode scope entries.
+This document defines the new AIF data model AIF-OSCORE-GROUPCOMM, which this profile MUST use to format and encode scope entries.
 
-In particular, the following holds for each scope entry:
+For each scope entry:
 
 * The object identifier ("Toid") is specialized as a CBOR data item specifying the name of the groups pertaining to the scope entry.
 
