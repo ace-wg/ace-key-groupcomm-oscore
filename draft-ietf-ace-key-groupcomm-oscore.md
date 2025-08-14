@@ -332,7 +332,7 @@ The Authorization Request message is as defined in {{Section 3.1 of RFC9594}}, w
 
       - The group name is encoded as a CBOR text string.
 
-      - The set of requested roles is expressed as a single CBOR unsigned integer. This is computed as defined in {{sec-format-scope}} of this document, from the numerical abbreviations of each requested role defined in the "Group OSCORE Roles" registry, for which this document defines the entries in {{tab-role-values}} (REQ1).
+      - The set of requested roles is expressed as a single CBOR unsigned integer. This is computed as defined in {{sec-format-scope}} of this document, from the numerical abbreviations of each requested role defined in the "Group OSCORE Roles" registry (REQ1).
 
 ## Authorization Response {#ssec-auth-resp}
 
