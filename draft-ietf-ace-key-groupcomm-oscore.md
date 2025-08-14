@@ -338,7 +338,7 @@ The Authorization Request message is as defined in {{Section 3.1 of RFC9594}}, w
 
 The Authorization Response message is as defined in {{Section 3.2 of RFC9594}}, with the following additions:
 
-* The AS MUST include the 'expires_in' parameter. Other means for the AS to specify the lifetime of access tokens are out of the scope of this document.
+* The AS MUST include the 'expires_in' parameter.
 
 * The AS MUST include the 'scope' parameter, when the value included in the access token differs from the one specified by the joining node in the Authorization Request. In such a case, the second element of each scope entry MUST be present, and specifies the set of roles that the joining node is actually authorized to take in the OSCORE group for that scope entry, encoded as specified in {{ssec-auth-req}} of this document.
 
