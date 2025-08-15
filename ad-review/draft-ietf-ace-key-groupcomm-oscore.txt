@@ -2349,6 +2349,12 @@ Table of Contents
       fail if the 'client_cred_verify' parameter specifies an empty PoP
       evidence.
 
+   *  The Group Manager MAY return a 4.00 (Bad Request) error response
+      in order to prevent the acceptance of Ed25519 and Ed448 public
+      keys that cannot be successfully converted to Montgomery
+      coordinates, according to the same criteria defined in Section 6.2
+      when processing a Join Request for the OSCORE group in question.
+
    *  The Group Manager MUST return a 5.03 (Service Unavailable)
       response in case the OSCORE group identified by GROUPNAME is
       currently inactive (see Section 8.2).  The response MUST have
