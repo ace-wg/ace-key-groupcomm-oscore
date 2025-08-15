@@ -1106,6 +1106,8 @@ Upon receiving the Authentication Credential Update Request, the Group Manager p
 
 * The Group Manager verifies the PoP challenge included in the 'client_cred_verify' parameter in the same way defined in {{ssec-join-req-processing}} when processing a Join Request for the OSCORE group in question (REQ14), with the difference that the verification MUST fail if the 'client_cred_verify' parameter specifies an empty PoP evidence.
 
+* The Group Manager MAY return a 4.00 (Bad Request) error response in order to prevent the acceptance of Ed25519 and Ed448 public keys that cannot be successfully converted to Montgomery coordinates, according to the same criteria defined in {{ssec-join-req-processing}} when processing a Join Request for the OSCORE group in question.
+
 * The Group Manager MUST return a 5.03 (Service Unavailable) response in case the OSCORE group identified by GROUPNAME is currently inactive (see {{ssec-resource-active}}). The response MUST have Content-Format set to "application/concise-problem-details+cbor" {{RFC9290}} and is formatted as defined in {{Section 4.1.2 of RFC9594}}. Within the Custom Problem Detail entry 'ace-groupcomm-error', the value of the 'error-id' field MUST be set to 9 ("Group currently not active").
 
 * If the requesting group member has exclusively the role of monitor, the Group Manager replies with a 4.00 (Bad request) error response. The response MUST have Content-Format set to "application/concise-problem-details+cbor" {{RFC9290}} and is formatted as defined in {{Section 4.1.2 of RFC9594}}. Within the Custom Problem Detail entry 'ace-groupcomm-error', the value of the 'error-id' field MUST be set to 1 ("Request inconsistent with the current roles").
