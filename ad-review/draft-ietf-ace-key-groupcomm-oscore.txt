@@ -5,8 +5,8 @@
 ACE Working Group                                              M. Tiloca
 Internet-Draft                                                   RISE AB
 Intended status: Standards Track                            F. Palombini
-Expires: 14 February 2026                                    Ericsson AB
-                                                          13 August 2025
+Expires: 16 February 2026                                    Ericsson AB
+                                                          15 August 2025
 
 
     Key Management for Group Object Security for Constrained RESTful
@@ -44,7 +44,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 14 February 2026.
+   This Internet-Draft will expire on 16 February 2026.
 
 Copyright Notice
 
@@ -529,10 +529,12 @@ Table of Contents
    *  The joining node is currently a group member, and it is re-joining
       the group not exclusively as monitor.
 
-      In this case, the joining node MAY choose to omit the
-      'client_cred' parameter and the 'client_cred_verify' parameter in
-      the Join Request, if it intends to use the same authentication
-      credential that it is currently using in the group (see
+      In this case, if the joining node intends to use the latest
+      authentication credential provided to the Group Manager in a
+      previous Join Request (i.e., the same authentication credential
+      that it is currently using in the group), then the joining node
+      MAY choose to omit the 'client_cred' parameter and the
+      'client_cred_verify' parameter in the Join Request (see
       Section 4.3.1.1 of [RFC9594]).
 
 5.  Authorization to Join a Group
@@ -546,7 +548,7 @@ Table of Contents
    Then, Section 5.3 describes how the joining node transfers the
    obtained access token to the Group Manager.
 
-   The following considers a joining node that intends to contact the
+   This section considers a joining node that intends to contact the
    Group Manager for the first time.
 
    Note that what is defined in Section 3 of [RFC9594] applies, and only
@@ -569,8 +571,7 @@ Table of Contents
          o  The set of requested roles is expressed as a single CBOR
             unsigned integer.  This is computed as defined in Section 3
             of this document, from the numerical abbreviations of each
-            requested role defined in the "Group OSCORE Roles" registry,
-            for which this document defines the entries in Table 1
+            requested role defined in the "Group OSCORE Roles" registry
             (REQ1).
 
 5.2.  Authorization Response
@@ -578,9 +579,7 @@ Table of Contents
    The Authorization Response message is as defined in Section 3.2 of
    [RFC9594], with the following additions:
 
-   *  The AS MUST include the 'expires_in' parameter.  Other means for
-      the AS to specify the lifetime of access tokens are out of the
-      scope of this document.
+   *  The AS MUST include the 'expires_in' parameter.
 
    *  The AS MUST include the 'scope' parameter, when the value included
       in the access token differs from the one specified by the joining
@@ -689,10 +688,6 @@ Table of Contents
          Further formats may be available in the future, and would be
          acceptable to use as long as they comply with the criteria
          defined above.
-
-         [ As to C509 certificates, the COSE Header Parameters 'c5b' and
-         'c5c' are under pending registration requested by draft-ietf-
-         cose-cbor-encoded-cert. ]
 
       This format is consistent with every signature algorithm currently
       considered in [RFC9053], i.e., with algorithms that have only the
@@ -1181,6 +1176,10 @@ Table of Contents
    'client_cred_verify' parameter of a follow-up Join Request for
    joining the same group.
 
+   Note to RFC Editor: Please make sure that "application/concise-
+   problem-details+cbor" is on one line (no line wrapping) on every
+   occurrence and delete this note.
+
    In case the joining node is not going to join the group exclusively
    as monitor and the 'client_cred_verify' parameter specifies a value
    different from the empty CBOR byte string (0x40), then the Group
@@ -1454,10 +1453,6 @@ Table of Contents
          Further formats may be available in the future, and would be
          acceptable to use as long as they comply with the criteria
          defined above.
-
-         [ As to C509 certificates, the COSE Header Parameters 'c5b' and
-         'c5c' are under pending registration requested by draft-ietf-
-         cose-cbor-encoded-cert. ]
 
       The 'key' parameter MUST also include the following parameters, if
       and only if the OSCORE group is not a pairwise-only group.
