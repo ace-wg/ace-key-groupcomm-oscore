@@ -1049,7 +1049,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Tiloca &amp; Palombini</td>
-<td class="center">Expires 16 February 2026</td>
+<td class="center">Expires 20 February 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1062,12 +1062,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-ace-key-groupcomm-oscore-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-08-15" class="published">15 August 2025</time>
+<time datetime="2025-08-19" class="published">19 August 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-02-16">16 February 2026</time></dd>
+<dd class="expires"><time datetime="2026-02-20">20 February 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1105,7 +1105,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 16 February 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 20 February 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1593,34 +1593,35 @@ An authorized signature verifier does not join the OSCORE group as an actual mem
       </h2>
 <p id="section-2-1">Group communication for CoAP has been enabled in <span>[<a href="#I-D.ietf-core-groupcomm-bis" class="cite xref">I-D.ietf-core-groupcomm-bis</a>]</span> and can be secured by using Group OSCORE <span>[<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>. A network node can join an OSCORE group by interacting with the responsible Group Manager. Once registered in the group, the new node can securely exchange messages with other group members.<a href="#section-2-1" class="pilcrow">¶</a></p>
 <p id="section-2-2">This document describes how to use <span>[<a href="#RFC9594" class="cite xref">RFC9594</a>]</span> and <span>[<a href="#RFC9200" class="cite xref">RFC9200</a>]</span> to perform a number of authentication, authorization, and key distribution actions as overviewed in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-2" class="relref">Section 2</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>, when the considered group is specifically an OSCORE group.<a href="#section-2-2" class="pilcrow">¶</a></p>
-<p id="section-2-3">With reference to <span>[<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>:<a href="#section-2-3" class="pilcrow">¶</a></p>
+<p id="section-2-3">After joining the group as defined in this application profile, a group member communicate with other other group members using CoAP <span>[<a href="#RFC7252" class="cite xref">RFC7252</a>]</span> as well as CoAP for group communication <span>[<a href="#I-D.ietf-core-groupcomm-bis" class="cite xref">I-D.ietf-core-groupcomm-bis</a>]</span> (REQ22). Such communications are protected using the security protocol Group OSCORE <span>[<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span> (REQ23).<a href="#section-2-3" class="pilcrow">¶</a></p>
+<p id="section-2-4">With reference to <span>[<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>:<a href="#section-2-4" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-2-4.1">
-          <p id="section-2-4.1.1">The node wishing to join the OSCORE group, i.e., the joining node, is the Client.<a href="#section-2-4.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-2-5.1">
+          <p id="section-2-5.1.1">The node wishing to join the OSCORE group, i.e., the joining node, is the Client.<a href="#section-2-5.1.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="section-2-4.2">
-          <p id="section-2-4.2.1">The Group Manager is the Key Distribution Center (KDC), acting as a Resource Server.<a href="#section-2-4.2.1" class="pilcrow">¶</a></p>
+        <li class="normal" id="section-2-5.2">
+          <p id="section-2-5.2.1">The Group Manager is the Key Distribution Center (KDC), acting as a Resource Server.<a href="#section-2-5.2.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="section-2-4.3">
-          <p id="section-2-4.3.1">The Authorization Server associated with the Group Manager is the AS.<a href="#section-2-4.3.1" class="pilcrow">¶</a></p>
+        <li class="normal" id="section-2-5.3">
+          <p id="section-2-5.3.1">The Authorization Server associated with the Group Manager is the AS.<a href="#section-2-5.3.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
-<p id="section-2-5">A node performs the steps described in Sections <a href="https://rfc-editor.org/rfc/rfc9594#section-3" class="relref">3</a> and <a href="https://rfc-editor.org/rfc/rfc9594#section-4.3.1.1" class="relref">4.3.1.1</a> of <span>[<a href="#RFC9594" class="cite xref">RFC9594</a>]</span> in order to obtain an authorization for joining an OSCORE group and then to join that group. The format and processing of messages exchanged during such steps are further specified in <a href="#sec-joining-node-to-AS" class="auto internal xref">Section 5</a> and <a href="#sec-joining-node-to-GM" class="auto internal xref">Section 6</a> of this document.<a href="#section-2-5" class="pilcrow">¶</a></p>
-<p id="section-2-6">All communications between the involved entities <span class="bcp14">MUST</span> be secured.<a href="#section-2-6" class="pilcrow">¶</a></p>
-<p id="section-2-7">In particular, communications between the Client and the Group Manager leverage protocol-specific transport profiles of ACE to achieve communication security, proof-of-possession, and server authentication. It is expected that, in the commonly referred base-case of this document, the transport profile to use is pre-configured and well-known to nodes participating in constrained applications.<a href="#section-2-7" class="pilcrow">¶</a></p>
-<p id="section-2-8">With respect to what is defined in <span>[<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>:<a href="#section-2-8" class="pilcrow">¶</a></p>
+<p id="section-2-6">A node performs the steps described in Sections <a href="https://rfc-editor.org/rfc/rfc9594#section-3" class="relref">3</a> and <a href="https://rfc-editor.org/rfc/rfc9594#section-4.3.1.1" class="relref">4.3.1.1</a> of <span>[<a href="#RFC9594" class="cite xref">RFC9594</a>]</span> in order to obtain an authorization for joining an OSCORE group and then to join that group. The format and processing of messages exchanged during such steps are further specified in <a href="#sec-joining-node-to-AS" class="auto internal xref">Section 5</a> and <a href="#sec-joining-node-to-GM" class="auto internal xref">Section 6</a> of this document.<a href="#section-2-6" class="pilcrow">¶</a></p>
+<p id="section-2-7">All communications between the involved entities <span class="bcp14">MUST</span> be secured.<a href="#section-2-7" class="pilcrow">¶</a></p>
+<p id="section-2-8">In particular, communications between the Client and the Group Manager leverage protocol-specific transport profiles of ACE to achieve communication security, proof-of-possession, and server authentication (REQ24). It is expected that, in the commonly referred base-case of this document, the transport profile to use is pre-configured and well-known to nodes participating in constrained applications.<a href="#section-2-8" class="pilcrow">¶</a></p>
+<p id="section-2-9">With respect to what is defined in <span>[<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>:<a href="#section-2-9" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-2-9.1">
-          <p id="section-2-9.1.1">The interface provided by the Group Manager extends the original interface defined in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-4.1" class="relref">Section 4.1</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span> for the KDC, as specified in <a href="#sec-interface-GM" class="auto internal xref">Section 8</a> of this document.<a href="#section-2-9.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-2-10.1">
+          <p id="section-2-10.1.1">The interface provided by the Group Manager extends the original interface defined in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-4.1" class="relref">Section 4.1</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span> for the KDC, as specified in <a href="#sec-interface-GM" class="auto internal xref">Section 8</a> of this document.<a href="#section-2-10.1.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="section-2-9.2">
-          <p id="section-2-9.2.1">In addition to those defined in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-8" class="relref">Section 8</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>, additional parameters are defined in this document and summarized in <a href="#ace-groupcomm-params" class="auto internal xref">Section 12</a>.<a href="#section-2-9.2.1" class="pilcrow">¶</a></p>
+        <li class="normal" id="section-2-10.2">
+          <p id="section-2-10.2.1">In addition to those defined in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-8" class="relref">Section 8</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>, additional parameters are defined in this document and summarized in <a href="#ace-groupcomm-params" class="auto internal xref">Section 12</a>.<a href="#section-2-10.2.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="section-2-9.3">
-          <p id="section-2-9.3.1">In addition to those defined in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-9" class="relref">Section 9</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>, additional error identifiers are defined in this document and summarized in <a href="#error-types" class="auto internal xref">Section 13</a>.<a href="#section-2-9.3.1" class="pilcrow">¶</a></p>
+        <li class="normal" id="section-2-10.3">
+          <p id="section-2-10.3.1">In addition to those defined in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-9" class="relref">Section 9</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>, additional error identifiers are defined in this document and summarized in <a href="#error-types" class="auto internal xref">Section 13</a>.<a href="#section-2-10.3.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
-<p id="section-2-10">Finally, <a href="#profile-req" class="auto internal xref">Appendix A</a> lists the specifications on this application profile of ACE, based on the requirements defined in <span><a href="https://rfc-editor.org/rfc/rfc9594#appendix-A" class="relref">Appendix A</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>.<a href="#section-2-10" class="pilcrow">¶</a></p>
+<p id="section-2-11">Finally, <a href="#profile-req" class="auto internal xref">Appendix A</a> lists the specifications on this application profile of ACE, based on the requirements defined in <span><a href="https://rfc-editor.org/rfc/rfc9594#appendix-A" class="relref">Appendix A</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>.<a href="#section-2-11" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="sec-format-scope">
@@ -1730,6 +1731,7 @@ An authorized signature verifier does not join the OSCORE group as an actual mem
 <p id="section-3-15">Note that the value 0 is not available to use as numeric identifier to specify a Group OSCORE role. It follows that, when expressing Group OSCORE roles to take in a group as per this document, a scope entry has the least significant bit of "Tperm" always set to 0.<a href="#section-3-15" class="pilcrow">¶</a></p>
 <p id="section-3-16">This is an explicit feature of the AIF-OSCORE-GROUPCOMM data model. That is, for each scope entry, the least significant bit of "Tperm" set to 0 explicitly identifies the scope entry as exactly expressing a set of Group OSCORE roles ("Tperm"), pertaining to a single group whose name is specified by the string literal in "Toid".<a href="#section-3-16" class="pilcrow">¶</a></p>
 <p id="section-3-17">Instead, by relying on the same AIF-OSCORE-GROUPCOMM data model, <span>[<a href="#I-D.ietf-ace-oscore-gm-admin" class="cite xref">I-D.ietf-ace-oscore-gm-admin</a>]</span> defines the format of scope entries for Administrator Clients that wish to access an admin interface at the Group Manager. In such scope entries, the least significant bit of "Tperm" is always set to 1.<a href="#section-3-17" class="pilcrow">¶</a></p>
+<p id="section-3-18">As per the guidelines in <span>[<a href="#RFC9237" class="cite xref">RFC9237</a>]</span>, <a href="#ssec-iana-AIF-registry" class="auto internal xref">Section 16.8</a> and <a href="#ssec-iana-coap-content-format-registry" class="auto internal xref">Section 16.9</a> register the specific instance of "Toid" and "Tperm" as media type parameters and a corresponding Content-Format (REQ2).<a href="#section-3-18" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="sec-public-keys-of-joining-nodes">
@@ -1791,6 +1793,7 @@ In this case, if the joining node intends to use the latest authentication crede
             </ul>
 </li>
         </ul>
+<p id="section-5.1-3">The textual format specified in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-3.1" class="relref">Section 3.1</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span> is not used in this application profile (OPT1).<a href="#section-5.1-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="ssec-auth-resp">
@@ -2126,10 +2129,10 @@ The same as above holds if TLS 1.3 <span>[<a href="#RFC8446" class="cite xref">R
 <p id="section-6.2-3">In case the joining node is not going to join the group exclusively as monitor, it is a current member of the group, and the 'client_cred_verify' parameter is not present, then the following applies:<a href="#section-6.2-3" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-6.2-4.1">
-            <p id="section-6.2-4.1.1">If the 'client_cred' parameter is present, the Group Manager verifies that it is already storing the authentication credential specified therein, as associated with the joining node in the group. If the verification fails, the Group Manager <span class="bcp14">MUST</span> reply with a 4.00 (Bad Request) error response.<a href="#section-6.2-4.1.1" class="pilcrow">¶</a></p>
+            <p id="section-6.2-4.1.1">If the 'client_cred' parameter is present, the Group Manager verifies that it is already storing the authentication credential specified therein, as associated with the joining node in the group. If the verification fails, the Group Manager <span class="bcp14">MUST</span> reply with a 4.00 (Bad Request) error response (OPT8).<a href="#section-6.2-4.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-6.2-4.2">
-            <p id="section-6.2-4.2.1">If case the 'client_cred' parameter is not present, the Group Manager verifies that it is already storing an authentication credential, as associated with the joining node in the group. If the verification fails, the Group Manager <span class="bcp14">MUST</span> reply with a 4.00 (Bad Request) error response.<a href="#section-6.2-4.2.1" class="pilcrow">¶</a></p>
+            <p id="section-6.2-4.2.1">If case the 'client_cred' parameter is not present, the Group Manager verifies that it is already storing an authentication credential, as associated with the joining node in the group. If the verification fails, the Group Manager <span class="bcp14">MUST</span> reply with a 4.00 (Bad Request) error response (OPT8).<a href="#section-6.2-4.2.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <p id="section-6.2-5">In case the joining node is not going to join the group exclusively as monitor and the 'client_cred_verify' parameter specifies the empty CBOR byte string (0x40), the Group Manager checks whether it has already achieved proof-of-possession of the joining node's private key associated with the authentication credential that is specified in the 'client_cred' parameter. If such verification fails, then the Group Manager <span class="bcp14">MUST</span> reply with a 4.00 (Bad Request) error response. The response <span class="bcp14">MUST</span> have Content-Format set to "application/concise-problem-details+cbor" <span>[<a href="#RFC9290" class="cite xref">RFC9290</a>]</span> and is formatted as defined in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-4.1.2" class="relref">Section 4.1.2</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>. Within the Custom Problem Detail entry 'ace-groupcomm-error', the value of the 'error-id' field <span class="bcp14">MUST</span> be set to 3 ("Invalid proof-of-possession evidence"). After receiving that response, the client <span class="bcp14">MUST NOT</span> specify an empty PoP evidence in the 'client_cred_verify' parameter of a follow-up Join Request for joining the same group.<a href="#section-6.2-5" class="pilcrow">¶</a></p>
@@ -2195,7 +2198,7 @@ The same as above holds if TLS 1.3 <span>[<a href="#RFC8446" class="cite xref">R
             </ul>
 </li>
         </ul>
-<p id="section-6.2-15">Unless it is already intended to use Content-Format "application/concise-problem-details+cbor", a 4.00 (Bad Request) error response from the Group Manager to the joining node <span class="bcp14">MUST</span> have Content-Format "application/ace-groupcomm+cbor". In such a case, the response payload is a CBOR map formatted as follows:<a href="#section-6.2-15" class="pilcrow">¶</a></p>
+<p id="section-6.2-15">Unless it is already intended to use Content-Format "application/concise-problem-details+cbor", a 4.00 (Bad Request) error response from the Group Manager to the joining node <span class="bcp14">MUST</span> have Content-Format "application/ace-groupcomm+cbor". In such a case, the response payload is a CBOR map formatted as follows (OPT4):<a href="#section-6.2-15" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-6.2-16.1">
             <p id="section-6.2-16.1.1">If the group uses (also) the group mode of Group OSCORE, then the CBOR map <span class="bcp14">MUST</span> contain the 'sign_info' parameter, whose CBOR label is defined in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-8" class="relref">Section 8</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>. This parameter has the same format of 'sign_info_res' defined in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-3.3.1" class="relref">Section 3.3.1</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span> and includes a single element 'sign_info_entry', which pertains to the OSCORE group that the joining node has tried to join with the Join Request.<a href="#section-6.2-16.1.1" class="pilcrow">¶</a></p>
@@ -2266,12 +2269,12 @@ If the joining node is recognized as a current group member, e.g., through the o
 <p id="section-6.3-4">Then, the Group Manager replies to the joining node, providing the updated security parameters and keying material necessary to participate in the group communication. This success Join Response is formatted as defined in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-4.3.1" class="relref">Section 4.3.1</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>, with the following additions:<a href="#section-6.3-4" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-6.3-5.1">
-            <p id="section-6.3-5.1.1">The 'gkty' parameter identifies a key of type "Group_OSCORE_Input_Material object", which is defined in <a href="#ssec-iana-groupcomm-keys-registry" class="auto internal xref">Section 16.4</a> of this document.<a href="#section-6.3-5.1.1" class="pilcrow">¶</a></p>
+            <p id="section-6.3-5.1.1">The 'gkty' parameter identifies a key of type "Group_OSCORE_Input_Material object", which is registered in <a href="#ssec-iana-groupcomm-keys-registry" class="auto internal xref">Section 16.4</a> of this document (REQ18).<a href="#section-6.3-5.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-6.3-5.2">
             <p id="section-6.3-5.2.1">The 'key' parameter includes what the joining node needs in order to set up the Group OSCORE Security Context as per <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-26#section-2" class="relref">Section 2</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>.<a href="#section-6.3-5.2.1" class="pilcrow">¶</a></p>
 <p id="section-6.3-5.2.2">
-This parameter has as value a Group_OSCORE_Input_Material object, which is defined in this document and extends the OSCORE_Input_Material object encoded in CBOR as defined in <span><a href="https://rfc-editor.org/rfc/rfc9203#section-3.2.1" class="relref">Section 3.2.1</a> of [<a href="#RFC9203" class="cite xref">RFC9203</a>]</span>. In particular, it contains the additional parameters 'group_senderId', 'cred_fmt', 'gp_enc_alg', 'sign_alg', 'sign_params', 'ecdh_alg', and 'ecdh_params', which are defined in <a href="#ssec-iana-security-context-parameter-registry" class="auto internal xref">Section 16.6</a> of this document.<a href="#section-6.3-5.2.2" class="pilcrow">¶</a></p>
+This parameter has as value a Group_OSCORE_Input_Material object (REQ17), which is defined in this document and extends the OSCORE_Input_Material object encoded in CBOR as defined in <span><a href="https://rfc-editor.org/rfc/rfc9203#section-3.2.1" class="relref">Section 3.2.1</a> of [<a href="#RFC9203" class="cite xref">RFC9203</a>]</span>. In particular, it contains the additional parameters 'group_senderId', 'cred_fmt', 'gp_enc_alg', 'sign_alg', 'sign_params', 'ecdh_alg', and 'ecdh_params', which are defined in <a href="#ssec-iana-security-context-parameter-registry" class="auto internal xref">Section 16.6</a> of this document.<a href="#section-6.3-5.2.2" class="pilcrow">¶</a></p>
 <p id="section-6.3-5.2.3">
 More specifically, the 'key' parameter is composed as follows.<a href="#section-6.3-5.2.3" class="pilcrow">¶</a></p>
 <ul class="normal">
@@ -2348,7 +2351,7 @@ The format of 'key' defined above is consistent with every signature algorithm a
             <p id="section-6.3-7.1.1">The 'exi' parameter <span class="bcp14">MUST</span> be present.<a href="#section-6.3-7.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-6.3-7.2">
-            <p id="section-6.3-7.2.1">The 'ace_groupcomm_profile' parameter <span class="bcp14">MUST</span> be present and has value coap_group_oscore_app (PROFILE_TBD), which is registered in <a href="#ssec-iana-groupcomm-profile-registry" class="auto internal xref">Section 16.5</a> of this document.<a href="#section-6.3-7.2.1" class="pilcrow">¶</a></p>
+            <p id="section-6.3-7.2.1">The 'ace_groupcomm_profile' parameter <span class="bcp14">MUST</span> be present and has value coap_group_oscore_app (PROFILE_TBD), which is registered in <a href="#ssec-iana-groupcomm-profile-registry" class="auto internal xref">Section 16.5</a> of this document (REQ19).<a href="#section-6.3-7.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-6.3-7.3">
             <p id="section-6.3-7.3.1">The 'creds' parameter, if present, specifies the authentication credentials requested by the joining node by means of the 'get_creds' parameter that was specified in the Join Request.<a href="#section-6.3-7.3.1" class="pilcrow">¶</a></p>
@@ -2359,7 +2362,7 @@ If the joining node has asked for the authentication credentials of all the grou
             <p id="section-6.3-7.4.1">The 'peer_identifiers' parameter, if present, specifies the OSCORE Sender ID of each group member whose authentication credential is specified in the 'creds' parameter. That is, a group member's Sender ID is used as identifier for that group member (REQ25).<a href="#section-6.3-7.4.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-6.3-7.5">
-            <p id="section-6.3-7.5.1">The 'group_policies' parameter <span class="bcp14">SHOULD</span> be present, and <span class="bcp14">SHOULD</span> include the following elements:<a href="#section-6.3-7.5.1" class="pilcrow">¶</a></p>
+            <p id="section-6.3-7.5.1">The 'group_policies' parameter <span class="bcp14">SHOULD</span> be present, and <span class="bcp14">SHOULD</span> include the following elements (REQ20):<a href="#section-6.3-7.5.1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-6.3-7.5.2.1">
                 <p id="section-6.3-7.5.2.1.1">"Key Update Check Interval" (see <span><a href="https://rfc-editor.org/rfc/rfc9594#section-4.3.1" class="relref">Section 4.3.1</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>), with default value 3600;<a href="#section-6.3-7.5.2.1.1" class="pilcrow">¶</a></p>
@@ -2482,38 +2485,39 @@ The input parameters of HKDF are as follows.<a href="#section-6.3-7.8.2.2.3" cla
       </h2>
 <p id="section-7-1">In a number of cases, the Group Manager has to generate new keying material and distribute it to the group (rekeying), as also discussed in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-26#section-12.2" class="relref">Section 12.2</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>.<a href="#section-7-1" class="pilcrow">¶</a></p>
 <p id="section-7-2">To this end the Group Manager <span class="bcp14">MUST</span> support the Group Rekeying Process described in <a href="#sec-group-rekeying-process" class="auto internal xref">Section 11</a> of this document, as an instance of the "Point-to-Point" rekeying scheme defined in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-6.1" class="relref">Section 6.1</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span> and registered in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-11.13" class="relref">Section 11.13</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>. Future documents may define the use of alternative group rekeying schemes for this application profile, together with the corresponding rekeying message formats. The resulting group rekeying process <span class="bcp14">MUST</span> comply with the functional steps defined in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-26#section-12.2" class="relref">Section 12.2</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>.<a href="#section-7-2" class="pilcrow">¶</a></p>
-<p id="section-7-3">Upon generating the new group keying material and before starting its distribution, the Group Manager <span class="bcp14">MUST</span> increment the version number of the group keying material. When rekeying a group, the Group Manager <span class="bcp14">MUST</span> preserve the current value of the OSCORE Sender ID of each member in that group.<a href="#section-7-3" class="pilcrow">¶</a></p>
-<p id="section-7-4">The data distributed to a group through a rekeying <span class="bcp14">MUST</span> include:<a href="#section-7-4" class="pilcrow">¶</a></p>
+<p id="section-7-3">The initial value of the version number of the group keying material <span class="bcp14">MUST</span> be set to 0 when creating the group (REQ16), e.g., as in <span>[<a href="#I-D.ietf-ace-oscore-gm-admin" class="cite xref">I-D.ietf-ace-oscore-gm-admin</a>]</span>.<a href="#section-7-3" class="pilcrow">¶</a></p>
+<p id="section-7-4">Upon generating the new group keying material and before starting its distribution, the Group Manager <span class="bcp14">MUST</span> increment the version number of the group keying material. When rekeying a group, the Group Manager <span class="bcp14">MUST</span> preserve the current value of the OSCORE Sender ID of each member in that group.<a href="#section-7-4" class="pilcrow">¶</a></p>
+<p id="section-7-5">The data distributed to a group through a rekeying <span class="bcp14">MUST</span> include:<a href="#section-7-5" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-7-5.1">
-          <p id="section-7-5.1.1">The new version number of the group keying material for the group.<a href="#section-7-5.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-7-6.1">
+          <p id="section-7-6.1.1">The new version number of the group keying material for the group.<a href="#section-7-6.1.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="section-7-5.2">
-          <p id="section-7-5.2.1">A new Group Identifier (Gid) for the group as introduced in <span>[<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>, which is used as ID Context parameter of the Group OSCORE Common Security Context of that group (see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-26#section-2" class="relref">Section 2</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>).<a href="#section-7-5.2.1" class="pilcrow">¶</a></p>
-<p id="section-7-5.2.2">
-Note that the Gid differs from the group name also introduced in <span>[<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>, which is a plain, stable, and invariant identifier, with no cryptographic relevance and meaning.<a href="#section-7-5.2.2" class="pilcrow">¶</a></p>
+        <li class="normal" id="section-7-6.2">
+          <p id="section-7-6.2.1">A new Group Identifier (Gid) for the group as introduced in <span>[<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>, which is used as ID Context parameter of the Group OSCORE Common Security Context of that group (see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-26#section-2" class="relref">Section 2</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>).<a href="#section-7-6.2.1" class="pilcrow">¶</a></p>
+<p id="section-7-6.2.2">
+Note that the Gid differs from the group name also introduced in <span>[<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>, which is a plain, stable, and invariant identifier, with no cryptographic relevance and meaning.<a href="#section-7-6.2.2" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="section-7-5.3">
-          <p id="section-7-5.3.1">A new value for the Master Secret parameter of the Group OSCORE Common Security Context of that group (see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-26#section-2" class="relref">Section 2</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>).<a href="#section-7-5.3.1" class="pilcrow">¶</a></p>
+        <li class="normal" id="section-7-6.3">
+          <p id="section-7-6.3.1">A new value for the Master Secret parameter of the Group OSCORE Common Security Context of that group (see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-26#section-2" class="relref">Section 2</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>).<a href="#section-7-6.3.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="section-7-5.4">
-          <p id="section-7-5.4.1">A set of stale Sender IDs, which allows each rekeyed node to purge authentication credentials and Recipient Contexts used in the group and associated with those Sender IDs. This in turn allows every group member to rely on stored authentication credentials, in order to confidently assert the group membership of other sender nodes, when receiving protected messages in the group (see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-26#section-12.2" class="relref">Section 12.2</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>). More details on the maintenance of stale Sender IDs are provided in <a href="#sssec-stale-sender-ids" class="auto internal xref">Section 7.1</a>.<a href="#section-7-5.4.1" class="pilcrow">¶</a></p>
+        <li class="normal" id="section-7-6.4">
+          <p id="section-7-6.4.1">A set of stale Sender IDs, which allows each rekeyed node to purge authentication credentials and Recipient Contexts used in the group and associated with those Sender IDs. This in turn allows every group member to rely on stored authentication credentials, in order to confidently assert the group membership of other sender nodes, when receiving protected messages in the group (see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-26#section-12.2" class="relref">Section 12.2</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>). More details on the maintenance of stale Sender IDs are provided in <a href="#sssec-stale-sender-ids" class="auto internal xref">Section 7.1</a>.<a href="#section-7-6.4.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
-<p id="section-7-6">The data distributed through a group rekeying <span class="bcp14">MAY</span> also include a new value for the Master Salt parameter of the Group OSCORE Common Security Context of that group.<a href="#section-7-6" class="pilcrow">¶</a></p>
-<p id="section-7-7">The Group Manager <span class="bcp14">MUST</span> rekey the group in the following cases.<a href="#section-7-7" class="pilcrow">¶</a></p>
+<p id="section-7-7">The data distributed through a group rekeying <span class="bcp14">MAY</span> also include a new value for the Master Salt parameter of the Group OSCORE Common Security Context of that group.<a href="#section-7-7" class="pilcrow">¶</a></p>
+<p id="section-7-8">The Group Manager <span class="bcp14">MUST</span> rekey the group in the following cases.<a href="#section-7-8" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-7-8.1">
-          <p id="section-7-8.1.1">The application requires backward security - In this case, the group is rekeyed when a node joins the group as a new member. Therefore, a joining node cannot access communications in the group prior to its joining.<a href="#section-7-8.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-7-9.1">
+          <p id="section-7-9.1.1">The application requires backward security - In this case, the group is rekeyed when a node joins the group as a new member. Therefore, a joining node cannot access communications in the group prior to its joining.<a href="#section-7-9.1.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="section-7-8.2">
-          <p id="section-7-8.2.1">One or more nodes leave the group - That is, the group is rekeyed when one or more current members spontaneously request to leave the group (see <a href="#sec-leave-req" class="auto internal xref">Section 9.11</a>), or when the Group Manager forcibly evicts them from the group, e.g., due to expired or revoked authorization (see <a href="#sec-leaving" class="auto internal xref">Section 10</a>). Therefore, a leaving node cannot access communications in the group after its leaving, thus ensuring forward security in the group.<a href="#section-7-8.2.1" class="pilcrow">¶</a></p>
-<p id="section-7-8.2.2">
-Due to the set of stale Sender IDs distributed through the rekeying, this ensures that a node storing the latest group keying material does not store the authentication credentials of former group members (see Sections <a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-26#section-12.2" class="relref">12.2</a> and <a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-26#section-13.1" class="relref">13.1</a> of <span>[<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>).<a href="#section-7-8.2.2" class="pilcrow">¶</a></p>
+        <li class="normal" id="section-7-9.2">
+          <p id="section-7-9.2.1">One or more nodes leave the group - That is, the group is rekeyed when one or more current members spontaneously request to leave the group (see <a href="#sec-leave-req" class="auto internal xref">Section 9.11</a>), or when the Group Manager forcibly evicts them from the group, e.g., due to expired or revoked authorization (see <a href="#sec-leaving" class="auto internal xref">Section 10</a>). Therefore, a leaving node cannot access communications in the group after its leaving, thus ensuring forward security in the group.<a href="#section-7-9.2.1" class="pilcrow">¶</a></p>
+<p id="section-7-9.2.2">
+Due to the set of stale Sender IDs distributed through the rekeying, this ensures that a node storing the latest group keying material does not store the authentication credentials of former group members (see Sections <a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-26#section-12.2" class="relref">12.2</a> and <a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-26#section-13.1" class="relref">13.1</a> of <span>[<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>).<a href="#section-7-9.2.2" class="pilcrow">¶</a></p>
 </li>
       </ul>
-<p id="section-7-9">When the expiration time for the group keying material approaches or has passed, the Group Manager may want to extend the secure group operation, as considered appropriate. If the Group Manager does so, the Group Manager <span class="bcp14">MUST</span> rekey the group.<a href="#section-7-9" class="pilcrow">¶</a></p>
-<p id="section-7-10">The Group Manager <span class="bcp14">MAY</span> rekey the group for other reasons, e.g., according to an application-specific rekeying period or scheduling.<a href="#section-7-10" class="pilcrow">¶</a></p>
+<p id="section-7-10">When the expiration time for the group keying material approaches or has passed, the Group Manager may want to extend the secure group operation, as considered appropriate. If the Group Manager does so, the Group Manager <span class="bcp14">MUST</span> rekey the group.<a href="#section-7-10" class="pilcrow">¶</a></p>
+<p id="section-7-11">The Group Manager <span class="bcp14">MAY</span> rekey the group for other reasons, e.g., according to an application-specific rekeying period or scheduling.<a href="#section-7-11" class="pilcrow">¶</a></p>
 <div id="sssec-stale-sender-ids">
 <section id="section-7.1">
         <h3 id="name-stale-oscore-sender-ids">
@@ -2552,7 +2556,7 @@ Due to the set of stale Sender IDs distributed through the rekeying, this ensure
       <h2 id="name-interface-at-the-group-mana">
 <a href="#section-8" class="section-number selfRef">8. </a><a href="#name-interface-at-the-group-mana" class="section-name selfRef">Interface at the Group Manager</a>
       </h2>
-<p id="section-8-1">The Group Manager provides the interface defined in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-4.1" class="relref">Section 4.1</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>, with the following additions:<a href="#section-8-1" class="pilcrow">¶</a></p>
+<p id="section-8-1">The Group Manager provides the interface defined in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-4.1" class="relref">Section 4.1</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span> in its entirety (REQ9), with the following additions:<a href="#section-8-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-8-2.1">
           <p id="section-8-2.1.1">The new FETCH handler is defined for the sub-resource /ace-group/GROUPNAME/kdc-cred (see <a href="#sec-gm-pub-key-fetch" class="auto internal xref">Section 8.1</a> of this document).<a href="#section-8-2.1.1" class="pilcrow">¶</a></p>
@@ -2857,6 +2861,7 @@ Due to the set of stale Sender IDs distributed through the rekeying, this ensure
 </li>
           </ul>
 <p id="section-9.1.1-5">Upon receiving the Key Distribution Response, the group member retrieves the updated security parameters and group keying material, and, if they differ from the current ones, uses them to set up the new Group OSCORE Security Context as described in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-26#section-2" class="relref">Section 2</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>.<a href="#section-9.1.1-5" class="pilcrow">¶</a></p>
+<p id="section-9.1.1-6">This application profile does not specify policies that instruct group members to retain messages and for how long, if those messages are unsuccessfully decrypted (OPT11).<a href="#section-9.1.1-6" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="ssec-updated-and-individual-key">
@@ -2881,6 +2886,7 @@ Note that, in any other case, the current Sender ID of the group member is not s
 </li>
           </ul>
 <p id="section-9.1.2-5">Upon receiving the Key Distribution Response, the group member retrieves the updated security parameters, group keying material, and Sender ID, and, if they differ from the current ones, uses them to set up the new Group OSCORE Security Context as described in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-26#section-2" class="relref">Section 2</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>.<a href="#section-9.1.2-5" class="pilcrow">¶</a></p>
+<p id="section-9.1.2-6">This application profile does not specify policies that instruct group members to retain messages and for how long, if those messages are unsuccessfully decrypted (OPT11).<a href="#section-9.1.2-6" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -2908,9 +2914,9 @@ Note that, in any other case, the current Sender ID of the group member is not s
 The Group Manager <span class="bcp14">SHOULD</span> perform a group rekeying only if already scheduled to  occur shortly, e.g., according to an application-specific rekeying period or scheduling, or as a reaction to a recent change in the group membership. In any other case, the Group Manager <span class="bcp14">SHOULD NOT</span> rekey the OSCORE group when receiving a Key Renewal Request (OPT12).<a href="#section-9.2-6.2.2.1.2" class="pilcrow">¶</a></p>
 </li>
               <li class="normal" id="section-9.2-6.2.2.2">
-                <p id="section-9.2-6.2.2.2.1">The Group Manager selects and assigns a new OSCORE Sender ID for that group member, according to the same criteria defined in <a href="#ssec-join-resp" class="auto internal xref">Section 6.3</a> for selecting and assigning an OSCORE Sender ID to include in a Join Response.<a href="#section-9.2-6.2.2.2.1" class="pilcrow">¶</a></p>
+                <p id="section-9.2-6.2.2.2.1">The Group Manager selects and assigns a new OSCORE Sender ID for that group member (REQ27), according to the same criteria defined in <a href="#ssec-join-resp" class="auto internal xref">Section 6.3</a> for selecting and assigning an OSCORE Sender ID to include in a Join Response.<a href="#section-9.2-6.2.2.2.1" class="pilcrow">¶</a></p>
 <p id="section-9.2-6.2.2.2.2">
-Then, the Group Manager replies with a Key Renewal Response formatted as defined in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-4.8.2" class="relref">Section 4.8.2</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>. The CBOR map in the response payload only includes the 'group_SenderId' parameter defined in <a href="#ssec-iana-ace-groupcomm-parameters-registry" class="auto internal xref">Section 16.3</a> of this document, specifying the new Sender ID of the group member encoded as a CBOR byte string.<a href="#section-9.2-6.2.2.2.2" class="pilcrow">¶</a></p>
+Then, the Group Manager replies with a Key Renewal Response formatted as defined in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-4.8.2" class="relref">Section 4.8.2</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>. The CBOR map in the response payload only includes the 'group_SenderId' parameter registered in <a href="#ssec-iana-ace-groupcomm-parameters-registry" class="auto internal xref">Section 16.3</a> of this document, specifying the new Sender ID of the group member encoded as a CBOR byte string (REQ27).<a href="#section-9.2-6.2.2.2.2" class="pilcrow">¶</a></p>
 <p id="section-9.2-6.2.2.2.3">
 Consistently with <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-26#section-2.6.3.1" class="relref">Section 2.6.3.1</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>, the Group Manager <span class="bcp14">MUST</span> assign a new Sender ID that has not been used in the OSCORE group since the latest time when the current Gid value was assigned to the group.<a href="#section-9.2-6.2.2.2.3" class="pilcrow">¶</a></p>
 <p id="section-9.2-6.2.2.2.4">
@@ -2976,6 +2982,7 @@ The Group Manager <span class="bcp14">MUST</span> return a 5.03 (Service Unavail
             <p id="section-9.4-6.6.1">If the request is successfully processed, the Group Manager stores the association between: i) the new authentication credential of the group member; and ii) the Group Identifier (Gid), i.e., the OSCORE ID Context associated with the OSCORE group, together with the OSCORE Sender ID assigned to the group member in the group. The Group Manager <span class="bcp14">MUST</span> keep this association updated over time.<a href="#section-9.4-6.6.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
+<p id="section-9.4-7">This application profile does not specify a method for the group member to provide other group members with the identifier of its new authentication credential (OPT13).<a href="#section-9.4-7" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="sec-gm-pub-key">
@@ -3489,11 +3496,11 @@ Until a further following group rekeying, the Group Manager <span class="bcp14">
       </ul>
 <p id="section-11-6">Throughout the rekeying execution, the Group Manager <span class="bcp14">MUST</span> preserve the same unchanged OSCORE Sender IDs for all group members that are intended to remain in the group. This avoids affecting the retrieval of authentication credentials from the Group Manager and the verification of group messages.<a href="#section-11-6" class="pilcrow">¶</a></p>
 <p id="section-11-7">The Group Manager <span class="bcp14">MUST</span> support the "Point-to-Point" group rekeying scheme registered in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-11.12" class="relref">Section 11.12</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>, as per the detailed use defined in <a href="#sending-rekeying-msg" class="auto internal xref">Section 11.1</a> of this document. Future specifications may define how this application profile can use alternative group rekeying schemes, which <span class="bcp14">MUST</span> comply with the functional steps defined in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-26#section-12.2" class="relref">Section 12.2</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>. The Group Manager <span class="bcp14">MUST</span> indicate the use of such an alternative group rekeying scheme to joining nodes, by means of the 'group_rekeying' parameter included in Join Response messages (see <a href="#ssec-join-resp" class="auto internal xref">Section 6.3</a>).<a href="#section-11-7" class="pilcrow">¶</a></p>
-<p id="section-11-8">It is <span class="bcp14">RECOMMENDED</span> that the Group Manager gets confirmation of successful distribution from the group members, and admits a maximum number of individual retransmissions to non-confirming group members. Once completed the group rekeying process, the Group Manager creates a new empty set of stale Sender IDs associated with the version of the newly distributed group keying material (see <a href="#sssec-stale-sender-ids" class="auto internal xref">Section 7.1</a>).<a href="#section-11-8" class="pilcrow">¶</a></p>
-<p id="section-11-9">In case the rekeying terminates and some group members have not received the new keying material, they will not be able to correctly process following secured messages exchanged in the group. These group members will eventually contact the Group Manager, in order to retrieve the current keying material and its version.<a href="#section-11-9" class="pilcrow">¶</a></p>
-<p id="section-11-10">Some of these group members may be in multiple groups, each associated with a different Group Manager. When failing to correctly process messages secured with the new keying material, these group members may not have sufficient information to determine which exact Group Manager they should contact, in order to retrieve the current keying material they are missing.<a href="#section-11-10" class="pilcrow">¶</a></p>
+<p id="section-11-8">It is <span class="bcp14">RECOMMENDED</span> that the Group Manager gets confirmation of successful distribution from the group members, and admits a maximum number of individual retransmissions to non-confirming group members. Once the group rekeying process has completed, the Group Manager creates a new empty set of stale Sender IDs associated with the version of the newly distributed group keying material (see <a href="#sssec-stale-sender-ids" class="auto internal xref">Section 7.1</a>).<a href="#section-11-8" class="pilcrow">¶</a></p>
+<p id="section-11-9">In case the rekeying terminates and some group members have not received the new keying material, such group members will not be able to correctly process following secured messages exchanged in the group. These group members will eventually contact the Group Manager, in order to retrieve the current keying material and its version.<a href="#section-11-9" class="pilcrow">¶</a></p>
+<p id="section-11-10">Some of these group members may be in multiple groups, each associated with a different Group Manager. When failing to correctly process messages secured with the new keying material, these group members may not have sufficient information to determine which exact Group Manager to contact, in order to retrieve the current keying material that they are missing.<a href="#section-11-10" class="pilcrow">¶</a></p>
 <p id="section-11-11">If the Gid is formatted as described in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-26#appendix-C" class="relref">Appendix C</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>, then the Group Prefix can be used as a hint to determine the right Group Manager, as long as no collisions among Group Prefixes are experienced. Otherwise, a group member needs to contact the Group Manager of each group, e.g., by first requesting only the version of the current group keying material (see <a href="#sec-version" class="auto internal xref">Section 9.8</a>) and then possibly requesting the current keying material (see <a href="#ssec-updated-key-only" class="auto internal xref">Section 9.1.1</a>).<a href="#section-11-11" class="pilcrow">¶</a></p>
-<p id="section-11-12">Furthermore, some of these group members can be in multiple groups, all of which are associated with the same Group Manager. In this case, these group members may also not have sufficient information to determine which exact group they should refer to, when contacting the right Group Manager. Hence, they need to contact a Group Manager multiple times, i.e., separately for each group they belong to and associated with that Group Manager.<a href="#section-11-12" class="pilcrow">¶</a></p>
+<p id="section-11-12">Furthermore, some of these group members can be in multiple groups, all of which are associated with the same Group Manager. In this case, these group members may also not have sufficient information to determine which exact group to refer to, when contacting the right Group Manager. Hence, these group members need to contact a Group Manager multiple times, i.e., separately for each group they belong to and associated with that Group Manager.<a href="#section-11-12" class="pilcrow">¶</a></p>
 <p id="section-11-13"><a href="#receiving-rekeying-msg" class="auto internal xref">Section 11.2</a> defines the actions performed by a group member upon receiving the new group keying material. <a href="#missed-rekeying" class="auto internal xref">Section 11.3</a> discusses how a group member can realize that it has missed one or more rekeying instances, and the actions it is accordingly required to take.<a href="#section-11-13" class="pilcrow">¶</a></p>
 <div id="sending-rekeying-msg">
 <section id="section-11.1">
@@ -3818,7 +3825,7 @@ Then, the group member <span class="bcp14">MUST</span> remove every authenticati
           <p id="section-12-8.2.1">'kdcchallenge'. A Client that has an own authentication credential to use in a group and that provides the access token to the Group Manager through a Token Transfer Request (see <a href="#ssec-token-post" class="auto internal xref">Section 5.3</a>) <span class="bcp14">MUST</span> support this parameter.<a href="#section-12-8.2.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="section-12-8.3">
-          <p id="section-12-8.3.1">'creds_repo'. This parameter is not relevant for this application profile, since the Group Manager always acts as repository of the group members' authentication credentials.<a href="#section-12-8.3.1" class="pilcrow">¶</a></p>
+          <p id="section-12-8.3.1">'creds_repo'. This parameter is not relevant for this application profile, since the Group Manager always acts as repository of the group members' authentication credentials. Consequently, no encoding is defined for this parameter (OPT6).<a href="#section-12-8.3.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="section-12-8.4">
           <p id="section-12-8.4.1">'group_policies'. A Client that is interested in the specific policies used in a group, but that does not know them or cannot become aware of them before joining that group, <span class="bcp14">SHOULD</span> support this parameter.<a href="#section-12-8.4.1" class="pilcrow">¶</a></p>
@@ -3844,7 +3851,7 @@ multicast) <span class="bcp14">MUST</span> support this parameter.<a href="#sect
       <h2 id="name-ace-groupcomm-error-identif">
 <a href="#section-13" class="section-number selfRef">13. </a><a href="#name-ace-groupcomm-error-identif" class="section-name selfRef">ACE Groupcomm Error Identifiers</a>
       </h2>
-<p id="section-13-1">In addition to what is defined in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-9" class="relref">Section 9</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>, this document defines new values that the Group Manager can use as error identifiers. These are used in error responses with Content-Format "application/concise-problem-details+cbor" <span>[<a href="#RFC9290" class="cite xref">RFC9290</a>]</span>, as values of the 'error-id' field within the Custom Problem Detail entry 'ace- groupcomm-error' (see <span><a href="https://rfc-editor.org/rfc/rfc9594#section-4.1.2" class="relref">Section 4.1.2</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>).<a href="#section-13-1" class="pilcrow">¶</a></p>
+<p id="section-13-1">In addition to what is defined in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-9" class="relref">Section 9</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>, this document defines new values that the Group Manager can use as error identifiers (OPT5). These are used in error responses with Content-Format "application/concise-problem-details+cbor" <span>[<a href="#RFC9290" class="cite xref">RFC9290</a>]</span>, as values of the 'error-id' field within the Custom Problem Detail entry 'ace- groupcomm-error' (see <span><a href="https://rfc-editor.org/rfc/rfc9594#section-4.1.2" class="relref">Section 4.1.2</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>).<a href="#section-13-1" class="pilcrow">¶</a></p>
 <span id="name-ace-groupcomm-error-identifi"></span><div id="tab-ACE-Groupcomm-Error-Identifiers">
 <table class="center" id="table-4">
         <caption>
@@ -4810,7 +4817,7 @@ Entries that do not meet these objectives of clarity and completeness should not
 <dd class="break"></dd>
 <dt id="I-D.ietf-cose-cbor-encoded-cert">[I-D.ietf-cose-cbor-encoded-cert]</dt>
         <dd>
-<span class="refAuthor">Mattsson, J. P.</span>, <span class="refAuthor">Selander, G.</span>, <span class="refAuthor">Raza, S.</span>, <span class="refAuthor">Höglund, J.</span>, and <span class="refAuthor">M. Furuhed</span>, <span class="refTitle">"CBOR Encoded X.509 Certificates (C509 Certificates)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-cose-cbor-encoded-cert-14</span>, <time datetime="2025-06-23" class="refDate">23 June 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-cose-cbor-encoded-cert-14">https://datatracker.ietf.org/doc/html/draft-ietf-cose-cbor-encoded-cert-14</a>&gt;</span>. </dd>
+<span class="refAuthor">Mattsson, J. P.</span>, <span class="refAuthor">Selander, G.</span>, <span class="refAuthor">Raza, S.</span>, <span class="refAuthor">Höglund, J.</span>, and <span class="refAuthor">M. Furuhed</span>, <span class="refTitle">"CBOR Encoded X.509 Certificates (C509 Certificates)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-cose-cbor-encoded-cert-15</span>, <time datetime="2025-08-18" class="refDate">18 August 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-cose-cbor-encoded-cert-15">https://datatracker.ietf.org/doc/html/draft-ietf-cose-cbor-encoded-cert-15</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.tiloca-core-oscore-discovery">[I-D.tiloca-core-oscore-discovery]</dt>
         <dd>
@@ -4977,10 +4984,10 @@ Entries that do not meet these objectives of clarity and completeness should not
             <p id="appendix-A.2-1.4.1">OPT4: Optionally, specify possible or required payload formats for specific error cases: send a 4.00 (Bad Request) error response to a Join Request (see <a href="#ssec-join-req-processing" class="auto internal xref">Section 6.2</a>).<a href="#appendix-A.2-1.4.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-A.2-1.5">
-            <p id="appendix-A.2-1.5.1">OPT5: Optionally, specify additional identifiers of error types as values of the 'error-id' field within the Custom Problem Detail entry 'ace-groupcomm-error': see <a href="#iana-ace-groupcomm-errors" class="auto internal xref">Section 16.11</a>.<a href="#appendix-A.2-1.5.1" class="pilcrow">¶</a></p>
+            <p id="appendix-A.2-1.5.1">OPT5: Optionally, specify additional identifiers of error types as values of the 'error-id' field within the Custom Problem Detail entry 'ace-groupcomm-error': see <a href="#error-types" class="auto internal xref">Section 13</a> and <a href="#iana-ace-groupcomm-errors" class="auto internal xref">Section 16.11</a>.<a href="#appendix-A.2-1.5.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-A.2-1.6">
-            <p id="appendix-A.2-1.6.1">OPT6: Optionally, specify the encoding of the 'creds_repo' parameter if the default one is not used: no.<a href="#appendix-A.2-1.6.1" class="pilcrow">¶</a></p>
+            <p id="appendix-A.2-1.6.1">OPT6: Optionally, specify the encoding of the 'creds_repo' parameter if the default one is not used: no encoding is defined.<a href="#appendix-A.2-1.6.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-A.2-1.7">
             <p id="appendix-A.2-1.7.1">OPT7: Optionally, specify the functionalities implemented at the resource hosted by the Client at the URI indicated in the 'control_uri' parameter, including the encoding of exchanged messages and other details: see <a href="#sec-leaving" class="auto internal xref">Section 10</a> for the eviction of a group member; see <a href="#sec-group-rekeying-process" class="auto internal xref">Section 11</a> for the group rekeying process.<a href="#appendix-A.2-1.7.1" class="pilcrow">¶</a></p>
@@ -4995,13 +5002,13 @@ Entries that do not meet these objectives of clarity and completeness should not
             <p id="appendix-A.2-1.10.1">OPT10: Optionally, specify the functionalities implemented at the resource hosted by the Client at the URI indicated in the 'control_group_uri' parameter, including the encoding of exchanged messages and other details: see <a href="#sec-leaving" class="auto internal xref">Section 10</a> for the eviction of multiple group members.<a href="#appendix-A.2-1.10.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-A.2-1.11">
-            <p id="appendix-A.2-1.11.1">OPT11: Optionally, specify policies that instruct Clients to retain messages and for how long, if those are unsuccessfully decrypted: no.<a href="#appendix-A.2-1.11.1" class="pilcrow">¶</a></p>
+            <p id="appendix-A.2-1.11.1">OPT11: Optionally, specify policies that instruct Clients to retain messages and for how long, if those are unsuccessfully decrypted: no such policies are specified.<a href="#appendix-A.2-1.11.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-A.2-1.12">
             <p id="appendix-A.2-1.12.1">OPT12: Optionally, specify for the KDC to perform a group rekeying when receiving a Key Renewal Request, together with or instead of renewing individual keying material: the Group Manager <span class="bcp14">SHOULD NOT</span> perform a group rekeying, unless already scheduled to occur shortly (see <a href="#sec-new-key" class="auto internal xref">Section 9.2</a>).<a href="#appendix-A.2-1.12.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-A.2-1.13">
-            <p id="appendix-A.2-1.13.1">OPT13: Optionally, specify how the identifier of a group member's authentication credential is included in requests sent to other group members: no.<a href="#appendix-A.2-1.13.1" class="pilcrow">¶</a></p>
+            <p id="appendix-A.2-1.13.1">OPT13: Optionally, specify how the identifier of a group member's authentication credential is included in requests sent to other group members: no such method is defined.<a href="#appendix-A.2-1.13.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-A.2-1.14">
             <p id="appendix-A.2-1.14.1">OPT14: Optionally, specify additional information to include in rekeying messages for the "Point-to-Point" group rekeying scheme (see <span><a href="https://rfc-editor.org/rfc/rfc9594#section-6" class="relref">Section 6</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>): see <a href="#sending-rekeying-msg" class="auto internal xref">Section 11.1</a>.<a href="#appendix-A.2-1.14.1" class="pilcrow">¶</a></p>
