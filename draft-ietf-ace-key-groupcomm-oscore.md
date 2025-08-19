@@ -338,8 +338,7 @@ The Authorization Request message is as defined in {{Section 3.1 of RFC9594}}, w
 
       - The set of requested roles is expressed as a single CBOR unsigned integer. This is computed as defined in {{sec-format-scope}} of this document, from the numerical abbreviations of each requested role defined in the "Group OSCORE Roles" registry (REQ1).
 
-The textual format specified in Section 3.1 of {{RFC9554}} is not used in this application profile (OPT1).
-
+The textual format specified in {{Section 3.1 of RFC9594}} is not used in this application profile (OPT1).
 
 ## Authorization Response {#ssec-auth-resp}
 
