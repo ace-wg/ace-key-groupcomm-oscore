@@ -205,7 +205,7 @@ With reference to {{RFC9594}}:
 
 A node performs the steps described in {{Sections 3 and 4.3.1.1 of RFC9594}} in order to obtain an authorization for joining an OSCORE group and then to join that group. The format and processing of messages exchanged during such steps are further specified in {{sec-joining-node-to-AS}} and {{sec-joining-node-to-GM}} of this document.
 
-All communications between the involved entities MUST be secured.
+All communications between the involved entities (Client, Group Manager, Authorization Server) MUST be secured.
 
 In particular, communications between the Client and the Group Manager leverage protocol-specific transport profiles of ACE to achieve communication security, proof of possession, and server authentication (REQ24). It is expected that, in the commonly referred base-case of this document, the transport profile to use is pre-configured and well-known to nodes participating in constrained applications.
 
