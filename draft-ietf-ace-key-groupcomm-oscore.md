@@ -1309,9 +1309,9 @@ That is, the group member sends a CoAP GET request to the endpoint /ace-group/GR
 
 The payload of the 2.05 (Content) Group Status Response includes the CBOR Simple Value `true` (0xf5) if the group is currently active, or the CBOR Simple Value `false` (0xf4) otherwise. The group is considered active if it is set to allow new members to join, and if communication within the group is fine to occur.
 
-Upon learning from a 2.05 (Content) Group Status Response that the group is currently inactive, the group member SHOULD stop taking part in communications within the group, until the group becomes active again.
+Upon learning from a 2.05 (Content) Group Status Response that the group is currently inactive, the group member SHOULD stop sending messages to other group members and MUST stop processing messages from other group members, until the group becomes active again. In the meantime, the group member can still interact with the Group Manager, e.g., in order to check whether the group has become active again.
 
-Upon learning from a 2.05 (Content) Group Status Response that the group has become active again, the group member can resume taking part in communications within the group.
+Upon learning from a 2.05 (Content) Group Status Response that the group has become active again, the group member can resume taking part in communications with other group members (i.e., sending messages and processing incoming messages).
 
 {{fig-key-status-req-resp}} gives an overview of the exchange described above, while {{fig-key-status-req-resp-ex}} shows an example of Group Status Request-Response.
 
