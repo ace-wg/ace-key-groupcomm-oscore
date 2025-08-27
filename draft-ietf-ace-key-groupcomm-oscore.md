@@ -131,7 +131,7 @@ entity:
 
 --- abstract
 
-This document defines an application profile of the Authentication and Authorization for Constrained Environments (ACE) framework, to request and provision keying material in group communication scenarios that are based on the Constrained Application Protocol (CoAP) and are secured with Group Object Security for Constrained RESTful Environments (Group OSCORE). This application profile delegates the authentication and authorization of Clients, which join an OSCORE group through a Resource Server acting as Group Manager for that group. This application profile leverages protocol-specific transport profiles of ACE to achieve communication security, server authentication, and proof-of-possession for a key owned by the Client and bound to an OAuth 2.0 access token.
+This document defines an application profile of the Authentication and Authorization for Constrained Environments (ACE) framework, to request and provision keying material in group communication scenarios that are based on the Constrained Application Protocol (CoAP) and are secured with Group Object Security for Constrained RESTful Environments (Group OSCORE). This application profile delegates the authentication and authorization of Clients, which join an OSCORE group through a Resource Server acting as Group Manager for that group. This application profile leverages protocol-specific transport profiles of ACE to achieve communication security, server authentication, and proof of possession for a key owned by the Client and bound to an OAuth 2.0 access token.
 
 --- middle
 
@@ -207,7 +207,7 @@ A node performs the steps described in {{Sections 3 and 4.3.1.1 of RFC9594}} in 
 
 All communications between the involved entities MUST be secured.
 
-In particular, communications between the Client and the Group Manager leverage protocol-specific transport profiles of ACE to achieve communication security, proof-of-possession, and server authentication (REQ24). It is expected that, in the commonly referred base-case of this document, the transport profile to use is pre-configured and well-known to nodes participating in constrained applications.
+In particular, communications between the Client and the Group Manager leverage protocol-specific transport profiles of ACE to achieve communication security, proof of possession, and server authentication (REQ24). It is expected that, in the commonly referred base-case of this document, the transport profile to use is pre-configured and well-known to nodes participating in constrained applications.
 
 With respect to what is defined in {{RFC9594}}:
 
@@ -534,7 +534,7 @@ The joining node requests to join the OSCORE group by sending a Join Request mes
 
 * If the 'client_cred_verify' parameter is present, then the proof-of-possession (PoP) evidence included therein is computed as defined below (REQ14).
 
-  * Specifically in the case where the joining node is not a current member of the group, the Group Manager might already have achieved proof-of-possession of the joining node's private key associated with the authentication credential AUTH_CRED_C that the joining node intends to use in the group.
+  * Specifically in the case where the joining node is not a current member of the group, the Group Manager might already have achieved proof of possession of the joining node's private key associated with the authentication credential AUTH_CRED_C that the joining node intends to use in the group.
 
     For example, that could have happened upon completing the establishment of the secure communication association that is used to protect the Join Request, if the joining node used AUTH_CRED_C to authenticate itself with the Group Manager.
 
@@ -592,7 +592,7 @@ In case the joining node is not going to join the group exclusively as monitor, 
 
 * If case the 'client_cred' parameter is not present, the Group Manager verifies that it is already storing an authentication credential, as associated with the joining node in the group. If the verification fails, the Group Manager MUST reply with a 4.00 (Bad Request) error response (OPT8).
 
-In case the joining node is not going to join the group exclusively as monitor and the 'client_cred_verify' parameter specifies the empty CBOR byte string (0x40), the Group Manager checks whether it has already achieved proof-of-possession of the joining node's private key associated with the authentication credential that is specified in the 'client_cred' parameter. If such verification fails, then the Group Manager MUST reply with a 4.00 (Bad Request) error response. The response MUST have Content-Format set to "application/concise-problem-details+cbor" {{RFC9290}} and is formatted as defined in {{Section 4.1.2 of RFC9594}}. Within the Custom Problem Detail entry 'ace-groupcomm-error', the value of the 'error-id' field MUST be set to 3 ("Invalid proof-of-possession evidence"). After receiving that response, the client MUST NOT specify an empty PoP evidence in the 'client_cred_verify' parameter of a follow-up Join Request for joining the same group.
+In case the joining node is not going to join the group exclusively as monitor and the 'client_cred_verify' parameter specifies the empty CBOR byte string (0x40), the Group Manager checks whether it has already achieved proof of possession of the joining node's private key associated with the authentication credential that is specified in the 'client_cred' parameter. If such verification fails, then the Group Manager MUST reply with a 4.00 (Bad Request) error response. The response MUST have Content-Format set to "application/concise-problem-details+cbor" {{RFC9290}} and is formatted as defined in {{Section 4.1.2 of RFC9594}}. Within the Custom Problem Detail entry 'ace-groupcomm-error', the value of the 'error-id' field MUST be set to 3 ("Invalid proof-of-possession evidence"). After receiving that response, the client MUST NOT specify an empty PoP evidence in the 'client_cred_verify' parameter of a follow-up Join Request for joining the same group.
 
 Note to RFC Editor: Please make sure that "application/concise-problem-details+cbor" is on one line (no line wrapping) on every occurrence and delete this note.
 
@@ -1720,7 +1720,7 @@ This section defines the default values that the Group Manager assumes for the c
 
 A possible reason for the Group Manager to consider default values different from those recommended in this section is to ensure that each of those are consistent with what the Group Manager supports, e.g., in terms of signature algorithm and format of authentication credentials used in the OSCORE group.
 
-This ensures that the Group Manager is able to perform the operations defined in this document, e.g., to achieve proof-of-possession of a joining node's private key (see {{ssec-join-req-processing}}), as well as to provide a joining node with its own authentication credential and the associated proof-of-possession challenge (see {{ssec-join-resp}}).
+This ensures that the Group Manager is able to perform the operations defined in this document, e.g., to achieve proof of possession of a joining node's private key (see {{ssec-join-req-processing}}), as well as to provide a joining node with its own authentication credential and the associated proof-of-possession challenge (see {{ssec-join-resp}}).
 
 The following builds on the "COSE Header Parameters" registry {{COSE.Header.Parameters}}, the "COSE Algorithms" registry {{COSE.Algorithms}}, the "COSE Key Types" registry {{COSE.Key.Types}}, and the "COSE Elliptic Curves" registry {{COSE.Elliptic.Curves}}.
 
@@ -2482,7 +2482,7 @@ sign_params = 11
 
 * Generalized proof-of-possession (PoP) for the joining node's private key; defined Diffie-Hellman based PoP for OSCORE groups using only the pairwise mode.
 
-* Proof-of-possession of the Group Manager's private key in the Join Response.
+* Proof of possession of the Group Manager's private key in the Join Response.
 
 * Always use 'peer_identifiers' to convey Sender IDs as node identifiers.
 
@@ -2680,7 +2680,7 @@ sign_params = 11
 
 * Added parameters to indicate the encoding of authentication credentials.
 
-* Challenge-response for proof-of-possession of signature keys (Section 4).
+* Challenge-response for proof of possession of signature keys (Section 4).
 
 * Renamed 'key_info' parameter to 'sign_info'; updated its format; extended to include also parameters of the signature key (Section 4.1).
 
@@ -2690,7 +2690,7 @@ sign_params = 11
 
 * Extended discussion on group rekeying and possible different approaches (Section 7).
 
-* Extended security considerations: proof-of-possession of signature keys; collision of OSCORE Group Identifiers (Section 8).
+* Extended security considerations: proof of possession of signature keys; collision of OSCORE Group Identifiers (Section 8).
 
 * Registered three entries in the IANA registry "Sequence Number Synchronization Method" (Section 9).
 
