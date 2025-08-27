@@ -372,7 +372,7 @@ The exchange of Token Transfer Request and Token Transfer Response is defined in
 
 * If the 'sign_info' parameter is present in the Token Transfer Response, the following applies for each element 'sign_info_entry'.
 
-  * 'id' MUST NOT refer to OSCORE groups that are pairwise-only groups.
+  * 'id' is associated exclusively with OSCORE groups that are not pairwise-only groups.
 
   * 'sign_alg' takes value from the "Value" column of the "COSE Algorithms" registry {{COSE.Algorithms}} (REQ3).
 
@@ -388,7 +388,7 @@ The exchange of Token Transfer Request and Token Transfer Response is defined in
 
 * If the 'ecdh_info' parameter is present in the Token Transfer Response, the following applies for each element 'ecdh_info_entry'.
 
-  * 'id' MUST NOT refer to OSCORE groups that are signature-only groups.
+  * 'id' is associated exclusively with OSCORE groups that are not signature-only groups.
 
   * 'ecdh_alg' takes value from the "Value" column of the "COSE Algorithms" registry {{COSE.Algorithms}}.
 
@@ -402,7 +402,7 @@ The exchange of Token Transfer Request and Token Transfer Response is defined in
 
 * If the 'kdc_dh_creds' parameter is present in the Token Transfer Response, the following applies for each element 'kdc_dh_creds_entry'.
 
-  * 'id' MUST refer exclusively to OSCORE groups that are pairwise-only groups.
+  * 'id' is associated exclusively with OSCORE groups that are pairwise-only groups.
 
   * 'cred_fmt' takes value from the "Label" column of the "COSE Header Parameters" registry {{COSE.Header.Parameters}}. Consistently with {{Section 2.4 of I-D.ietf-core-oscore-groupcomm}}, acceptable values denote a format of authentication credential that MUST explicitly provide the public key as well as the comprehensive set of information related to the public key algorithm, including, e.g., the used elliptic curve. The same considerations provided above on acceptable formats currently available for the 'cred_fmt' element of 'sign_info' apply.
 
