@@ -339,7 +339,8 @@ Table of Contents
    messages exchanged during such steps are further specified in
    Section 5 and Section 6 of this document.
 
-   All communications between the involved entities MUST be secured.
+   All communications between the involved entities (Client, Group
+   Manager, Authorization Server) MUST be secured.
 
    In particular, communications between the Client and the Group
    Manager leverage protocol-specific transport profiles of ACE to
@@ -670,8 +671,8 @@ Table of Contents
       Response, the following applies for each element
       'sign_info_entry'.
 
-      -  'id' MUST NOT refer to OSCORE groups that are pairwise-only
-         groups.
+      -  'id' is associated exclusively with OSCORE groups that are not
+         pairwise-only groups.
 
       -  'sign_alg' takes value from the "Value" column of the "COSE
          Algorithms" registry [COSE.Algorithms] (REQ3).
@@ -691,10 +692,10 @@ Table of Contents
          Header Parameters" registry [COSE.Header.Parameters] (REQ6).
          Consistently with Section 2.4 of
          [I-D.ietf-core-oscore-groupcomm], acceptable values denote a
-         format of authentication credential that MUST explicitly
-         provide the public key as well as the comprehensive set of
-         information related to the public key algorithm, including,
-         e.g., the used elliptic curve.
+         format of authentication credential that provides the public
+         key as well as a comprehensive set of information related to
+         the public key algorithm, including, e.g., the used elliptic
+         curve.
 
          At the time of writing this specification, acceptable formats
          of authentication credentials are CBOR Web Tokens (CWTs) and
@@ -715,8 +716,8 @@ Table of Contents
       Response, the following applies for each element
       'ecdh_info_entry'.
 
-      -  'id' MUST NOT refer to OSCORE groups that are signature-only
-         groups.
+      -  'id' is associated exclusively with OSCORE groups that are not
+         signature-only groups.
 
       -  'ecdh_alg' takes value from the "Value" column of the "COSE
          Algorithms" registry [COSE.Algorithms].
@@ -736,12 +737,12 @@ Table of Contents
          Header Parameters" registry [COSE.Header.Parameters].
          Consistently with Section 2.4 of
          [I-D.ietf-core-oscore-groupcomm], acceptable values denote a
-         format of authentication credential that MUST explicitly
-         provide the public key as well as the comprehensive set of
-         information related to the public key algorithm, including,
-         e.g., the used elliptic curve.  The same considerations
-         provided above on acceptable formats currently available for
-         the 'cred_fmt' element of 'sign_info' apply.
+         format of authentication credential that provides the public
+         key as well as a comprehensive set of information related to
+         the public key algorithm, including, e.g., the used elliptic
+         curve.  The same considerations provided above on acceptable
+         formats currently available for the 'cred_fmt' element of
+         'sign_info' apply.
 
       The Group Manager omits the 'ecdh_info' parameter in the Token
       Transfer Response even if 'ecdh_info' is included in the Token
@@ -752,19 +753,19 @@ Table of Contents
       Response, the following applies for each element
       'kdc_dh_creds_entry'.
 
-      -  'id' MUST refer exclusively to OSCORE groups that are pairwise-
-         only groups.
+      -  'id' is associated exclusively with OSCORE groups that are
+         pairwise-only groups.
 
       -  'cred_fmt' takes value from the "Label" column of the "COSE
          Header Parameters" registry [COSE.Header.Parameters].
          Consistently with Section 2.4 of
          [I-D.ietf-core-oscore-groupcomm], acceptable values denote a
-         format of authentication credential that MUST explicitly
-         provide the public key as well as the comprehensive set of
-         information related to the public key algorithm, including,
-         e.g., the used elliptic curve.  The same considerations
-         provided above on acceptable formats currently available for
-         the 'cred_fmt' element of 'sign_info' apply.
+         format of authentication credential that provides the public
+         key as well as a comprehensive set of information related to
+         the public key algorithm, including, e.g., the used elliptic
+         curve.  The same considerations provided above on acceptable
+         formats currently available for the 'cred_fmt' element of
+         'sign_info' apply.
 
       The Group Manager omits the 'kdc_dh_creds' parameter in the Token
       Transfer Response even if 'ecdh_info' is included in the Token
@@ -1456,10 +1457,9 @@ Table of Contents
          Group Manager (e.g., a chain or bag of certificates).
          Consistently with Section 2.4 of
          [I-D.ietf-core-oscore-groupcomm], acceptable values denote a
-         format that MUST explicitly provide the public key as well as a
-         comprehensive set of information related to the public key
-         algorithm.  This information includes, e.g., the used elliptic
-         curve.
+         format that provides the public key as well as a comprehensive
+         set of information related to the public key algorithm.  This
+         information includes, e.g., the used elliptic curve.
 
          At the time of writing this specification, acceptable formats
          of authentication credentials are CBOR Web Tokens (CWTs) and
