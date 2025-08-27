@@ -2277,7 +2277,7 @@ The format of 'key' (see {{ssec-join-resp}}) is generalized as follows.
 
 ~~~~~~~~~~~~~~~~~~~~ CDDL
 ; ACE Groupcomm Parameters
-sign_enc_key = 21
+sign_enc_key = 33
 
 ; ACE Groupcomm Key Types
 group_oscore_input_material_obj = 1
