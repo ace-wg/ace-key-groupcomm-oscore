@@ -151,23 +151,24 @@ Table of Contents
      B.2.  Format of 'key'
    Appendix C.  CDDL Model
    Appendix D.  Document Updates
-     D.1.  Version -16 to -17
-     D.2.  Version -15 to -16
-     D.3.  Version -14 to -15
-     D.4.  Version -13 to -14
-     D.5.  Version -12 to -13
-     D.6.  Version -11 to -12
-     D.7.  Version -10 to -11
-     D.8.  Version -09 to -10
-     D.9.  Version -08 to -09
-     D.10. Version -07 to -08
-     D.11. Version -06 to -07
-     D.12. Version -05 to -06
-     D.13. Version -04 to -05
-     D.14. Version -03 to -04
-     D.15. Version -02 to -03
-     D.16. Version -01 to -02
-     D.17. Version -00 to -01
+     D.1.  Version -17 to -18
+     D.2.  Version -16 to -17
+     D.3.  Version -15 to -16
+     D.4.  Version -14 to -15
+     D.5.  Version -13 to -14
+     D.6.  Version -12 to -13
+     D.7.  Version -11 to -12
+     D.8.  Version -10 to -11
+     D.9.  Version -09 to -10
+     D.10. Version -08 to -09
+     D.11. Version -07 to -08
+     D.12. Version -06 to -07
+     D.13. Version -05 to -06
+     D.14. Version -04 to -05
+     D.15. Version -03 to -04
+     D.16. Version -02 to -03
+     D.17. Version -01 to -02
+     D.18. Version -00 to -01
    Acknowledgments
    Authors' Addresses
 
@@ -539,16 +540,17 @@ Table of Contents
       the Group Manager silently ignores that parameter and the related
       parameter 'client_cred_verify'.
 
-   *  The joining node is currently a group member, and it is re-joining
-      the group not exclusively as monitor.
+   *  The joining node is currently a group member acting not
+      exclusively as monitor, and it is re-joining the group not
+      exclusively as monitor.
 
-      In this case, if the joining node intends to use the latest
-      authentication credential provided to the Group Manager in a
-      previous Join Request (i.e., the same authentication credential
-      that it is currently using in the group), then the joining node
-      MAY choose to omit the 'client_cred' parameter and the
-      'client_cred_verify' parameter in the Join Request (see
-      Section 4.3.1.1 of [RFC9594]).
+      In this case, if the joining node intends to use the same
+      authentication credential that it is currently using in the group,
+      i.e., its latest authentication credential provided to the Group
+      Manager (in a previous Join Request or Authentication Credential
+      Update Request, see Section 9.4), then the joining node MAY choose
+      to omit the 'client_cred' parameter and the 'client_cred_verify'
+      parameter in the Join Request (see Section 4.3.1.1 of [RFC9594]).
 
 5.  Authorization to Join a Group
 
@@ -4820,7 +4822,23 @@ Appendix D.  Document Updates
 
    This section is to be removed before publishing as an RFC.
 
-D.1.  Version -16 to -17
+D.1.  Version -17 to -18
+
+   *  Avoid unnecessary normative language.
+
+   *  Added missing optional check at the Group Manager when receiving a
+      group member's updated authentication credential.
+
+   *  Clarified the origin of the latest client's authentication
+      credential.
+
+   *  Clarified meaning of the group becoming inactive and active again.
+
+   *  Refer to all the REQ and OPT profile requirements.
+
+   *  Minor clarifications and editorial improvements.
+
+D.2.  Version -16 to -17
 
    *  CBOR diagnostic notation uses placeholders from a CDDL model.
 
@@ -4904,7 +4922,7 @@ D.1.  Version -16 to -17
 
    *  Clarifications and editorial fixes.
 
-D.2.  Version -15 to -16
+D.3.  Version -15 to -16
 
    *  Early mentioning of invalid combinations of roles.
 
@@ -4918,7 +4936,7 @@ D.2.  Version -15 to -16
 
    *  Clarifications and editorial fixes.
 
-D.3.  Version -14 to -15
+D.4.  Version -14 to -15
 
    *  Alignment with renaming in draft-ietf-ace-key-groupcomm.
 
@@ -4930,7 +4948,7 @@ D.3.  Version -14 to -15
 
    *  Editorial fixes.
 
-D.4.  Version -13 to -14
+D.5.  Version -13 to -14
 
    *  Major reordering of the document sections.
 
@@ -4942,7 +4960,7 @@ D.4.  Version -13 to -14
 
    *  Clarifications and editorial improvements.
 
-D.5.  Version -12 to -13
+D.6.  Version -12 to -13
 
    *  Renamed parameters about authentication credentials.
 
@@ -4956,7 +4974,7 @@ D.5.  Version -12 to -13
    *  Updated textual description of registered ACE Scope Semantics
       value.
 
-D.6.  Version -11 to -12
+D.7.  Version -11 to -12
 
    *  Clarified semantics of 'ecdh_info' and 'kdc_dh_creds'.
 
@@ -4993,7 +5011,7 @@ D.6.  Version -11 to -12
 
    *  Fixes and editorial improvements.
 
-D.7.  Version -10 to -11
+D.8.  Version -10 to -11
 
    *  Removed redundancy of key type capabilities, from 'sign_info',
       'ecdh_info' and 'key'.
@@ -5040,7 +5058,7 @@ D.7.  Version -10 to -11
    *  General format of parameters related to COSE capabilities,
       supporting future registered COSE algorithms (new Appendix).
 
-D.8.  Version -09 to -10
+D.9.  Version -09 to -10
 
    *  Updated non-recycling policy of Sender IDs.
 
@@ -5060,7 +5078,7 @@ D.8.  Version -09 to -10
 
    *  Renumbered requirements.
 
-D.9.  Version -08 to -09
+D.10.  Version -08 to -09
 
    *  The url-path "ace-group" is used.
 
@@ -5094,7 +5112,7 @@ D.9.  Version -08 to -09
 
    *  Clarifications and editorial revision.
 
-D.10.  Version -07 to -08
+D.11.  Version -07 to -08
 
    *  AIF data model to express scope entries.
 
@@ -5113,7 +5131,7 @@ D.10.  Version -07 to -08
 
    *  IANA registrations to support the AIF data model.
 
-D.11.  Version -06 to -07
+D.12.  Version -06 to -07
 
    *  Alignments with draft-ietf-core-oscore-groupcomm.
 
@@ -5126,7 +5144,7 @@ D.11.  Version -06 to -07
 
    *  Editorial revision.
 
-D.12.  Version -05 to -06
+D.13.  Version -05 to -06
 
    *  Added role of external signature verifier.
 
@@ -5156,7 +5174,7 @@ D.12.  Version -05 to -06
 
    *  Editorial improvements.
 
-D.13.  Version -04 to -05
+D.14.  Version -04 to -05
 
    *  Nonce N_S also in error responses to the Join Requests.
 
@@ -5186,7 +5204,7 @@ D.13.  Version -04 to -05
 
    *  Added CBOR values to abbreviate role identifiers in the group.
 
-D.14.  Version -03 to -04
+D.15.  Version -03 to -04
 
    *  New abstract.
 
@@ -5208,7 +5226,7 @@ D.14.  Version -03 to -04
 
    *  Editorial improvements.
 
-D.15.  Version -02 to -03
+D.16.  Version -02 to -03
 
    *  New sections, aligned with the interface of ace-key-groupcomm .
 
@@ -5231,7 +5249,7 @@ D.15.  Version -02 to -03
 
    *  More fulfilled profile requirements (Appendix A).
 
-D.16.  Version -01 to -02
+D.17.  Version -01 to -02
 
    *  Editorial fixes.
 
@@ -5270,7 +5288,7 @@ D.16.  Version -01 to -02
    *  Registered one public key encoding in the "ACE Public Key
       Encoding" IANA registry (Section 9).
 
-D.17.  Version -00 to -01
+D.18.  Version -00 to -01
 
    *  Changed name of 'req_aud' to 'audience' in the Authorization
       Request (Section 3.1).
