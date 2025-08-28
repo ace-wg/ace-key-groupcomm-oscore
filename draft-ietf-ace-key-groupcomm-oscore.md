@@ -314,7 +314,7 @@ In the following circumstances, a joining node is not required to provide its au
 
 * The joining node is currently a group member acting not exclusively as monitor, and it is re-joining the group not exclusively as monitor.
 
-  In this case, if the joining node intends to use the same authentication credential that it is currently using in the group, i.e., its latest authentication credential provided to the Group Manager (in a previous Join Request or Authentication Credential Update Request, see {{sec-update-pub-key}}), then the joining node MAY choose to omit the 'client_cred' parameter and the 'client_cred_verify' parameter in the Join Request (see {{Section 4.3.1.1 of RFC9594}}). 
+  In this case, if the joining node intends to use the same authentication credential that it is currently using in the group, i.e., its latest authentication credential provided to the Group Manager (in a previous Join Request or Authentication Credential Update Request, see {{sec-update-pub-key}}), then the joining node MAY choose to omit the 'client_cred' parameter and the 'client_cred_verify' parameter in the Join Request (see {{Section 4.3.1.1 of RFC9594}}).
 
 # Authorization to Join a Group {#sec-joining-node-to-AS}
 
@@ -2295,6 +2295,20 @@ sign_params = 11
 
 # Document Updates # {#sec-document-updates}
 {:removeinrfc}
+
+## Version -17 to -18 ## {#sec-17-18}
+
+* Avoid unnecessary normative language.
+
+* Added missing optional check at the Group Manager when receiving a group member's updated authentication credential.
+
+* Clarified the origin of the latest client's authentication credential.
+
+* Clarified meaning of the group becoming inactive and active again.
+
+* Refer to all the REQ and OPT profile requirements.
+
+* Minor clarifications and editorial improvements.
 
 ## Version -16 to -17 ## {#sec-16-17}
 
