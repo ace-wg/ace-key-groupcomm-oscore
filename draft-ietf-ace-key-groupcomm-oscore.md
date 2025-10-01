@@ -2014,7 +2014,7 @@ For the media-types application/aif+cbor and application/aif+json defined in {{S
 
 IANA is asked to register the following entries in the "CoAP Content-Formats" registry within the "Constrained RESTful Environments (CoRE) Parameters" registry group.
 
-* Content Type: application/aif+cbor;Toid="oscore-gname",Tperm="oscore-gperm"
+* Content Type: application/aif+cbor;toid=oscore-gname;tperm=oscore-gperm
 
 * Content Coding: -
 
@@ -2024,7 +2024,7 @@ IANA is asked to register the following entries in the "CoAP Content-Formats" re
 
 <br>
 
-* Content Type: application/aif+json;Toid="oscore-gname",Tperm="oscore-gperm"
+* Content Type: application/aif+json;toid=oscore-gname;tperm=oscore-gperm
 
 * Content Coding: -
 
