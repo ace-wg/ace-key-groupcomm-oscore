@@ -4066,8 +4066,8 @@ Table of Contents
    Formats" registry within the "Constrained RESTful Environments (CoRE)
    Parameters" registry group.
 
-   *  Content Type: application/aif+cbor;Toid="oscore-
-      gname",Tperm="oscore-gperm"
+   *  Content Type: application/aif+cbor;toid=oscore-gname;tperm=oscore-
+      gperm
 
    *  Content Coding: -
 
@@ -4077,8 +4077,8 @@ Table of Contents
 
 
 
-   *  Content Type: application/aif+json;Toid="oscore-
-      gname",Tperm="oscore-gperm"
+   *  Content Type: application/aif+json;toid=oscore-gname;tperm=oscore-
+      gperm
 
    *  Content Coding: -
 
