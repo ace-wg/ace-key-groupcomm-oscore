@@ -1917,7 +1917,7 @@ IANA is asked to register the following entry in the "ACE Groupcomm Profiles" re
 
 *  Name: coap_group_oscore_app
 *  Description: Application profile to provision keying material for participating in group communication protected with Group OSCORE as per {{I-D.ietf-core-oscore-groupcomm}}.
-*  CBOR Value: PROFILE_TBD
+*  CBOR Value: PROFILE_TBD (suggested value: 1)
 *  Reference: {{&SELF}}
 
 ## OSCORE Security Context Parameters {#ssec-iana-security-context-parameter-registry}
