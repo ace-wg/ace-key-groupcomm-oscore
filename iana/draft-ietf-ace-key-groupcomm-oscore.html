@@ -10,21 +10,21 @@
 <meta content="
        This document defines an application profile of the Authentication and Authorization for Constrained Environments (ACE) framework, to request and provision keying material in group communication scenarios that are based on the Constrained Application Protocol (CoAP) and are secured with Group Object Security for Constrained RESTful Environments (Group OSCORE). This application profile delegates the authentication and authorization of Clients, which join an OSCORE group through a Resource Server acting as Group Manager for that group. This application profile leverages protocol-specific transport profiles of ACE to achieve communication security, server authentication, and proof of possession for a key owned by the Client and bound to an OAuth 2.0 access token. 
     " name="description">
-<meta content="xml2rfc 3.30.0" name="generator">
+<meta content="xml2rfc 3.30.2" name="generator">
 <meta content="Internet-Draft" name="keyword">
 <meta content="draft-ietf-ace-key-groupcomm-oscore-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.30.0
+  xml2rfc 3.30.2
     Python 3.12.11
     ConfigArgParse 1.7
     google-i18n-address 3.1.1
     intervaltree 3.1.0
     Jinja2 3.1.6
     lxml 5.3.1
-    platformdirs 4.3.8
+    platformdirs 4.4.0
     pycountry 24.6.1
     PyYAML 6.0.2
-    requests 2.32.4
+    requests 2.32.5
     setuptools 80.9.0
     wcwidth 0.2.13
 -->
@@ -1045,11 +1045,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">Key Management for Group OSCORE Using AC</td>
-<td class="right">August 2025</td>
+<td class="right">October 2025</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Tiloca &amp; Palombini</td>
-<td class="center">Expires 28 February 2026</td>
+<td class="center">Expires 4 April 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1062,12 +1062,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-ace-key-groupcomm-oscore-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-08-27" class="published">27 August 2025</time>
+<time datetime="2025-10-01" class="published">1 October 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-02-28">28 February 2026</time></dd>
+<dd class="expires"><time datetime="2026-04-04">4 April 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1105,7 +1105,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 28 February 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 4 April 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1450,55 +1450,58 @@ svg :is([fill="white"], [fill^="#fff"]) {
             <p id="section-toc.1-1.21.1"><a href="#appendix-D" class="auto internal xref">Appendix D</a>.  <a href="#name-document-updates" class="internal xref">Document Updates</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.21.2.1">
-                <p id="section-toc.1-1.21.2.1.1"><a href="#appendix-D.1" class="auto internal xref">D.1</a>.  <a href="#name-version-16-to-17" class="internal xref">Version -16 to -17</a></p>
+                <p id="section-toc.1-1.21.2.1.1"><a href="#appendix-D.1" class="auto internal xref">D.1</a>.  <a href="#name-version-17-to-18" class="internal xref">Version -17 to -18</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.21.2.2">
-                <p id="section-toc.1-1.21.2.2.1"><a href="#appendix-D.2" class="auto internal xref">D.2</a>.  <a href="#name-version-15-to-16" class="internal xref">Version -15 to -16</a></p>
+                <p id="section-toc.1-1.21.2.2.1"><a href="#appendix-D.2" class="auto internal xref">D.2</a>.  <a href="#name-version-16-to-17" class="internal xref">Version -16 to -17</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.21.2.3">
-                <p id="section-toc.1-1.21.2.3.1"><a href="#appendix-D.3" class="auto internal xref">D.3</a>.  <a href="#name-version-14-to-15" class="internal xref">Version -14 to -15</a></p>
+                <p id="section-toc.1-1.21.2.3.1"><a href="#appendix-D.3" class="auto internal xref">D.3</a>.  <a href="#name-version-15-to-16" class="internal xref">Version -15 to -16</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.21.2.4">
-                <p id="section-toc.1-1.21.2.4.1"><a href="#appendix-D.4" class="auto internal xref">D.4</a>.  <a href="#name-version-13-to-14" class="internal xref">Version -13 to -14</a></p>
+                <p id="section-toc.1-1.21.2.4.1"><a href="#appendix-D.4" class="auto internal xref">D.4</a>.  <a href="#name-version-14-to-15" class="internal xref">Version -14 to -15</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.21.2.5">
-                <p id="section-toc.1-1.21.2.5.1"><a href="#appendix-D.5" class="auto internal xref">D.5</a>.  <a href="#name-version-12-to-13" class="internal xref">Version -12 to -13</a></p>
+                <p id="section-toc.1-1.21.2.5.1"><a href="#appendix-D.5" class="auto internal xref">D.5</a>.  <a href="#name-version-13-to-14" class="internal xref">Version -13 to -14</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.21.2.6">
-                <p id="section-toc.1-1.21.2.6.1"><a href="#appendix-D.6" class="auto internal xref">D.6</a>.  <a href="#name-version-11-to-12" class="internal xref">Version -11 to -12</a></p>
+                <p id="section-toc.1-1.21.2.6.1"><a href="#appendix-D.6" class="auto internal xref">D.6</a>.  <a href="#name-version-12-to-13" class="internal xref">Version -12 to -13</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.21.2.7">
-                <p id="section-toc.1-1.21.2.7.1"><a href="#appendix-D.7" class="auto internal xref">D.7</a>.  <a href="#name-version-10-to-11" class="internal xref">Version -10 to -11</a></p>
+                <p id="section-toc.1-1.21.2.7.1"><a href="#appendix-D.7" class="auto internal xref">D.7</a>.  <a href="#name-version-11-to-12" class="internal xref">Version -11 to -12</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.21.2.8">
-                <p id="section-toc.1-1.21.2.8.1"><a href="#appendix-D.8" class="auto internal xref">D.8</a>.  <a href="#name-version-09-to-10" class="internal xref">Version -09 to -10</a></p>
+                <p id="section-toc.1-1.21.2.8.1"><a href="#appendix-D.8" class="auto internal xref">D.8</a>.  <a href="#name-version-10-to-11" class="internal xref">Version -10 to -11</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.21.2.9">
-                <p id="section-toc.1-1.21.2.9.1"><a href="#appendix-D.9" class="auto internal xref">D.9</a>.  <a href="#name-version-08-to-09" class="internal xref">Version -08 to -09</a></p>
+                <p id="section-toc.1-1.21.2.9.1"><a href="#appendix-D.9" class="auto internal xref">D.9</a>.  <a href="#name-version-09-to-10" class="internal xref">Version -09 to -10</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.21.2.10">
-                <p id="section-toc.1-1.21.2.10.1"><a href="#appendix-D.10" class="auto internal xref">D.10</a>. <a href="#name-version-07-to-08" class="internal xref">Version -07 to -08</a></p>
+                <p id="section-toc.1-1.21.2.10.1"><a href="#appendix-D.10" class="auto internal xref">D.10</a>. <a href="#name-version-08-to-09" class="internal xref">Version -08 to -09</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.21.2.11">
-                <p id="section-toc.1-1.21.2.11.1"><a href="#appendix-D.11" class="auto internal xref">D.11</a>. <a href="#name-version-06-to-07" class="internal xref">Version -06 to -07</a></p>
+                <p id="section-toc.1-1.21.2.11.1"><a href="#appendix-D.11" class="auto internal xref">D.11</a>. <a href="#name-version-07-to-08" class="internal xref">Version -07 to -08</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.21.2.12">
-                <p id="section-toc.1-1.21.2.12.1"><a href="#appendix-D.12" class="auto internal xref">D.12</a>. <a href="#name-version-05-to-06" class="internal xref">Version -05 to -06</a></p>
+                <p id="section-toc.1-1.21.2.12.1"><a href="#appendix-D.12" class="auto internal xref">D.12</a>. <a href="#name-version-06-to-07" class="internal xref">Version -06 to -07</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.21.2.13">
-                <p id="section-toc.1-1.21.2.13.1"><a href="#appendix-D.13" class="auto internal xref">D.13</a>. <a href="#name-version-04-to-05" class="internal xref">Version -04 to -05</a></p>
+                <p id="section-toc.1-1.21.2.13.1"><a href="#appendix-D.13" class="auto internal xref">D.13</a>. <a href="#name-version-05-to-06" class="internal xref">Version -05 to -06</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.21.2.14">
-                <p id="section-toc.1-1.21.2.14.1"><a href="#appendix-D.14" class="auto internal xref">D.14</a>. <a href="#name-version-03-to-04" class="internal xref">Version -03 to -04</a></p>
+                <p id="section-toc.1-1.21.2.14.1"><a href="#appendix-D.14" class="auto internal xref">D.14</a>. <a href="#name-version-04-to-05" class="internal xref">Version -04 to -05</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.21.2.15">
-                <p id="section-toc.1-1.21.2.15.1"><a href="#appendix-D.15" class="auto internal xref">D.15</a>. <a href="#name-version-02-to-03" class="internal xref">Version -02 to -03</a></p>
+                <p id="section-toc.1-1.21.2.15.1"><a href="#appendix-D.15" class="auto internal xref">D.15</a>. <a href="#name-version-03-to-04" class="internal xref">Version -03 to -04</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.21.2.16">
-                <p id="section-toc.1-1.21.2.16.1"><a href="#appendix-D.16" class="auto internal xref">D.16</a>. <a href="#name-version-01-to-02" class="internal xref">Version -01 to -02</a></p>
+                <p id="section-toc.1-1.21.2.16.1"><a href="#appendix-D.16" class="auto internal xref">D.16</a>. <a href="#name-version-02-to-03" class="internal xref">Version -02 to -03</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.21.2.17">
-                <p id="section-toc.1-1.21.2.17.1"><a href="#appendix-D.17" class="auto internal xref">D.17</a>. <a href="#name-version-00-to-01" class="internal xref">Version -00 to -01</a></p>
+                <p id="section-toc.1-1.21.2.17.1"><a href="#appendix-D.17" class="auto internal xref">D.17</a>. <a href="#name-version-01-to-02" class="internal xref">Version -01 to -02</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.21.2.18">
+                <p id="section-toc.1-1.21.2.18.1"><a href="#appendix-D.18" class="auto internal xref">D.18</a>. <a href="#name-version-00-to-01" class="internal xref">Version -00 to -01</a></p>
 </li>
             </ul>
 </li>
@@ -1568,15 +1571,15 @@ appear in all capitals, as shown here.<a href="#section-1.1-1" class="pilcrow">�
             <p id="section-1.1-5.3.1">Monitor: member of an OSCORE group that is configured as responder and never sends response messages protected with Group OSCORE. This corresponds to the term "silent server" used in <span>[<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>.<a href="#section-1.1-5.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-1.1-5.4">
-            <p id="section-1.1-5.4.1">Signature verifier: entity external to the OSCORE group, and intended to verify the signature of messages exchanged in the group that are protected with the group mode (see Sections <a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-26#section-12.3" class="relref">12.3</a>, <a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-26#section-7" class="relref">7</a>, and <a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-26#section-7.5" class="relref">7.5</a> of <span>[<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>).<a href="#section-1.1-5.4.1" class="pilcrow">¶</a></p>
+            <p id="section-1.1-5.4.1">Signature verifier: entity external to the OSCORE group, and intended to verify the signature of messages exchanged in the group that are protected with the group mode (see Sections <a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-27#section-12.3" class="relref">12.3</a>, <a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-27#section-7" class="relref">7</a>, and <a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-27#section-7.5" class="relref">7.5</a> of <span>[<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>).<a href="#section-1.1-5.4.1" class="pilcrow">¶</a></p>
 <p id="section-1.1-5.4.2">
 An authorized signature verifier does not join the OSCORE group as an actual member. However, it can interact with the Group Manager in order to retrieve what is needed to perform signature verifications, e.g., the authentication credentials of the current group members and of the Group Manager.<a href="#section-1.1-5.4.2" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-1.1-5.5">
-            <p id="section-1.1-5.5.1">Signature-only group: an OSCORE group that uses only the group mode (see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-26#section-7" class="relref">Section 7</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>).<a href="#section-1.1-5.5.1" class="pilcrow">¶</a></p>
+            <p id="section-1.1-5.5.1">Signature-only group: an OSCORE group that uses only the group mode (see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-27#section-7" class="relref">Section 7</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>).<a href="#section-1.1-5.5.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-1.1-5.6">
-            <p id="section-1.1-5.6.1">Pairwise-only group: an OSCORE group that uses only the pairwise mode (see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-26#section-8" class="relref">Section 8</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>).<a href="#section-1.1-5.6.1" class="pilcrow">¶</a></p>
+            <p id="section-1.1-5.6.1">Pairwise-only group: an OSCORE group that uses only the pairwise mode (see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-27#section-8" class="relref">Section 8</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>).<a href="#section-1.1-5.6.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <p id="section-1.1-6">Throughout this document, examples for CBOR data items are expressed in CBOR extended diagnostic notation as defined in <span><a href="https://rfc-editor.org/rfc/rfc8949#section-8" class="relref">Section 8</a> of [<a href="#RFC8949" class="cite xref">RFC8949</a>]</span> and <span><a href="https://rfc-editor.org/rfc/rfc8610#appendix-G" class="relref">Appendix G</a> of [<a href="#RFC8610" class="cite xref">RFC8610</a>]</span> ("diagnostic notation"). Diagnostic notation comments are often used to provide a textual representation of the parameters' keys and values.<a href="#section-1.1-6" class="pilcrow">¶</a></p>
@@ -1753,9 +1756,9 @@ In this case, the joining node is not required to provide its own authentication
 If the joining node still provides an authentication credential in the 'client_cred' parameter of the Join Request (see <a href="#ssec-join-req-sending" class="auto internal xref">Section 6.1</a>), the Group Manager silently ignores that parameter and the related parameter 'client_cred_verify'.<a href="#section-4-6.1.3" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="section-4-6.2">
-          <p id="section-4-6.2.1">The joining node is currently a group member, and it is re-joining the group not exclusively as monitor.<a href="#section-4-6.2.1" class="pilcrow">¶</a></p>
+          <p id="section-4-6.2.1">The joining node is currently a group member acting not exclusively as monitor, and it is re-joining the group not exclusively as monitor.<a href="#section-4-6.2.1" class="pilcrow">¶</a></p>
 <p id="section-4-6.2.2">
-In this case, if the joining node intends to use the latest authentication credential provided to the Group Manager in a previous Join Request (i.e., the same authentication credential that it is currently using in the group), then the joining node <span class="bcp14">MAY</span> choose to omit the 'client_cred' parameter and the 'client_cred_verify' parameter in the Join Request (see <span><a href="https://rfc-editor.org/rfc/rfc9594#section-4.3.1.1" class="relref">Section 4.3.1.1</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>).<a href="#section-4-6.2.2" class="pilcrow">¶</a></p>
+In this case, if the joining node intends to use the same authentication credential that it is currently using in the group, i.e., its latest authentication credential provided to the Group Manager (in a previous Join Request or Authentication Credential Update Request, see <a href="#sec-update-pub-key" class="auto internal xref">Section 9.4</a>), then the joining node <span class="bcp14">MAY</span> choose to omit the 'client_cred' parameter and the 'client_cred_verify' parameter in the Join Request (see <span><a href="https://rfc-editor.org/rfc/rfc9594#section-4.3.1.1" class="relref">Section 4.3.1.1</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>).<a href="#section-4-6.2.2" class="pilcrow">¶</a></p>
 </li>
       </ul>
 </section>
@@ -1856,7 +1859,7 @@ The 'kdcchallenge' parameter <span class="bcp14">MAY</span> be omitted from the 
                 <p id="section-5.3-2.3.2.4.1">'sign_key_parameters' has the same format and value of the COSE capabilities array for the COSE key type of the keys used with the algorithm indicated in 'sign_alg', as specified for that key type in the "Capabilities" column of the "COSE Key Types" registry <span>[<a href="#COSE.Key.Types" class="cite xref">COSE.Key.Types</a>]</span> (REQ5).<a href="#section-5.3-2.3.2.4.1" class="pilcrow">¶</a></p>
 </li>
               <li class="normal" id="section-5.3-2.3.2.5">
-                <p id="section-5.3-2.3.2.5.1">'cred_fmt' takes value from the "Label" column of the "COSE Header Parameters" registry <span>[<a href="#COSE.Header.Parameters" class="cite xref">COSE.Header.Parameters</a>]</span> (REQ6). Consistently with <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-26#section-2.4" class="relref">Section 2.4</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>, acceptable values denote a format of authentication credential that provides the public key as well as a comprehensive set of information related to the public key algorithm, including, e.g., the used elliptic curve.<a href="#section-5.3-2.3.2.5.1" class="pilcrow">¶</a></p>
+                <p id="section-5.3-2.3.2.5.1">'cred_fmt' takes value from the "Label" column of the "COSE Header Parameters" registry <span>[<a href="#COSE.Header.Parameters" class="cite xref">COSE.Header.Parameters</a>]</span> (REQ6). Consistently with <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-27#section-2.4" class="relref">Section 2.4</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>, acceptable values denote a format of authentication credential that provides the public key as well as a comprehensive set of information related to the public key algorithm, including, e.g., the used elliptic curve.<a href="#section-5.3-2.3.2.5.1" class="pilcrow">¶</a></p>
 <p id="section-5.3-2.3.2.5.2">
 At the time of writing this specification, acceptable formats of authentication credentials are CBOR Web Tokens (CWTs) and CWT Claims Sets (CCSs) <span>[<a href="#RFC8392" class="cite xref">RFC8392</a>]</span>, X.509 certificates <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span>, and C509 certificates <span>[<a href="#I-D.ietf-cose-cbor-encoded-cert" class="cite xref">I-D.ietf-cose-cbor-encoded-cert</a>]</span>. Further formats may be available in the future, and would be acceptable to use as long as they comply with the criteria defined above.<a href="#section-5.3-2.3.2.5.2" class="pilcrow">¶</a></p>
 </li>
@@ -1880,7 +1883,7 @@ This format is consistent with every signature algorithm currently considered in
                 <p id="section-5.3-2.4.2.4.1">'ecdh_key_parameters' has the same format and value of the COSE capabilities array for the COSE key type of the keys used with the algorithm indicated in 'ecdh_alg', as specified for that key type in the "Capabilities" column of the "COSE Key Types" registry <span>[<a href="#COSE.Key.Types" class="cite xref">COSE.Key.Types</a>]</span>.<a href="#section-5.3-2.4.2.4.1" class="pilcrow">¶</a></p>
 </li>
               <li class="normal" id="section-5.3-2.4.2.5">
-                <p id="section-5.3-2.4.2.5.1">'cred_fmt' takes value from the "Label" column of the "COSE Header Parameters" registry <span>[<a href="#COSE.Header.Parameters" class="cite xref">COSE.Header.Parameters</a>]</span>. Consistently with <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-26#section-2.4" class="relref">Section 2.4</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>, acceptable values denote a format of authentication credential that provides the public key as well as a comprehensive set of information related to the public key algorithm, including, e.g., the used elliptic curve. The same considerations provided above on acceptable formats currently available for the 'cred_fmt' element of 'sign_info' apply.<a href="#section-5.3-2.4.2.5.1" class="pilcrow">¶</a></p>
+                <p id="section-5.3-2.4.2.5.1">'cred_fmt' takes value from the "Label" column of the "COSE Header Parameters" registry <span>[<a href="#COSE.Header.Parameters" class="cite xref">COSE.Header.Parameters</a>]</span>. Consistently with <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-27#section-2.4" class="relref">Section 2.4</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>, acceptable values denote a format of authentication credential that provides the public key as well as a comprehensive set of information related to the public key algorithm, including, e.g., the used elliptic curve. The same considerations provided above on acceptable formats currently available for the 'cred_fmt' element of 'sign_info' apply.<a href="#section-5.3-2.4.2.5.1" class="pilcrow">¶</a></p>
 </li>
             </ul>
 <p id="section-5.3-2.4.3">
@@ -1893,7 +1896,7 @@ The Group Manager omits the 'ecdh_info' parameter in the Token Transfer Response
                 <p id="section-5.3-2.5.2.1.1">'id' is associated exclusively with OSCORE groups that are pairwise-only groups.<a href="#section-5.3-2.5.2.1.1" class="pilcrow">¶</a></p>
 </li>
               <li class="normal" id="section-5.3-2.5.2.2">
-                <p id="section-5.3-2.5.2.2.1">'cred_fmt' takes value from the "Label" column of the "COSE Header Parameters" registry <span>[<a href="#COSE.Header.Parameters" class="cite xref">COSE.Header.Parameters</a>]</span>. Consistently with <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-26#section-2.4" class="relref">Section 2.4</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>, acceptable values denote a format of authentication credential that provides the public key as well as a comprehensive set of information related to the public key algorithm, including, e.g., the used elliptic curve. The same considerations provided above on acceptable formats currently available for the 'cred_fmt' element of 'sign_info' apply.<a href="#section-5.3-2.5.2.2.1" class="pilcrow">¶</a></p>
+                <p id="section-5.3-2.5.2.2.1">'cred_fmt' takes value from the "Label" column of the "COSE Header Parameters" registry <span>[<a href="#COSE.Header.Parameters" class="cite xref">COSE.Header.Parameters</a>]</span>. Consistently with <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-27#section-2.4" class="relref">Section 2.4</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>, acceptable values denote a format of authentication credential that provides the public key as well as a comprehensive set of information related to the public key algorithm, including, e.g., the used elliptic curve. The same considerations provided above on acceptable formats currently available for the 'cred_fmt' element of 'sign_info' apply.<a href="#section-5.3-2.5.2.2.1" class="pilcrow">¶</a></p>
 </li>
             </ul>
 <p id="section-5.3-2.5.3">
@@ -2178,7 +2181,7 @@ The same as above holds if TLS 1.3 <span>[<a href="#RFC8446" class="cite xref">R
             </ul>
 </li>
         </ul>
-<p id="section-6.2-13">In order to prevent the acceptance of Ed25519 and Ed448 public keys that cannot be successfully converted to Montgomery coordinates, and thus cannot be used for the derivation of pairwise keys (see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-26#section-2.5.1" class="relref">Section 2.5.1</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>), the Group Manager <span class="bcp14">MAY</span> reply with a 4.00 (Bad Request) error response in case all the following conditions hold:<a href="#section-6.2-13" class="pilcrow">¶</a></p>
+<p id="section-6.2-13">In order to prevent the acceptance of Ed25519 and Ed448 public keys that cannot be successfully converted to Montgomery coordinates, and thus cannot be used for the derivation of pairwise keys (see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-27#section-2.5.1" class="relref">Section 2.5.1</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>), the Group Manager <span class="bcp14">MAY</span> reply with a 4.00 (Bad Request) error response in case all the following conditions hold:<a href="#section-6.2-13" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-6.2-14.1">
             <p id="section-6.2-14.1.1">The OSCORE group uses the pairwise mode of Group OSCORE.<a href="#section-6.2-14.1.1" class="pilcrow">¶</a></p>
@@ -2250,7 +2253,7 @@ The same as above holds if TLS 1.3 <span>[<a href="#RFC8446" class="cite xref">R
 <li class="normal" id="section-6.3-3.1">
             <p id="section-6.3-3.1.1">The Group Manager selects an available OSCORE Sender ID in the OSCORE group, and exclusively assigns it to the joining node. The Group Manager <span class="bcp14">MUST NOT</span> assign an OSCORE Sender ID to the joining node if this joins the group exclusively with the role of monitor, according to what is specified in the access token (see <a href="#ssec-auth-resp" class="auto internal xref">Section 5.2</a>).<a href="#section-6.3-3.1.1" class="pilcrow">¶</a></p>
 <p id="section-6.3-3.1.2">
-Consistently with <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-26#section-12.2.1.2" class="relref">Section 12.2.1.2</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>, the Group Manager <span class="bcp14">MUST</span> assign an OSCORE Sender ID that has not been used in the OSCORE group since the latest time when the current Gid value was assigned to the group. The maximum length of a Sender ID in bytes is determined as defined in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-26#section-2.2" class="relref">Section 2.2</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>.<a href="#section-6.3-3.1.2" class="pilcrow">¶</a></p>
+Consistently with <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-27#section-12.2.1.2" class="relref">Section 12.2.1.2</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>, the Group Manager <span class="bcp14">MUST</span> assign an OSCORE Sender ID that has not been used in the OSCORE group since the latest time when the current Gid value was assigned to the group. The maximum length of a Sender ID in bytes is determined as defined in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-27#section-2.2" class="relref">Section 2.2</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>.<a href="#section-6.3-3.1.2" class="pilcrow">¶</a></p>
 <p id="section-6.3-3.1.3">
 If the joining node is recognized as a current group member, e.g., through the ongoing secure communication association that is used to protect the Join Request, then the following also applies:<a href="#section-6.3-3.1.3" class="pilcrow">¶</a></p>
 <ul class="normal">
@@ -2272,7 +2275,7 @@ If the joining node is recognized as a current group member, e.g., through the o
             <p id="section-6.3-5.1.1">The 'gkty' parameter identifies a key of type "Group_OSCORE_Input_Material object", which is registered in <a href="#ssec-iana-groupcomm-keys-registry" class="auto internal xref">Section 16.4</a> of this document (REQ18).<a href="#section-6.3-5.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-6.3-5.2">
-            <p id="section-6.3-5.2.1">The 'key' parameter includes what the joining node needs in order to set up the Group OSCORE Security Context as per <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-26#section-2" class="relref">Section 2</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>.<a href="#section-6.3-5.2.1" class="pilcrow">¶</a></p>
+            <p id="section-6.3-5.2.1">The 'key' parameter includes what the joining node needs in order to set up the Group OSCORE Security Context as per <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-27#section-2" class="relref">Section 2</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>.<a href="#section-6.3-5.2.1" class="pilcrow">¶</a></p>
 <p id="section-6.3-5.2.2">
 This parameter has as value a Group_OSCORE_Input_Material object (REQ17), which is defined in this document and extends the OSCORE_Input_Material object encoded in CBOR as defined in <span><a href="https://rfc-editor.org/rfc/rfc9203#section-3.2.1" class="relref">Section 3.2.1</a> of [<a href="#RFC9203" class="cite xref">RFC9203</a>]</span>. In particular, it contains the additional parameters 'group_senderId', 'cred_fmt', 'gp_enc_alg', 'sign_alg', 'sign_params', 'ecdh_alg', and 'ecdh_params', which are defined in <a href="#ssec-iana-security-context-parameter-registry" class="auto internal xref">Section 16.6</a> of this document.<a href="#section-6.3-5.2.2" class="pilcrow">¶</a></p>
 <p id="section-6.3-5.2.3">
@@ -2294,7 +2297,7 @@ More specifically, the 'key' parameter is composed as follows.<a href="#section-
                 <p id="section-6.3-5.2.4.5.1">The 'group_senderId' parameter has as value the OSCORE Sender ID that the Group Manager has assigned to the joining node in the OSCORE group, as described above. This parameter <span class="bcp14">MUST</span> be present if and only if the node does not join the OSCORE group exclusively with the role of monitor, according to what is specified in the access token (see <a href="#ssec-auth-resp" class="auto internal xref">Section 5.2</a>).<a href="#section-6.3-5.2.4.5.1" class="pilcrow">¶</a></p>
 </li>
               <li class="normal" id="section-6.3-5.2.4.6">
-                <p id="section-6.3-5.2.4.6.1">The 'cred_fmt' parameter specifies the Authentication Credential Format used in the OSCORE group (see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-26#section-2" class="relref">Section 2</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>). This parameter <span class="bcp14">MUST</span> be present and it takes value from the "Label" column of the "COSE Header Parameters" registry <span>[<a href="#COSE.Header.Parameters" class="cite xref">COSE.Header.Parameters</a>]</span> (REQ6), with some of those values also indicating the type of container to use for exchanging the authentication credentials with the Group Manager (e.g., a chain or bag of certificates). Consistently with <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-26#section-2.4" class="relref">Section 2.4</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>, acceptable values denote a format that provides the public key as well as a comprehensive set of information related to the public key algorithm. This information includes, e.g., the used elliptic curve.<a href="#section-6.3-5.2.4.6.1" class="pilcrow">¶</a></p>
+                <p id="section-6.3-5.2.4.6.1">The 'cred_fmt' parameter specifies the Authentication Credential Format used in the OSCORE group (see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-27#section-2" class="relref">Section 2</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>). This parameter <span class="bcp14">MUST</span> be present and it takes value from the "Label" column of the "COSE Header Parameters" registry <span>[<a href="#COSE.Header.Parameters" class="cite xref">COSE.Header.Parameters</a>]</span> (REQ6), with some of those values also indicating the type of container to use for exchanging the authentication credentials with the Group Manager (e.g., a chain or bag of certificates). Consistently with <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-27#section-2.4" class="relref">Section 2.4</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>, acceptable values denote a format that provides the public key as well as a comprehensive set of information related to the public key algorithm. This information includes, e.g., the used elliptic curve.<a href="#section-6.3-5.2.4.6.1" class="pilcrow">¶</a></p>
 <p id="section-6.3-5.2.4.6.2">
 At the time of writing this specification, acceptable formats of authentication credentials are CBOR Web Tokens (CWTs) and CWT Claims Sets (CCSs) <span>[<a href="#RFC8392" class="cite xref">RFC8392</a>]</span>, X.509 certificates <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span>, and C509 certificates <span>[<a href="#I-D.ietf-cose-cbor-encoded-cert" class="cite xref">I-D.ietf-cose-cbor-encoded-cert</a>]</span>. Further formats may be available in the future, and would be acceptable to use as long as they comply with the criteria defined above.<a href="#section-6.3-5.2.4.6.2" class="pilcrow">¶</a></p>
 </li>
@@ -2411,7 +2414,7 @@ The input parameters of HKDF are as follows.<a href="#section-6.3-7.8.2.2.3" cla
             <p id="section-6.3-7.9.1">The 'group_rekeying' parameter <span class="bcp14">MAY</span> be omitted, if the Group Manager uses the "Point-to-Point" group rekeying scheme registered in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-11.13" class="relref">Section 11.13</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span> as rekeying scheme in the OSCORE group (OPT9). Its detailed use for this profile is defined in <a href="#sec-group-rekeying-process" class="auto internal xref">Section 11</a> of this document. In any other case, the 'group_rekeying' parameter <span class="bcp14">MUST</span> be included.<a href="#section-6.3-7.9.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-6.3-8">As a last action, if the Group Manager reassigns Gid values during the group's lifetime (see Sections <a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-26#section-12.2.1.1" class="relref">12.2.1.1</a> and <a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-26#appendix-E" class="relref">E</a> of <span>[<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>), then the Group Manager <span class="bcp14">MUST</span> store the Gid specified in the 'contextId' parameter of the 'key' parameter, as the Birth Gid of the joining node in the joined group (see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-26#appendix-E" class="relref">Appendix E</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>). This applies also in case the joining node is in fact re-joining the group; in such a case, the newly determined Birth Gid overwrites the one currently stored.<a href="#section-6.3-8" class="pilcrow">¶</a></p>
+<p id="section-6.3-8">As a last action, if the Group Manager reassigns Gid values during the group's lifetime (see Sections <a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-27#section-12.2.1.1" class="relref">12.2.1.1</a> and <a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-27#appendix-E" class="relref">E</a> of <span>[<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>), then the Group Manager <span class="bcp14">MUST</span> store the Gid specified in the 'contextId' parameter of the 'key' parameter, as the Birth Gid of the joining node in the joined group (see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-27#appendix-E" class="relref">Appendix E</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>). This applies also in case the joining node is in fact re-joining the group; in such a case, the newly determined Birth Gid overwrites the one currently stored.<a href="#section-6.3-8" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="ssec-join-resp-processing">
@@ -2429,7 +2432,7 @@ The input parameters of HKDF are as follows.<a href="#section-6.3-7.8.2.2.3" cla
 </li>
         </ul>
 <p id="section-6.4-3">In case of failed verification of the PoP evidence, the joining node <span class="bcp14">MUST</span> stop processing the Join Response and <span class="bcp14">MAY</span> send a new Join Request to the Group Manager (see <a href="#ssec-join-req-sending" class="auto internal xref">Section 6.1</a>).<a href="#section-6.4-3" class="pilcrow">¶</a></p>
-<p id="section-6.4-4">In case of successful verification of the PoP evidence, the joining node uses the information received in the Join Response to set up the Group OSCORE Security Context, as described in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-26#section-2" class="relref">Section 2</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>. In particular, the following applies.<a href="#section-6.4-4" class="pilcrow">¶</a></p>
+<p id="section-6.4-4">In case of successful verification of the PoP evidence, the joining node uses the information received in the Join Response to set up the Group OSCORE Security Context, as described in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-27#section-2" class="relref">Section 2</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>. In particular, the following applies.<a href="#section-6.4-4" class="pilcrow">¶</a></p>
 <p id="section-6.4-5">If the following parameters were not included in the 'key' parameter of the Join Response, then the joining node performs the following actions.<a href="#section-6.4-5" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-6.4-6.1">
@@ -2483,8 +2486,8 @@ The input parameters of HKDF are as follows.<a href="#section-6.3-7.8.2.2.3" cla
       <h2 id="name-overview-of-the-group-rekey">
 <a href="#section-7" class="section-number selfRef">7. </a><a href="#name-overview-of-the-group-rekey" class="section-name selfRef">Overview of the Group Rekeying Process</a>
       </h2>
-<p id="section-7-1">In a number of cases, the Group Manager has to generate new keying material and distribute it to the group (rekeying), as also discussed in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-26#section-12.2" class="relref">Section 12.2</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>.<a href="#section-7-1" class="pilcrow">¶</a></p>
-<p id="section-7-2">To this end the Group Manager <span class="bcp14">MUST</span> support the Group Rekeying Process described in <a href="#sec-group-rekeying-process" class="auto internal xref">Section 11</a> of this document, as an instance of the "Point-to-Point" rekeying scheme defined in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-6.1" class="relref">Section 6.1</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span> and registered in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-11.13" class="relref">Section 11.13</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>. Future documents may define the use of alternative group rekeying schemes for this application profile, together with the corresponding rekeying message formats. The resulting group rekeying process <span class="bcp14">MUST</span> comply with the functional steps defined in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-26#section-12.2" class="relref">Section 12.2</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>.<a href="#section-7-2" class="pilcrow">¶</a></p>
+<p id="section-7-1">In a number of cases, the Group Manager has to generate new keying material and distribute it to the group (rekeying), as also discussed in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-27#section-12.2" class="relref">Section 12.2</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>.<a href="#section-7-1" class="pilcrow">¶</a></p>
+<p id="section-7-2">To this end the Group Manager <span class="bcp14">MUST</span> support the Group Rekeying Process described in <a href="#sec-group-rekeying-process" class="auto internal xref">Section 11</a> of this document, as an instance of the "Point-to-Point" rekeying scheme defined in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-6.1" class="relref">Section 6.1</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span> and registered in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-11.13" class="relref">Section 11.13</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>. Future documents may define the use of alternative group rekeying schemes for this application profile, together with the corresponding rekeying message formats. The resulting group rekeying process <span class="bcp14">MUST</span> comply with the functional steps defined in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-27#section-12.2" class="relref">Section 12.2</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>.<a href="#section-7-2" class="pilcrow">¶</a></p>
 <p id="section-7-3">The initial value of the version number of the group keying material <span class="bcp14">MUST</span> be set to 0 when creating the group (REQ16), e.g., as in <span>[<a href="#I-D.ietf-ace-oscore-gm-admin" class="cite xref">I-D.ietf-ace-oscore-gm-admin</a>]</span>.<a href="#section-7-3" class="pilcrow">¶</a></p>
 <p id="section-7-4">Upon generating the new group keying material and before starting its distribution, the Group Manager <span class="bcp14">MUST</span> increment the version number of the group keying material. When rekeying a group, the Group Manager <span class="bcp14">MUST</span> preserve the current value of the OSCORE Sender ID of each member in that group.<a href="#section-7-4" class="pilcrow">¶</a></p>
 <p id="section-7-5">The data distributed to a group through a rekeying <span class="bcp14">MUST</span> include:<a href="#section-7-5" class="pilcrow">¶</a></p>
@@ -2493,15 +2496,15 @@ The input parameters of HKDF are as follows.<a href="#section-6.3-7.8.2.2.3" cla
           <p id="section-7-6.1.1">The new version number of the group keying material for the group.<a href="#section-7-6.1.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="section-7-6.2">
-          <p id="section-7-6.2.1">A new Group Identifier (Gid) for the group as introduced in <span>[<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>, which is used as ID Context parameter of the Group OSCORE Common Security Context of that group (see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-26#section-2" class="relref">Section 2</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>).<a href="#section-7-6.2.1" class="pilcrow">¶</a></p>
+          <p id="section-7-6.2.1">A new Group Identifier (Gid) for the group as introduced in <span>[<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>, which is used as ID Context parameter of the Group OSCORE Common Security Context of that group (see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-27#section-2" class="relref">Section 2</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>).<a href="#section-7-6.2.1" class="pilcrow">¶</a></p>
 <p id="section-7-6.2.2">
 Note that the Gid differs from the group name also introduced in <span>[<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>, which is a plain, stable, and invariant identifier, with no cryptographic relevance and meaning.<a href="#section-7-6.2.2" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="section-7-6.3">
-          <p id="section-7-6.3.1">A new value for the Master Secret parameter of the Group OSCORE Common Security Context of that group (see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-26#section-2" class="relref">Section 2</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>).<a href="#section-7-6.3.1" class="pilcrow">¶</a></p>
+          <p id="section-7-6.3.1">A new value for the Master Secret parameter of the Group OSCORE Common Security Context of that group (see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-27#section-2" class="relref">Section 2</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>).<a href="#section-7-6.3.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="section-7-6.4">
-          <p id="section-7-6.4.1">A set of stale Sender IDs, which allows each rekeyed node to purge authentication credentials and Recipient Contexts used in the group and associated with those Sender IDs. This in turn allows every group member to rely on stored authentication credentials, in order to confidently assert the group membership of other sender nodes, when receiving protected messages in the group (see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-26#section-12.2" class="relref">Section 12.2</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>). More details on the maintenance of stale Sender IDs are provided in <a href="#sssec-stale-sender-ids" class="auto internal xref">Section 7.1</a>.<a href="#section-7-6.4.1" class="pilcrow">¶</a></p>
+          <p id="section-7-6.4.1">A set of stale Sender IDs, which allows each rekeyed node to purge authentication credentials and Recipient Contexts used in the group and associated with those Sender IDs. This in turn allows every group member to rely on stored authentication credentials, in order to confidently assert the group membership of other sender nodes, when receiving protected messages in the group (see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-27#section-12.2" class="relref">Section 12.2</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>). More details on the maintenance of stale Sender IDs are provided in <a href="#sssec-stale-sender-ids" class="auto internal xref">Section 7.1</a>.<a href="#section-7-6.4.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 <p id="section-7-7">The data distributed through a group rekeying <span class="bcp14">MAY</span> also include a new value for the Master Salt parameter of the Group OSCORE Common Security Context of that group.<a href="#section-7-7" class="pilcrow">¶</a></p>
@@ -2513,7 +2516,7 @@ Note that the Gid differs from the group name also introduced in <span>[<a href=
         <li class="normal" id="section-7-9.2">
           <p id="section-7-9.2.1">One or more nodes leave the group - That is, the group is rekeyed when one or more current members spontaneously request to leave the group (see <a href="#sec-leave-req" class="auto internal xref">Section 9.11</a>), or when the Group Manager forcibly evicts them from the group, e.g., due to expired or revoked authorization (see <a href="#sec-leaving" class="auto internal xref">Section 10</a>). Therefore, a leaving node cannot access communications in the group after its leaving, thus ensuring forward security in the group.<a href="#section-7-9.2.1" class="pilcrow">¶</a></p>
 <p id="section-7-9.2.2">
-Due to the set of stale Sender IDs distributed through the rekeying, this ensures that a node storing the latest group keying material does not store the authentication credentials of former group members (see Sections <a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-26#section-12.2" class="relref">12.2</a> and <a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-26#section-13.1" class="relref">13.1</a> of <span>[<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>).<a href="#section-7-9.2.2" class="pilcrow">¶</a></p>
+Due to the set of stale Sender IDs distributed through the rekeying, this ensures that a node storing the latest group keying material does not store the authentication credentials of former group members (see Sections <a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-27#section-12.2" class="relref">12.2</a> and <a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-27#section-13.1" class="relref">13.1</a> of <span>[<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>).<a href="#section-7-9.2.2" class="pilcrow">¶</a></p>
 </li>
       </ul>
 <p id="section-7-10">When the expiration time for the group keying material approaches or has passed, the Group Manager may want to extend the secure group operation, as considered appropriate. If the Group Manager does so, the Group Manager <span class="bcp14">MUST</span> rekey the group.<a href="#section-7-10" class="pilcrow">¶</a></p>
@@ -2623,7 +2626,7 @@ Due to the set of stale Sender IDs distributed through the rekeying, this ensure
 <p id="section-8.3.1-2">In addition to what is defined in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-4.1.2" class="relref">Section 4.1.2</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>, the handler performs the following actions.<a href="#section-8.3.1-2" class="pilcrow">¶</a></p>
 <p id="section-8.3.1-3">In case the requesting Client is a current group member, the Group Manager <span class="bcp14">MUST</span> reply with a 4.03 (Forbidden) error response. The response <span class="bcp14">MUST</span> have Content-Format set to "application/concise-problem-details+cbor" <span>[<a href="#RFC9290" class="cite xref">RFC9290</a>]</span> and is formatted as defined in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-4.1.2" class="relref">Section 4.1.2</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>. Within the Custom Problem Detail entry 'ace-groupcomm-error', the value of the 'error-id' field <span class="bcp14">MUST</span> be set to 8 ("Operation permitted only to signature verifiers").<a href="#section-8.3.1-3" class="pilcrow">¶</a></p>
 <p id="section-8.3.1-4">In case GROUPNAME denotes a pairwise-only group, the Group Manager <span class="bcp14">MUST</span> reply with a 4.00 (Bad Request) error response. The response <span class="bcp14">MUST</span> have Content-Format set to "application/concise-problem-details+cbor" <span>[<a href="#RFC9290" class="cite xref">RFC9290</a>]</span> and is formatted as defined in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-4.1.2" class="relref">Section 4.1.2</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>. Within the Custom Problem Detail entry 'ace-groupcomm-error', the value of the 'error-id' field <span class="bcp14">MUST</span> be set to 7 ("Signatures not used in the group").<a href="#section-8.3.1-4" class="pilcrow">¶</a></p>
-<p id="section-8.3.1-5">If all verifications succeed, the handler replies with a 2.05 (Content) response, specifying data that allow also an external signature verifier to verify signatures of messages protected with the group mode and sent to the group (see Sections <a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-26#section-7.5" class="relref">7.5</a> and <a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-26#section-12.3" class="relref">12.3</a> of <span>[<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>). The response <span class="bcp14">MUST</span> have Content-Format set to "application/ace-groupcomm+cbor". The payload of the response is a CBOR map, which is formatted as defined in <a href="#sec-verif-data" class="auto internal xref">Section 9.6</a>.<a href="#section-8.3.1-5" class="pilcrow">¶</a></p>
+<p id="section-8.3.1-5">If all verifications succeed, the handler replies with a 2.05 (Content) response, specifying data that allow also an external signature verifier to verify signatures of messages protected with the group mode and sent to the group (see Sections <a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-27#section-7.5" class="relref">7.5</a> and <a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-27#section-12.3" class="relref">12.3</a> of <span>[<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>). The response <span class="bcp14">MUST</span> have Content-Format set to "application/ace-groupcomm+cbor". The payload of the response is a CBOR map, which is formatted as defined in <a href="#sec-verif-data" class="auto internal xref">Section 9.6</a>.<a href="#section-8.3.1-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -2641,7 +2644,7 @@ Due to the set of stale Sender IDs distributed through the rekeying, this ensure
           </h4>
 <p id="section-8.4.1-1">The handler expects a FETCH request, whose payload specifies a version number of the group keying material, encoded as an unsigned CBOR integer (see <a href="#sec-retrieve-stale-sids" class="auto internal xref">Section 11.3.1</a>).<a href="#section-8.4.1-1" class="pilcrow">¶</a></p>
 <p id="section-8.4.1-2">In addition to what is defined in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-4.1.2" class="relref">Section 4.1.2</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>, the handler verifies that the requesting Client is a current member of the group. If the verification fails, the Group Manager <span class="bcp14">MUST</span> reply with a 4.03 (Forbidden) error response. The response <span class="bcp14">MUST</span> have Content-Format set to "application/concise-problem-details+cbor" <span>[<a href="#RFC9290" class="cite xref">RFC9290</a>]</span> and is formatted as defined in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-4.1.2" class="relref">Section 4.1.2</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>. Within the Custom Problem Detail entry 'ace-groupcomm-error', the value of the 'error-id' field <span class="bcp14">MUST</span> be set to 0 ("Operation permitted only to group members").<a href="#section-8.4.1-2" class="pilcrow">¶</a></p>
-<p id="section-8.4.1-3">If all verifications succeed, the handler replies with a 2.05 (Content) response, specifying data that allow the requesting Client to delete the Recipient Contexts and authentication credentials associated with former members of the group (see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-26#section-12.2" class="relref">Section 12.2</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>. The payload of the response is formatted as defined in <a href="#sec-retrieve-stale-sids" class="auto internal xref">Section 11.3.1</a>.<a href="#section-8.4.1-3" class="pilcrow">¶</a></p>
+<p id="section-8.4.1-3">If all verifications succeed, the handler replies with a 2.05 (Content) response, specifying data that allow the requesting Client to delete the Recipient Contexts and authentication credentials associated with former members of the group (see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-27#section-12.2" class="relref">Section 12.2</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>. The payload of the response is formatted as defined in <a href="#sec-retrieve-stale-sids" class="auto internal xref">Section 11.3.1</a>.<a href="#section-8.4.1-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -2815,7 +2818,7 @@ Due to the set of stale Sender IDs distributed through the rekeying, this ensure
             <p id="section-8.6-2.1.1">GET request to /ace-group/GROUPNAME/active, in order to check the current status of the OSCORE group.<a href="#section-8.6-2.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-8.6-2.2">
-            <p id="section-8.6-2.2.1">GET request to /ace-group/GROUPNAME/verif-data, in order for a signature verifier to retrieve data required to verify signatures of messages protected with the group mode of Group OSCORE and sent to a group (see Sections <a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-26#section-12.3" class="relref">12.3</a> and <a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-26#section-7.5" class="relref">7.5</a> of <span>[<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>). Note that this operation is relevant to support only to signature verifiers.<a href="#section-8.6-2.2.1" class="pilcrow">¶</a></p>
+            <p id="section-8.6-2.2.1">GET request to /ace-group/GROUPNAME/verif-data, in order for a signature verifier to retrieve data required to verify signatures of messages protected with the group mode of Group OSCORE and sent to a group (see Sections <a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-27#section-12.3" class="relref">12.3</a> and <a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-27#section-7.5" class="relref">7.5</a> of <span>[<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>). Note that this operation is relevant to support only to signature verifiers.<a href="#section-8.6-2.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-8.6-2.3">
             <p id="section-8.6-2.3.1">FETCH request to /ace-group/GROUPNAME/stale-sids, in order to retrieve from the Group Manager the data required to delete some of the stored group members' authentication credentials and associated Recipient Contexts (see <a href="#stale-sids-fetch" class="auto internal xref">Section 8.4.1</a>). This data is provided as an aggregated set of stale Sender IDs, which are used as specified in <a href="#missed-rekeying" class="auto internal xref">Section 11.3</a>.<a href="#section-8.6-2.3.1" class="pilcrow">¶</a></p>
@@ -2860,7 +2863,7 @@ Due to the set of stale Sender IDs distributed through the rekeying, this ensure
               <p id="section-9.1.1-4.4.1">The 'ace_groupcomm_profile' parameter <span class="bcp14">MUST</span> be present and has value coap_group_oscore_app.<a href="#section-9.1.1-4.4.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
-<p id="section-9.1.1-5">Upon receiving the Key Distribution Response, the group member retrieves the updated security parameters and group keying material, and, if they differ from the current ones, uses them to set up the new Group OSCORE Security Context as described in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-26#section-2" class="relref">Section 2</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>.<a href="#section-9.1.1-5" class="pilcrow">¶</a></p>
+<p id="section-9.1.1-5">Upon receiving the Key Distribution Response, the group member retrieves the updated security parameters and group keying material, and, if they differ from the current ones, uses them to set up the new Group OSCORE Security Context as described in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-27#section-2" class="relref">Section 2</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>.<a href="#section-9.1.1-5" class="pilcrow">¶</a></p>
 <p id="section-9.1.1-6">This application profile does not specify policies that instruct group members to retain messages and for how long, if those messages are unsuccessfully decrypted (OPT11).<a href="#section-9.1.1-6" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -2885,7 +2888,7 @@ Note that, in any other case, the current Sender ID of the group member is not s
               <p id="section-9.1.2-4.3.1">The 'exi' parameter <span class="bcp14">MUST</span> be present.<a href="#section-9.1.2-4.3.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
-<p id="section-9.1.2-5">Upon receiving the Key Distribution Response, the group member retrieves the updated security parameters, group keying material, and Sender ID, and, if they differ from the current ones, uses them to set up the new Group OSCORE Security Context as described in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-26#section-2" class="relref">Section 2</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>.<a href="#section-9.1.2-5" class="pilcrow">¶</a></p>
+<p id="section-9.1.2-5">Upon receiving the Key Distribution Response, the group member retrieves the updated security parameters, group keying material, and Sender ID, and, if they differ from the current ones, uses them to set up the new Group OSCORE Security Context as described in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-27#section-2" class="relref">Section 2</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>.<a href="#section-9.1.2-5" class="pilcrow">¶</a></p>
 <p id="section-9.1.2-6">This application profile does not specify policies that instruct group members to retain messages and for how long, if those messages are unsuccessfully decrypted (OPT11).<a href="#section-9.1.2-6" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -2896,7 +2899,7 @@ Note that, in any other case, the current Sender ID of the group member is not s
         <h3 id="name-request-to-change-individua">
 <a href="#section-9.2" class="section-number selfRef">9.2. </a><a href="#name-request-to-change-individua" class="section-name selfRef">Request to Change Individual Keying Material</a>
         </h3>
-<p id="section-9.2-1">As discussed in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-26#section-2.6.2" class="relref">Section 2.6.2</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>, a group member may at some point exhaust its Sender Sequence Numbers in the OSCORE group.<a href="#section-9.2-1" class="pilcrow">¶</a></p>
+<p id="section-9.2-1">As discussed in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-27#section-2.6.2" class="relref">Section 2.6.2</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>, a group member may at some point exhaust its Sender Sequence Numbers in the OSCORE group.<a href="#section-9.2-1" class="pilcrow">¶</a></p>
 <p id="section-9.2-2">When this happens, the group member <span class="bcp14">MUST</span> send a Key Renewal Request message to the Group Manager, as per <span><a href="https://rfc-editor.org/rfc/rfc9594#section-4.8.2.1" class="relref">Section 4.8.2.1</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>. That is, it sends a CoAP POST request to the endpoint /ace-group/GROUPNAME/nodes/NODENAME at the Group Manager.<a href="#section-9.2-2" class="pilcrow">¶</a></p>
 <p id="section-9.2-3">Upon receiving the Key Renewal Request, the Group Manager processes it as defined in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-4.8.2" class="relref">Section 4.8.2</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>, with the following additions.<a href="#section-9.2-3" class="pilcrow">¶</a></p>
 <p id="section-9.2-4">The Group Manager <span class="bcp14">MUST</span> return a 5.03 (Service Unavailable) response in case the OSCORE group identified by GROUPNAME is currently inactive (see <a href="#ssec-resource-active" class="auto internal xref">Section 8.2</a>). The response <span class="bcp14">MUST</span> have Content-Format set to "application/concise-problem-details+cbor" <span>[<a href="#RFC9290" class="cite xref">RFC9290</a>]</span> and is formatted as defined in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-4.1.2" class="relref">Section 4.1.2</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>. Within the Custom Problem Detail entry 'ace-groupcomm-error', the value of the 'error-id' field <span class="bcp14">MUST</span> be set to 9 ("Group currently not active").<a href="#section-9.2-4" class="pilcrow">¶</a></p>
@@ -2918,7 +2921,7 @@ The Group Manager <span class="bcp14">SHOULD</span> perform a group rekeying onl
 <p id="section-9.2-6.2.2.2.2">
 Then, the Group Manager replies with a Key Renewal Response formatted as defined in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-4.8.2" class="relref">Section 4.8.2</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>. The CBOR map in the response payload only includes the 'group_SenderId' parameter registered in <a href="#ssec-iana-ace-groupcomm-parameters-registry" class="auto internal xref">Section 16.3</a> of this document, specifying the new Sender ID of the group member encoded as a CBOR byte string (REQ27).<a href="#section-9.2-6.2.2.2.2" class="pilcrow">¶</a></p>
 <p id="section-9.2-6.2.2.2.3">
-Consistently with <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-26#section-2.6.3.1" class="relref">Section 2.6.3.1</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>, the Group Manager <span class="bcp14">MUST</span> assign a new Sender ID that has not been used in the OSCORE group since the latest time when the current Gid value was assigned to the group.<a href="#section-9.2-6.2.2.2.3" class="pilcrow">¶</a></p>
+Consistently with <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-27#section-2.6.3.1" class="relref">Section 2.6.3.1</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>, the Group Manager <span class="bcp14">MUST</span> assign a new Sender ID that has not been used in the OSCORE group since the latest time when the current Gid value was assigned to the group.<a href="#section-9.2-6.2.2.2.3" class="pilcrow">¶</a></p>
 <p id="section-9.2-6.2.2.2.4">
 Furthermore, the Group Manager <span class="bcp14">MUST</span> add the old, relinquished Sender ID of the group member to the most recent set of stale Sender IDs for the group (see <a href="#sssec-stale-sender-ids" class="auto internal xref">Section 7.1</a>).<a href="#section-9.2-6.2.2.2.4" class="pilcrow">¶</a></p>
 <p id="section-9.2-6.2.2.2.5">
@@ -3122,7 +3125,7 @@ The Group Manager <span class="bcp14">MUST</span> return a 5.03 (Service Unavail
         <h3 id="name-retrieve-signature-verifica">
 <a href="#section-9.6" class="section-number selfRef">9.6. </a><a href="#name-retrieve-signature-verifica" class="section-name selfRef">Retrieve Signature Verification Data</a>
         </h3>
-<p id="section-9.6-1">A signature verifier may need to retrieve data required to verify signatures of messages protected with the group mode and sent to a group (see Sections <a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-26#section-7.5" class="relref">7.5</a> and <a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-26#section-12.3" class="relref">12.3</a> of <span>[<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>). To this end, the signature verifier sends a Signature Verification Data Request message to the Group Manager.<a href="#section-9.6-1" class="pilcrow">¶</a></p>
+<p id="section-9.6-1">A signature verifier may need to retrieve data required to verify signatures of messages protected with the group mode and sent to a group (see Sections <a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-27#section-7.5" class="relref">7.5</a> and <a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-27#section-12.3" class="relref">12.3</a> of <span>[<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>). To this end, the signature verifier sends a Signature Verification Data Request message to the Group Manager.<a href="#section-9.6-1" class="pilcrow">¶</a></p>
 <p id="section-9.6-2">That is, it sends a CoAP GET request to the endpoint /ace-group/GROUPNAME/verif-data at the Group Manager defined in <a href="#ssec-resource-verif-data" class="auto internal xref">Section 8.3</a> of this document, where GROUPNAME is the name of the OSCORE group.<a href="#section-9.6-2" class="pilcrow">¶</a></p>
 <p id="section-9.6-3">The payload of the 2.05 (Content) Signature Verification Data Response is a CBOR map, which has the format used for the Join Response message in <a href="#ssec-join-resp" class="auto internal xref">Section 6.3</a>, with the following differences.<a href="#section-9.6-3" class="pilcrow">¶</a></p>
 <ul class="normal">
@@ -3140,10 +3143,10 @@ The 'key' parameter includes only the following data.<a href="#section-9.6-4.1.2
             </ul>
 </li>
           <li class="normal" id="section-9.6-4.2">
-            <p id="section-9.6-4.2.1">The 'sign_enc_key' parameter is also included, with CBOR label registered in <a href="#ssec-iana-ace-groupcomm-parameters-registry" class="auto internal xref">Section 16.3</a>. This parameter specifies the Signature Encryption Key of the OSCORE Group, encoded as a CBOR byte string. The Group Manager derives the Signature Encryption Key from the group keying material, as per <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-26#section-2.1.9" class="relref">Section 2.1.9</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>. This parameter <span class="bcp14">MUST</span> be present.<a href="#section-9.6-4.2.1" class="pilcrow">¶</a></p>
+            <p id="section-9.6-4.2.1">The 'sign_enc_key' parameter is also included, with CBOR label registered in <a href="#ssec-iana-ace-groupcomm-parameters-registry" class="auto internal xref">Section 16.3</a>. This parameter specifies the Signature Encryption Key of the OSCORE Group, encoded as a CBOR byte string. The Group Manager derives the Signature Encryption Key from the group keying material, as per <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-27#section-2.1.9" class="relref">Section 2.1.9</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>. This parameter <span class="bcp14">MUST</span> be present.<a href="#section-9.6-4.2.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-9.6-5">In order to verify signatures in the group (see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-26#section-7.5" class="relref">Section 7.5</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>), the signature verifier relies on: the data retrieved from the 2.05 (Content) Signature Verification Data Response; the public keys of the group members signing the messages to verify, retrieved from those members' authentication credentials that can be obtained as defined in <a href="#sec-pub-keys" class="auto internal xref">Section 9.3</a>; and the public key of the Group Manager, retrieved from the Group Manager's authentication credential that can be obtained as defined in <a href="#sec-gm-pub-key-signature-verifier" class="auto internal xref">Section 9.5.2</a>.<a href="#section-9.6-5" class="pilcrow">¶</a></p>
+<p id="section-9.6-5">In order to verify signatures in the group (see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-27#section-7.5" class="relref">Section 7.5</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>), the signature verifier relies on: the data retrieved from the 2.05 (Content) Signature Verification Data Response; the public keys of the group members signing the messages to verify, retrieved from those members' authentication credentials that can be obtained as defined in <a href="#sec-pub-keys" class="auto internal xref">Section 9.3</a>; and the public key of the Group Manager, retrieved from the Group Manager's authentication credential that can be obtained as defined in <a href="#sec-gm-pub-key-signature-verifier" class="auto internal xref">Section 9.5.2</a>.<a href="#section-9.6-5" class="pilcrow">¶</a></p>
 <p id="section-9.6-6"><a href="#fig-verif-data-req-resp" class="auto internal xref">Figure 3</a> gives an overview of the exchange described above,  while <a href="#fig-verif-data-req-resp-ex" class="auto internal xref">Figure 4</a> shows an example of Signature Verification Data Request-Response.<a href="#section-9.6-6" class="pilcrow">¶</a></p>
 <span id="name-message-flow-of-signature-v"></span><div id="fig-verif-data-req-resp">
 <figure id="figure-3">
@@ -3330,7 +3333,7 @@ The 'key' parameter includes only the following data.<a href="#section-9.6-4.1.2
           <li class="normal" id="section-9.10-2.2">
             <p id="section-9.10-2.2.1">As current group member in several groups, the node has missed a previous group rekeying in one of them (see <a href="#sec-group-rekeying-process" class="auto internal xref">Section 11</a>). Hence, it retains stale keying material and fails to decrypt received messages exchanged in that group.<a href="#section-9.10-2.2.1" class="pilcrow">¶</a></p>
 <p id="section-9.10-2.2.2">
-Such messages do not provide a direct hint to the correct group name, that the node would need in order to retrieve the latest keying material and authentication credentials from the Group Manager (see <a href="#ssec-updated-key-only" class="auto internal xref">Section 9.1.1</a>, <a href="#ssec-updated-and-individual-key" class="auto internal xref">Section 9.1.2</a>, and <a href="#sec-pub-keys" class="auto internal xref">Section 9.3</a>). However, such messages may specify the current Gid of the group, as value of the 'kid_context' field of the OSCORE CoAP option (see <span><a href="https://rfc-editor.org/rfc/rfc8613#section-6.1" class="relref">Section 6.1</a> of [<a href="#RFC8613" class="cite xref">RFC8613</a>]</span> and <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-26#section-3.2" class="relref">Section 3.2</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>).<a href="#section-9.10-2.2.2" class="pilcrow">¶</a></p>
+Such messages do not provide a direct hint to the correct group name, that the node would need in order to retrieve the latest keying material and authentication credentials from the Group Manager (see <a href="#ssec-updated-key-only" class="auto internal xref">Section 9.1.1</a>, <a href="#ssec-updated-and-individual-key" class="auto internal xref">Section 9.1.2</a>, and <a href="#sec-pub-keys" class="auto internal xref">Section 9.3</a>). However, such messages may specify the current Gid of the group, as value of the 'kid_context' field of the OSCORE CoAP option (see <span><a href="https://rfc-editor.org/rfc/rfc8613#section-6.1" class="relref">Section 6.1</a> of [<a href="#RFC8613" class="cite xref">RFC8613</a>]</span> and <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-27#section-3.2" class="relref">Section 3.2</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>).<a href="#section-9.10-2.2.2" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-9.10-2.3">
             <p id="section-9.10-2.3.1">As signature verifier, the node also refers to a group name for retrieving the required authentication credentials from the Group Manager (see <a href="#sec-pub-keys" class="auto internal xref">Section 9.3</a>). As discussed above, intercepted messages do not provide a direct hint to the correct group name, while they may specify the current Gid of the group, as value of the 'kid_context' field of the OSCORE CoAP option. In such a case, upon intercepting a message in the group, the node requires to correctly map the Gid currently used in the group with the invariant group name.<a href="#section-9.10-2.3.1" class="pilcrow">¶</a></p>
@@ -3435,7 +3438,7 @@ Furthermore, since it is not a group member, the node does not take part to a po
 <a href="#section-10" class="section-number selfRef">10. </a><a href="#name-removal-of-a-group-member" class="section-name selfRef">Removal of a Group Member</a>
       </h2>
 <p id="section-10-1">Other than after a spontaneous request to the Group Manager as described in <a href="#sec-leave-req" class="auto internal xref">Section 9.11</a>, a node may be forcibly removed from the OSCORE group, e.g., due to expired or revoked authorization.<a href="#section-10-1" class="pilcrow">¶</a></p>
-<p id="section-10-2">In either case, if the Group Manager reassigns Gid values during the group's lifetime (see Sections <a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-26#section-12.2.1.1" class="relref">12.2.1.1</a> and <a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-26#appendix-E" class="relref">E</a> of <span>[<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>), the Group Manager "forgets" the Birth Gid currently associated with the leaving node in the OSCORE group. This was stored following the Join Response sent to that node, after its latest (re-)joining of the OSCORE group (see <a href="#ssec-join-resp" class="auto internal xref">Section 6.3</a>).<a href="#section-10-2" class="pilcrow">¶</a></p>
+<p id="section-10-2">In either case, if the Group Manager reassigns Gid values during the group's lifetime (see Sections <a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-27#section-12.2.1.1" class="relref">12.2.1.1</a> and <a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-27#appendix-E" class="relref">E</a> of <span>[<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>), the Group Manager "forgets" the Birth Gid currently associated with the leaving node in the OSCORE group. This was stored following the Join Response sent to that node, after its latest (re-)joining of the OSCORE group (see <a href="#ssec-join-resp" class="auto internal xref">Section 6.3</a>).<a href="#section-10-2" class="pilcrow">¶</a></p>
 <p id="section-10-3">If any of the two conditions below holds, the Group Manager <span class="bcp14">MUST</span> inform the leaving node of its eviction as follows. If both conditions hold, the Group Manager <span class="bcp14">MUST</span> inform the leaving node by using only the method corresponding to one of either conditions.<a href="#section-10-3" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-10-4.1">
@@ -3483,7 +3486,7 @@ Furthermore, since it is not a group member, the node does not take part to a po
 </li>
       </ul>
 <p id="section-11-3">Before starting such distribution, the Group Manager <span class="bcp14">MUST</span> increment the version number of the group keying material used in the group.<a href="#section-11-3" class="pilcrow">¶</a></p>
-<p id="section-11-4">As per Sections <a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-26#section-12.2.1.1" class="relref">12.2.1.1</a> and <a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-26#appendix-E" class="relref">E</a> of <span>[<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>, the Group Manager <span class="bcp14">MAY</span> reassign a Gid to the same group over that group's lifetime, e.g., once the whole space of Gid values has been used for the group in question. If the Group Manager supports reassignment of Gid values and performs it in a group, then the Group Manager additionally takes the following actions.<a href="#section-11-4" class="pilcrow">¶</a></p>
+<p id="section-11-4">As per Sections <a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-27#section-12.2.1.1" class="relref">12.2.1.1</a> and <a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-27#appendix-E" class="relref">E</a> of <span>[<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>, the Group Manager <span class="bcp14">MAY</span> reassign a Gid to the same group over that group's lifetime, e.g., once the whole space of Gid values has been used for the group in question. If the Group Manager supports reassignment of Gid values and performs it in a group, then the Group Manager additionally takes the following actions.<a href="#section-11-4" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-11-5.1">
           <p id="section-11-5.1.1">Before rekeying the group, the Group Manager <span class="bcp14">MUST</span> check if the new Gid to be distributed coincides with the Birth Gid of any of the current group members (see <a href="#ssec-join-resp" class="auto internal xref">Section 6.3</a>).<a href="#section-11-5.1.1" class="pilcrow">¶</a></p>
@@ -3495,11 +3498,11 @@ Until a further following group rekeying, the Group Manager <span class="bcp14">
 </li>
       </ul>
 <p id="section-11-6">Throughout the rekeying execution, the Group Manager <span class="bcp14">MUST</span> preserve the same unchanged OSCORE Sender IDs for all group members that are intended to remain in the group. This avoids affecting the retrieval of authentication credentials from the Group Manager and the verification of group messages.<a href="#section-11-6" class="pilcrow">¶</a></p>
-<p id="section-11-7">The Group Manager <span class="bcp14">MUST</span> support the "Point-to-Point" group rekeying scheme registered in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-11.12" class="relref">Section 11.12</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>, as per the detailed use defined in <a href="#sending-rekeying-msg" class="auto internal xref">Section 11.1</a> of this document. Future specifications may define how this application profile can use alternative group rekeying schemes, which <span class="bcp14">MUST</span> comply with the functional steps defined in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-26#section-12.2" class="relref">Section 12.2</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>. The Group Manager <span class="bcp14">MUST</span> indicate the use of such an alternative group rekeying scheme to joining nodes, by means of the 'group_rekeying' parameter included in Join Response messages (see <a href="#ssec-join-resp" class="auto internal xref">Section 6.3</a>).<a href="#section-11-7" class="pilcrow">¶</a></p>
+<p id="section-11-7">The Group Manager <span class="bcp14">MUST</span> support the "Point-to-Point" group rekeying scheme registered in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-11.12" class="relref">Section 11.12</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>, as per the detailed use defined in <a href="#sending-rekeying-msg" class="auto internal xref">Section 11.1</a> of this document. Future specifications may define how this application profile can use alternative group rekeying schemes, which <span class="bcp14">MUST</span> comply with the functional steps defined in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-27#section-12.2" class="relref">Section 12.2</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>. The Group Manager <span class="bcp14">MUST</span> indicate the use of such an alternative group rekeying scheme to joining nodes, by means of the 'group_rekeying' parameter included in Join Response messages (see <a href="#ssec-join-resp" class="auto internal xref">Section 6.3</a>).<a href="#section-11-7" class="pilcrow">¶</a></p>
 <p id="section-11-8">It is <span class="bcp14">RECOMMENDED</span> that the Group Manager gets confirmation of successful distribution from the group members, and admits a maximum number of individual retransmissions to non-confirming group members. Once the group rekeying process has completed, the Group Manager creates a new empty set of stale Sender IDs associated with the version of the newly distributed group keying material (see <a href="#sssec-stale-sender-ids" class="auto internal xref">Section 7.1</a>).<a href="#section-11-8" class="pilcrow">¶</a></p>
 <p id="section-11-9">In case the rekeying terminates and some group members have not received the new keying material, such group members will not be able to correctly process following secured messages exchanged in the group. These group members will eventually contact the Group Manager, in order to retrieve the current keying material and its version.<a href="#section-11-9" class="pilcrow">¶</a></p>
 <p id="section-11-10">Some of these group members may be in multiple groups, each associated with a different Group Manager. When failing to correctly process messages secured with the new keying material, these group members may not have sufficient information to determine which exact Group Manager to contact, in order to retrieve the current keying material that they are missing.<a href="#section-11-10" class="pilcrow">¶</a></p>
-<p id="section-11-11">If the Gid is formatted as described in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-26#appendix-C" class="relref">Appendix C</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>, then the Group Prefix can be used as a hint to determine the right Group Manager, as long as no collisions among Group Prefixes are experienced. Otherwise, a group member needs to contact the Group Manager of each group, e.g., by first requesting only the version of the current group keying material (see <a href="#sec-version" class="auto internal xref">Section 9.8</a>) and then possibly requesting the current keying material (see <a href="#ssec-updated-key-only" class="auto internal xref">Section 9.1.1</a>).<a href="#section-11-11" class="pilcrow">¶</a></p>
+<p id="section-11-11">If the Gid is formatted as described in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-27#appendix-C" class="relref">Appendix C</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>, then the Group Prefix can be used as a hint to determine the right Group Manager, as long as no collisions among Group Prefixes are experienced. Otherwise, a group member needs to contact the Group Manager of each group, e.g., by first requesting only the version of the current group keying material (see <a href="#sec-version" class="auto internal xref">Section 9.8</a>) and then possibly requesting the current keying material (see <a href="#ssec-updated-key-only" class="auto internal xref">Section 9.1.1</a>).<a href="#section-11-11" class="pilcrow">¶</a></p>
 <p id="section-11-12">Furthermore, some of these group members can be in multiple groups, all of which are associated with the same Group Manager. In this case, these group members may also not have sufficient information to determine which exact group to refer to, when contacting the right Group Manager. Hence, these group members need to contact a Group Manager multiple times, i.e., separately for each group they belong to and associated with that Group Manager.<a href="#section-11-12" class="pilcrow">¶</a></p>
 <p id="section-11-13"><a href="#receiving-rekeying-msg" class="auto internal xref">Section 11.2</a> defines the actions performed by a group member upon receiving the new group keying material. <a href="#missed-rekeying" class="auto internal xref">Section 11.3</a> discusses how a group member can realize that it has missed one or more rekeying instances, and the actions it is accordingly required to take.<a href="#section-11-13" class="pilcrow">¶</a></p>
 <div id="sending-rekeying-msg">
@@ -3561,7 +3564,7 @@ Following the same semantics used in the Join Response message (see <a href="#ss
         </h3>
 <p id="section-11.2-1">After having received the new group keying material, a group member proceeds as follows. Unless otherwise specified, the following is independent of the specifically used group rekeying scheme.<a href="#section-11.2-1" class="pilcrow">¶</a></p>
 <p id="section-11.2-2">The group member considers the stale Sender IDs received from the Group Manager. If the "Point-to-Point" group rekeying scheme as detailed in <a href="#sending-rekeying-msg" class="auto internal xref">Section 11.1</a> is used, the stale Sender IDs are specified by the 'stale_node_ids' parameter.<a href="#section-11.2-2" class="pilcrow">¶</a></p>
-<p id="section-11.2-3">After that, as per <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-26#section-12.2" class="relref">Section 12.2</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>, the group member <span class="bcp14">MUST</span> remove every authentication credential associated with a stale Sender ID from its list of group members' authentication credentials used in the group, and <span class="bcp14">MUST</span> delete each of its Recipient Contexts used in the group whose corresponding Recipient ID is a stale Sender ID.<a href="#section-11.2-3" class="pilcrow">¶</a></p>
+<p id="section-11.2-3">After that, as per <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-27#section-12.2" class="relref">Section 12.2</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>, the group member <span class="bcp14">MUST</span> remove every authentication credential associated with a stale Sender ID from its list of group members' authentication credentials used in the group, and <span class="bcp14">MUST</span> delete each of its Recipient Contexts used in the group whose corresponding Recipient ID is a stale Sender ID.<a href="#section-11.2-3" class="pilcrow">¶</a></p>
 <p id="section-11.2-4">Then, the following cases can occur, based on the version number V' of the new group keying material distributed through the rekeying process. If the "Point-to-Point" group rekeying scheme as detailed in <a href="#sending-rekeying-msg" class="auto internal xref">Section 11.1</a> is used, this information is specified by the 'num' parameter.<a href="#section-11.2-4" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-11.2-5.1">
@@ -4016,15 +4019,15 @@ multicast) <span class="bcp14">MUST</span> support this parameter.<a href="#sect
 <p id="section-15.1-1">This profile leverages the following management aspects related to OSCORE groups and discussed in the sections of <span>[<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span> referred below.<a href="#section-15.1-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-15.1-2.1">
-            <p id="section-15.1-2.1.1">Management of group keying material (see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-26#section-12.2" class="relref">Section 12.2</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>). The Group Manager is responsible for the renewal and re-distribution of the keying material in the groups of its competence (rekeying).<a href="#section-15.1-2.1.1" class="pilcrow">¶</a></p>
+            <p id="section-15.1-2.1.1">Management of group keying material (see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-27#section-12.2" class="relref">Section 12.2</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>). The Group Manager is responsible for the renewal and re-distribution of the keying material in the groups of its competence (rekeying).<a href="#section-15.1-2.1.1" class="pilcrow">¶</a></p>
 <p id="section-15.1-2.1.2">
 The Group Manager performs a rekeying when one or more members leave the group, thus preserving forward security and ensuring that the security properties of Group OSCORE are fulfilled. According to the specific application requirements, the Group Manager can also rekey the group upon a new node's joining, in case backward security has also to be preserved.<a href="#section-15.1-2.1.2" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-15.1-2.2">
-            <p id="section-15.1-2.2.1">Provisioning and retrieval of authentication credentials (see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-26#section-12" class="relref">Section 12</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>). The Group Manager acts as repository of authentication credentials of group members, and provides them upon request.<a href="#section-15.1-2.2.1" class="pilcrow">¶</a></p>
+            <p id="section-15.1-2.2.1">Provisioning and retrieval of authentication credentials (see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-27#section-12" class="relref">Section 12</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>). The Group Manager acts as repository of authentication credentials of group members, and provides them upon request.<a href="#section-15.1-2.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-15.1-2.3">
-            <p id="section-15.1-2.3.1">Freshness of messages (see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-26#section-5.2" class="relref">Section 5.2</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>). This concerns how a recipient node can assert freshness of messages received within the group.<a href="#section-15.1-2.3.1" class="pilcrow">¶</a></p>
+            <p id="section-15.1-2.3.1">Freshness of messages (see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-27#section-5.2" class="relref">Section 5.2</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>). This concerns how a recipient node can assert freshness of messages received within the group.<a href="#section-15.1-2.3.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <p id="section-15.1-3">Before sending the Join Response, the Group Manager <span class="bcp14">MUST</span> verify that the joining node actually owns the associated private key. To this end, the Group Manager relies on the proof-of-possession challenge-response defined in <a href="#sec-joining-node-to-GM" class="auto internal xref">Section 6</a>.<a href="#section-15.1-3" class="pilcrow">¶</a></p>
@@ -4250,7 +4253,7 @@ The Group Manager performs a rekeying when one or more members leave the group, 
             <p id="section-16.4-2.1.1">Name: Group_OSCORE_Input_Material object<a href="#section-16.4-2.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.4-2.2">
-            <p id="section-16.4-2.2.1">Key Type Value: GROUPCOMM_KEY_TBD<a href="#section-16.4-2.2.1" class="pilcrow">¶</a></p>
+            <p id="section-16.4-2.2.1">Key Type Value: GROUPCOMM_KEY_TBD (suggested value: 1)<a href="#section-16.4-2.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.4-2.3">
             <p id="section-16.4-2.3.1">Profile: "coap_group_oscore_app", defined in <a href="#ssec-iana-groupcomm-profile-registry" class="auto internal xref">Section 16.5</a> of this document.<a href="#section-16.4-2.3.1" class="pilcrow">¶</a></p>
@@ -4680,7 +4683,7 @@ Entries that do not meet these objectives of clarity and completeness should not
 <dd class="break"></dd>
 <dt id="I-D.ietf-core-oscore-groupcomm">[I-D.ietf-core-oscore-groupcomm]</dt>
         <dd>
-<span class="refAuthor">Tiloca, M.</span>, <span class="refAuthor">Selander, G.</span>, <span class="refAuthor">Palombini, F.</span>, <span class="refAuthor">Mattsson, J. P.</span>, and <span class="refAuthor">R. Höglund</span>, <span class="refTitle">"Group Object Security for Constrained RESTful Environments (Group OSCORE)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-core-oscore-groupcomm-26</span>, <time datetime="2025-07-05" class="refDate">5 July 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-26">https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-26</a>&gt;</span>. </dd>
+<span class="refAuthor">Tiloca, M.</span>, <span class="refAuthor">Selander, G.</span>, <span class="refAuthor">Palombini, F.</span>, <span class="refAuthor">Mattsson, J. P.</span>, and <span class="refAuthor">R. Höglund</span>, <span class="refTitle">"Group Object Security for Constrained RESTful Environments (Group OSCORE)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-core-oscore-groupcomm-27</span>, <time datetime="2025-09-12" class="refDate">12 September 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-27">https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-27</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="NIST-800-56A">[NIST-800-56A]</dt>
         <dd>
@@ -4813,7 +4816,7 @@ Entries that do not meet these objectives of clarity and completeness should not
 <dd class="break"></dd>
 <dt id="I-D.ietf-core-groupcomm-bis">[I-D.ietf-core-groupcomm-bis]</dt>
         <dd>
-<span class="refAuthor">Dijk, E.</span> and <span class="refAuthor">M. Tiloca</span>, <span class="refTitle">"Group Communication for the Constrained Application Protocol (CoAP)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-core-groupcomm-bis-14</span>, <time datetime="2025-07-02" class="refDate">2 July 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-groupcomm-bis-14">https://datatracker.ietf.org/doc/html/draft-ietf-core-groupcomm-bis-14</a>&gt;</span>. </dd>
+<span class="refAuthor">Dijk, E.</span> and <span class="refAuthor">M. Tiloca</span>, <span class="refTitle">"Group Communication for the Constrained Application Protocol (CoAP)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-core-groupcomm-bis-15</span>, <time datetime="2025-09-25" class="refDate">25 September 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-groupcomm-bis-15">https://datatracker.ietf.org/doc/html/draft-ietf-core-groupcomm-bis-15</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.ietf-cose-cbor-encoded-cert">[I-D.ietf-cose-cbor-encoded-cert]</dt>
         <dd>
@@ -4821,7 +4824,7 @@ Entries that do not meet these objectives of clarity and completeness should not
 <dd class="break"></dd>
 <dt id="I-D.tiloca-core-oscore-discovery">[I-D.tiloca-core-oscore-discovery]</dt>
         <dd>
-<span class="refAuthor">Tiloca, M.</span>, <span class="refAuthor">Amsüss, C.</span>, and <span class="refAuthor">P. Van der Stok</span>, <span class="refTitle">"Discovery of OSCORE Groups with the CoRE Resource Directory"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-tiloca-core-oscore-discovery-17</span>, <time datetime="2025-03-03" class="refDate">3 March 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-tiloca-core-oscore-discovery-17">https://datatracker.ietf.org/doc/html/draft-tiloca-core-oscore-discovery-17</a>&gt;</span>. </dd>
+<span class="refAuthor">Tiloca, M.</span>, <span class="refAuthor">Amsüss, C.</span>, and <span class="refAuthor">P. Van der Stok</span>, <span class="refTitle">"Discovery of OSCORE Groups with the CoRE Resource Directory"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-tiloca-core-oscore-discovery-18</span>, <time datetime="2025-09-03" class="refDate">3 September 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-tiloca-core-oscore-discovery-18">https://datatracker.ietf.org/doc/html/draft-tiloca-core-oscore-discovery-18</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC5280">[RFC5280]</dt>
         <dd>
@@ -5156,724 +5159,751 @@ sign_params = 11
 <a href="#appendix-D" class="section-number selfRef">Appendix D. </a><a href="#name-document-updates" class="section-name selfRef">Document Updates</a>
       </h2>
 <p id="appendix-D-1">This section is to be removed before publishing as an RFC.<a href="#appendix-D-1" class="pilcrow">¶</a></p>
-<div id="sec-16-17">
+<div id="sec-17-18">
 <section id="appendix-D.1">
-        <h3 id="name-version-16-to-17">
-<a href="#appendix-D.1" class="section-number selfRef">D.1. </a><a href="#name-version-16-to-17" class="section-name selfRef">Version -16 to -17</a>
+        <h3 id="name-version-17-to-18">
+<a href="#appendix-D.1" class="section-number selfRef">D.1. </a><a href="#name-version-17-to-18" class="section-name selfRef">Version -17 to -18</a>
         </h3>
 <ul class="normal">
 <li class="normal" id="appendix-D.1-1.1">
-            <p id="appendix-D.1-1.1.1">CBOR diagnostic notation uses placeholders from a CDDL model.<a href="#appendix-D.1-1.1.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.1.1">Avoid unnecessary normative language.<a href="#appendix-D.1-1.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.2">
-            <p id="appendix-D.1-1.2.1">Fixes in the CDDL definitions.<a href="#appendix-D.1-1.2.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.2.1">Added missing optional check at the Group Manager when receiving a group member's updated authentication credential.<a href="#appendix-D.1-1.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.3">
-            <p id="appendix-D.1-1.3.1">Fixes in the examples in CBOR diagnostic notation.<a href="#appendix-D.1-1.3.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.3.1">Clarified the origin of the latest client's authentication credential.<a href="#appendix-D.1-1.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.4">
-            <p id="appendix-D.1-1.4.1">Updated author list.<a href="#appendix-D.1-1.4.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.4.1">Clarified meaning of the group becoming inactive and active again.<a href="#appendix-D.1-1.4.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.5">
-            <p id="appendix-D.1-1.5.1">Updated references and section numbers of referred documents.<a href="#appendix-D.1-1.5.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.5.1">Refer to all the REQ and OPT profile requirements.<a href="#appendix-D.1-1.5.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.6">
-            <p id="appendix-D.1-1.6.1">Use actual tables.<a href="#appendix-D.1-1.6.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.6.1">Minor clarifications and editorial improvements.<a href="#appendix-D.1-1.6.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.1-1.7">
-            <p id="appendix-D.1-1.7.1">Add high-level recap of the concept of scope.<a href="#appendix-D.1-1.7.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="appendix-D.1-1.8">
-            <p id="appendix-D.1-1.8.1">Fixed name of the error with error code 4.<a href="#appendix-D.1-1.8.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="appendix-D.1-1.9">
-            <p id="appendix-D.1-1.9.1">Renamed parameters to align with RFC 9594<a href="#appendix-D.1-1.9.1" class="pilcrow">¶</a></p>
+        </ul>
+</section>
+</div>
+<div id="sec-16-17">
+<section id="appendix-D.2">
+        <h3 id="name-version-16-to-17">
+<a href="#appendix-D.2" class="section-number selfRef">D.2. </a><a href="#name-version-16-to-17" class="section-name selfRef">Version -16 to -17</a>
+        </h3>
 <ul class="normal">
-<li class="normal" id="appendix-D.1-1.9.2.1">
-                <p id="appendix-D.1-1.9.2.1.1">"Group Encryption Key" becomes "Signature Encryption Key"<a href="#appendix-D.1-1.9.2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="appendix-D.2-1.1">
+            <p id="appendix-D.2-1.1.1">CBOR diagnostic notation uses placeholders from a CDDL model.<a href="#appendix-D.2-1.1.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="normal" id="appendix-D.1-1.9.2.2">
-                <p id="appendix-D.1-1.9.2.2.1">'group_enc_key' becomes 'sign_enc_key'<a href="#appendix-D.1-1.9.2.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.2-1.2">
+            <p id="appendix-D.2-1.2.1">Fixes in the CDDL definitions.<a href="#appendix-D.2-1.2.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="normal" id="appendix-D.1-1.9.2.3">
-                <p id="appendix-D.1-1.9.2.3.1">"Signature Encryption Algorithm" becomes "Group Encryption Algorithm"<a href="#appendix-D.1-1.9.2.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.2-1.3">
+            <p id="appendix-D.2-1.3.1">Fixes in the examples in CBOR diagnostic notation.<a href="#appendix-D.2-1.3.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="normal" id="appendix-D.1-1.9.2.4">
-                <p id="appendix-D.1-1.9.2.4.1">'sign_enc_alg' becomes 'gp_enc_alg'<a href="#appendix-D.1-1.9.2.4.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.2-1.4">
+            <p id="appendix-D.2-1.4.1">Updated author list.<a href="#appendix-D.2-1.4.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-D.2-1.5">
+            <p id="appendix-D.2-1.5.1">Updated references and section numbers of referred documents.<a href="#appendix-D.2-1.5.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-D.2-1.6">
+            <p id="appendix-D.2-1.6.1">Use actual tables.<a href="#appendix-D.2-1.6.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-D.2-1.7">
+            <p id="appendix-D.2-1.7.1">Add high-level recap of the concept of scope.<a href="#appendix-D.2-1.7.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-D.2-1.8">
+            <p id="appendix-D.2-1.8.1">Fixed name of the error with error code 4.<a href="#appendix-D.2-1.8.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-D.2-1.9">
+            <p id="appendix-D.2-1.9.1">Renamed parameters to align with RFC 9594<a href="#appendix-D.2-1.9.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-D.2-1.9.2.1">
+                <p id="appendix-D.2-1.9.2.1.1">"Group Encryption Key" becomes "Signature Encryption Key"<a href="#appendix-D.2-1.9.2.1.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="appendix-D.2-1.9.2.2">
+                <p id="appendix-D.2-1.9.2.2.1">'group_enc_key' becomes 'sign_enc_key'<a href="#appendix-D.2-1.9.2.2.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="appendix-D.2-1.9.2.3">
+                <p id="appendix-D.2-1.9.2.3.1">"Signature Encryption Algorithm" becomes "Group Encryption Algorithm"<a href="#appendix-D.2-1.9.2.3.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="appendix-D.2-1.9.2.4">
+                <p id="appendix-D.2-1.9.2.4.1">'sign_enc_alg' becomes 'gp_enc_alg'<a href="#appendix-D.2-1.9.2.4.1" class="pilcrow">¶</a></p>
 </li>
             </ul>
 </li>
-          <li class="normal" id="appendix-D.1-1.10">
-            <p id="appendix-D.1-1.10.1">Added CBOR integer abbreviations for ACE Groupcomm Parameters.<a href="#appendix-D.1-1.10.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.2-1.10">
+            <p id="appendix-D.2-1.10.1">Added CBOR integer abbreviations for ACE Groupcomm Parameters.<a href="#appendix-D.2-1.10.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.1-1.11">
-            <p id="appendix-D.1-1.11.1">Considerations on authentication credentials consistent with RFC 9594.<a href="#appendix-D.1-1.11.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.2-1.11">
+            <p id="appendix-D.2-1.11.1">Considerations on authentication credentials consistent with RFC 9594.<a href="#appendix-D.2-1.11.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.1-1.12">
-            <p id="appendix-D.1-1.12.1">Revised alternative computing of N_S challenge when DTLS is used.<a href="#appendix-D.1-1.12.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.2-1.12">
+            <p id="appendix-D.2-1.12.1">Revised alternative computing of N_S challenge when DTLS is used.<a href="#appendix-D.2-1.12.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.1-1.13">
-            <p id="appendix-D.1-1.13.1">Generalized definition of ecdh_info.<a href="#appendix-D.1-1.13.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.2-1.13">
+            <p id="appendix-D.2-1.13.1">Generalized definition of ecdh_info.<a href="#appendix-D.2-1.13.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.1-1.14">
-            <p id="appendix-D.1-1.14.1">Generalized definition of kdc_dh_creds.<a href="#appendix-D.1-1.14.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.2-1.14">
+            <p id="appendix-D.2-1.14.1">Generalized definition of kdc_dh_creds.<a href="#appendix-D.2-1.14.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.1-1.15">
-            <p id="appendix-D.1-1.15.1">Clarified maximum size of the OSCORE Sender ID.<a href="#appendix-D.1-1.15.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.2-1.15">
+            <p id="appendix-D.2-1.15.1">Clarified maximum size of the OSCORE Sender ID.<a href="#appendix-D.2-1.15.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.1-1.16">
-            <p id="appendix-D.1-1.16.1">Clarified parameters left "not set" in the Security Context.<a href="#appendix-D.1-1.16.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.2-1.16">
+            <p id="appendix-D.2-1.16.1">Clarified parameters left "not set" in the Security Context.<a href="#appendix-D.2-1.16.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.1-1.17">
-            <p id="appendix-D.1-1.17.1">Clarified meaning of 'cred_fmt'.<a href="#appendix-D.1-1.17.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.2-1.17">
+            <p id="appendix-D.2-1.17.1">Clarified meaning of 'cred_fmt'.<a href="#appendix-D.2-1.17.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.1-1.18">
-            <p id="appendix-D.1-1.18.1">Consistent mandatory use of 'cnonce'.<a href="#appendix-D.1-1.18.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.2-1.18">
+            <p id="appendix-D.2-1.18.1">Consistent mandatory use of 'cnonce'.<a href="#appendix-D.2-1.18.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.1-1.19">
-            <p id="appendix-D.1-1.19.1">Relation between 'cred_fmt' and Authentication Credential Format.<a href="#appendix-D.1-1.19.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.2-1.19">
+            <p id="appendix-D.2-1.19.1">Relation between 'cred_fmt' and Authentication Credential Format.<a href="#appendix-D.2-1.19.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.1-1.20">
-            <p id="appendix-D.1-1.20.1">Implicit PoP evidence of the Client's authentication credential.<a href="#appendix-D.1-1.20.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.2-1.20">
+            <p id="appendix-D.2-1.20.1">Implicit PoP evidence of the Client's authentication credential.<a href="#appendix-D.2-1.20.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.1-1.21">
-            <p id="appendix-D.1-1.21.1">Process of 'client_cred' and 'client_cred_verify' consistent with RFC 9594.<a href="#appendix-D.1-1.21.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.2-1.21">
+            <p id="appendix-D.2-1.21.1">Process of 'client_cred' and 'client_cred_verify' consistent with RFC 9594.<a href="#appendix-D.2-1.21.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.1-1.22">
-            <p id="appendix-D.1-1.22.1">GET to ace-group/GROUPNAME/kdc-cred only for group members.<a href="#appendix-D.1-1.22.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.2-1.22">
+            <p id="appendix-D.2-1.22.1">GET to ace-group/GROUPNAME/kdc-cred only for group members.<a href="#appendix-D.2-1.22.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.1-1.23">
-            <p id="appendix-D.1-1.23.1">Added FETCH handler for /ace-group/GROUPNAME/kdc-cred.<a href="#appendix-D.1-1.23.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.2-1.23">
+            <p id="appendix-D.2-1.23.1">Added FETCH handler for /ace-group/GROUPNAME/kdc-cred.<a href="#appendix-D.2-1.23.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.1-1.24">
-            <p id="appendix-D.1-1.24.1">PUT becomes POST for ace-group/GROUPNAME/nodes/NODENAME.<a href="#appendix-D.1-1.24.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.2-1.24">
+            <p id="appendix-D.2-1.24.1">PUT becomes POST for ace-group/GROUPNAME/nodes/NODENAME.<a href="#appendix-D.2-1.24.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.1-1.25">
-            <p id="appendix-D.1-1.25.1">Fixed error response code from /ace-group/GROUPNAME/nodes/NODENAME.<a href="#appendix-D.1-1.25.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.2-1.25">
+            <p id="appendix-D.2-1.25.1">Fixed error response code from /ace-group/GROUPNAME/nodes/NODENAME.<a href="#appendix-D.2-1.25.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.1-1.26">
-            <p id="appendix-D.1-1.26.1">Consistent use of the 'exi' ACE Groupcomm Parameter.<a href="#appendix-D.1-1.26.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.2-1.26">
+            <p id="appendix-D.2-1.26.1">Consistent use of the 'exi' ACE Groupcomm Parameter.<a href="#appendix-D.2-1.26.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.1-1.27">
-            <p id="appendix-D.1-1.27.1">Use concise problem details (RFC9290) for error responses.<a href="#appendix-D.1-1.27.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.2-1.27">
+            <p id="appendix-D.2-1.27.1">Use concise problem details (RFC9290) for error responses.<a href="#appendix-D.2-1.27.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.1-1.28">
-            <p id="appendix-D.1-1.28.1">Revised default values on group configuration parameters.<a href="#appendix-D.1-1.28.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.2-1.28">
+            <p id="appendix-D.2-1.28.1">Revised default values on group configuration parameters.<a href="#appendix-D.2-1.28.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.1-1.29">
-            <p id="appendix-D.1-1.29.1">Revised future-ready generalization of 'ecdh_info_entry'.<a href="#appendix-D.1-1.29.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.2-1.29">
+            <p id="appendix-D.2-1.29.1">Revised future-ready generalization of 'ecdh_info_entry'.<a href="#appendix-D.2-1.29.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.1-1.30">
-            <p id="appendix-D.1-1.30.1">CCS is used as default format of authentication credential.<a href="#appendix-D.1-1.30.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.2-1.30">
+            <p id="appendix-D.2-1.30.1">CCS is used as default format of authentication credential.<a href="#appendix-D.2-1.30.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.1-1.31">
-            <p id="appendix-D.1-1.31.1">Updated name of TLS exporter label.<a href="#appendix-D.1-1.31.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.2-1.31">
+            <p id="appendix-D.2-1.31.1">Updated name of TLS exporter label.<a href="#appendix-D.2-1.31.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.1-1.32">
-            <p id="appendix-D.1-1.32.1">Revised IANA considerations.<a href="#appendix-D.1-1.32.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.2-1.32">
+            <p id="appendix-D.2-1.32.1">Revised IANA considerations.<a href="#appendix-D.2-1.32.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.1-1.33">
-            <p id="appendix-D.1-1.33.1">Aligned requirement formulation with that in RFC 9594.<a href="#appendix-D.1-1.33.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.2-1.33">
+            <p id="appendix-D.2-1.33.1">Aligned requirement formulation with that in RFC 9594.<a href="#appendix-D.2-1.33.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.1-1.34">
-            <p id="appendix-D.1-1.34.1">Use of AASVG in message diagrams.<a href="#appendix-D.1-1.34.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.2-1.34">
+            <p id="appendix-D.2-1.34.1">Use of AASVG in message diagrams.<a href="#appendix-D.2-1.34.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.1-1.35">
-            <p id="appendix-D.1-1.35.1">Clarifications and editorial fixes.<a href="#appendix-D.1-1.35.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.2-1.35">
+            <p id="appendix-D.2-1.35.1">Clarifications and editorial fixes.<a href="#appendix-D.2-1.35.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
 </div>
 <div id="sec-15-16">
-<section id="appendix-D.2">
+<section id="appendix-D.3">
         <h3 id="name-version-15-to-16">
-<a href="#appendix-D.2" class="section-number selfRef">D.2. </a><a href="#name-version-15-to-16" class="section-name selfRef">Version -15 to -16</a>
+<a href="#appendix-D.3" class="section-number selfRef">D.3. </a><a href="#name-version-15-to-16" class="section-name selfRef">Version -15 to -16</a>
         </h3>
 <ul class="normal">
-<li class="normal" id="appendix-D.2-1.1">
-            <p id="appendix-D.2-1.1.1">Early mentioning of invalid combinations of roles.<a href="#appendix-D.2-1.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="appendix-D.3-1.1">
+            <p id="appendix-D.3-1.1.1">Early mentioning of invalid combinations of roles.<a href="#appendix-D.3-1.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.2-1.2">
-            <p id="appendix-D.2-1.2.1">Revised presentation of handling of stale Sender IDs.<a href="#appendix-D.2-1.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.3-1.2">
+            <p id="appendix-D.3-1.2.1">Revised presentation of handling of stale Sender IDs.<a href="#appendix-D.3-1.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.2-1.3">
-            <p id="appendix-D.2-1.3.1">Fixed CDDL notation.<a href="#appendix-D.2-1.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.3-1.3">
+            <p id="appendix-D.3-1.3.1">Fixed CDDL notation.<a href="#appendix-D.3-1.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.2-1.4">
-            <p id="appendix-D.2-1.4.1">Fixed diagnostic notation in examples.<a href="#appendix-D.2-1.4.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.3-1.4">
+            <p id="appendix-D.3-1.4.1">Fixed diagnostic notation in examples.<a href="#appendix-D.3-1.4.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.2-1.5">
-            <p id="appendix-D.2-1.5.1">Possible reason to deviate from default parameter values.<a href="#appendix-D.2-1.5.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.3-1.5">
+            <p id="appendix-D.3-1.5.1">Possible reason to deviate from default parameter values.<a href="#appendix-D.3-1.5.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.2-1.6">
-            <p id="appendix-D.2-1.6.1">Clarifications and editorial fixes.<a href="#appendix-D.2-1.6.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.3-1.6">
+            <p id="appendix-D.3-1.6.1">Clarifications and editorial fixes.<a href="#appendix-D.3-1.6.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
 </div>
 <div id="sec-14-15">
-<section id="appendix-D.3">
+<section id="appendix-D.4">
         <h3 id="name-version-14-to-15">
-<a href="#appendix-D.3" class="section-number selfRef">D.3. </a><a href="#name-version-14-to-15" class="section-name selfRef">Version -14 to -15</a>
+<a href="#appendix-D.4" class="section-number selfRef">D.4. </a><a href="#name-version-14-to-15" class="section-name selfRef">Version -14 to -15</a>
         </h3>
 <ul class="normal">
-<li class="normal" id="appendix-D.3-1.1">
-            <p id="appendix-D.3-1.1.1">Alignment with renaming in draft-ietf-ace-key-groupcomm.<a href="#appendix-D.3-1.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="appendix-D.4-1.1">
+            <p id="appendix-D.4-1.1.1">Alignment with renaming in draft-ietf-ace-key-groupcomm.<a href="#appendix-D.4-1.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.3-1.2">
-            <p id="appendix-D.3-1.2.1">Updated signaling of semantics for binary encoded scopes.<a href="#appendix-D.3-1.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.4-1.2">
+            <p id="appendix-D.4-1.2.1">Updated signaling of semantics for binary encoded scopes.<a href="#appendix-D.4-1.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.3-1.3">
-            <p id="appendix-D.3-1.3.1">Considered the upload of access tokens in the DTLS 1.3 Handshake.<a href="#appendix-D.3-1.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.4-1.3">
+            <p id="appendix-D.4-1.3.1">Considered the upload of access tokens in the DTLS 1.3 Handshake.<a href="#appendix-D.4-1.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.3-1.4">
-            <p id="appendix-D.3-1.4.1">Fixes in IANA registrations.<a href="#appendix-D.3-1.4.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.4-1.4">
+            <p id="appendix-D.4-1.4.1">Fixes in IANA registrations.<a href="#appendix-D.4-1.4.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.3-1.5">
-            <p id="appendix-D.3-1.5.1">Editorial fixes.<a href="#appendix-D.3-1.5.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.4-1.5">
+            <p id="appendix-D.4-1.5.1">Editorial fixes.<a href="#appendix-D.4-1.5.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
 </div>
 <div id="sec-13-14">
-<section id="appendix-D.4">
+<section id="appendix-D.5">
         <h3 id="name-version-13-to-14">
-<a href="#appendix-D.4" class="section-number selfRef">D.4. </a><a href="#name-version-13-to-14" class="section-name selfRef">Version -13 to -14</a>
+<a href="#appendix-D.5" class="section-number selfRef">D.5. </a><a href="#name-version-13-to-14" class="section-name selfRef">Version -13 to -14</a>
         </h3>
 <ul class="normal">
-<li class="normal" id="appendix-D.4-1.1">
-            <p id="appendix-D.4-1.1.1">Major reordering of the document sections.<a href="#appendix-D.4-1.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="appendix-D.5-1.1">
+            <p id="appendix-D.5-1.1.1">Major reordering of the document sections.<a href="#appendix-D.5-1.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.4-1.2">
-            <p id="appendix-D.4-1.2.1">The HKDF Algorithm is specified by the HMAC Algorithm.<a href="#appendix-D.4-1.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.5-1.2">
+            <p id="appendix-D.5-1.2.1">The HKDF Algorithm is specified by the HMAC Algorithm.<a href="#appendix-D.5-1.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.4-1.3">
-            <p id="appendix-D.4-1.3.1">Group communication does not necessarily use IP multicast.<a href="#appendix-D.4-1.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.5-1.3">
+            <p id="appendix-D.5-1.3.1">Group communication does not necessarily use IP multicast.<a href="#appendix-D.5-1.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.4-1.4">
-            <p id="appendix-D.4-1.4.1">Generalized AIF data model, also for draft-ace-oscore-gm-admin.<a href="#appendix-D.4-1.4.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.5-1.4">
+            <p id="appendix-D.5-1.4.1">Generalized AIF data model, also for draft-ace-oscore-gm-admin.<a href="#appendix-D.5-1.4.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.4-1.5">
-            <p id="appendix-D.4-1.5.1">Clarifications and editorial improvements.<a href="#appendix-D.4-1.5.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.5-1.5">
+            <p id="appendix-D.5-1.5.1">Clarifications and editorial improvements.<a href="#appendix-D.5-1.5.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
 </div>
 <div id="sec-12-13">
-<section id="appendix-D.5">
+<section id="appendix-D.6">
         <h3 id="name-version-12-to-13">
-<a href="#appendix-D.5" class="section-number selfRef">D.5. </a><a href="#name-version-12-to-13" class="section-name selfRef">Version -12 to -13</a>
+<a href="#appendix-D.6" class="section-number selfRef">D.6. </a><a href="#name-version-12-to-13" class="section-name selfRef">Version -12 to -13</a>
         </h3>
 <ul class="normal">
-<li class="normal" id="appendix-D.5-1.1">
-            <p id="appendix-D.5-1.1.1">Renamed parameters about authentication credentials.<a href="#appendix-D.5-1.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="appendix-D.6-1.1">
+            <p id="appendix-D.6-1.1.1">Renamed parameters about authentication credentials.<a href="#appendix-D.6-1.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.5-1.2">
-            <p id="appendix-D.5-1.2.1">It is optional for the Group Manager to reassign Gids by tracking "Birth Gids".<a href="#appendix-D.5-1.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.6-1.2">
+            <p id="appendix-D.6-1.2.1">It is optional for the Group Manager to reassign Gids by tracking "Birth Gids".<a href="#appendix-D.6-1.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.5-1.3">
-            <p id="appendix-D.5-1.3.1">Distinction between authentication credentials and public keys.<a href="#appendix-D.5-1.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.6-1.3">
+            <p id="appendix-D.6-1.3.1">Distinction between authentication credentials and public keys.<a href="#appendix-D.6-1.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.5-1.4">
-            <p id="appendix-D.5-1.4.1">Updated IANA considerations related to AIF.<a href="#appendix-D.5-1.4.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.6-1.4">
+            <p id="appendix-D.6-1.4.1">Updated IANA considerations related to AIF.<a href="#appendix-D.6-1.4.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.5-1.5">
-            <p id="appendix-D.5-1.5.1">Updated textual description of registered ACE Scope Semantics value.<a href="#appendix-D.5-1.5.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.6-1.5">
+            <p id="appendix-D.6-1.5.1">Updated textual description of registered ACE Scope Semantics value.<a href="#appendix-D.6-1.5.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
 </div>
 <div id="sec-11-12">
-<section id="appendix-D.6">
+<section id="appendix-D.7">
         <h3 id="name-version-11-to-12">
-<a href="#appendix-D.6" class="section-number selfRef">D.6. </a><a href="#name-version-11-to-12" class="section-name selfRef">Version -11 to -12</a>
+<a href="#appendix-D.7" class="section-number selfRef">D.7. </a><a href="#name-version-11-to-12" class="section-name selfRef">Version -11 to -12</a>
         </h3>
 <ul class="normal">
-<li class="normal" id="appendix-D.6-1.1">
-            <p id="appendix-D.6-1.1.1">Clarified semantics of 'ecdh_info' and 'kdc_dh_creds'.<a href="#appendix-D.6-1.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="appendix-D.7-1.1">
+            <p id="appendix-D.7-1.1.1">Clarified semantics of 'ecdh_info' and 'kdc_dh_creds'.<a href="#appendix-D.7-1.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.6-1.2">
-            <p id="appendix-D.6-1.2.1">Definition of /ace-group/GROUPNAME/kdc-pub-key moved to draft-ietf-ace-key-groupcomm.<a href="#appendix-D.6-1.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.7-1.2">
+            <p id="appendix-D.7-1.2.1">Definition of /ace-group/GROUPNAME/kdc-pub-key moved to draft-ietf-ace-key-groupcomm.<a href="#appendix-D.7-1.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.6-1.3">
-            <p id="appendix-D.6-1.3.1">/ace-group accessible also to non-members that are not Verifiers.<a href="#appendix-D.6-1.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.7-1.3">
+            <p id="appendix-D.7-1.3.1">/ace-group accessible also to non-members that are not Verifiers.<a href="#appendix-D.7-1.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.6-1.4">
-            <p id="appendix-D.6-1.4.1">Clarified what resources are accessible to Verifiers.<a href="#appendix-D.6-1.4.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.7-1.4">
+            <p id="appendix-D.7-1.4.1">Clarified what resources are accessible to Verifiers.<a href="#appendix-D.7-1.4.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.6-1.5">
-            <p id="appendix-D.6-1.5.1">Revised error handling for the newly defined resources.<a href="#appendix-D.6-1.5.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.7-1.5">
+            <p id="appendix-D.7-1.5.1">Revised error handling for the newly defined resources.<a href="#appendix-D.7-1.5.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.6-1.6">
-            <p id="appendix-D.6-1.6.1">Revised use of CoAP error codes.<a href="#appendix-D.6-1.6.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.7-1.6">
+            <p id="appendix-D.7-1.6.1">Revised use of CoAP error codes.<a href="#appendix-D.7-1.6.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.6-1.7">
-            <p id="appendix-D.6-1.7.1">Use of "Token Transfer Request" and "Token Transfer Response".<a href="#appendix-D.6-1.7.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.7-1.7">
+            <p id="appendix-D.7-1.7.1">Use of "Token Transfer Request" and "Token Transfer Response".<a href="#appendix-D.7-1.7.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.6-1.8">
-            <p id="appendix-D.6-1.8.1">New parameter 'rekeying_scheme'.<a href="#appendix-D.6-1.8.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.7-1.8">
+            <p id="appendix-D.7-1.8.1">New parameter 'rekeying_scheme'.<a href="#appendix-D.7-1.8.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.6-1.9">
-            <p id="appendix-D.6-1.9.1">Categorization of new parameters and inherited conditional parameters.<a href="#appendix-D.6-1.9.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.7-1.9">
+            <p id="appendix-D.7-1.9.1">Categorization of new parameters and inherited conditional parameters.<a href="#appendix-D.7-1.9.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.6-1.10">
-            <p id="appendix-D.6-1.10.1">Clarifications on what to do in case of enhanced error responses.<a href="#appendix-D.6-1.10.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.7-1.10">
+            <p id="appendix-D.7-1.10.1">Clarifications on what to do in case of enhanced error responses.<a href="#appendix-D.7-1.10.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.6-1.11">
-            <p id="appendix-D.6-1.11.1">Changed UCCS to CCS.<a href="#appendix-D.6-1.11.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.7-1.11">
+            <p id="appendix-D.7-1.11.1">Changed UCCS to CCS.<a href="#appendix-D.7-1.11.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.6-1.12">
-            <p id="appendix-D.6-1.12.1">Authentication credentials of just joined Clients can be in rekeying messages.<a href="#appendix-D.6-1.12.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.7-1.12">
+            <p id="appendix-D.7-1.12.1">Authentication credentials of just joined Clients can be in rekeying messages.<a href="#appendix-D.7-1.12.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.6-1.13">
-            <p id="appendix-D.6-1.13.1">Revised names of new IANA registries.<a href="#appendix-D.6-1.13.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.7-1.13">
+            <p id="appendix-D.7-1.13.1">Revised names of new IANA registries.<a href="#appendix-D.7-1.13.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.6-1.14">
-            <p id="appendix-D.6-1.14.1">Clarified meaning of registered CoRE resource type.<a href="#appendix-D.6-1.14.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.7-1.14">
+            <p id="appendix-D.7-1.14.1">Clarified meaning of registered CoRE resource type.<a href="#appendix-D.7-1.14.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.6-1.15">
-            <p id="appendix-D.6-1.15.1">Alignment to new requirements from draft-ietf-ace-key-groupcomm.<a href="#appendix-D.6-1.15.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.7-1.15">
+            <p id="appendix-D.7-1.15.1">Alignment to new requirements from draft-ietf-ace-key-groupcomm.<a href="#appendix-D.7-1.15.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.6-1.16">
-            <p id="appendix-D.6-1.16.1">Fixes and editorial improvements.<a href="#appendix-D.6-1.16.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.7-1.16">
+            <p id="appendix-D.7-1.16.1">Fixes and editorial improvements.<a href="#appendix-D.7-1.16.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
 </div>
 <div id="sec-10-11">
-<section id="appendix-D.7">
+<section id="appendix-D.8">
         <h3 id="name-version-10-to-11">
-<a href="#appendix-D.7" class="section-number selfRef">D.7. </a><a href="#name-version-10-to-11" class="section-name selfRef">Version -10 to -11</a>
+<a href="#appendix-D.8" class="section-number selfRef">D.8. </a><a href="#name-version-10-to-11" class="section-name selfRef">Version -10 to -11</a>
         </h3>
 <ul class="normal">
-<li class="normal" id="appendix-D.7-1.1">
-            <p id="appendix-D.7-1.1.1">Removed redundancy of key type capabilities, from 'sign_info', 'ecdh_info' and 'key'.<a href="#appendix-D.7-1.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="appendix-D.8-1.1">
+            <p id="appendix-D.8-1.1.1">Removed redundancy of key type capabilities, from 'sign_info', 'ecdh_info' and 'key'.<a href="#appendix-D.8-1.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.7-1.2">
-            <p id="appendix-D.7-1.2.1">New resource to retrieve the Group Manager's authentication credential.<a href="#appendix-D.7-1.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.8-1.2">
+            <p id="appendix-D.8-1.2.1">New resource to retrieve the Group Manager's authentication credential.<a href="#appendix-D.8-1.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.7-1.3">
-            <p id="appendix-D.7-1.3.1">New resource to retrieve material for Signature Verifiers.<a href="#appendix-D.7-1.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.8-1.3">
+            <p id="appendix-D.8-1.3.1">New resource to retrieve material for Signature Verifiers.<a href="#appendix-D.8-1.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.7-1.4">
-            <p id="appendix-D.7-1.4.1">New parameter 'gp_enc_alg' related to the group mode.<a href="#appendix-D.7-1.4.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.8-1.4">
+            <p id="appendix-D.8-1.4.1">New parameter 'gp_enc_alg' related to the group mode.<a href="#appendix-D.8-1.4.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.7-1.5">
-            <p id="appendix-D.7-1.5.1">'cred_fmt' takes value from the COSE Header Parameters registry.<a href="#appendix-D.7-1.5.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.8-1.5">
+            <p id="appendix-D.8-1.5.1">'cred_fmt' takes value from the COSE Header Parameters registry.<a href="#appendix-D.8-1.5.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.7-1.6">
-            <p id="appendix-D.7-1.6.1">Improved alignment of the Join Response payload with the Group OSCORE Security Context parameters.<a href="#appendix-D.7-1.6.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.8-1.6">
+            <p id="appendix-D.8-1.6.1">Improved alignment of the Join Response payload with the Group OSCORE Security Context parameters.<a href="#appendix-D.8-1.6.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.7-1.7">
-            <p id="appendix-D.7-1.7.1">Recycling Group IDs by tracking "Birth GIDs".<a href="#appendix-D.7-1.7.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.8-1.7">
+            <p id="appendix-D.8-1.7.1">Recycling Group IDs by tracking "Birth GIDs".<a href="#appendix-D.8-1.7.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.7-1.8">
-            <p id="appendix-D.7-1.8.1">Error handling in case of non available Sender IDs upon joining.<a href="#appendix-D.7-1.8.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.8-1.8">
+            <p id="appendix-D.8-1.8.1">Error handling in case of non available Sender IDs upon joining.<a href="#appendix-D.8-1.8.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.7-1.9">
-            <p id="appendix-D.7-1.9.1">Error handling in case EdDSA public keys with invalid Y coordinate when the pairwise mode of Group OSCORE is supported.<a href="#appendix-D.7-1.9.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.8-1.9">
+            <p id="appendix-D.8-1.9.1">Error handling in case EdDSA public keys with invalid Y coordinate when the pairwise mode of Group OSCORE is supported.<a href="#appendix-D.8-1.9.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.7-1.10">
-            <p id="appendix-D.7-1.10.1">Generalized proof-of-possession (PoP) for the joining node's private key; defined Diffie-Hellman based PoP for OSCORE groups using only the pairwise mode.<a href="#appendix-D.7-1.10.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.8-1.10">
+            <p id="appendix-D.8-1.10.1">Generalized proof-of-possession (PoP) for the joining node's private key; defined Diffie-Hellman based PoP for OSCORE groups using only the pairwise mode.<a href="#appendix-D.8-1.10.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.7-1.11">
-            <p id="appendix-D.7-1.11.1">Proof of possession of the Group Manager's private key in the Join Response.<a href="#appendix-D.7-1.11.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.8-1.11">
+            <p id="appendix-D.8-1.11.1">Proof of possession of the Group Manager's private key in the Join Response.<a href="#appendix-D.8-1.11.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.7-1.12">
-            <p id="appendix-D.7-1.12.1">Always use 'peer_identifiers' to convey Sender IDs as node identifiers.<a href="#appendix-D.7-1.12.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.8-1.12">
+            <p id="appendix-D.8-1.12.1">Always use 'peer_identifiers' to convey Sender IDs as node identifiers.<a href="#appendix-D.8-1.12.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.7-1.13">
-            <p id="appendix-D.7-1.13.1">Stale Sender IDs provided when rekeying the group.<a href="#appendix-D.7-1.13.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.8-1.13">
+            <p id="appendix-D.8-1.13.1">Stale Sender IDs provided when rekeying the group.<a href="#appendix-D.8-1.13.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.7-1.14">
-            <p id="appendix-D.7-1.14.1">New resource for late retrieval of stale Sender IDs.<a href="#appendix-D.7-1.14.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.8-1.14">
+            <p id="appendix-D.8-1.14.1">New resource for late retrieval of stale Sender IDs.<a href="#appendix-D.8-1.14.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.7-1.15">
-            <p id="appendix-D.7-1.15.1">Added examples of message exchanges.<a href="#appendix-D.7-1.15.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.8-1.15">
+            <p id="appendix-D.8-1.15.1">Added examples of message exchanges.<a href="#appendix-D.8-1.15.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.7-1.16">
-            <p id="appendix-D.7-1.16.1">Revised default values of group configuration parameters.<a href="#appendix-D.7-1.16.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.8-1.16">
+            <p id="appendix-D.8-1.16.1">Revised default values of group configuration parameters.<a href="#appendix-D.8-1.16.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.7-1.17">
-            <p id="appendix-D.7-1.17.1">Fixes to IANA registrations.<a href="#appendix-D.7-1.17.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.8-1.17">
+            <p id="appendix-D.8-1.17.1">Fixes to IANA registrations.<a href="#appendix-D.8-1.17.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.7-1.18">
-            <p id="appendix-D.7-1.18.1">General format of parameters related to COSE capabilities, supporting future registered COSE algorithms (new Appendix).<a href="#appendix-D.7-1.18.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.8-1.18">
+            <p id="appendix-D.8-1.18.1">General format of parameters related to COSE capabilities, supporting future registered COSE algorithms (new Appendix).<a href="#appendix-D.8-1.18.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
 </div>
 <div id="sec-09-10">
-<section id="appendix-D.8">
+<section id="appendix-D.9">
         <h3 id="name-version-09-to-10">
-<a href="#appendix-D.8" class="section-number selfRef">D.8. </a><a href="#name-version-09-to-10" class="section-name selfRef">Version -09 to -10</a>
+<a href="#appendix-D.9" class="section-number selfRef">D.9. </a><a href="#name-version-09-to-10" class="section-name selfRef">Version -09 to -10</a>
         </h3>
 <ul class="normal">
-<li class="normal" id="appendix-D.8-1.1">
-            <p id="appendix-D.8-1.1.1">Updated non-recycling policy of Sender IDs.<a href="#appendix-D.8-1.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="appendix-D.9-1.1">
+            <p id="appendix-D.9-1.1.1">Updated non-recycling policy of Sender IDs.<a href="#appendix-D.9-1.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.8-1.2">
-            <p id="appendix-D.8-1.2.1">Removed policies about Sender Sequence Number synchronization.<a href="#appendix-D.8-1.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.9-1.2">
+            <p id="appendix-D.9-1.2.1">Removed policies about Sender Sequence Number synchronization.<a href="#appendix-D.9-1.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.8-1.3">
-            <p id="appendix-D.8-1.3.1">'control_path' renamed to 'control_uri'.<a href="#appendix-D.8-1.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.9-1.3">
+            <p id="appendix-D.9-1.3.1">'control_path' renamed to 'control_uri'.<a href="#appendix-D.9-1.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.8-1.4">
-            <p id="appendix-D.8-1.4.1">Format of 'get_pub_keys' aligned with draft-ietf-ace-key-groupcomm.<a href="#appendix-D.8-1.4.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.9-1.4">
+            <p id="appendix-D.9-1.4.1">Format of 'get_pub_keys' aligned with draft-ietf-ace-key-groupcomm.<a href="#appendix-D.9-1.4.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.8-1.5">
-            <p id="appendix-D.8-1.5.1">Additional way to inform of group eviction.<a href="#appendix-D.8-1.5.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.9-1.5">
+            <p id="appendix-D.9-1.5.1">Additional way to inform of group eviction.<a href="#appendix-D.9-1.5.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.8-1.6">
-            <p id="appendix-D.8-1.6.1">Registered semantics identifier for extended scope format.<a href="#appendix-D.8-1.6.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.9-1.6">
+            <p id="appendix-D.9-1.6.1">Registered semantics identifier for extended scope format.<a href="#appendix-D.9-1.6.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.8-1.7">
-            <p id="appendix-D.8-1.7.1">Extended error handling, with error type specified in some error responses.<a href="#appendix-D.8-1.7.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.9-1.7">
+            <p id="appendix-D.9-1.7.1">Extended error handling, with error type specified in some error responses.<a href="#appendix-D.9-1.7.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.8-1.8">
-            <p id="appendix-D.8-1.8.1">Renumbered requirements.<a href="#appendix-D.8-1.8.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.9-1.8">
+            <p id="appendix-D.9-1.8.1">Renumbered requirements.<a href="#appendix-D.9-1.8.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
 </div>
 <div id="sec-08-09">
-<section id="appendix-D.9">
+<section id="appendix-D.10">
         <h3 id="name-version-08-to-09">
-<a href="#appendix-D.9" class="section-number selfRef">D.9. </a><a href="#name-version-08-to-09" class="section-name selfRef">Version -08 to -09</a>
+<a href="#appendix-D.10" class="section-number selfRef">D.10. </a><a href="#name-version-08-to-09" class="section-name selfRef">Version -08 to -09</a>
         </h3>
 <ul class="normal">
-<li class="normal" id="appendix-D.9-1.1">
-            <p id="appendix-D.9-1.1.1">The url-path "ace-group" is used.<a href="#appendix-D.9-1.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="appendix-D.10-1.1">
+            <p id="appendix-D.10-1.1.1">The url-path "ace-group" is used.<a href="#appendix-D.10-1.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.9-1.2">
-            <p id="appendix-D.9-1.2.1">Added overview of admitted methods on the Group Manager resources.<a href="#appendix-D.9-1.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.10-1.2">
+            <p id="appendix-D.10-1.2.1">Added overview of admitted methods on the Group Manager resources.<a href="#appendix-D.10-1.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.9-1.3">
-            <p id="appendix-D.9-1.3.1">Added exchange of parameters relevant for the pairwise mode of Group OSCORE.<a href="#appendix-D.9-1.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.10-1.3">
+            <p id="appendix-D.10-1.3.1">Added exchange of parameters relevant for the pairwise mode of Group OSCORE.<a href="#appendix-D.10-1.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.9-1.4">
-            <p id="appendix-D.9-1.4.1">The signed value for 'client_cred_verify' includes also the scope.<a href="#appendix-D.9-1.4.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.10-1.4">
+            <p id="appendix-D.10-1.4.1">The signed value for 'client_cred_verify' includes also the scope.<a href="#appendix-D.10-1.4.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.9-1.5">
-            <p id="appendix-D.9-1.5.1">Renamed the key material object as Group_OSCORE_Input_Material object.<a href="#appendix-D.9-1.5.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.10-1.5">
+            <p id="appendix-D.10-1.5.1">Renamed the key material object as Group_OSCORE_Input_Material object.<a href="#appendix-D.10-1.5.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.9-1.6">
-            <p id="appendix-D.9-1.6.1">Replaced 'clientId' with 'group_SenderId'.<a href="#appendix-D.9-1.6.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.10-1.6">
+            <p id="appendix-D.10-1.6.1">Replaced 'clientId' with 'group_SenderId'.<a href="#appendix-D.10-1.6.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.9-1.7">
-            <p id="appendix-D.9-1.7.1">Added message exchange for Group Names request-response.<a href="#appendix-D.9-1.7.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.10-1.7">
+            <p id="appendix-D.10-1.7.1">Added message exchange for Group Names request-response.<a href="#appendix-D.10-1.7.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.9-1.8">
-            <p id="appendix-D.9-1.8.1">No reassignment of Sender ID and Gid in the same OSCORE group.<a href="#appendix-D.9-1.8.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.10-1.8">
+            <p id="appendix-D.10-1.8.1">No reassignment of Sender ID and Gid in the same OSCORE group.<a href="#appendix-D.10-1.8.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.9-1.9">
-            <p id="appendix-D.9-1.9.1">Updates on group rekeying contextual with request of new Sender ID.<a href="#appendix-D.9-1.9.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.10-1.9">
+            <p id="appendix-D.10-1.9.1">Updates on group rekeying contextual with request of new Sender ID.<a href="#appendix-D.10-1.9.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.9-1.10">
-            <p id="appendix-D.9-1.10.1">Signature verifiers can also retrieve Group Names and URIs.<a href="#appendix-D.9-1.10.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.10-1.10">
+            <p id="appendix-D.10-1.10.1">Signature verifiers can also retrieve Group Names and URIs.<a href="#appendix-D.10-1.10.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.9-1.11">
-            <p id="appendix-D.9-1.11.1">Removed group policy about supporting Group OSCORE in pairwise mode.<a href="#appendix-D.9-1.11.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.10-1.11">
+            <p id="appendix-D.10-1.11.1">Removed group policy about supporting Group OSCORE in pairwise mode.<a href="#appendix-D.10-1.11.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.9-1.12">
-            <p id="appendix-D.9-1.12.1">Registration of the resource type rt="core.osc.gm".<a href="#appendix-D.9-1.12.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.10-1.12">
+            <p id="appendix-D.10-1.12.1">Registration of the resource type rt="core.osc.gm".<a href="#appendix-D.10-1.12.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.9-1.13">
-            <p id="appendix-D.9-1.13.1">Update list of requirements.<a href="#appendix-D.9-1.13.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.10-1.13">
+            <p id="appendix-D.10-1.13.1">Update list of requirements.<a href="#appendix-D.10-1.13.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.9-1.14">
-            <p id="appendix-D.9-1.14.1">Clarifications and editorial revision.<a href="#appendix-D.9-1.14.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.10-1.14">
+            <p id="appendix-D.10-1.14.1">Clarifications and editorial revision.<a href="#appendix-D.10-1.14.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
 </div>
 <div id="sec-07-08">
-<section id="appendix-D.10">
+<section id="appendix-D.11">
         <h3 id="name-version-07-to-08">
-<a href="#appendix-D.10" class="section-number selfRef">D.10. </a><a href="#name-version-07-to-08" class="section-name selfRef">Version -07 to -08</a>
+<a href="#appendix-D.11" class="section-number selfRef">D.11. </a><a href="#name-version-07-to-08" class="section-name selfRef">Version -07 to -08</a>
         </h3>
 <ul class="normal">
-<li class="normal" id="appendix-D.10-1.1">
-            <p id="appendix-D.10-1.1.1">AIF data model to express scope entries.<a href="#appendix-D.10-1.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="appendix-D.11-1.1">
+            <p id="appendix-D.11-1.1.1">AIF data model to express scope entries.<a href="#appendix-D.11-1.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.10-1.2">
-            <p id="appendix-D.10-1.2.1">A set of roles is checked as valid when processing the Join Request.<a href="#appendix-D.10-1.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.11-1.2">
+            <p id="appendix-D.11-1.2.1">A set of roles is checked as valid when processing the Join Request.<a href="#appendix-D.11-1.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.10-1.3">
-            <p id="appendix-D.10-1.3.1">Updated format of 'get_pub_keys' in the Join Request.<a href="#appendix-D.10-1.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.11-1.3">
+            <p id="appendix-D.11-1.3.1">Updated format of 'get_pub_keys' in the Join Request.<a href="#appendix-D.11-1.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.10-1.4">
-            <p id="appendix-D.10-1.4.1">Payload format and default values of group policies in the Join Response.<a href="#appendix-D.10-1.4.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.11-1.4">
+            <p id="appendix-D.11-1.4.1">Payload format and default values of group policies in the Join Response.<a href="#appendix-D.11-1.4.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.10-1.5">
-            <p id="appendix-D.10-1.5.1">Updated payload format of the FETCH request to retrieve authentication credentials.<a href="#appendix-D.10-1.5.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.11-1.5">
+            <p id="appendix-D.11-1.5.1">Updated payload format of the FETCH request to retrieve authentication credentials.<a href="#appendix-D.11-1.5.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.10-1.6">
-            <p id="appendix-D.10-1.6.1">Default values for group configuration parameters.<a href="#appendix-D.10-1.6.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.11-1.6">
+            <p id="appendix-D.11-1.6.1">Default values for group configuration parameters.<a href="#appendix-D.11-1.6.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.10-1.7">
-            <p id="appendix-D.10-1.7.1">IANA registrations to support the AIF data model.<a href="#appendix-D.10-1.7.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.11-1.7">
+            <p id="appendix-D.11-1.7.1">IANA registrations to support the AIF data model.<a href="#appendix-D.11-1.7.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
 </div>
 <div id="sec-06-07">
-<section id="appendix-D.11">
+<section id="appendix-D.12">
         <h3 id="name-version-06-to-07">
-<a href="#appendix-D.11" class="section-number selfRef">D.11. </a><a href="#name-version-06-to-07" class="section-name selfRef">Version -06 to -07</a>
+<a href="#appendix-D.12" class="section-number selfRef">D.12. </a><a href="#name-version-06-to-07" class="section-name selfRef">Version -06 to -07</a>
         </h3>
 <ul class="normal">
-<li class="normal" id="appendix-D.11-1.1">
-            <p id="appendix-D.11-1.1.1">Alignments with draft-ietf-core-oscore-groupcomm.<a href="#appendix-D.11-1.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="appendix-D.12-1.1">
+            <p id="appendix-D.12-1.1.1">Alignments with draft-ietf-core-oscore-groupcomm.<a href="#appendix-D.12-1.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.11-1.2">
-            <p id="appendix-D.11-1.2.1">New format of 'sign_info', using the COSE capabilities.<a href="#appendix-D.11-1.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.12-1.2">
+            <p id="appendix-D.12-1.2.1">New format of 'sign_info', using the COSE capabilities.<a href="#appendix-D.12-1.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.11-1.3">
-            <p id="appendix-D.11-1.3.1">New format of Join Response parameters, using the COSE capabilities.<a href="#appendix-D.11-1.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.12-1.3">
+            <p id="appendix-D.12-1.3.1">New format of Join Response parameters, using the COSE capabilities.<a href="#appendix-D.12-1.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.11-1.4">
-            <p id="appendix-D.11-1.4.1">Considerations on group rekeying.<a href="#appendix-D.11-1.4.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.12-1.4">
+            <p id="appendix-D.12-1.4.1">Considerations on group rekeying.<a href="#appendix-D.12-1.4.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.11-1.5">
-            <p id="appendix-D.11-1.5.1">Editorial revision.<a href="#appendix-D.11-1.5.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.12-1.5">
+            <p id="appendix-D.12-1.5.1">Editorial revision.<a href="#appendix-D.12-1.5.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
 </div>
 <div id="sec-05-06">
-<section id="appendix-D.12">
+<section id="appendix-D.13">
         <h3 id="name-version-05-to-06">
-<a href="#appendix-D.12" class="section-number selfRef">D.12. </a><a href="#name-version-05-to-06" class="section-name selfRef">Version -05 to -06</a>
+<a href="#appendix-D.13" class="section-number selfRef">D.13. </a><a href="#name-version-05-to-06" class="section-name selfRef">Version -05 to -06</a>
         </h3>
 <ul class="normal">
-<li class="normal" id="appendix-D.12-1.1">
-            <p id="appendix-D.12-1.1.1">Added role of external signature verifier.<a href="#appendix-D.12-1.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="appendix-D.13-1.1">
+            <p id="appendix-D.13-1.1.1">Added role of external signature verifier.<a href="#appendix-D.13-1.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.12-1.2">
-            <p id="appendix-D.12-1.2.1">Parameter 'rsnonce' renamed to 'kdcchallenge'.<a href="#appendix-D.12-1.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.13-1.2">
+            <p id="appendix-D.13-1.2.1">Parameter 'rsnonce' renamed to 'kdcchallenge'.<a href="#appendix-D.13-1.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.12-1.3">
-            <p id="appendix-D.12-1.3.1">Parameter 'kdcchallenge' may be omitted in some cases.<a href="#appendix-D.12-1.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.13-1.3">
+            <p id="appendix-D.13-1.3.1">Parameter 'kdcchallenge' may be omitted in some cases.<a href="#appendix-D.13-1.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.12-1.4">
-            <p id="appendix-D.12-1.4.1">Clarified difference between group name and OSCORE Gid.<a href="#appendix-D.12-1.4.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.13-1.4">
+            <p id="appendix-D.13-1.4.1">Clarified difference between group name and OSCORE Gid.<a href="#appendix-D.13-1.4.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.12-1.5">
-            <p id="appendix-D.12-1.5.1">Removed the role combination ["requester", "monitor"].<a href="#appendix-D.12-1.5.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.13-1.5">
+            <p id="appendix-D.13-1.5.1">Removed the role combination ["requester", "monitor"].<a href="#appendix-D.13-1.5.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.12-1.6">
-            <p id="appendix-D.12-1.6.1">Admit implicit scope and audience in the Authorization Request.<a href="#appendix-D.12-1.6.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.13-1.6">
+            <p id="appendix-D.13-1.6.1">Admit implicit scope and audience in the Authorization Request.<a href="#appendix-D.13-1.6.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.12-1.7">
-            <p id="appendix-D.12-1.7.1">New format for the 'sign_info' parameter.<a href="#appendix-D.12-1.7.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.13-1.7">
+            <p id="appendix-D.13-1.7.1">New format for the 'sign_info' parameter.<a href="#appendix-D.13-1.7.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.12-1.8">
-            <p id="appendix-D.12-1.8.1">Scope not mandatory to include in the Join Request.<a href="#appendix-D.12-1.8.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.13-1.8">
+            <p id="appendix-D.13-1.8.1">Scope not mandatory to include in the Join Request.<a href="#appendix-D.13-1.8.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.12-1.9">
-            <p id="appendix-D.12-1.9.1">Group policy about supporting Group OSCORE in pairwise mode.<a href="#appendix-D.12-1.9.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.13-1.9">
+            <p id="appendix-D.13-1.9.1">Group policy about supporting Group OSCORE in pairwise mode.<a href="#appendix-D.13-1.9.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.12-1.10">
-            <p id="appendix-D.12-1.10.1">Possible individual rekeying of a single requesting node combined with a group rekeying.<a href="#appendix-D.12-1.10.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.13-1.10">
+            <p id="appendix-D.13-1.10.1">Possible individual rekeying of a single requesting node combined with a group rekeying.<a href="#appendix-D.13-1.10.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.12-1.11">
-            <p id="appendix-D.12-1.11.1">Security considerations on reusage of signature challenges.<a href="#appendix-D.12-1.11.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.13-1.11">
+            <p id="appendix-D.13-1.11.1">Security considerations on reusage of signature challenges.<a href="#appendix-D.13-1.11.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.12-1.12">
-            <p id="appendix-D.12-1.12.1">Addressing optional requirement OPT12 from draft-ietf-ace-key-groupcomm<a href="#appendix-D.12-1.12.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.13-1.12">
+            <p id="appendix-D.13-1.12.1">Addressing optional requirement OPT12 from draft-ietf-ace-key-groupcomm<a href="#appendix-D.13-1.12.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.12-1.13">
-            <p id="appendix-D.12-1.13.1">Editorial improvements.<a href="#appendix-D.12-1.13.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.13-1.13">
+            <p id="appendix-D.13-1.13.1">Editorial improvements.<a href="#appendix-D.13-1.13.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
 </div>
 <div id="sec-04-05">
-<section id="appendix-D.13">
+<section id="appendix-D.14">
         <h3 id="name-version-04-to-05">
-<a href="#appendix-D.13" class="section-number selfRef">D.13. </a><a href="#name-version-04-to-05" class="section-name selfRef">Version -04 to -05</a>
+<a href="#appendix-D.14" class="section-number selfRef">D.14. </a><a href="#name-version-04-to-05" class="section-name selfRef">Version -04 to -05</a>
         </h3>
 <ul class="normal">
-<li class="normal" id="appendix-D.13-1.1">
-            <p id="appendix-D.13-1.1.1">Nonce N_S also in error responses to the Join Requests.<a href="#appendix-D.13-1.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="appendix-D.14-1.1">
+            <p id="appendix-D.14-1.1.1">Nonce N_S also in error responses to the Join Requests.<a href="#appendix-D.14-1.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.13-1.2">
-            <p id="appendix-D.13-1.2.1">Supporting single access token for multiple groups/topics.<a href="#appendix-D.13-1.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.14-1.2">
+            <p id="appendix-D.14-1.2.1">Supporting single access token for multiple groups/topics.<a href="#appendix-D.14-1.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.13-1.3">
-            <p id="appendix-D.13-1.3.1">Supporting legal requesters/responders using the 'peer_roles' parameter.<a href="#appendix-D.13-1.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.14-1.3">
+            <p id="appendix-D.14-1.3.1">Supporting legal requesters/responders using the 'peer_roles' parameter.<a href="#appendix-D.14-1.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.13-1.4">
-            <p id="appendix-D.13-1.4.1">Registered and used dedicated label for TLS Exporter.<a href="#appendix-D.13-1.4.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.14-1.4">
+            <p id="appendix-D.14-1.4.1">Registered and used dedicated label for TLS Exporter.<a href="#appendix-D.14-1.4.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.13-1.5">
-            <p id="appendix-D.13-1.5.1">Added method for uploading a new authentication credential to the Group Manager.<a href="#appendix-D.13-1.5.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.14-1.5">
+            <p id="appendix-D.14-1.5.1">Added method for uploading a new authentication credential to the Group Manager.<a href="#appendix-D.14-1.5.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.13-1.6">
-            <p id="appendix-D.13-1.6.1">Added resource and method for retrieving the current group status.<a href="#appendix-D.13-1.6.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.14-1.6">
+            <p id="appendix-D.14-1.6.1">Added resource and method for retrieving the current group status.<a href="#appendix-D.14-1.6.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.13-1.7">
-            <p id="appendix-D.13-1.7.1">Fixed inconsistency in retrieving group keying material only.<a href="#appendix-D.13-1.7.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.14-1.7">
+            <p id="appendix-D.14-1.7.1">Fixed inconsistency in retrieving group keying material only.<a href="#appendix-D.14-1.7.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.13-1.8">
-            <p id="appendix-D.13-1.8.1">Clarified retrieval of keying material for monitor-only members.<a href="#appendix-D.13-1.8.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.14-1.8">
+            <p id="appendix-D.14-1.8.1">Clarified retrieval of keying material for monitor-only members.<a href="#appendix-D.14-1.8.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.13-1.9">
-            <p id="appendix-D.13-1.9.1">Clarification on incrementing version number when rekeying the group.<a href="#appendix-D.13-1.9.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.14-1.9">
+            <p id="appendix-D.14-1.9.1">Clarification on incrementing version number when rekeying the group.<a href="#appendix-D.14-1.9.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.13-1.10">
-            <p id="appendix-D.13-1.10.1">Clarification on what is re-distributed with the group rekeying.<a href="#appendix-D.13-1.10.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.14-1.10">
+            <p id="appendix-D.14-1.10.1">Clarification on what is re-distributed with the group rekeying.<a href="#appendix-D.14-1.10.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.13-1.11">
-            <p id="appendix-D.13-1.11.1">Security considerations on the size of the nonces used for the signature challenge.<a href="#appendix-D.13-1.11.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.14-1.11">
+            <p id="appendix-D.14-1.11.1">Security considerations on the size of the nonces used for the signature challenge.<a href="#appendix-D.14-1.11.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.13-1.12">
-            <p id="appendix-D.13-1.12.1">Added CBOR values to abbreviate role identifiers in the group.<a href="#appendix-D.13-1.12.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.14-1.12">
+            <p id="appendix-D.14-1.12.1">Added CBOR values to abbreviate role identifiers in the group.<a href="#appendix-D.14-1.12.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
 </div>
 <div id="sec-03-04">
-<section id="appendix-D.14">
+<section id="appendix-D.15">
         <h3 id="name-version-03-to-04">
-<a href="#appendix-D.14" class="section-number selfRef">D.14. </a><a href="#name-version-03-to-04" class="section-name selfRef">Version -03 to -04</a>
+<a href="#appendix-D.15" class="section-number selfRef">D.15. </a><a href="#name-version-03-to-04" class="section-name selfRef">Version -03 to -04</a>
         </h3>
 <ul class="normal">
-<li class="normal" id="appendix-D.14-1.1">
-            <p id="appendix-D.14-1.1.1">New abstract.<a href="#appendix-D.14-1.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="appendix-D.15-1.1">
+            <p id="appendix-D.15-1.1.1">New abstract.<a href="#appendix-D.15-1.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.14-1.2">
-            <p id="appendix-D.14-1.2.1">Moved general content to draft-ietf-ace-key-groupcomm<a href="#appendix-D.14-1.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.15-1.2">
+            <p id="appendix-D.15-1.2.1">Moved general content to draft-ietf-ace-key-groupcomm<a href="#appendix-D.15-1.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.14-1.3">
-            <p id="appendix-D.14-1.3.1">Terminology: node name; node resource.<a href="#appendix-D.14-1.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.15-1.3">
+            <p id="appendix-D.15-1.3.1">Terminology: node name; node resource.<a href="#appendix-D.15-1.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.14-1.4">
-            <p id="appendix-D.14-1.4.1">Creation and pointing at node resource.<a href="#appendix-D.14-1.4.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.15-1.4">
+            <p id="appendix-D.15-1.4.1">Creation and pointing at node resource.<a href="#appendix-D.15-1.4.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.14-1.5">
-            <p id="appendix-D.14-1.5.1">Updated Group Manager API (REST methods and offered services).<a href="#appendix-D.14-1.5.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.15-1.5">
+            <p id="appendix-D.15-1.5.1">Updated Group Manager API (REST methods and offered services).<a href="#appendix-D.15-1.5.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.14-1.6">
-            <p id="appendix-D.14-1.6.1">Size of challenges 'cnonce' and 'rsnonce'.<a href="#appendix-D.14-1.6.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.15-1.6">
+            <p id="appendix-D.15-1.6.1">Size of challenges 'cnonce' and 'rsnonce'.<a href="#appendix-D.15-1.6.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.14-1.7">
-            <p id="appendix-D.14-1.7.1">Value of 'rsnonce' for reused or non-traditionally-posted tokens.<a href="#appendix-D.14-1.7.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.15-1.7">
+            <p id="appendix-D.15-1.7.1">Value of 'rsnonce' for reused or non-traditionally-posted tokens.<a href="#appendix-D.15-1.7.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.14-1.8">
-            <p id="appendix-D.14-1.8.1">Removed reference to RFC 7390.<a href="#appendix-D.14-1.8.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.15-1.8">
+            <p id="appendix-D.15-1.8.1">Removed reference to RFC 7390.<a href="#appendix-D.15-1.8.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.14-1.9">
-            <p id="appendix-D.14-1.9.1">New requirements from draft-ietf-ace-key-groupcomm<a href="#appendix-D.14-1.9.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.15-1.9">
+            <p id="appendix-D.15-1.9.1">New requirements from draft-ietf-ace-key-groupcomm<a href="#appendix-D.15-1.9.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.14-1.10">
-            <p id="appendix-D.14-1.10.1">Editorial improvements.<a href="#appendix-D.14-1.10.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.15-1.10">
+            <p id="appendix-D.15-1.10.1">Editorial improvements.<a href="#appendix-D.15-1.10.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
 </div>
 <div id="sec-02-03">
-<section id="appendix-D.15">
+<section id="appendix-D.16">
         <h3 id="name-version-02-to-03">
-<a href="#appendix-D.15" class="section-number selfRef">D.15. </a><a href="#name-version-02-to-03" class="section-name selfRef">Version -02 to -03</a>
+<a href="#appendix-D.16" class="section-number selfRef">D.16. </a><a href="#name-version-02-to-03" class="section-name selfRef">Version -02 to -03</a>
         </h3>
 <ul class="normal">
-<li class="normal" id="appendix-D.15-1.1">
-            <p id="appendix-D.15-1.1.1">New sections, aligned with the interface of ace-key-groupcomm .<a href="#appendix-D.15-1.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="appendix-D.16-1.1">
+            <p id="appendix-D.16-1.1.1">New sections, aligned with the interface of ace-key-groupcomm .<a href="#appendix-D.16-1.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.15-1.2">
-            <p id="appendix-D.15-1.2.1">Exchange of information on the signature algorithm and related parameters, during the Token POST (Section 4.1).<a href="#appendix-D.15-1.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.16-1.2">
+            <p id="appendix-D.16-1.2.1">Exchange of information on the signature algorithm and related parameters, during the Token POST (Section 4.1).<a href="#appendix-D.16-1.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.15-1.3">
-            <p id="appendix-D.15-1.3.1">Nonce 'rsnonce' from the Group Manager to the Client (Section 4.1).<a href="#appendix-D.15-1.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.16-1.3">
+            <p id="appendix-D.16-1.3.1">Nonce 'rsnonce' from the Group Manager to the Client (Section 4.1).<a href="#appendix-D.16-1.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.15-1.4">
-            <p id="appendix-D.15-1.4.1">Client PoP signature in the Key Distribution Request upon joining (Section 4.2).<a href="#appendix-D.15-1.4.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.16-1.4">
+            <p id="appendix-D.16-1.4.1">Client PoP signature in the Key Distribution Request upon joining (Section 4.2).<a href="#appendix-D.16-1.4.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.15-1.5">
-            <p id="appendix-D.15-1.5.1">Local actions on the Group Manager, upon a new node's joining (Section 4.2).<a href="#appendix-D.15-1.5.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.16-1.5">
+            <p id="appendix-D.16-1.5.1">Local actions on the Group Manager, upon a new node's joining (Section 4.2).<a href="#appendix-D.16-1.5.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.15-1.6">
-            <p id="appendix-D.15-1.6.1">Local actions on the Group Manager, upon a node's leaving (Section 12).<a href="#appendix-D.15-1.6.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.16-1.6">
+            <p id="appendix-D.16-1.6.1">Local actions on the Group Manager, upon a node's leaving (Section 12).<a href="#appendix-D.16-1.6.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.15-1.7">
-            <p id="appendix-D.15-1.7.1">IANA registration in ACE Groupcomm Parameters registry.<a href="#appendix-D.15-1.7.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.16-1.7">
+            <p id="appendix-D.16-1.7.1">IANA registration in ACE Groupcomm Parameters registry.<a href="#appendix-D.16-1.7.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.15-1.8">
-            <p id="appendix-D.15-1.8.1">More fulfilled profile requirements (Appendix A).<a href="#appendix-D.15-1.8.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.16-1.8">
+            <p id="appendix-D.16-1.8.1">More fulfilled profile requirements (Appendix A).<a href="#appendix-D.16-1.8.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
 </div>
 <div id="sec-01-02">
-<section id="appendix-D.16">
+<section id="appendix-D.17">
         <h3 id="name-version-01-to-02">
-<a href="#appendix-D.16" class="section-number selfRef">D.16. </a><a href="#name-version-01-to-02" class="section-name selfRef">Version -01 to -02</a>
+<a href="#appendix-D.17" class="section-number selfRef">D.17. </a><a href="#name-version-01-to-02" class="section-name selfRef">Version -01 to -02</a>
         </h3>
 <ul class="normal">
-<li class="normal" id="appendix-D.16-1.1">
-            <p id="appendix-D.16-1.1.1">Editorial fixes.<a href="#appendix-D.16-1.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="appendix-D.17-1.1">
+            <p id="appendix-D.17-1.1.1">Editorial fixes.<a href="#appendix-D.17-1.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.16-1.2">
-            <p id="appendix-D.16-1.2.1">Changed: "listener" to "responder"; "pure listener" to "monitor".<a href="#appendix-D.16-1.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.17-1.2">
+            <p id="appendix-D.17-1.2.1">Changed: "listener" to "responder"; "pure listener" to "monitor".<a href="#appendix-D.17-1.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.16-1.3">
-            <p id="appendix-D.16-1.3.1">Changed profile name to "coap_group_oscore_app", to reflect it is an application profile.<a href="#appendix-D.16-1.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.17-1.3">
+            <p id="appendix-D.17-1.3.1">Changed profile name to "coap_group_oscore_app", to reflect it is an application profile.<a href="#appendix-D.17-1.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.16-1.4">
-            <p id="appendix-D.16-1.4.1">Added the 'type' parameter for all requests to a Join Resource.<a href="#appendix-D.16-1.4.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.17-1.4">
+            <p id="appendix-D.17-1.4.1">Added the 'type' parameter for all requests to a Join Resource.<a href="#appendix-D.17-1.4.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.16-1.5">
-            <p id="appendix-D.16-1.5.1">Added parameters to indicate the encoding of authentication credentials.<a href="#appendix-D.16-1.5.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.17-1.5">
+            <p id="appendix-D.17-1.5.1">Added parameters to indicate the encoding of authentication credentials.<a href="#appendix-D.17-1.5.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.16-1.6">
-            <p id="appendix-D.16-1.6.1">Challenge-response for proof of possession of signature keys (Section 4).<a href="#appendix-D.16-1.6.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.17-1.6">
+            <p id="appendix-D.17-1.6.1">Challenge-response for proof of possession of signature keys (Section 4).<a href="#appendix-D.17-1.6.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.16-1.7">
-            <p id="appendix-D.16-1.7.1">Renamed 'key_info' parameter to 'sign_info'; updated its format; extended to include also parameters of the signature key (Section 4.1).<a href="#appendix-D.16-1.7.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.17-1.7">
+            <p id="appendix-D.17-1.7.1">Renamed 'key_info' parameter to 'sign_info'; updated its format; extended to include also parameters of the signature key (Section 4.1).<a href="#appendix-D.17-1.7.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.16-1.8">
-            <p id="appendix-D.16-1.8.1">Code 4.00 (Bad request), in responses to joining nodes providing an invalid authentication credential (Section 4.3).<a href="#appendix-D.16-1.8.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.17-1.8">
+            <p id="appendix-D.17-1.8.1">Code 4.00 (Bad request), in responses to joining nodes providing an invalid authentication credential (Section 4.3).<a href="#appendix-D.17-1.8.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.16-1.9">
-            <p id="appendix-D.16-1.9.1">Clarifications on provisioning and checking of authentication credentials (Sections 4 and 6).<a href="#appendix-D.16-1.9.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.17-1.9">
+            <p id="appendix-D.17-1.9.1">Clarifications on provisioning and checking of authentication credentials (Sections 4 and 6).<a href="#appendix-D.17-1.9.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.16-1.10">
-            <p id="appendix-D.16-1.10.1">Extended discussion on group rekeying and possible different approaches (Section 7).<a href="#appendix-D.16-1.10.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.17-1.10">
+            <p id="appendix-D.17-1.10.1">Extended discussion on group rekeying and possible different approaches (Section 7).<a href="#appendix-D.17-1.10.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.16-1.11">
-            <p id="appendix-D.16-1.11.1">Extended security considerations: proof of possession of signature keys; collision of OSCORE Group Identifiers (Section 8).<a href="#appendix-D.16-1.11.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.17-1.11">
+            <p id="appendix-D.17-1.11.1">Extended security considerations: proof of possession of signature keys; collision of OSCORE Group Identifiers (Section 8).<a href="#appendix-D.17-1.11.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.16-1.12">
-            <p id="appendix-D.16-1.12.1">Registered three entries in the IANA registry "Sequence Number Synchronization Method" (Section 9).<a href="#appendix-D.16-1.12.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.17-1.12">
+            <p id="appendix-D.17-1.12.1">Registered three entries in the IANA registry "Sequence Number Synchronization Method" (Section 9).<a href="#appendix-D.17-1.12.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.16-1.13">
-            <p id="appendix-D.16-1.13.1">Registered one public key encoding in the "ACE Public Key Encoding" IANA registry (Section 9).<a href="#appendix-D.16-1.13.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.17-1.13">
+            <p id="appendix-D.17-1.13.1">Registered one public key encoding in the "ACE Public Key Encoding" IANA registry (Section 9).<a href="#appendix-D.17-1.13.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
 </div>
 <div id="sec-00-01">
-<section id="appendix-D.17">
+<section id="appendix-D.18">
         <h3 id="name-version-00-to-01">
-<a href="#appendix-D.17" class="section-number selfRef">D.17. </a><a href="#name-version-00-to-01" class="section-name selfRef">Version -00 to -01</a>
+<a href="#appendix-D.18" class="section-number selfRef">D.18. </a><a href="#name-version-00-to-01" class="section-name selfRef">Version -00 to -01</a>
         </h3>
 <ul class="normal">
-<li class="normal" id="appendix-D.17-1.1">
-            <p id="appendix-D.17-1.1.1">Changed name of 'req_aud' to 'audience' in the Authorization Request (Section 3.1).<a href="#appendix-D.17-1.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="appendix-D.18-1.1">
+            <p id="appendix-D.18-1.1.1">Changed name of 'req_aud' to 'audience' in the Authorization Request (Section 3.1).<a href="#appendix-D.18-1.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.17-1.2">
-            <p id="appendix-D.17-1.2.1">Added negotiation of signature algorithm/parameters between Client and Group Manager (Section 4).<a href="#appendix-D.17-1.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.18-1.2">
+            <p id="appendix-D.18-1.2.1">Added negotiation of signature algorithm/parameters between Client and Group Manager (Section 4).<a href="#appendix-D.18-1.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.17-1.3">
-            <p id="appendix-D.17-1.3.1">Updated format of the Key Distribution Response as a whole (Section 4.3).<a href="#appendix-D.17-1.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.18-1.3">
+            <p id="appendix-D.18-1.3.1">Updated format of the Key Distribution Response as a whole (Section 4.3).<a href="#appendix-D.18-1.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.17-1.4">
-            <p id="appendix-D.17-1.4.1">Added parameter 'cs_params' in the 'key' parameter of the Key Distribution Response (Section 4.3).<a href="#appendix-D.17-1.4.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.18-1.4">
+            <p id="appendix-D.18-1.4.1">Added parameter 'cs_params' in the 'key' parameter of the Key Distribution Response (Section 4.3).<a href="#appendix-D.18-1.4.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-D.17-1.5">
-            <p id="appendix-D.17-1.5.1">New IANA registrations in the "ACE Authorization Server Request Creation Hints" registry, "ACE Groupcomm Key" registry, "OSCORE Security Context Parameters" registry and "ACE Groupcomm Profile" registry (Section 9).<a href="#appendix-D.17-1.5.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-D.18-1.5">
+            <p id="appendix-D.18-1.5.1">New IANA registrations in the "ACE Authorization Server Request Creation Hints" registry, "ACE Groupcomm Key" registry, "OSCORE Security Context Parameters" registry and "ACE Groupcomm Profile" registry (Section 9).<a href="#appendix-D.18-1.5.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
