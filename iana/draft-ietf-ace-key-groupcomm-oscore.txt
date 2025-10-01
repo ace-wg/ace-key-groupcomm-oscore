@@ -3910,7 +3910,7 @@ Table of Contents
       participating in group communication protected with Group OSCORE
       as per [I-D.ietf-core-oscore-groupcomm].
 
-   *  CBOR Value: PROFILE_TBD
+   *  CBOR Value: PROFILE_TBD (suggested value: 1)
 
    *  Reference: [RFC-XXXX]
 
