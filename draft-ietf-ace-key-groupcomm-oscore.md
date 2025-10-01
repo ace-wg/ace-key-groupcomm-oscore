@@ -1906,7 +1906,7 @@ IANA is asked to register the following entries to the "ACE Groupcomm Parameters
 IANA is asked to register the following entry in the "ACE Groupcomm Key Types" registry defined in {{Section 11.8 of RFC9594}}.
 
 *  Name: Group_OSCORE_Input_Material object
-*  Key Type Value: GROUPCOMM_KEY_TBD
+*  Key Type Value: GROUPCOMM_KEY_TBD (suggested value: 1)
 *  Profile: "coap_group_oscore_app", defined in {{ssec-iana-groupcomm-profile-registry}} of this document.
 *  Description: A Group_OSCORE_Input_Material object encoded as described in {{ssec-join-resp}} of this document.
 *  Reference: {{&SELF}}
