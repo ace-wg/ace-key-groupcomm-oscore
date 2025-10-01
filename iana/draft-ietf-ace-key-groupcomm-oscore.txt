@@ -4131,10 +4131,11 @@ Table of Contents
 
 16.12.  Group OSCORE Roles
 
-   This document establishes the IANA "Group OSCORE Roles" registry.
-   The registry has been created to use the "Expert Review" registration
-   procedure [RFC8126].  Expert review guidelines are provided in
-   Section 16.13.
+   This document establishes the IANA "Group OSCORE Roles" registry,
+   within the "Authentication and Authorization for Constrained
+   Environments (ACE)" registry group.  The registry has been created to
+   use the "Expert Review" registration procedure [RFC8126].  Expert
+   review guidelines are provided in Section 16.13.
 
    This registry includes the possible roles that nodes can take in an
    OSCORE group, each in combination with a numeric identifier.  These
