@@ -622,7 +622,7 @@ The Group Manager MUST reply with a 4.00 (Bad Request) error response in the fol
 
   - The 'client_cred' parameter is present in the Join Request and its value is not an eligible authentication credential (e.g., it is not of the format accepted in the group).
 
-In order to prevent the acceptance of Ed25519 and Ed448 public keys that cannot be successfully converted to Montgomery coordinates, and thus cannot be used for the derivation of pairwise keys (see {{Section 2.5.1 of I-D.ietf-core-oscore-groupcomm}}), the Group Manager MAY reply with a 4.00 (Bad Request) error response in case all the following conditions hold:
+If the Group Manager wants to prevent the acceptance and use of Ed25519 and Ed448 public keys that cannot be successfully converted to Montgomery coordinates, and thus cannot be used for the derivation of pairwise keys (see {{Section 2.5.1 of I-D.ietf-core-oscore-groupcomm}}), the Group Manager MUST reply with a 4.00 (Bad Request) error response in case all the following conditions hold:
 
 * The OSCORE group uses the pairwise mode of Group OSCORE.
 
@@ -633,6 +633,8 @@ In order to prevent the acceptance of Ed25519 and Ed448 public keys that cannot 
    - Is for the elliptic curve Ed25519 and has its Y coordinate equal to -1 or 1 (mod p), with p = (2<sup>255</sup> - 19), see {{Section 4.1 of RFC7748}}; or
 
    - Is for the elliptic curve Ed448 and has its Y coordinate equal to -1 or 1 (mod p), with p =  (2<sup>448</sup> - 2<sup>224</sup> - 1), see {{Section 4.2 of RFC7748}}.
+
+For example, this situation can occur if the joining node does not support the pairwise mode of Group OSCORE or does not intend to use the pairwise mode within the OSCORE group.
 
 Unless it is already intended to use Content-Format "application/concise-problem-details+cbor", a 4.00 (Bad Request) error response from the Group Manager to the joining node MUST have Content-Format "application/ace-groupcomm+cbor". In such a case, the response payload is a CBOR map formatted as follows (OPT4):
 
@@ -1118,7 +1120,7 @@ Upon receiving the Authentication Credential Update Request, the Group Manager p
 
 * The Group Manager verifies the PoP challenge included in the 'client_cred_verify' parameter in the same way defined in {{ssec-join-req-processing}} when processing a Join Request for the OSCORE group in question (REQ14), with the difference that the verification MUST fail if the 'client_cred_verify' parameter specifies an empty PoP evidence.
 
-* The Group Manager MAY return a 4.00 (Bad Request) error response in order to prevent the acceptance of Ed25519 and Ed448 public keys that cannot be successfully converted to Montgomery coordinates, according to the same criteria defined in {{ssec-join-req-processing}} when processing a Join Request for the OSCORE group in question.
+* According to the same criteria defined in {{ssec-join-req-processing}} when processing a Join Request for the OSCORE group in question, the Group Manager MUST return a 4.00 (Bad Request) error response if it wants to prevent the acceptance and use of Ed25519 and Ed448 public keys that cannot be successfully converted to Montgomery coordinates.
 
 * The Group Manager MUST return a 5.03 (Service Unavailable) response in case the OSCORE group identified by GROUPNAME is currently inactive (see {{ssec-resource-active}}). The response MUST have Content-Format set to "application/concise-problem-details+cbor" {{RFC9290}} and is formatted as defined in {{Section 4.1.2 of RFC9594}}. Within the Custom Problem Detail entry 'ace-groupcomm-error', the value of the 'error-id' field MUST be set to 9 ("Group currently not active").
 
