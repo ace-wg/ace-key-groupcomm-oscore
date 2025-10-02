@@ -5,8 +5,8 @@
 ACE Working Group                                              M. Tiloca
 Internet-Draft                                                   RISE AB
 Intended status: Standards Track                            F. Palombini
-Expires: 4 April 2026                                        Ericsson AB
-                                                          1 October 2025
+Expires: 5 April 2026                                        Ericsson AB
+                                                          2 October 2025
 
 
     Key Management for Group Object Security for Constrained RESTful
@@ -44,7 +44,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 4 April 2026.
+   This Internet-Draft will expire on 5 April 2026.
 
 Copyright Notice
 
@@ -3809,7 +3809,7 @@ Table of Contents
 
    *  Name: ecdh_info
 
-   *  CBOR Key: TBD (range -256 to 255)
+   *  CBOR Key: 47 (suggested)
 
    *  Value Type: Null or array
 
@@ -3821,7 +3821,7 @@ Table of Contents
 
    *  Name: kdc_dh_creds
 
-   *  CBOR Key: TBD (range -256 to 255)
+   *  CBOR Key: 48 (suggested)
 
    *  Value Type: Null or array
 
