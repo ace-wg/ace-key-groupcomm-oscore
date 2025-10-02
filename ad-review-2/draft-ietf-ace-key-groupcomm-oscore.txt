@@ -1269,12 +1269,13 @@ Table of Contents
          its value is not an eligible authentication credential (e.g.,
          it is not of the format accepted in the group).
 
-   In order to prevent the acceptance of Ed25519 and Ed448 public keys
-   that cannot be successfully converted to Montgomery coordinates, and
-   thus cannot be used for the derivation of pairwise keys (see
-   Section 2.5.1 of [I-D.ietf-core-oscore-groupcomm]), the Group Manager
-   MAY reply with a 4.00 (Bad Request) error response in case all the
-   following conditions hold:
+   If the Group Manager wants to prevent the acceptance and use of
+   Ed25519 and Ed448 public keys that cannot be successfully converted
+   to Montgomery coordinates, and thus cannot be used for the derivation
+   of pairwise keys (see Section 2.5.1 of
+   [I-D.ietf-core-oscore-groupcomm]), the Group Manager MUST reply with
+   a 4.00 (Bad Request) error response in case all the following
+   conditions hold:
 
    *  The OSCORE group uses the pairwise mode of Group OSCORE.
 
@@ -1290,6 +1291,10 @@ Table of Contents
       -  Is for the elliptic curve Ed448 and has its Y coordinate equal
          to -1 or 1 (mod p), with p = (2^448 - 2^224 - 1), see
          Section 4.2 of [RFC7748].
+
+   For example, this situation can occur if the joining node does not
+   support the pairwise mode of Group OSCORE or does not intend to use
+   the pairwise mode within the OSCORE group.
 
    Unless it is already intended to use Content-Format "application/
    concise-problem-details+cbor", a 4.00 (Bad Request) error response
@@ -2379,11 +2384,12 @@ Table of Contents
       fail if the 'client_cred_verify' parameter specifies an empty PoP
       evidence.
 
-   *  The Group Manager MAY return a 4.00 (Bad Request) error response
-      in order to prevent the acceptance of Ed25519 and Ed448 public
-      keys that cannot be successfully converted to Montgomery
-      coordinates, according to the same criteria defined in Section 6.2
-      when processing a Join Request for the OSCORE group in question.
+   *  According to the same criteria defined in Section 6.2 when
+      processing a Join Request for the OSCORE group in question, the
+      Group Manager MUST return a 4.00 (Bad Request) error response if
+      it wants to prevent the acceptance and use of Ed25519 and Ed448
+      public keys that cannot be successfully converted to Montgomery
+      coordinates.
 
    *  The Group Manager MUST return a 5.03 (Service Unavailable)
       response in case the OSCORE group identified by GROUPNAME is
