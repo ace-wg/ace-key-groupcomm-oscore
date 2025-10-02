@@ -1851,7 +1851,7 @@ IANA is asked to register the following entries in the "OAuth Parameters" regist
 IANA is asked to register the following entries in the "OAuth Parameters CBOR Mappings" registry, following the procedure specified in {{Section 8.10 of RFC9200}}.
 
 * Name: ecdh_info
-* CBOR Key: TBD (range -256 to 255)
+* CBOR Key: 47 (suggested)
 * Value Type: Null or array
 * Reference: {{&SELF}}
 * Original Specification: {{&SELF}}
@@ -1859,7 +1859,7 @@ IANA is asked to register the following entries in the "OAuth Parameters CBOR Ma
 <br>
 
 * Name: kdc_dh_creds
-* CBOR Key: TBD (range -256 to 255)
+* CBOR Key: 48 (suggested)
 * Value Type: Null or array
 * Reference: {{&SELF}}
 * Original Specification: {{&SELF}}
