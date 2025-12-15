@@ -4130,7 +4130,7 @@ The Group Manager performs a rekeying when one or more members leave the group, 
             <p id="section-16.2-2.1.1">Name: ecdh_info<a href="#section-16.2-2.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.2-2.2">
-            <p id="section-16.2-2.2.1">CBOR Key: TBD (range -256 to 255)<a href="#section-16.2-2.2.1" class="pilcrow">¶</a></p>
+            <p id="section-16.2-2.2.1">CBOR Key: 47 (suggested)<a href="#section-16.2-2.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.2-2.3">
             <p id="section-16.2-2.3.1">Value Type: Null or array<a href="#section-16.2-2.3.1" class="pilcrow">¶</a></p>
@@ -4148,7 +4148,7 @@ The Group Manager performs a rekeying when one or more members leave the group, 
             <p id="section-16.2-4.1.1">Name: kdc_dh_creds<a href="#section-16.2-4.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.2-4.2">
-            <p id="section-16.2-4.2.1">CBOR Key: TBD (range -256 to 255)<a href="#section-16.2-4.2.1" class="pilcrow">¶</a></p>
+            <p id="section-16.2-4.2.1">CBOR Key: 48 (suggested)<a href="#section-16.2-4.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.2-4.3">
             <p id="section-16.2-4.3.1">Value Type: Null or array<a href="#section-16.2-4.3.1" class="pilcrow">¶</a></p>
@@ -4255,7 +4255,7 @@ The Group Manager performs a rekeying when one or more members leave the group, 
             <p id="section-16.4-2.1.1">Name: Group_OSCORE_Input_Material object<a href="#section-16.4-2.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.4-2.2">
-            <p id="section-16.4-2.2.1">Key Type Value: GROUPCOMM_KEY_TBD<a href="#section-16.4-2.2.1" class="pilcrow">¶</a></p>
+            <p id="section-16.4-2.2.1">Key Type Value: GROUPCOMM_KEY_TBD (suggested value: 1)<a href="#section-16.4-2.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.4-2.3">
             <p id="section-16.4-2.3.1">Profile: "coap_group_oscore_app", defined in <a href="#ssec-iana-groupcomm-profile-registry" class="auto internal xref">Section 16.5</a> of this document.<a href="#section-16.4-2.3.1" class="pilcrow">¶</a></p>
@@ -4283,7 +4283,7 @@ The Group Manager performs a rekeying when one or more members leave the group, 
             <p id="section-16.5-2.2.1">Description: Application profile to provision keying material for participating in group communication protected with Group OSCORE as per <span>[<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>.<a href="#section-16.5-2.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.5-2.3">
-            <p id="section-16.5-2.3.1">CBOR Value: PROFILE_TBD<a href="#section-16.5-2.3.1" class="pilcrow">¶</a></p>
+            <p id="section-16.5-2.3.1">CBOR Value: PROFILE_TBD (suggested value: 1)<a href="#section-16.5-2.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.5-2.4">
             <p id="section-16.5-2.4.1">Reference: [RFC-XXXX]<a href="#section-16.5-2.4.1" class="pilcrow">¶</a></p>
@@ -4512,7 +4512,7 @@ The Group Manager performs a rekeying when one or more members leave the group, 
 <p id="section-16.9-1">IANA is asked to register the following entries in the "CoAP Content-Formats" registry within the "Constrained RESTful Environments (CoRE) Parameters" registry group.<a href="#section-16.9-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-16.9-2.1">
-            <p id="section-16.9-2.1.1">Content Type: application/aif+cbor;Toid="oscore-gname",Tperm="oscore-gperm"<a href="#section-16.9-2.1.1" class="pilcrow">¶</a></p>
+            <p id="section-16.9-2.1.1">Content Type: application/aif+cbor;toid=oscore-gname;tperm=oscore-gperm<a href="#section-16.9-2.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.9-2.2">
             <p id="section-16.9-2.2.1">Content Coding: -<a href="#section-16.9-2.2.1" class="pilcrow">¶</a></p>
@@ -4527,7 +4527,7 @@ The Group Manager performs a rekeying when one or more members leave the group, 
 <p id="section-16.9-3"><br></p>
 <ul class="normal">
 <li class="normal" id="section-16.9-4.1">
-            <p id="section-16.9-4.1.1">Content Type: application/aif+json;Toid="oscore-gname",Tperm="oscore-gperm"<a href="#section-16.9-4.1.1" class="pilcrow">¶</a></p>
+            <p id="section-16.9-4.1.1">Content Type: application/aif+json;toid=oscore-gname;tperm=oscore-gperm<a href="#section-16.9-4.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-16.9-4.2">
             <p id="section-16.9-4.2.1">Content Coding: -<a href="#section-16.9-4.2.1" class="pilcrow">¶</a></p>
@@ -4609,7 +4609,7 @@ The Group Manager performs a rekeying when one or more members leave the group, 
         <h3 id="name-group-oscore-roles">
 <a href="#section-16.12" class="section-number selfRef">16.12. </a><a href="#name-group-oscore-roles" class="section-name selfRef">Group OSCORE Roles</a>
         </h3>
-<p id="section-16.12-1">This document establishes the IANA "Group OSCORE Roles" registry. The registry has been created to use the "Expert Review" registration procedure <span>[<a href="#RFC8126" class="cite xref">RFC8126</a>]</span>. Expert review guidelines are provided in <a href="#ssec-iana-expert-review" class="auto internal xref">Section 16.13</a>.<a href="#section-16.12-1" class="pilcrow">¶</a></p>
+<p id="section-16.12-1">This document establishes the IANA "Group OSCORE Roles" registry, within the "Authentication and Authorization for Constrained Environments (ACE)" registry group. The registry has been created to use the "Expert Review" registration procedure <span>[<a href="#RFC8126" class="cite xref">RFC8126</a>]</span>. Expert review guidelines are provided in <a href="#ssec-iana-expert-review" class="auto internal xref">Section 16.13</a>.<a href="#section-16.12-1" class="pilcrow">¶</a></p>
 <p id="section-16.12-2">This registry includes the possible roles that nodes can take in an OSCORE group, each in combination with a numeric identifier. These numeric identifiers are used to express authorization information about joining OSCORE groups, as specified in <a href="#sec-format-scope" class="auto internal xref">Section 3</a> of [RFC-XXXX].<a href="#section-16.12-2" class="pilcrow">¶</a></p>
 <p id="section-16.12-3">The columns of this registry are:<a href="#section-16.12-3" class="pilcrow">¶</a></p>
 <ul class="normal">
