@@ -157,7 +157,7 @@ Readers are expected to be familiar with:
 
 * The terms and concepts related to Concise Data Definition Language (CDDL) {{RFC8610}}, Concise Binary Object Representation (CBOR) {{RFC8949}}, and COSE {{RFC9052}}{{RFC9053}}.
 
-* The terms and concepts related to CoAP {{RFC7252}} and group communication for CoAP {{I-D.ietf-core-groupcomm-bis}}. Unless otherwise indicated, the term "endpoint" is used here following its OAuth definition, aimed at denoting resources such as /token and /introspect at the AS, and /authz-info at the RS. This document does not use the CoAP definition of "endpoint", which is "An entity participating in the CoAP protocol".
+* The terms and concepts related to CoAP {{RFC7252}} and group communication for CoAP {{I-D.ietf-core-groupcomm-bis}}. Unless otherwise indicated, the term "endpoint" is used here following its OAuth definition {{RFC6749}}, aimed at denoting resources such as /token and /introspect at the AS, and /authz-info at the RS. The CoAP definition, which is "\[a\]n entity participating in the CoAP protocol" {{RFC7252}}, is not used in this document.
 
 * The terms and concepts for protection and processing of CoAP messages through OSCORE {{RFC8613}} and through Group OSCORE {{I-D.ietf-core-oscore-groupcomm}} in group communication scenarios. These especially include:
 
@@ -2002,7 +2002,7 @@ IANA is asked to register the following entry in the "TLS Exporter Labels" regis
 
 ## AIF Media-Type Sub-Parameters {#ssec-iana-AIF-registry}
 
-For the media-types application/aif+cbor and application/aif+json defined in {{Section 5.1 of RFC9237}}, IANA is requested to register the following entries for the two media-type parameters Toid and Tperm, in the respective sub-registry defined in {{Section 5.2 of RFC9237}} within the "MIME Media Type Sub-Parameter" registry group.
+For the media-types "application/aif+cbor" and "application/aif+json" defined in {{Section 5.1 of RFC9237}}, IANA is requested to register the following entries for the two media-type parameters Toid and Tperm, in the respective sub-registry defined in {{Section 5.2 of RFC9237}} within the "MIME Media Type Sub-Parameter" registry group.
 
 * Parameter: Toid
 * Name: oscore-gname
