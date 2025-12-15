@@ -1857,7 +1857,7 @@ IANA is asked to register the following entries in the "OAuth Parameters" regist
 IANA is asked to register the following entries in the "OAuth Parameters CBOR Mappings" registry, following the procedure specified in {{Section 8.10 of RFC9200}}.
 
 * Name: ecdh_info
-* CBOR Key: TBD (range -256 to 255)
+* CBOR Key: 47 (suggested)
 * Value Type: Null or array
 * Reference: {{&SELF}}
 * Original Specification: {{&SELF}}
@@ -1865,7 +1865,7 @@ IANA is asked to register the following entries in the "OAuth Parameters CBOR Ma
 <br>
 
 * Name: kdc_dh_creds
-* CBOR Key: TBD (range -256 to 255)
+* CBOR Key: 48 (suggested)
 * Value Type: Null or array
 * Reference: {{&SELF}}
 * Original Specification: {{&SELF}}
@@ -1912,7 +1912,7 @@ IANA is asked to register the following entries to the "ACE Groupcomm Parameters
 IANA is asked to register the following entry in the "ACE Groupcomm Key Types" registry defined in {{Section 11.8 of RFC9594}}.
 
 *  Name: Group_OSCORE_Input_Material object
-*  Key Type Value: GROUPCOMM_KEY_TBD
+*  Key Type Value: GROUPCOMM_KEY_TBD (suggested value: 1)
 *  Profile: "coap_group_oscore_app", defined in {{ssec-iana-groupcomm-profile-registry}} of this document.
 *  Description: A Group_OSCORE_Input_Material object encoded as described in {{ssec-join-resp}} of this document.
 *  Reference: {{&SELF}}
@@ -1923,7 +1923,7 @@ IANA is asked to register the following entry in the "ACE Groupcomm Profiles" re
 
 *  Name: coap_group_oscore_app
 *  Description: Application profile to provision keying material for participating in group communication protected with Group OSCORE as per {{I-D.ietf-core-oscore-groupcomm}}.
-*  CBOR Value: PROFILE_TBD
+*  CBOR Value: PROFILE_TBD (suggested value: 1)
 *  Reference: {{&SELF}}
 
 ## OSCORE Security Context Parameters {#ssec-iana-security-context-parameter-registry}
@@ -2020,7 +2020,7 @@ For the media-types application/aif+cbor and application/aif+json defined in {{S
 
 IANA is asked to register the following entries in the "CoAP Content-Formats" registry within the "Constrained RESTful Environments (CoRE) Parameters" registry group.
 
-* Content Type: application/aif+cbor;Toid="oscore-gname",Tperm="oscore-gperm"
+* Content Type: application/aif+cbor;toid=oscore-gname;tperm=oscore-gperm
 
 * Content Coding: -
 
@@ -2030,7 +2030,7 @@ IANA is asked to register the following entries in the "CoAP Content-Formats" re
 
 <br>
 
-* Content Type: application/aif+json;Toid="oscore-gname",Tperm="oscore-gperm"
+* Content Type: application/aif+json;toid=oscore-gname;tperm=oscore-gperm
 
 * Content Coding: -
 
@@ -2078,7 +2078,7 @@ IANA is asked to register the following entries in the "ACE Groupcomm Errors" re
 
 ## Group OSCORE Roles {#ssec-iana-group-oscore-roles-registry}
 
-This document establishes the IANA "Group OSCORE Roles" registry. The registry has been created to use the "Expert Review" registration procedure {{RFC8126}}. Expert review guidelines are provided in {{ssec-iana-expert-review}}.
+This document establishes the IANA "Group OSCORE Roles" registry, within the "Authentication and Authorization for Constrained Environments (ACE)" registry group. The registry has been created to use the "Expert Review" registration procedure {{RFC8126}}. Expert review guidelines are provided in {{ssec-iana-expert-review}}.
 
 This registry includes the possible roles that nodes can take in an OSCORE group, each in combination with a numeric identifier. These numeric identifiers are used to express authorization information about joining OSCORE groups, as specified in {{sec-format-scope}} of {{&SELF}}.
 
