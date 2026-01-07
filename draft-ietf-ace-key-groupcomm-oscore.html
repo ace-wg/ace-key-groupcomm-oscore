@@ -18,7 +18,7 @@
     Python 3.12.12
     ConfigArgParse 1.7
     google-i18n-address 3.1.1
-    intervaltree 3.1.0
+    intervaltree 3.2.1
     Jinja2 3.1.6
     lxml 6.0.2
     platformdirs 4.5.1
@@ -1044,11 +1044,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">Key Management for Group OSCORE Using AC</td>
-<td class="right">December 2025</td>
+<td class="right">January 2026</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Tiloca &amp; Palombini</td>
-<td class="center">Expires 29 June 2026</td>
+<td class="center">Expires 11 July 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1061,12 +1061,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-ace-key-groupcomm-oscore-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-12-26" class="published">26 December 2025</time>
+<time datetime="2026-01-07" class="published">7 January 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-06-29">29 June 2026</time></dd>
+<dd class="expires"><time datetime="2026-07-11">11 July 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1104,7 +1104,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 29 June 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 11 July 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1113,7 +1113,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <a href="#name-copyright-notice" class="section-name selfRef">Copyright Notice</a>
         </h2>
 <p id="section-boilerplate.2-1">
-            Copyright (c) 2025 IETF Trust and the persons identified as the
+            Copyright (c) 2026 IETF Trust and the persons identified as the
             document authors. All rights reserved.<a href="#section-boilerplate.2-1" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.2-2">
             This document is subject to BCP 78 and the IETF Trust's Legal
@@ -2970,7 +2970,7 @@ The Group Manager <span class="bcp14">MUST</span> return a 5.03 (Service Unavail
             <p id="section-9.4-6.1.1">The N_S challenge that is used to build the proof-of-possession input is computed as defined in <a href="#sssec-challenge-value" class="auto internal xref">Section 6.1.1</a> (REQ15).<a href="#section-9.4-6.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-9.4-6.2">
-            <p id="section-9.4-6.2.1">The Group Manager verifies the PoP challenge included in the 'client_cred_verify' parameter in the same way defined in <a href="#ssec-join-req-processing" class="auto internal xref">Section 6.2</a> when processing a Join Request for the OSCORE group in question (REQ14), with the difference that the verification <span class="bcp14">MUST</span> fail if the 'client_cred_verify' parameter specifies an empty PoP evidence.<a href="#section-9.4-6.2.1" class="pilcrow">¶</a></p>
+            <p id="section-9.4-6.2.1">The Group Manager verifies the PoP evidence included in the 'client_cred_verify' parameter in the same way defined in <a href="#ssec-join-req-processing" class="auto internal xref">Section 6.2</a> when processing a Join Request for the OSCORE group in question (REQ14), with the difference that the verification <span class="bcp14">MUST</span> fail if the 'client_cred_verify' parameter specifies an empty PoP evidence.<a href="#section-9.4-6.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-9.4-6.3">
             <p id="section-9.4-6.3.1">According to the same criteria defined in <a href="#ssec-join-req-processing" class="auto internal xref">Section 6.2</a> when processing a Join Request for the OSCORE group in question, the Group Manager <span class="bcp14">MUST</span> return a 4.00 (Bad Request) error response if it wants to prevent the acceptance and use of Ed25519 and Ed448 public keys that cannot be successfully converted to Montgomery coordinates.<a href="#section-9.4-6.3.1" class="pilcrow">¶</a></p>
@@ -5183,7 +5183,7 @@ sign_params = 11
             <p id="appendix-D.1-1.5.1">Refer to all the REQ and OPT profile requirements.<a href="#appendix-D.1-1.5.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.6">
-            <p id="appendix-D.1-1.6.1">Minor clarifications and editorial improvements.<a href="#appendix-D.1-1.6.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.6.1">Clarifications and editorial improvements.<a href="#appendix-D.1-1.6.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>

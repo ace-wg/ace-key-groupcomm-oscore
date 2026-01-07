@@ -5,8 +5,8 @@
 ACE Working Group                                              M. Tiloca
 Internet-Draft                                                   RISE AB
 Intended status: Standards Track                            F. Palombini
-Expires: 29 June 2026                                        Ericsson AB
-                                                        26 December 2025
+Expires: 11 July 2026                                        Ericsson AB
+                                                          7 January 2026
 
 
     Key Management for Group Object Security for Constrained RESTful
@@ -44,11 +44,11 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 29 June 2026.
+   This Internet-Draft will expire on 11 July 2026.
 
 Copyright Notice
 
-   Copyright (c) 2025 IETF Trust and the persons identified as the
+   Copyright (c) 2026 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -2381,7 +2381,7 @@ Table of Contents
    *  The N_S challenge that is used to build the proof-of-possession
       input is computed as defined in Section 6.1.1 (REQ15).
 
-   *  The Group Manager verifies the PoP challenge included in the
+   *  The Group Manager verifies the PoP evidence included in the
       'client_cred_verify' parameter in the same way defined in
       Section 6.2 when processing a Join Request for the OSCORE group in
       question (REQ14), with the difference that the verification MUST
@@ -4861,7 +4861,7 @@ D.1.  Version -17 to -18
 
    *  Refer to all the REQ and OPT profile requirements.
 
-   *  Minor clarifications and editorial improvements.
+   *  Clarifications and editorial improvements.
 
 D.2.  Version -16 to -17
 
