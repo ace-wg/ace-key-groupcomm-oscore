@@ -639,6 +639,12 @@ Unless it is already intended to use Content-Format "application/concise-problem
 
 * The CBOR map MAY include the 'kdcchallenge' parameter, whose CBOR label is defined in {{Section 8 of RFC9594}}. If present, this parameter is a CBOR byte string, which encodes a newly generated 'kdcchallenge' value that the Client can use when preparing a new Join Request (see {{ssec-join-req-sending}}). In such a case the Group Manager MUST store the newly generated value as the 'kdcchallenge' value associated with the joining node, thus replacing the currently stored value (if any).
 
+The information conveyed in such a 4.00 (Bad Request) error response with Content-Format "application/ace-groupcomm+cbor" can be especially useful for the joining node, in case the provisioning of the access token to the Group Manager has not relied on a Token Transfer Request to the /authz-info endpoint (see {{ssec-token-post}}).
+
+Furthermore, specifically if the group is a pairwise-only group, the error response allows the joining node to obtain the Diffie-Hellman authentication credential that the Group Manager uses in the group, as encoded by the 'kdc_dh_creds' parameter. Consequently, the joining node remains able to prove possession of its own private key upon joining the group, through a MAC used as PoP evidence and encoded by the 'client_cred_verify' parameter of the Join Request (see {{ssec-join-req-sending}}).
+
+Irrespective of the particular case, a joining node can trigger the Group Manager to send such an error response by simply sending an empty Join Request, i.e., a POST request targeting the group-membership resource at the Group Manager and conveying no payload. As per {{Section 4.1.2 of RFC9594}}, the Group Manager replies with a 4.00 (Bad Request) error response, having received a request that does not include required fields and thus is not formatted correctly.
+
 ### Follow-up to a 4.00 (Bad Request) Error Response
 
 When receiving a 4.00 (Bad Request) error response, the joining node MAY send a new Join Request to the Group Manager. In such a case:
@@ -2304,6 +2310,8 @@ sign_params = 11
 * Clarified the origin of the latest client's authentication credential.
 
 * Clarified meaning of the group becoming inactive and active again.
+
+* Clarified usefulness of error responses to the Join Request.
 
 * Refer to all the REQ and OPT profile requirements.
 
