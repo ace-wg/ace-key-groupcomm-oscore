@@ -897,7 +897,7 @@ The handler expects a FETCH request, whose payload is a CBOR map including a non
 
 In addition to what is defined in {{Section 4.1.2 of RFC9594}}, the Group Manager performs the following checks.
 
-In case the requesting Client is a current group member, the Group Manager MUST reply with a 4.03 (Forbidden) error response. The response MUST have Content-Format set to "application/concise-problem-details+cbor" {{RFC9290}} and is formatted as defined in {{Section 4.1.2 of RFC9594}}. Within the Custom Problem Detail entry 'ace-groupcomm-error', the value of the 'error-id' field MUST be set to 8 ("Operation permitted only to signature verifiers").
+In case the requesting Client is a current group member or is not authorized to be signature verifier for the group, the Group Manager MUST reply with a 4.03 (Forbidden) error response. The response MUST have Content-Format set to "application/concise-problem-details+cbor" {{RFC9290}} and is formatted as defined in {{Section 4.1.2 of RFC9594}}. Within the Custom Problem Detail entry 'ace-groupcomm-error', the value of the 'error-id' field MUST be set to 8 ("Operation permitted only to signature verifiers").
 
 In case GROUPNAME denotes a pairwise-only group, the Group Manager MUST reply with a 4.00 (Bad Request) error response. The response MUST have Content-Format set to "application/concise-problem-details+cbor" {{RFC9290}} and is formatted as defined in {{Section 4.1.2 of RFC9594}}. Within the Custom Problem Detail entry 'ace-groupcomm-error', the value of the 'error-id' field MUST be set to 7 ("Signatures not used in the group").
 
@@ -927,7 +927,7 @@ The handler expects a GET request.
 
 In addition to what is defined in {{Section 4.1.2 of RFC9594}}, the handler performs the following actions.
 
-In case the requesting Client is a current group member, the Group Manager MUST reply with a 4.03 (Forbidden) error response. The response MUST have Content-Format set to "application/concise-problem-details+cbor" {{RFC9290}} and is formatted as defined in {{Section 4.1.2 of RFC9594}}. Within the Custom Problem Detail entry 'ace-groupcomm-error', the value of the 'error-id' field MUST be set to 8 ("Operation permitted only to signature verifiers").
+In case the requesting Client is a current group member or is not authorized to be signature verifier for the group, the Group Manager MUST reply with a 4.03 (Forbidden) error response. The response MUST have Content-Format set to "application/concise-problem-details+cbor" {{RFC9290}} and is formatted as defined in {{Section 4.1.2 of RFC9594}}. Within the Custom Problem Detail entry 'ace-groupcomm-error', the value of the 'error-id' field MUST be set to 8 ("Operation permitted only to signature verifiers").
 
 In case GROUPNAME denotes a pairwise-only group, the Group Manager MUST reply with a 4.00 (Bad Request) error response. The response MUST have Content-Format set to "application/concise-problem-details+cbor" {{RFC9290}} and is formatted as defined in {{Section 4.1.2 of RFC9594}}. Within the Custom Problem Detail entry 'ace-groupcomm-error', the value of the 'error-id' field MUST be set to 7 ("Signatures not used in the group").
 
@@ -2312,6 +2312,8 @@ sign_params = 11
 * Clarified meaning of the group becoming inactive and active again.
 
 * Clarified usefulness of error responses to the Join Request.
+
+* Clarified checks on requests from a signature verifier.
 
 * Refer to all the REQ and OPT profile requirements.
 
