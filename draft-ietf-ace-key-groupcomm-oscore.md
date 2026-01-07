@@ -569,7 +569,7 @@ The value of the N\_S challenge is determined as follows.
 
   The same as above holds if TLS 1.3 {{RFC8446}} was used instead of DTLS 1.3, as per {{RFC9430}}.
 
-It is up to applications to define how N_S is computed in further alternative settings.
+It is up to applications or future specifications to define how N_S is computed in further alternative settings.
 
 {{ssec-security-considerations-reusage-nonces}} provides security considerations on the reusage of the N_S challenge.
 
