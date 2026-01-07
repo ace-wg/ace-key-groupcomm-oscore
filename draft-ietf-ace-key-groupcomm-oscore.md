@@ -1111,7 +1111,7 @@ Upon receiving the Authentication Credential Update Request, the Group Manager p
 
 * The N\_S challenge that is used to build the proof-of-possession input is computed as defined in {{sssec-challenge-value}} (REQ15).
 
-* The Group Manager verifies the PoP challenge included in the 'client_cred_verify' parameter in the same way defined in {{ssec-join-req-processing}} when processing a Join Request for the OSCORE group in question (REQ14), with the difference that the verification MUST fail if the 'client_cred_verify' parameter specifies an empty PoP evidence.
+* The Group Manager verifies the PoP evidence included in the 'client_cred_verify' parameter in the same way defined in {{ssec-join-req-processing}} when processing a Join Request for the OSCORE group in question (REQ14), with the difference that the verification MUST fail if the 'client_cred_verify' parameter specifies an empty PoP evidence.
 
 * According to the same criteria defined in {{ssec-join-req-processing}} when processing a Join Request for the OSCORE group in question, the Group Manager MUST return a 4.00 (Bad Request) error response if it wants to prevent the acceptance and use of Ed25519 and Ed448 public keys that cannot be successfully converted to Montgomery coordinates.
 
@@ -2307,7 +2307,7 @@ sign_params = 11
 
 * Refer to all the REQ and OPT profile requirements.
 
-* Minor clarifications and editorial improvements.
+* Clarifications and editorial improvements.
 
 ## Version -16 to -17 ## {#sec-16-17}
 
