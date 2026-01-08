@@ -1077,7 +1077,7 @@ Otherwise, the Group Manager performs one of the following actions.
 
    * The Group Manager rekeys the OSCORE group. That is, the Group Manager generates new group keying material for that group (see {{sec-group-rekeying-process}}), and replies to the group member with a group rekeying message as defined in {{sec-group-rekeying-process}}, providing the new group keying material. Then, the Group Manager rekeys the rest of the OSCORE group, as discussed in {{sec-group-rekeying-process}}.
 
-     The Group Manager SHOULD perform a group rekeying only if already scheduled to  occur shortly, e.g., according to an application-specific rekeying period or scheduling, or as a reaction to a recent change in the group membership. In any other case, the Group Manager SHOULD NOT rekey the OSCORE group when receiving a Key Renewal Request (OPT12).
+     The Group Manager SHOULD perform a group rekeying if one is already scheduled to occur within a time frame that is acceptably short, as per application-specific policies at the Group Manager. For instance, a group rekeying could be already upcoming in accordance with an application-specific rekeying period or scheduling, or as a reaction to a recent change in the group membership. If a group rekeying is not already scheduled to occur within an acceptably short time frame, the Group Manager SHOULD NOT rekey the OSCORE group when receiving a Key Renewal Request (OPT12).
 
    * The Group Manager selects and assigns a new OSCORE Sender ID for that group member (REQ27), according to the same criteria defined in {{ssec-join-resp}} for selecting and assigning an OSCORE Sender ID to include in a Join Response.
 
@@ -2205,7 +2205,7 @@ This section lists how this application profile of ACE addresses the requirement
 
 * OPT11: Optionally, specify policies that instruct Clients to retain messages and for how long, if those are unsuccessfully decrypted: no such policies are specified.
 
-* OPT12: Optionally, specify for the KDC to perform a group rekeying when receiving a Key Renewal Request, together with or instead of renewing individual keying material: the Group Manager SHOULD NOT perform a group rekeying, unless already scheduled to occur shortly (see {{sec-new-key}}).
+* OPT12: Optionally, specify for the KDC to perform a group rekeying when receiving a Key Renewal Request, together with or instead of renewing individual keying material: the Group Manager SHOULD perform a group rekeying if one is already scheduled to occur within an acceptably short time frame, otherwise it SHOULD NOT (see {{sec-new-key}}).
 
 * OPT13: Optionally, specify how the identifier of a group member's authentication credential is included in requests sent to other group members: no such method is defined.
 
@@ -2312,6 +2312,8 @@ sign_params = 11
 * Clarified meaning of the group becoming inactive and active again.
 
 * Clarified usefulness of error responses to the Join Request.
+
+* Clarified relation between a group rekeying and a Key Renewal Request.
 
 * Clarified checks on requests from a signature verifier.
 
