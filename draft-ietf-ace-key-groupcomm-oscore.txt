@@ -2302,12 +2302,16 @@ Table of Contents
           group keying material.  Then, the Group Manager rekeys the
           rest of the OSCORE group, as discussed in Section 11.
 
-          The Group Manager SHOULD perform a group rekeying only if
-          already scheduled to occur shortly, e.g., according to an
-          application-specific rekeying period or scheduling, or as a
-          reaction to a recent change in the group membership.  In any
-          other case, the Group Manager SHOULD NOT rekey the OSCORE
-          group when receiving a Key Renewal Request (OPT12).
+          The Group Manager SHOULD perform a group rekeying if one is
+          already scheduled to occur within a time frame that is
+          acceptably short, as per application-specific policies at the
+          Group Manager.  For instance, a group rekeying could be
+          already upcoming in accordance with an application-specific
+          rekeying period or scheduling, or as a reaction to a recent
+          change in the group membership.  If a group rekeying is not
+          already scheduled to occur within an acceptably short time
+          frame, the Group Manager SHOULD NOT rekey the OSCORE group
+          when receiving a Key Renewal Request (OPT12).
 
        *  The Group Manager selects and assigns a new OSCORE Sender ID
           for that group member (REQ27), according to the same criteria
@@ -4721,9 +4725,10 @@ A.2.  Optional-to-Address Requirements
 
    *  OPT12: Optionally, specify for the KDC to perform a group rekeying
       when receiving a Key Renewal Request, together with or instead of
-      renewing individual keying material: the Group Manager SHOULD NOT
-      perform a group rekeying, unless already scheduled to occur
-      shortly (see Section 9.2).
+      renewing individual keying material: the Group Manager SHOULD
+      perform a group rekeying if one is already scheduled to occur
+      within an acceptably short time frame, otherwise it SHOULD NOT
+      (see Section 9.2).
 
    *  OPT13: Optionally, specify how the identifier of a group member's
       authentication credential is included in requests sent to other
@@ -4885,6 +4890,9 @@ D.1.  Version -17 to -18
    *  Clarified meaning of the group becoming inactive and active again.
 
    *  Clarified usefulness of error responses to the Join Request.
+
+   *  Clarified relation between a group rekeying and a Key Renewal
+      Request.
 
    *  Clarified checks on requests from a signature verifier.
 
