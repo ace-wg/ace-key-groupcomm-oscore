@@ -210,7 +210,7 @@ With respect to what is defined in {{RFC9594}}:
 
 * In addition to those defined in {{Section 9 of RFC9594}}, additional error identifiers are defined in this document and summarized in {{error-types}}.
 
-Finally, {{profile-req}} lists the specifications on this application profile of ACE, based on the requirements defined in {{Section A of RFC9594}}.
+Finally, {{profile-req}} compiles the list of requirements for this application profile of ACE and how they are fulfilled, consistently with the list of requirements defined in {{Section A of RFC9594}}.
 
 # Format of Scope {#sec-format-scope}
 
