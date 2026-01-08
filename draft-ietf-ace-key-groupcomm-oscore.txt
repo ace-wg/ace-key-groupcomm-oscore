@@ -5,8 +5,8 @@
 ACE Working Group                                              M. Tiloca
 Internet-Draft                                                   RISE AB
 Intended status: Standards Track                            F. Palombini
-Expires: 11 July 2026                                        Ericsson AB
-                                                          7 January 2026
+Expires: 12 July 2026                                        Ericsson AB
+                                                          8 January 2026
 
 
     Key Management for Group Object Security for Constrained RESTful
@@ -44,7 +44,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 11 July 2026.
+   This Internet-Draft will expire on 12 July 2026.
 
 Copyright Notice
 
@@ -365,9 +365,9 @@ Table of Contents
       error identifiers are defined in this document and summarized in
       Section 13.
 
-   Finally, Appendix A lists the specifications on this application
-   profile of ACE, based on the requirements defined in Appendix A of
-   [RFC9594].
+   Finally, Appendix A compiles the list of requirements for this
+   application profile of ACE and how they are fulfilled, consistently
+   with the list of requirements defined in Appendix A of [RFC9594].
 
 3.  Format of Scope
 
