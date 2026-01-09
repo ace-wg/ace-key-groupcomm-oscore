@@ -193,13 +193,94 @@ Table of Contents
    joining process of new group members, and is entrusted with the
    distribution and renewal of group keying material.
 
-   This document is an application profile of [RFC9594], which itself
-   builds on the Authentication and Authorization for Constrained
-   Environments (ACE) framework [RFC9200].  Message exchanges among the
-   participants as well as message formats and processing follow what is
-   specified in [RFC9594], and enable the provisioning and renewing of
-   keying material in group communication scenarios, where Group OSCORE
-   is used to protect CoAP group communication.
+   Building on the Authentication and Authorization for Constrained
+   Environments (ACE) framework [RFC9200], the document [RFC9594]
+   defines how to request, distribute, and renew keying material and
+   configuration parameters to protect message exchanges in a group
+   communication environment.  That is, candidate group members that act
+   as ACE Clients and are authorized to join a group can interact with a
+   Key Distribution Center (KDC) that acts as ACE Resource Server and is
+   responsible for the group.  The KDC provides the necessary keying
+   material and parameters to communicate with other group members.
+
+   While [RFC9594] defines the operations and interface available at the
+   KDC, as well as general message formats for the interactions between
+   Clients and the KDC, it delegates details on the communication and
+   security approaches used in a group to separate application profiles.
+   These are specialized instances of [RFC9594] that target a particular
+   group communication approach and define how communications in the
+   group are protected, as well as the specific keying material and
+   configuration parameters provided to group members.
+
+   This document specifies an application profile of [RFC9594].  Message
+   exchanges among the participants as well as message formats and
+   processing follow what is specified in [RFC9594], and enable the
+   provisioning and renewing of keying material in group communication
+   scenarios, where Group OSCORE is used to protect CoAP group
+   communication.  In particular, network nodes that wish to join an
+   OSCORE group act as ACE Clients, while the Group Manager responsible
+   for managing the OSCORE group is the KDC acting as ACE Resource
+   Server.
+
+   This application profile leverages protocol-specific transport
+   profiles of ACE (e.g., [RFC9202][RFC9203]), in order to achieve
+   communication security, server authentication, and proof of
+   possession for a key owned by the Client and bound to an OAuth 2.0
+   access token.
+
+   Figure 1 overviews the relationships between this document and other
+   related documents mentioned above.
+
+ +---------------------+  Communications         +------------------+
+ | Group communication |  are secured with ...   | Group OSCORE (b) |
+ | for CoAP (a)        |------------------------>|                  |
+ +---------------------+                         +------------------+
+                                                   |
+                                                   | A realization
+ +----------------------+                          | of Group Manager
+ | Transport profiles   |                          | is defined in ...
+ | of ACE, e.g., (d)(e) |                          |
+ +----------------------+                          |
+   ^                                               |
+   |                                               |
+   | Details about security                        v
+   | and secure communication                 o========================o
+   | among ACE participants                   |                        |
+   | are specified in ...                     | >>> This document <<<  |
+   |                                          |                        |
+ +--------------------+                       |   Key management for   |
+ | ACE framework for  |                       | Group OSCORE using ACE |
+ | authentication and |                       |                        |
+ | authorization (c)  |                       |                        |
+ +--------------------+                       o========================o
+   |                                               ^
+   | Used to build ...                             |
+   |                                               |
+   v                                               |
+ +---------------------------------+               |
+ | Key provisioning for group      |               | Instanced by the
+ | communication using ACE (d)     |               | application profile
+ |                                 |               | defined in ...
+ | - General message formats       |               |
+ | - Operations and interface at a |---------------+
+ |   Key Distribution Center (KDC) |
+ +---------------------------------+
+
+ (a) : [I-D.ietf-core-groupcomm-bis]
+ (b) : [I-D.ietf-core-oscore-groupcomm]
+ (c) : [RFC9200]
+ (d) : [RFC9202]
+ (e) : [RFC9203]
+
+              Figure 1: Overview of Document Relationships
+
+   Note to RFC Editor: At the bottom of Figure 1, "[I-D.ietf-core-
+   groupcomm-bis]" and "[I-D.ietf-core-oscore-groupcomm]" are the
+   reference labels that the present document is currently using for
+   those two referred documents.  Before publishing as an RFC, please
+   replace those reference labels with the ones eventually used for the
+   (RFCs resulting from) the two referred documents.  Then, please
+   delete this note.
 
 1.1.  Terminology
 
@@ -293,13 +374,13 @@ Table of Contents
 
    In the CBOR diagnostic notation used in this document, constructs of
    the form e'SOME_NAME' are replaced by the value assigned to SOME_NAME
-   in the CDDL model shown in Figure 12 of Appendix C.  For example,
+   in the CDDL model shown in Figure 13 of Appendix C.  For example,
    {e'gp_enc_alg': 10, e'sign_alg': -8} stands for {9: 10, 10: -8}.
 
    Note to RFC Editor: Please delete the paragraph immediately preceding
    this note.  Also, in the CBOR diagnostic notation used in this
    document, please replace the constructs of the form e'SOME_NAME' with
-   the value assigned to SOME_NAME in the CDDL model shown in Figure 12
+   the value assigned to SOME_NAME in the CDDL model shown in Figure 13
    of Appendix C.  Finally, please delete this note.
 
 2.  Protocol Overview
@@ -328,8 +409,7 @@ Table of Contents
    *  The node wishing to join the OSCORE group, i.e., the joining node,
       is the Client.
 
-   *  The Group Manager is the Key Distribution Center (KDC), acting as
-      a Resource Server.
+   *  The Group Manager is the KDC, acting as a Resource Server.
 
    *  The Authorization Server associated with the Group Manager is the
       AS.
@@ -2550,8 +2630,8 @@ Table of Contents
    response from the Group Manager, in case GROUPNAME denotes a
    pairwise-only group (see Section 8.1.1).
 
-   Figure 1 gives an overview of the exchange described above, while
-   Figure 2 shows an example of Signature Verification Data Request-
+   Figure 2 gives an overview of the exchange described above, while
+   Figure 3 shows an example of Signature Verification Data Request-
    Response.
 
   Signature                                                       Group
@@ -2564,7 +2644,7 @@ Table of Contents
     |<--- KDC Authentication Credential Response: 2.05 (Content) ---|
     |                                                               |
 
-     Figure 1: Message Flow of KDC Authentication Credential Request-
+     Figure 2: Message Flow of KDC Authentication Credential Request-
          Response, with a Signature Verifier as Requesting Client
 
       Request:
@@ -2600,7 +2680,7 @@ Table of Contents
                                   63f91bac658d69351210a031d8fc7c5f'
       }
 
-        Figure 2: Example of KDC Authentication Credential Request-
+        Figure 3: Example of KDC Authentication Credential Request-
           Response, with a Signature Verifier as Requesting Client
 
 9.6.  Retrieve Signature Verification Data
@@ -2653,8 +2733,8 @@ Table of Contents
    authentication credential that can be obtained as defined in
    Section 9.5.2.
 
-   Figure 3 gives an overview of the exchange described above, while
-   Figure 4 shows an example of Signature Verification Data Request-
+   Figure 4 gives an overview of the exchange described above, while
+   Figure 5 shows an example of Signature Verification Data Request-
    Response.
 
    Signature                                                     Group
@@ -2667,7 +2747,7 @@ Table of Contents
      |<--- Signature Verification Data Response: 2.05 (Content) ---|
      |                                                             |
 
-       Figure 3: Message Flow of Signature Verification Data Request-
+       Figure 4: Message Flow of Signature Verification Data Request-
                                   Response
 
      Request:
@@ -2702,7 +2782,7 @@ Table of Contents
                     e'sign_enc_key': h'bc661fae6742abc3dd01beda1142567c'
      }
 
-    Figure 4: Example of Signature Verification Data Request-Response
+    Figure 5: Example of Signature Verification Data Request-Response
 
 9.7.  Retrieve the Group Policies
 
@@ -2758,8 +2838,8 @@ Table of Contents
    part in communications with other group members (i.e., sending
    messages and processing incoming messages).
 
-   Figure 5 gives an overview of the exchange described above, while
-   Figure 6 shows an example of Group Status Request-Response.
+   Figure 6 gives an overview of the exchange described above, while
+   Figure 7 shows an example of Group Status Request-Response.
 
    Group                                                          Group
    Member                                                        Manager
@@ -2769,7 +2849,7 @@ Table of Contents
      |<----------- Group Status Response: 2.05 (Content) -----------|
      |                                                              |
 
-          Figure 5: Message Flow of Group Status Request-Response
+          Figure 6: Message Flow of Group Status Request-Response
 
       Request:
 
@@ -2787,7 +2867,7 @@ Table of Contents
       Payload (in CBOR diagnostic notation):
         true
 
-             Figure 6: Example of Group Status Request-Response
+             Figure 7: Example of Group Status Request-Response
 
 9.10.  Retrieve Group Names
 
@@ -2865,8 +2945,8 @@ Table of Contents
    between the former pair and any other Gid for that group than the
    current, most recent one.
 
-   Figure 7 gives an overview of the exchanges described above, while
-   Figure 8 shows an example of Group Name and URI Retrieval Request-
+   Figure 8 gives an overview of the exchanges described above, while
+   Figure 9 shows an example of Group Name and URI Retrieval Request-
    Response.
 
                                                                   Group
@@ -2877,7 +2957,7 @@ Table of Contents
    |<--- Group Name and URI Retrieval Response: 2.05 (Content) -----|
    |                                                                |
 
-     Figure 7: Message Flow of Group Name and URI Retrieval Request-
+     Figure 8: Message Flow of Group Name and URI Retrieval Request-
                                  Response
 
       Request:
@@ -2903,7 +2983,7 @@ Table of Contents
         / guri /  2: ["/ace-group/g1", "/ace-group/g2"]
       }
 
-     Figure 8: Example of Group Name and URI Retrieval Request-Response
+     Figure 9: Example of Group Name and URI Retrieval Request-Response
 
 9.11.  Leave the Group
 
@@ -3387,8 +3467,8 @@ Table of Contents
          Response.  Note that ARRAY might result in the empty CBOR
          array.
 
-   Figure 9 gives an overview of the exchange described above, while
-   Figure 10 shows an example of Stale Sender IDs Request-Response.
+   Figure 10 gives an overview of the exchange described above, while
+   Figure 11 shows an example of Stale Sender IDs Request-Response.
 
                                                                  Group
    Node                                                         Manager
@@ -3400,7 +3480,7 @@ Table of Contents
      |<---------- Stale Sender IDs Response: 2.05 (Content) -------|
      |                                                             |
 
-        Figure 9: Message Flow of Stale Sender IDs Request-Response
+        Figure 10: Message Flow of Stale Sender IDs Request-Response
 
       Request:
 
@@ -3421,7 +3501,7 @@ Table of Contents
       Payload (in CBOR diagnostic notation):
         [h'01', h'fc', h'12ab', h'de44', h'ff']
 
-          Figure 10: Example of Stale Sender IDs Request-Response
+          Figure 11: Example of Stale Sender IDs Request-Response
 
 12.  ACE Groupcomm Parameters
 
@@ -4804,7 +4884,7 @@ B.1.  Format of 'ecdh_info_entry'
 
    gname = tstr
 
-              Figure 11: 'ecdh_info_entry' with General Format
+              Figure 12: 'ecdh_info_entry' with General Format
 
 B.2.  Format of 'key'
 
@@ -4871,7 +4951,7 @@ Appendix C.  CDDL Model
    sign_alg = 10
    sign_params = 11
 
-                           Figure 12: CDDL Model
+                           Figure 13: CDDL Model
 
 Appendix D.  Document Updates
 

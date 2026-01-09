@@ -1522,7 +1522,175 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <p id="section-1-1">The secure communication protocol Object Security for Constrained RESTful Environments (OSCORE) <span>[<a href="#RFC8613" class="cite xref">RFC8613</a>]</span> provides application-layer protection for the Constrained Application Protocol (CoAP) <span>[<a href="#RFC7252" class="cite xref">RFC7252</a>]</span>, using CBOR Object Signing and Encryption (COSE) <span>[<a href="#RFC9052" class="cite xref">RFC9052</a>]</span><span>[<a href="#RFC9053" class="cite xref">RFC9053</a>]</span> and enabling end-to-end security of CoAP messages.<a href="#section-1-1" class="pilcrow">¶</a></p>
 <p id="section-1-2">As defined in <span>[<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>, Group Object Security for Constrained RESTful Environments (Group OSCORE) enables end-to-end security for CoAP group communication <span>[<a href="#I-D.ietf-core-groupcomm-bis" class="cite xref">I-D.ietf-core-groupcomm-bis</a>]</span>, which can employ, for example, IP multicast as underlying data transport.<a href="#section-1-2" class="pilcrow">¶</a></p>
 <p id="section-1-3">Group OSCORE relies on an entity called Group Manager, which is responsible for managing an OSCORE group and enables the group members to exchange CoAP messages secured with Group OSCORE. The Group Manager can be responsible for multiple groups, coordinates the joining process of new group members, and is entrusted with the distribution and renewal of group keying material.<a href="#section-1-3" class="pilcrow">¶</a></p>
-<p id="section-1-4">This document is an application profile of <span>[<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>, which itself builds on the Authentication and Authorization for Constrained Environments (ACE) framework <span>[<a href="#RFC9200" class="cite xref">RFC9200</a>]</span>. Message exchanges among the participants as well as message formats and processing follow what is specified in <span>[<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>, and enable the provisioning and renewing of keying material in group communication scenarios, where Group OSCORE is used to protect CoAP group communication.<a href="#section-1-4" class="pilcrow">¶</a></p>
+<p id="section-1-4">Building on the Authentication and Authorization for Constrained Environments (ACE) framework <span>[<a href="#RFC9200" class="cite xref">RFC9200</a>]</span>, the document <span>[<a href="#RFC9594" class="cite xref">RFC9594</a>]</span> defines how to request, distribute, and renew keying material and configuration parameters to protect message exchanges in a group communication environment. That is, candidate group members that act as ACE Clients and are authorized to join a group can interact with a Key Distribution Center (KDC) that acts as ACE Resource Server and is responsible for the group. The KDC provides the necessary keying material and parameters to communicate with other group members.<a href="#section-1-4" class="pilcrow">¶</a></p>
+<p id="section-1-5">While <span>[<a href="#RFC9594" class="cite xref">RFC9594</a>]</span> defines the operations and interface available at the KDC, as well as general message formats for the interactions between Clients and the KDC, it delegates details on the communication and security approaches used in a group to separate application profiles. These are specialized instances of <span>[<a href="#RFC9594" class="cite xref">RFC9594</a>]</span> that target a particular group communication approach and define how communications in the group are protected, as well as the specific keying material and configuration parameters provided to group members.<a href="#section-1-5" class="pilcrow">¶</a></p>
+<p id="section-1-6">This document specifies an application profile of <span>[<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>. Message exchanges among the participants as well as message formats and processing follow what is specified in <span>[<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>, and enable the provisioning and renewing of keying material in group communication scenarios, where Group OSCORE is used to protect CoAP group communication. In particular, network nodes that wish to join an OSCORE group act as ACE Clients, while the Group Manager responsible for managing the OSCORE group is the KDC acting as ACE Resource Server.<a href="#section-1-6" class="pilcrow">¶</a></p>
+<p id="section-1-7">This application profile leverages protocol-specific transport profiles of ACE (e.g., <span>[<a href="#RFC9202" class="cite xref">RFC9202</a>]</span><span>[<a href="#RFC9203" class="cite xref">RFC9203</a>]</span>), in order to achieve communication security, server authentication, and proof of possession for a key owned by the Client and bound to an OAuth 2.0 access token.<a href="#section-1-7" class="pilcrow">¶</a></p>
+<p id="section-1-8"><a href="#fig-document-relationships" class="auto internal xref">Figure 1</a> overviews the relationships between this document and other related documents mentioned above.<a href="#section-1-8" class="pilcrow">¶</a></p>
+<span id="name-overview-of-document-relati"></span><div id="fig-document-relationships">
+<figure id="figure-1">
+        <div id="section-1-9.1">
+          <div class="alignCenter art-svg artwork" id="section-1-9.1.1">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="672" width="576" viewBox="0 0 576 672" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
+              <path d="M 8,32 L 8,80" fill="none" stroke="black"></path>
+              <path d="M 8,128 L 8,176" fill="none" stroke="black"></path>
+              <path d="M 8,304 L 8,368" fill="none" stroke="black"></path>
+              <path d="M 8,448 L 8,560" fill="none" stroke="black"></path>
+              <path d="M 24,184 L 24,296" fill="none" stroke="black"></path>
+              <path d="M 24,376 L 24,440" fill="none" stroke="black"></path>
+              <path d="M 176,304 L 176,368" fill="none" stroke="black"></path>
+              <path d="M 184,32 L 184,80" fill="none" stroke="black"></path>
+              <path d="M 192,128 L 192,176" fill="none" stroke="black"></path>
+              <path d="M 280,448 L 280,560" fill="none" stroke="black"></path>
+              <path d="M 368,240 L 368,368" fill="none" stroke="black"></path>
+              <path d="M 392,32 L 392,80" fill="none" stroke="black"></path>
+              <path d="M 408,88 L 408,224" fill="none" stroke="black"></path>
+              <path d="M 408,384 L 408,528" fill="none" stroke="black"></path>
+              <path d="M 544,32 L 544,80" fill="none" stroke="black"></path>
+              <path d="M 568,240 L 568,368" fill="none" stroke="black"></path>
+              <path d="M 8,32 L 184,32" fill="none" stroke="black"></path>
+              <path d="M 392,32 L 544,32" fill="none" stroke="black"></path>
+              <path d="M 192,64 L 384,64" fill="none" stroke="black"></path>
+              <path d="M 8,80 L 184,80" fill="none" stroke="black"></path>
+              <path d="M 392,80 L 544,80" fill="none" stroke="black"></path>
+              <path d="M 8,128 L 192,128" fill="none" stroke="black"></path>
+              <path d="M 8,176 L 192,176" fill="none" stroke="black"></path>
+              <path d="M 376,238 L 560,238" fill="none" stroke="black"></path>
+              <path d="M 376,242 L 560,242" fill="none" stroke="black"></path>
+              <path d="M 8,304 L 176,304" fill="none" stroke="black"></path>
+              <path d="M 8,368 L 176,368" fill="none" stroke="black"></path>
+              <path d="M 376,366 L 560,366" fill="none" stroke="black"></path>
+              <path d="M 376,370 L 560,370" fill="none" stroke="black"></path>
+              <path d="M 8,448 L 280,448" fill="none" stroke="black"></path>
+              <path d="M 288,528 L 408,528" fill="none" stroke="black"></path>
+              <path d="M 8,560 L 280,560" fill="none" stroke="black"></path>
+              <polygon class="arrowhead" points="416,384 404,378.4 404,389.6" fill="black" transform="rotate(270,408,384)"></polygon>
+              <polygon class="arrowhead" points="416,224 404,218.4 404,229.6" fill="black" transform="rotate(90,408,224)"></polygon>
+              <polygon class="arrowhead" points="392,64 380,58.4 380,69.6" fill="black" transform="rotate(0,384,64)"></polygon>
+              <polygon class="arrowhead" points="32,440 20,434.4 20,445.6" fill="black" transform="rotate(90,24,440)"></polygon>
+              <polygon class="arrowhead" points="32,184 20,178.4 20,189.6" fill="black" transform="rotate(270,24,184)"></polygon>
+              <circle cx="368" cy="240" r="6" class="opendot" fill="white" stroke="black"></circle>
+              <circle cx="368" cy="368" r="6" class="opendot" fill="white" stroke="black"></circle>
+              <circle cx="568" cy="240" r="6" class="opendot" fill="white" stroke="black"></circle>
+              <circle cx="568" cy="368" r="6" class="opendot" fill="white" stroke="black"></circle>
+              <g class="text">
+                <text x="260" y="36">Communications</text>
+                <text x="40" y="52">Group</text>
+                <text x="120" y="52">communication</text>
+                <text x="216" y="52">are</text>
+                <text x="264" y="52">secured</text>
+                <text x="316" y="52">with</text>
+                <text x="352" y="52">...</text>
+                <text x="424" y="52">Group</text>
+                <text x="476" y="52">OSCORE</text>
+                <text x="520" y="52">(b)</text>
+                <text x="32" y="68">for</text>
+                <text x="68" y="68">CoAP</text>
+                <text x="104" y="68">(a)</text>
+                <text x="424" y="116">A</text>
+                <text x="480" y="116">realization</text>
+                <text x="428" y="132">of</text>
+                <text x="464" y="132">Group</text>
+                <text x="520" y="132">Manager</text>
+                <text x="56" y="148">Transport</text>
+                <text x="132" y="148">profiles</text>
+                <text x="428" y="148">is</text>
+                <text x="472" y="148">defined</text>
+                <text x="516" y="148">in</text>
+                <text x="544" y="148">...</text>
+                <text x="28" y="164">of</text>
+                <text x="60" y="164">ACE,</text>
+                <text x="104" y="164">e.g.,</text>
+                <text x="156" y="164">(d)(e)</text>
+                <text x="64" y="228">Details</text>
+                <text x="120" y="228">about</text>
+                <text x="180" y="228">security</text>
+                <text x="48" y="244">and</text>
+                <text x="92" y="244">secure</text>
+                <text x="176" y="244">communication</text>
+                <text x="56" y="260">among</text>
+                <text x="96" y="260">ACE</text>
+                <text x="164" y="260">participants</text>
+                <text x="48" y="276">are</text>
+                <text x="104" y="276">specified</text>
+                <text x="156" y="276">in</text>
+                <text x="184" y="276">...</text>
+                <text x="392" y="276">&gt;&gt;&gt;</text>
+                <text x="428" y="276">This</text>
+                <text x="484" y="276">document</text>
+                <text x="536" y="276">&lt;&lt;&lt;</text>
+                <text x="408" y="308">Key</text>
+                <text x="468" y="308">management</text>
+                <text x="528" y="308">for</text>
+                <text x="32" y="324">ACE</text>
+                <text x="88" y="324">framework</text>
+                <text x="144" y="324">for</text>
+                <text x="400" y="324">Group</text>
+                <text x="452" y="324">OSCORE</text>
+                <text x="504" y="324">using</text>
+                <text x="544" y="324">ACE</text>
+                <text x="76" y="340">authentication</text>
+                <text x="152" y="340">and</text>
+                <text x="72" y="356">authorization</text>
+                <text x="144" y="356">(c)</text>
+                <text x="52" y="404">Used</text>
+                <text x="84" y="404">to</text>
+                <text x="120" y="404">build</text>
+                <text x="160" y="404">...</text>
+                <text x="32" y="468">Key</text>
+                <text x="100" y="468">provisioning</text>
+                <text x="168" y="468">for</text>
+                <text x="208" y="468">group</text>
+                <text x="456" y="468">Instanced</text>
+                <text x="508" y="468">by</text>
+                <text x="536" y="468">the</text>
+                <text x="72" y="484">communication</text>
+                <text x="152" y="484">using</text>
+                <text x="192" y="484">ACE</text>
+                <text x="224" y="484">(d)</text>
+                <text x="464" y="484">application</text>
+                <text x="544" y="484">profile</text>
+                <text x="448" y="500">defined</text>
+                <text x="492" y="500">in</text>
+                <text x="520" y="500">...</text>
+                <text x="24" y="516">-</text>
+                <text x="64" y="516">General</text>
+                <text x="128" y="516">message</text>
+                <text x="192" y="516">formats</text>
+                <text x="24" y="532">-</text>
+                <text x="76" y="532">Operations</text>
+                <text x="136" y="532">and</text>
+                <text x="192" y="532">interface</text>
+                <text x="244" y="532">at</text>
+                <text x="264" y="532">a</text>
+                <text x="48" y="548">Key</text>
+                <text x="116" y="548">Distribution</text>
+                <text x="196" y="548">Center</text>
+                <text x="248" y="548">(KDC)</text>
+                <text x="16" y="596">(a)</text>
+                <text x="40" y="596">:</text>
+                <text x="168" y="596">[I-D.ietf-core-groupcomm-bis]</text>
+                <text x="16" y="612">(b)</text>
+                <text x="40" y="612">:</text>
+                <text x="180" y="612">[I-D.ietf-core-oscore-groupcomm]</text>
+                <text x="16" y="628">(c)</text>
+                <text x="40" y="628">:</text>
+                <text x="88" y="628">[RFC9200]</text>
+                <text x="16" y="644">(d)</text>
+                <text x="40" y="644">:</text>
+                <text x="88" y="644">[RFC9202]</text>
+                <text x="16" y="660">(e)</text>
+                <text x="40" y="660">:</text>
+                <text x="88" y="660">[RFC9203]</text>
+              </g>
+            </svg><a href="#section-1-9.1.1" class="pilcrow">¶</a>
+</div>
+</div>
+<figcaption><a href="#figure-1" class="selfRef">Figure 1</a>:
+<a href="#name-overview-of-document-relati" class="selfRef">Overview of Document Relationships</a>
+        </figcaption></figure>
+</div>
+<p id="section-1-10">Note to RFC Editor: At the bottom of <a href="#fig-document-relationships" class="auto internal xref">Figure 1</a>, "[I-D.ietf-core-groupcomm-bis]" and "[I-D.ietf-core-oscore-groupcomm]" are the reference labels that the present document is currently using for those two referred documents. Before publishing as an RFC, please replace those reference labels with the ones eventually used for the (RFCs resulting from) the two referred documents. Then, please delete this note.<a href="#section-1-10" class="pilcrow">¶</a></p>
 <div id="ssec-terminology">
 <section id="section-1.1">
         <h3 id="name-terminology">
@@ -1582,8 +1750,8 @@ An authorized signature verifier does not join the OSCORE group as an actual mem
 </li>
         </ul>
 <p id="section-1.1-6">Throughout this document, examples for CBOR data items are expressed in CBOR extended diagnostic notation as defined in <span><a href="https://rfc-editor.org/rfc/rfc8949#section-8" class="relref">Section 8</a> of [<a href="#RFC8949" class="cite xref">RFC8949</a>]</span> and <span><a href="https://rfc-editor.org/rfc/rfc8610#appendix-G" class="relref">Appendix G</a> of [<a href="#RFC8610" class="cite xref">RFC8610</a>]</span> ("diagnostic notation"). Diagnostic notation comments are often used to provide a textual representation of the parameters' keys and values.<a href="#section-1.1-6" class="pilcrow">¶</a></p>
-<p id="section-1.1-7">In the CBOR diagnostic notation used in this document, constructs of the form e'SOME_NAME' are replaced by the value assigned to SOME_NAME in the CDDL model shown in <a href="#fig-cddl-model" class="auto internal xref">Figure 12</a> of <a href="#sec-cddl-model" class="auto internal xref">Appendix C</a>. For example, {e'gp_enc_alg': 10, e'sign_alg': -8} stands for {9: 10, 10: -8}.<a href="#section-1.1-7" class="pilcrow">¶</a></p>
-<p id="section-1.1-8">Note to RFC Editor: Please delete the paragraph immediately preceding this note. Also, in the CBOR diagnostic notation used in this document, please replace the constructs of the form e'SOME_NAME' with the value assigned to SOME_NAME in the CDDL model shown in <a href="#fig-cddl-model" class="auto internal xref">Figure 12</a> of <a href="#sec-cddl-model" class="auto internal xref">Appendix C</a>. Finally, please delete this note.<a href="#section-1.1-8" class="pilcrow">¶</a></p>
+<p id="section-1.1-7">In the CBOR diagnostic notation used in this document, constructs of the form e'SOME_NAME' are replaced by the value assigned to SOME_NAME in the CDDL model shown in <a href="#fig-cddl-model" class="auto internal xref">Figure 13</a> of <a href="#sec-cddl-model" class="auto internal xref">Appendix C</a>. For example, {e'gp_enc_alg': 10, e'sign_alg': -8} stands for {9: 10, 10: -8}.<a href="#section-1.1-7" class="pilcrow">¶</a></p>
+<p id="section-1.1-8">Note to RFC Editor: Please delete the paragraph immediately preceding this note. Also, in the CBOR diagnostic notation used in this document, please replace the constructs of the form e'SOME_NAME' with the value assigned to SOME_NAME in the CDDL model shown in <a href="#fig-cddl-model" class="auto internal xref">Figure 13</a> of <a href="#sec-cddl-model" class="auto internal xref">Appendix C</a>. Finally, please delete this note.<a href="#section-1.1-8" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -1602,7 +1770,7 @@ An authorized signature verifier does not join the OSCORE group as an actual mem
           <p id="section-2-5.1.1">The node wishing to join the OSCORE group, i.e., the joining node, is the Client.<a href="#section-2-5.1.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="section-2-5.2">
-          <p id="section-2-5.2.1">The Group Manager is the Key Distribution Center (KDC), acting as a Resource Server.<a href="#section-2-5.2.1" class="pilcrow">¶</a></p>
+          <p id="section-2-5.2.1">The Group Manager is the KDC, acting as a Resource Server.<a href="#section-2-5.2.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="section-2-5.3">
           <p id="section-2-5.3.1">The Authorization Server associated with the Group Manager is the AS.<a href="#section-2-5.3.1" class="pilcrow">¶</a></p>
@@ -3039,9 +3207,9 @@ The Group Manager <span class="bcp14">MUST</span> return a 5.03 (Service Unavail
 <p id="section-9.5.2-6">The Group Manager specifies the 'kdc_cred' field and 'kdc_nonce' field as defined for the Join Response in <a href="#ssec-join-resp" class="auto internal xref">Section 6.3</a> of this document. The computed PoP evidence included in the 'kdc_cred_verify' field is always a signature computed over the PoP input defined above (REQ21).<a href="#section-9.5.2-6" class="pilcrow">¶</a></p>
 <p id="section-9.5.2-7">Upon receiving a 2.05 (Content) KDC Authentication Credential Response, the requesting Client retrieves the Group Manager's authentication credential from the 'kdc_cred' parameter. Then, it proceeds as defined in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-4.5.1.1" class="relref">Section 4.5.1.1</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>, with the difference that it verifies the PoP evidence included in 'kdc_cred_verify' field by verifying a signature and using the PoP input defined above (REQ21)<a href="#section-9.5.2-7" class="pilcrow">¶</a></p>
 <p id="section-9.5.2-8">Note that a signature verifier would not receive a successful response from the Group Manager, in case GROUPNAME denotes a pairwise-only group (see <a href="#kdc-cred-fetch" class="auto internal xref">Section 8.1.1</a>).<a href="#section-9.5.2-8" class="pilcrow">¶</a></p>
-<p id="section-9.5.2-9"><a href="#fig-gm-pub-key-signature-verifier-req-resp" class="auto internal xref">Figure 1</a> gives an overview of the exchange described above,  while <a href="#fig-gm-pub-key-signature-verifier-resp-ex" class="auto internal xref">Figure 2</a> shows an example of Signature Verification Data Request-Response.<a href="#section-9.5.2-9" class="pilcrow">¶</a></p>
+<p id="section-9.5.2-9"><a href="#fig-gm-pub-key-signature-verifier-req-resp" class="auto internal xref">Figure 2</a> gives an overview of the exchange described above,  while <a href="#fig-gm-pub-key-signature-verifier-resp-ex" class="auto internal xref">Figure 3</a> shows an example of Signature Verification Data Request-Response.<a href="#section-9.5.2-9" class="pilcrow">¶</a></p>
 <span id="name-message-flow-of-kdc-authent"></span><div id="fig-gm-pub-key-signature-verifier-req-resp">
-<figure id="figure-1">
+<figure id="figure-2">
             <div id="section-9.5.2-10.1">
               <div class="alignCenter art-svg artwork" id="section-9.5.2-10.1.1">
 <svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="176" width="568" viewBox="0 0 568 176" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
@@ -3073,12 +3241,12 @@ The Group Manager <span class="bcp14">MUST</span> return a 5.03 (Service Unavail
                 </svg><a href="#section-9.5.2-10.1.1" class="pilcrow">¶</a>
 </div>
 </div>
-<figcaption><a href="#figure-1" class="selfRef">Figure 1</a>:
+<figcaption><a href="#figure-2" class="selfRef">Figure 2</a>:
 <a href="#name-message-flow-of-kdc-authent" class="selfRef">Message Flow of KDC Authentication Credential Request-Response, with a Signature Verifier as Requesting Client</a>
             </figcaption></figure>
 </div>
 <span id="name-example-of-kdc-authenticati"></span><div id="fig-gm-pub-key-signature-verifier-resp-ex">
-<figure id="figure-2">
+<figure id="figure-3">
             <div class="alignLeft art-text artwork" id="section-9.5.2-11.1">
 <pre>
    Request:
@@ -3115,7 +3283,7 @@ The Group Manager <span class="bcp14">MUST</span> return a 5.03 (Service Unavail
    }
 </pre>
 </div>
-<figcaption><a href="#figure-2" class="selfRef">Figure 2</a>:
+<figcaption><a href="#figure-3" class="selfRef">Figure 3</a>:
 <a href="#name-example-of-kdc-authenticati" class="selfRef">Example of KDC Authentication Credential Request-Response, with a Signature Verifier as Requesting Client</a>
             </figcaption></figure>
 </div>
@@ -3150,9 +3318,9 @@ The 'key' parameter includes only the following data.<a href="#section-9.6-4.1.2
 </li>
         </ul>
 <p id="section-9.6-5">In order to verify signatures in the group (see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-28#section-7.5" class="relref">Section 7.5</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>), the signature verifier relies on: the data retrieved from the 2.05 (Content) Signature Verification Data Response; the public keys of the group members signing the messages to verify, retrieved from those members' authentication credentials that can be obtained as defined in <a href="#sec-pub-keys" class="auto internal xref">Section 9.3</a>; and the public key of the Group Manager, retrieved from the Group Manager's authentication credential that can be obtained as defined in <a href="#sec-gm-pub-key-signature-verifier" class="auto internal xref">Section 9.5.2</a>.<a href="#section-9.6-5" class="pilcrow">¶</a></p>
-<p id="section-9.6-6"><a href="#fig-verif-data-req-resp" class="auto internal xref">Figure 3</a> gives an overview of the exchange described above,  while <a href="#fig-verif-data-req-resp-ex" class="auto internal xref">Figure 4</a> shows an example of Signature Verification Data Request-Response.<a href="#section-9.6-6" class="pilcrow">¶</a></p>
+<p id="section-9.6-6"><a href="#fig-verif-data-req-resp" class="auto internal xref">Figure 4</a> gives an overview of the exchange described above,  while <a href="#fig-verif-data-req-resp-ex" class="auto internal xref">Figure 5</a> shows an example of Signature Verification Data Request-Response.<a href="#section-9.6-6" class="pilcrow">¶</a></p>
 <span id="name-message-flow-of-signature-v"></span><div id="fig-verif-data-req-resp">
-<figure id="figure-3">
+<figure id="figure-4">
           <div id="section-9.6-7.1">
             <div class="alignCenter art-svg artwork" id="section-9.6-7.1.1">
 <svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="176" width="552" viewBox="0 0 552 176" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
@@ -3184,12 +3352,12 @@ The 'key' parameter includes only the following data.<a href="#section-9.6-4.1.2
               </svg><a href="#section-9.6-7.1.1" class="pilcrow">¶</a>
 </div>
 </div>
-<figcaption><a href="#figure-3" class="selfRef">Figure 3</a>:
+<figcaption><a href="#figure-4" class="selfRef">Figure 4</a>:
 <a href="#name-message-flow-of-signature-v" class="selfRef">Message Flow of Signature Verification Data Request-Response</a>
           </figcaption></figure>
 </div>
 <span id="name-example-of-signature-verifi"></span><div id="fig-verif-data-req-resp-ex">
-<figure id="figure-4">
+<figure id="figure-5">
           <div class="alignLeft art-text artwork" id="section-9.6-8.1">
 <pre>
    Request:
@@ -3225,7 +3393,7 @@ The 'key' parameter includes only the following data.<a href="#section-9.6-4.1.2
    }
 </pre>
 </div>
-<figcaption><a href="#figure-4" class="selfRef">Figure 4</a>:
+<figcaption><a href="#figure-5" class="selfRef">Figure 5</a>:
 <a href="#name-example-of-signature-verifi" class="selfRef">Example of Signature Verification Data Request-Response</a>
           </figcaption></figure>
 </div>
@@ -3259,9 +3427,9 @@ The 'key' parameter includes only the following data.<a href="#section-9.6-4.1.2
 <p id="section-9.9-3">The payload of the 2.05 (Content) Group Status Response includes the CBOR Simple Value <code>true</code> (0xf5) if the group is currently active, or the CBOR Simple Value <code>false</code> (0xf4) otherwise. The group is considered active if it is set to allow new members to join, and if communication within the group is fine to occur.<a href="#section-9.9-3" class="pilcrow">¶</a></p>
 <p id="section-9.9-4">Upon learning from a 2.05 (Content) Group Status Response that the group is currently inactive, the group member <span class="bcp14">SHOULD</span> stop sending messages to other group members and <span class="bcp14">MUST</span> stop processing messages from other group members, until the group becomes active again. In the meantime, the group member can still interact with the Group Manager, e.g., in order to check whether the group has become active again.<a href="#section-9.9-4" class="pilcrow">¶</a></p>
 <p id="section-9.9-5">Upon learning from a 2.05 (Content) Group Status Response that the group has become active again, the group member can resume taking part in communications with other group members (i.e., sending messages and processing incoming messages).<a href="#section-9.9-5" class="pilcrow">¶</a></p>
-<p id="section-9.9-6"><a href="#fig-key-status-req-resp" class="auto internal xref">Figure 5</a> gives an overview of the exchange described above, while <a href="#fig-key-status-req-resp-ex" class="auto internal xref">Figure 6</a> shows an example of Group Status Request-Response.<a href="#section-9.9-6" class="pilcrow">¶</a></p>
+<p id="section-9.9-6"><a href="#fig-key-status-req-resp" class="auto internal xref">Figure 6</a> gives an overview of the exchange described above, while <a href="#fig-key-status-req-resp-ex" class="auto internal xref">Figure 7</a> shows an example of Group Status Request-Response.<a href="#section-9.9-6" class="pilcrow">¶</a></p>
 <span id="name-message-flow-of-group-statu"></span><div id="fig-key-status-req-resp">
-<figure id="figure-5">
+<figure id="figure-6">
           <div id="section-9.9-7.1">
             <div class="alignCenter art-svg artwork" id="section-9.9-7.1.1">
 <svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="144" width="560" viewBox="0 0 560 144" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
@@ -3292,12 +3460,12 @@ The 'key' parameter includes only the following data.<a href="#section-9.6-4.1.2
               </svg><a href="#section-9.9-7.1.1" class="pilcrow">¶</a>
 </div>
 </div>
-<figcaption><a href="#figure-5" class="selfRef">Figure 5</a>:
+<figcaption><a href="#figure-6" class="selfRef">Figure 6</a>:
 <a href="#name-message-flow-of-group-statu" class="selfRef">Message Flow of Group Status Request-Response</a>
           </figcaption></figure>
 </div>
 <span id="name-example-of-group-status-req"></span><div id="fig-key-status-req-resp-ex">
-<figure id="figure-6">
+<figure id="figure-7">
           <div class="alignLeft art-text artwork" id="section-9.9-8.1">
 <pre>
    Request:
@@ -3317,7 +3485,7 @@ The 'key' parameter includes only the following data.<a href="#section-9.6-4.1.2
      true
 </pre>
 </div>
-<figcaption><a href="#figure-6" class="selfRef">Figure 6</a>:
+<figcaption><a href="#figure-7" class="selfRef">Figure 7</a>:
 <a href="#name-example-of-group-status-req" class="selfRef">Example of Group Status Request-Response</a>
           </figcaption></figure>
 </div>
@@ -3348,9 +3516,9 @@ Furthermore, since it is not a group member, the node does not take part to a po
 <p id="section-9.10-4">That is, the node sends a CoAP FETCH request to the endpoint /ace-group at the Group Manager formatted as defined in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-4.2.1" class="relref">Section 4.2.1</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>. Each element of the CBOR array 'gid' is a CBOR byte string (REQ13), which encodes the Gid of the group for which the group name and the URI of the group-membership resource are requested.<a href="#section-9.10-4" class="pilcrow">¶</a></p>
 <p id="section-9.10-5">Upon receiving the Group Name and URI Retrieval Request, the Group Manager processes it as per <span><a href="https://rfc-editor.org/rfc/rfc9594#section-4.2.1" class="relref">Section 4.2.1</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>. The success Group Name and URI Retrieval Response is formatted as defined in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-4.2.1" class="relref">Section 4.2.1</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>. Each element of the CBOR array 'gid' is a CBOR byte string (REQ13), which encodes the Gid of the group for which the group name and the URI of the group-membership resource are provided.<a href="#section-9.10-5" class="pilcrow">¶</a></p>
 <p id="section-9.10-6">For each of its groups, the Group Manager maintains an association between the group name and the URI of the group-membership resource on one hand, and only the current Gid for that group on the other hand. That is, the Group Manager does not maintain an association between the former pair and any other Gid for that group than the current, most recent one.<a href="#section-9.10-6" class="pilcrow">¶</a></p>
-<p id="section-9.10-7"><a href="#fig-group-names-req-resp" class="auto internal xref">Figure 7</a> gives an overview of the exchanges described above, while <a href="#fig-group-names-req-resp-ex" class="auto internal xref">Figure 8</a> shows an example of Group Name and URI Retrieval Request-Response.<a href="#section-9.10-7" class="pilcrow">¶</a></p>
+<p id="section-9.10-7"><a href="#fig-group-names-req-resp" class="auto internal xref">Figure 8</a> gives an overview of the exchanges described above, while <a href="#fig-group-names-req-resp-ex" class="auto internal xref">Figure 9</a> shows an example of Group Name and URI Retrieval Request-Response.<a href="#section-9.10-7" class="pilcrow">¶</a></p>
 <span id="name-message-flow-of-group-name-"></span><div id="fig-group-names-req-resp">
-<figure id="figure-7">
+<figure id="figure-8">
           <div id="section-9.10-8.1">
             <div class="alignCenter art-svg artwork" id="section-9.10-8.1.1">
 <svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="144" width="568" viewBox="0 0 568 144" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
@@ -3386,12 +3554,12 @@ Furthermore, since it is not a group member, the node does not take part to a po
               </svg><a href="#section-9.10-8.1.1" class="pilcrow">¶</a>
 </div>
 </div>
-<figcaption><a href="#figure-7" class="selfRef">Figure 7</a>:
+<figcaption><a href="#figure-8" class="selfRef">Figure 8</a>:
 <a href="#name-message-flow-of-group-name-" class="selfRef">Message Flow of Group Name and URI Retrieval Request-Response</a>
           </figcaption></figure>
 </div>
 <span id="name-example-of-group-name-and-u"></span><div id="fig-group-names-req-resp-ex">
-<figure id="figure-8">
+<figure id="figure-9">
           <div class="alignLeft art-text artwork" id="section-9.10-9.1">
 <pre>
    Request:
@@ -3418,7 +3586,7 @@ Furthermore, since it is not a group member, the node does not take part to a po
    }
 </pre>
 </div>
-<figcaption><a href="#figure-8" class="selfRef">Figure 8</a>:
+<figcaption><a href="#figure-9" class="selfRef">Figure 9</a>:
 <a href="#name-example-of-group-name-and-u" class="selfRef">Example of Group Name and URI Retrieval Request-Response</a>
           </figcaption></figure>
 </div>
@@ -3677,9 +3845,9 @@ Then, the group member <span class="bcp14">MUST</span> remove every authenticati
               </ul>
 </li>
           </ul>
-<p id="section-11.3.1-7"><a href="#fig-stale-ids-req-resp" class="auto internal xref">Figure 9</a> gives an overview of the exchange described above,  while <a href="#fig-stale-ids-req-resp-ex" class="auto internal xref">Figure 10</a> shows an example of Stale Sender IDs Request-Response.<a href="#section-11.3.1-7" class="pilcrow">¶</a></p>
+<p id="section-11.3.1-7"><a href="#fig-stale-ids-req-resp" class="auto internal xref">Figure 10</a> gives an overview of the exchange described above,  while <a href="#fig-stale-ids-req-resp-ex" class="auto internal xref">Figure 11</a> shows an example of Stale Sender IDs Request-Response.<a href="#section-11.3.1-7" class="pilcrow">¶</a></p>
 <span id="name-message-flow-of-stale-sende"></span><div id="fig-stale-ids-req-resp">
-<figure id="figure-9">
+<figure id="figure-10">
             <div id="section-11.3.1-8.1">
               <div class="alignCenter art-svg artwork" id="section-11.3.1-8.1.1">
 <svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="176" width="552" viewBox="0 0 552 176" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
@@ -3710,12 +3878,12 @@ Then, the group member <span class="bcp14">MUST</span> remove every authenticati
                 </svg><a href="#section-11.3.1-8.1.1" class="pilcrow">¶</a>
 </div>
 </div>
-<figcaption><a href="#figure-9" class="selfRef">Figure 9</a>:
+<figcaption><a href="#figure-10" class="selfRef">Figure 10</a>:
 <a href="#name-message-flow-of-stale-sende" class="selfRef">Message Flow of Stale Sender IDs Request-Response</a>
             </figcaption></figure>
 </div>
 <span id="name-example-of-stale-sender-ids"></span><div id="fig-stale-ids-req-resp-ex">
-<figure id="figure-10">
+<figure id="figure-11">
             <div class="alignLeft art-text artwork" id="section-11.3.1-9.1">
 <pre>
    Request:
@@ -3738,7 +3906,7 @@ Then, the group member <span class="bcp14">MUST</span> remove every authenticati
      [h'01', h'fc', h'12ab', h'de44', h'ff']
 </pre>
 </div>
-<figcaption><a href="#figure-10" class="selfRef">Figure 10</a>:
+<figcaption><a href="#figure-11" class="selfRef">Figure 11</a>:
 <a href="#name-example-of-stale-sender-ids" class="selfRef">Example of Stale Sender IDs Request-Response</a>
             </figcaption></figure>
 </div>
@@ -5067,7 +5235,7 @@ Such a COSE capabilities array is currently defined for the algorithm capability
         </ul>
 <p id="appendix-B.1-3">The CDDL notation <span>[<a href="#RFC8610" class="cite xref">RFC8610</a>]</span> of the 'ecdh_info_entry' parameter is given below.<a href="#appendix-B.1-3" class="pilcrow">¶</a></p>
 <span id="name-ecdh_info_entry-with-genera"></span><div id="fig-ecdh-info-entry-general">
-<figure id="figure-11">
+<figure id="figure-12">
           <div class="lang-CDDL sourcecode" id="appendix-B.1-4.1">
 <pre>
 ecdh_info_entry =
@@ -5082,7 +5250,7 @@ ecdh_info_entry =
 gname = tstr
 </pre>
 </div>
-<figcaption><a href="#figure-11" class="selfRef">Figure 11</a>:
+<figcaption><a href="#figure-12" class="selfRef">Figure 12</a>:
 <a href="#name-ecdh_info_entry-with-genera" class="selfRef">'ecdh_info_entry' with General Format</a>
           </figcaption></figure>
 </div>
@@ -5133,7 +5301,7 @@ For example, if 'ecdh_params'[0][0] specifies the key type as capability of the 
       </h2>
 <p id="appendix-C-1">This section is to be removed before publishing as an RFC.<a href="#appendix-C-1" class="pilcrow">¶</a></p>
 <span id="name-cddl-model-2"></span><div id="fig-cddl-model">
-<figure id="figure-12">
+<figure id="figure-13">
         <div class="alignLeft art-CDDL art-text artwork" id="appendix-C-2.1">
 <pre>
 ; ACE Groupcomm Parameters
@@ -5152,7 +5320,7 @@ sign_alg = 10
 sign_params = 11
 </pre>
 </div>
-<figcaption><a href="#figure-12" class="selfRef">Figure 12</a>:
+<figcaption><a href="#figure-13" class="selfRef">Figure 13</a>:
 <a href="#name-cddl-model-2" class="selfRef">CDDL Model</a>
         </figcaption></figure>
 </div>
