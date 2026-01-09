@@ -211,6 +211,10 @@ Readers are expected to be familiar with:
 
     - Group Manager, as the entity responsible for a set of groups where communications are secured with Group OSCORE. In this document, the Group Manager acts as Resource Server.
 
+    - Group Identifier (Gid): identifier assigned to an OSCORE group, unique within the set of groups of a given Group Manager. The Gid value changes every time the OSCORE group is rekeyed.
+
+    - Birth Gid: with respect to a group member, the Gid obtained by that group member upon (re-)joining the OSCORE group.
+
     - Authentication credential, as the set of information associated with an entity, including that entity's public key and parameters associated with the public key. Examples of authentication credentials are CBOR Web Tokens (CWTs) and CWT Claims Sets (CCSs) {{RFC8392}}, X.509 certificates {{RFC5280}}, and C509 certificates {{I-D.ietf-cose-cbor-encoded-cert}}.
 
 Additionally, this document makes use of the following terminology:
