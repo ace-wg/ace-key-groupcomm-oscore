@@ -429,15 +429,14 @@ Table of Contents
    Section 5 and Section 6 of this document.
 
    All communications between the involved entities (Client, Group
-   Manager, Authorization Server) MUST be secured.
-
+   Manager, Authorization Server) MUST occur and be secured in
+   accordance with the protocol-specific transport profile of ACE used.
    In particular, communications between the Client and the Group
-   Manager leverage protocol-specific transport profiles of ACE to
-   achieve communication security, proof of possession, and server
-   authentication (REQ24).  It is expected that, in the commonly
-   referred base-case of this document, the transport profile to use is
-   pre-configured and well-known to nodes participating in constrained
-   applications.
+   Manager leverage transport profiles of ACE to achieve communication
+   security, proof of possession, and server authentication (REQ24).  It
+   is expected that, in the commonly referred base-case of this
+   document, the transport profile to use is pre-configured and well-
+   known to nodes participating in constrained applications.
 
    With respect to what is defined in [RFC9594]:
 
