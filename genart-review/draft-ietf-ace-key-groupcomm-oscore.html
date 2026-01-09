@@ -1724,7 +1724,13 @@ appear in all capitals, as shown here.<a href="#section-1.1-1" class="pilcrow">�
                 <p id="section-1.1-3.5.2.1.1">Group Manager, as the entity responsible for a set of groups where communications are secured with Group OSCORE. In this document, the Group Manager acts as Resource Server.<a href="#section-1.1-3.5.2.1.1" class="pilcrow">¶</a></p>
 </li>
               <li class="normal" id="section-1.1-3.5.2.2">
-                <p id="section-1.1-3.5.2.2.1">Authentication credential, as the set of information associated with an entity, including that entity's public key and parameters associated with the public key. Examples of authentication credentials are CBOR Web Tokens (CWTs) and CWT Claims Sets (CCSs) <span>[<a href="#RFC8392" class="cite xref">RFC8392</a>]</span>, X.509 certificates <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span>, and C509 certificates <span>[<a href="#I-D.ietf-cose-cbor-encoded-cert" class="cite xref">I-D.ietf-cose-cbor-encoded-cert</a>]</span>.<a href="#section-1.1-3.5.2.2.1" class="pilcrow">¶</a></p>
+                <p id="section-1.1-3.5.2.2.1">Group Identifier (Gid): identifier assigned to an OSCORE group, unique within the set of groups of a given Group Manager. The Gid value changes every time the OSCORE group is rekeyed.<a href="#section-1.1-3.5.2.2.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-1.1-3.5.2.3">
+                <p id="section-1.1-3.5.2.3.1">Birth Gid: with respect to a group member, the Gid obtained by that group member upon (re-)joining the OSCORE group.<a href="#section-1.1-3.5.2.3.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-1.1-3.5.2.4">
+                <p id="section-1.1-3.5.2.4.1">Authentication credential, as the set of information associated with an entity, including that entity's public key and parameters associated with the public key. Examples of authentication credentials are CBOR Web Tokens (CWTs) and CWT Claims Sets (CCSs) <span>[<a href="#RFC8392" class="cite xref">RFC8392</a>]</span>, X.509 certificates <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span>, and C509 certificates <span>[<a href="#I-D.ietf-cose-cbor-encoded-cert" class="cite xref">I-D.ietf-cose-cbor-encoded-cert</a>]</span>.<a href="#section-1.1-3.5.2.4.1" class="pilcrow">¶</a></p>
 </li>
             </ul>
 </li>
