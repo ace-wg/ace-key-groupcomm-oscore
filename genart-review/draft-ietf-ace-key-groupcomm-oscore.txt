@@ -259,7 +259,7 @@ Table of Contents
    v                                               |
  +---------------------------------+               |
  | Key provisioning for group      |               | Instanced by the
- | communication using ACE (d)     |               | application profile
+ | communication using ACE (f)     |               | application profile
  |                                 |               | defined in ...
  | - General message formats       |               |
  | - Operations and interface at a |---------------+
@@ -271,6 +271,7 @@ Table of Contents
  (c) : [RFC9200]
  (d) : [RFC9202]
  (e) : [RFC9203]
+ (f) : [RFC9594]
 
               Figure 1: Overview of Document Relationships
 
