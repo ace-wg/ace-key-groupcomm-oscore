@@ -136,7 +136,61 @@ As defined in {{I-D.ietf-core-oscore-groupcomm}}, Group Object Security for Cons
 
 Group OSCORE relies on an entity called Group Manager, which is responsible for managing an OSCORE group and enables the group members to exchange CoAP messages secured with Group OSCORE. The Group Manager can be responsible for multiple groups, coordinates the joining process of new group members, and is entrusted with the distribution and renewal of group keying material.
 
-This document is an application profile of {{RFC9594}}, which itself builds on the Authentication and Authorization for Constrained Environments (ACE) framework {{RFC9200}}. Message exchanges among the participants as well as message formats and processing follow what is specified in {{RFC9594}}, and enable the provisioning and renewing of keying material in group communication scenarios, where Group OSCORE is used to protect CoAP group communication.
+Building on the Authentication and Authorization for Constrained Environments (ACE) framework {{RFC9200}}, the document {{RFC9594}} defines how to request, distribute, and renew keying material and configuration parameters to protect message exchanges in a group communication environment. That is, candidate group members that act as ACE Clients and are authorized to join a group can interact with a Key Distribution Center (KDC) that acts as ACE Resource Server and is responsible for the group. The KDC provides the necessary keying material and parameters to communicate with other group members.
+
+While {{RFC9594}} defines the operations and interface available at the KDC, as well as general message formats for the interactions between Clients and the KDC, it delegates details on the communication and security approaches used in a group to separate application profiles. These are specialized instances of {{RFC9594}} that target a particular group communication approach and define how communications in the group are protected, as well as the specific keying material and configuration parameters provided to group members.
+
+This document specifies an application profile of {{RFC9594}}. Message exchanges among the participants as well as message formats and processing follow what is specified in {{RFC9594}}, and enable the provisioning and renewing of keying material in group communication scenarios, where Group OSCORE is used to protect CoAP group communication. In particular, network nodes that wish to join an OSCORE group act as ACE Clients, while the Group Manager responsible for managing the OSCORE group is the KDC acting as ACE Resource Server.
+
+This application profile leverages protocol-specific transport profiles of ACE (e.g., {{RFC9202}}{{RFC9203}}), in order to achieve communication security, server authentication, and proof of possession for a key owned by the Client and bound to an OAuth 2.0 access token.
+
+{{fig-document-relationships}} overviews the relationships between this document and other related documents mentioned above.
+
+~~~~~~~~~~~ aasvg
++---------------------+  Communications         +------------------+
+| Group communication |  are secured with ...   | Group OSCORE (b) |
+| for CoAP (a)        |------------------------>|                  |
++---------------------+                         +------------------+
+                                                  |
+                                                  | A realization
++----------------------+                          | of Group Manager
+| Transport profiles   |                          | is defined in ...
+| of ACE, e.g., (d)(e) |                          |
++----------------------+                          |
+  ^                                               |
+  |                                               |
+  | Details about security                        v
+  | and secure communication                 o========================o
+  | among ACE participants                   |                        |
+  | are specified in ...                     | >>> This document <<<  |
+  |                                          |                        |
++--------------------+                       |   Key management for   |
+| ACE framework for  |                       | Group OSCORE using ACE |
+| authentication and |                       |                        |
+| authorization (c)  |                       |                        |
++--------------------+                       o========================o
+  |                                               ^
+  | Used to build ...                             |
+  |                                               |
+  v                                               |
++---------------------------------+               |
+| Key provisioning for group      |               | Instanced by the
+| communication using ACE (d)     |               | application profile
+|                                 |               | defined in ...
+| - General message formats       |               |
+| - Operations and interface at a |---------------+
+|   Key Distribution Center (KDC) |
++---------------------------------+
+
+(a) : [I-D.ietf-core-groupcomm-bis]
+(b) : [I-D.ietf-core-oscore-groupcomm]
+(c) : [RFC9200]
+(d) : [RFC9202]
+(e) : [RFC9203]
+~~~~~~~~~~~
+{: #fig-document-relationships title="Overview of Document Relationships" artwork-align="center"}
+
+Note to RFC Editor: At the bottom of {{fig-document-relationships}}, "\[I-D.ietf-core-groupcomm-bis\]" and "\[I-D.ietf-core-oscore-groupcomm\]" are the reference labels that the present document is currently using for those two referred documents. Before publishing as an RFC, please replace those reference labels with the ones eventually used for the (RFCs resulting from) the two referred documents. Then, please delete this note.
 
 ## Terminology {#ssec-terminology}
 
@@ -192,7 +246,7 @@ With reference to {{RFC9594}}:
 
 * The node wishing to join the OSCORE group, i.e., the joining node, is the Client.
 
-* The Group Manager is the Key Distribution Center (KDC), acting as a Resource Server.
+* The Group Manager is the KDC, acting as a Resource Server.
 
 * The Authorization Server associated with the Group Manager is the AS.
 
