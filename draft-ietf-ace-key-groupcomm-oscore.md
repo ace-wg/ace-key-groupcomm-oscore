@@ -175,7 +175,7 @@ This application profile leverages protocol-specific transport profiles of ACE (
   v                                               |
 +---------------------------------+               |
 | Key provisioning for group      |               | Instanced by the
-| communication using ACE (d)     |               | application profile
+| communication using ACE (f)     |               | application profile
 |                                 |               | defined in ...
 | - General message formats       |               |
 | - Operations and interface at a |---------------+
@@ -187,6 +187,7 @@ This application profile leverages protocol-specific transport profiles of ACE (
 (c) : [RFC9200]
 (d) : [RFC9202]
 (e) : [RFC9203]
+(f) : [RFC9594]
 ~~~~~~~~~~~
 {: #fig-document-relationships title="Overview of Document Relationships" artwork-align="center"}
 
