@@ -5,8 +5,8 @@
 ACE Working Group                                              M. Tiloca
 Internet-Draft                                                   RISE AB
 Intended status: Standards Track                            F. Palombini
-Expires: 13 July 2026                                        Ericsson AB
-                                                          9 January 2026
+Expires: 16 July 2026                                        Ericsson AB
+                                                         12 January 2026
 
 
     Key Management for Group Object Security for Constrained RESTful
@@ -44,7 +44,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 13 July 2026.
+   This Internet-Draft will expire on 16 July 2026.
 
 Copyright Notice
 
@@ -1541,9 +1541,11 @@ Table of Contents
 
       -  The 'hkdf' parameter, if present, specifies the HKDF Algorithm
          that is used in the OSCORE group.  The HKDF Algorithm is
-         specified by the HMAC Algorithm value.  This parameter MAY be
-         omitted, if the HKDF Algorithm used in the group is HKDF SHA-
-         256.  Otherwise, this parameter MUST be present.
+         specified by the HMAC Algorithm value.  For example, the HKDF
+         Algorithm HKDF SHA-256 is specified as the HMAC Algorithm HMAC
+         256/256.  This parameter MAY be omitted, if the HKDF Algorithm
+         used in the group is HKDF SHA-256.  Otherwise, this parameter
+         MUST be present.
 
       -  The 'salt' parameter, if present, has as value the OSCORE
          Master Salt that is used in the OSCORE group.  This parameter
