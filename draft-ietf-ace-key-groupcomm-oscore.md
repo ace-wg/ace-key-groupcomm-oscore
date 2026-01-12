@@ -750,7 +750,7 @@ Then, the Group Manager replies to the joining node, providing the updated secur
 
    * The 'contextId' parameter has as value the Group Identifier (Gid), i.e., the OSCORE ID Context of the OSCORE group. This parameter MUST be present.
 
-   * The 'group_senderId' parameter has as value the OSCORE Sender ID that the Group Manager has assigned to the joining node in the OSCORE group, as described above. This parameter MUST be present if and only if the node does not join the OSCORE group exclusively with the role of monitor, according to what is specified in the access token (see {{ssec-auth-resp}}).
+   * The 'group_senderId' parameter has as value the OSCORE Sender ID that the Group Manager has assigned to the joining node in the OSCORE group, as described above. This parameter MUST be present if the node does not join the OSCORE group exclusively with the role of monitor, according to what is specified in the access token (see {{ssec-auth-resp}}). Otherwise, this parameter MUST NOT be present.
 
    * The 'cred_fmt' parameter specifies the Authentication Credential Format used in the OSCORE group (see {{Section 2 of I-D.ietf-core-oscore-groupcomm}}). This parameter MUST be present and it takes value from the "Label" column of the "COSE Header Parameters" registry {{COSE.Header.Parameters}} (REQ6), with some of those values also indicating the type of container to use for exchanging the authentication credentials with the Group Manager (e.g., a chain or bag of certificates). Consistently with {{Section 2.4 of I-D.ietf-core-oscore-groupcomm}}, acceptable values denote a format that provides the public key as well as a comprehensive set of information related to the public key algorithm. This information includes, e.g., the elliptic curve used.
 
