@@ -742,7 +742,7 @@ Then, the Group Manager replies to the joining node, providing the updated secur
 
    More specifically, the 'key' parameter is composed as follows.
 
-   * The 'hkdf' parameter, if present, specifies the HKDF Algorithm that is used in the OSCORE group. The HKDF Algorithm is specified by the HMAC Algorithm value. This parameter MAY be omitted, if the HKDF Algorithm used in the group is HKDF SHA-256. Otherwise, this parameter MUST be present.
+   * The 'hkdf' parameter, if present, specifies the HKDF Algorithm that is used in the OSCORE group. The HKDF Algorithm is specified by the HMAC Algorithm value. For example, the HKDF Algorithm HKDF SHA-256 is specified as the HMAC Algorithm HMAC 256/256. This parameter MAY be omitted, if the HKDF Algorithm used in the group is HKDF SHA-256. Otherwise, this parameter MUST be present.
 
    * The 'salt' parameter, if present, has as value the OSCORE Master Salt that is used in the OSCORE group. This parameter MAY be omitted, if the Master Salt used in the group is the empty byte string. Otherwise, this parameter MUST be present.
 
