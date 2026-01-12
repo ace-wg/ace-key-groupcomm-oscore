@@ -1562,9 +1562,10 @@ Table of Contents
       -  The 'group_senderId' parameter has as value the OSCORE Sender
          ID that the Group Manager has assigned to the joining node in
          the OSCORE group, as described above.  This parameter MUST be
-         present if and only if the node does not join the OSCORE group
-         exclusively with the role of monitor, according to what is
-         specified in the access token (see Section 5.2).
+         present if the node does not join the OSCORE group exclusively
+         with the role of monitor, according to what is specified in the
+         access token (see Section 5.2).  Otherwise, this parameter MUST
+         NOT be present.
 
       -  The 'cred_fmt' parameter specifies the Authentication
          Credential Format used in the OSCORE group (see Section 2 of
