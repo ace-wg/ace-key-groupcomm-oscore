@@ -3937,23 +3937,25 @@ Table of Contents
    Parameters" registry, following the procedure specified in
    Section 11.2 of [RFC6749].
 
-   *  Name: ecdh_info
+   *  Entry #1
 
-   *  Parameter Usage Location: client-rs request, rs-client response
+      -  Name: ecdh_info
 
-   *  Change Controller: IETF
+      -  Parameter Usage Location: client-rs request, rs-client response
 
-   *  Reference: [RFC-XXXX]
+      -  Change Controller: IETF
 
+      -  Reference: [RFC-XXXX]
 
+   *  Entry #2
 
-   *  Name: kdc_dh_creds
+      -  Name: kdc_dh_creds
 
-   *  Parameter Usage Location: client-rs request, rs-client response
+      -  Parameter Usage Location: client-rs request, rs-client response
 
-   *  Change Controller: IETF
+      -  Change Controller: IETF
 
-   *  Reference: [RFC-XXXX]
+      -  Reference: [RFC-XXXX]
 
 16.2.  OAuth Parameters CBOR Mappings
 
@@ -3961,80 +3963,84 @@ Table of Contents
    Parameters CBOR Mappings" registry, following the procedure specified
    in Section 8.10 of [RFC9200].
 
-   *  Name: ecdh_info
+   *  Entry #1
 
-   *  CBOR Key: 47 (suggested)
+      -  Name: ecdh_info
 
-   *  Value Type: Null or array
+      -  CBOR Key: 47 (suggested)
 
-   *  Reference: [RFC-XXXX]
+      -  Value Type: Null or array
 
-   *  Original Specification: [RFC-XXXX]
+      -  Reference: [RFC-XXXX]
 
+      -  Original Specification: [RFC-XXXX]
 
+   *  Entry #2
 
-   *  Name: kdc_dh_creds
+      -  Name: kdc_dh_creds
 
-   *  CBOR Key: 48 (suggested)
+      -  CBOR Key: 48 (suggested)
 
-   *  Value Type: Null or array
+      -  Value Type: Null or array
 
-   *  Reference: [RFC-XXXX]
+      -  Reference: [RFC-XXXX]
 
-   *  Original Specification: [RFC-XXXX]
+      -  Original Specification: [RFC-XXXX]
 
 16.3.  ACE Groupcomm Parameters
 
    IANA is asked to register the following entries to the "ACE Groupcomm
    Parameters" registry defined in Section 11.7 of [RFC9594].
 
-   *  Name: group_senderId
+   *  Entry #1
 
-   *  CBOR Key: 21 (suggested)
+      -  Name: group_senderId
 
-   *  CBOR Type: bstr
+      -  CBOR Key: 21 (suggested)
 
-   *  Reference: [RFC-XXXX]
+      -  CBOR Type: bstr
 
+      -  Reference: [RFC-XXXX]
 
+   *  Entry #2
 
-   *  Name: ecdh_info
+      -  Name: ecdh_info
 
-   *  CBOR Key: 31 (suggested)
+      -  CBOR Key: 31 (suggested)
 
-   *  CBOR Type: array
+      -  CBOR Type: array
 
-   *  Reference: [RFC-XXXX]
+      -  Reference: [RFC-XXXX]
 
+   *  Entry #3
 
+      -  Name: kdc_dh_creds
 
-   *  Name: kdc_dh_creds
+      -  CBOR Key: 32 (suggested)
 
-   *  CBOR Key: 32 (suggested)
+      -  CBOR Type: array
 
-   *  CBOR Type: array
+      -  Reference: [RFC-XXXX]
 
-   *  Reference: [RFC-XXXX]
+   *  Entry #4
 
+      -  Name: sign_enc_key
 
+      -  CBOR Key: 33 (suggested)
 
-   *  Name: sign_enc_key
+      -  CBOR Type: bstr
 
-   *  CBOR Key: 33 (suggested)
+      -  Reference: [RFC-XXXX]
 
-   *  CBOR Type: bstr
+   *  Entry #5
 
-   *  Reference: [RFC-XXXX]
+      -  Name: stale_node_ids
 
+      -  CBOR Key: 34 (suggested)
 
+      -  CBOR Type: array
 
-   *  Name: stale_node_ids
-
-   *  CBOR Key: 34 (suggested)
-
-   *  CBOR Type: array
-
-   *  Reference: [RFC-XXXX]
+      -  Reference: [RFC-XXXX]
 
 16.4.  ACE Groupcomm Key Types
 
@@ -4074,105 +4080,107 @@ Table of Contents
    Security Context Parameters" registry defined in Section 9.4 of
    [RFC9203].
 
-   *  Name: group_SenderId
+   *  Entry #1
 
-   *  CBOR Label: 7 (suggested)
+      -  Name: group_SenderId
 
-   *  CBOR Type: byte string
+      -  CBOR Label: 7 (suggested)
 
-   *  Registry: -
+      -  CBOR Type: byte string
 
-   *  Description: OSCORE Sender ID assigned to a member of an OSCORE
-      group
+      -  Registry: -
 
-   *  Reference: [RFC-XXXX]
+      -  Description: OSCORE Sender ID assigned to a member of an OSCORE
+         group
 
+      -  Reference: [RFC-XXXX]
 
+   *  Entry #2
 
-   *  Name: cred_fmt
+      -  Name: cred_fmt
 
-   *  CBOR Label: 8 (suggested)
+      -  CBOR Label: 8 (suggested)
 
-   *  CBOR Type: integer
+      -  CBOR Type: integer
 
-   *  Registry: [COSE.Header.Parameters] Labels (integer)
+      -  Registry: [COSE.Header.Parameters] Labels (integer)
 
-   *  Description: Format of authentication credentials to be used in
-      the OSCORE group
+      -  Description: Format of authentication credentials to be used in
+         the OSCORE group
 
-   *  Reference: [RFC-XXXX]
+      -  Reference: [RFC-XXXX]
 
+   *  Entry #3
 
+      -  Name: gp_enc_alg
 
-   *  Name: gp_enc_alg
+      -  CBOR Label: 9 (suggested)
 
-   *  CBOR Label: 9 (suggested)
+      -  CBOR Type: text string / integer
 
-   *  CBOR Type: text string / integer
+      -  Registry: [COSE.Algorithms] Values
 
-   *  Registry: [COSE.Algorithms] Values
+      -  Description: OSCORE Group Encryption Algorithm Value
 
-   *  Description: OSCORE Group Encryption Algorithm Value
+      -  Reference: [RFC-XXXX]
 
-   *  Reference: [RFC-XXXX]
+   *  Entry #4
 
+      -  Name: sign_alg
 
+      -  CBOR Label: 10 (suggested)
 
-   *  Name: sign_alg
+      -  CBOR Type: text string / integer
 
-   *  CBOR Label: 10 (suggested)
+      -  Registry: [COSE.Algorithms] Values
 
-   *  CBOR Type: text string / integer
+      -  Description: OSCORE Signature Algorithm Value
 
-   *  Registry: [COSE.Algorithms] Values
+      -  Reference: [RFC-XXXX]
 
-   *  Description: OSCORE Signature Algorithm Value
+   *  Entry #5
 
-   *  Reference: [RFC-XXXX]
+      -  Name: sign_params
 
+      -  CBOR Label: 11 (suggested)
 
+      -  CBOR Type: array
 
-   *  Name: sign_params
+      -  Registry: [COSE.Algorithms] Capabilities, [COSE.Key.Types]
+         Capabilities, [COSE.Elliptic.Curves] Values
 
-   *  CBOR Label: 11 (suggested)
+      -  Description: OSCORE Signature Algorithm Parameters
 
-   *  CBOR Type: array
+      -  Reference: [RFC-XXXX]
 
-   *  Registry: [COSE.Algorithms] Capabilities, [COSE.Key.Types]
-      Capabilities, [COSE.Elliptic.Curves] Values
+   *  Entry #6
 
-   *  Description: OSCORE Signature Algorithm Parameters
+      -  Name: ecdh_alg
 
-   *  Reference: [RFC-XXXX]
+      -  CBOR Label: 12 (suggested)
 
+      -  CBOR Type: text string / integer
 
+      -  Registry: [COSE.Algorithms] Values
 
-   *  Name: ecdh_alg
+      -  Description: OSCORE Pairwise Key Agreement Algorithm Value
 
-   *  CBOR Label: 12 (suggested)
+      -  Reference: [RFC-XXXX]
 
-   *  CBOR Type: text string / integer
+   *  Entry #7
 
-   *  Registry: [COSE.Algorithms] Values
+      -  Name: ecdh_params
 
-   *  Description: OSCORE Pairwise Key Agreement Algorithm Value
+      -  CBOR Label: 13 (suggested)
 
-   *  Reference: [RFC-XXXX]
+      -  CBOR Type: array
 
+      -  Registry: [COSE.Algorithms] Capabilities, [COSE.Key.Types]
+         Capabilities, [COSE.Elliptic.Curves] Values
 
+      -  Description: OSCORE Pairwise Key Agreement Algorithm Parameters
 
-   *  Name: ecdh_params
-
-   *  CBOR Label: 13 (suggested)
-
-   *  CBOR Type: array
-
-   *  Registry: [COSE.Algorithms] Capabilities, [COSE.Key.Types]
-      Capabilities, [COSE.Elliptic.Curves] Values
-
-   *  Description: OSCORE Pairwise Key Agreement Algorithm Parameters
-
-   *  Reference: [RFC-XXXX]
+      -  Reference: [RFC-XXXX]
 
 16.7.  TLS Exporter Labels
 
@@ -4196,23 +4204,25 @@ Table of Contents
    Tperm, in the respective sub-registry defined in Section 5.2 of
    [RFC9237] within the "MIME Media Type Sub-Parameter" registry group.
 
-   *  Parameter: Toid
+   *  Entry #1
 
-   *  Name: oscore-gname
+      -  Parameter: Toid
 
-   *  Description/Specification: OSCORE group name
+      -  Name: oscore-gname
 
-   *  Reference: [RFC-XXXX]
+      -  Description/Specification: OSCORE group name
 
+      -  Reference: [RFC-XXXX]
 
+   *  Entry #2
 
-   *  Parameter: Tperm
+      -  Parameter: Tperm
 
-   *  Name: oscore-gperm
+      -  Name: oscore-gperm
 
-   *  Description/Specification: permissions pertaining OSCORE groups
+      -  Description/Specification: permissions pertaining OSCORE groups
 
-   *  Reference: [RFC-XXXX]
+      -  Reference: [RFC-XXXX]
 
 16.9.  CoAP Content-Formats
 
@@ -4220,25 +4230,27 @@ Table of Contents
    Formats" registry within the "Constrained RESTful Environments (CoRE)
    Parameters" registry group.
 
-   *  Content Type: application/aif+cbor;toid=oscore-gname;tperm=oscore-
-      gperm
+   *  Entry #1
 
-   *  Content Coding: -
+      -  Content Type: application/aif+cbor;toid=oscore-
+         gname;tperm=oscore-gperm
 
-   *  ID: 292 (suggested)
+      -  Content Coding: -
 
-   *  Reference: [RFC-XXXX]
+      -  ID: 292 (suggested)
 
+      -  Reference: [RFC-XXXX]
 
+   *  Entry #2
 
-   *  Content Type: application/aif+json;toid=oscore-gname;tperm=oscore-
-      gperm
+      -  Content Type: application/aif+json;toid=oscore-
+         gname;tperm=oscore-gperm
 
-   *  Content Coding: -
+      -  Content Coding: -
 
-   *  ID: 293 (suggested)
+      -  ID: 293 (suggested)
 
-   *  Reference: [RFC-XXXX]
+      -  Reference: [RFC-XXXX]
 
 16.10.  CoRE Resource Type
 
@@ -4261,27 +4273,29 @@ Table of Contents
    IANA is asked to register the following entries in the "ACE Groupcomm
    Errors" registry defined in Section 11.12 of [RFC9594].
 
-   *  Value: 7 (suggested)
+   *  Entry #1
 
-   *  Description: Signatures not used in the group.
+      -  Value: 7 (suggested)
 
-   *  Reference: [RFC-XXXX]
+      -  Description: Signatures not used in the group.
 
+      -  Reference: [RFC-XXXX]
 
+   *  Entry #2
 
-   *  Value: 8 (suggested)
+      -  Value: 8 (suggested)
 
-   *  Description: Operation permitted only to signature verifiers.
+      -  Description: Operation permitted only to signature verifiers.
 
-   *  Reference: [RFC-XXXX]
+      -  Reference: [RFC-XXXX]
 
+   *  Entry #3
 
+      -  Value: 9 (suggested)
 
-   *  Value: 9 (suggested)
+      -  Description: Group currently not active.
 
-   *  Description: Group currently not active.
-
-   *  Reference: [RFC-XXXX]
+      -  Reference: [RFC-XXXX]
 
 16.12.  Group OSCORE Roles
 
