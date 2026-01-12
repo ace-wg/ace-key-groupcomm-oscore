@@ -1896,156 +1896,148 @@ Note to RFC Editor: Please replace all occurrences of "{{&SELF}}" with the RFC n
 
 IANA is asked to register the following entries in the "OAuth Parameters" registry, following the procedure specified in {{Section 11.2 of RFC6749}}.
 
-* Name: ecdh_info
-* Parameter Usage Location: client-rs request, rs-client response
-* Change Controller: IETF
-* Reference: {{&SELF}}
+* Entry \#1
+  * Name: ecdh_info
+  * Parameter Usage Location: client-rs request, rs-client response
+  * Change Controller: IETF
+  * Reference: {{&SELF}}
 
-<br>
-
-* Name: kdc_dh_creds
-* Parameter Usage Location: client-rs request, rs-client response
-* Change Controller: IETF
-* Reference: {{&SELF}}
+* Entry \#2
+  * Name: kdc_dh_creds
+  * Parameter Usage Location: client-rs request, rs-client response
+  * Change Controller: IETF
+  * Reference: {{&SELF}}
 
 ## OAuth Parameters CBOR Mappings {#iana-kinfo-map}
 
 IANA is asked to register the following entries in the "OAuth Parameters CBOR Mappings" registry, following the procedure specified in {{Section 8.10 of RFC9200}}.
 
-* Name: ecdh_info
-* CBOR Key: 47 (suggested)
-* Value Type: Null or array
-* Reference: {{&SELF}}
-* Original Specification: {{&SELF}}
+* Entry \#1
+  * Name: ecdh_info
+  * CBOR Key: 47 (suggested)
+  * Value Type: Null or array
+  * Reference: {{&SELF}}
+  * Original Specification: {{&SELF}}
 
-<br>
-
-* Name: kdc_dh_creds
-* CBOR Key: 48 (suggested)
-* Value Type: Null or array
-* Reference: {{&SELF}}
-* Original Specification: {{&SELF}}
+* Entry \#2
+  * Name: kdc_dh_creds
+  * CBOR Key: 48 (suggested)
+  * Value Type: Null or array
+  * Reference: {{&SELF}}
+  * Original Specification: {{&SELF}}
 
 ## ACE Groupcomm Parameters {#ssec-iana-ace-groupcomm-parameters-registry}
 
 IANA is asked to register the following entries to the "ACE Groupcomm Parameters" registry defined in {{Section 11.7 of RFC9594}}.
 
-* Name: group_senderId
-* CBOR Key: 21 (suggested)
-* CBOR Type: bstr
-* Reference: {{&SELF}}
+* Entry \#1
+  * Name: group_senderId
+  * CBOR Key: 21 (suggested)
+  * CBOR Type: bstr
+  * Reference: {{&SELF}}
 
-<br>
+* Entry \#2
+  * Name: ecdh_info
+  * CBOR Key: 31 (suggested)
+  * CBOR Type: array
+  * Reference: {{&SELF}}
 
-* Name: ecdh_info
-* CBOR Key: 31 (suggested)
-* CBOR Type: array
-* Reference: {{&SELF}}
+* Entry \#3
+  * Name: kdc_dh_creds
+  * CBOR Key: 32 (suggested)
+  * CBOR Type: array
+  * Reference: {{&SELF}}
 
-<br>
+* Entry \#4
+  * Name: sign_enc_key
+  * CBOR Key: 33 (suggested)
+  * CBOR Type: bstr
+  * Reference: {{&SELF}}
 
-* Name: kdc_dh_creds
-* CBOR Key: 32 (suggested)
-* CBOR Type: array
-* Reference: {{&SELF}}
-
-<br>
-
-* Name: sign_enc_key
-* CBOR Key: 33 (suggested)
-* CBOR Type: bstr
-* Reference: {{&SELF}}
-
-<br>
-
-* Name: stale_node_ids
-* CBOR Key: 34 (suggested)
-* CBOR Type: array
-* Reference: {{&SELF}}
+* Entry \#5
+  * Name: stale_node_ids
+  * CBOR Key: 34 (suggested)
+  * CBOR Type: array
+  * Reference: {{&SELF}}
 
 ## ACE Groupcomm Key Types {#ssec-iana-groupcomm-keys-registry}
 
 IANA is asked to register the following entry in the "ACE Groupcomm Key Types" registry defined in {{Section 11.8 of RFC9594}}.
 
-*  Name: Group_OSCORE_Input_Material object
-*  Key Type Value: GROUPCOMM_KEY_TBD (suggested value: 1)
-*  Profile: "coap_group_oscore_app", registered in {{ssec-iana-groupcomm-profile-registry}} of {{&SELF}}.
-*  Description: A Group_OSCORE_Input_Material object encoded as described in {{ssec-join-resp}} of {{&SELF}}.
-*  Reference: {{&SELF}}
+* Name: Group_OSCORE_Input_Material object
+* Key Type Value: GROUPCOMM_KEY_TBD (suggested value: 1)
+* Profile: "coap_group_oscore_app", registered in {{ssec-iana-groupcomm-profile-registry}} of {{&SELF}}.
+* Description: A Group_OSCORE_Input_Material object encoded as described in {{ssec-join-resp}} of {{&SELF}}.
+* Reference: {{&SELF}}
 
 ## ACE Groupcomm Profiles {#ssec-iana-groupcomm-profile-registry}
 
 IANA is asked to register the following entry in the "ACE Groupcomm Profiles" registry defined in {{Section 11.9 of RFC9594}}.
 
-*  Name: coap_group_oscore_app
-*  Description: Application profile to provision keying material for participating in group communication protected with Group OSCORE as per {{I-D.ietf-core-oscore-groupcomm}}.
-*  CBOR Value: PROFILE_TBD (suggested value: 1)
-*  Reference: {{&SELF}}
+* Name: coap_group_oscore_app
+* Description: Application profile to provision keying material for participating in group communication protected with Group OSCORE as per {{I-D.ietf-core-oscore-groupcomm}}.
+* CBOR Value: PROFILE_TBD (suggested value: 1)
+* Reference: {{&SELF}}
 
 ## OSCORE Security Context Parameters {#ssec-iana-security-context-parameter-registry}
 
 IANA is asked to register the following entries in the "OSCORE Security Context Parameters" registry defined in {{Section 9.4 of RFC9203}}.
 
-*  Name: group_SenderId
-*  CBOR Label: 7 (suggested)
-*  CBOR Type: byte string
-*  Registry: -
-*  Description: OSCORE Sender ID assigned to a member of an OSCORE group
-*  Reference: {{&SELF}}
+* Entry \#1
+  * Name: group_SenderId
+  * CBOR Label: 7 (suggested)
+  * CBOR Type: byte string
+  * Registry: -
+  * Description: OSCORE Sender ID assigned to a member of an OSCORE group
+  * Reference: {{&SELF}}
 
-<br>
+* Entry \#2
+  * Name: cred_fmt
+  * CBOR Label: 8 (suggested)
+  * CBOR Type: integer
+  * Registry: {{COSE.Header.Parameters}} Labels (integer)
+  * Description: Format of authentication credentials to be used in the OSCORE group
+  * Reference: {{&SELF}}
 
-*  Name: cred_fmt
-*  CBOR Label: 8 (suggested)
-*  CBOR Type: integer
-*  Registry: {{COSE.Header.Parameters}} Labels (integer)
-*  Description: Format of authentication credentials to be used in the OSCORE group
-*  Reference: {{&SELF}}
+* Entry \#3
+  * Name: gp_enc_alg
+  * CBOR Label: 9 (suggested)
+  * CBOR Type: text string / integer
+  * Registry: {{COSE.Algorithms}} Values
+  * Description: OSCORE Group Encryption Algorithm Value
+  * Reference: {{&SELF}}
 
-<br>
+* Entry \#4
+  * Name: sign_alg
+  * CBOR Label: 10 (suggested)
+  * CBOR Type: text string / integer
+  * Registry: {{COSE.Algorithms}} Values
+  * Description: OSCORE Signature Algorithm Value
+  * Reference: {{&SELF}}
 
-*  Name: gp_enc_alg
-*  CBOR Label: 9 (suggested)
-*  CBOR Type: text string / integer
-*  Registry: {{COSE.Algorithms}} Values
-*  Description: OSCORE Group Encryption Algorithm Value
-*  Reference: {{&SELF}}
+* Entry \#5
+  * Name: sign_params
+  * CBOR Label: 11 (suggested)
+  * CBOR Type: array
+  * Registry: {{COSE.Algorithms}} Capabilities, {{COSE.Key.Types}} Capabilities, {{COSE.Elliptic.Curves}} Values
+  * Description: OSCORE Signature Algorithm Parameters
+  * Reference: {{&SELF}}
 
-<br>
+* Entry \#6
+  * Name: ecdh_alg
+  * CBOR Label: 12 (suggested)
+  * CBOR Type: text string / integer
+  * Registry: {{COSE.Algorithms}} Values
+  * Description: OSCORE Pairwise Key Agreement Algorithm Value
+  * Reference: {{&SELF}}
 
-*  Name: sign_alg
-*  CBOR Label: 10 (suggested)
-*  CBOR Type: text string / integer
-*  Registry: {{COSE.Algorithms}} Values
-*  Description: OSCORE Signature Algorithm Value
-*  Reference: {{&SELF}}
-
-<br>
-
-*  Name: sign_params
-*  CBOR Label: 11 (suggested)
-*  CBOR Type: array
-*  Registry: {{COSE.Algorithms}} Capabilities, {{COSE.Key.Types}} Capabilities, {{COSE.Elliptic.Curves}} Values
-*  Description: OSCORE Signature Algorithm Parameters
-*  Reference: {{&SELF}}
-
-<br>
-
-*  Name: ecdh_alg
-*  CBOR Label: 12 (suggested)
-*  CBOR Type: text string / integer
-*  Registry: {{COSE.Algorithms}} Values
-*  Description: OSCORE Pairwise Key Agreement Algorithm Value
-*  Reference: {{&SELF}}
-
-<br>
-
-*  Name: ecdh_params
-*  CBOR Label: 13 (suggested)
-*  CBOR Type: array
-*  Registry: {{COSE.Algorithms}} Capabilities, {{COSE.Key.Types}} Capabilities, {{COSE.Elliptic.Curves}} Values
-*  Description: OSCORE Pairwise Key Agreement Algorithm Parameters
-*  Reference: {{&SELF}}
+* Entry \#7
+  * Name: ecdh_params
+  * CBOR Label: 13 (suggested)
+  * CBOR Type: array
+  * Registry: {{COSE.Algorithms}} Capabilities, {{COSE.Key.Types}} Capabilities, {{COSE.Elliptic.Curves}} Values
+  * Description: OSCORE Pairwise Key Agreement Algorithm Parameters
+  * Reference: {{&SELF}}
 
 ## TLS Exporter Labels {#ssec-iana-tls-esporter-label-registry}
 
@@ -2060,48 +2052,40 @@ IANA is asked to register the following entry in the "TLS Exporter Labels" regis
 
 For the media-types "application/aif+cbor" and "application/aif+json" defined in {{Section 5.1 of RFC9237}}, IANA is requested to register the following entries for the two media-type parameters Toid and Tperm, in the respective sub-registry defined in {{Section 5.2 of RFC9237}} within the "MIME Media Type Sub-Parameter" registry group.
 
-* Parameter: Toid
-* Name: oscore-gname
-* Description/Specification: OSCORE group name
-* Reference: {{&SELF}}
+* Entry \#1
+  * Parameter: Toid
+  * Name: oscore-gname
+  * Description/Specification: OSCORE group name
+  * Reference: {{&SELF}}
 
-<br>
-
-* Parameter: Tperm
-* Name: oscore-gperm
-* Description/Specification: permissions pertaining OSCORE groups
-* Reference: {{&SELF}}
+* Entry \#2
+  * Parameter: Tperm
+  * Name: oscore-gperm
+  * Description/Specification: permissions pertaining OSCORE groups
+  * Reference: {{&SELF}}
 
 ## CoAP Content-Formats {#ssec-iana-coap-content-format-registry}
 
 IANA is asked to register the following entries in the "CoAP Content-Formats" registry within the "Constrained RESTful Environments (CoRE) Parameters" registry group.
 
-* Content Type: application/aif+cbor;toid=oscore-gname;tperm=oscore-gperm
+* Entry \#1
+  * Content Type: application/aif+cbor;toid=oscore-gname;tperm=oscore-gperm
+  * Content Coding: -
+  * ID: 292 (suggested)
+  * Reference: {{&SELF}}
 
-* Content Coding: -
-
-* ID: 292 (suggested)
-
-* Reference: {{&SELF}}
-
-<br>
-
-* Content Type: application/aif+json;toid=oscore-gname;tperm=oscore-gperm
-
-* Content Coding: -
-
-* ID: 293 (suggested)
-
-* Reference: {{&SELF}}
+* Entry \#2
+  * Content Type: application/aif+json;toid=oscore-gname;tperm=oscore-gperm
+  * Content Coding: -
+  * ID: 293 (suggested)
+  * Reference: {{&SELF}}
 
 ## CoRE Resource Type # {#iana-rt}
 
 IANA is asked to register the following entry in the "Resource Type (rt=) Link Target Attribute Values" registry within the "Constrained Restful Environments (CoRE) Parameters" registry group.
 
 * Value: "core.osc.gm"
-
 * Description: Group-membership resource of an OSCORE Group Manager.
-
 * Reference: {{&SELF}}
 
 Client applications can use this resource type to discover a group-membership resource at an OSCORE Group Manager, where to send a request for joining the corresponding OSCORE group.
@@ -2110,27 +2094,20 @@ Client applications can use this resource type to discover a group-membership re
 
 IANA is asked to register the following entries in the "ACE Groupcomm Errors" registry defined in {{Section 11.12 of RFC9594}}.
 
-* Value: 7 (suggested)
+* Entry \#1
+  * Value: 7 (suggested)
+  * Description: Signatures not used in the group.
+  * Reference: {{&SELF}}
 
-* Description: Signatures not used in the group.
+* Entry \#2
+  * Value: 8 (suggested)
+  * Description: Operation permitted only to signature verifiers.
+  * Reference: {{&SELF}}
 
-* Reference: {{&SELF}}
-
-<br>
-
-* Value: 8 (suggested)
-
-* Description: Operation permitted only to signature verifiers.
-
-* Reference: {{&SELF}}
-
-<br>
-
-* Value: 9 (suggested)
-
-* Description: Group currently not active.
-
-* Reference: {{&SELF}}
+* Entry \#3
+  * Value: 9 (suggested)
+  * Description: Group currently not active.
+  * Reference: {{&SELF}}
 
 ## Group OSCORE Roles {#ssec-iana-group-oscore-roles-registry}
 
