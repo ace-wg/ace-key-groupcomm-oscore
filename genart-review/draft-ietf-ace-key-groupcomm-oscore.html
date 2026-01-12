@@ -3033,10 +3033,10 @@ Due to the set of stale Sender IDs distributed through the rekeying, this ensure
               <p id="section-9.1.1-4.1.1">The 'key' parameter is formatted as defined in <a href="#ssec-join-resp" class="auto internal xref">Section 6.3</a> of this document, with the difference that it does not include the 'group_SenderId' parameter.<a href="#section-9.1.1-4.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-9.1.1-4.2">
-              <p id="section-9.1.1-4.2.1">The 'exp' parameter <span class="bcp14">SHOULD</span> be present.<a href="#section-9.1.1-4.2.1" class="pilcrow">¶</a></p>
+              <p id="section-9.1.1-4.2.1">The 'exi' parameter <span class="bcp14">MUST</span> be present.<a href="#section-9.1.1-4.2.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-9.1.1-4.3">
-              <p id="section-9.1.1-4.3.1">The 'exi' parameter <span class="bcp14">MUST</span> be present.<a href="#section-9.1.1-4.3.1" class="pilcrow">¶</a></p>
+              <p id="section-9.1.1-4.3.1">The 'exp' parameter <span class="bcp14">SHOULD</span> be present. Omitting the parameter is not desirable for a requesting group member that has a reliable way to synchronize its internal clock with UTC. That is, if the 'exp' parameter is not present, such a requesting group member falls back on using the 'exi' parameter value to less accurately determine the expiration time of the group keying material conveyed by the 'key' parameter.<a href="#section-9.1.1-4.3.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-9.1.1-4.4">
               <p id="section-9.1.1-4.4.1">The 'ace_groupcomm_profile' parameter <span class="bcp14">MUST</span> be present and has value coap_group_oscore_app.<a href="#section-9.1.1-4.4.1" class="pilcrow">¶</a></p>
@@ -3061,10 +3061,10 @@ Due to the set of stale Sender IDs distributed through the rekeying, this ensure
 Note that, in any other case, the current Sender ID of the group member is not specified as a separate parameter, but instead by the 'group_SenderId' parameter within the 'key' parameter.<a href="#section-9.1.2-4.1.2" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-9.1.2-4.2">
-              <p id="section-9.1.2-4.2.1">The 'exp' parameter <span class="bcp14">SHOULD</span> be present.<a href="#section-9.1.2-4.2.1" class="pilcrow">¶</a></p>
+              <p id="section-9.1.2-4.2.1">The 'exi' parameter <span class="bcp14">MUST</span> be present.<a href="#section-9.1.2-4.2.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-9.1.2-4.3">
-              <p id="section-9.1.2-4.3.1">The 'exi' parameter <span class="bcp14">MUST</span> be present.<a href="#section-9.1.2-4.3.1" class="pilcrow">¶</a></p>
+              <p id="section-9.1.2-4.3.1">The 'exp' parameter <span class="bcp14">SHOULD</span> be present. Omitting the parameter is not desirable for a requesting group member that has a reliable way to synchronize its internal clock with UTC. That is, if the 'exp' parameter is not present, such a requesting group member falls back on using the 'exi' parameter value to less accurately determine the expiration time of the group keying material conveyed by the 'key' parameter.<a href="#section-9.1.2-4.3.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 <p id="section-9.1.2-5">Upon receiving the Key Distribution Response, the group member retrieves the updated security parameters, group keying material, and Sender ID, and, if they differ from the current ones, uses them to set up the new Group OSCORE Security Context as described in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-28#section-2" class="relref">Section 2</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>.<a href="#section-9.1.2-5" class="pilcrow">¶</a></p>
