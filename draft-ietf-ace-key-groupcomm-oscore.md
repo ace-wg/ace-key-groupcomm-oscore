@@ -1086,9 +1086,9 @@ The Group Manager processes the Key Distribution Request according to {{Section 
 
 * The 'key' parameter is formatted as defined in {{ssec-join-resp}} of this document, with the difference that it does not include the 'group_SenderId' parameter.
 
-* The 'exp' parameter SHOULD be present.
-
 * The 'exi' parameter MUST be present.
+
+* The 'exp' parameter SHOULD be present. Omitting the parameter is not desirable for a requesting group member that has a reliable way to synchronize its internal clock with UTC. That is, if the 'exp' parameter is not present, such a requesting group member falls back on using the 'exi' parameter value to less accurately determine the expiration time of the group keying material conveyed by the 'key' parameter.
 
 * The 'ace_groupcomm_profile' parameter MUST be present and has value coap_group_oscore_app.
 
@@ -1108,9 +1108,9 @@ The Group Manager processes the Key Distribution Request according to {{Section 
 
   Note that, in any other case, the current Sender ID of the group member is not specified as a separate parameter, but instead by the 'group_SenderId' parameter within the 'key' parameter.
 
-* The 'exp' parameter SHOULD be present.
-
 * The 'exi' parameter MUST be present.
+
+* The 'exp' parameter SHOULD be present. Omitting the parameter is not desirable for a requesting group member that has a reliable way to synchronize its internal clock with UTC. That is, if the 'exp' parameter is not present, such a requesting group member falls back on using the 'exi' parameter value to less accurately determine the expiration time of the group keying material conveyed by the 'key' parameter.
 
 Upon receiving the Key Distribution Response, the group member retrieves the updated security parameters, group keying material, and Sender ID, and, if they differ from the current ones, uses them to set up the new Group OSCORE Security Context as described in {{Section 2 of I-D.ietf-core-oscore-groupcomm}}.
 
