@@ -590,7 +590,7 @@ The joining node requests to join the OSCORE group by sending a Join Request mes
 
     Under these circumstances, the joining node MAY specify an empty PoP evidence, i.e., it sets the value of the 'client_cred_verify' parameter to the empty CBOR byte string (0x40).
 
-  * If the conditions above do not hold or the joining node prefers to compute a non-empty PoP evidence, then the joining node  proceeds as follows. In either case, the N_S used to build the PoP input is as defined in {{sssec-challenge-value}}.
+  * If the conditions above do not hold or the joining node prefers to compute a non-empty PoP evidence, then the joining node  proceeds as follows. The N_S used to build the PoP input is as defined in {{sssec-challenge-value}}.
 
     - If the group is not a pairwise-only group, the PoP evidence MUST be a signature. The joining node computes the signature by using the same private key and signature algorithm that it intends to use for signing messages in the OSCORE group.
 
@@ -1866,7 +1866,7 @@ As defined in {{sssec-challenge-value}}, the way the N\_S value is computed depe
 
 * If the access token has not been provided to the Group Manager by means of a Token Transfer Request to the /authz-info endpoint as in {{ssec-token-post}}, then N\_S is computed as a 32-byte long challenge. For an example, see points (2) and (3) in {{sssec-challenge-value}}.
 
-* If the access token has been provided to the Group Manager by means of a Token Transfer Request to the /authz-info endpoint as in {{ssec-token-post}}, then N\_S takes the most recent value provided to the Client by the Group Manager in the 'kdcchallenge' parameter, as specified in point (1) of {{sssec-challenge-value}}. This value is provided either in the Token Transfer Response (see {{ssec-token-post}}), or in a 4.00 (Bad Request) error response to a following Join Request (see {{ssec-join-req-processing}}). In either case, the N\_S value is RECOMMENDED to be at least 8-byte long and it is RECOMMENDED to be a random value.
+* If the access token has been provided to the Group Manager by means of a Token Transfer Request to the /authz-info endpoint as in {{ssec-token-post}}, then N\_S takes the most recent value provided to the Client by the Group Manager in the 'kdcchallenge' parameter, as specified in point (1) of {{sssec-challenge-value}}. This value is provided either in the Token Transfer Response (see {{ssec-token-post}}), or in a 4.00 (Bad Request) error response to a following Join Request (see {{ssec-join-req-processing}}). The N\_S value is RECOMMENDED to be at least 8-byte long and it is RECOMMENDED to be a random value.
 
 If we consider both N\_C and N\_S to take 8-byte long values, the following considerations hold.
 
