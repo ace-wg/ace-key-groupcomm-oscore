@@ -586,7 +586,7 @@ The joining node requests to join the OSCORE group by sending a Join Request mes
 
   * Specifically in the case where the joining node is not a current member of the group, the Group Manager might already have achieved proof of possession of the joining node's private key associated with the authentication credential AUTH_CRED_C that the joining node intends to use in the group.
 
-    For example, that could have happened upon completing the establishment of the secure communication association that is used to protect the Join Request, if the joining node used AUTH_CRED_C to authenticate itself with the Group Manager.
+    For example, proof-of-possession could have been achieved upon completing the establishment of the secure communication association that is used to protect the Join Request, if the joining node used AUTH_CRED_C to authenticate itself with the Group Manager.
 
     Under these circumstances, the joining node MAY specify an empty PoP evidence, i.e., it sets the value of the 'client_cred_verify' parameter to the empty CBOR byte string (0x40).
 
