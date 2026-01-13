@@ -571,7 +571,7 @@ The value of the N\_S challenge is determined as follows.
 
 It is up to applications or future specifications to define how N_S is computed in further alternative settings.
 
-{{ssec-security-considerations-reusage-nonces}} provides security considerations on the reusage of the N_S challenge.
+{{ssec-security-considerations-reusage-nonces}} provides security considerations on the reuse of the N_S challenge.
 
 ## Receive the Join Request {#ssec-join-req-processing}
 
@@ -1817,7 +1817,7 @@ If we consider both N\_C and N\_S to take 8-byte long values, the following cons
 
 * {{Section 7 of RFC9203}} and {{Section B.2 of RFC8613}} recommend the use of 8-byte random values as well. Unlike in those cases, the values of N\_C and N\_S considered in this document are not used for as sensitive operations as the derivation of a Security Context, and thus do not have possible implications in the security of AEAD ciphers.
 
-## Reusage of Nonces for Proof-of-Possession Input {#ssec-security-considerations-reusage-nonces}
+## Reuse of Nonces for Proof-of-Possession Input {#ssec-security-considerations-reusage-nonces}
 
 When a party A provides a nonce to the other party B, it is beneficial that A does not offer a nonce previously used with B. By doing so, A can verify the freshness of the PoP evidence computed by B.
 
@@ -2621,7 +2621,7 @@ sign_params = 11
 
 * Possible individual rekeying of a single requesting node combined with a group rekeying.
 
-* Security considerations on reusage of signature challenges.
+* Security considerations on reuse of signature challenges.
 
 * Addressing optional requirement OPT12 from draft-ietf-ace-key-groupcomm
 
