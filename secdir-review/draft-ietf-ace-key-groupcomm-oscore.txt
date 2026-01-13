@@ -125,7 +125,7 @@ Table of Contents
    15. Security Considerations
      15.1.  Management of OSCORE Groups
      15.2.  Size of Nonces as Proof-of-Possesion Challenge
-     15.3.  Reusage of Nonces for Proof-of-Possession Input
+     15.3.  Reuse of Nonces for Proof-of-Possession Input
    16. IANA Considerations
      16.1.  OAuth Parameters
      16.2.  OAuth Parameters CBOR Mappings
@@ -1144,8 +1144,8 @@ Table of Contents
    It is up to applications or future specifications to define how N_S
    is computed in further alternative settings.
 
-   Section 15.3 provides security considerations on the reusage of the
-   N_S challenge.
+   Section 15.3 provides security considerations on the reuse of the N_S
+   challenge.
 
 6.2.  Receive the Join Request
 
@@ -3791,7 +3791,7 @@ Table of Contents
       and thus do not have possible implications in the security of AEAD
       ciphers.
 
-15.3.  Reusage of Nonces for Proof-of-Possession Input
+15.3.  Reuse of Nonces for Proof-of-Possession Input
 
    When a party A provides a nonce to the other party B, it is
    beneficial that A does not offer a nonce previously used with B.  By
@@ -5229,7 +5229,7 @@ D.13.  Version -05 to -06
    *  Possible individual rekeying of a single requesting node combined
       with a group rekeying.
 
-   *  Security considerations on reusage of signature challenges.
+   *  Security considerations on reuse of signature challenges.
 
    *  Addressing optional requirement OPT12 from draft-ietf-ace-key-
       groupcomm

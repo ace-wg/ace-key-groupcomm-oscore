@@ -1361,7 +1361,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
                 <p id="section-toc.1-1.15.2.2.1"><a href="#section-15.2" class="auto internal xref">15.2</a>.  <a href="#name-size-of-nonces-as-proof-of-" class="internal xref">Size of Nonces as Proof-of-Possesion Challenge</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.15.2.3">
-                <p id="section-toc.1-1.15.2.3.1"><a href="#section-15.3" class="auto internal xref">15.3</a>.  <a href="#name-reusage-of-nonces-for-proof" class="internal xref">Reusage of Nonces for Proof-of-Possession Input</a></p>
+                <p id="section-toc.1-1.15.2.3.1"><a href="#section-15.3" class="auto internal xref">15.3</a>.  <a href="#name-reuse-of-nonces-for-proof-o" class="internal xref">Reuse of Nonces for Proof-of-Possession Input</a></p>
 </li>
             </ul>
 </li>
@@ -2116,7 +2116,7 @@ The same as above holds if TLS 1.3 <span>[<a href="#RFC8446" class="cite xref">R
 </li>
           </ul>
 <p id="section-6.1.1-3">It is up to applications or future specifications to define how N_S is computed in further alternative settings.<a href="#section-6.1.1-3" class="pilcrow">¶</a></p>
-<p id="section-6.1.1-4"><a href="#ssec-security-considerations-reusage-nonces" class="auto internal xref">Section 15.3</a> provides security considerations on the reusage of the N_S challenge.<a href="#section-6.1.1-4" class="pilcrow">¶</a></p>
+<p id="section-6.1.1-4"><a href="#ssec-security-considerations-reusage-nonces" class="auto internal xref">Section 15.3</a> provides security considerations on the reuse of the N_S challenge.<a href="#section-6.1.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -4066,8 +4066,8 @@ The Group Manager performs a rekeying when one or more members leave the group, 
 </div>
 <div id="ssec-security-considerations-reusage-nonces">
 <section id="section-15.3">
-        <h3 id="name-reusage-of-nonces-for-proof">
-<a href="#section-15.3" class="section-number selfRef">15.3. </a><a href="#name-reusage-of-nonces-for-proof" class="section-name selfRef">Reusage of Nonces for Proof-of-Possession Input</a>
+        <h3 id="name-reuse-of-nonces-for-proof-o">
+<a href="#section-15.3" class="section-number selfRef">15.3. </a><a href="#name-reuse-of-nonces-for-proof-o" class="section-name selfRef">Reuse of Nonces for Proof-of-Possession Input</a>
         </h3>
 <p id="section-15.3-1">When a party A provides a nonce to the other party B, it is beneficial that A does not offer a nonce previously used with B. By doing so, A can verify the freshness of the PoP evidence computed by B.<a href="#section-15.3-1" class="pilcrow">¶</a></p>
 <p id="section-15.3-2">This is practically ensured if parties generate nonces as recommended in this document. If a party generates nonces that are not random values (e.g., by using a counter), the party ought to ensure that values are not reused, even in case of reboot and loss of state.<a href="#section-15.3-2" class="pilcrow">¶</a></p>
@@ -5722,7 +5722,7 @@ sign_params = 11
             <p id="appendix-D.13-1.10.1">Possible individual rekeying of a single requesting node combined with a group rekeying.<a href="#appendix-D.13-1.10.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.13-1.11">
-            <p id="appendix-D.13-1.11.1">Security considerations on reusage of signature challenges.<a href="#appendix-D.13-1.11.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.13-1.11.1">Security considerations on reuse of signature challenges.<a href="#appendix-D.13-1.11.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.13-1.12">
             <p id="appendix-D.13-1.12.1">Addressing optional requirement OPT12 from draft-ietf-ace-key-groupcomm<a href="#appendix-D.13-1.12.1" class="pilcrow">¶</a></p>
