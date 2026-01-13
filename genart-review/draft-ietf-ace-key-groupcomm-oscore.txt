@@ -1412,7 +1412,7 @@ Table of Contents
       label is defined in Section 8 of [RFC9594].  If present, this
       parameter is a CBOR byte string, which encodes a newly generated
       'kdcchallenge' value that the Client can use when preparing a new
-      Join Request (see Section 6.1).  In such a case the, Group Manager
+      Join Request (see Section 6.1).  In such a case, the Group Manager
       MUST store the newly generated value as the 'kdcchallenge' value
       associated with the joining node, thus replacing the currently
       stored value, if any.
