@@ -2923,15 +2923,14 @@ Table of Contents
       requires to correctly map the Gid currently used in the group with
       the invariant group name.
 
-      Furthermore, since it is not a group member, the node does not
-      take part to a possible group rekeying.  Thus, following a group
-      rekeying and the consequent change of Gid in a group, the node
-      would retain the old Gid value and cannot correctly associate
-      intercepted messages with the right group, especially if acting as
-      a signature verifier in several groups.  This in turn prevents the
-      efficient verification of signatures, and especially the retrieval
-      of required, new authentication credentials from the Group
-      Manager.
+      Since it is not a group member, the node does not take part to a
+      possible group rekeying.  Thus, following a group rekeying and the
+      consequent change of Gid in a group, the node would retain the old
+      Gid value and cannot correctly associate intercepted messages with
+      the right group, especially if acting as a signature verifier in
+      several groups.  This in turn prevents the efficient verification
+      of signatures, and especially the retrieval of required, new
+      authentication credentials from the Group Manager.
 
    In either case, the node only knows the current Gid of the group, as
    learned from received or intercepted messages exchanged in the group.
