@@ -2230,7 +2230,7 @@ If this parameter is present and its value is not the CBOR simple value <code>nu
 <li class="normal" id="section-6.1-2.6.2.1">
                 <p id="section-6.1-2.6.2.1.1">Specifically in the case where the joining node is not a current member of the group, the Group Manager might already have achieved proof of possession of the joining node's private key associated with the authentication credential AUTH_CRED_C that the joining node intends to use in the group.<a href="#section-6.1-2.6.2.1.1" class="pilcrow">¶</a></p>
 <p id="section-6.1-2.6.2.1.2">
-For example, that could have happened upon completing the establishment of the secure communication association that is used to protect the Join Request, if the joining node used AUTH_CRED_C to authenticate itself with the Group Manager.<a href="#section-6.1-2.6.2.1.2" class="pilcrow">¶</a></p>
+For example, proof-of-possession could have been achieved upon completing the establishment of the secure communication association that is used to protect the Join Request, if the joining node used AUTH_CRED_C to authenticate itself with the Group Manager.<a href="#section-6.1-2.6.2.1.2" class="pilcrow">¶</a></p>
 <p id="section-6.1-2.6.2.1.3">
 Under these circumstances, the joining node <span class="bcp14">MAY</span> specify an empty PoP evidence, i.e., it sets the value of the 'client_cred_verify' parameter to the empty CBOR byte string (0x40).<a href="#section-6.1-2.6.2.1.3" class="pilcrow">¶</a></p>
 </li>
