@@ -1058,7 +1058,7 @@ Consistently, in case a node is not a member of the group with group name GROUPN
 
 ## Operations Supported by Clients {#client-operations}
 
-Building on what is defined in {{Section 4.1.1 of RFC9594}} and with reference to the resources at the Group Manager newly defined earlier in {{sec-interface-GM}} of this document, it is expected that a Client minimally supports also the following set of operations and corresponding interactions with the Group Manager (REQ12).
+Building on what is defined in {{Section 4.1.1 of RFC9594}} and with reference to the additional resources at the Group Manager defined in {{sec-interface-GM}} of this document, it is expected that a Client minimally supports also the following set of operations and corresponding interactions with the Group Manager (REQ12).
 
 * GET request to /ace-group/GROUPNAME/active, in order to check the current status of the OSCORE group.
 
