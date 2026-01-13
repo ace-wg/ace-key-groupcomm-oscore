@@ -1150,8 +1150,8 @@ Table of Contents
 
       -  If the conditions above do not hold or the joining node prefers
          to compute a non-empty PoP evidence, then the joining node
-         proceeds as follows.  In either case, the N_S used to build the
-         PoP input is as defined in Section 6.1.1.
+         proceeds as follows.  The N_S used to build the PoP input is as
+         defined in Section 6.1.1.
 
          o  If the group is not a pairwise-only group, the PoP evidence
             MUST be a signature.  The joining node computes the
@@ -3866,9 +3866,8 @@ Table of Contents
       as specified in point (1) of Section 6.1.1.  This value is
       provided either in the Token Transfer Response (see Section 5.3),
       or in a 4.00 (Bad Request) error response to a following Join
-      Request (see Section 6.2).  In either case, the N_S value is
-      RECOMMENDED to be at least 8-byte long and it is RECOMMENDED to be
-      a random value.
+      Request (see Section 6.2).  The N_S value is RECOMMENDED to be at
+      least 8-byte long and it is RECOMMENDED to be a random value.
 
    If we consider both N_C and N_S to take 8-byte long values, the
    following considerations hold.
