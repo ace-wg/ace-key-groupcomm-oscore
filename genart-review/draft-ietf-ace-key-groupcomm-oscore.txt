@@ -2236,8 +2236,8 @@ Table of Contents
 8.6.  Operations Supported by Clients
 
    Building on what is defined in Section 4.1.1 of [RFC9594] and with
-   reference to the resources at the Group Manager newly defined earlier
-   in Section 8 of this document, it is expected that a Client minimally
+   reference to the additional resources at the Group Manager defined in
+   Section 8 of this document, it is expected that a Client minimally
    supports also the following set of operations and corresponding
    interactions with the Group Manager (REQ12).
 
