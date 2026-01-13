@@ -1789,7 +1789,7 @@ This profile leverages the following management aspects related to OSCORE groups
 
 * Management of group keying material (see {{Section 12.2 of I-D.ietf-core-oscore-groupcomm}}). The Group Manager is responsible for the renewal and re-distribution of the keying material in the groups of its competence (rekeying).
 
-   The Group Manager performs a rekeying when one or more members leave the group, thus preserving forward security and ensuring that the security properties of Group OSCORE are fulfilled. According to the specific application requirements, the Group Manager can also rekey the group upon a new node's joining, in case backward security has also to be preserved.
+   As defined in {{ssec-overview-group-rekeying-process}}, the Group Manager performs a rekeying when one or more members leave the group, thus preserving forward security and ensuring that the security properties of Group OSCORE are fulfilled. According to the specific application requirements, the Group Manager can also rekey the group upon a new node's joining, in case backward security has also to be preserved. The Group Manager can also rekey the group for further reasons, e.g., according to an application-specific rekeying period or scheduling.
 
 * Provisioning and retrieval of authentication credentials (see {{Section 12 of I-D.ietf-core-oscore-groupcomm}}). The Group Manager acts as repository of authentication credentials of group members, and provides them upon request.
 
