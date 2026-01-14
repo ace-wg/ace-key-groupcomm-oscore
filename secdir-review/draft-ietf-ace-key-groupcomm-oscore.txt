@@ -5,8 +5,8 @@
 ACE Working Group                                              M. Tiloca
 Internet-Draft                                                   RISE AB
 Intended status: Standards Track                            F. Palombini
-Expires: 17 July 2026                                        Ericsson AB
-                                                         13 January 2026
+Expires: 18 July 2026                                        Ericsson AB
+                                                         14 January 2026
 
 
     Key Management for Group Object Security for Constrained RESTful
@@ -44,7 +44,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 17 July 2026.
+   This Internet-Draft will expire on 18 July 2026.
 
 Copyright Notice
 
@@ -3744,7 +3744,8 @@ Table of Contents
    the Gid in the incoming message.  It is up to the application to
    decide how to handle such collisions of Group Identifiers, e.g., by
    trying to process the incoming message using one Security Context at
-   the time until the right one is found.
+   the time until the right one is found (i.e., the incoming message is
+   successfully decrypted and verified).
 
 15.2.  Size of Nonces as Proof-of-Possesion Challenge
 
