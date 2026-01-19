@@ -5,8 +5,8 @@
 ACE Working Group                                              M. Tiloca
 Internet-Draft                                                   RISE AB
 Intended status: Standards Track                            F. Palombini
-Expires: 18 July 2026                                        Ericsson AB
-                                                         14 January 2026
+Expires: 23 July 2026                                        Ericsson AB
+                                                         19 January 2026
 
 
     Key Management for Group Object Security for Constrained RESTful
@@ -44,7 +44,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 18 July 2026.
+   This Internet-Draft will expire on 23 July 2026.
 
 Copyright Notice
 
@@ -122,27 +122,31 @@ Table of Contents
      14.1.  Common
      14.2.  Group Mode
      14.3.  Pairwise Mode
-   15. Security Considerations
-     15.1.  Management of OSCORE Groups
-     15.2.  Size of Nonces as Proof-of-Possesion Challenge
-     15.3.  Reusage of Nonces for Proof-of-Possession Input
-   16. IANA Considerations
-     16.1.  OAuth Parameters
-     16.2.  OAuth Parameters CBOR Mappings
-     16.3.  ACE Groupcomm Parameters
-     16.4.  ACE Groupcomm Key Types
-     16.5.  ACE Groupcomm Profiles
-     16.6.  OSCORE Security Context Parameters
-     16.7.  TLS Exporter Labels
-     16.8.  AIF Media-Type Sub-Parameters
-     16.9.  CoAP Content-Formats
-     16.10. CoRE Resource Type
-     16.11. ACE Groupcomm Errors
-     16.12. Group OSCORE Roles
-     16.13. Expert Review Instructions
-   17. References
-     17.1.  Normative References
-     17.2.  Informative References
+   15. Operational Considerations
+     15.1.  Logging
+     15.2.  Administration of Groups
+     15.3.  Access Control
+   16. Security Considerations
+     16.1.  Management of OSCORE Groups
+     16.2.  Size of Nonces as Proof-of-Possesion Challenge
+     16.3.  Reusage of Nonces for Proof-of-Possession Input
+   17. IANA Considerations
+     17.1.  OAuth Parameters
+     17.2.  OAuth Parameters CBOR Mappings
+     17.3.  ACE Groupcomm Parameters
+     17.4.  ACE Groupcomm Key Types
+     17.5.  ACE Groupcomm Profiles
+     17.6.  OSCORE Security Context Parameters
+     17.7.  TLS Exporter Labels
+     17.8.  AIF Media-Type Sub-Parameters
+     17.9.  CoAP Content-Formats
+     17.10. CoRE Resource Type
+     17.11. ACE Groupcomm Errors
+     17.12. Group OSCORE Roles
+     17.13. Expert Review Instructions
+   18. References
+     18.1.  Normative References
+     18.2.  Informative References
    Appendix A.  Profile Requirements
      A.1.  Mandatory-to-Address Requirements
      A.2.  Optional-to-Address Requirements
@@ -416,7 +420,7 @@ Table of Contents
 
       -  Each role in the permission set is converted into the
          corresponding numeric identifier X from the "Value" column of
-         the "Group OSCORE Roles" registry defined in Section 16.12 of
+         the "Group OSCORE Roles" registry defined in Section 17.12 of
          this document, for which the initial entries are specified in
          Table 1.
 
@@ -486,7 +490,7 @@ Table of Contents
    the Group Manager.  In such scope entries, the least significant bit
    of "Tperm" is always set to 1.
 
-   As per the guidelines in [RFC9237], Section 16.8 and Section 16.9
+   As per the guidelines in [RFC9237], Section 17.8 and Section 17.9
    register the specific instance of "Toid" and "Tperm" as media type
    parameters and a corresponding Content-Format (REQ2).
 
@@ -611,13 +615,13 @@ Table of Contents
    Section 7 of [RFC9594] for the 'scope' claim of the access token.  In
    such a case, the AS MUST use the CBOR tag with tag number TAG_NUMBER,
    associated with the CoAP Content-Format CF_ID for the media type
-   "application/aif+cbor" registered in Section 16.9 of this document
+   "application/aif+cbor" registered in Section 17.9 of this document
    (REQ28).
 
    Note to RFC Editor: In the previous paragraph, please replace
    "TAG_NUMBER" with the CBOR tag number computed as TN(ct) in
    Section 4.3 of [RFC9277], where ct is the ID assigned to the CoAP
-   Content-Format registered in Section 16.9 of this document.  Then,
+   Content-Format registered in Section 17.9 of this document.  Then,
    please replace "CF_ID" with the ID assigned to that CoAP Content-
    Format.  Finally, please delete this paragraph.
 
@@ -1120,7 +1124,7 @@ Table of Contents
       joining node and the Group Manager, using an empty context value
       (i.e., a context value of zero-length), 32 as length value in
       bytes, and the exporter label "EXPORTER-ACE-Pop-Input-coap-group-
-      oscore-app" registered in Section 16.7 of this document.
+      oscore-app" registered in Section 17.7 of this document.
 
       The same as above holds if TLS 1.2 [RFC5246] was used instead of
       DTLS 1.2, as per [RFC9430].
@@ -1136,7 +1140,7 @@ Table of Contents
       joining node and the Group Manager, using an empty 'context_value'
       (i.e., a 'context_value' of zero length), 32 as 'key_length' in
       bytes, and the exporter label "EXPORTER-ACE-Pop-Input-coap-group-
-      oscore-app" registered in Section 16.7 of this document.
+      oscore-app" registered in Section 17.7 of this document.
 
       The same as above holds if TLS 1.3 [RFC8446] was used instead of
       DTLS 1.3, as per [RFC9430].
@@ -1144,7 +1148,7 @@ Table of Contents
    It is up to applications or future specifications to define how N_S
    is computed in further alternative settings.
 
-   Section 15.3 provides security considerations on the reusage of the
+   Section 16.3 provides security considerations on the reusage of the
    N_S challenge.
 
 6.2.  Receive the Join Request
@@ -1310,7 +1314,7 @@ Table of Contents
 
    *  If the group uses (also) the pairwise mode of Group OSCORE, then
       the CBOR map MUST contain the 'ecdh_info' parameter, whose CBOR
-      label is registered in Section 16.3.  This parameter has the same
+      label is registered in Section 17.3.  This parameter has the same
       format of 'ecdh_info_res' defined in Section 5.3.1 and includes a
       single element 'ecdh_info_entry', which pertains to the OSCORE
       group that the joining node has tried to join with the Join
@@ -1318,7 +1322,7 @@ Table of Contents
 
    *  If the group is a pairwise-only group, the CBOR map MUST contain
       the 'kdc_dh_creds' parameter, whose CBOR label is registered in
-      Section 16.3.  This parameter has the same format of
+      Section 17.3.  This parameter has the same format of
       'kdc_dh_creds_res' defined in Section 5.3.2 and includes a single
       element 'kdc_dh_creds_entry', which pertains to the OSCORE group
       that the joining node has tried to join with the Join Request.
@@ -1436,7 +1440,7 @@ Table of Contents
 
    *  The 'gkty' parameter identifies a key of type
       "Group_OSCORE_Input_Material object", which is registered in
-      Section 16.4 of this document (REQ18).
+      Section 17.4 of this document (REQ18).
 
    *  The 'key' parameter includes what the joining node needs in order
       to set up the Group OSCORE Security Context as per Section 2 of
@@ -1448,7 +1452,7 @@ Table of Contents
       Section 3.2.1 of [RFC9203].  In particular, it contains the
       additional parameters 'group_senderId', 'cred_fmt', 'gp_enc_alg',
       'sign_alg', 'sign_params', 'ecdh_alg', and 'ecdh_params', which
-      are registered in Section 16.6 of this document.
+      are registered in Section 17.6 of this document.
 
       More specifically, the 'key' parameter is composed as follows.
 
@@ -1575,7 +1579,7 @@ Table of Contents
 
    *  The 'ace_groupcomm_profile' parameter MUST be present and has
       value coap_group_oscore_app (PROFILE_TBD), which is registered in
-      Section 16.5 of this document (REQ19).
+      Section 17.5 of this document (REQ19).
 
    *  The 'creds' parameter, if present, specifies the authentication
       credentials requested by the joining node by means of the
@@ -1924,7 +1928,7 @@ Table of Contents
    'gname' in Section 3.1 of [RFC9594]) (REQ7).
 
    The Resource Type (rt=) Link Target Attribute value "core.osc.gm" is
-   registered in Section 16.10 (REQ10), and can be used to describe
+   registered in Section 17.10 (REQ10), and can be used to describe
    group-membership resources and its sub-resources at a Group Manager,
    e.g., by using a CoRE link-format document [RFC6690].
 
@@ -2321,7 +2325,7 @@ Table of Contents
           Then, the Group Manager replies with a Key Renewal Response
           formatted as defined in Section 4.8.2 of [RFC9594].  The CBOR
           map in the response payload only includes the 'group_SenderId'
-          parameter registered in Section 16.3 of this document,
+          parameter registered in Section 17.3 of this document,
           specifying the new Sender ID of the group member encoded as a
           CBOR byte string (REQ27).
 
@@ -2637,7 +2641,7 @@ Table of Contents
          they MUST be present.
 
    *  The 'sign_enc_key' parameter is also included, with CBOR label
-      registered in Section 16.3.  This parameter specifies the
+      registered in Section 17.3.  This parameter specifies the
       Signature Encryption Key of the OSCORE Group, encoded as a CBOR
       byte string.  The Group Manager derives the Signature Encryption
       Key from the group keying material, as per Section 2.1.9 of
@@ -3112,7 +3116,7 @@ Table of Contents
          This parameter MAY be present.
 
    *  The 'stale_node_ids' parameter MUST also be included, with CBOR
-      label registered in Section 16.3.  This parameter is encoded as a
+      label registered in Section 17.3.  This parameter is encoded as a
       CBOR array, where each element is encoded as a CBOR byte string.
       The order of elements in the CBOR array is irrelevant.  The
       parameter is populated as follows.
@@ -3685,7 +3689,195 @@ Table of Contents
          specified for 'sign_alg'.  This indicates to use the COSE key
          type EC2 and the elliptic curve P-521.
 
-15.  Security Considerations
+15.  Operational Considerations
+
+   This section compiles the operational considerations that hold for
+   this document.
+
+15.1.  Logging
+
+   When performing its normal operations, the Group Manager is expected
+   to produce and store timestamped logs about the following:
+
+   *  Any event that has resulted in the Group Manager sending an error
+      response, as a reply to a request received at any of the resources
+      exported by the interface specified in this document.
+
+      The logged information contains a description of the error
+      occurred in the context of the present application profile,
+      together with a description of the event related to the error and
+      relevant metadata about the Client that has sent the request.  For
+      instance, possible metadata include: addressing information of the
+      Client; when applicable (an identifier of) the authentication
+      credential of the Client and the OSCORE Sender ID that is
+      currently assigned to the Client in the group.
+
+      Note that, if the error response uses the format problem-details
+      defined in [RFC9290], then the optional "details" entry in the
+      response payload is meant to convey the diagnostic description of
+      the error, which is meant to be part of the log entry for this
+      event.  This is consistent with Section 4.1.2 of [RFC9594], which
+      says that the diagnostic description of the error should be
+      logged.
+
+   *  Any event consisting in a successfully performed operation that is
+      triggered by a request received at any of the resources exported
+      by the interface specified in this document.
+
+      Such events include:
+
+      -  The (re-)joining of a group.
+
+      -  The uploading of a new authentication credential to use in the
+         group.
+
+      -  The obtainment of a new OSCORE Sender ID to use in the group.
+
+      -  The leaving of a group.
+
+      The logged information contains a description of the operation
+      performed in the context of the present application profile,
+      together with relevant metadata about the Client that has sent the
+      request.  For instance, possible metadata include: addressing
+      information of the Client; when applicable (an identifier of) the
+      authentication credential of the Client and the OSCORE Sender ID
+      that is currently assigned to the Client in the group.
+
+   *  The execution and successful/unsuccessful completion of a group
+      rekeying instance.
+
+      The logged information includes:
+
+      -  The reason that has triggered the group rekeying (e.g.,
+         scheduled/periodic occurrence, group joining of a new member,
+         group leaving of a current member).
+
+      -  A description of the group rekeying operations performed (e.g.,
+         a list of steps performed throughout the rekeying process).
+
+      -  The outcome of the group rekeying instance.
+
+      -  In case of success, the version number of the newly established
+         group keying material and the newly established Group
+         Identifier (Gid).
+
+   *  The addition of a group member to the group or the eviction of a
+      group member from the group.
+
+      The logged information also contains relevant metadata about the
+      Client that has been added to or removed from the group.  For
+      instance, possible metadata include: addressing information of the
+      Client; when applicable (an identifier of) the authentication
+      credential of the Client and the OSCORE Sender ID that is
+      currently assigned to the Client that has been added to the group
+      or latest assigned to the Client that has been removed from the
+      group.
+
+   *  The creation, (re-)configuration, or termination of a group.
+
+   In addition to what is compiled above, the Group Manager could log
+   additional information.  Further details about what the Group Manager
+   logs, with what granularity, and based on what triggering events and
+   conditions are application-specific and left to operators to define.
+
+   The Group Manager MUST NOT log any secret or confidential information
+   pertaining to a group, such as:
+
+   *  The OSCORE Master Secret used in the group.
+
+   *  The symmetric keying material derived from the OSCORE Master
+      Secret and used in the group, i.e., the Sender/Recipient Keys.
+
+   *  The Signature Encryption Key used in the group, if the group uses
+      the group mode.
+
+   *  The private key associated with the Group Manager’s authentication
+      credential used in the group.
+
+   *  Rekeying messages that are exchanged in the group.
+
+   *  If applicable, administrative keying material used to protect the
+      group rekeying process.
+
+   It is out of the scope of this document what specific semantics and
+   data model are used by the Group Manager for producing and processing
+   the logs.  Specific semantics and data models can be defined by
+   applications and future specifications.
+
+   The Group Manager is expected to make the logs produced available to
+   securely access for authorized, external management applications and
+   operators.
+
+   In particular, logged information could be retrieved in the following
+   ways.
+
+   *  By accessing logs at the Group Manager through polling.  This can
+      occur in an occasional, regular, or event-driven way.
+
+   *  Through notifications sent by the Group Manager according to an
+      operator-defined frequency.
+
+   *  Through notifications asynchronously sent by the Group Manager,
+      throttling them in order to prevent congestion and duplication and
+      to not create attack vectors.
+
+   Some of the logged information can be privacy-sensitive.  This
+   especially holds for the metadata about a Client, i.e., addressing
+   information of the Client and, when applicable, (an identifier of)
+   the authentication credential of the Client.  If external management
+   applications and operators obtain such metadata, they become able to
+   track a given Client, as to its interactions with one or multiple
+   Group Managers and its membership in groups under such Group
+   Manager(s).
+
+   Therefore, the logged information that is effectively provided to
+   external management applications and operators SHOULD be redacted by
+   the Group Manager, by omitting any privacy-sensitive information
+   element that could enable or facilitate the impairment of Clients'
+   privacy, e.g., by tracking Clients across different groups and
+   different Group Managers.  Exceptions could apply, e.g., if the Group
+   Manager can verify that the management application or operator in
+   question is specifically authorized to obtain such privacy-sensitive
+   information and appropriately entitled to obtain it according to
+   enforced privacy policies.
+
+15.2.  Administration of Groups
+
+   With respect to the creation, (re-)configuration, or termination of a
+   group at the Group Manager, the following applies:
+
+   *  Default values for the group configuration parameters are
+      specified in Section 14.
+
+   *  The specific method, tools, and data model used to create,
+      (re-)configure, and delete OSCORE groups are out of the scope of
+      this document.
+
+      A possible method relies on the RESTful admin interface specified
+      in [I-D.ietf-ace-oscore-gm-admin], which also uses the ACE
+      framework for Authentication and Authorization [RFC9200] and its
+      transport profiles.  Also, it relies on a data model based on CBOR
+      and thus enables multiple administrators to perform administrative
+      operations at the same Group Manager in an interoperable way.
+
+15.3.  Access Control
+
+   Building on the ACE framework [RFC9200] and the foundation provided
+   in [RFC9594], this application profile enforces access control for
+   Clients that interact with the interface at the Group Manager
+   specified in this document.
+
+   In particular, the granularity of such access control takes into
+   account the resource specifically targeted at the Group Manager, the
+   operation requested by sending a request to that resource, and the
+   specific role(s) that the requesting Client is authorized to have
+   according to its corresponding access token.
+
+   Furthermore, the interactions between a Client and the Group Manager
+   are secured as per the specific transport profile of ACE used (e.g.,
+   [RFC9202] and [RFC9203]).
+
+16.  Security Considerations
 
    Security considerations for this profile are inherited from
    [RFC9594], the ACE framework for Authentication and Authorization
@@ -3694,7 +3886,7 @@ Table of Contents
 
    The following security considerations also apply for this profile.
 
-15.1.  Management of OSCORE Groups
+16.1.  Management of OSCORE Groups
 
    This profile leverages the following management aspects related to
    OSCORE groups and discussed in the sections of
@@ -3736,7 +3928,7 @@ Table of Contents
    trying to process the incoming message using one Security Context at
    the time until the right one is found.
 
-15.2.  Size of Nonces as Proof-of-Possesion Challenge
+16.2.  Size of Nonces as Proof-of-Possesion Challenge
 
    With reference to the Join Request message in Section 6.1, the proof-
    of-possession (PoP) evidence included in 'client_cred_verify' is
@@ -3791,7 +3983,7 @@ Table of Contents
       and thus do not have possible implications in the security of AEAD
       ciphers.
 
-15.3.  Reusage of Nonces for Proof-of-Possession Input
+16.3.  Reusage of Nonces for Proof-of-Possession Input
 
    When a party A provides a nonce to the other party B, it is
    beneficial that A does not offer a nonce previously used with B.  By
@@ -3822,14 +4014,14 @@ Table of Contents
    in time, upon verifying the PoP evidence in the 'client_cred_verify'
    parameter.
 
-16.  IANA Considerations
+17.  IANA Considerations
 
    This document has the following actions for IANA.
 
    Note to RFC Editor: Please replace all occurrences of "[RFC-XXXX]"
    with the RFC number of this specification and delete this paragraph.
 
-16.1.  OAuth Parameters
+17.1.  OAuth Parameters
 
    IANA is asked to register the following entries in the "OAuth
    Parameters" registry, following the procedure specified in
@@ -3853,7 +4045,7 @@ Table of Contents
 
    *  Reference: [RFC-XXXX]
 
-16.2.  OAuth Parameters CBOR Mappings
+17.2.  OAuth Parameters CBOR Mappings
 
    IANA is asked to register the following entries in the "OAuth
    Parameters CBOR Mappings" registry, following the procedure specified
@@ -3881,7 +4073,7 @@ Table of Contents
 
    *  Original Specification: [RFC-XXXX]
 
-16.3.  ACE Groupcomm Parameters
+17.3.  ACE Groupcomm Parameters
 
    IANA is asked to register the following entries to the "ACE Groupcomm
    Parameters" registry defined in Section 11.7 of [RFC9594].
@@ -3934,7 +4126,7 @@ Table of Contents
 
    *  Reference: [RFC-XXXX]
 
-16.4.  ACE Groupcomm Key Types
+17.4.  ACE Groupcomm Key Types
 
    IANA is asked to register the following entry in the "ACE Groupcomm
    Key Types" registry defined in Section 11.8 of [RFC9594].
@@ -3943,7 +4135,7 @@ Table of Contents
 
    *  Key Type Value: GROUPCOMM_KEY_TBD (suggested value: 1)
 
-   *  Profile: "coap_group_oscore_app", registered in Section 16.5 of
+   *  Profile: "coap_group_oscore_app", registered in Section 17.5 of
       [RFC-XXXX].
 
    *  Description: A Group_OSCORE_Input_Material object encoded as
@@ -3951,7 +4143,7 @@ Table of Contents
 
    *  Reference: [RFC-XXXX]
 
-16.5.  ACE Groupcomm Profiles
+17.5.  ACE Groupcomm Profiles
 
    IANA is asked to register the following entry in the "ACE Groupcomm
    Profiles" registry defined in Section 11.9 of [RFC9594].
@@ -3966,7 +4158,7 @@ Table of Contents
 
    *  Reference: [RFC-XXXX]
 
-16.6.  OSCORE Security Context Parameters
+17.6.  OSCORE Security Context Parameters
 
    IANA is asked to register the following entries in the "OSCORE
    Security Context Parameters" registry defined in Section 9.4 of
@@ -4072,7 +4264,7 @@ Table of Contents
 
    *  Reference: [RFC-XXXX]
 
-16.7.  TLS Exporter Labels
+17.7.  TLS Exporter Labels
 
    IANA is asked to register the following entry in the "TLS Exporter
    Labels" registry defined in Section 6 of [RFC5705] and updated in
@@ -4086,7 +4278,7 @@ Table of Contents
 
    *  Reference: [RFC-XXXX]
 
-16.8.  AIF Media-Type Sub-Parameters
+17.8.  AIF Media-Type Sub-Parameters
 
    For the media-types "application/aif+cbor" and "application/aif+json"
    defined in Section 5.1 of [RFC9237], IANA is requested to register
@@ -4112,7 +4304,7 @@ Table of Contents
 
    *  Reference: [RFC-XXXX]
 
-16.9.  CoAP Content-Formats
+17.9.  CoAP Content-Formats
 
    IANA is asked to register the following entries in the "CoAP Content-
    Formats" registry within the "Constrained RESTful Environments (CoRE)
@@ -4138,7 +4330,7 @@ Table of Contents
 
    *  Reference: [RFC-XXXX]
 
-16.10.  CoRE Resource Type
+17.10.  CoRE Resource Type
 
    IANA is asked to register the following entry in the "Resource Type
    (rt=) Link Target Attribute Values" registry within the "Constrained
@@ -4154,7 +4346,7 @@ Table of Contents
    membership resource at an OSCORE Group Manager, where to send a
    request for joining the corresponding OSCORE group.
 
-16.11.  ACE Groupcomm Errors
+17.11.  ACE Groupcomm Errors
 
    IANA is asked to register the following entries in the "ACE Groupcomm
    Errors" registry defined in Section 11.12 of [RFC9594].
@@ -4181,13 +4373,13 @@ Table of Contents
 
    *  Reference: [RFC-XXXX]
 
-16.12.  Group OSCORE Roles
+17.12.  Group OSCORE Roles
 
    This document establishes the IANA "Group OSCORE Roles" registry,
    within the "Authentication and Authorization for Constrained
    Environments (ACE)" registry group.  The registry has been created to
    use the "Expert Review" registration procedure [RFC8126].  Expert
-   review guidelines are provided in Section 16.13.
+   review guidelines are provided in Section 17.13.
 
    This registry includes the possible roles that nodes can take in an
    OSCORE group, each in combination with a numeric identifier.  These
@@ -4212,7 +4404,7 @@ Table of Contents
    This registry will be initially populated by the values in Table 1.
    The Reference column for all of these entries will be [RFC-XXXX].
 
-16.13.  Expert Review Instructions
+17.13.  Expert Review Instructions
 
    The IANA registry established in this document is defined as "Expert
    Review".  This section gives some general guidelines for what the
@@ -4254,9 +4446,9 @@ Table of Contents
       provided, the description provided needs to have sufficient
       information to verify the points above.
 
-17.  References
+18.  References
 
-17.1.  Normative References
+18.1.  Normative References
 
    [COSE.Algorithms]
               IANA, "COSE Algorithms",
@@ -4431,7 +4623,7 @@ Table of Contents
               DOI 10.17487/RFC9594, September 2024,
               <https://www.rfc-editor.org/rfc/rfc9594>.
 
-17.2.  Informative References
+18.2.  Informative References
 
    [I-D.ietf-ace-oscore-gm-admin]
               Tiloca, M., Höglund, R., Van der Stok, P., and F.
@@ -4453,9 +4645,9 @@ Table of Contents
               Dijk, E. and M. Tiloca, "Group Communication for the
               Constrained Application Protocol (CoAP)", Work in
               Progress, Internet-Draft, draft-ietf-core-groupcomm-bis-
-              15, 25 September 2025,
+              16, 15 January 2026,
               <https://datatracker.ietf.org/doc/html/draft-ietf-core-
-              groupcomm-bis-15>.
+              groupcomm-bis-16>.
 
    [I-D.ietf-cose-cbor-encoded-cert]
               Mattsson, J. P., Selander, G., Raza, S., Höglund, J., and
@@ -4515,8 +4707,8 @@ A.1.  Mandatory-to-Address Requirements
 
    *  REQ2: If scope uses AIF, register its specific instance of "Toid"
       and "Tperm" as media type parameters and a corresponding Content-
-      Format, as per the guidelines in [RFC9237]: see Section 16.8 and
-      Section 16.9.
+      Format, as per the guidelines in [RFC9237]: see Section 17.8 and
+      Section 17.9.
 
    *  REQ3: If used, specify the acceptable values for the 'sign_alg'
       parameter: values from the "Value" column of the "COSE Algorithms"
@@ -4561,7 +4753,7 @@ A.1.  Mandatory-to-Address Requirements
    *  REQ10: Register a Resource Type for the group-membership
       resources, which is used to discover the correct URL for sending a
       Join Request to the KDC: the Resource Type (rt=) Link Target
-      Attribute value "core.osc.gm" is registered in Section 16.10.
+      Attribute value "core.osc.gm" is registered in Section 17.10.
 
    *  REQ11: Define what specific actions (e.g., CoAP methods) are
       allowed on each resource accessible through the KDC interface,
@@ -4603,7 +4795,7 @@ A.1.  Mandatory-to-Address Requirements
       Group_OSCORE_Input_Material object (see Section 6.3).
 
    *  REQ19: Specify and register the application profile identifier:
-      coap_group_oscore_app (see Section 16.5).
+      coap_group_oscore_app (see Section 17.5).
 
    *  REQ20: If used, specify the format and default values of the
       entries of the CBOR map to include in the 'group_policies'
@@ -4691,7 +4883,7 @@ A.2.  Optional-to-Address Requirements
 
    *  OPT5: Optionally, specify additional identifiers of error types as
       values of the 'error-id' field within the Custom Problem Detail
-      entry 'ace-groupcomm-error': see Section 13 and Section 16.11.
+      entry 'ace-groupcomm-error': see Section 13 and Section 17.11.
 
    *  OPT6: Optionally, specify the encoding of the 'creds_repo'
       parameter if the default one is not used: no encoding is defined.
