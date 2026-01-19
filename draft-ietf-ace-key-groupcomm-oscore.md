@@ -1715,7 +1715,7 @@ If the Client supports the problem-details format {{RFC9290}} and the Custom Pro
 
 * In case of error 9, the Client should wait for a certain (pre-configured) amount of time, before trying to re-send its request to the Group Manager.
 
-# Default Values for Group Configuration Parameters
+# Default Values for Group Configuration Parameters {#default-values}
 
 This section defines the default values that the Group Manager assumes for the configuration parameters of an OSCORE group, unless differently specified when creating and configuring the group (for example, by means of the admin interface specified in {{I-D.ietf-ace-oscore-gm-admin}}).
 
@@ -1776,6 +1776,96 @@ This section applies if the group uses (also) the pairwise mode of Group OSCORE.
     - The array \[\[EC2\], \[EC2, P-384\]\], in case ES384 {{RFC6979}} is specified for 'sign_alg'. This indicates to use the COSE key type EC2 and the elliptic curve P-384.
 
     - The array \[\[EC2\], \[EC2, P-521\]\], in case ES512 {{RFC6979}} is specified for 'sign_alg'. This indicates to use the COSE key type EC2 and the elliptic curve P-521.
+
+# Operational Considerations
+
+This section compiles the operational considerations that hold for this document.
+
+## Logging
+
+When performing its normal operations, the Group Manager is expected to produce and store timestamped logs about the following:
+
+* Any event that has resulted in the Group Manager sending an error response, as a reply to a request received at any of the resources exported by the interface specified in this document.
+
+  The logged information contains a description of the error occurred in the context of the present application profile, together with a description of the event related to the error and relevant metadata about the Client that has sent the request. For instance, possible metadata include: addressing information of the Client; when applicable (an identifier of) the authentication credential of the Client and the OSCORE Sender ID that is currently assigned to the Client in the group.
+
+  Note that, if the error response uses the format problem-details defined in {{RFC9290}}, then the optional "details" entry in the response payload is meant to convey the diagnostic description of the error, which is meant to be part of the log entry for this event. This is consistent with {{Section 4.1.2 of RFC9594}}, which says that the diagnostic description of the error should be logged.
+
+* Any event consisting in a successfully performed operation that is triggered by a request received at any of the resources exported by the interface specified in this document.
+
+  Such events include:
+
+  - The (re-)joining of a group.
+  - The uploading of a new authentication credential to use in the group.
+  - The obtainment of a new OSCORE Sender ID to use in the group.
+  - The leaving of a group.
+
+  The logged information contains a description of the operation performed in the context of the present application profile, together with relevant metadata about the Client that has sent the request. For instance, possible metadata include: addressing information of the Client; when applicable (an identifier of) the authentication credential of the Client and the OSCORE Sender ID that is currently assigned to the Client in the group.
+
+* The execution and successful/unsuccessful completion of a group rekeying instance.
+
+  The logged information includes:
+
+  - The reason that has triggered the group rekeying (e.g., scheduled/periodic occurrence, group joining of a new member, group leaving of a current member).
+  - A description of the group rekeying operations performed (e.g., a list of steps performed throughout the rekeying process).
+  - The outcome of the group rekeying instance.
+  - In case of success, the version number of the newly established group keying material and the newly established Group Identifier (Gid).
+
+* The addition of a group member to the group or the eviction of a group member from the group.
+
+  The logged information also contains relevant metadata about the Client that has been added to or removed from the group. For instance, possible metadata include: addressing information of the Client; when applicable (an identifier of) the authentication credential of the Client and the OSCORE Sender ID that is currently assigned to the Client that has been added to the group or latest assigned to the Client that has been removed from the group.
+
+* The creation, (re-)configuration, or termination of a group.
+
+In addition to what is compiled above, the Group Manager could log additional information. Further details about what the Group Manager logs, with what granularity, and based on what triggering events and conditions are application-specific and left to operators to define.
+
+The Group Manager MUST NOT log any secret or confidential information pertaining to a group, such as:
+
+* The OSCORE Master Secret used in the group.
+
+* The symmetric keying material derived from the OSCORE Master Secret and used in the group, i.e., the Sender/Recipient Keys.
+
+* The Signature Encryption Key used in the group, if the group uses the group mode.
+
+* The private key associated with the Group Manager’s authentication credential used in the group.
+
+* Rekeying messages that are exchanged in the group.
+
+* If applicable, administrative keying material used to protect the group rekeying process.
+
+It is out of the scope of this document what specific semantics and data model are used by the Group Manager for producing and processing the logs. Specific semantics and data models can be defined by applications and future specifications.
+
+The Group Manager is expected to make the logs produced available to securely access for authorized, external management applications and operators.
+
+In particular, logged information could be retrieved in the following ways.
+
+* By accessing logs at the Group Manager through polling. This can occur in an occasional, regular, or event-driven way.
+
+* Through notifications sent by the Group Manager according to an operator-defined frequency.
+
+* Through notifications asynchronously sent by the Group Manager, throttling them in order to prevent congestion and duplication and to not create attack vectors.
+
+Some of the logged information can be privacy-sensitive. This especially holds for the metadata about a Client, i.e., addressing information of the Client and, when applicable, (an identifier of) the authentication credential of the Client. If external management applications and operators obtain such metadata, they become able to track a given Client, as to its interactions with one or multiple Group Managers and its membership in groups under such Group Manager(s).
+
+Therefore, the logged information that is effectively provided to external management applications and operators SHOULD be redacted by the Group Manager, by omitting any privacy-sensitive information element that could enable or facilitate the impairment of Clients' privacy, e.g., by tracking Clients across different groups and different Group Managers. Exceptions could apply, e.g., if the Group Manager can verify that the management application or operator in question is specifically authorized to obtain such privacy-sensitive information and appropriately entitled to obtain it according to enforced privacy policies.
+
+## Administration of Groups
+
+With respect to the creation, (re-)configuration, or termination of a group at the Group Manager, the following applies:
+
+* Default values for the group configuration parameters are specified in {{default-values}}.
+
+* The specific method, tools, and data model used to create, (re-)configure, and delete OSCORE groups are out of the scope of this document.
+
+  A possible method relies on the RESTful admin interface specified in {{I-D.ietf-ace-oscore-gm-admin}}, which also uses the ACE framework for Authentication and Authorization {{RFC9200}} and its transport profiles. Also, it relies on a data model based on CBOR and thus enables multiple administrators to perform administrative operations at the same Group Manager in an interoperable way.
+
+## Access Control
+
+Building on the ACE framework {{RFC9200}} and the foundation provided in {{RFC9594}}, this application profile enforces access control for Clients that interact with the interface at the Group Manager specified in this document.
+
+In particular, the granularity of such access control takes into account the resource specifically targeted at the Group Manager, the operation requested by sending a request to that resource, and the specific role(s) that the requesting Client is authorized to have according to its corresponding access token.
+
+Furthermore, the interactions between a Client and the Group Manager are secured as per the specific transport profile of ACE used (e.g., {{RFC9202}} and {{RFC9203}}).
 
 # Security Considerations {#sec-security-considerations}
 
