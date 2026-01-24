@@ -364,7 +364,7 @@ In the following circumstances, a joining node is not required to provide its au
 
 * The joining node is currently a group member acting not exclusively as monitor, and it is re-joining the group not exclusively as monitor.
 
-  In this case, if the joining node intends to use the same authentication credential that it is currently using in the group, i.e., its latest authentication credential provided to the Group Manager (in a previous Join Request or Authentication Credential Update Request, see {{sec-update-pub-key}}), then the joining node MAY choose to omit the 'client_cred' parameter and the 'client_cred_verify' parameter in the Join Request (see {{Section 4.3.1.1 of RFC9594}}).
+  In this case, if the joining node intends to use the same authentication credential that it is currently using in the group, i.e., its latest authentication credential provided to the Group Manager (in a previous Join Request or Authentication Credential Update Request, see {{sec-update-pub-key}}), then the joining node MAY choose to omit its current authentication credential in the Join Request. As defined in {{ssec-join-req-sending}}, this is achieved by setting the value of the 'client_cred' parameter in the Join Request to the empty CBOR byte string (0x40) and omitting the 'client_cred_verify' parameter in the Join Request (see {{Section 4.3.1.1 of RFC9594}}).
 
 # Authorization to Join a Group {#sec-joining-node-to-AS}
 
@@ -580,7 +580,7 @@ The joining node requests to join the OSCORE group by sending a Join Request mes
 
 * If the joining node intends to join the group exclusively as a monitor, then the 'client_cred' parameter and the 'client_cred_verify' parameter MUST be omitted.
 
-* If the joining node is currently a group member and intends to use the same authentication credential that it is currently using in the group, then the 'client_cred' parameter and the 'client_cred_verify' parameter MAY be omitted.
+* If the joining node is currently a group member and intends to use the same authentication credential that it is currently using in the group, then the 'client_cred_verify' parameter MAY be omitted. In case the 'client_cred_verify' parameter is omitted, the value of the 'client_cred' parameter MAY specify an empty authentication credential, i.e., its value is set to the empty CBOR byte string (0x40).
 
 * If the 'client_cred_verify' parameter is present, then the proof-of-possession (PoP) evidence included therein is computed as defined below (REQ14).
 
@@ -638,9 +638,9 @@ In case the joining node is going to join the group exclusively as monitor, then
 
 In case the joining node is not going to join the group exclusively as monitor, it is a current member of the group, and the 'client_cred_verify' parameter is not present, then the following applies:
 
-* If the 'client_cred' parameter is present, the Group Manager verifies that it is already storing the authentication credential specified therein, as associated with the joining node in the group. If the verification fails, the Group Manager MUST reply with a 4.00 (Bad Request) error response (OPT8).
+* If the 'client_cred' parameter does not specify the empty CBOR byte string (0x40), the Group Manager verifies that it is already storing the authentication credential specified by the parameter, as associated with the joining node in the group. If the verification fails, the Group Manager MUST reply with a 4.00 (Bad Request) error response (OPT8).
 
-* If case the 'client_cred' parameter is not present, the Group Manager verifies that it is already storing an authentication credential, as associated with the joining node in the group. If the verification fails, the Group Manager MUST reply with a 4.00 (Bad Request) error response (OPT8).
+* If the 'client_cred' parameter specifies the empty CBOR byte string (0x40), the Group Manager verifies that it is already storing an authentication credential, as associated with the joining node in the group. If the verification fails, the Group Manager MUST reply with a 4.00 (Bad Request) error response (OPT8).
 
 In case the joining node is not going to join the group exclusively as monitor and the 'client_cred_verify' parameter specifies the empty CBOR byte string (0x40), the Group Manager checks whether it has already achieved proof of possession of the joining node's private key associated with the authentication credential that is specified in the 'client_cred' parameter. If such verification fails, then the Group Manager MUST reply with a 4.00 (Bad Request) error response. The response MUST have Content-Format set to "application/concise-problem-details+cbor" {{RFC9290}} and is formatted as defined in {{Section 4.1.2 of RFC9594}}. Within the Custom Problem Detail entry 'ace-groupcomm-error', the value of the 'error-id' field MUST be set to 3 ("Invalid proof-of-possession evidence"). After receiving that response, the client MUST NOT specify an empty PoP evidence in the 'client_cred_verify' parameter of a follow-up Join Request for joining the same group.
 
@@ -650,7 +650,7 @@ In case the joining node is not going to join the group exclusively as monitor a
 
 * As PoP input, the Group Manager uses the value of the 'scope' parameter from the Join Request as a CBOR byte string, concatenated with N_S encoded as a CBOR byte string, concatenated with N_C encoded as a CBOR byte string. The value of N_S is determined as described in {{sssec-challenge-value}}, while N_C is the nonce provided in the 'cnonce' parameter of the Join Request.
 
-* As public key of the joining node, the Group Manager uses either the one included in the authentication credential retrieved from the 'client_cred' parameter of the Join Request, or the one from the already stored authentication credential as acquired from previous interactions with the joining node (see above).
+* As public key of the joining node, the Group Manager uses the one included in the authentication credential retrieved from the 'client_cred' parameter of the Join Request.
 
 * If the group is not a pairwise-only group, the PoP evidence is a signature. The Group Manager verifies it by using the public key of the joining node, as well as the signature algorithm used in the OSCORE group and possible corresponding parameters.
 
@@ -670,7 +670,9 @@ The Group Manager MUST reply with a 4.00 (Bad Request) error response in the fol
 
   - The joining node is not a current member of the group, and the 'client_cred' parameter and the 'client_cred_verify' parameter are not both present in the Join Request.
 
-  - The 'client_cred' parameter is present in the Join Request and its value is not an eligible authentication credential (e.g., it is not of the format accepted in the group).
+  - The 'client_cred_verify' parameter is present in the Join Request, and the value of the 'client_cred' parameter in the Join Request is not an eligible authentication credential (e.g., it is not of the format accepted in the group).
+
+  - The 'client_cred_verify' parameter is not present in the Join Request, and the value of the 'client_cred' parameter in the Join Request is neither set to the empty CBOR byte string (0x40) nor an eligible authentication credential (e.g., it is not of the format accepted in the group).
 
 If the Group Manager wants to prevent the acceptance and use of Ed25519 and Ed448 public keys that cannot be successfully converted to Montgomery coordinates, and thus cannot be used for the derivation of pairwise keys (see {{Section 2.5.1 of I-D.ietf-core-oscore-groupcomm}}), the Group Manager MUST reply with a 4.00 (Bad Request) error response in case all the following conditions hold:
 
@@ -710,7 +712,7 @@ When receiving a 4.00 (Bad Request) error response, the joining node MAY send a 
 
 * In case the joining node is not going to join the group exclusively as monitor, then the following applies:
 
-  - If present, the 'client_cred' parameter MUST include an authentication credential in the format indicated by the Group Manager. Also, the authentication credential as well as the included public key MUST be compatible with the signature or ECDH algorithm, and with possible associated parameters.
+  - The 'client_cred' parameter MUST include an authentication credential in the format indicated by the Group Manager. Also, the authentication credential as well as the included public key MUST be compatible with the signature or ECDH algorithm, and with possible associated parameters.
 
   - If present, the 'client_cred_verify' parameter MUST include a PoP evidence computed as described in {{ssec-join-req-sending}}. The private key to use is the one associated with the authentication credential specified in the current 'client_cred' parameter, with the signature or ECDH algorithm, and with possible associated parameters indicated by the Group Manager. If the error response from the Group Manager includes the 'kdcchallenge' parameter, the joining node MUST use its content as new N\_S challenge to compute the PoP evidence.
 
