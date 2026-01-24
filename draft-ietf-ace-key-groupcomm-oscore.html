@@ -25,7 +25,7 @@
     pycountry 24.6.1
     PyYAML 6.0.3
     requests 2.32.5
-    wcwidth 0.2.14
+    wcwidth 0.3.0
 -->
 <link href="draft-ietf-ace-key-groupcomm-oscore.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
@@ -566,6 +566,7 @@ aside, blockquote {
 }
 blockquote {
   margin: 1em 0;
+  border-left: 2px var(--pilcrow-strong) solid;
 }
 cite {
   display: block;
@@ -636,7 +637,7 @@ a.pilcrow {
   }
 }
 @media not print {
-  :hover > a.pilcrow {
+  :hover > a.pilcrow, a.pilcrow:focus {
     opacity: 1;
   }
   a.pilcrow[href]:hover {
@@ -1048,7 +1049,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Tiloca &amp; Palombini</td>
-<td class="center">Expires 12 July 2026</td>
+<td class="center">Expires 28 July 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1061,12 +1062,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-ace-key-groupcomm-oscore-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-01-08" class="published">8 January 2026</time>
+<time datetime="2026-01-24" class="published">24 January 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-07-12">12 July 2026</time></dd>
+<dd class="expires"><time datetime="2026-07-28">28 July 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1104,7 +1105,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 12 July 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 28 July 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1522,7 +1523,178 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <p id="section-1-1">The secure communication protocol Object Security for Constrained RESTful Environments (OSCORE) <span>[<a href="#RFC8613" class="cite xref">RFC8613</a>]</span> provides application-layer protection for the Constrained Application Protocol (CoAP) <span>[<a href="#RFC7252" class="cite xref">RFC7252</a>]</span>, using CBOR Object Signing and Encryption (COSE) <span>[<a href="#RFC9052" class="cite xref">RFC9052</a>]</span><span>[<a href="#RFC9053" class="cite xref">RFC9053</a>]</span> and enabling end-to-end security of CoAP messages.<a href="#section-1-1" class="pilcrow">¶</a></p>
 <p id="section-1-2">As defined in <span>[<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>, Group Object Security for Constrained RESTful Environments (Group OSCORE) enables end-to-end security for CoAP group communication <span>[<a href="#I-D.ietf-core-groupcomm-bis" class="cite xref">I-D.ietf-core-groupcomm-bis</a>]</span>, which can employ, for example, IP multicast as underlying data transport.<a href="#section-1-2" class="pilcrow">¶</a></p>
 <p id="section-1-3">Group OSCORE relies on an entity called Group Manager, which is responsible for managing an OSCORE group and enables the group members to exchange CoAP messages secured with Group OSCORE. The Group Manager can be responsible for multiple groups, coordinates the joining process of new group members, and is entrusted with the distribution and renewal of group keying material.<a href="#section-1-3" class="pilcrow">¶</a></p>
-<p id="section-1-4">This document is an application profile of <span>[<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>, which itself builds on the Authentication and Authorization for Constrained Environments (ACE) framework <span>[<a href="#RFC9200" class="cite xref">RFC9200</a>]</span>. Message exchanges among the participants as well as message formats and processing follow what is specified in <span>[<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>, and enable the provisioning and renewing of keying material in group communication scenarios, where Group OSCORE is used to protect CoAP group communication.<a href="#section-1-4" class="pilcrow">¶</a></p>
+<p id="section-1-4">Building on the Authentication and Authorization for Constrained Environments (ACE) framework <span>[<a href="#RFC9200" class="cite xref">RFC9200</a>]</span>, the document <span>[<a href="#RFC9594" class="cite xref">RFC9594</a>]</span> defines how to request, distribute, and renew keying material and configuration parameters to protect message exchanges in a group communication environment. That is, candidate group members that act as ACE Clients and are authorized to join a group can interact with a Key Distribution Center (KDC) that acts as ACE Resource Server and is responsible for the group. The KDC provides the necessary keying material and parameters to communicate with other group members.<a href="#section-1-4" class="pilcrow">¶</a></p>
+<p id="section-1-5">While <span>[<a href="#RFC9594" class="cite xref">RFC9594</a>]</span> defines the operations and interface available at the KDC, as well as general message formats for the interactions between Clients and the KDC, it delegates details on the communication and security approaches used in a group to separate application profiles. These are specialized instances of <span>[<a href="#RFC9594" class="cite xref">RFC9594</a>]</span> that target a particular group communication approach and define how communications in the group are protected, as well as the specific keying material and configuration parameters provided to group members.<a href="#section-1-5" class="pilcrow">¶</a></p>
+<p id="section-1-6">This document specifies an application profile of <span>[<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>. Message exchanges among the participants as well as message formats and processing follow what is specified in <span>[<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>, and enable the provisioning and renewing of keying material in group communication scenarios, where Group OSCORE is used to protect CoAP group communication. In particular, network nodes that wish to join an OSCORE group act as ACE Clients, while the Group Manager responsible for managing the OSCORE group is the KDC acting as ACE Resource Server.<a href="#section-1-6" class="pilcrow">¶</a></p>
+<p id="section-1-7">This application profile leverages protocol-specific transport profiles of ACE (e.g., <span>[<a href="#RFC9202" class="cite xref">RFC9202</a>]</span><span>[<a href="#RFC9203" class="cite xref">RFC9203</a>]</span>), in order to achieve communication security, server authentication, and proof of possession for a key owned by the Client and bound to an OAuth 2.0 access token.<a href="#section-1-7" class="pilcrow">¶</a></p>
+<p id="section-1-8"><a href="#fig-document-relationships" class="auto internal xref">Figure 1</a> overviews the relationships between this document and other related documents mentioned above.<a href="#section-1-8" class="pilcrow">¶</a></p>
+<span id="name-overview-of-document-relati"></span><div id="fig-document-relationships">
+<figure id="figure-1">
+        <div id="section-1-9.1">
+          <div class="alignCenter art-svg artwork" id="section-1-9.1.1">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="688" width="576" viewBox="0 0 576 688" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
+              <path d="M 8,32 L 8,80" fill="none" stroke="black"></path>
+              <path d="M 8,128 L 8,176" fill="none" stroke="black"></path>
+              <path d="M 8,304 L 8,368" fill="none" stroke="black"></path>
+              <path d="M 8,448 L 8,560" fill="none" stroke="black"></path>
+              <path d="M 24,184 L 24,296" fill="none" stroke="black"></path>
+              <path d="M 24,376 L 24,440" fill="none" stroke="black"></path>
+              <path d="M 176,304 L 176,368" fill="none" stroke="black"></path>
+              <path d="M 184,32 L 184,80" fill="none" stroke="black"></path>
+              <path d="M 192,128 L 192,176" fill="none" stroke="black"></path>
+              <path d="M 280,448 L 280,560" fill="none" stroke="black"></path>
+              <path d="M 368,240 L 368,368" fill="none" stroke="black"></path>
+              <path d="M 392,32 L 392,80" fill="none" stroke="black"></path>
+              <path d="M 408,88 L 408,224" fill="none" stroke="black"></path>
+              <path d="M 408,384 L 408,528" fill="none" stroke="black"></path>
+              <path d="M 544,32 L 544,80" fill="none" stroke="black"></path>
+              <path d="M 568,240 L 568,368" fill="none" stroke="black"></path>
+              <path d="M 8,32 L 184,32" fill="none" stroke="black"></path>
+              <path d="M 392,32 L 544,32" fill="none" stroke="black"></path>
+              <path d="M 192,64 L 384,64" fill="none" stroke="black"></path>
+              <path d="M 8,80 L 184,80" fill="none" stroke="black"></path>
+              <path d="M 392,80 L 544,80" fill="none" stroke="black"></path>
+              <path d="M 8,128 L 192,128" fill="none" stroke="black"></path>
+              <path d="M 8,176 L 192,176" fill="none" stroke="black"></path>
+              <path d="M 376,238 L 560,238" fill="none" stroke="black"></path>
+              <path d="M 376,242 L 560,242" fill="none" stroke="black"></path>
+              <path d="M 8,304 L 176,304" fill="none" stroke="black"></path>
+              <path d="M 8,368 L 176,368" fill="none" stroke="black"></path>
+              <path d="M 376,366 L 560,366" fill="none" stroke="black"></path>
+              <path d="M 376,370 L 560,370" fill="none" stroke="black"></path>
+              <path d="M 8,448 L 280,448" fill="none" stroke="black"></path>
+              <path d="M 288,528 L 408,528" fill="none" stroke="black"></path>
+              <path d="M 8,560 L 280,560" fill="none" stroke="black"></path>
+              <polygon class="arrowhead" points="416,384 404,378.4 404,389.6" fill="black" transform="rotate(270,408,384)"></polygon>
+              <polygon class="arrowhead" points="416,224 404,218.4 404,229.6" fill="black" transform="rotate(90,408,224)"></polygon>
+              <polygon class="arrowhead" points="392,64 380,58.4 380,69.6" fill="black" transform="rotate(0,384,64)"></polygon>
+              <polygon class="arrowhead" points="32,440 20,434.4 20,445.6" fill="black" transform="rotate(90,24,440)"></polygon>
+              <polygon class="arrowhead" points="32,184 20,178.4 20,189.6" fill="black" transform="rotate(270,24,184)"></polygon>
+              <circle cx="368" cy="240" r="6" class="opendot" fill="white" stroke="black"></circle>
+              <circle cx="368" cy="368" r="6" class="opendot" fill="white" stroke="black"></circle>
+              <circle cx="568" cy="240" r="6" class="opendot" fill="white" stroke="black"></circle>
+              <circle cx="568" cy="368" r="6" class="opendot" fill="white" stroke="black"></circle>
+              <g class="text">
+                <text x="260" y="36">Communications</text>
+                <text x="40" y="52">Group</text>
+                <text x="120" y="52">communication</text>
+                <text x="216" y="52">are</text>
+                <text x="264" y="52">secured</text>
+                <text x="316" y="52">with</text>
+                <text x="352" y="52">...</text>
+                <text x="424" y="52">Group</text>
+                <text x="476" y="52">OSCORE</text>
+                <text x="520" y="52">(b)</text>
+                <text x="32" y="68">for</text>
+                <text x="68" y="68">CoAP</text>
+                <text x="104" y="68">(a)</text>
+                <text x="424" y="116">A</text>
+                <text x="480" y="116">realization</text>
+                <text x="428" y="132">of</text>
+                <text x="464" y="132">Group</text>
+                <text x="520" y="132">Manager</text>
+                <text x="56" y="148">Transport</text>
+                <text x="132" y="148">profiles</text>
+                <text x="428" y="148">is</text>
+                <text x="472" y="148">defined</text>
+                <text x="516" y="148">in</text>
+                <text x="544" y="148">...</text>
+                <text x="28" y="164">of</text>
+                <text x="60" y="164">ACE,</text>
+                <text x="104" y="164">e.g.,</text>
+                <text x="156" y="164">(d)(e)</text>
+                <text x="64" y="228">Details</text>
+                <text x="120" y="228">about</text>
+                <text x="180" y="228">security</text>
+                <text x="48" y="244">and</text>
+                <text x="92" y="244">secure</text>
+                <text x="176" y="244">communication</text>
+                <text x="56" y="260">among</text>
+                <text x="96" y="260">ACE</text>
+                <text x="164" y="260">participants</text>
+                <text x="48" y="276">are</text>
+                <text x="104" y="276">specified</text>
+                <text x="156" y="276">in</text>
+                <text x="184" y="276">...</text>
+                <text x="392" y="276">&gt;&gt;&gt;</text>
+                <text x="428" y="276">This</text>
+                <text x="484" y="276">document</text>
+                <text x="536" y="276">&lt;&lt;&lt;</text>
+                <text x="408" y="308">Key</text>
+                <text x="468" y="308">management</text>
+                <text x="528" y="308">for</text>
+                <text x="32" y="324">ACE</text>
+                <text x="88" y="324">framework</text>
+                <text x="144" y="324">for</text>
+                <text x="400" y="324">Group</text>
+                <text x="452" y="324">OSCORE</text>
+                <text x="504" y="324">using</text>
+                <text x="544" y="324">ACE</text>
+                <text x="76" y="340">authentication</text>
+                <text x="152" y="340">and</text>
+                <text x="72" y="356">authorization</text>
+                <text x="144" y="356">(c)</text>
+                <text x="52" y="404">Used</text>
+                <text x="84" y="404">to</text>
+                <text x="120" y="404">build</text>
+                <text x="160" y="404">...</text>
+                <text x="32" y="468">Key</text>
+                <text x="100" y="468">provisioning</text>
+                <text x="168" y="468">for</text>
+                <text x="208" y="468">group</text>
+                <text x="456" y="468">Instanced</text>
+                <text x="508" y="468">by</text>
+                <text x="536" y="468">the</text>
+                <text x="72" y="484">communication</text>
+                <text x="152" y="484">using</text>
+                <text x="192" y="484">ACE</text>
+                <text x="224" y="484">(f)</text>
+                <text x="464" y="484">application</text>
+                <text x="544" y="484">profile</text>
+                <text x="448" y="500">defined</text>
+                <text x="492" y="500">in</text>
+                <text x="520" y="500">...</text>
+                <text x="24" y="516">-</text>
+                <text x="64" y="516">General</text>
+                <text x="128" y="516">message</text>
+                <text x="192" y="516">formats</text>
+                <text x="24" y="532">-</text>
+                <text x="76" y="532">Operations</text>
+                <text x="136" y="532">and</text>
+                <text x="192" y="532">interface</text>
+                <text x="244" y="532">at</text>
+                <text x="264" y="532">a</text>
+                <text x="48" y="548">Key</text>
+                <text x="116" y="548">Distribution</text>
+                <text x="196" y="548">Center</text>
+                <text x="248" y="548">(KDC)</text>
+                <text x="16" y="596">(a)</text>
+                <text x="40" y="596">:</text>
+                <text x="168" y="596">[I-D.ietf-core-groupcomm-bis]</text>
+                <text x="16" y="612">(b)</text>
+                <text x="40" y="612">:</text>
+                <text x="180" y="612">[I-D.ietf-core-oscore-groupcomm]</text>
+                <text x="16" y="628">(c)</text>
+                <text x="40" y="628">:</text>
+                <text x="88" y="628">[RFC9200]</text>
+                <text x="16" y="644">(d)</text>
+                <text x="40" y="644">:</text>
+                <text x="88" y="644">[RFC9202]</text>
+                <text x="16" y="660">(e)</text>
+                <text x="40" y="660">:</text>
+                <text x="88" y="660">[RFC9203]</text>
+                <text x="16" y="676">(f)</text>
+                <text x="40" y="676">:</text>
+                <text x="88" y="676">[RFC9594]</text>
+              </g>
+            </svg><a href="#section-1-9.1.1" class="pilcrow">¶</a>
+</div>
+</div>
+<figcaption><a href="#figure-1" class="selfRef">Figure 1</a>:
+<a href="#name-overview-of-document-relati" class="selfRef">Overview of Document Relationships</a>
+        </figcaption></figure>
+</div>
+<p id="section-1-10">Note to RFC Editor: At the bottom of <a href="#fig-document-relationships" class="auto internal xref">Figure 1</a>, "[I-D.ietf-core-groupcomm-bis]" and "[I-D.ietf-core-oscore-groupcomm]" are the reference labels that the present document is currently using for those two referred documents. Before publishing as an RFC, please replace those reference labels with the ones eventually used for the (RFCs resulting from) the two referred documents. Then, please delete this note.<a href="#section-1-10" class="pilcrow">¶</a></p>
 <div id="ssec-terminology">
 <section id="section-1.1">
         <h3 id="name-terminology">
@@ -1553,7 +1725,13 @@ appear in all capitals, as shown here.<a href="#section-1.1-1" class="pilcrow">�
                 <p id="section-1.1-3.5.2.1.1">Group Manager, as the entity responsible for a set of groups where communications are secured with Group OSCORE. In this document, the Group Manager acts as Resource Server.<a href="#section-1.1-3.5.2.1.1" class="pilcrow">¶</a></p>
 </li>
               <li class="normal" id="section-1.1-3.5.2.2">
-                <p id="section-1.1-3.5.2.2.1">Authentication credential, as the set of information associated with an entity, including that entity's public key and parameters associated with the public key. Examples of authentication credentials are CBOR Web Tokens (CWTs) and CWT Claims Sets (CCSs) <span>[<a href="#RFC8392" class="cite xref">RFC8392</a>]</span>, X.509 certificates <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span>, and C509 certificates <span>[<a href="#I-D.ietf-cose-cbor-encoded-cert" class="cite xref">I-D.ietf-cose-cbor-encoded-cert</a>]</span>.<a href="#section-1.1-3.5.2.2.1" class="pilcrow">¶</a></p>
+                <p id="section-1.1-3.5.2.2.1">Group Identifier (Gid): identifier assigned to an OSCORE group, unique within the set of groups of a given Group Manager. The Gid value changes every time the OSCORE group is rekeyed.<a href="#section-1.1-3.5.2.2.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-1.1-3.5.2.3">
+                <p id="section-1.1-3.5.2.3.1">Birth Gid: with respect to a group member, the Gid obtained by that group member upon (re-)joining the OSCORE group.<a href="#section-1.1-3.5.2.3.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-1.1-3.5.2.4">
+                <p id="section-1.1-3.5.2.4.1">Authentication credential, as the set of information associated with an entity, including that entity's public key and parameters associated with the public key. Examples of authentication credentials are CBOR Web Tokens (CWTs) and CWT Claims Sets (CCSs) <span>[<a href="#RFC8392" class="cite xref">RFC8392</a>]</span>, X.509 certificates <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span>, and C509 certificates <span>[<a href="#I-D.ietf-cose-cbor-encoded-cert" class="cite xref">I-D.ietf-cose-cbor-encoded-cert</a>]</span>.<a href="#section-1.1-3.5.2.4.1" class="pilcrow">¶</a></p>
 </li>
             </ul>
 </li>
@@ -1582,8 +1760,8 @@ An authorized signature verifier does not join the OSCORE group as an actual mem
 </li>
         </ul>
 <p id="section-1.1-6">Throughout this document, examples for CBOR data items are expressed in CBOR extended diagnostic notation as defined in <span><a href="https://rfc-editor.org/rfc/rfc8949#section-8" class="relref">Section 8</a> of [<a href="#RFC8949" class="cite xref">RFC8949</a>]</span> and <span><a href="https://rfc-editor.org/rfc/rfc8610#appendix-G" class="relref">Appendix G</a> of [<a href="#RFC8610" class="cite xref">RFC8610</a>]</span> ("diagnostic notation"). Diagnostic notation comments are often used to provide a textual representation of the parameters' keys and values.<a href="#section-1.1-6" class="pilcrow">¶</a></p>
-<p id="section-1.1-7">In the CBOR diagnostic notation used in this document, constructs of the form e'SOME_NAME' are replaced by the value assigned to SOME_NAME in the CDDL model shown in <a href="#fig-cddl-model" class="auto internal xref">Figure 12</a> of <a href="#sec-cddl-model" class="auto internal xref">Appendix C</a>. For example, {e'gp_enc_alg': 10, e'sign_alg': -8} stands for {9: 10, 10: -8}.<a href="#section-1.1-7" class="pilcrow">¶</a></p>
-<p id="section-1.1-8">Note to RFC Editor: Please delete the paragraph immediately preceding this note. Also, in the CBOR diagnostic notation used in this document, please replace the constructs of the form e'SOME_NAME' with the value assigned to SOME_NAME in the CDDL model shown in <a href="#fig-cddl-model" class="auto internal xref">Figure 12</a> of <a href="#sec-cddl-model" class="auto internal xref">Appendix C</a>. Finally, please delete this note.<a href="#section-1.1-8" class="pilcrow">¶</a></p>
+<p id="section-1.1-7">In the CBOR diagnostic notation used in this document, constructs of the form e'SOME_NAME' are replaced by the value assigned to SOME_NAME in the CDDL model shown in <a href="#fig-cddl-model" class="auto internal xref">Figure 13</a> of <a href="#sec-cddl-model" class="auto internal xref">Appendix C</a>. For example, {e'gp_enc_alg': 10, e'sign_alg': -8} stands for {9: 10, 10: -8}.<a href="#section-1.1-7" class="pilcrow">¶</a></p>
+<p id="section-1.1-8">Note to RFC Editor: Please delete the paragraph immediately preceding this note. Also, in the CBOR diagnostic notation used in this document, please replace the constructs of the form e'SOME_NAME' with the value assigned to SOME_NAME in the CDDL model shown in <a href="#fig-cddl-model" class="auto internal xref">Figure 13</a> of <a href="#sec-cddl-model" class="auto internal xref">Appendix C</a>. Finally, please delete this note.<a href="#section-1.1-8" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -1602,28 +1780,27 @@ An authorized signature verifier does not join the OSCORE group as an actual mem
           <p id="section-2-5.1.1">The node wishing to join the OSCORE group, i.e., the joining node, is the Client.<a href="#section-2-5.1.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="section-2-5.2">
-          <p id="section-2-5.2.1">The Group Manager is the Key Distribution Center (KDC), acting as a Resource Server.<a href="#section-2-5.2.1" class="pilcrow">¶</a></p>
+          <p id="section-2-5.2.1">The Group Manager is the KDC, acting as a Resource Server.<a href="#section-2-5.2.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="section-2-5.3">
           <p id="section-2-5.3.1">The Authorization Server associated with the Group Manager is the AS.<a href="#section-2-5.3.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 <p id="section-2-6">A node performs the steps described in Sections <a href="https://rfc-editor.org/rfc/rfc9594#section-3" class="relref">3</a> and <a href="https://rfc-editor.org/rfc/rfc9594#section-4.3.1.1" class="relref">4.3.1.1</a> of <span>[<a href="#RFC9594" class="cite xref">RFC9594</a>]</span> in order to obtain an authorization for joining an OSCORE group and then to join that group. The format and processing of messages exchanged during such steps are further specified in <a href="#sec-joining-node-to-AS" class="auto internal xref">Section 5</a> and <a href="#sec-joining-node-to-GM" class="auto internal xref">Section 6</a> of this document.<a href="#section-2-6" class="pilcrow">¶</a></p>
-<p id="section-2-7">All communications between the involved entities (Client, Group Manager, Authorization Server) <span class="bcp14">MUST</span> be secured.<a href="#section-2-7" class="pilcrow">¶</a></p>
-<p id="section-2-8">In particular, communications between the Client and the Group Manager leverage protocol-specific transport profiles of ACE to achieve communication security, proof of possession, and server authentication (REQ24). It is expected that, in the commonly referred base-case of this document, the transport profile to use is pre-configured and well-known to nodes participating in constrained applications.<a href="#section-2-8" class="pilcrow">¶</a></p>
-<p id="section-2-9">With respect to what is defined in <span>[<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>:<a href="#section-2-9" class="pilcrow">¶</a></p>
+<p id="section-2-7">All communications between the involved entities (Client, Group Manager, Authorization Server) <span class="bcp14">MUST</span> occur and be secured in accordance with the protocol-specific transport profile of ACE used. In particular, communications between the Client and the Group Manager leverage transport profiles of ACE to achieve communication security, proof of possession, and server authentication (REQ24). It is expected that, in the commonly referred base-case of this document, the transport profile to use is pre-configured and well-known to nodes participating in constrained applications.<a href="#section-2-7" class="pilcrow">¶</a></p>
+<p id="section-2-8">With respect to what is defined in <span>[<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>:<a href="#section-2-8" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-2-10.1">
-          <p id="section-2-10.1.1">The interface provided by the Group Manager extends the original interface defined in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-4.1" class="relref">Section 4.1</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span> for the KDC, as specified in <a href="#sec-interface-GM" class="auto internal xref">Section 8</a> of this document.<a href="#section-2-10.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-2-9.1">
+          <p id="section-2-9.1.1">The interface provided by the Group Manager extends the original interface defined in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-4.1" class="relref">Section 4.1</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span> for the KDC, as specified in <a href="#sec-interface-GM" class="auto internal xref">Section 8</a> of this document.<a href="#section-2-9.1.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="section-2-10.2">
-          <p id="section-2-10.2.1">In addition to those defined in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-8" class="relref">Section 8</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>, additional parameters are defined in this document and summarized in <a href="#ace-groupcomm-params" class="auto internal xref">Section 12</a>.<a href="#section-2-10.2.1" class="pilcrow">¶</a></p>
+        <li class="normal" id="section-2-9.2">
+          <p id="section-2-9.2.1">In addition to those defined in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-8" class="relref">Section 8</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>, additional parameters are defined in this document and summarized in <a href="#ace-groupcomm-params" class="auto internal xref">Section 12</a>.<a href="#section-2-9.2.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="section-2-10.3">
-          <p id="section-2-10.3.1">In addition to those defined in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-9" class="relref">Section 9</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>, additional error identifiers are defined in this document and summarized in <a href="#error-types" class="auto internal xref">Section 13</a>.<a href="#section-2-10.3.1" class="pilcrow">¶</a></p>
+        <li class="normal" id="section-2-9.3">
+          <p id="section-2-9.3.1">In addition to those defined in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-9" class="relref">Section 9</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>, additional error identifiers are defined in this document and summarized in <a href="#error-types" class="auto internal xref">Section 13</a>.<a href="#section-2-9.3.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
-<p id="section-2-11">Finally, <a href="#profile-req" class="auto internal xref">Appendix A</a> compiles the list of requirements for this application profile of ACE and how they are fulfilled, consistently with the list of requirements defined in <span><a href="https://rfc-editor.org/rfc/rfc9594#appendix-A" class="relref">Appendix A</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>.<a href="#section-2-11" class="pilcrow">¶</a></p>
+<p id="section-2-10">Finally, <a href="#profile-req" class="auto internal xref">Appendix A</a> compiles the list of requirements for this application profile of ACE and how they are fulfilled, consistently with the list of requirements defined in <span><a href="https://rfc-editor.org/rfc/rfc9594#appendix-A" class="relref">Appendix A</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>.<a href="#section-2-10" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="sec-format-scope">
@@ -1858,7 +2035,7 @@ The 'kdcchallenge' parameter <span class="bcp14">MAY</span> be omitted from the 
                 <p id="section-5.3-2.3.2.4.1">'sign_key_parameters' has the same format and value of the COSE capabilities array for the COSE key type of the keys used with the algorithm indicated in 'sign_alg', as specified for that key type in the "Capabilities" column of the "COSE Key Types" registry <span>[<a href="#COSE.Key.Types" class="cite xref">COSE.Key.Types</a>]</span> (REQ5).<a href="#section-5.3-2.3.2.4.1" class="pilcrow">¶</a></p>
 </li>
               <li class="normal" id="section-5.3-2.3.2.5">
-                <p id="section-5.3-2.3.2.5.1">'cred_fmt' takes value from the "Label" column of the "COSE Header Parameters" registry <span>[<a href="#COSE.Header.Parameters" class="cite xref">COSE.Header.Parameters</a>]</span> (REQ6). Consistently with <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-28#section-2.4" class="relref">Section 2.4</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>, acceptable values denote a format of authentication credential that provides the public key as well as a comprehensive set of information related to the public key algorithm, including, e.g., the elliptic curve used.<a href="#section-5.3-2.3.2.5.1" class="pilcrow">¶</a></p>
+                <p id="section-5.3-2.3.2.5.1">'cred_fmt' takes value from the "Label" column of the "COSE Header Parameters" registry <span>[<a href="#COSE.Header.Parameters" class="cite xref">COSE.Header.Parameters</a>]</span> (REQ6). To align with <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-28#section-2.4" class="relref">Section 2.4</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>, acceptable values denote a format of authentication credential that provides the public key as well as a comprehensive set of information related to the public key algorithm, including, e.g., the elliptic curve used.<a href="#section-5.3-2.3.2.5.1" class="pilcrow">¶</a></p>
 <p id="section-5.3-2.3.2.5.2">
 At the time of writing this specification, acceptable formats of authentication credentials are CBOR Web Tokens (CWTs) and CWT Claims Sets (CCSs) <span>[<a href="#RFC8392" class="cite xref">RFC8392</a>]</span>, X.509 certificates <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span>, and C509 certificates <span>[<a href="#I-D.ietf-cose-cbor-encoded-cert" class="cite xref">I-D.ietf-cose-cbor-encoded-cert</a>]</span>. Further formats may be available in the future, and they would be acceptable to use as long as they comply with the criteria defined above.<a href="#section-5.3-2.3.2.5.2" class="pilcrow">¶</a></p>
 </li>
@@ -1882,7 +2059,7 @@ This format is consistent with every signature algorithm currently considered in
                 <p id="section-5.3-2.4.2.4.1">'ecdh_key_parameters' has the same format and value of the COSE capabilities array for the COSE key type of the keys used with the algorithm indicated in 'ecdh_alg', as specified for that key type in the "Capabilities" column of the "COSE Key Types" registry <span>[<a href="#COSE.Key.Types" class="cite xref">COSE.Key.Types</a>]</span>.<a href="#section-5.3-2.4.2.4.1" class="pilcrow">¶</a></p>
 </li>
               <li class="normal" id="section-5.3-2.4.2.5">
-                <p id="section-5.3-2.4.2.5.1">'cred_fmt' takes value from the "Label" column of the "COSE Header Parameters" registry <span>[<a href="#COSE.Header.Parameters" class="cite xref">COSE.Header.Parameters</a>]</span>. Consistently with <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-28#section-2.4" class="relref">Section 2.4</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>, acceptable values denote a format of authentication credential that provides the public key as well as a comprehensive set of information related to the public key algorithm, including, e.g., the elliptic curve used. The same considerations provided above on acceptable formats currently available for the 'cred_fmt' element of 'sign_info' apply.<a href="#section-5.3-2.4.2.5.1" class="pilcrow">¶</a></p>
+                <p id="section-5.3-2.4.2.5.1">'cred_fmt' takes value from the "Label" column of the "COSE Header Parameters" registry <span>[<a href="#COSE.Header.Parameters" class="cite xref">COSE.Header.Parameters</a>]</span>. To align with <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-28#section-2.4" class="relref">Section 2.4</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>, acceptable values denote a format of authentication credential that provides the public key as well as a comprehensive set of information related to the public key algorithm, including, e.g., the elliptic curve used. The same considerations provided above on acceptable formats currently available for the 'cred_fmt' element of 'sign_info' apply.<a href="#section-5.3-2.4.2.5.1" class="pilcrow">¶</a></p>
 </li>
             </ul>
 <p id="section-5.3-2.4.3">
@@ -1895,7 +2072,7 @@ The Group Manager omits the 'ecdh_info' parameter in the Token Transfer Response
                 <p id="section-5.3-2.5.2.1.1">'id' is associated exclusively with OSCORE groups that are pairwise-only groups.<a href="#section-5.3-2.5.2.1.1" class="pilcrow">¶</a></p>
 </li>
               <li class="normal" id="section-5.3-2.5.2.2">
-                <p id="section-5.3-2.5.2.2.1">'cred_fmt' takes value from the "Label" column of the "COSE Header Parameters" registry <span>[<a href="#COSE.Header.Parameters" class="cite xref">COSE.Header.Parameters</a>]</span>. Consistently with <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-28#section-2.4" class="relref">Section 2.4</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>, acceptable values denote a format of authentication credential that provides the public key as well as a comprehensive set of information related to the public key algorithm, including, e.g., the elliptic curve used. The same considerations provided above on acceptable formats currently available for the 'cred_fmt' element of 'sign_info' apply.<a href="#section-5.3-2.5.2.2.1" class="pilcrow">¶</a></p>
+                <p id="section-5.3-2.5.2.2.1">'cred_fmt' takes value from the "Label" column of the "COSE Header Parameters" registry <span>[<a href="#COSE.Header.Parameters" class="cite xref">COSE.Header.Parameters</a>]</span>. To align with <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-28#section-2.4" class="relref">Section 2.4</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>, acceptable values denote a format of authentication credential that provides the public key as well as a comprehensive set of information related to the public key algorithm, including, e.g., the elliptic curve used. The same considerations provided above on acceptable formats currently available for the 'cred_fmt' element of 'sign_info' apply.<a href="#section-5.3-2.5.2.2.1" class="pilcrow">¶</a></p>
 </li>
             </ul>
 <p id="section-5.3-2.5.3">
@@ -2054,12 +2231,12 @@ If this parameter is present and its value is not the CBOR simple value <code>nu
 <li class="normal" id="section-6.1-2.6.2.1">
                 <p id="section-6.1-2.6.2.1.1">Specifically in the case where the joining node is not a current member of the group, the Group Manager might already have achieved proof of possession of the joining node's private key associated with the authentication credential AUTH_CRED_C that the joining node intends to use in the group.<a href="#section-6.1-2.6.2.1.1" class="pilcrow">¶</a></p>
 <p id="section-6.1-2.6.2.1.2">
-For example, that could have happened upon completing the establishment of the secure communication association that is used to protect the Join Request, if the joining node used AUTH_CRED_C to authenticate itself with the Group Manager.<a href="#section-6.1-2.6.2.1.2" class="pilcrow">¶</a></p>
+For example, proof-of-possession could have been achieved upon completing the establishment of the secure communication association that is used to protect the Join Request, if the joining node used AUTH_CRED_C to authenticate itself with the Group Manager.<a href="#section-6.1-2.6.2.1.2" class="pilcrow">¶</a></p>
 <p id="section-6.1-2.6.2.1.3">
 Under these circumstances, the joining node <span class="bcp14">MAY</span> specify an empty PoP evidence, i.e., it sets the value of the 'client_cred_verify' parameter to the empty CBOR byte string (0x40).<a href="#section-6.1-2.6.2.1.3" class="pilcrow">¶</a></p>
 </li>
               <li class="normal" id="section-6.1-2.6.2.2">
-                <p id="section-6.1-2.6.2.2.1">If the conditions above do not hold or the joining node prefers to compute a non-empty PoP evidence, then the joining node  proceeds as follows. In either case, the N_S used to build the PoP input is as defined in <a href="#sssec-challenge-value" class="auto internal xref">Section 6.1.1</a>.<a href="#section-6.1-2.6.2.2.1" class="pilcrow">¶</a></p>
+                <p id="section-6.1-2.6.2.2.1">If the conditions above do not hold or the joining node prefers to compute a non-empty PoP evidence, then the joining node  proceeds as follows. The N_S used to build the PoP input is as defined in <a href="#sssec-challenge-value" class="auto internal xref">Section 6.1.1</a>.<a href="#section-6.1-2.6.2.2.1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-6.1-2.6.2.2.2.1">
                     <p id="section-6.1-2.6.2.2.2.1.1">If the group is not a pairwise-only group, the PoP evidence <span class="bcp14">MUST</span> be a signature. The joining node computes the signature by using the same private key and signature algorithm that it intends to use for signing messages in the OSCORE group.<a href="#section-6.1-2.6.2.2.2.1.1" class="pilcrow">¶</a></p>
@@ -2213,7 +2390,7 @@ The same as above holds if TLS 1.3 <span>[<a href="#RFC8446" class="cite xref">R
             <p id="section-6.2-17.3.1">If the group is a pairwise-only group, the CBOR map <span class="bcp14">MUST</span> contain the 'kdc_dh_creds' parameter, whose CBOR label is registered in <a href="#ssec-iana-ace-groupcomm-parameters-registry" class="auto internal xref">Section 16.3</a>. This parameter has the same format of 'kdc_dh_creds_res' defined in <a href="#gm-dh-info" class="auto internal xref">Section 5.3.2</a> and includes a single element 'kdc_dh_creds_entry', which pertains to the OSCORE group that the joining node has tried to join with the Join Request.<a href="#section-6.2-17.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-6.2-17.4">
-            <p id="section-6.2-17.4.1">The CBOR map <span class="bcp14">MAY</span> include the 'kdcchallenge' parameter, whose CBOR label is defined in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-8" class="relref">Section 8</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>. If present, this parameter is a CBOR byte string, which encodes a newly generated 'kdcchallenge' value that the Client can use when preparing a new Join Request (see <a href="#ssec-join-req-sending" class="auto internal xref">Section 6.1</a>). In such a case the Group Manager <span class="bcp14">MUST</span> store the newly generated value as the 'kdcchallenge' value associated with the joining node, thus replacing the currently stored value (if any).<a href="#section-6.2-17.4.1" class="pilcrow">¶</a></p>
+            <p id="section-6.2-17.4.1">The CBOR map <span class="bcp14">MAY</span> include the 'kdcchallenge' parameter, whose CBOR label is defined in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-8" class="relref">Section 8</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>. If present, this parameter is a CBOR byte string, which encodes a newly generated 'kdcchallenge' value that the Client can use when preparing a new Join Request (see <a href="#ssec-join-req-sending" class="auto internal xref">Section 6.1</a>). In such a case, the Group Manager <span class="bcp14">MUST</span> store the newly generated value as the 'kdcchallenge' value associated with the joining node, thus replacing the currently stored value, if any.<a href="#section-6.2-17.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <p id="section-6.2-18">The information conveyed in such a 4.00 (Bad Request) error response with Content-Format "application/ace-groupcomm+cbor" can be especially useful for the joining node, in case the provisioning of the access token to the Group Manager has not relied on a Token Transfer Request to the /authz-info endpoint (see <a href="#ssec-token-post" class="auto internal xref">Section 5.3</a>).<a href="#section-6.2-18" class="pilcrow">¶</a></p>
@@ -2285,7 +2462,7 @@ This parameter has as value a Group_OSCORE_Input_Material object (REQ17), which 
 More specifically, the 'key' parameter is composed as follows.<a href="#section-6.3-5.2.3" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-6.3-5.2.4.1">
-                <p id="section-6.3-5.2.4.1.1">The 'hkdf' parameter, if present, specifies the HKDF Algorithm that is used in the OSCORE group. The HKDF Algorithm is specified by the HMAC Algorithm value. This parameter <span class="bcp14">MAY</span> be omitted, if the HKDF Algorithm used in the group is HKDF SHA-256. Otherwise, this parameter <span class="bcp14">MUST</span> be present.<a href="#section-6.3-5.2.4.1.1" class="pilcrow">¶</a></p>
+                <p id="section-6.3-5.2.4.1.1">The 'hkdf' parameter, if present, specifies the HKDF Algorithm that is used in the OSCORE group. The HKDF Algorithm is specified by the HMAC Algorithm value. For example, the HKDF Algorithm HKDF SHA-256 is specified as the HMAC Algorithm HMAC 256/256. This parameter <span class="bcp14">MAY</span> be omitted, if the HKDF Algorithm used in the group is HKDF SHA-256. Otherwise, this parameter <span class="bcp14">MUST</span> be present.<a href="#section-6.3-5.2.4.1.1" class="pilcrow">¶</a></p>
 </li>
               <li class="normal" id="section-6.3-5.2.4.2">
                 <p id="section-6.3-5.2.4.2.1">The 'salt' parameter, if present, has as value the OSCORE Master Salt that is used in the OSCORE group. This parameter <span class="bcp14">MAY</span> be omitted, if the Master Salt used in the group is the empty byte string. Otherwise, this parameter <span class="bcp14">MUST</span> be present.<a href="#section-6.3-5.2.4.2.1" class="pilcrow">¶</a></p>
@@ -2297,10 +2474,10 @@ More specifically, the 'key' parameter is composed as follows.<a href="#section-
                 <p id="section-6.3-5.2.4.4.1">The 'contextId' parameter has as value the Group Identifier (Gid), i.e., the OSCORE ID Context of the OSCORE group. This parameter <span class="bcp14">MUST</span> be present.<a href="#section-6.3-5.2.4.4.1" class="pilcrow">¶</a></p>
 </li>
               <li class="normal" id="section-6.3-5.2.4.5">
-                <p id="section-6.3-5.2.4.5.1">The 'group_senderId' parameter has as value the OSCORE Sender ID that the Group Manager has assigned to the joining node in the OSCORE group, as described above. This parameter <span class="bcp14">MUST</span> be present if and only if the node does not join the OSCORE group exclusively with the role of monitor, according to what is specified in the access token (see <a href="#ssec-auth-resp" class="auto internal xref">Section 5.2</a>).<a href="#section-6.3-5.2.4.5.1" class="pilcrow">¶</a></p>
+                <p id="section-6.3-5.2.4.5.1">The 'group_senderId' parameter has as value the OSCORE Sender ID that the Group Manager has assigned to the joining node in the OSCORE group, as described above. This parameter <span class="bcp14">MUST</span> be present if the node does not join the OSCORE group exclusively with the role of monitor, according to what is specified in the access token (see <a href="#ssec-auth-resp" class="auto internal xref">Section 5.2</a>). Otherwise, this parameter <span class="bcp14">MUST NOT</span> be present.<a href="#section-6.3-5.2.4.5.1" class="pilcrow">¶</a></p>
 </li>
               <li class="normal" id="section-6.3-5.2.4.6">
-                <p id="section-6.3-5.2.4.6.1">The 'cred_fmt' parameter specifies the Authentication Credential Format used in the OSCORE group (see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-28#section-2" class="relref">Section 2</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>). This parameter <span class="bcp14">MUST</span> be present and it takes value from the "Label" column of the "COSE Header Parameters" registry <span>[<a href="#COSE.Header.Parameters" class="cite xref">COSE.Header.Parameters</a>]</span> (REQ6), with some of those values also indicating the type of container to use for exchanging the authentication credentials with the Group Manager (e.g., a chain or bag of certificates). Consistently with <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-28#section-2.4" class="relref">Section 2.4</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>, acceptable values denote a format that provides the public key as well as a comprehensive set of information related to the public key algorithm. This information includes, e.g., the elliptic curve used.<a href="#section-6.3-5.2.4.6.1" class="pilcrow">¶</a></p>
+                <p id="section-6.3-5.2.4.6.1">The 'cred_fmt' parameter specifies the Authentication Credential Format used in the OSCORE group (see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-28#section-2" class="relref">Section 2</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>). This parameter <span class="bcp14">MUST</span> be present and it takes value from the "Label" column of the "COSE Header Parameters" registry <span>[<a href="#COSE.Header.Parameters" class="cite xref">COSE.Header.Parameters</a>]</span> (REQ6), with some of those values also indicating the type of container to use for exchanging the authentication credentials with the Group Manager (e.g., a chain or bag of certificates). To align with <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-28#section-2.4" class="relref">Section 2.4</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>, acceptable values denote a format that provides the public key as well as a comprehensive set of information related to the public key algorithm. This information includes, e.g., the elliptic curve used.<a href="#section-6.3-5.2.4.6.1" class="pilcrow">¶</a></p>
 <p id="section-6.3-5.2.4.6.2">
 At the time of writing this specification, acceptable formats of authentication credentials are CBOR Web Tokens (CWTs) and CWT Claims Sets (CCSs) <span>[<a href="#RFC8392" class="cite xref">RFC8392</a>]</span>, X.509 certificates <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span>, and C509 certificates <span>[<a href="#I-D.ietf-cose-cbor-encoded-cert" class="cite xref">I-D.ietf-cose-cbor-encoded-cert</a>]</span>. Further formats may be available in the future, and they would be acceptable to use as long as they comply with the criteria defined above.<a href="#section-6.3-5.2.4.6.2" class="pilcrow">¶</a></p>
 </li>
@@ -2815,7 +2992,7 @@ Due to the set of stale Sender IDs distributed through the rekeying, this ensure
         <h3 id="name-operations-supported-by-cli">
 <a href="#section-8.6" class="section-number selfRef">8.6. </a><a href="#name-operations-supported-by-cli" class="section-name selfRef">Operations Supported by Clients</a>
         </h3>
-<p id="section-8.6-1">Building on what is defined in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-4.1.1" class="relref">Section 4.1.1</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span> and with reference to the resources at the Group Manager newly defined earlier in <a href="#sec-interface-GM" class="auto internal xref">Section 8</a> of this document, it is expected that a Client minimally supports also the following set of operations and corresponding interactions with the Group Manager (REQ12).<a href="#section-8.6-1" class="pilcrow">¶</a></p>
+<p id="section-8.6-1">Building on what is defined in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-4.1.1" class="relref">Section 4.1.1</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span> and with reference to the additional resources at the Group Manager defined in <a href="#sec-interface-GM" class="auto internal xref">Section 8</a> of this document, it is expected that a Client minimally supports also the following set of operations and corresponding interactions with the Group Manager (REQ12).<a href="#section-8.6-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-8.6-2.1">
             <p id="section-8.6-2.1.1">GET request to /ace-group/GROUPNAME/active, in order to check the current status of the OSCORE group.<a href="#section-8.6-2.1.1" class="pilcrow">¶</a></p>
@@ -2857,10 +3034,10 @@ Due to the set of stale Sender IDs distributed through the rekeying, this ensure
               <p id="section-9.1.1-4.1.1">The 'key' parameter is formatted as defined in <a href="#ssec-join-resp" class="auto internal xref">Section 6.3</a> of this document, with the difference that it does not include the 'group_SenderId' parameter.<a href="#section-9.1.1-4.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-9.1.1-4.2">
-              <p id="section-9.1.1-4.2.1">The 'exp' parameter <span class="bcp14">SHOULD</span> be present.<a href="#section-9.1.1-4.2.1" class="pilcrow">¶</a></p>
+              <p id="section-9.1.1-4.2.1">The 'exi' parameter <span class="bcp14">MUST</span> be present.<a href="#section-9.1.1-4.2.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-9.1.1-4.3">
-              <p id="section-9.1.1-4.3.1">The 'exi' parameter <span class="bcp14">MUST</span> be present.<a href="#section-9.1.1-4.3.1" class="pilcrow">¶</a></p>
+              <p id="section-9.1.1-4.3.1">The 'exp' parameter <span class="bcp14">SHOULD</span> be present. Omitting the parameter is not desirable for a requesting group member that has a reliable way to synchronize its internal clock with UTC. That is, if the 'exp' parameter is not present, such a requesting group member falls back on using the 'exi' parameter value to less accurately determine the expiration time of the group keying material conveyed by the 'key' parameter.<a href="#section-9.1.1-4.3.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-9.1.1-4.4">
               <p id="section-9.1.1-4.4.1">The 'ace_groupcomm_profile' parameter <span class="bcp14">MUST</span> be present and has value coap_group_oscore_app.<a href="#section-9.1.1-4.4.1" class="pilcrow">¶</a></p>
@@ -2885,10 +3062,10 @@ Due to the set of stale Sender IDs distributed through the rekeying, this ensure
 Note that, in any other case, the current Sender ID of the group member is not specified as a separate parameter, but instead by the 'group_SenderId' parameter within the 'key' parameter.<a href="#section-9.1.2-4.1.2" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-9.1.2-4.2">
-              <p id="section-9.1.2-4.2.1">The 'exp' parameter <span class="bcp14">SHOULD</span> be present.<a href="#section-9.1.2-4.2.1" class="pilcrow">¶</a></p>
+              <p id="section-9.1.2-4.2.1">The 'exi' parameter <span class="bcp14">MUST</span> be present.<a href="#section-9.1.2-4.2.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-9.1.2-4.3">
-              <p id="section-9.1.2-4.3.1">The 'exi' parameter <span class="bcp14">MUST</span> be present.<a href="#section-9.1.2-4.3.1" class="pilcrow">¶</a></p>
+              <p id="section-9.1.2-4.3.1">The 'exp' parameter <span class="bcp14">SHOULD</span> be present. Omitting the parameter is not desirable for a requesting group member that has a reliable way to synchronize its internal clock with UTC. That is, if the 'exp' parameter is not present, such a requesting group member falls back on using the 'exi' parameter value to less accurately determine the expiration time of the group keying material conveyed by the 'key' parameter.<a href="#section-9.1.2-4.3.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 <p id="section-9.1.2-5">Upon receiving the Key Distribution Response, the group member retrieves the updated security parameters, group keying material, and Sender ID, and, if they differ from the current ones, uses them to set up the new Group OSCORE Security Context as described in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-28#section-2" class="relref">Section 2</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>.<a href="#section-9.1.2-5" class="pilcrow">¶</a></p>
@@ -3039,9 +3216,9 @@ The Group Manager <span class="bcp14">MUST</span> return a 5.03 (Service Unavail
 <p id="section-9.5.2-6">The Group Manager specifies the 'kdc_cred' field and 'kdc_nonce' field as defined for the Join Response in <a href="#ssec-join-resp" class="auto internal xref">Section 6.3</a> of this document. The computed PoP evidence included in the 'kdc_cred_verify' field is always a signature computed over the PoP input defined above (REQ21).<a href="#section-9.5.2-6" class="pilcrow">¶</a></p>
 <p id="section-9.5.2-7">Upon receiving a 2.05 (Content) KDC Authentication Credential Response, the requesting Client retrieves the Group Manager's authentication credential from the 'kdc_cred' parameter. Then, it proceeds as defined in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-4.5.1.1" class="relref">Section 4.5.1.1</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>, with the difference that it verifies the PoP evidence included in 'kdc_cred_verify' field by verifying a signature and using the PoP input defined above (REQ21)<a href="#section-9.5.2-7" class="pilcrow">¶</a></p>
 <p id="section-9.5.2-8">Note that a signature verifier would not receive a successful response from the Group Manager, in case GROUPNAME denotes a pairwise-only group (see <a href="#kdc-cred-fetch" class="auto internal xref">Section 8.1.1</a>).<a href="#section-9.5.2-8" class="pilcrow">¶</a></p>
-<p id="section-9.5.2-9"><a href="#fig-gm-pub-key-signature-verifier-req-resp" class="auto internal xref">Figure 1</a> gives an overview of the exchange described above,  while <a href="#fig-gm-pub-key-signature-verifier-resp-ex" class="auto internal xref">Figure 2</a> shows an example of Signature Verification Data Request-Response.<a href="#section-9.5.2-9" class="pilcrow">¶</a></p>
+<p id="section-9.5.2-9"><a href="#fig-gm-pub-key-signature-verifier-req-resp" class="auto internal xref">Figure 2</a> gives an overview of the exchange described above,  while <a href="#fig-gm-pub-key-signature-verifier-resp-ex" class="auto internal xref">Figure 3</a> shows an example of Signature Verification Data Request-Response.<a href="#section-9.5.2-9" class="pilcrow">¶</a></p>
 <span id="name-message-flow-of-kdc-authent"></span><div id="fig-gm-pub-key-signature-verifier-req-resp">
-<figure id="figure-1">
+<figure id="figure-2">
             <div id="section-9.5.2-10.1">
               <div class="alignCenter art-svg artwork" id="section-9.5.2-10.1.1">
 <svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="176" width="568" viewBox="0 0 568 176" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
@@ -3073,12 +3250,12 @@ The Group Manager <span class="bcp14">MUST</span> return a 5.03 (Service Unavail
                 </svg><a href="#section-9.5.2-10.1.1" class="pilcrow">¶</a>
 </div>
 </div>
-<figcaption><a href="#figure-1" class="selfRef">Figure 1</a>:
+<figcaption><a href="#figure-2" class="selfRef">Figure 2</a>:
 <a href="#name-message-flow-of-kdc-authent" class="selfRef">Message Flow of KDC Authentication Credential Request-Response, with a Signature Verifier as Requesting Client</a>
             </figcaption></figure>
 </div>
 <span id="name-example-of-kdc-authenticati"></span><div id="fig-gm-pub-key-signature-verifier-resp-ex">
-<figure id="figure-2">
+<figure id="figure-3">
             <div class="alignLeft art-text artwork" id="section-9.5.2-11.1">
 <pre>
    Request:
@@ -3115,7 +3292,7 @@ The Group Manager <span class="bcp14">MUST</span> return a 5.03 (Service Unavail
    }
 </pre>
 </div>
-<figcaption><a href="#figure-2" class="selfRef">Figure 2</a>:
+<figcaption><a href="#figure-3" class="selfRef">Figure 3</a>:
 <a href="#name-example-of-kdc-authenticati" class="selfRef">Example of KDC Authentication Credential Request-Response, with a Signature Verifier as Requesting Client</a>
             </figcaption></figure>
 </div>
@@ -3150,9 +3327,9 @@ The 'key' parameter includes only the following data.<a href="#section-9.6-4.1.2
 </li>
         </ul>
 <p id="section-9.6-5">In order to verify signatures in the group (see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-28#section-7.5" class="relref">Section 7.5</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>), the signature verifier relies on: the data retrieved from the 2.05 (Content) Signature Verification Data Response; the public keys of the group members signing the messages to verify, retrieved from those members' authentication credentials that can be obtained as defined in <a href="#sec-pub-keys" class="auto internal xref">Section 9.3</a>; and the public key of the Group Manager, retrieved from the Group Manager's authentication credential that can be obtained as defined in <a href="#sec-gm-pub-key-signature-verifier" class="auto internal xref">Section 9.5.2</a>.<a href="#section-9.6-5" class="pilcrow">¶</a></p>
-<p id="section-9.6-6"><a href="#fig-verif-data-req-resp" class="auto internal xref">Figure 3</a> gives an overview of the exchange described above,  while <a href="#fig-verif-data-req-resp-ex" class="auto internal xref">Figure 4</a> shows an example of Signature Verification Data Request-Response.<a href="#section-9.6-6" class="pilcrow">¶</a></p>
+<p id="section-9.6-6"><a href="#fig-verif-data-req-resp" class="auto internal xref">Figure 4</a> gives an overview of the exchange described above,  while <a href="#fig-verif-data-req-resp-ex" class="auto internal xref">Figure 5</a> shows an example of Signature Verification Data Request-Response.<a href="#section-9.6-6" class="pilcrow">¶</a></p>
 <span id="name-message-flow-of-signature-v"></span><div id="fig-verif-data-req-resp">
-<figure id="figure-3">
+<figure id="figure-4">
           <div id="section-9.6-7.1">
             <div class="alignCenter art-svg artwork" id="section-9.6-7.1.1">
 <svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="176" width="552" viewBox="0 0 552 176" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
@@ -3184,12 +3361,12 @@ The 'key' parameter includes only the following data.<a href="#section-9.6-4.1.2
               </svg><a href="#section-9.6-7.1.1" class="pilcrow">¶</a>
 </div>
 </div>
-<figcaption><a href="#figure-3" class="selfRef">Figure 3</a>:
+<figcaption><a href="#figure-4" class="selfRef">Figure 4</a>:
 <a href="#name-message-flow-of-signature-v" class="selfRef">Message Flow of Signature Verification Data Request-Response</a>
           </figcaption></figure>
 </div>
 <span id="name-example-of-signature-verifi"></span><div id="fig-verif-data-req-resp-ex">
-<figure id="figure-4">
+<figure id="figure-5">
           <div class="alignLeft art-text artwork" id="section-9.6-8.1">
 <pre>
    Request:
@@ -3225,7 +3402,7 @@ The 'key' parameter includes only the following data.<a href="#section-9.6-4.1.2
    }
 </pre>
 </div>
-<figcaption><a href="#figure-4" class="selfRef">Figure 4</a>:
+<figcaption><a href="#figure-5" class="selfRef">Figure 5</a>:
 <a href="#name-example-of-signature-verifi" class="selfRef">Example of Signature Verification Data Request-Response</a>
           </figcaption></figure>
 </div>
@@ -3259,9 +3436,9 @@ The 'key' parameter includes only the following data.<a href="#section-9.6-4.1.2
 <p id="section-9.9-3">The payload of the 2.05 (Content) Group Status Response includes the CBOR Simple Value <code>true</code> (0xf5) if the group is currently active, or the CBOR Simple Value <code>false</code> (0xf4) otherwise. The group is considered active if it is set to allow new members to join, and if communication within the group is fine to occur.<a href="#section-9.9-3" class="pilcrow">¶</a></p>
 <p id="section-9.9-4">Upon learning from a 2.05 (Content) Group Status Response that the group is currently inactive, the group member <span class="bcp14">SHOULD</span> stop sending messages to other group members and <span class="bcp14">MUST</span> stop processing messages from other group members, until the group becomes active again. In the meantime, the group member can still interact with the Group Manager, e.g., in order to check whether the group has become active again.<a href="#section-9.9-4" class="pilcrow">¶</a></p>
 <p id="section-9.9-5">Upon learning from a 2.05 (Content) Group Status Response that the group has become active again, the group member can resume taking part in communications with other group members (i.e., sending messages and processing incoming messages).<a href="#section-9.9-5" class="pilcrow">¶</a></p>
-<p id="section-9.9-6"><a href="#fig-key-status-req-resp" class="auto internal xref">Figure 5</a> gives an overview of the exchange described above, while <a href="#fig-key-status-req-resp-ex" class="auto internal xref">Figure 6</a> shows an example of Group Status Request-Response.<a href="#section-9.9-6" class="pilcrow">¶</a></p>
+<p id="section-9.9-6"><a href="#fig-key-status-req-resp" class="auto internal xref">Figure 6</a> gives an overview of the exchange described above, while <a href="#fig-key-status-req-resp-ex" class="auto internal xref">Figure 7</a> shows an example of Group Status Request-Response.<a href="#section-9.9-6" class="pilcrow">¶</a></p>
 <span id="name-message-flow-of-group-statu"></span><div id="fig-key-status-req-resp">
-<figure id="figure-5">
+<figure id="figure-6">
           <div id="section-9.9-7.1">
             <div class="alignCenter art-svg artwork" id="section-9.9-7.1.1">
 <svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="144" width="560" viewBox="0 0 560 144" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
@@ -3292,12 +3469,12 @@ The 'key' parameter includes only the following data.<a href="#section-9.6-4.1.2
               </svg><a href="#section-9.9-7.1.1" class="pilcrow">¶</a>
 </div>
 </div>
-<figcaption><a href="#figure-5" class="selfRef">Figure 5</a>:
+<figcaption><a href="#figure-6" class="selfRef">Figure 6</a>:
 <a href="#name-message-flow-of-group-statu" class="selfRef">Message Flow of Group Status Request-Response</a>
           </figcaption></figure>
 </div>
 <span id="name-example-of-group-status-req"></span><div id="fig-key-status-req-resp-ex">
-<figure id="figure-6">
+<figure id="figure-7">
           <div class="alignLeft art-text artwork" id="section-9.9-8.1">
 <pre>
    Request:
@@ -3317,7 +3494,7 @@ The 'key' parameter includes only the following data.<a href="#section-9.6-4.1.2
      true
 </pre>
 </div>
-<figcaption><a href="#figure-6" class="selfRef">Figure 6</a>:
+<figcaption><a href="#figure-7" class="selfRef">Figure 7</a>:
 <a href="#name-example-of-group-status-req" class="selfRef">Example of Group Status Request-Response</a>
           </figcaption></figure>
 </div>
@@ -3341,16 +3518,16 @@ Such messages do not provide a direct hint to the correct group name, which the 
           <li class="normal" id="section-9.10-2.3">
             <p id="section-9.10-2.3.1">As a signature verifier, the node also refers to a group name for retrieving the required authentication credentials from the Group Manager (see <a href="#sec-pub-keys" class="auto internal xref">Section 9.3</a>). As discussed above, intercepted messages do not provide a direct hint to the correct group name, while they could specify the current Gid of the group, as the value of the 'kid_context' field of the OSCORE CoAP option. In such a case, upon intercepting a message in the group, the node requires to correctly map the Gid currently used in the group with the invariant group name.<a href="#section-9.10-2.3.1" class="pilcrow">¶</a></p>
 <p id="section-9.10-2.3.2">
-Furthermore, since it is not a group member, the node does not take part to a possible group rekeying. Thus, following a group rekeying and the consequent change of Gid in a group, the node would retain the old Gid value and cannot correctly associate intercepted messages with the right group, especially if acting as a signature verifier in several groups. This in turn prevents the efficient verification of signatures, and especially the retrieval of required, new authentication credentials from the Group Manager.<a href="#section-9.10-2.3.2" class="pilcrow">¶</a></p>
+Since it is not a group member, the node does not take part to a possible group rekeying. Thus, following a group rekeying and the consequent change of Gid in a group, the node would retain the old Gid value and cannot correctly associate intercepted messages with the right group, especially if acting as a signature verifier in several groups. This in turn prevents the efficient verification of signatures, and especially the retrieval of required, new authentication credentials from the Group Manager.<a href="#section-9.10-2.3.2" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <p id="section-9.10-3">In either case, the node only knows the current Gid of the group, as learned from received or intercepted messages exchanged in the group. As detailed below, the node can contact the Group Manager, and request the group name and URI of the group-membership resource corresponding to that Gid. Then, it can use that information to join the group, or get the latest keying material as a current group member, or retrieve authentication credentials used in the group as a signature verifier. To this end, the node sends a Group Name and URI Retrieval Request, as per <span><a href="https://rfc-editor.org/rfc/rfc9594#section-4.2.1.1" class="relref">Section 4.2.1.1</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>.<a href="#section-9.10-3" class="pilcrow">¶</a></p>
 <p id="section-9.10-4">That is, the node sends a CoAP FETCH request to the endpoint /ace-group at the Group Manager formatted as defined in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-4.2.1" class="relref">Section 4.2.1</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>. Each element of the CBOR array 'gid' is a CBOR byte string (REQ13), which encodes the Gid of the group for which the group name and the URI of the group-membership resource are requested.<a href="#section-9.10-4" class="pilcrow">¶</a></p>
 <p id="section-9.10-5">Upon receiving the Group Name and URI Retrieval Request, the Group Manager processes it as per <span><a href="https://rfc-editor.org/rfc/rfc9594#section-4.2.1" class="relref">Section 4.2.1</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>. The success Group Name and URI Retrieval Response is formatted as defined in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-4.2.1" class="relref">Section 4.2.1</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>. Each element of the CBOR array 'gid' is a CBOR byte string (REQ13), which encodes the Gid of the group for which the group name and the URI of the group-membership resource are provided.<a href="#section-9.10-5" class="pilcrow">¶</a></p>
 <p id="section-9.10-6">For each of its groups, the Group Manager maintains an association between the group name and the URI of the group-membership resource on one hand, and only the current Gid for that group on the other hand. That is, the Group Manager does not maintain an association between the former pair and any other Gid for that group than the current, most recent one.<a href="#section-9.10-6" class="pilcrow">¶</a></p>
-<p id="section-9.10-7"><a href="#fig-group-names-req-resp" class="auto internal xref">Figure 7</a> gives an overview of the exchanges described above, while <a href="#fig-group-names-req-resp-ex" class="auto internal xref">Figure 8</a> shows an example of Group Name and URI Retrieval Request-Response.<a href="#section-9.10-7" class="pilcrow">¶</a></p>
+<p id="section-9.10-7"><a href="#fig-group-names-req-resp" class="auto internal xref">Figure 8</a> gives an overview of the exchanges described above, while <a href="#fig-group-names-req-resp-ex" class="auto internal xref">Figure 9</a> shows an example of Group Name and URI Retrieval Request-Response.<a href="#section-9.10-7" class="pilcrow">¶</a></p>
 <span id="name-message-flow-of-group-name-"></span><div id="fig-group-names-req-resp">
-<figure id="figure-7">
+<figure id="figure-8">
           <div id="section-9.10-8.1">
             <div class="alignCenter art-svg artwork" id="section-9.10-8.1.1">
 <svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="144" width="568" viewBox="0 0 568 144" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
@@ -3386,12 +3563,12 @@ Furthermore, since it is not a group member, the node does not take part to a po
               </svg><a href="#section-9.10-8.1.1" class="pilcrow">¶</a>
 </div>
 </div>
-<figcaption><a href="#figure-7" class="selfRef">Figure 7</a>:
+<figcaption><a href="#figure-8" class="selfRef">Figure 8</a>:
 <a href="#name-message-flow-of-group-name-" class="selfRef">Message Flow of Group Name and URI Retrieval Request-Response</a>
           </figcaption></figure>
 </div>
 <span id="name-example-of-group-name-and-u"></span><div id="fig-group-names-req-resp-ex">
-<figure id="figure-8">
+<figure id="figure-9">
           <div class="alignLeft art-text artwork" id="section-9.10-9.1">
 <pre>
    Request:
@@ -3418,7 +3595,7 @@ Furthermore, since it is not a group member, the node does not take part to a po
    }
 </pre>
 </div>
-<figcaption><a href="#figure-8" class="selfRef">Figure 8</a>:
+<figcaption><a href="#figure-9" class="selfRef">Figure 9</a>:
 <a href="#name-example-of-group-name-and-u" class="selfRef">Example of Group Name and URI Retrieval Request-Response</a>
           </figcaption></figure>
 </div>
@@ -3677,9 +3854,9 @@ Then, the group member <span class="bcp14">MUST</span> remove every authenticati
               </ul>
 </li>
           </ul>
-<p id="section-11.3.1-7"><a href="#fig-stale-ids-req-resp" class="auto internal xref">Figure 9</a> gives an overview of the exchange described above,  while <a href="#fig-stale-ids-req-resp-ex" class="auto internal xref">Figure 10</a> shows an example of Stale Sender IDs Request-Response.<a href="#section-11.3.1-7" class="pilcrow">¶</a></p>
+<p id="section-11.3.1-7"><a href="#fig-stale-ids-req-resp" class="auto internal xref">Figure 10</a> gives an overview of the exchange described above,  while <a href="#fig-stale-ids-req-resp-ex" class="auto internal xref">Figure 11</a> shows an example of Stale Sender IDs Request-Response.<a href="#section-11.3.1-7" class="pilcrow">¶</a></p>
 <span id="name-message-flow-of-stale-sende"></span><div id="fig-stale-ids-req-resp">
-<figure id="figure-9">
+<figure id="figure-10">
             <div id="section-11.3.1-8.1">
               <div class="alignCenter art-svg artwork" id="section-11.3.1-8.1.1">
 <svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="176" width="552" viewBox="0 0 552 176" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
@@ -3710,12 +3887,12 @@ Then, the group member <span class="bcp14">MUST</span> remove every authenticati
                 </svg><a href="#section-11.3.1-8.1.1" class="pilcrow">¶</a>
 </div>
 </div>
-<figcaption><a href="#figure-9" class="selfRef">Figure 9</a>:
+<figcaption><a href="#figure-10" class="selfRef">Figure 10</a>:
 <a href="#name-message-flow-of-stale-sende" class="selfRef">Message Flow of Stale Sender IDs Request-Response</a>
             </figcaption></figure>
 </div>
 <span id="name-example-of-stale-sender-ids"></span><div id="fig-stale-ids-req-resp-ex">
-<figure id="figure-10">
+<figure id="figure-11">
             <div class="alignLeft art-text artwork" id="section-11.3.1-9.1">
 <pre>
    Request:
@@ -3738,7 +3915,7 @@ Then, the group member <span class="bcp14">MUST</span> remove every authenticati
      [h'01', h'fc', h'12ab', h'de44', h'ff']
 </pre>
 </div>
-<figcaption><a href="#figure-10" class="selfRef">Figure 10</a>:
+<figcaption><a href="#figure-11" class="selfRef">Figure 11</a>:
 <a href="#name-example-of-stale-sender-ids" class="selfRef">Example of Stale Sender IDs Request-Response</a>
             </figcaption></figure>
 </div>
@@ -4050,13 +4227,13 @@ The Group Manager performs a rekeying when one or more members leave the group, 
             <p id="section-15.2-4.1.1">If the access token has not been provided to the Group Manager by means of a Token Transfer Request to the /authz-info endpoint as in <a href="#ssec-token-post" class="auto internal xref">Section 5.3</a>, then N_S is computed as a 32-byte long challenge. For an example, see points (2) and (3) in <a href="#sssec-challenge-value" class="auto internal xref">Section 6.1.1</a>.<a href="#section-15.2-4.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-15.2-4.2">
-            <p id="section-15.2-4.2.1">If the access token has been provided to the Group Manager by means of a Token Transfer Request to the /authz-info endpoint as in <a href="#ssec-token-post" class="auto internal xref">Section 5.3</a>, then N_S takes the most recent value provided to the Client by the Group Manager in the 'kdcchallenge' parameter, as specified in point (1) of <a href="#sssec-challenge-value" class="auto internal xref">Section 6.1.1</a>. This value is provided either in the Token Transfer Response (see <a href="#ssec-token-post" class="auto internal xref">Section 5.3</a>), or in a 4.00 (Bad Request) error response to a following Join Request (see <a href="#ssec-join-req-processing" class="auto internal xref">Section 6.2</a>). In either case, the N_S value is <span class="bcp14">RECOMMENDED</span> to be at least 8-byte long and it is <span class="bcp14">RECOMMENDED</span> to be a random value.<a href="#section-15.2-4.2.1" class="pilcrow">¶</a></p>
+            <p id="section-15.2-4.2.1">If the access token has been provided to the Group Manager by means of a Token Transfer Request to the /authz-info endpoint as in <a href="#ssec-token-post" class="auto internal xref">Section 5.3</a>, then N_S takes the most recent value provided to the Client by the Group Manager in the 'kdcchallenge' parameter, as specified in point (1) of <a href="#sssec-challenge-value" class="auto internal xref">Section 6.1.1</a>. This value is provided either in the Token Transfer Response (see <a href="#ssec-token-post" class="auto internal xref">Section 5.3</a>), or in a 4.00 (Bad Request) error response to a following Join Request (see <a href="#ssec-join-req-processing" class="auto internal xref">Section 6.2</a>). The N_S value is <span class="bcp14">RECOMMENDED</span> to be at least 8-byte long and it is <span class="bcp14">RECOMMENDED</span> to be a random value.<a href="#section-15.2-4.2.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-15.2-5">If we consider both N_C and N_S to take 8-byte long values, the following considerations hold.<a href="#section-15.2-5" class="pilcrow">¶</a></p>
+<p id="section-15.2-5">If we consider both N_C and N_S to take 8-byte random values, the following considerations hold.<a href="#section-15.2-5" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-15.2-6.1">
-            <p id="section-15.2-6.1.1">Let us consider both N_C and N_S as taking random values, and the Group Manager to never change the value of the N_S provided to a Client during the lifetime of an access token. Then, as per the birthday paradox, the average collision for N_S will happen after 2<sup>32</sup> new transferred access tokens, while the average collision for N_C will happen after 2<sup>32</sup> new Join Requests. This amounts to considerably more token provisionings than the expected new joinings to OSCORE groups under a same Group Manager, as well as to considerably more requests to join OSCORE groups from a same Client using a same access token under a same Group Manager.<a href="#section-15.2-6.1.1" class="pilcrow">¶</a></p>
+            <p id="section-15.2-6.1.1">Let us consider the case where the Group Manager never changes the value of the N_S provided to a Client during the lifetime of an access token. Then, as per the birthday paradox, the average collision for N_S will happen after 2<sup>32</sup> new transferred access tokens, while the average collision for N_C will happen after 2<sup>32</sup> new Join Requests. This amounts to considerably more token provisionings than the expected new joinings to OSCORE groups under a same Group Manager, as well as to considerably more requests to join OSCORE groups from a same Client using a same access token under a same Group Manager.<a href="#section-15.2-6.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-15.2-6.2">
             <p id="section-15.2-6.2.1"><span><a href="https://rfc-editor.org/rfc/rfc9203#section-7" class="relref">Section 7</a> of [<a href="#RFC9203" class="cite xref">RFC9203</a>]</span> and <span><a href="https://rfc-editor.org/rfc/rfc8613#appendix-B.2" class="relref">Appendix B.2</a> of [<a href="#RFC8613" class="cite xref">RFC8613</a>]</span> recommend the use of 8-byte random values as well. Unlike in those cases, the values of N_C and N_S considered in this document are not used for as sensitive operations as the derivation of a Security Context, and thus do not have possible implications in the security of AEAD ciphers.<a href="#section-15.2-6.2.1" class="pilcrow">¶</a></p>
@@ -4093,31 +4270,38 @@ The Group Manager performs a rekeying when one or more members leave the group, 
 <p id="section-16.1-1">IANA is asked to register the following entries in the "OAuth Parameters" registry, following the procedure specified in <span><a href="https://rfc-editor.org/rfc/rfc6749#section-11.2" class="relref">Section 11.2</a> of [<a href="#RFC6749" class="cite xref">RFC6749</a>]</span>.<a href="#section-16.1-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-16.1-2.1">
-            <p id="section-16.1-2.1.1">Name: ecdh_info<a href="#section-16.1-2.1.1" class="pilcrow">¶</a></p>
+            <p id="section-16.1-2.1.1">Entry #1<a href="#section-16.1-2.1.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-16.1-2.1.2.1">
+                <p id="section-16.1-2.1.2.1.1">Name: ecdh_info<a href="#section-16.1-2.1.2.1.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-16.1-2.1.2.2">
+                <p id="section-16.1-2.1.2.2.1">Parameter Usage Location: client-rs request, rs-client response<a href="#section-16.1-2.1.2.2.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-16.1-2.1.2.3">
+                <p id="section-16.1-2.1.2.3.1">Change Controller: IETF<a href="#section-16.1-2.1.2.3.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-16.1-2.1.2.4">
+                <p id="section-16.1-2.1.2.4.1">Reference: [RFC-XXXX]<a href="#section-16.1-2.1.2.4.1" class="pilcrow">¶</a></p>
+</li>
+            </ul>
 </li>
           <li class="normal" id="section-16.1-2.2">
-            <p id="section-16.1-2.2.1">Parameter Usage Location: client-rs request, rs-client response<a href="#section-16.1-2.2.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-16.1-2.3">
-            <p id="section-16.1-2.3.1">Change Controller: IETF<a href="#section-16.1-2.3.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-16.1-2.4">
-            <p id="section-16.1-2.4.1">Reference: [RFC-XXXX]<a href="#section-16.1-2.4.1" class="pilcrow">¶</a></p>
-</li>
-        </ul>
-<p id="section-16.1-3"><br></p>
+            <p id="section-16.1-2.2.1">Entry #2<a href="#section-16.1-2.2.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-16.1-4.1">
-            <p id="section-16.1-4.1.1">Name: kdc_dh_creds<a href="#section-16.1-4.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-16.1-2.2.2.1">
+                <p id="section-16.1-2.2.2.1.1">Name: kdc_dh_creds<a href="#section-16.1-2.2.2.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-16.1-4.2">
-            <p id="section-16.1-4.2.1">Parameter Usage Location: client-rs request, rs-client response<a href="#section-16.1-4.2.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="section-16.1-2.2.2.2">
+                <p id="section-16.1-2.2.2.2.1">Parameter Usage Location: client-rs request, rs-client response<a href="#section-16.1-2.2.2.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-16.1-4.3">
-            <p id="section-16.1-4.3.1">Change Controller: IETF<a href="#section-16.1-4.3.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="section-16.1-2.2.2.3">
+                <p id="section-16.1-2.2.2.3.1">Change Controller: IETF<a href="#section-16.1-2.2.2.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-16.1-4.4">
-            <p id="section-16.1-4.4.1">Reference: [RFC-XXXX]<a href="#section-16.1-4.4.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="section-16.1-2.2.2.4">
+                <p id="section-16.1-2.2.2.4.1">Reference: [RFC-XXXX]<a href="#section-16.1-2.2.2.4.1" class="pilcrow">¶</a></p>
+</li>
+            </ul>
 </li>
         </ul>
 </section>
@@ -4130,37 +4314,44 @@ The Group Manager performs a rekeying when one or more members leave the group, 
 <p id="section-16.2-1">IANA is asked to register the following entries in the "OAuth Parameters CBOR Mappings" registry, following the procedure specified in <span><a href="https://rfc-editor.org/rfc/rfc9200#section-8.10" class="relref">Section 8.10</a> of [<a href="#RFC9200" class="cite xref">RFC9200</a>]</span>.<a href="#section-16.2-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-16.2-2.1">
-            <p id="section-16.2-2.1.1">Name: ecdh_info<a href="#section-16.2-2.1.1" class="pilcrow">¶</a></p>
+            <p id="section-16.2-2.1.1">Entry #1<a href="#section-16.2-2.1.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-16.2-2.1.2.1">
+                <p id="section-16.2-2.1.2.1.1">Name: ecdh_info<a href="#section-16.2-2.1.2.1.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-16.2-2.1.2.2">
+                <p id="section-16.2-2.1.2.2.1">CBOR Key: 47 (suggested)<a href="#section-16.2-2.1.2.2.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-16.2-2.1.2.3">
+                <p id="section-16.2-2.1.2.3.1">Value Type: Null or array<a href="#section-16.2-2.1.2.3.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-16.2-2.1.2.4">
+                <p id="section-16.2-2.1.2.4.1">Reference: [RFC-XXXX]<a href="#section-16.2-2.1.2.4.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-16.2-2.1.2.5">
+                <p id="section-16.2-2.1.2.5.1">Original Specification: [RFC-XXXX]<a href="#section-16.2-2.1.2.5.1" class="pilcrow">¶</a></p>
+</li>
+            </ul>
 </li>
           <li class="normal" id="section-16.2-2.2">
-            <p id="section-16.2-2.2.1">CBOR Key: 47 (suggested)<a href="#section-16.2-2.2.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-16.2-2.3">
-            <p id="section-16.2-2.3.1">Value Type: Null or array<a href="#section-16.2-2.3.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-16.2-2.4">
-            <p id="section-16.2-2.4.1">Reference: [RFC-XXXX]<a href="#section-16.2-2.4.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-16.2-2.5">
-            <p id="section-16.2-2.5.1">Original Specification: [RFC-XXXX]<a href="#section-16.2-2.5.1" class="pilcrow">¶</a></p>
-</li>
-        </ul>
-<p id="section-16.2-3"><br></p>
+            <p id="section-16.2-2.2.1">Entry #2<a href="#section-16.2-2.2.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-16.2-4.1">
-            <p id="section-16.2-4.1.1">Name: kdc_dh_creds<a href="#section-16.2-4.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-16.2-2.2.2.1">
+                <p id="section-16.2-2.2.2.1.1">Name: kdc_dh_creds<a href="#section-16.2-2.2.2.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-16.2-4.2">
-            <p id="section-16.2-4.2.1">CBOR Key: 48 (suggested)<a href="#section-16.2-4.2.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="section-16.2-2.2.2.2">
+                <p id="section-16.2-2.2.2.2.1">CBOR Key: 48 (suggested)<a href="#section-16.2-2.2.2.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-16.2-4.3">
-            <p id="section-16.2-4.3.1">Value Type: Null or array<a href="#section-16.2-4.3.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="section-16.2-2.2.2.3">
+                <p id="section-16.2-2.2.2.3.1">Value Type: Null or array<a href="#section-16.2-2.2.2.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-16.2-4.4">
-            <p id="section-16.2-4.4.1">Reference: [RFC-XXXX]<a href="#section-16.2-4.4.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="section-16.2-2.2.2.4">
+                <p id="section-16.2-2.2.2.4.1">Reference: [RFC-XXXX]<a href="#section-16.2-2.2.2.4.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-16.2-4.5">
-            <p id="section-16.2-4.5.1">Original Specification: [RFC-XXXX]<a href="#section-16.2-4.5.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="section-16.2-2.2.2.5">
+                <p id="section-16.2-2.2.2.5.1">Original Specification: [RFC-XXXX]<a href="#section-16.2-2.2.2.5.1" class="pilcrow">¶</a></p>
+</li>
+            </ul>
 </li>
         </ul>
 </section>
@@ -4173,76 +4364,89 @@ The Group Manager performs a rekeying when one or more members leave the group, 
 <p id="section-16.3-1">IANA is asked to register the following entries to the "ACE Groupcomm Parameters" registry defined in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-11.7" class="relref">Section 11.7</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>.<a href="#section-16.3-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-16.3-2.1">
-            <p id="section-16.3-2.1.1">Name: group_senderId<a href="#section-16.3-2.1.1" class="pilcrow">¶</a></p>
+            <p id="section-16.3-2.1.1">Entry #1<a href="#section-16.3-2.1.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-16.3-2.1.2.1">
+                <p id="section-16.3-2.1.2.1.1">Name: group_senderId<a href="#section-16.3-2.1.2.1.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-16.3-2.1.2.2">
+                <p id="section-16.3-2.1.2.2.1">CBOR Key: 21 (suggested)<a href="#section-16.3-2.1.2.2.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-16.3-2.1.2.3">
+                <p id="section-16.3-2.1.2.3.1">CBOR Type: bstr<a href="#section-16.3-2.1.2.3.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-16.3-2.1.2.4">
+                <p id="section-16.3-2.1.2.4.1">Reference: [RFC-XXXX]<a href="#section-16.3-2.1.2.4.1" class="pilcrow">¶</a></p>
+</li>
+            </ul>
 </li>
           <li class="normal" id="section-16.3-2.2">
-            <p id="section-16.3-2.2.1">CBOR Key: 21 (suggested)<a href="#section-16.3-2.2.1" class="pilcrow">¶</a></p>
+            <p id="section-16.3-2.2.1">Entry #2<a href="#section-16.3-2.2.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-16.3-2.2.2.1">
+                <p id="section-16.3-2.2.2.1.1">Name: ecdh_info<a href="#section-16.3-2.2.2.1.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-16.3-2.2.2.2">
+                <p id="section-16.3-2.2.2.2.1">CBOR Key: 31 (suggested)<a href="#section-16.3-2.2.2.2.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-16.3-2.2.2.3">
+                <p id="section-16.3-2.2.2.3.1">CBOR Type: array<a href="#section-16.3-2.2.2.3.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-16.3-2.2.2.4">
+                <p id="section-16.3-2.2.2.4.1">Reference: [RFC-XXXX]<a href="#section-16.3-2.2.2.4.1" class="pilcrow">¶</a></p>
+</li>
+            </ul>
 </li>
           <li class="normal" id="section-16.3-2.3">
-            <p id="section-16.3-2.3.1">CBOR Type: bstr<a href="#section-16.3-2.3.1" class="pilcrow">¶</a></p>
+            <p id="section-16.3-2.3.1">Entry #3<a href="#section-16.3-2.3.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-16.3-2.3.2.1">
+                <p id="section-16.3-2.3.2.1.1">Name: kdc_dh_creds<a href="#section-16.3-2.3.2.1.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-16.3-2.3.2.2">
+                <p id="section-16.3-2.3.2.2.1">CBOR Key: 32 (suggested)<a href="#section-16.3-2.3.2.2.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-16.3-2.3.2.3">
+                <p id="section-16.3-2.3.2.3.1">CBOR Type: array<a href="#section-16.3-2.3.2.3.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-16.3-2.3.2.4">
+                <p id="section-16.3-2.3.2.4.1">Reference: [RFC-XXXX]<a href="#section-16.3-2.3.2.4.1" class="pilcrow">¶</a></p>
+</li>
+            </ul>
 </li>
           <li class="normal" id="section-16.3-2.4">
-            <p id="section-16.3-2.4.1">Reference: [RFC-XXXX]<a href="#section-16.3-2.4.1" class="pilcrow">¶</a></p>
-</li>
-        </ul>
-<p id="section-16.3-3"><br></p>
+            <p id="section-16.3-2.4.1">Entry #4<a href="#section-16.3-2.4.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-16.3-4.1">
-            <p id="section-16.3-4.1.1">Name: ecdh_info<a href="#section-16.3-4.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-16.3-2.4.2.1">
+                <p id="section-16.3-2.4.2.1.1">Name: sign_enc_key<a href="#section-16.3-2.4.2.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-16.3-4.2">
-            <p id="section-16.3-4.2.1">CBOR Key: 31 (suggested)<a href="#section-16.3-4.2.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="section-16.3-2.4.2.2">
+                <p id="section-16.3-2.4.2.2.1">CBOR Key: 33 (suggested)<a href="#section-16.3-2.4.2.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-16.3-4.3">
-            <p id="section-16.3-4.3.1">CBOR Type: array<a href="#section-16.3-4.3.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="section-16.3-2.4.2.3">
+                <p id="section-16.3-2.4.2.3.1">CBOR Type: bstr<a href="#section-16.3-2.4.2.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-16.3-4.4">
-            <p id="section-16.3-4.4.1">Reference: [RFC-XXXX]<a href="#section-16.3-4.4.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="section-16.3-2.4.2.4">
+                <p id="section-16.3-2.4.2.4.1">Reference: [RFC-XXXX]<a href="#section-16.3-2.4.2.4.1" class="pilcrow">¶</a></p>
 </li>
-        </ul>
-<p id="section-16.3-5"><br></p>
+            </ul>
+</li>
+          <li class="normal" id="section-16.3-2.5">
+            <p id="section-16.3-2.5.1">Entry #5<a href="#section-16.3-2.5.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-16.3-6.1">
-            <p id="section-16.3-6.1.1">Name: kdc_dh_creds<a href="#section-16.3-6.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-16.3-2.5.2.1">
+                <p id="section-16.3-2.5.2.1.1">Name: stale_node_ids<a href="#section-16.3-2.5.2.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-16.3-6.2">
-            <p id="section-16.3-6.2.1">CBOR Key: 32 (suggested)<a href="#section-16.3-6.2.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="section-16.3-2.5.2.2">
+                <p id="section-16.3-2.5.2.2.1">CBOR Key: 34 (suggested)<a href="#section-16.3-2.5.2.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-16.3-6.3">
-            <p id="section-16.3-6.3.1">CBOR Type: array<a href="#section-16.3-6.3.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="section-16.3-2.5.2.3">
+                <p id="section-16.3-2.5.2.3.1">CBOR Type: array<a href="#section-16.3-2.5.2.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-16.3-6.4">
-            <p id="section-16.3-6.4.1">Reference: [RFC-XXXX]<a href="#section-16.3-6.4.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="section-16.3-2.5.2.4">
+                <p id="section-16.3-2.5.2.4.1">Reference: [RFC-XXXX]<a href="#section-16.3-2.5.2.4.1" class="pilcrow">¶</a></p>
 </li>
-        </ul>
-<p id="section-16.3-7"><br></p>
-<ul class="normal">
-<li class="normal" id="section-16.3-8.1">
-            <p id="section-16.3-8.1.1">Name: sign_enc_key<a href="#section-16.3-8.1.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-16.3-8.2">
-            <p id="section-16.3-8.2.1">CBOR Key: 33 (suggested)<a href="#section-16.3-8.2.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-16.3-8.3">
-            <p id="section-16.3-8.3.1">CBOR Type: bstr<a href="#section-16.3-8.3.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-16.3-8.4">
-            <p id="section-16.3-8.4.1">Reference: [RFC-XXXX]<a href="#section-16.3-8.4.1" class="pilcrow">¶</a></p>
-</li>
-        </ul>
-<p id="section-16.3-9"><br></p>
-<ul class="normal">
-<li class="normal" id="section-16.3-10.1">
-            <p id="section-16.3-10.1.1">Name: stale_node_ids<a href="#section-16.3-10.1.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-16.3-10.2">
-            <p id="section-16.3-10.2.1">CBOR Key: 34 (suggested)<a href="#section-16.3-10.2.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-16.3-10.3">
-            <p id="section-16.3-10.3.1">CBOR Type: array<a href="#section-16.3-10.3.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-16.3-10.4">
-            <p id="section-16.3-10.4.1">Reference: [RFC-XXXX]<a href="#section-16.3-10.4.1" class="pilcrow">¶</a></p>
+            </ul>
 </li>
         </ul>
 </section>
@@ -4302,148 +4506,165 @@ The Group Manager performs a rekeying when one or more members leave the group, 
 <p id="section-16.6-1">IANA is asked to register the following entries in the "OSCORE Security Context Parameters" registry defined in <span><a href="https://rfc-editor.org/rfc/rfc9203#section-9.4" class="relref">Section 9.4</a> of [<a href="#RFC9203" class="cite xref">RFC9203</a>]</span>.<a href="#section-16.6-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-16.6-2.1">
-            <p id="section-16.6-2.1.1">Name: group_SenderId<a href="#section-16.6-2.1.1" class="pilcrow">¶</a></p>
+            <p id="section-16.6-2.1.1">Entry #1<a href="#section-16.6-2.1.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-16.6-2.1.2.1">
+                <p id="section-16.6-2.1.2.1.1">Name: group_SenderId<a href="#section-16.6-2.1.2.1.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-16.6-2.1.2.2">
+                <p id="section-16.6-2.1.2.2.1">CBOR Label: 7 (suggested)<a href="#section-16.6-2.1.2.2.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-16.6-2.1.2.3">
+                <p id="section-16.6-2.1.2.3.1">CBOR Type: byte string<a href="#section-16.6-2.1.2.3.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-16.6-2.1.2.4">
+                <p id="section-16.6-2.1.2.4.1">Registry: -<a href="#section-16.6-2.1.2.4.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-16.6-2.1.2.5">
+                <p id="section-16.6-2.1.2.5.1">Description: OSCORE Sender ID assigned to a member of an OSCORE group<a href="#section-16.6-2.1.2.5.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-16.6-2.1.2.6">
+                <p id="section-16.6-2.1.2.6.1">Reference: [RFC-XXXX]<a href="#section-16.6-2.1.2.6.1" class="pilcrow">¶</a></p>
+</li>
+            </ul>
 </li>
           <li class="normal" id="section-16.6-2.2">
-            <p id="section-16.6-2.2.1">CBOR Label: 7 (suggested)<a href="#section-16.6-2.2.1" class="pilcrow">¶</a></p>
+            <p id="section-16.6-2.2.1">Entry #2<a href="#section-16.6-2.2.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-16.6-2.2.2.1">
+                <p id="section-16.6-2.2.2.1.1">Name: cred_fmt<a href="#section-16.6-2.2.2.1.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-16.6-2.2.2.2">
+                <p id="section-16.6-2.2.2.2.1">CBOR Label: 8 (suggested)<a href="#section-16.6-2.2.2.2.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-16.6-2.2.2.3">
+                <p id="section-16.6-2.2.2.3.1">CBOR Type: integer<a href="#section-16.6-2.2.2.3.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-16.6-2.2.2.4">
+                <p id="section-16.6-2.2.2.4.1">Registry: <span>[<a href="#COSE.Header.Parameters" class="cite xref">COSE.Header.Parameters</a>]</span> Labels (integer)<a href="#section-16.6-2.2.2.4.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-16.6-2.2.2.5">
+                <p id="section-16.6-2.2.2.5.1">Description: Format of authentication credentials to be used in the OSCORE group<a href="#section-16.6-2.2.2.5.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-16.6-2.2.2.6">
+                <p id="section-16.6-2.2.2.6.1">Reference: [RFC-XXXX]<a href="#section-16.6-2.2.2.6.1" class="pilcrow">¶</a></p>
+</li>
+            </ul>
 </li>
           <li class="normal" id="section-16.6-2.3">
-            <p id="section-16.6-2.3.1">CBOR Type: byte string<a href="#section-16.6-2.3.1" class="pilcrow">¶</a></p>
+            <p id="section-16.6-2.3.1">Entry #3<a href="#section-16.6-2.3.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-16.6-2.3.2.1">
+                <p id="section-16.6-2.3.2.1.1">Name: gp_enc_alg<a href="#section-16.6-2.3.2.1.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-16.6-2.3.2.2">
+                <p id="section-16.6-2.3.2.2.1">CBOR Label: 9 (suggested)<a href="#section-16.6-2.3.2.2.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-16.6-2.3.2.3">
+                <p id="section-16.6-2.3.2.3.1">CBOR Type: text string / integer<a href="#section-16.6-2.3.2.3.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-16.6-2.3.2.4">
+                <p id="section-16.6-2.3.2.4.1">Registry: <span>[<a href="#COSE.Algorithms" class="cite xref">COSE.Algorithms</a>]</span> Values<a href="#section-16.6-2.3.2.4.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-16.6-2.3.2.5">
+                <p id="section-16.6-2.3.2.5.1">Description: OSCORE Group Encryption Algorithm Value<a href="#section-16.6-2.3.2.5.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-16.6-2.3.2.6">
+                <p id="section-16.6-2.3.2.6.1">Reference: [RFC-XXXX]<a href="#section-16.6-2.3.2.6.1" class="pilcrow">¶</a></p>
+</li>
+            </ul>
 </li>
           <li class="normal" id="section-16.6-2.4">
-            <p id="section-16.6-2.4.1">Registry: -<a href="#section-16.6-2.4.1" class="pilcrow">¶</a></p>
+            <p id="section-16.6-2.4.1">Entry #4<a href="#section-16.6-2.4.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-16.6-2.4.2.1">
+                <p id="section-16.6-2.4.2.1.1">Name: sign_alg<a href="#section-16.6-2.4.2.1.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-16.6-2.4.2.2">
+                <p id="section-16.6-2.4.2.2.1">CBOR Label: 10 (suggested)<a href="#section-16.6-2.4.2.2.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-16.6-2.4.2.3">
+                <p id="section-16.6-2.4.2.3.1">CBOR Type: text string / integer<a href="#section-16.6-2.4.2.3.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-16.6-2.4.2.4">
+                <p id="section-16.6-2.4.2.4.1">Registry: <span>[<a href="#COSE.Algorithms" class="cite xref">COSE.Algorithms</a>]</span> Values<a href="#section-16.6-2.4.2.4.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-16.6-2.4.2.5">
+                <p id="section-16.6-2.4.2.5.1">Description: OSCORE Signature Algorithm Value<a href="#section-16.6-2.4.2.5.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-16.6-2.4.2.6">
+                <p id="section-16.6-2.4.2.6.1">Reference: [RFC-XXXX]<a href="#section-16.6-2.4.2.6.1" class="pilcrow">¶</a></p>
+</li>
+            </ul>
 </li>
           <li class="normal" id="section-16.6-2.5">
-            <p id="section-16.6-2.5.1">Description: OSCORE Sender ID assigned to a member of an OSCORE group<a href="#section-16.6-2.5.1" class="pilcrow">¶</a></p>
+            <p id="section-16.6-2.5.1">Entry #5<a href="#section-16.6-2.5.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-16.6-2.5.2.1">
+                <p id="section-16.6-2.5.2.1.1">Name: sign_params<a href="#section-16.6-2.5.2.1.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-16.6-2.5.2.2">
+                <p id="section-16.6-2.5.2.2.1">CBOR Label: 11 (suggested)<a href="#section-16.6-2.5.2.2.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-16.6-2.5.2.3">
+                <p id="section-16.6-2.5.2.3.1">CBOR Type: array<a href="#section-16.6-2.5.2.3.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-16.6-2.5.2.4">
+                <p id="section-16.6-2.5.2.4.1">Registry: <span>[<a href="#COSE.Algorithms" class="cite xref">COSE.Algorithms</a>]</span> Capabilities, <span>[<a href="#COSE.Key.Types" class="cite xref">COSE.Key.Types</a>]</span> Capabilities, <span>[<a href="#COSE.Elliptic.Curves" class="cite xref">COSE.Elliptic.Curves</a>]</span> Values<a href="#section-16.6-2.5.2.4.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-16.6-2.5.2.5">
+                <p id="section-16.6-2.5.2.5.1">Description: OSCORE Signature Algorithm Parameters<a href="#section-16.6-2.5.2.5.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-16.6-2.5.2.6">
+                <p id="section-16.6-2.5.2.6.1">Reference: [RFC-XXXX]<a href="#section-16.6-2.5.2.6.1" class="pilcrow">¶</a></p>
+</li>
+            </ul>
 </li>
           <li class="normal" id="section-16.6-2.6">
-            <p id="section-16.6-2.6.1">Reference: [RFC-XXXX]<a href="#section-16.6-2.6.1" class="pilcrow">¶</a></p>
-</li>
-        </ul>
-<p id="section-16.6-3"><br></p>
+            <p id="section-16.6-2.6.1">Entry #6<a href="#section-16.6-2.6.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-16.6-4.1">
-            <p id="section-16.6-4.1.1">Name: cred_fmt<a href="#section-16.6-4.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-16.6-2.6.2.1">
+                <p id="section-16.6-2.6.2.1.1">Name: ecdh_alg<a href="#section-16.6-2.6.2.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-16.6-4.2">
-            <p id="section-16.6-4.2.1">CBOR Label: 8 (suggested)<a href="#section-16.6-4.2.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="section-16.6-2.6.2.2">
+                <p id="section-16.6-2.6.2.2.1">CBOR Label: 12 (suggested)<a href="#section-16.6-2.6.2.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-16.6-4.3">
-            <p id="section-16.6-4.3.1">CBOR Type: integer<a href="#section-16.6-4.3.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="section-16.6-2.6.2.3">
+                <p id="section-16.6-2.6.2.3.1">CBOR Type: text string / integer<a href="#section-16.6-2.6.2.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-16.6-4.4">
-            <p id="section-16.6-4.4.1">Registry: <span>[<a href="#COSE.Header.Parameters" class="cite xref">COSE.Header.Parameters</a>]</span> Labels (integer)<a href="#section-16.6-4.4.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="section-16.6-2.6.2.4">
+                <p id="section-16.6-2.6.2.4.1">Registry: <span>[<a href="#COSE.Algorithms" class="cite xref">COSE.Algorithms</a>]</span> Values<a href="#section-16.6-2.6.2.4.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-16.6-4.5">
-            <p id="section-16.6-4.5.1">Description: Format of authentication credentials to be used in the OSCORE group<a href="#section-16.6-4.5.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="section-16.6-2.6.2.5">
+                <p id="section-16.6-2.6.2.5.1">Description: OSCORE Pairwise Key Agreement Algorithm Value<a href="#section-16.6-2.6.2.5.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-16.6-4.6">
-            <p id="section-16.6-4.6.1">Reference: [RFC-XXXX]<a href="#section-16.6-4.6.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="section-16.6-2.6.2.6">
+                <p id="section-16.6-2.6.2.6.1">Reference: [RFC-XXXX]<a href="#section-16.6-2.6.2.6.1" class="pilcrow">¶</a></p>
 </li>
-        </ul>
-<p id="section-16.6-5"><br></p>
+            </ul>
+</li>
+          <li class="normal" id="section-16.6-2.7">
+            <p id="section-16.6-2.7.1">Entry #7<a href="#section-16.6-2.7.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-16.6-6.1">
-            <p id="section-16.6-6.1.1">Name: gp_enc_alg<a href="#section-16.6-6.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-16.6-2.7.2.1">
+                <p id="section-16.6-2.7.2.1.1">Name: ecdh_params<a href="#section-16.6-2.7.2.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-16.6-6.2">
-            <p id="section-16.6-6.2.1">CBOR Label: 9 (suggested)<a href="#section-16.6-6.2.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="section-16.6-2.7.2.2">
+                <p id="section-16.6-2.7.2.2.1">CBOR Label: 13 (suggested)<a href="#section-16.6-2.7.2.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-16.6-6.3">
-            <p id="section-16.6-6.3.1">CBOR Type: text string / integer<a href="#section-16.6-6.3.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="section-16.6-2.7.2.3">
+                <p id="section-16.6-2.7.2.3.1">CBOR Type: array<a href="#section-16.6-2.7.2.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-16.6-6.4">
-            <p id="section-16.6-6.4.1">Registry: <span>[<a href="#COSE.Algorithms" class="cite xref">COSE.Algorithms</a>]</span> Values<a href="#section-16.6-6.4.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="section-16.6-2.7.2.4">
+                <p id="section-16.6-2.7.2.4.1">Registry: <span>[<a href="#COSE.Algorithms" class="cite xref">COSE.Algorithms</a>]</span> Capabilities, <span>[<a href="#COSE.Key.Types" class="cite xref">COSE.Key.Types</a>]</span> Capabilities, <span>[<a href="#COSE.Elliptic.Curves" class="cite xref">COSE.Elliptic.Curves</a>]</span> Values<a href="#section-16.6-2.7.2.4.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-16.6-6.5">
-            <p id="section-16.6-6.5.1">Description: OSCORE Group Encryption Algorithm Value<a href="#section-16.6-6.5.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="section-16.6-2.7.2.5">
+                <p id="section-16.6-2.7.2.5.1">Description: OSCORE Pairwise Key Agreement Algorithm Parameters<a href="#section-16.6-2.7.2.5.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-16.6-6.6">
-            <p id="section-16.6-6.6.1">Reference: [RFC-XXXX]<a href="#section-16.6-6.6.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="section-16.6-2.7.2.6">
+                <p id="section-16.6-2.7.2.6.1">Reference: [RFC-XXXX]<a href="#section-16.6-2.7.2.6.1" class="pilcrow">¶</a></p>
 </li>
-        </ul>
-<p id="section-16.6-7"><br></p>
-<ul class="normal">
-<li class="normal" id="section-16.6-8.1">
-            <p id="section-16.6-8.1.1">Name: sign_alg<a href="#section-16.6-8.1.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-16.6-8.2">
-            <p id="section-16.6-8.2.1">CBOR Label: 10 (suggested)<a href="#section-16.6-8.2.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-16.6-8.3">
-            <p id="section-16.6-8.3.1">CBOR Type: text string / integer<a href="#section-16.6-8.3.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-16.6-8.4">
-            <p id="section-16.6-8.4.1">Registry: <span>[<a href="#COSE.Algorithms" class="cite xref">COSE.Algorithms</a>]</span> Values<a href="#section-16.6-8.4.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-16.6-8.5">
-            <p id="section-16.6-8.5.1">Description: OSCORE Signature Algorithm Value<a href="#section-16.6-8.5.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-16.6-8.6">
-            <p id="section-16.6-8.6.1">Reference: [RFC-XXXX]<a href="#section-16.6-8.6.1" class="pilcrow">¶</a></p>
-</li>
-        </ul>
-<p id="section-16.6-9"><br></p>
-<ul class="normal">
-<li class="normal" id="section-16.6-10.1">
-            <p id="section-16.6-10.1.1">Name: sign_params<a href="#section-16.6-10.1.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-16.6-10.2">
-            <p id="section-16.6-10.2.1">CBOR Label: 11 (suggested)<a href="#section-16.6-10.2.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-16.6-10.3">
-            <p id="section-16.6-10.3.1">CBOR Type: array<a href="#section-16.6-10.3.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-16.6-10.4">
-            <p id="section-16.6-10.4.1">Registry: <span>[<a href="#COSE.Algorithms" class="cite xref">COSE.Algorithms</a>]</span> Capabilities, <span>[<a href="#COSE.Key.Types" class="cite xref">COSE.Key.Types</a>]</span> Capabilities, <span>[<a href="#COSE.Elliptic.Curves" class="cite xref">COSE.Elliptic.Curves</a>]</span> Values<a href="#section-16.6-10.4.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-16.6-10.5">
-            <p id="section-16.6-10.5.1">Description: OSCORE Signature Algorithm Parameters<a href="#section-16.6-10.5.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-16.6-10.6">
-            <p id="section-16.6-10.6.1">Reference: [RFC-XXXX]<a href="#section-16.6-10.6.1" class="pilcrow">¶</a></p>
-</li>
-        </ul>
-<p id="section-16.6-11"><br></p>
-<ul class="normal">
-<li class="normal" id="section-16.6-12.1">
-            <p id="section-16.6-12.1.1">Name: ecdh_alg<a href="#section-16.6-12.1.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-16.6-12.2">
-            <p id="section-16.6-12.2.1">CBOR Label: 12 (suggested)<a href="#section-16.6-12.2.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-16.6-12.3">
-            <p id="section-16.6-12.3.1">CBOR Type: text string / integer<a href="#section-16.6-12.3.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-16.6-12.4">
-            <p id="section-16.6-12.4.1">Registry: <span>[<a href="#COSE.Algorithms" class="cite xref">COSE.Algorithms</a>]</span> Values<a href="#section-16.6-12.4.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-16.6-12.5">
-            <p id="section-16.6-12.5.1">Description: OSCORE Pairwise Key Agreement Algorithm Value<a href="#section-16.6-12.5.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-16.6-12.6">
-            <p id="section-16.6-12.6.1">Reference: [RFC-XXXX]<a href="#section-16.6-12.6.1" class="pilcrow">¶</a></p>
-</li>
-        </ul>
-<p id="section-16.6-13"><br></p>
-<ul class="normal">
-<li class="normal" id="section-16.6-14.1">
-            <p id="section-16.6-14.1.1">Name: ecdh_params<a href="#section-16.6-14.1.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-16.6-14.2">
-            <p id="section-16.6-14.2.1">CBOR Label: 13 (suggested)<a href="#section-16.6-14.2.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-16.6-14.3">
-            <p id="section-16.6-14.3.1">CBOR Type: array<a href="#section-16.6-14.3.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-16.6-14.4">
-            <p id="section-16.6-14.4.1">Registry: <span>[<a href="#COSE.Algorithms" class="cite xref">COSE.Algorithms</a>]</span> Capabilities, <span>[<a href="#COSE.Key.Types" class="cite xref">COSE.Key.Types</a>]</span> Capabilities, <span>[<a href="#COSE.Elliptic.Curves" class="cite xref">COSE.Elliptic.Curves</a>]</span> Values<a href="#section-16.6-14.4.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-16.6-14.5">
-            <p id="section-16.6-14.5.1">Description: OSCORE Pairwise Key Agreement Algorithm Parameters<a href="#section-16.6-14.5.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-16.6-14.6">
-            <p id="section-16.6-14.6.1">Reference: [RFC-XXXX]<a href="#section-16.6-14.6.1" class="pilcrow">¶</a></p>
+            </ul>
 </li>
         </ul>
 </section>
@@ -4478,31 +4699,38 @@ The Group Manager performs a rekeying when one or more members leave the group, 
 <p id="section-16.8-1">For the media-types "application/aif+cbor" and "application/aif+json" defined in <span><a href="https://rfc-editor.org/rfc/rfc9237#section-5.1" class="relref">Section 5.1</a> of [<a href="#RFC9237" class="cite xref">RFC9237</a>]</span>, IANA is requested to register the following entries for the two media-type parameters Toid and Tperm, in the respective sub-registry defined in <span><a href="https://rfc-editor.org/rfc/rfc9237#section-5.2" class="relref">Section 5.2</a> of [<a href="#RFC9237" class="cite xref">RFC9237</a>]</span> within the "MIME Media Type Sub-Parameter" registry group.<a href="#section-16.8-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-16.8-2.1">
-            <p id="section-16.8-2.1.1">Parameter: Toid<a href="#section-16.8-2.1.1" class="pilcrow">¶</a></p>
+            <p id="section-16.8-2.1.1">Entry #1<a href="#section-16.8-2.1.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-16.8-2.1.2.1">
+                <p id="section-16.8-2.1.2.1.1">Parameter: Toid<a href="#section-16.8-2.1.2.1.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-16.8-2.1.2.2">
+                <p id="section-16.8-2.1.2.2.1">Name: oscore-gname<a href="#section-16.8-2.1.2.2.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-16.8-2.1.2.3">
+                <p id="section-16.8-2.1.2.3.1">Description/Specification: OSCORE group name<a href="#section-16.8-2.1.2.3.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-16.8-2.1.2.4">
+                <p id="section-16.8-2.1.2.4.1">Reference: [RFC-XXXX]<a href="#section-16.8-2.1.2.4.1" class="pilcrow">¶</a></p>
+</li>
+            </ul>
 </li>
           <li class="normal" id="section-16.8-2.2">
-            <p id="section-16.8-2.2.1">Name: oscore-gname<a href="#section-16.8-2.2.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-16.8-2.3">
-            <p id="section-16.8-2.3.1">Description/Specification: OSCORE group name<a href="#section-16.8-2.3.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-16.8-2.4">
-            <p id="section-16.8-2.4.1">Reference: [RFC-XXXX]<a href="#section-16.8-2.4.1" class="pilcrow">¶</a></p>
-</li>
-        </ul>
-<p id="section-16.8-3"><br></p>
+            <p id="section-16.8-2.2.1">Entry #2<a href="#section-16.8-2.2.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-16.8-4.1">
-            <p id="section-16.8-4.1.1">Parameter: Tperm<a href="#section-16.8-4.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-16.8-2.2.2.1">
+                <p id="section-16.8-2.2.2.1.1">Parameter: Tperm<a href="#section-16.8-2.2.2.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-16.8-4.2">
-            <p id="section-16.8-4.2.1">Name: oscore-gperm<a href="#section-16.8-4.2.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="section-16.8-2.2.2.2">
+                <p id="section-16.8-2.2.2.2.1">Name: oscore-gperm<a href="#section-16.8-2.2.2.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-16.8-4.3">
-            <p id="section-16.8-4.3.1">Description/Specification: permissions pertaining OSCORE groups<a href="#section-16.8-4.3.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="section-16.8-2.2.2.3">
+                <p id="section-16.8-2.2.2.3.1">Description/Specification: permissions pertaining OSCORE groups<a href="#section-16.8-2.2.2.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-16.8-4.4">
-            <p id="section-16.8-4.4.1">Reference: [RFC-XXXX]<a href="#section-16.8-4.4.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="section-16.8-2.2.2.4">
+                <p id="section-16.8-2.2.2.4.1">Reference: [RFC-XXXX]<a href="#section-16.8-2.2.2.4.1" class="pilcrow">¶</a></p>
+</li>
+            </ul>
 </li>
         </ul>
 </section>
@@ -4515,31 +4743,38 @@ The Group Manager performs a rekeying when one or more members leave the group, 
 <p id="section-16.9-1">IANA is asked to register the following entries in the "CoAP Content-Formats" registry within the "Constrained RESTful Environments (CoRE) Parameters" registry group.<a href="#section-16.9-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-16.9-2.1">
-            <p id="section-16.9-2.1.1">Content Type: application/aif+cbor;toid=oscore-gname;tperm=oscore-gperm<a href="#section-16.9-2.1.1" class="pilcrow">¶</a></p>
+            <p id="section-16.9-2.1.1">Entry #1<a href="#section-16.9-2.1.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-16.9-2.1.2.1">
+                <p id="section-16.9-2.1.2.1.1">Content Type: application/aif+cbor;toid=oscore-gname;tperm=oscore-gperm<a href="#section-16.9-2.1.2.1.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-16.9-2.1.2.2">
+                <p id="section-16.9-2.1.2.2.1">Content Coding: -<a href="#section-16.9-2.1.2.2.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-16.9-2.1.2.3">
+                <p id="section-16.9-2.1.2.3.1">ID: 292 (suggested)<a href="#section-16.9-2.1.2.3.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-16.9-2.1.2.4">
+                <p id="section-16.9-2.1.2.4.1">Reference: [RFC-XXXX]<a href="#section-16.9-2.1.2.4.1" class="pilcrow">¶</a></p>
+</li>
+            </ul>
 </li>
           <li class="normal" id="section-16.9-2.2">
-            <p id="section-16.9-2.2.1">Content Coding: -<a href="#section-16.9-2.2.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-16.9-2.3">
-            <p id="section-16.9-2.3.1">ID: 292 (suggested)<a href="#section-16.9-2.3.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-16.9-2.4">
-            <p id="section-16.9-2.4.1">Reference: [RFC-XXXX]<a href="#section-16.9-2.4.1" class="pilcrow">¶</a></p>
-</li>
-        </ul>
-<p id="section-16.9-3"><br></p>
+            <p id="section-16.9-2.2.1">Entry #2<a href="#section-16.9-2.2.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-16.9-4.1">
-            <p id="section-16.9-4.1.1">Content Type: application/aif+json;toid=oscore-gname;tperm=oscore-gperm<a href="#section-16.9-4.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-16.9-2.2.2.1">
+                <p id="section-16.9-2.2.2.1.1">Content Type: application/aif+json;toid=oscore-gname;tperm=oscore-gperm<a href="#section-16.9-2.2.2.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-16.9-4.2">
-            <p id="section-16.9-4.2.1">Content Coding: -<a href="#section-16.9-4.2.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="section-16.9-2.2.2.2">
+                <p id="section-16.9-2.2.2.2.1">Content Coding: -<a href="#section-16.9-2.2.2.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-16.9-4.3">
-            <p id="section-16.9-4.3.1">ID: 293 (suggested)<a href="#section-16.9-4.3.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="section-16.9-2.2.2.3">
+                <p id="section-16.9-2.2.2.3.1">ID: 293 (suggested)<a href="#section-16.9-2.2.2.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-16.9-4.4">
-            <p id="section-16.9-4.4.1">Reference: [RFC-XXXX]<a href="#section-16.9-4.4.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="section-16.9-2.2.2.4">
+                <p id="section-16.9-2.2.2.4.1">Reference: [RFC-XXXX]<a href="#section-16.9-2.2.2.4.1" class="pilcrow">¶</a></p>
+</li>
+            </ul>
 </li>
         </ul>
 </section>
@@ -4572,37 +4807,46 @@ The Group Manager performs a rekeying when one or more members leave the group, 
 <p id="section-16.11-1">IANA is asked to register the following entries in the "ACE Groupcomm Errors" registry defined in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-11.12" class="relref">Section 11.12</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>.<a href="#section-16.11-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-16.11-2.1">
-            <p id="section-16.11-2.1.1">Value: 7 (suggested)<a href="#section-16.11-2.1.1" class="pilcrow">¶</a></p>
+            <p id="section-16.11-2.1.1">Entry #1<a href="#section-16.11-2.1.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-16.11-2.1.2.1">
+                <p id="section-16.11-2.1.2.1.1">Value: 7 (suggested)<a href="#section-16.11-2.1.2.1.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-16.11-2.1.2.2">
+                <p id="section-16.11-2.1.2.2.1">Description: Signatures not used in the group.<a href="#section-16.11-2.1.2.2.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-16.11-2.1.2.3">
+                <p id="section-16.11-2.1.2.3.1">Reference: [RFC-XXXX]<a href="#section-16.11-2.1.2.3.1" class="pilcrow">¶</a></p>
+</li>
+            </ul>
 </li>
           <li class="normal" id="section-16.11-2.2">
-            <p id="section-16.11-2.2.1">Description: Signatures not used in the group.<a href="#section-16.11-2.2.1" class="pilcrow">¶</a></p>
+            <p id="section-16.11-2.2.1">Entry #2<a href="#section-16.11-2.2.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-16.11-2.2.2.1">
+                <p id="section-16.11-2.2.2.1.1">Value: 8 (suggested)<a href="#section-16.11-2.2.2.1.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-16.11-2.2.2.2">
+                <p id="section-16.11-2.2.2.2.1">Description: Operation permitted only to signature verifiers.<a href="#section-16.11-2.2.2.2.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-16.11-2.2.2.3">
+                <p id="section-16.11-2.2.2.3.1">Reference: [RFC-XXXX]<a href="#section-16.11-2.2.2.3.1" class="pilcrow">¶</a></p>
+</li>
+            </ul>
 </li>
           <li class="normal" id="section-16.11-2.3">
-            <p id="section-16.11-2.3.1">Reference: [RFC-XXXX]<a href="#section-16.11-2.3.1" class="pilcrow">¶</a></p>
-</li>
-        </ul>
-<p id="section-16.11-3"><br></p>
+            <p id="section-16.11-2.3.1">Entry #3<a href="#section-16.11-2.3.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-16.11-4.1">
-            <p id="section-16.11-4.1.1">Value: 8 (suggested)<a href="#section-16.11-4.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-16.11-2.3.2.1">
+                <p id="section-16.11-2.3.2.1.1">Value: 9 (suggested)<a href="#section-16.11-2.3.2.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-16.11-4.2">
-            <p id="section-16.11-4.2.1">Description: Operation permitted only to signature verifiers.<a href="#section-16.11-4.2.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="section-16.11-2.3.2.2">
+                <p id="section-16.11-2.3.2.2.1">Description: Group currently not active.<a href="#section-16.11-2.3.2.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-16.11-4.3">
-            <p id="section-16.11-4.3.1">Reference: [RFC-XXXX]<a href="#section-16.11-4.3.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="section-16.11-2.3.2.3">
+                <p id="section-16.11-2.3.2.3.1">Reference: [RFC-XXXX]<a href="#section-16.11-2.3.2.3.1" class="pilcrow">¶</a></p>
 </li>
-        </ul>
-<p id="section-16.11-5"><br></p>
-<ul class="normal">
-<li class="normal" id="section-16.11-6.1">
-            <p id="section-16.11-6.1.1">Value: 9 (suggested)<a href="#section-16.11-6.1.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-16.11-6.2">
-            <p id="section-16.11-6.2.1">Description: Group currently not active.<a href="#section-16.11-6.2.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-16.11-6.3">
-            <p id="section-16.11-6.3.1">Reference: [RFC-XXXX]<a href="#section-16.11-6.3.1" class="pilcrow">¶</a></p>
+            </ul>
 </li>
         </ul>
 </section>
@@ -4821,7 +5065,7 @@ Entries that do not meet these objectives of clarity and completeness should not
 <dd class="break"></dd>
 <dt id="I-D.ietf-core-groupcomm-bis">[I-D.ietf-core-groupcomm-bis]</dt>
         <dd>
-<span class="refAuthor">Dijk, E.</span> and <span class="refAuthor">M. Tiloca</span>, <span class="refTitle">"Group Communication for the Constrained Application Protocol (CoAP)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-core-groupcomm-bis-15</span>, <time datetime="2025-09-25" class="refDate">25 September 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-groupcomm-bis-15">https://datatracker.ietf.org/doc/html/draft-ietf-core-groupcomm-bis-15</a>&gt;</span>. </dd>
+<span class="refAuthor">Dijk, E.</span> and <span class="refAuthor">M. Tiloca</span>, <span class="refTitle">"Group Communication for the Constrained Application Protocol (CoAP)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-core-groupcomm-bis-16</span>, <time datetime="2026-01-15" class="refDate">15 January 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-groupcomm-bis-16">https://datatracker.ietf.org/doc/html/draft-ietf-core-groupcomm-bis-16</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.ietf-cose-cbor-encoded-cert">[I-D.ietf-cose-cbor-encoded-cert]</dt>
         <dd>
@@ -5067,7 +5311,7 @@ Such a COSE capabilities array is currently defined for the algorithm capability
         </ul>
 <p id="appendix-B.1-3">The CDDL notation <span>[<a href="#RFC8610" class="cite xref">RFC8610</a>]</span> of the 'ecdh_info_entry' parameter is given below.<a href="#appendix-B.1-3" class="pilcrow">¶</a></p>
 <span id="name-ecdh_info_entry-with-genera"></span><div id="fig-ecdh-info-entry-general">
-<figure id="figure-11">
+<figure id="figure-12">
           <div class="lang-CDDL sourcecode" id="appendix-B.1-4.1">
 <pre>
 ecdh_info_entry =
@@ -5082,7 +5326,7 @@ ecdh_info_entry =
 gname = tstr
 </pre>
 </div>
-<figcaption><a href="#figure-11" class="selfRef">Figure 11</a>:
+<figcaption><a href="#figure-12" class="selfRef">Figure 12</a>:
 <a href="#name-ecdh_info_entry-with-genera" class="selfRef">'ecdh_info_entry' with General Format</a>
           </figcaption></figure>
 </div>
@@ -5133,7 +5377,7 @@ For example, if 'ecdh_params'[0][0] specifies the key type as capability of the 
       </h2>
 <p id="appendix-C-1">This section is to be removed before publishing as an RFC.<a href="#appendix-C-1" class="pilcrow">¶</a></p>
 <span id="name-cddl-model-2"></span><div id="fig-cddl-model">
-<figure id="figure-12">
+<figure id="figure-13">
         <div class="alignLeft art-CDDL art-text artwork" id="appendix-C-2.1">
 <pre>
 ; ACE Groupcomm Parameters
@@ -5152,7 +5396,7 @@ sign_alg = 10
 sign_params = 11
 </pre>
 </div>
-<figcaption><a href="#figure-12" class="selfRef">Figure 12</a>:
+<figcaption><a href="#figure-13" class="selfRef">Figure 13</a>:
 <a href="#name-cddl-model-2" class="selfRef">CDDL Model</a>
         </figcaption></figure>
 </div>
@@ -5930,7 +6174,7 @@ sign_params = 11
 <a href="#name-acknowledgments" class="section-name selfRef">Acknowledgments</a>
       </h2>
 <p id="appendix-E-1">Jiye Park contributed as a co-author of initial versions of this document.<a href="#appendix-E-1" class="pilcrow">¶</a></p>
-<p id="appendix-E-2">The authors sincerely thank <span class="contact-name">Christian Amsüss</span>, <span class="contact-name">Santiago Aragón</span>, <span class="contact-name">Stefan Beck</span>, <span class="contact-name">Carsten Bormann</span>, <span class="contact-name">Martin Gunnarsson</span>, <span class="contact-name">Rikard Höglund</span>, <span class="contact-name">Watson Ladd</span>, <span class="contact-name">Daniel Migault</span>, <span class="contact-name">Jim Schaad</span>, <span class="contact-name">Ludwig Seitz</span>, <span class="contact-name">Göran Selander</span>, <span class="contact-name">Peter van der Stok</span>, and <span class="contact-name">Paul Wouters</span> for their comments and feedback.<a href="#appendix-E-2" class="pilcrow">¶</a></p>
+<p id="appendix-E-2">The authors sincerely thank <span class="contact-name">Christian Amsüss</span>, <span class="contact-name">Santiago Aragón</span>, <span class="contact-name">Stefan Beck</span>, <span class="contact-name">Carsten Bormann</span>, <span class="contact-name">Martin Gunnarsson</span>, <span class="contact-name">Russ Housley</span>, <span class="contact-name">Rikard Höglund</span>, <span class="contact-name">Watson Ladd</span>, <span class="contact-name">Daniel Migault</span>, <span class="contact-name">Jim Schaad</span>, <span class="contact-name">Ludwig Seitz</span>, <span class="contact-name">Göran Selander</span>, <span class="contact-name">Peter van der Stok</span>, and <span class="contact-name">Paul Wouters</span> for their comments and feedback.<a href="#appendix-E-2" class="pilcrow">¶</a></p>
 <p id="appendix-E-3">The work on this document has been partly supported by the Sweden's Innovation Agency VINNOVA and the Celtic-Next projects CRITISEC and CYPRESS; by the H2020 project SIFIS-Home (Grant agreement 952652); and by the EIT-Digital High Impact Initiative ACTIVE.<a href="#appendix-E-3" class="pilcrow">¶</a></p>
 </section>
 </div>
