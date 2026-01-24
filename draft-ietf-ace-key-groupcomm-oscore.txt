@@ -5238,7 +5238,7 @@ D.1.  Version -18 to -19
       -  Consequences of not including a parameter in two response
          messages from the Group Manager.
 
-      -  Expicitly mentioned the rationale for computing a proof-of-
+      -  Explicitly mentioned the rationale for computing a proof-of-
          possession (PoP) evidence.
 
    *  IANA considerations:
