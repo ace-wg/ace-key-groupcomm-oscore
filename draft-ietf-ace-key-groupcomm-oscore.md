@@ -2451,7 +2451,7 @@ sign_params = 11
 
   - Consequences of not including a parameter in two response messages from the Group Manager.
 
-  - Expicitly mentioned the rationale for computing a proof-of-possession (PoP) evidence.
+  - Explicitly mentioned the rationale for computing a proof-of-possession (PoP) evidence.
 
 * IANA considerations:
 
