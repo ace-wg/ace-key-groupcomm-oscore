@@ -2427,6 +2427,48 @@ sign_params = 11
 # Document Updates # {#sec-document-updates}
 {:removeinrfc}
 
+## Version -18 to -19 ## {#sec-18-19}
+
+* Extended introduction: clarified relationships between this document and related documents.
+
+* Two more terms mentioned upfront in the terminology section.
+
+* Ensured consistency with RFC 9594 when using an optimized Join Request for re-joining a group if already a member (presence of the 'client_cred' parameter).
+
+* Mentioned also periodic/scheduled group rekeying in the security considerations.
+
+* Added the "Operational Considerations" section.
+
+* Clarifications:
+
+  - Clearer wording about recommended randomness and size of nonces.
+
+  - Rejection of Ed25519/Ed448 authentication credentials in corner cases.
+
+  - Nonce used in a retry Join Request after an error response.
+
+  - Secure communications required as per the transport profile of ACE used.
+
+  - Consequences of not including a parameter in two response messages from the Group Manager.
+
+  - Expicitly mentioned the rationale for computing a proof-of-possession (PoP) evidence.
+
+* IANA considerations:
+
+  - Suggested values for two registrations.
+
+  - Improved readability of registration requests.
+
+  - Definition of the new registry
+
+    - Mentioned the registry group including the new registry.
+
+    - Specifications are not required for Expert Review and one might not exist for a registry entry.
+
+  - Fixed content types in the CoAP Content-Formats registrations.
+
+* Minor fixes and editorial improvements.
+
 ## Version -17 to -18 ## {#sec-17-18}
 
 * Avoid unnecessary normative language.
