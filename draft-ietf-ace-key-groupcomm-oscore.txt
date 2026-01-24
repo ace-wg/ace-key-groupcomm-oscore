@@ -155,24 +155,25 @@ Table of Contents
      B.2.  Format of 'key'
    Appendix C.  CDDL Model
    Appendix D.  Document Updates
-     D.1.  Version -17 to -18
-     D.2.  Version -16 to -17
-     D.3.  Version -15 to -16
-     D.4.  Version -14 to -15
-     D.5.  Version -13 to -14
-     D.6.  Version -12 to -13
-     D.7.  Version -11 to -12
-     D.8.  Version -10 to -11
-     D.9.  Version -09 to -10
-     D.10. Version -08 to -09
-     D.11. Version -07 to -08
-     D.12. Version -06 to -07
-     D.13. Version -05 to -06
-     D.14. Version -04 to -05
-     D.15. Version -03 to -04
-     D.16. Version -02 to -03
-     D.17. Version -01 to -02
-     D.18. Version -00 to -01
+     D.1.  Version -18 to -19
+     D.2.  Version -17 to -18
+     D.3.  Version -16 to -17
+     D.4.  Version -15 to -16
+     D.5.  Version -14 to -15
+     D.6.  Version -13 to -14
+     D.7.  Version -12 to -13
+     D.8.  Version -11 to -12
+     D.9.  Version -10 to -11
+     D.10. Version -09 to -10
+     D.11. Version -08 to -09
+     D.12. Version -07 to -08
+     D.13. Version -06 to -07
+     D.14. Version -05 to -06
+     D.15. Version -04 to -05
+     D.16. Version -03 to -04
+     D.17. Version -02 to -03
+     D.18. Version -01 to -02
+     D.19. Version -00 to -01
    Acknowledgments
    Authors' Addresses
 
@@ -5205,7 +5206,59 @@ Appendix D.  Document Updates
 
    This section is to be removed before publishing as an RFC.
 
-D.1.  Version -17 to -18
+D.1.  Version -18 to -19
+
+   *  Extended introduction: clarified relationships between this
+      document and related documents.
+
+   *  Two more terms mentioned upfront in the terminology section.
+
+   *  Ensured consistency with RFC 9594 when using an optimized Join
+      Request for re-joining a group if already a member (presence of
+      the 'client_cred' parameter).
+
+   *  Mentioned also periodic/scheduled group rekeying in the security
+      considerations.
+
+   *  Added the "Operational Considerations" section.
+
+   *  Clarifications:
+
+      -  Clearer wording about recommended randomness and size of
+         nonces.
+
+      -  Rejection of Ed25519/Ed448 authentication credentials in corner
+         cases.
+
+      -  Nonce used in a retry Join Request after an error response.
+
+      -  Secure communications required as per the transport profile of
+         ACE used.
+
+      -  Consequences of not including a parameter in two response
+         messages from the Group Manager.
+
+      -  Expicitly mentioned the rationale for computing a proof-of-
+         possession (PoP) evidence.
+
+   *  IANA considerations:
+
+      -  Suggested values for two registrations.
+
+      -  Improved readability of registration requests.
+
+      -  Definition of the new registry
+
+         o  Mentioned the registry group including the new registry.
+
+         o  Specifications are not required for Expert Review and one
+            might not exist for a registry entry.
+
+      -  Fixed content types in the CoAP Content-Formats registrations.
+
+   *  Minor fixes and editorial improvements.
+
+D.2.  Version -17 to -18
 
    *  Avoid unnecessary normative language.
 
@@ -5228,7 +5281,7 @@ D.1.  Version -17 to -18
 
    *  Clarifications and editorial improvements.
 
-D.2.  Version -16 to -17
+D.3.  Version -16 to -17
 
    *  CBOR diagnostic notation uses placeholders from a CDDL model.
 
@@ -5312,7 +5365,7 @@ D.2.  Version -16 to -17
 
    *  Clarifications and editorial fixes.
 
-D.3.  Version -15 to -16
+D.4.  Version -15 to -16
 
    *  Early mentioning of invalid combinations of roles.
 
@@ -5326,7 +5379,7 @@ D.3.  Version -15 to -16
 
    *  Clarifications and editorial fixes.
 
-D.4.  Version -14 to -15
+D.5.  Version -14 to -15
 
    *  Alignment with renaming in draft-ietf-ace-key-groupcomm.
 
@@ -5338,7 +5391,7 @@ D.4.  Version -14 to -15
 
    *  Editorial fixes.
 
-D.5.  Version -13 to -14
+D.6.  Version -13 to -14
 
    *  Major reordering of the document sections.
 
@@ -5350,7 +5403,7 @@ D.5.  Version -13 to -14
 
    *  Clarifications and editorial improvements.
 
-D.6.  Version -12 to -13
+D.7.  Version -12 to -13
 
    *  Renamed parameters about authentication credentials.
 
@@ -5364,7 +5417,7 @@ D.6.  Version -12 to -13
    *  Updated textual description of registered ACE Scope Semantics
       value.
 
-D.7.  Version -11 to -12
+D.8.  Version -11 to -12
 
    *  Clarified semantics of 'ecdh_info' and 'kdc_dh_creds'.
 
@@ -5401,7 +5454,7 @@ D.7.  Version -11 to -12
 
    *  Fixes and editorial improvements.
 
-D.8.  Version -10 to -11
+D.9.  Version -10 to -11
 
    *  Removed redundancy of key type capabilities, from 'sign_info',
       'ecdh_info' and 'key'.
@@ -5448,7 +5501,7 @@ D.8.  Version -10 to -11
    *  General format of parameters related to COSE capabilities,
       supporting future registered COSE algorithms (new Appendix).
 
-D.9.  Version -09 to -10
+D.10.  Version -09 to -10
 
    *  Updated non-recycling policy of Sender IDs.
 
@@ -5468,7 +5521,7 @@ D.9.  Version -09 to -10
 
    *  Renumbered requirements.
 
-D.10.  Version -08 to -09
+D.11.  Version -08 to -09
 
    *  The url-path "ace-group" is used.
 
@@ -5502,7 +5555,7 @@ D.10.  Version -08 to -09
 
    *  Clarifications and editorial revision.
 
-D.11.  Version -07 to -08
+D.12.  Version -07 to -08
 
    *  AIF data model to express scope entries.
 
@@ -5521,7 +5574,7 @@ D.11.  Version -07 to -08
 
    *  IANA registrations to support the AIF data model.
 
-D.12.  Version -06 to -07
+D.13.  Version -06 to -07
 
    *  Alignments with draft-ietf-core-oscore-groupcomm.
 
@@ -5534,7 +5587,7 @@ D.12.  Version -06 to -07
 
    *  Editorial revision.
 
-D.13.  Version -05 to -06
+D.14.  Version -05 to -06
 
    *  Added role of external signature verifier.
 
@@ -5564,7 +5617,7 @@ D.13.  Version -05 to -06
 
    *  Editorial improvements.
 
-D.14.  Version -04 to -05
+D.15.  Version -04 to -05
 
    *  Nonce N_S also in error responses to the Join Requests.
 
@@ -5594,7 +5647,7 @@ D.14.  Version -04 to -05
 
    *  Added CBOR values to abbreviate role identifiers in the group.
 
-D.15.  Version -03 to -04
+D.16.  Version -03 to -04
 
    *  New abstract.
 
@@ -5616,7 +5669,7 @@ D.15.  Version -03 to -04
 
    *  Editorial improvements.
 
-D.16.  Version -02 to -03
+D.17.  Version -02 to -03
 
    *  New sections, aligned with the interface of ace-key-groupcomm .
 
@@ -5639,7 +5692,7 @@ D.16.  Version -02 to -03
 
    *  More fulfilled profile requirements (Appendix A).
 
-D.17.  Version -01 to -02
+D.18.  Version -01 to -02
 
    *  Editorial fixes.
 
@@ -5678,7 +5731,7 @@ D.17.  Version -01 to -02
    *  Registered one public key encoding in the "ACE Public Key
       Encoding" IANA registry (Section 9).
 
-D.18.  Version -00 to -01
+D.19.  Version -00 to -01
 
    *  Changed name of 'req_aud' to 'audience' in the Authorization
       Request (Section 3.1).
