@@ -136,7 +136,62 @@ As defined in {{I-D.ietf-core-oscore-groupcomm}}, Group Object Security for Cons
 
 Group OSCORE relies on an entity called Group Manager, which is responsible for managing an OSCORE group and enables the group members to exchange CoAP messages secured with Group OSCORE. The Group Manager can be responsible for multiple groups, coordinates the joining process of new group members, and is entrusted with the distribution and renewal of group keying material.
 
-This document is an application profile of {{RFC9594}}, which itself builds on the Authentication and Authorization for Constrained Environments (ACE) framework {{RFC9200}}. Message exchanges among the participants as well as message formats and processing follow what is specified in {{RFC9594}}, and enable the provisioning and renewing of keying material in group communication scenarios, where Group OSCORE is used to protect CoAP group communication.
+Building on the Authentication and Authorization for Constrained Environments (ACE) framework {{RFC9200}}, the document {{RFC9594}} defines how to request, distribute, and renew keying material and configuration parameters to protect message exchanges in a group communication environment. That is, candidate group members that act as ACE Clients and are authorized to join a group can interact with a Key Distribution Center (KDC) that acts as ACE Resource Server and is responsible for the group. The KDC provides the necessary keying material and parameters to communicate with other group members.
+
+While {{RFC9594}} defines the operations and interface available at the KDC, as well as general message formats for the interactions between Clients and the KDC, it delegates details on the communication and security approaches used in a group to separate application profiles. These are specialized instances of {{RFC9594}} that target a particular group communication approach and define how communications in the group are protected, as well as the specific keying material and configuration parameters provided to group members.
+
+This document specifies an application profile of {{RFC9594}}. Message exchanges among the participants as well as message formats and processing follow what is specified in {{RFC9594}}, and enable the provisioning and renewing of keying material in group communication scenarios, where Group OSCORE is used to protect CoAP group communication. In particular, network nodes that wish to join an OSCORE group act as ACE Clients, while the Group Manager responsible for managing the OSCORE group is the KDC acting as ACE Resource Server.
+
+This application profile leverages protocol-specific transport profiles of ACE (e.g., {{RFC9202}}{{RFC9203}}), in order to achieve communication security, server authentication, and proof of possession for a key owned by the Client and bound to an OAuth 2.0 access token.
+
+{{fig-document-relationships}} overviews the relationships between this document and other related documents mentioned above.
+
+~~~~~~~~~~~ aasvg
++---------------------+  Communications         +------------------+
+| Group communication |  are secured with ...   | Group OSCORE (b) |
+| for CoAP (a)        |------------------------>|                  |
++---------------------+                         +------------------+
+                                                  |
+                                                  | A realization
++----------------------+                          | of Group Manager
+| Transport profiles   |                          | is defined in ...
+| of ACE, e.g., (d)(e) |                          |
++----------------------+                          |
+  ^                                               |
+  |                                               |
+  | Details about security                        v
+  | and secure communication                 o========================o
+  | among ACE participants                   |                        |
+  | are specified in ...                     | >>> This document <<<  |
+  |                                          |                        |
++--------------------+                       |   Key management for   |
+| ACE framework for  |                       | Group OSCORE using ACE |
+| authentication and |                       |                        |
+| authorization (c)  |                       |                        |
++--------------------+                       o========================o
+  |                                               ^
+  | Used to build ...                             |
+  |                                               |
+  v                                               |
++---------------------------------+               |
+| Key provisioning for group      |               | Instanced by the
+| communication using ACE (f)     |               | application profile
+|                                 |               | defined in ...
+| - General message formats       |               |
+| - Operations and interface at a |---------------+
+|   Key Distribution Center (KDC) |
++---------------------------------+
+
+(a) : [I-D.ietf-core-groupcomm-bis]
+(b) : [I-D.ietf-core-oscore-groupcomm]
+(c) : [RFC9200]
+(d) : [RFC9202]
+(e) : [RFC9203]
+(f) : [RFC9594]
+~~~~~~~~~~~
+{: #fig-document-relationships title="Overview of Document Relationships" artwork-align="center"}
+
+Note to RFC Editor: At the bottom of {{fig-document-relationships}}, "\[I-D.ietf-core-groupcomm-bis\]" and "\[I-D.ietf-core-oscore-groupcomm\]" are the reference labels that the present document is currently using for those two referred documents. Before publishing as an RFC, please replace those reference labels with the ones eventually used for the (RFCs resulting from) the two referred documents. Then, please delete this note.
 
 ## Terminology {#ssec-terminology}
 
@@ -155,6 +210,10 @@ Readers are expected to be familiar with:
 * The terms and concepts for protection and processing of CoAP messages through OSCORE {{RFC8613}} and through Group OSCORE {{I-D.ietf-core-oscore-groupcomm}} in group communication scenarios. These especially include:
 
     - Group Manager, as the entity responsible for a set of groups where communications are secured with Group OSCORE. In this document, the Group Manager acts as Resource Server.
+
+    - Group Identifier (Gid): identifier assigned to an OSCORE group, unique within the set of groups of a given Group Manager. The Gid value changes every time the OSCORE group is rekeyed.
+
+    - Birth Gid: with respect to a group member, the Gid obtained by that group member upon (re-)joining the OSCORE group.
 
     - Authentication credential, as the set of information associated with an entity, including that entity's public key and parameters associated with the public key. Examples of authentication credentials are CBOR Web Tokens (CWTs) and CWT Claims Sets (CCSs) {{RFC8392}}, X.509 certificates {{RFC5280}}, and C509 certificates {{I-D.ietf-cose-cbor-encoded-cert}}.
 
@@ -192,15 +251,13 @@ With reference to {{RFC9594}}:
 
 * The node wishing to join the OSCORE group, i.e., the joining node, is the Client.
 
-* The Group Manager is the Key Distribution Center (KDC), acting as a Resource Server.
+* The Group Manager is the KDC, acting as a Resource Server.
 
 * The Authorization Server associated with the Group Manager is the AS.
 
 A node performs the steps described in {{Sections 3 and 4.3.1.1 of RFC9594}} in order to obtain an authorization for joining an OSCORE group and then to join that group. The format and processing of messages exchanged during such steps are further specified in {{sec-joining-node-to-AS}} and {{sec-joining-node-to-GM}} of this document.
 
-All communications between the involved entities (Client, Group Manager, Authorization Server) MUST be secured.
-
-In particular, communications between the Client and the Group Manager leverage protocol-specific transport profiles of ACE to achieve communication security, proof of possession, and server authentication (REQ24). It is expected that, in the commonly referred base-case of this document, the transport profile to use is pre-configured and well-known to nodes participating in constrained applications.
+All communications between the involved entities (Client, Group Manager, Authorization Server) MUST occur and be secured in accordance with the protocol-specific transport profile of ACE used. In particular, communications between the Client and the Group Manager leverage transport profiles of ACE to achieve communication security, proof of possession, and server authentication (REQ24). It is expected that, in the commonly referred base-case of this document, the transport profile to use is pre-configured and well-known to nodes participating in constrained applications.
 
 With respect to what is defined in {{RFC9594}}:
 
@@ -373,7 +430,7 @@ The exchange of Token Transfer Request and Token Transfer Response is defined in
 
   * 'sign_key_parameters' has the same format and value of the COSE capabilities array for the COSE key type of the keys used with the algorithm indicated in 'sign_alg', as specified for that key type in the "Capabilities" column of the "COSE Key Types" registry {{COSE.Key.Types}} (REQ5).
 
-  * 'cred_fmt' takes value from the "Label" column of the "COSE Header Parameters" registry {{COSE.Header.Parameters}} (REQ6). Consistently with {{Section 2.4 of I-D.ietf-core-oscore-groupcomm}}, acceptable values denote a format of authentication credential that provides the public key as well as a comprehensive set of information related to the public key algorithm, including, e.g., the elliptic curve used.
+  * 'cred_fmt' takes value from the "Label" column of the "COSE Header Parameters" registry {{COSE.Header.Parameters}} (REQ6). To align with {{Section 2.4 of I-D.ietf-core-oscore-groupcomm}}, acceptable values denote a format of authentication credential that provides the public key as well as a comprehensive set of information related to the public key algorithm, including, e.g., the elliptic curve used.
 
      At the time of writing this specification, acceptable formats of authentication credentials are CBOR Web Tokens (CWTs) and CWT Claims Sets (CCSs) {{RFC8392}}, X.509 certificates {{RFC5280}}, and C509 certificates {{I-D.ietf-cose-cbor-encoded-cert}}. Further formats may be available in the future, and they would be acceptable to use as long as they comply with the criteria defined above.
 
@@ -389,7 +446,7 @@ The exchange of Token Transfer Request and Token Transfer Response is defined in
 
   * 'ecdh_key_parameters' has the same format and value of the COSE capabilities array for the COSE key type of the keys used with the algorithm indicated in 'ecdh_alg', as specified for that key type in the "Capabilities" column of the "COSE Key Types" registry {{COSE.Key.Types}}.
 
-  * 'cred_fmt' takes value from the "Label" column of the "COSE Header Parameters" registry {{COSE.Header.Parameters}}. Consistently with {{Section 2.4 of I-D.ietf-core-oscore-groupcomm}}, acceptable values denote a format of authentication credential that provides the public key as well as a comprehensive set of information related to the public key algorithm, including, e.g., the elliptic curve used. The same considerations provided above on acceptable formats currently available for the 'cred_fmt' element of 'sign_info' apply.
+  * 'cred_fmt' takes value from the "Label" column of the "COSE Header Parameters" registry {{COSE.Header.Parameters}}. To align with {{Section 2.4 of I-D.ietf-core-oscore-groupcomm}}, acceptable values denote a format of authentication credential that provides the public key as well as a comprehensive set of information related to the public key algorithm, including, e.g., the elliptic curve used. The same considerations provided above on acceptable formats currently available for the 'cred_fmt' element of 'sign_info' apply.
 
   The Group Manager omits the 'ecdh_info' parameter in the Token Transfer Response even if 'ecdh_info' is included in the Token Transfer Request, in case all the OSCORE groups that the Client is authorized to join are signature-only groups.
 
@@ -397,7 +454,7 @@ The exchange of Token Transfer Request and Token Transfer Response is defined in
 
   * 'id' is associated exclusively with OSCORE groups that are pairwise-only groups.
 
-  * 'cred_fmt' takes value from the "Label" column of the "COSE Header Parameters" registry {{COSE.Header.Parameters}}. Consistently with {{Section 2.4 of I-D.ietf-core-oscore-groupcomm}}, acceptable values denote a format of authentication credential that provides the public key as well as a comprehensive set of information related to the public key algorithm, including, e.g., the elliptic curve used. The same considerations provided above on acceptable formats currently available for the 'cred_fmt' element of 'sign_info' apply.
+  * 'cred_fmt' takes value from the "Label" column of the "COSE Header Parameters" registry {{COSE.Header.Parameters}}. To align with {{Section 2.4 of I-D.ietf-core-oscore-groupcomm}}, acceptable values denote a format of authentication credential that provides the public key as well as a comprehensive set of information related to the public key algorithm, including, e.g., the elliptic curve used. The same considerations provided above on acceptable formats currently available for the 'cred_fmt' element of 'sign_info' apply.
 
   The Group Manager omits the 'kdc_dh_creds' parameter in the Token Transfer Response even if 'ecdh_info' is included in the Token Transfer Request, in case none of the OSCORE groups that the Client is authorized to join is a pairwise-only group.
 
@@ -529,11 +586,11 @@ The joining node requests to join the OSCORE group by sending a Join Request mes
 
   * Specifically in the case where the joining node is not a current member of the group, the Group Manager might already have achieved proof of possession of the joining node's private key associated with the authentication credential AUTH_CRED_C that the joining node intends to use in the group.
 
-    For example, that could have happened upon completing the establishment of the secure communication association that is used to protect the Join Request, if the joining node used AUTH_CRED_C to authenticate itself with the Group Manager.
+    For example, proof-of-possession could have been achieved upon completing the establishment of the secure communication association that is used to protect the Join Request, if the joining node used AUTH_CRED_C to authenticate itself with the Group Manager.
 
     Under these circumstances, the joining node MAY specify an empty PoP evidence, i.e., it sets the value of the 'client_cred_verify' parameter to the empty CBOR byte string (0x40).
 
-  * If the conditions above do not hold or the joining node prefers to compute a non-empty PoP evidence, then the joining node  proceeds as follows. In either case, the N_S used to build the PoP input is as defined in {{sssec-challenge-value}}.
+  * If the conditions above do not hold or the joining node prefers to compute a non-empty PoP evidence, then the joining node  proceeds as follows. The N_S used to build the PoP input is as defined in {{sssec-challenge-value}}.
 
     - If the group is not a pairwise-only group, the PoP evidence MUST be a signature. The joining node computes the signature by using the same private key and signature algorithm that it intends to use for signing messages in the OSCORE group.
 
@@ -637,7 +694,7 @@ Unless it is already intended to use Content-Format "application/concise-problem
 
 * If the group is a pairwise-only group, the CBOR map MUST contain the 'kdc_dh_creds' parameter, whose CBOR label is registered in {{ssec-iana-ace-groupcomm-parameters-registry}}. This parameter has the same format of 'kdc_dh_creds_res' defined in {{gm-dh-info}} and includes a single element 'kdc_dh_creds_entry', which pertains to the OSCORE group that the joining node has tried to join with the Join Request.
 
-* The CBOR map MAY include the 'kdcchallenge' parameter, whose CBOR label is defined in {{Section 8 of RFC9594}}. If present, this parameter is a CBOR byte string, which encodes a newly generated 'kdcchallenge' value that the Client can use when preparing a new Join Request (see {{ssec-join-req-sending}}). In such a case the Group Manager MUST store the newly generated value as the 'kdcchallenge' value associated with the joining node, thus replacing the currently stored value (if any).
+* The CBOR map MAY include the 'kdcchallenge' parameter, whose CBOR label is defined in {{Section 8 of RFC9594}}. If present, this parameter is a CBOR byte string, which encodes a newly generated 'kdcchallenge' value that the Client can use when preparing a new Join Request (see {{ssec-join-req-sending}}). In such a case, the Group Manager MUST store the newly generated value as the 'kdcchallenge' value associated with the joining node, thus replacing the currently stored value, if any.
 
 The information conveyed in such a 4.00 (Bad Request) error response with Content-Format "application/ace-groupcomm+cbor" can be especially useful for the joining node, in case the provisioning of the access token to the Group Manager has not relied on a Token Transfer Request to the /authz-info endpoint (see {{ssec-token-post}}).
 
@@ -685,7 +742,7 @@ Then, the Group Manager replies to the joining node, providing the updated secur
 
    More specifically, the 'key' parameter is composed as follows.
 
-   * The 'hkdf' parameter, if present, specifies the HKDF Algorithm that is used in the OSCORE group. The HKDF Algorithm is specified by the HMAC Algorithm value. This parameter MAY be omitted, if the HKDF Algorithm used in the group is HKDF SHA-256. Otherwise, this parameter MUST be present.
+   * The 'hkdf' parameter, if present, specifies the HKDF Algorithm that is used in the OSCORE group. The HKDF Algorithm is specified by the HMAC Algorithm value. For example, the HKDF Algorithm HKDF SHA-256 is specified as the HMAC Algorithm HMAC 256/256. This parameter MAY be omitted, if the HKDF Algorithm used in the group is HKDF SHA-256. Otherwise, this parameter MUST be present.
 
    * The 'salt' parameter, if present, has as value the OSCORE Master Salt that is used in the OSCORE group. This parameter MAY be omitted, if the Master Salt used in the group is the empty byte string. Otherwise, this parameter MUST be present.
 
@@ -693,9 +750,9 @@ Then, the Group Manager replies to the joining node, providing the updated secur
 
    * The 'contextId' parameter has as value the Group Identifier (Gid), i.e., the OSCORE ID Context of the OSCORE group. This parameter MUST be present.
 
-   * The 'group_senderId' parameter has as value the OSCORE Sender ID that the Group Manager has assigned to the joining node in the OSCORE group, as described above. This parameter MUST be present if and only if the node does not join the OSCORE group exclusively with the role of monitor, according to what is specified in the access token (see {{ssec-auth-resp}}).
+   * The 'group_senderId' parameter has as value the OSCORE Sender ID that the Group Manager has assigned to the joining node in the OSCORE group, as described above. This parameter MUST be present if the node does not join the OSCORE group exclusively with the role of monitor, according to what is specified in the access token (see {{ssec-auth-resp}}). Otherwise, this parameter MUST NOT be present.
 
-   * The 'cred_fmt' parameter specifies the Authentication Credential Format used in the OSCORE group (see {{Section 2 of I-D.ietf-core-oscore-groupcomm}}). This parameter MUST be present and it takes value from the "Label" column of the "COSE Header Parameters" registry {{COSE.Header.Parameters}} (REQ6), with some of those values also indicating the type of container to use for exchanging the authentication credentials with the Group Manager (e.g., a chain or bag of certificates). Consistently with {{Section 2.4 of I-D.ietf-core-oscore-groupcomm}}, acceptable values denote a format that provides the public key as well as a comprehensive set of information related to the public key algorithm. This information includes, e.g., the elliptic curve used.
+   * The 'cred_fmt' parameter specifies the Authentication Credential Format used in the OSCORE group (see {{Section 2 of I-D.ietf-core-oscore-groupcomm}}). This parameter MUST be present and it takes value from the "Label" column of the "COSE Header Parameters" registry {{COSE.Header.Parameters}} (REQ6), with some of those values also indicating the type of container to use for exchanging the authentication credentials with the Group Manager (e.g., a chain or bag of certificates). To align with {{Section 2.4 of I-D.ietf-core-oscore-groupcomm}}, acceptable values denote a format that provides the public key as well as a comprehensive set of information related to the public key algorithm. This information includes, e.g., the elliptic curve used.
 
       At the time of writing this specification, acceptable formats of authentication credentials are CBOR Web Tokens (CWTs) and CWT Claims Sets (CCSs) {{RFC8392}}, X.509 certificates {{RFC5280}}, and C509 certificates {{I-D.ietf-cose-cbor-encoded-cert}}. Further formats may be available in the future, and they would be acceptable to use as long as they comply with the criteria defined above.
 
@@ -1001,7 +1058,7 @@ Consistently, in case a node is not a member of the group with group name GROUPN
 
 ## Operations Supported by Clients {#client-operations}
 
-Building on what is defined in {{Section 4.1.1 of RFC9594}} and with reference to the resources at the Group Manager newly defined earlier in {{sec-interface-GM}} of this document, it is expected that a Client minimally supports also the following set of operations and corresponding interactions with the Group Manager (REQ12).
+Building on what is defined in {{Section 4.1.1 of RFC9594}} and with reference to the additional resources at the Group Manager defined in {{sec-interface-GM}} of this document, it is expected that a Client minimally supports also the following set of operations and corresponding interactions with the Group Manager (REQ12).
 
 * GET request to /ace-group/GROUPNAME/active, in order to check the current status of the OSCORE group.
 
@@ -1029,9 +1086,9 @@ The Group Manager processes the Key Distribution Request according to {{Section 
 
 * The 'key' parameter is formatted as defined in {{ssec-join-resp}} of this document, with the difference that it does not include the 'group_SenderId' parameter.
 
-* The 'exp' parameter SHOULD be present.
-
 * The 'exi' parameter MUST be present.
+
+* The 'exp' parameter SHOULD be present. Omitting the parameter is not desirable for a requesting group member that has a reliable way to synchronize its internal clock with UTC. That is, if the 'exp' parameter is not present, such a requesting group member falls back on using the 'exi' parameter value to less accurately determine the expiration time of the group keying material conveyed by the 'key' parameter.
 
 * The 'ace_groupcomm_profile' parameter MUST be present and has value coap_group_oscore_app.
 
@@ -1051,9 +1108,9 @@ The Group Manager processes the Key Distribution Request according to {{Section 
 
   Note that, in any other case, the current Sender ID of the group member is not specified as a separate parameter, but instead by the 'group_SenderId' parameter within the 'key' parameter.
 
-* The 'exp' parameter SHOULD be present.
-
 * The 'exi' parameter MUST be present.
+
+* The 'exp' parameter SHOULD be present. Omitting the parameter is not desirable for a requesting group member that has a reliable way to synchronize its internal clock with UTC. That is, if the 'exp' parameter is not present, such a requesting group member falls back on using the 'exi' parameter value to less accurately determine the expiration time of the group keying material conveyed by the 'key' parameter.
 
 Upon receiving the Key Distribution Response, the group member retrieves the updated security parameters, group keying material, and Sender ID, and, if they differ from the current ones, uses them to set up the new Group OSCORE Security Context as described in {{Section 2 of I-D.ietf-core-oscore-groupcomm}}.
 
@@ -1358,7 +1415,7 @@ A node may want to retrieve from the Group Manager the group name and the URI of
 
 * As a signature verifier, the node also refers to a group name for retrieving the required authentication credentials from the Group Manager (see {{sec-pub-keys}}). As discussed above, intercepted messages do not provide a direct hint to the correct group name, while they could specify the current Gid of the group, as the value of the 'kid_context' field of the OSCORE CoAP option. In such a case, upon intercepting a message in the group, the node requires to correctly map the Gid currently used in the group with the invariant group name.
 
-   Furthermore, since it is not a group member, the node does not take part to a possible group rekeying. Thus, following a group rekeying and the consequent change of Gid in a group, the node would retain the old Gid value and cannot correctly associate intercepted messages with the right group, especially if acting as a signature verifier in several groups. This in turn prevents the efficient verification of signatures, and especially the retrieval of required, new authentication credentials from the Group Manager.
+   Since it is not a group member, the node does not take part to a possible group rekeying. Thus, following a group rekeying and the consequent change of Gid in a group, the node would retain the old Gid value and cannot correctly associate intercepted messages with the right group, especially if acting as a signature verifier in several groups. This in turn prevents the efficient verification of signatures, and especially the retrieval of required, new authentication credentials from the Group Manager.
 
 In either case, the node only knows the current Gid of the group, as learned from received or intercepted messages exchanged in the group. As detailed below, the node can contact the Group Manager, and request the group name and URI of the group-membership resource corresponding to that Gid. Then, it can use that information to join the group, or get the latest keying material as a current group member, or retrieve authentication credentials used in the group as a signature verifier. To this end, the node sends a Group Name and URI Retrieval Request, as per {{Section 4.2.1.1 of RFC9594}}.
 
@@ -1809,11 +1866,11 @@ As defined in {{sssec-challenge-value}}, the way the N\_S value is computed depe
 
 * If the access token has not been provided to the Group Manager by means of a Token Transfer Request to the /authz-info endpoint as in {{ssec-token-post}}, then N\_S is computed as a 32-byte long challenge. For an example, see points (2) and (3) in {{sssec-challenge-value}}.
 
-* If the access token has been provided to the Group Manager by means of a Token Transfer Request to the /authz-info endpoint as in {{ssec-token-post}}, then N\_S takes the most recent value provided to the Client by the Group Manager in the 'kdcchallenge' parameter, as specified in point (1) of {{sssec-challenge-value}}. This value is provided either in the Token Transfer Response (see {{ssec-token-post}}), or in a 4.00 (Bad Request) error response to a following Join Request (see {{ssec-join-req-processing}}). In either case, the N\_S value is RECOMMENDED to be at least 8-byte long and it is RECOMMENDED to be a random value.
+* If the access token has been provided to the Group Manager by means of a Token Transfer Request to the /authz-info endpoint as in {{ssec-token-post}}, then N\_S takes the most recent value provided to the Client by the Group Manager in the 'kdcchallenge' parameter, as specified in point (1) of {{sssec-challenge-value}}. This value is provided either in the Token Transfer Response (see {{ssec-token-post}}), or in a 4.00 (Bad Request) error response to a following Join Request (see {{ssec-join-req-processing}}). The N\_S value is RECOMMENDED to be at least 8-byte long and it is RECOMMENDED to be a random value.
 
-If we consider both N\_C and N\_S to take 8-byte long values, the following considerations hold.
+If we consider both N\_C and N\_S to take 8-byte random values, the following considerations hold.
 
-* Let us consider both N\_C and N\_S as taking random values, and the Group Manager to never change the value of the N\_S provided to a Client during the lifetime of an access token. Then, as per the birthday paradox, the average collision for N\_S will happen after 2<sup>32</sup> new transferred access tokens, while the average collision for N\_C will happen after 2<sup>32</sup> new Join Requests. This amounts to considerably more token provisionings than the expected new joinings to OSCORE groups under a same Group Manager, as well as to considerably more requests to join OSCORE groups from a same Client using a same access token under a same Group Manager.
+* Let us consider the case where the Group Manager never changes the value of the N\_S provided to a Client during the lifetime of an access token. Then, as per the birthday paradox, the average collision for N\_S will happen after 2<sup>32</sup> new transferred access tokens, while the average collision for N\_C will happen after 2<sup>32</sup> new Join Requests. This amounts to considerably more token provisionings than the expected new joinings to OSCORE groups under a same Group Manager, as well as to considerably more requests to join OSCORE groups from a same Client using a same access token under a same Group Manager.
 
 * {{Section 7 of RFC9203}} and {{Section B.2 of RFC8613}} recommend the use of 8-byte random values as well. Unlike in those cases, the values of N\_C and N\_S considered in this document are not used for as sensitive operations as the derivation of a Security Context, and thus do not have possible implications in the security of AEAD ciphers.
 
@@ -1839,156 +1896,148 @@ Note to RFC Editor: Please replace all occurrences of "{{&SELF}}" with the RFC n
 
 IANA is asked to register the following entries in the "OAuth Parameters" registry, following the procedure specified in {{Section 11.2 of RFC6749}}.
 
-* Name: ecdh_info
-* Parameter Usage Location: client-rs request, rs-client response
-* Change Controller: IETF
-* Reference: {{&SELF}}
+* Entry \#1
+  * Name: ecdh_info
+  * Parameter Usage Location: client-rs request, rs-client response
+  * Change Controller: IETF
+  * Reference: {{&SELF}}
 
-<br>
-
-* Name: kdc_dh_creds
-* Parameter Usage Location: client-rs request, rs-client response
-* Change Controller: IETF
-* Reference: {{&SELF}}
+* Entry \#2
+  * Name: kdc_dh_creds
+  * Parameter Usage Location: client-rs request, rs-client response
+  * Change Controller: IETF
+  * Reference: {{&SELF}}
 
 ## OAuth Parameters CBOR Mappings {#iana-kinfo-map}
 
 IANA is asked to register the following entries in the "OAuth Parameters CBOR Mappings" registry, following the procedure specified in {{Section 8.10 of RFC9200}}.
 
-* Name: ecdh_info
-* CBOR Key: 47 (suggested)
-* Value Type: Null or array
-* Reference: {{&SELF}}
-* Original Specification: {{&SELF}}
+* Entry \#1
+  * Name: ecdh_info
+  * CBOR Key: 47 (suggested)
+  * Value Type: Null or array
+  * Reference: {{&SELF}}
+  * Original Specification: {{&SELF}}
 
-<br>
-
-* Name: kdc_dh_creds
-* CBOR Key: 48 (suggested)
-* Value Type: Null or array
-* Reference: {{&SELF}}
-* Original Specification: {{&SELF}}
+* Entry \#2
+  * Name: kdc_dh_creds
+  * CBOR Key: 48 (suggested)
+  * Value Type: Null or array
+  * Reference: {{&SELF}}
+  * Original Specification: {{&SELF}}
 
 ## ACE Groupcomm Parameters {#ssec-iana-ace-groupcomm-parameters-registry}
 
 IANA is asked to register the following entries to the "ACE Groupcomm Parameters" registry defined in {{Section 11.7 of RFC9594}}.
 
-* Name: group_senderId
-* CBOR Key: 21 (suggested)
-* CBOR Type: bstr
-* Reference: {{&SELF}}
+* Entry \#1
+  * Name: group_senderId
+  * CBOR Key: 21 (suggested)
+  * CBOR Type: bstr
+  * Reference: {{&SELF}}
 
-<br>
+* Entry \#2
+  * Name: ecdh_info
+  * CBOR Key: 31 (suggested)
+  * CBOR Type: array
+  * Reference: {{&SELF}}
 
-* Name: ecdh_info
-* CBOR Key: 31 (suggested)
-* CBOR Type: array
-* Reference: {{&SELF}}
+* Entry \#3
+  * Name: kdc_dh_creds
+  * CBOR Key: 32 (suggested)
+  * CBOR Type: array
+  * Reference: {{&SELF}}
 
-<br>
+* Entry \#4
+  * Name: sign_enc_key
+  * CBOR Key: 33 (suggested)
+  * CBOR Type: bstr
+  * Reference: {{&SELF}}
 
-* Name: kdc_dh_creds
-* CBOR Key: 32 (suggested)
-* CBOR Type: array
-* Reference: {{&SELF}}
-
-<br>
-
-* Name: sign_enc_key
-* CBOR Key: 33 (suggested)
-* CBOR Type: bstr
-* Reference: {{&SELF}}
-
-<br>
-
-* Name: stale_node_ids
-* CBOR Key: 34 (suggested)
-* CBOR Type: array
-* Reference: {{&SELF}}
+* Entry \#5
+  * Name: stale_node_ids
+  * CBOR Key: 34 (suggested)
+  * CBOR Type: array
+  * Reference: {{&SELF}}
 
 ## ACE Groupcomm Key Types {#ssec-iana-groupcomm-keys-registry}
 
 IANA is asked to register the following entry in the "ACE Groupcomm Key Types" registry defined in {{Section 11.8 of RFC9594}}.
 
-*  Name: Group_OSCORE_Input_Material object
-*  Key Type Value: GROUPCOMM_KEY_TBD (suggested value: 1)
-*  Profile: "coap_group_oscore_app", registered in {{ssec-iana-groupcomm-profile-registry}} of {{&SELF}}.
-*  Description: A Group_OSCORE_Input_Material object encoded as described in {{ssec-join-resp}} of {{&SELF}}.
-*  Reference: {{&SELF}}
+* Name: Group_OSCORE_Input_Material object
+* Key Type Value: GROUPCOMM_KEY_TBD (suggested value: 1)
+* Profile: "coap_group_oscore_app", registered in {{ssec-iana-groupcomm-profile-registry}} of {{&SELF}}.
+* Description: A Group_OSCORE_Input_Material object encoded as described in {{ssec-join-resp}} of {{&SELF}}.
+* Reference: {{&SELF}}
 
 ## ACE Groupcomm Profiles {#ssec-iana-groupcomm-profile-registry}
 
 IANA is asked to register the following entry in the "ACE Groupcomm Profiles" registry defined in {{Section 11.9 of RFC9594}}.
 
-*  Name: coap_group_oscore_app
-*  Description: Application profile to provision keying material for participating in group communication protected with Group OSCORE as per {{I-D.ietf-core-oscore-groupcomm}}.
-*  CBOR Value: PROFILE_TBD (suggested value: 1)
-*  Reference: {{&SELF}}
+* Name: coap_group_oscore_app
+* Description: Application profile to provision keying material for participating in group communication protected with Group OSCORE as per {{I-D.ietf-core-oscore-groupcomm}}.
+* CBOR Value: PROFILE_TBD (suggested value: 1)
+* Reference: {{&SELF}}
 
 ## OSCORE Security Context Parameters {#ssec-iana-security-context-parameter-registry}
 
 IANA is asked to register the following entries in the "OSCORE Security Context Parameters" registry defined in {{Section 9.4 of RFC9203}}.
 
-*  Name: group_SenderId
-*  CBOR Label: 7 (suggested)
-*  CBOR Type: byte string
-*  Registry: -
-*  Description: OSCORE Sender ID assigned to a member of an OSCORE group
-*  Reference: {{&SELF}}
+* Entry \#1
+  * Name: group_SenderId
+  * CBOR Label: 7 (suggested)
+  * CBOR Type: byte string
+  * Registry: -
+  * Description: OSCORE Sender ID assigned to a member of an OSCORE group
+  * Reference: {{&SELF}}
 
-<br>
+* Entry \#2
+  * Name: cred_fmt
+  * CBOR Label: 8 (suggested)
+  * CBOR Type: integer
+  * Registry: {{COSE.Header.Parameters}} Labels (integer)
+  * Description: Format of authentication credentials to be used in the OSCORE group
+  * Reference: {{&SELF}}
 
-*  Name: cred_fmt
-*  CBOR Label: 8 (suggested)
-*  CBOR Type: integer
-*  Registry: {{COSE.Header.Parameters}} Labels (integer)
-*  Description: Format of authentication credentials to be used in the OSCORE group
-*  Reference: {{&SELF}}
+* Entry \#3
+  * Name: gp_enc_alg
+  * CBOR Label: 9 (suggested)
+  * CBOR Type: text string / integer
+  * Registry: {{COSE.Algorithms}} Values
+  * Description: OSCORE Group Encryption Algorithm Value
+  * Reference: {{&SELF}}
 
-<br>
+* Entry \#4
+  * Name: sign_alg
+  * CBOR Label: 10 (suggested)
+  * CBOR Type: text string / integer
+  * Registry: {{COSE.Algorithms}} Values
+  * Description: OSCORE Signature Algorithm Value
+  * Reference: {{&SELF}}
 
-*  Name: gp_enc_alg
-*  CBOR Label: 9 (suggested)
-*  CBOR Type: text string / integer
-*  Registry: {{COSE.Algorithms}} Values
-*  Description: OSCORE Group Encryption Algorithm Value
-*  Reference: {{&SELF}}
+* Entry \#5
+  * Name: sign_params
+  * CBOR Label: 11 (suggested)
+  * CBOR Type: array
+  * Registry: {{COSE.Algorithms}} Capabilities, {{COSE.Key.Types}} Capabilities, {{COSE.Elliptic.Curves}} Values
+  * Description: OSCORE Signature Algorithm Parameters
+  * Reference: {{&SELF}}
 
-<br>
+* Entry \#6
+  * Name: ecdh_alg
+  * CBOR Label: 12 (suggested)
+  * CBOR Type: text string / integer
+  * Registry: {{COSE.Algorithms}} Values
+  * Description: OSCORE Pairwise Key Agreement Algorithm Value
+  * Reference: {{&SELF}}
 
-*  Name: sign_alg
-*  CBOR Label: 10 (suggested)
-*  CBOR Type: text string / integer
-*  Registry: {{COSE.Algorithms}} Values
-*  Description: OSCORE Signature Algorithm Value
-*  Reference: {{&SELF}}
-
-<br>
-
-*  Name: sign_params
-*  CBOR Label: 11 (suggested)
-*  CBOR Type: array
-*  Registry: {{COSE.Algorithms}} Capabilities, {{COSE.Key.Types}} Capabilities, {{COSE.Elliptic.Curves}} Values
-*  Description: OSCORE Signature Algorithm Parameters
-*  Reference: {{&SELF}}
-
-<br>
-
-*  Name: ecdh_alg
-*  CBOR Label: 12 (suggested)
-*  CBOR Type: text string / integer
-*  Registry: {{COSE.Algorithms}} Values
-*  Description: OSCORE Pairwise Key Agreement Algorithm Value
-*  Reference: {{&SELF}}
-
-<br>
-
-*  Name: ecdh_params
-*  CBOR Label: 13 (suggested)
-*  CBOR Type: array
-*  Registry: {{COSE.Algorithms}} Capabilities, {{COSE.Key.Types}} Capabilities, {{COSE.Elliptic.Curves}} Values
-*  Description: OSCORE Pairwise Key Agreement Algorithm Parameters
-*  Reference: {{&SELF}}
+* Entry \#7
+  * Name: ecdh_params
+  * CBOR Label: 13 (suggested)
+  * CBOR Type: array
+  * Registry: {{COSE.Algorithms}} Capabilities, {{COSE.Key.Types}} Capabilities, {{COSE.Elliptic.Curves}} Values
+  * Description: OSCORE Pairwise Key Agreement Algorithm Parameters
+  * Reference: {{&SELF}}
 
 ## TLS Exporter Labels {#ssec-iana-tls-esporter-label-registry}
 
@@ -2003,48 +2052,40 @@ IANA is asked to register the following entry in the "TLS Exporter Labels" regis
 
 For the media-types "application/aif+cbor" and "application/aif+json" defined in {{Section 5.1 of RFC9237}}, IANA is requested to register the following entries for the two media-type parameters Toid and Tperm, in the respective sub-registry defined in {{Section 5.2 of RFC9237}} within the "MIME Media Type Sub-Parameter" registry group.
 
-* Parameter: Toid
-* Name: oscore-gname
-* Description/Specification: OSCORE group name
-* Reference: {{&SELF}}
+* Entry \#1
+  * Parameter: Toid
+  * Name: oscore-gname
+  * Description/Specification: OSCORE group name
+  * Reference: {{&SELF}}
 
-<br>
-
-* Parameter: Tperm
-* Name: oscore-gperm
-* Description/Specification: permissions pertaining OSCORE groups
-* Reference: {{&SELF}}
+* Entry \#2
+  * Parameter: Tperm
+  * Name: oscore-gperm
+  * Description/Specification: permissions pertaining OSCORE groups
+  * Reference: {{&SELF}}
 
 ## CoAP Content-Formats {#ssec-iana-coap-content-format-registry}
 
 IANA is asked to register the following entries in the "CoAP Content-Formats" registry within the "Constrained RESTful Environments (CoRE) Parameters" registry group.
 
-* Content Type: application/aif+cbor;toid=oscore-gname;tperm=oscore-gperm
+* Entry \#1
+  * Content Type: application/aif+cbor;toid=oscore-gname;tperm=oscore-gperm
+  * Content Coding: -
+  * ID: 292 (suggested)
+  * Reference: {{&SELF}}
 
-* Content Coding: -
-
-* ID: 292 (suggested)
-
-* Reference: {{&SELF}}
-
-<br>
-
-* Content Type: application/aif+json;toid=oscore-gname;tperm=oscore-gperm
-
-* Content Coding: -
-
-* ID: 293 (suggested)
-
-* Reference: {{&SELF}}
+* Entry \#2
+  * Content Type: application/aif+json;toid=oscore-gname;tperm=oscore-gperm
+  * Content Coding: -
+  * ID: 293 (suggested)
+  * Reference: {{&SELF}}
 
 ## CoRE Resource Type # {#iana-rt}
 
 IANA is asked to register the following entry in the "Resource Type (rt=) Link Target Attribute Values" registry within the "Constrained Restful Environments (CoRE) Parameters" registry group.
 
 * Value: "core.osc.gm"
-
 * Description: Group-membership resource of an OSCORE Group Manager.
-
 * Reference: {{&SELF}}
 
 Client applications can use this resource type to discover a group-membership resource at an OSCORE Group Manager, where to send a request for joining the corresponding OSCORE group.
@@ -2053,27 +2094,20 @@ Client applications can use this resource type to discover a group-membership re
 
 IANA is asked to register the following entries in the "ACE Groupcomm Errors" registry defined in {{Section 11.12 of RFC9594}}.
 
-* Value: 7 (suggested)
+* Entry \#1
+  * Value: 7 (suggested)
+  * Description: Signatures not used in the group.
+  * Reference: {{&SELF}}
 
-* Description: Signatures not used in the group.
+* Entry \#2
+  * Value: 8 (suggested)
+  * Description: Operation permitted only to signature verifiers.
+  * Reference: {{&SELF}}
 
-* Reference: {{&SELF}}
-
-<br>
-
-* Value: 8 (suggested)
-
-* Description: Operation permitted only to signature verifiers.
-
-* Reference: {{&SELF}}
-
-<br>
-
-* Value: 9 (suggested)
-
-* Description: Group currently not active.
-
-* Reference: {{&SELF}}
+* Entry \#3
+  * Value: 9 (suggested)
+  * Description: Group currently not active.
+  * Reference: {{&SELF}}
 
 ## Group OSCORE Roles {#ssec-iana-group-oscore-roles-registry}
 
@@ -2738,7 +2772,7 @@ sign_params = 11
 
 Jiye Park contributed as a co-author of initial versions of this document.
 
-The authors sincerely thank {{{Christian Amsüss}}}, {{{Santiago Aragón}}}, {{{Stefan Beck}}}, {{{Carsten Bormann}}}, {{{Martin Gunnarsson}}}, {{{Rikard Höglund}}}, {{{Watson Ladd}}}, {{{Daniel Migault}}}, {{{Jim Schaad}}}, {{{Ludwig Seitz}}}, {{{Göran Selander}}}, {{{Peter van der Stok}}}, and {{{Paul Wouters}}} for their comments and feedback.
+The authors sincerely thank {{{Christian Amsüss}}}, {{{Santiago Aragón}}}, {{{Stefan Beck}}}, {{{Carsten Bormann}}}, {{{Martin Gunnarsson}}}, {{{Russ Housley}}}, {{{Rikard Höglund}}}, {{{Watson Ladd}}}, {{{Daniel Migault}}}, {{{Jim Schaad}}}, {{{Ludwig Seitz}}}, {{{Göran Selander}}}, {{{Peter van der Stok}}}, and {{{Paul Wouters}}} for their comments and feedback.
 
 The work on this document has been partly supported by the Sweden's Innovation Agency VINNOVA and the Celtic-Next projects CRITISEC and CYPRESS; by the H2020 project SIFIS-Home (Grant agreement 952652); and by the EIT-Digital High Impact Initiative ACTIVE.
 
