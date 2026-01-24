@@ -2213,7 +2213,7 @@ The columns of this registry are:
 
 * Description: This field contains a brief description of the role.
 
-* Reference: This field contains a pointer to the public specification for the role.
+* Reference: This field contains a pointer to the public specification for the role, if one exists.
 
 This registry will be initially populated by the values in {{tab-role-values}}. The Reference column for all of these entries will be {{&SELF}}.
 
