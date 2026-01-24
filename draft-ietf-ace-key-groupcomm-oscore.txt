@@ -4522,7 +4522,7 @@ Table of Contents
    *  Description: This field contains a brief description of the role.
 
    *  Reference: This field contains a pointer to the public
-      specification for the role.
+      specification for the role, if one exists.
 
    This registry will be initially populated by the values in Table 1.
    The Reference column for all of these entries will be [RFC-XXXX].
