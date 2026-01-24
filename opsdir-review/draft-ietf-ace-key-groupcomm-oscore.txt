@@ -5,8 +5,8 @@
 ACE Working Group                                              M. Tiloca
 Internet-Draft                                                   RISE AB
 Intended status: Standards Track                            F. Palombini
-Expires: 23 July 2026                                        Ericsson AB
-                                                         19 January 2026
+Expires: 28 July 2026                                        Ericsson AB
+                                                         24 January 2026
 
 
     Key Management for Group Object Security for Constrained RESTful
@@ -44,7 +44,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 23 July 2026.
+   This Internet-Draft will expire on 28 July 2026.
 
 Copyright Notice
 
@@ -129,7 +129,7 @@ Table of Contents
    16. Security Considerations
      16.1.  Management of OSCORE Groups
      16.2.  Size of Nonces as Proof-of-Possesion Challenge
-     16.3.  Reusage of Nonces for Proof-of-Possession Input
+     16.3.  Reuse of Nonces for Proof-of-Possession Input
    17. IANA Considerations
      17.1.  OAuth Parameters
      17.2.  OAuth Parameters CBOR Mappings
@@ -197,13 +197,95 @@ Table of Contents
    joining process of new group members, and is entrusted with the
    distribution and renewal of group keying material.
 
-   This document is an application profile of [RFC9594], which itself
-   builds on the Authentication and Authorization for Constrained
-   Environments (ACE) framework [RFC9200].  Message exchanges among the
-   participants as well as message formats and processing follow what is
-   specified in [RFC9594], and enable the provisioning and renewing of
-   keying material in group communication scenarios, where Group OSCORE
-   is used to protect CoAP group communication.
+   Building on the Authentication and Authorization for Constrained
+   Environments (ACE) framework [RFC9200], the document [RFC9594]
+   defines how to request, distribute, and renew keying material and
+   configuration parameters to protect message exchanges in a group
+   communication environment.  That is, candidate group members that act
+   as ACE Clients and are authorized to join a group can interact with a
+   Key Distribution Center (KDC) that acts as ACE Resource Server and is
+   responsible for the group.  The KDC provides the necessary keying
+   material and parameters to communicate with other group members.
+
+   While [RFC9594] defines the operations and interface available at the
+   KDC, as well as general message formats for the interactions between
+   Clients and the KDC, it delegates details on the communication and
+   security approaches used in a group to separate application profiles.
+   These are specialized instances of [RFC9594] that target a particular
+   group communication approach and define how communications in the
+   group are protected, as well as the specific keying material and
+   configuration parameters provided to group members.
+
+   This document specifies an application profile of [RFC9594].  Message
+   exchanges among the participants as well as message formats and
+   processing follow what is specified in [RFC9594], and enable the
+   provisioning and renewing of keying material in group communication
+   scenarios, where Group OSCORE is used to protect CoAP group
+   communication.  In particular, network nodes that wish to join an
+   OSCORE group act as ACE Clients, while the Group Manager responsible
+   for managing the OSCORE group is the KDC acting as ACE Resource
+   Server.
+
+   This application profile leverages protocol-specific transport
+   profiles of ACE (e.g., [RFC9202][RFC9203]), in order to achieve
+   communication security, server authentication, and proof of
+   possession for a key owned by the Client and bound to an OAuth 2.0
+   access token.
+
+   Figure 1 overviews the relationships between this document and other
+   related documents mentioned above.
+
+ +---------------------+  Communications         +------------------+
+ | Group communication |  are secured with ...   | Group OSCORE (b) |
+ | for CoAP (a)        |------------------------>|                  |
+ +---------------------+                         +------------------+
+                                                   |
+                                                   | A realization
+ +----------------------+                          | of Group Manager
+ | Transport profiles   |                          | is defined in ...
+ | of ACE, e.g., (d)(e) |                          |
+ +----------------------+                          |
+   ^                                               |
+   |                                               |
+   | Details about security                        v
+   | and secure communication                 o========================o
+   | among ACE participants                   |                        |
+   | are specified in ...                     | >>> This document <<<  |
+   |                                          |                        |
+ +--------------------+                       |   Key management for   |
+ | ACE framework for  |                       | Group OSCORE using ACE |
+ | authentication and |                       |                        |
+ | authorization (c)  |                       |                        |
+ +--------------------+                       o========================o
+   |                                               ^
+   | Used to build ...                             |
+   |                                               |
+   v                                               |
+ +---------------------------------+               |
+ | Key provisioning for group      |               | Instanced by the
+ | communication using ACE (f)     |               | application profile
+ |                                 |               | defined in ...
+ | - General message formats       |               |
+ | - Operations and interface at a |---------------+
+ |   Key Distribution Center (KDC) |
+ +---------------------------------+
+
+ (a) : [I-D.ietf-core-groupcomm-bis]
+ (b) : [I-D.ietf-core-oscore-groupcomm]
+ (c) : [RFC9200]
+ (d) : [RFC9202]
+ (e) : [RFC9203]
+ (f) : [RFC9594]
+
+              Figure 1: Overview of Document Relationships
+
+   Note to RFC Editor: At the bottom of Figure 1, "[I-D.ietf-core-
+   groupcomm-bis]" and "[I-D.ietf-core-oscore-groupcomm]" are the
+   reference labels that the present document is currently using for
+   those two referred documents.  Before publishing as an RFC, please
+   replace those reference labels with the ones eventually used for the
+   (RFCs resulting from) the two referred documents.  Then, please
+   delete this note.
 
 1.1.  Terminology
 
@@ -249,6 +331,13 @@ Table of Contents
       -  Group Manager, as the entity responsible for a set of groups
          where communications are secured with Group OSCORE.  In this
          document, the Group Manager acts as Resource Server.
+
+      -  Group Identifier (Gid): identifier assigned to an OSCORE group,
+         unique within the set of groups of a given Group Manager.  The
+         Gid value changes every time the OSCORE group is rekeyed.
+
+      -  Birth Gid: with respect to a group member, the Gid obtained by
+         that group member upon (re-)joining the OSCORE group.
 
       -  Authentication credential, as the set of information associated
          with an entity, including that entity's public key and
@@ -297,13 +386,13 @@ Table of Contents
 
    In the CBOR diagnostic notation used in this document, constructs of
    the form e'SOME_NAME' are replaced by the value assigned to SOME_NAME
-   in the CDDL model shown in Figure 12 of Appendix C.  For example,
+   in the CDDL model shown in Figure 13 of Appendix C.  For example,
    {e'gp_enc_alg': 10, e'sign_alg': -8} stands for {9: 10, 10: -8}.
 
    Note to RFC Editor: Please delete the paragraph immediately preceding
    this note.  Also, in the CBOR diagnostic notation used in this
    document, please replace the constructs of the form e'SOME_NAME' with
-   the value assigned to SOME_NAME in the CDDL model shown in Figure 12
+   the value assigned to SOME_NAME in the CDDL model shown in Figure 13
    of Appendix C.  Finally, please delete this note.
 
 2.  Protocol Overview
@@ -332,8 +421,7 @@ Table of Contents
    *  The node wishing to join the OSCORE group, i.e., the joining node,
       is the Client.
 
-   *  The Group Manager is the Key Distribution Center (KDC), acting as
-      a Resource Server.
+   *  The Group Manager is the KDC, acting as a Resource Server.
 
    *  The Authorization Server associated with the Group Manager is the
       AS.
@@ -345,15 +433,14 @@ Table of Contents
    Section 5 and Section 6 of this document.
 
    All communications between the involved entities (Client, Group
-   Manager, Authorization Server) MUST be secured.
-
+   Manager, Authorization Server) MUST occur and be secured in
+   accordance with the protocol-specific transport profile of ACE used.
    In particular, communications between the Client and the Group
-   Manager leverage protocol-specific transport profiles of ACE to
-   achieve communication security, proof of possession, and server
-   authentication (REQ24).  It is expected that, in the commonly
-   referred base-case of this document, the transport profile to use is
-   pre-configured and well-known to nodes participating in constrained
-   applications.
+   Manager leverage transport profiles of ACE to achieve communication
+   security, proof of possession, and server authentication (REQ24).  It
+   is expected that, in the commonly referred base-case of this
+   document, the transport profile to use is pre-configured and well-
+   known to nodes participating in constrained applications.
 
    With respect to what is defined in [RFC9594]:
 
@@ -696,12 +783,11 @@ Table of Contents
 
       -  'cred_fmt' takes value from the "Label" column of the "COSE
          Header Parameters" registry [COSE.Header.Parameters] (REQ6).
-         Consistently with Section 2.4 of
-         [I-D.ietf-core-oscore-groupcomm], acceptable values denote a
-         format of authentication credential that provides the public
-         key as well as a comprehensive set of information related to
-         the public key algorithm, including, e.g., the elliptic curve
-         used.
+         To align with Section 2.4 of [I-D.ietf-core-oscore-groupcomm],
+         acceptable values denote a format of authentication credential
+         that provides the public key as well as a comprehensive set of
+         information related to the public key algorithm, including,
+         e.g., the elliptic curve used.
 
          At the time of writing this specification, acceptable formats
          of authentication credentials are CBOR Web Tokens (CWTs) and
@@ -740,15 +826,14 @@ Table of Contents
          registry [COSE.Key.Types].
 
       -  'cred_fmt' takes value from the "Label" column of the "COSE
-         Header Parameters" registry [COSE.Header.Parameters].
-         Consistently with Section 2.4 of
-         [I-D.ietf-core-oscore-groupcomm], acceptable values denote a
-         format of authentication credential that provides the public
-         key as well as a comprehensive set of information related to
-         the public key algorithm, including, e.g., the elliptic curve
-         used.  The same considerations provided above on acceptable
-         formats currently available for the 'cred_fmt' element of
-         'sign_info' apply.
+         Header Parameters" registry [COSE.Header.Parameters].  To align
+         with Section 2.4 of [I-D.ietf-core-oscore-groupcomm],
+         acceptable values denote a format of authentication credential
+         that provides the public key as well as a comprehensive set of
+         information related to the public key algorithm, including,
+         e.g., the elliptic curve used.  The same considerations
+         provided above on acceptable formats currently available for
+         the 'cred_fmt' element of 'sign_info' apply.
 
       The Group Manager omits the 'ecdh_info' parameter in the Token
       Transfer Response even if 'ecdh_info' is included in the Token
@@ -763,15 +848,14 @@ Table of Contents
          pairwise-only groups.
 
       -  'cred_fmt' takes value from the "Label" column of the "COSE
-         Header Parameters" registry [COSE.Header.Parameters].
-         Consistently with Section 2.4 of
-         [I-D.ietf-core-oscore-groupcomm], acceptable values denote a
-         format of authentication credential that provides the public
-         key as well as a comprehensive set of information related to
-         the public key algorithm, including, e.g., the elliptic curve
-         used.  The same considerations provided above on acceptable
-         formats currently available for the 'cred_fmt' element of
-         'sign_info' apply.
+         Header Parameters" registry [COSE.Header.Parameters].  To align
+         with Section 2.4 of [I-D.ietf-core-oscore-groupcomm],
+         acceptable values denote a format of authentication credential
+         that provides the public key as well as a comprehensive set of
+         information related to the public key algorithm, including,
+         e.g., the elliptic curve used.  The same considerations
+         provided above on acceptable formats currently available for
+         the 'cred_fmt' element of 'sign_info' apply.
 
       The Group Manager omits the 'kdc_dh_creds' parameter in the Token
       Transfer Response even if 'ecdh_info' is included in the Token
@@ -1055,12 +1139,15 @@ Table of Contents
          current member of the group, the Group Manager might already
          have achieved proof of possession of the joining node's private
          key associated with the authentication credential AUTH_CRED_C
-         that the joining node intends to use in the group.
+         that the joining node intends to use in the group.  That is,
+         the joining node might have already proven the possession of
+         its own private key to the Group Manager.
 
-         For example, that could have happened upon completing the
-         establishment of the secure communication association that is
-         used to protect the Join Request, if the joining node used
-         AUTH_CRED_C to authenticate itself with the Group Manager.
+         For example, proof-of-possession could have been achieved upon
+         completing the establishment of the secure communication
+         association that is used to protect the Join Request, if the
+         joining node used AUTH_CRED_C to authenticate itself with the
+         Group Manager.
 
          Under these circumstances, the joining node MAY specify an
          empty PoP evidence, i.e., it sets the value of the
@@ -1069,8 +1156,9 @@ Table of Contents
 
       -  If the conditions above do not hold or the joining node prefers
          to compute a non-empty PoP evidence, then the joining node
-         proceeds as follows.  In either case, the N_S used to build the
-         PoP input is as defined in Section 6.1.1.
+         proceeds as follows to prove the possession of its own private
+         key.  In either case, the N_S used to build the PoP input is as
+         defined in Section 6.1.1.
 
          o  If the group is not a pairwise-only group, the PoP evidence
             MUST be a signature.  The joining node computes the
@@ -1148,8 +1236,8 @@ Table of Contents
    It is up to applications or future specifications to define how N_S
    is computed in further alternative settings.
 
-   Section 16.3 provides security considerations on the reusage of the
-   N_S challenge.
+   Section 16.3 provides security considerations on the reuse of the N_S
+   challenge.
 
 6.2.  Receive the Join Request
 
@@ -1331,10 +1419,10 @@ Table of Contents
       label is defined in Section 8 of [RFC9594].  If present, this
       parameter is a CBOR byte string, which encodes a newly generated
       'kdcchallenge' value that the Client can use when preparing a new
-      Join Request (see Section 6.1).  In such a case the Group Manager
+      Join Request (see Section 6.1).  In such a case, the Group Manager
       MUST store the newly generated value as the 'kdcchallenge' value
       associated with the joining node, thus replacing the currently
-      stored value (if any).
+      stored value, if any.
 
    The information conveyed in such a 4.00 (Bad Request) error response
    with Content-Format "application/ace-groupcomm+cbor" can be
@@ -1458,9 +1546,11 @@ Table of Contents
 
       -  The 'hkdf' parameter, if present, specifies the HKDF Algorithm
          that is used in the OSCORE group.  The HKDF Algorithm is
-         specified by the HMAC Algorithm value.  This parameter MAY be
-         omitted, if the HKDF Algorithm used in the group is HKDF SHA-
-         256.  Otherwise, this parameter MUST be present.
+         specified by the HMAC Algorithm value.  For example, the HKDF
+         Algorithm HKDF SHA-256 is specified as the HMAC Algorithm HMAC
+         256/256.  This parameter MAY be omitted, if the HKDF Algorithm
+         used in the group is HKDF SHA-256.  Otherwise, this parameter
+         MUST be present.
 
       -  The 'salt' parameter, if present, has as value the OSCORE
          Master Salt that is used in the OSCORE group.  This parameter
@@ -1477,9 +1567,10 @@ Table of Contents
       -  The 'group_senderId' parameter has as value the OSCORE Sender
          ID that the Group Manager has assigned to the joining node in
          the OSCORE group, as described above.  This parameter MUST be
-         present if and only if the node does not join the OSCORE group
-         exclusively with the role of monitor, according to what is
-         specified in the access token (see Section 5.2).
+         present if the node does not join the OSCORE group exclusively
+         with the role of monitor, according to what is specified in the
+         access token (see Section 5.2).  Otherwise, this parameter MUST
+         NOT be present.
 
       -  The 'cred_fmt' parameter specifies the Authentication
          Credential Format used in the OSCORE group (see Section 2 of
@@ -1488,12 +1579,12 @@ Table of Contents
          Header Parameters" registry [COSE.Header.Parameters] (REQ6),
          with some of those values also indicating the type of container
          to use for exchanging the authentication credentials with the
-         Group Manager (e.g., a chain or bag of certificates).
-         Consistently with Section 2.4 of
-         [I-D.ietf-core-oscore-groupcomm], acceptable values denote a
-         format that provides the public key as well as a comprehensive
-         set of information related to the public key algorithm.  This
-         information includes, e.g., the elliptic curve used.
+         Group Manager (e.g., a chain or bag of certificates).  To align
+         with Section 2.4 of [I-D.ietf-core-oscore-groupcomm],
+         acceptable values denote a format that provides the public key
+         as well as a comprehensive set of information related to the
+         public key algorithm.  This information includes, e.g., the
+         elliptic curve used.
 
          At the time of writing this specification, acceptable formats
          of authentication credentials are CBOR Web Tokens (CWTs) and
@@ -1625,8 +1716,9 @@ Table of Contents
       is RECOMMENDED to be a random value.
 
    *  The 'kdc_cred_verify' parameter MUST be present, specifying the
-      proof-of-possession (PoP) evidence computed by the Group Manager.
-      The PoP evidence is computed as defined below (REQ21).
+      proof-of-possession (PoP) evidence computed by the Group Manager
+      to prove the possession of its own private key.  The PoP evidence
+      is computed as defined below (REQ21).
 
       -  If the group is not a pairwise-only group, then the PoP
          evidence MUST be a signature.  The Group Manager computes the
@@ -1968,8 +2060,9 @@ Table of Contents
 
    If all verifications succeed, the handler replies with a 2.05
    (Content) response, specifying the authentication credential of the
-   Group Manager together with a proof-of-possession (PoP) evidence.
-   The payload of the response is formatted as defined in Section 9.5.2.
+   Group Manager together with a proof-of-possession (PoP) evidence as a
+   proof that the Group Manager possesses its own private key.  The
+   payload of the response is formatted as defined in Section 9.5.2.
 
 8.2.  /ace-group/GROUPNAME/active
 
@@ -2152,8 +2245,8 @@ Table of Contents
 8.6.  Operations Supported by Clients
 
    Building on what is defined in Section 4.1.1 of [RFC9594] and with
-   reference to the resources at the Group Manager newly defined earlier
-   in Section 8 of this document, it is expected that a Client minimally
+   reference to the additional resources at the Group Manager defined in
+   Section 8 of this document, it is expected that a Client minimally
    supports also the following set of operations and corresponding
    interactions with the Group Manager (REQ12).
 
@@ -2209,9 +2302,15 @@ Table of Contents
       document, with the difference that it does not include the
       'group_SenderId' parameter.
 
-   *  The 'exp' parameter SHOULD be present.
-
    *  The 'exi' parameter MUST be present.
+
+   *  The 'exp' parameter SHOULD be present.  Omitting the parameter is
+      not desirable for a requesting group member that has a reliable
+      way to synchronize its internal clock with UTC.  That is, if the
+      'exp' parameter is not present, such a requesting group member
+      falls back on using the 'exi' parameter value to less accurately
+      determine the expiration time of the group keying material
+      conveyed by the 'key' parameter.
 
    *  The 'ace_groupcomm_profile' parameter MUST be present and has
       value coap_group_oscore_app.
@@ -2249,9 +2348,15 @@ Table of Contents
       member is not specified as a separate parameter, but instead by
       the 'group_SenderId' parameter within the 'key' parameter.
 
-   *  The 'exp' parameter SHOULD be present.
-
    *  The 'exi' parameter MUST be present.
+
+   *  The 'exp' parameter SHOULD be present.  Omitting the parameter is
+      not desirable for a requesting group member that has a reliable
+      way to synchronize its internal clock with UTC.  That is, if the
+      'exp' parameter is not present, such a requesting group member
+      falls back on using the 'exi' parameter value to less accurately
+      determine the expiration time of the group keying material
+      conveyed by the 'key' parameter.
 
    Upon receiving the Key Distribution Response, the group member
    retrieves the updated security parameters, group keying material, and
@@ -2397,12 +2502,12 @@ Table of Contents
    Update Request message to the Group Manager, as per Section 4.9.1.1
    of [RFC9594], with the following addition.
 
-   *  The group member computes the proof-of-possession (PoP) evidence
-      included in 'client_cred_verify' in the same way defined in
-      Section 6.1 when preparing a Join Request for the OSCORE group in
-      question (REQ14), with the difference that the
-      'client_cred_verify' parameter MUST NOT specify an empty PoP
-      evidence.
+   *  To prove the possession of its own private key, the group member
+      computes the proof-of-possession (PoP) evidence included in
+      'client_cred_verify' in the same way defined in Section 6.1 when
+      preparing a Join Request for the OSCORE group in question (REQ14),
+      with the difference that the 'client_cred_verify' parameter MUST
+      NOT specify an empty PoP evidence.
 
    That is, the group member sends a CoAP POST request to the endpoint
    /ace-group/GROUPNAME/nodes/NODENAME/cred at the Group Manager.
@@ -2492,7 +2597,8 @@ Table of Contents
    parameters 'kdc_cred', 'kdc_nonce', and 'kdc_cred_verify' as defined
    for the Join Response in Section 6.3 of this document.  This
    especially applies to the computing of the proof-of-possession (PoP)
-   evidence included in 'kdc_cred_verify' (REQ21).
+   evidence included in 'kdc_cred_verify' (REQ21) that the Group Manager
+   uses to prove the possession of its own private key.
 
    Upon receiving a 2.05 (Content) KDC Authentication Credential
    Response, the requesting Client retrieves the Group Manager's
@@ -2524,9 +2630,10 @@ Table of Contents
    Section 4.5.1 of [RFC9594], with the following difference:
 
    *  The 'kdc_cred_verify' field specifies the PoP evidence computed by
-      the Group Manager over the following PoP input: the nonce N_C
-      (encoded as a CBOR byte string) concatenated with the nonce N_KDC
-      (encoded as a CBOR byte string), where:
+      the Group Manager to prove the possession of its own private key.
+      The Group Manager computes the PoP evidence over the following PoP
+      input: the nonce N_C (encoded as a CBOR byte string) concatenated
+      with the nonce N_KDC (encoded as a CBOR byte string), where:
 
       -  N_C is the nonce generated by the Client signature verifier and
          specified in the 'cnonce' field of the received KDC
@@ -2554,8 +2661,8 @@ Table of Contents
    response from the Group Manager, in case GROUPNAME denotes a
    pairwise-only group (see Section 8.1.1).
 
-   Figure 1 gives an overview of the exchange described above, while
-   Figure 2 shows an example of Signature Verification Data Request-
+   Figure 2 gives an overview of the exchange described above, while
+   Figure 3 shows an example of Signature Verification Data Request-
    Response.
 
   Signature                                                       Group
@@ -2568,7 +2675,7 @@ Table of Contents
     |<--- KDC Authentication Credential Response: 2.05 (Content) ---|
     |                                                               |
 
-     Figure 1: Message Flow of KDC Authentication Credential Request-
+     Figure 2: Message Flow of KDC Authentication Credential Request-
          Response, with a Signature Verifier as Requesting Client
 
       Request:
@@ -2604,7 +2711,7 @@ Table of Contents
                                   63f91bac658d69351210a031d8fc7c5f'
       }
 
-        Figure 2: Example of KDC Authentication Credential Request-
+        Figure 3: Example of KDC Authentication Credential Request-
           Response, with a Signature Verifier as Requesting Client
 
 9.6.  Retrieve Signature Verification Data
@@ -2657,8 +2764,8 @@ Table of Contents
    authentication credential that can be obtained as defined in
    Section 9.5.2.
 
-   Figure 3 gives an overview of the exchange described above, while
-   Figure 4 shows an example of Signature Verification Data Request-
+   Figure 4 gives an overview of the exchange described above, while
+   Figure 5 shows an example of Signature Verification Data Request-
    Response.
 
    Signature                                                     Group
@@ -2671,7 +2778,7 @@ Table of Contents
      |<--- Signature Verification Data Response: 2.05 (Content) ---|
      |                                                             |
 
-       Figure 3: Message Flow of Signature Verification Data Request-
+       Figure 4: Message Flow of Signature Verification Data Request-
                                   Response
 
      Request:
@@ -2706,7 +2813,7 @@ Table of Contents
                     e'sign_enc_key': h'bc661fae6742abc3dd01beda1142567c'
      }
 
-    Figure 4: Example of Signature Verification Data Request-Response
+    Figure 5: Example of Signature Verification Data Request-Response
 
 9.7.  Retrieve the Group Policies
 
@@ -2762,8 +2869,8 @@ Table of Contents
    part in communications with other group members (i.e., sending
    messages and processing incoming messages).
 
-   Figure 5 gives an overview of the exchange described above, while
-   Figure 6 shows an example of Group Status Request-Response.
+   Figure 6 gives an overview of the exchange described above, while
+   Figure 7 shows an example of Group Status Request-Response.
 
    Group                                                          Group
    Member                                                        Manager
@@ -2773,7 +2880,7 @@ Table of Contents
      |<----------- Group Status Response: 2.05 (Content) -----------|
      |                                                              |
 
-          Figure 5: Message Flow of Group Status Request-Response
+          Figure 6: Message Flow of Group Status Request-Response
 
       Request:
 
@@ -2791,7 +2898,7 @@ Table of Contents
       Payload (in CBOR diagnostic notation):
         true
 
-             Figure 6: Example of Group Status Request-Response
+             Figure 7: Example of Group Status Request-Response
 
 9.10.  Retrieve Group Names
 
@@ -2827,15 +2934,14 @@ Table of Contents
       requires to correctly map the Gid currently used in the group with
       the invariant group name.
 
-      Furthermore, since it is not a group member, the node does not
-      take part to a possible group rekeying.  Thus, following a group
-      rekeying and the consequent change of Gid in a group, the node
-      would retain the old Gid value and cannot correctly associate
-      intercepted messages with the right group, especially if acting as
-      a signature verifier in several groups.  This in turn prevents the
-      efficient verification of signatures, and especially the retrieval
-      of required, new authentication credentials from the Group
-      Manager.
+      Since it is not a group member, the node does not take part to a
+      possible group rekeying.  Thus, following a group rekeying and the
+      consequent change of Gid in a group, the node would retain the old
+      Gid value and cannot correctly associate intercepted messages with
+      the right group, especially if acting as a signature verifier in
+      several groups.  This in turn prevents the efficient verification
+      of signatures, and especially the retrieval of required, new
+      authentication credentials from the Group Manager.
 
    In either case, the node only knows the current Gid of the group, as
    learned from received or intercepted messages exchanged in the group.
@@ -2869,8 +2975,8 @@ Table of Contents
    between the former pair and any other Gid for that group than the
    current, most recent one.
 
-   Figure 7 gives an overview of the exchanges described above, while
-   Figure 8 shows an example of Group Name and URI Retrieval Request-
+   Figure 8 gives an overview of the exchanges described above, while
+   Figure 9 shows an example of Group Name and URI Retrieval Request-
    Response.
 
                                                                   Group
@@ -2881,7 +2987,7 @@ Table of Contents
    |<--- Group Name and URI Retrieval Response: 2.05 (Content) -----|
    |                                                                |
 
-     Figure 7: Message Flow of Group Name and URI Retrieval Request-
+     Figure 8: Message Flow of Group Name and URI Retrieval Request-
                                  Response
 
       Request:
@@ -2907,7 +3013,7 @@ Table of Contents
         / guri /  2: ["/ace-group/g1", "/ace-group/g2"]
       }
 
-     Figure 8: Example of Group Name and URI Retrieval Request-Response
+     Figure 9: Example of Group Name and URI Retrieval Request-Response
 
 9.11.  Leave the Group
 
@@ -3391,8 +3497,8 @@ Table of Contents
          Response.  Note that ARRAY might result in the empty CBOR
          array.
 
-   Figure 9 gives an overview of the exchange described above, while
-   Figure 10 shows an example of Stale Sender IDs Request-Response.
+   Figure 10 gives an overview of the exchange described above, while
+   Figure 11 shows an example of Stale Sender IDs Request-Response.
 
                                                                  Group
    Node                                                         Manager
@@ -3404,7 +3510,7 @@ Table of Contents
      |<---------- Stale Sender IDs Response: 2.05 (Content) -------|
      |                                                             |
 
-        Figure 9: Message Flow of Stale Sender IDs Request-Response
+        Figure 10: Message Flow of Stale Sender IDs Request-Response
 
       Request:
 
@@ -3425,7 +3531,7 @@ Table of Contents
       Payload (in CBOR diagnostic notation):
         [h'01', h'fc', h'12ab', h'de44', h'ff']
 
-          Figure 10: Example of Stale Sender IDs Request-Response
+          Figure 11: Example of Stale Sender IDs Request-Response
 
 12.  ACE Groupcomm Parameters
 
@@ -3897,12 +4003,15 @@ Table of Contents
       responsible for the renewal and re-distribution of the keying
       material in the groups of its competence (rekeying).
 
-      The Group Manager performs a rekeying when one or more members
-      leave the group, thus preserving forward security and ensuring
-      that the security properties of Group OSCORE are fulfilled.
-      According to the specific application requirements, the Group
-      Manager can also rekey the group upon a new node's joining, in
-      case backward security has also to be preserved.
+      As defined in Section 7, the Group Manager performs a rekeying
+      when one or more members leave the group, thus preserving forward
+      security and ensuring that the security properties of Group OSCORE
+      are fulfilled.  According to the specific application
+      requirements, the Group Manager can also rekey the group upon a
+      new node's joining, in case backward security has also to be
+      preserved.  The Group Manager can also rekey the group for further
+      reasons, e.g., according to an application-specific rekeying
+      period or scheduling.
 
    *  Provisioning and retrieval of authentication credentials (see
       Section 12 of [I-D.ietf-core-oscore-groupcomm]).  The Group
@@ -3926,7 +4035,8 @@ Table of Contents
    the Gid in the incoming message.  It is up to the application to
    decide how to handle such collisions of Group Identifiers, e.g., by
    trying to process the incoming message using one Security Context at
-   the time until the right one is found.
+   the time until the right one is found (i.e., the incoming message is
+   successfully decrypted and verified).
 
 16.2.  Size of Nonces as Proof-of-Possesion Challenge
 
@@ -3958,23 +4068,22 @@ Table of Contents
       as specified in point (1) of Section 6.1.1.  This value is
       provided either in the Token Transfer Response (see Section 5.3),
       or in a 4.00 (Bad Request) error response to a following Join
-      Request (see Section 6.2).  In either case, the N_S value is
-      RECOMMENDED to be at least 8-byte long and it is RECOMMENDED to be
-      a random value.
+      Request (see Section 6.2).  The N_S value is RECOMMENDED to be at
+      least 8-byte long and it is RECOMMENDED to be a random value.
 
-   If we consider both N_C and N_S to take 8-byte long values, the
+   If we consider both N_C and N_S to take 8-byte random values, the
    following considerations hold.
 
-   *  Let us consider both N_C and N_S as taking random values, and the
-      Group Manager to never change the value of the N_S provided to a
-      Client during the lifetime of an access token.  Then, as per the
-      birthday paradox, the average collision for N_S will happen after
-      2^32 new transferred access tokens, while the average collision
-      for N_C will happen after 2^32 new Join Requests.  This amounts to
-      considerably more token provisionings than the expected new
-      joinings to OSCORE groups under a same Group Manager, as well as
-      to considerably more requests to join OSCORE groups from a same
-      Client using a same access token under a same Group Manager.
+   *  Let us consider the case where the Group Manager never changes the
+      value of the N_S provided to a Client during the lifetime of an
+      access token.  Then, as per the birthday paradox, the average
+      collision for N_S will happen after 2^32 new transferred access
+      tokens, while the average collision for N_C will happen after 2^32
+      new Join Requests.  This amounts to considerably more token
+      provisionings than the expected new joinings to OSCORE groups
+      under a same Group Manager, as well as to considerably more
+      requests to join OSCORE groups from a same Client using a same
+      access token under a same Group Manager.
 
    *  Section 7 of [RFC9203] and Appendix B.2 of [RFC8613] recommend the
       use of 8-byte random values as well.  Unlike in those cases, the
@@ -3983,7 +4092,7 @@ Table of Contents
       and thus do not have possible implications in the security of AEAD
       ciphers.
 
-16.3.  Reusage of Nonces for Proof-of-Possession Input
+16.3.  Reuse of Nonces for Proof-of-Possession Input
 
    When a party A provides a nonce to the other party B, it is
    beneficial that A does not offer a nonce previously used with B.  By
@@ -4027,23 +4136,25 @@ Table of Contents
    Parameters" registry, following the procedure specified in
    Section 11.2 of [RFC6749].
 
-   *  Name: ecdh_info
+   *  Entry #1
 
-   *  Parameter Usage Location: client-rs request, rs-client response
+      -  Name: ecdh_info
 
-   *  Change Controller: IETF
+      -  Parameter Usage Location: client-rs request, rs-client response
 
-   *  Reference: [RFC-XXXX]
+      -  Change Controller: IETF
 
+      -  Reference: [RFC-XXXX]
 
+   *  Entry #2
 
-   *  Name: kdc_dh_creds
+      -  Name: kdc_dh_creds
 
-   *  Parameter Usage Location: client-rs request, rs-client response
+      -  Parameter Usage Location: client-rs request, rs-client response
 
-   *  Change Controller: IETF
+      -  Change Controller: IETF
 
-   *  Reference: [RFC-XXXX]
+      -  Reference: [RFC-XXXX]
 
 17.2.  OAuth Parameters CBOR Mappings
 
@@ -4051,80 +4162,84 @@ Table of Contents
    Parameters CBOR Mappings" registry, following the procedure specified
    in Section 8.10 of [RFC9200].
 
-   *  Name: ecdh_info
+   *  Entry #1
 
-   *  CBOR Key: 47 (suggested)
+      -  Name: ecdh_info
 
-   *  Value Type: Null or array
+      -  CBOR Key: 47 (suggested)
 
-   *  Reference: [RFC-XXXX]
+      -  Value Type: Null or array
 
-   *  Original Specification: [RFC-XXXX]
+      -  Reference: [RFC-XXXX]
 
+      -  Original Specification: [RFC-XXXX]
 
+   *  Entry #2
 
-   *  Name: kdc_dh_creds
+      -  Name: kdc_dh_creds
 
-   *  CBOR Key: 48 (suggested)
+      -  CBOR Key: 48 (suggested)
 
-   *  Value Type: Null or array
+      -  Value Type: Null or array
 
-   *  Reference: [RFC-XXXX]
+      -  Reference: [RFC-XXXX]
 
-   *  Original Specification: [RFC-XXXX]
+      -  Original Specification: [RFC-XXXX]
 
 17.3.  ACE Groupcomm Parameters
 
    IANA is asked to register the following entries to the "ACE Groupcomm
    Parameters" registry defined in Section 11.7 of [RFC9594].
 
-   *  Name: group_senderId
+   *  Entry #1
 
-   *  CBOR Key: 21 (suggested)
+      -  Name: group_senderId
 
-   *  CBOR Type: bstr
+      -  CBOR Key: 21 (suggested)
 
-   *  Reference: [RFC-XXXX]
+      -  CBOR Type: bstr
 
+      -  Reference: [RFC-XXXX]
 
+   *  Entry #2
 
-   *  Name: ecdh_info
+      -  Name: ecdh_info
 
-   *  CBOR Key: 31 (suggested)
+      -  CBOR Key: 31 (suggested)
 
-   *  CBOR Type: array
+      -  CBOR Type: array
 
-   *  Reference: [RFC-XXXX]
+      -  Reference: [RFC-XXXX]
 
+   *  Entry #3
 
+      -  Name: kdc_dh_creds
 
-   *  Name: kdc_dh_creds
+      -  CBOR Key: 32 (suggested)
 
-   *  CBOR Key: 32 (suggested)
+      -  CBOR Type: array
 
-   *  CBOR Type: array
+      -  Reference: [RFC-XXXX]
 
-   *  Reference: [RFC-XXXX]
+   *  Entry #4
 
+      -  Name: sign_enc_key
 
+      -  CBOR Key: 33 (suggested)
 
-   *  Name: sign_enc_key
+      -  CBOR Type: bstr
 
-   *  CBOR Key: 33 (suggested)
+      -  Reference: [RFC-XXXX]
 
-   *  CBOR Type: bstr
+   *  Entry #5
 
-   *  Reference: [RFC-XXXX]
+      -  Name: stale_node_ids
 
+      -  CBOR Key: 34 (suggested)
 
+      -  CBOR Type: array
 
-   *  Name: stale_node_ids
-
-   *  CBOR Key: 34 (suggested)
-
-   *  CBOR Type: array
-
-   *  Reference: [RFC-XXXX]
+      -  Reference: [RFC-XXXX]
 
 17.4.  ACE Groupcomm Key Types
 
@@ -4164,105 +4279,107 @@ Table of Contents
    Security Context Parameters" registry defined in Section 9.4 of
    [RFC9203].
 
-   *  Name: group_SenderId
+   *  Entry #1
 
-   *  CBOR Label: 7 (suggested)
+      -  Name: group_SenderId
 
-   *  CBOR Type: byte string
+      -  CBOR Label: 7 (suggested)
 
-   *  Registry: -
+      -  CBOR Type: byte string
 
-   *  Description: OSCORE Sender ID assigned to a member of an OSCORE
-      group
+      -  Registry: -
 
-   *  Reference: [RFC-XXXX]
+      -  Description: OSCORE Sender ID assigned to a member of an OSCORE
+         group
 
+      -  Reference: [RFC-XXXX]
 
+   *  Entry #2
 
-   *  Name: cred_fmt
+      -  Name: cred_fmt
 
-   *  CBOR Label: 8 (suggested)
+      -  CBOR Label: 8 (suggested)
 
-   *  CBOR Type: integer
+      -  CBOR Type: integer
 
-   *  Registry: [COSE.Header.Parameters] Labels (integer)
+      -  Registry: [COSE.Header.Parameters] Labels (integer)
 
-   *  Description: Format of authentication credentials to be used in
-      the OSCORE group
+      -  Description: Format of authentication credentials to be used in
+         the OSCORE group
 
-   *  Reference: [RFC-XXXX]
+      -  Reference: [RFC-XXXX]
 
+   *  Entry #3
 
+      -  Name: gp_enc_alg
 
-   *  Name: gp_enc_alg
+      -  CBOR Label: 9 (suggested)
 
-   *  CBOR Label: 9 (suggested)
+      -  CBOR Type: text string / integer
 
-   *  CBOR Type: text string / integer
+      -  Registry: [COSE.Algorithms] Values
 
-   *  Registry: [COSE.Algorithms] Values
+      -  Description: OSCORE Group Encryption Algorithm Value
 
-   *  Description: OSCORE Group Encryption Algorithm Value
+      -  Reference: [RFC-XXXX]
 
-   *  Reference: [RFC-XXXX]
+   *  Entry #4
 
+      -  Name: sign_alg
 
+      -  CBOR Label: 10 (suggested)
 
-   *  Name: sign_alg
+      -  CBOR Type: text string / integer
 
-   *  CBOR Label: 10 (suggested)
+      -  Registry: [COSE.Algorithms] Values
 
-   *  CBOR Type: text string / integer
+      -  Description: OSCORE Signature Algorithm Value
 
-   *  Registry: [COSE.Algorithms] Values
+      -  Reference: [RFC-XXXX]
 
-   *  Description: OSCORE Signature Algorithm Value
+   *  Entry #5
 
-   *  Reference: [RFC-XXXX]
+      -  Name: sign_params
 
+      -  CBOR Label: 11 (suggested)
 
+      -  CBOR Type: array
 
-   *  Name: sign_params
+      -  Registry: [COSE.Algorithms] Capabilities, [COSE.Key.Types]
+         Capabilities, [COSE.Elliptic.Curves] Values
 
-   *  CBOR Label: 11 (suggested)
+      -  Description: OSCORE Signature Algorithm Parameters
 
-   *  CBOR Type: array
+      -  Reference: [RFC-XXXX]
 
-   *  Registry: [COSE.Algorithms] Capabilities, [COSE.Key.Types]
-      Capabilities, [COSE.Elliptic.Curves] Values
+   *  Entry #6
 
-   *  Description: OSCORE Signature Algorithm Parameters
+      -  Name: ecdh_alg
 
-   *  Reference: [RFC-XXXX]
+      -  CBOR Label: 12 (suggested)
 
+      -  CBOR Type: text string / integer
 
+      -  Registry: [COSE.Algorithms] Values
 
-   *  Name: ecdh_alg
+      -  Description: OSCORE Pairwise Key Agreement Algorithm Value
 
-   *  CBOR Label: 12 (suggested)
+      -  Reference: [RFC-XXXX]
 
-   *  CBOR Type: text string / integer
+   *  Entry #7
 
-   *  Registry: [COSE.Algorithms] Values
+      -  Name: ecdh_params
 
-   *  Description: OSCORE Pairwise Key Agreement Algorithm Value
+      -  CBOR Label: 13 (suggested)
 
-   *  Reference: [RFC-XXXX]
+      -  CBOR Type: array
 
+      -  Registry: [COSE.Algorithms] Capabilities, [COSE.Key.Types]
+         Capabilities, [COSE.Elliptic.Curves] Values
 
+      -  Description: OSCORE Pairwise Key Agreement Algorithm Parameters
 
-   *  Name: ecdh_params
-
-   *  CBOR Label: 13 (suggested)
-
-   *  CBOR Type: array
-
-   *  Registry: [COSE.Algorithms] Capabilities, [COSE.Key.Types]
-      Capabilities, [COSE.Elliptic.Curves] Values
-
-   *  Description: OSCORE Pairwise Key Agreement Algorithm Parameters
-
-   *  Reference: [RFC-XXXX]
+      -  Reference: [RFC-XXXX]
 
 17.7.  TLS Exporter Labels
 
@@ -4286,23 +4403,25 @@ Table of Contents
    Tperm, in the respective sub-registry defined in Section 5.2 of
    [RFC9237] within the "MIME Media Type Sub-Parameter" registry group.
 
-   *  Parameter: Toid
+   *  Entry #1
 
-   *  Name: oscore-gname
+      -  Parameter: Toid
 
-   *  Description/Specification: OSCORE group name
+      -  Name: oscore-gname
 
-   *  Reference: [RFC-XXXX]
+      -  Description/Specification: OSCORE group name
 
+      -  Reference: [RFC-XXXX]
 
+   *  Entry #2
 
-   *  Parameter: Tperm
+      -  Parameter: Tperm
 
-   *  Name: oscore-gperm
+      -  Name: oscore-gperm
 
-   *  Description/Specification: permissions pertaining OSCORE groups
+      -  Description/Specification: permissions pertaining OSCORE groups
 
-   *  Reference: [RFC-XXXX]
+      -  Reference: [RFC-XXXX]
 
 17.9.  CoAP Content-Formats
 
@@ -4310,25 +4429,27 @@ Table of Contents
    Formats" registry within the "Constrained RESTful Environments (CoRE)
    Parameters" registry group.
 
-   *  Content Type: application/aif+cbor;toid=oscore-gname;tperm=oscore-
-      gperm
+   *  Entry #1
 
-   *  Content Coding: -
+      -  Content Type: application/aif+cbor;toid=oscore-
+         gname;tperm=oscore-gperm
 
-   *  ID: 292 (suggested)
+      -  Content Coding: -
 
-   *  Reference: [RFC-XXXX]
+      -  ID: 292 (suggested)
 
+      -  Reference: [RFC-XXXX]
 
+   *  Entry #2
 
-   *  Content Type: application/aif+json;toid=oscore-gname;tperm=oscore-
-      gperm
+      -  Content Type: application/aif+json;toid=oscore-
+         gname;tperm=oscore-gperm
 
-   *  Content Coding: -
+      -  Content Coding: -
 
-   *  ID: 293 (suggested)
+      -  ID: 293 (suggested)
 
-   *  Reference: [RFC-XXXX]
+      -  Reference: [RFC-XXXX]
 
 17.10.  CoRE Resource Type
 
@@ -4351,27 +4472,29 @@ Table of Contents
    IANA is asked to register the following entries in the "ACE Groupcomm
    Errors" registry defined in Section 11.12 of [RFC9594].
 
-   *  Value: 7 (suggested)
+   *  Entry #1
 
-   *  Description: Signatures not used in the group.
+      -  Value: 7 (suggested)
 
-   *  Reference: [RFC-XXXX]
+      -  Description: Signatures not used in the group.
 
+      -  Reference: [RFC-XXXX]
 
+   *  Entry #2
 
-   *  Value: 8 (suggested)
+      -  Value: 8 (suggested)
 
-   *  Description: Operation permitted only to signature verifiers.
+      -  Description: Operation permitted only to signature verifiers.
 
-   *  Reference: [RFC-XXXX]
+      -  Reference: [RFC-XXXX]
 
+   *  Entry #3
 
+      -  Value: 9 (suggested)
 
-   *  Value: 9 (suggested)
+      -  Description: Group currently not active.
 
-   *  Description: Group currently not active.
-
-   *  Reference: [RFC-XXXX]
+      -  Reference: [RFC-XXXX]
 
 17.12.  Group OSCORE Roles
 
@@ -4996,7 +5119,7 @@ B.1.  Format of 'ecdh_info_entry'
 
    gname = tstr
 
-              Figure 11: 'ecdh_info_entry' with General Format
+              Figure 12: 'ecdh_info_entry' with General Format
 
 B.2.  Format of 'key'
 
@@ -5063,7 +5186,7 @@ Appendix C.  CDDL Model
    sign_alg = 10
    sign_params = 11
 
-                           Figure 12: CDDL Model
+                           Figure 13: CDDL Model
 
 Appendix D.  Document Updates
 
@@ -5421,7 +5544,7 @@ D.13.  Version -05 to -06
    *  Possible individual rekeying of a single requesting node combined
       with a group rekeying.
 
-   *  Security considerations on reusage of signature challenges.
+   *  Security considerations on reuse of signature challenges.
 
    *  Addressing optional requirement OPT12 from draft-ietf-ace-key-
       groupcomm
@@ -5567,10 +5690,10 @@ Acknowledgments
    document.
 
    The authors sincerely thank Christian Amsüss, Santiago Aragón, Stefan
-   Beck, Carsten Bormann, Thomas Graf, Martin Gunnarsson, Rikard
-   Höglund, Watson Ladd, Daniel Migault, Jim Schaad, Ludwig Seitz, Göran
-   Selander, Peter van der Stok, and Paul Wouters for their comments and
-   feedback.
+   Beck, Carsten Bormann, Thomas Graf, Martin Gunnarsson, Russ Housley,
+   Rikard Höglund, Watson Ladd, Daniel Migault, Yoav Nir, Jim Schaad,
+   Ludwig Seitz, Göran Selander, Peter van der Stok, and Paul Wouters
+   for their comments and feedback.
 
    The work on this document has been partly supported by the Sweden's
    Innovation Agency VINNOVA and the Celtic-Next projects CRITISEC and
