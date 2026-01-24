@@ -125,7 +125,7 @@ Table of Contents
    15. Security Considerations
      15.1.  Management of OSCORE Groups
      15.2.  Size of Nonces as Proof-of-Possesion Challenge
-     15.3.  Reusage of Nonces for Proof-of-Possession Input
+     15.3.  Reuse of Nonces for Proof-of-Possession Input
    16. IANA Considerations
      16.1.  OAuth Parameters
      16.2.  OAuth Parameters CBOR Mappings
@@ -1135,7 +1135,9 @@ Table of Contents
          current member of the group, the Group Manager might already
          have achieved proof of possession of the joining node's private
          key associated with the authentication credential AUTH_CRED_C
-         that the joining node intends to use in the group.
+         that the joining node intends to use in the group.  That is,
+         the joining node might have already proven the possession of
+         its own private key to the Group Manager.
 
          For example, proof-of-possession could have been achieved upon
          completing the establishment of the secure communication
@@ -1150,7 +1152,8 @@ Table of Contents
 
       -  If the conditions above do not hold or the joining node prefers
          to compute a non-empty PoP evidence, then the joining node
-         proceeds as follows.  The N_S used to build the PoP input is as
+         proceeds as follows to prove the possession of its own private
+         key.  In either case, the N_S used to build the PoP input is as
          defined in Section 6.1.1.
 
          o  If the group is not a pairwise-only group, the PoP evidence
@@ -1229,8 +1232,8 @@ Table of Contents
    It is up to applications or future specifications to define how N_S
    is computed in further alternative settings.
 
-   Section 15.3 provides security considerations on the reusage of the
-   N_S challenge.
+   Section 15.3 provides security considerations on the reuse of the N_S
+   challenge.
 
 6.2.  Receive the Join Request
 
@@ -1709,8 +1712,9 @@ Table of Contents
       is RECOMMENDED to be a random value.
 
    *  The 'kdc_cred_verify' parameter MUST be present, specifying the
-      proof-of-possession (PoP) evidence computed by the Group Manager.
-      The PoP evidence is computed as defined below (REQ21).
+      proof-of-possession (PoP) evidence computed by the Group Manager
+      to prove the possession of its own private key.  The PoP evidence
+      is computed as defined below (REQ21).
 
       -  If the group is not a pairwise-only group, then the PoP
          evidence MUST be a signature.  The Group Manager computes the
@@ -2052,8 +2056,9 @@ Table of Contents
 
    If all verifications succeed, the handler replies with a 2.05
    (Content) response, specifying the authentication credential of the
-   Group Manager together with a proof-of-possession (PoP) evidence.
-   The payload of the response is formatted as defined in Section 9.5.2.
+   Group Manager together with a proof-of-possession (PoP) evidence as a
+   proof that the Group Manager possesses its own private key.  The
+   payload of the response is formatted as defined in Section 9.5.2.
 
 8.2.  /ace-group/GROUPNAME/active
 
@@ -2493,12 +2498,12 @@ Table of Contents
    Update Request message to the Group Manager, as per Section 4.9.1.1
    of [RFC9594], with the following addition.
 
-   *  The group member computes the proof-of-possession (PoP) evidence
-      included in 'client_cred_verify' in the same way defined in
-      Section 6.1 when preparing a Join Request for the OSCORE group in
-      question (REQ14), with the difference that the
-      'client_cred_verify' parameter MUST NOT specify an empty PoP
-      evidence.
+   *  To prove the possession of its own private key, the group member
+      computes the proof-of-possession (PoP) evidence included in
+      'client_cred_verify' in the same way defined in Section 6.1 when
+      preparing a Join Request for the OSCORE group in question (REQ14),
+      with the difference that the 'client_cred_verify' parameter MUST
+      NOT specify an empty PoP evidence.
 
    That is, the group member sends a CoAP POST request to the endpoint
    /ace-group/GROUPNAME/nodes/NODENAME/cred at the Group Manager.
@@ -2588,7 +2593,8 @@ Table of Contents
    parameters 'kdc_cred', 'kdc_nonce', and 'kdc_cred_verify' as defined
    for the Join Response in Section 6.3 of this document.  This
    especially applies to the computing of the proof-of-possession (PoP)
-   evidence included in 'kdc_cred_verify' (REQ21).
+   evidence included in 'kdc_cred_verify' (REQ21) that the Group Manager
+   uses to prove the possession of its own private key.
 
    Upon receiving a 2.05 (Content) KDC Authentication Credential
    Response, the requesting Client retrieves the Group Manager's
@@ -2620,9 +2626,10 @@ Table of Contents
    Section 4.5.1 of [RFC9594], with the following difference:
 
    *  The 'kdc_cred_verify' field specifies the PoP evidence computed by
-      the Group Manager over the following PoP input: the nonce N_C
-      (encoded as a CBOR byte string) concatenated with the nonce N_KDC
-      (encoded as a CBOR byte string), where:
+      the Group Manager to prove the possession of its own private key.
+      The Group Manager computes the PoP evidence over the following PoP
+      input: the nonce N_C (encoded as a CBOR byte string) concatenated
+      with the nonce N_KDC (encoded as a CBOR byte string), where:
 
       -  N_C is the nonce generated by the Client signature verifier and
          specified in the 'cnonce' field of the received KDC
@@ -3804,12 +3811,15 @@ Table of Contents
       responsible for the renewal and re-distribution of the keying
       material in the groups of its competence (rekeying).
 
-      The Group Manager performs a rekeying when one or more members
-      leave the group, thus preserving forward security and ensuring
-      that the security properties of Group OSCORE are fulfilled.
-      According to the specific application requirements, the Group
-      Manager can also rekey the group upon a new node's joining, in
-      case backward security has also to be preserved.
+      As defined in Section 7, the Group Manager performs a rekeying
+      when one or more members leave the group, thus preserving forward
+      security and ensuring that the security properties of Group OSCORE
+      are fulfilled.  According to the specific application
+      requirements, the Group Manager can also rekey the group upon a
+      new node's joining, in case backward security has also to be
+      preserved.  The Group Manager can also rekey the group for further
+      reasons, e.g., according to an application-specific rekeying
+      period or scheduling.
 
    *  Provisioning and retrieval of authentication credentials (see
       Section 12 of [I-D.ietf-core-oscore-groupcomm]).  The Group
@@ -3833,7 +3843,8 @@ Table of Contents
    the Gid in the incoming message.  It is up to the application to
    decide how to handle such collisions of Group Identifiers, e.g., by
    trying to process the incoming message using one Security Context at
-   the time until the right one is found.
+   the time until the right one is found (i.e., the incoming message is
+   successfully decrypted and verified).
 
 15.2.  Size of Nonces as Proof-of-Possesion Challenge
 
@@ -3889,7 +3900,7 @@ Table of Contents
       and thus do not have possible implications in the security of AEAD
       ciphers.
 
-15.3.  Reusage of Nonces for Proof-of-Possession Input
+15.3.  Reuse of Nonces for Proof-of-Possession Input
 
    When a party A provides a nonce to the other party B, it is
    beneficial that A does not offer a nonce previously used with B.  By
@@ -5341,7 +5352,7 @@ D.13.  Version -05 to -06
    *  Possible individual rekeying of a single requesting node combined
       with a group rekeying.
 
-   *  Security considerations on reusage of signature challenges.
+   *  Security considerations on reuse of signature challenges.
 
    *  Addressing optional requirement OPT12 from draft-ietf-ace-key-
       groupcomm
@@ -5488,9 +5499,9 @@ Acknowledgments
 
    The authors sincerely thank Christian Amsüss, Santiago Aragón, Stefan
    Beck, Carsten Bormann, Martin Gunnarsson, Russ Housley, Rikard
-   Höglund, Watson Ladd, Daniel Migault, Jim Schaad, Ludwig Seitz, Göran
-   Selander, Peter van der Stok, and Paul Wouters for their comments and
-   feedback.
+   Höglund, Watson Ladd, Daniel Migault, Yoav Nir, Jim Schaad, Ludwig
+   Seitz, Göran Selander, Peter van der Stok, and Paul Wouters for their
+   comments and feedback.
 
    The work on this document has been partly supported by the Sweden's
    Innovation Agency VINNOVA and the Celtic-Next projects CRITISEC and
