@@ -2167,13 +2167,13 @@ IANA is asked to register the following entries in the "CoAP Content-Formats" re
 * Entry \#1
   * Content Type: application/aif+cbor;toid=oscore-gname;tperm=oscore-gperm
   * Content Coding: -
-  * ID: 292 (suggested)
+  * ID: 295 (suggested)
   * Reference: {{&SELF}}
 
 * Entry \#2
   * Content Type: application/aif+json;toid=oscore-gname;tperm=oscore-gperm
   * Content Coding: -
-  * ID: 293 (suggested)
+  * ID: 296 (suggested)
   * Reference: {{&SELF}}
 
 ## CoRE Resource Type # {#iana-rt}
@@ -2433,9 +2433,11 @@ sign_params = 11
 
 ## Version -19 to -20 ## {#sec-19-20}
 
-* Minor fixes and editorial improvements.
-
 * Defined possible use of CoAP Observe with /ace-group/GROUPNAME/active
+
+* Updated suggested values for registrations in the "CoAP Content-Formats" IANA registry.
+
+* Minor fixes and editorial improvements.
 
 ## Version -18 to -19 ## {#sec-18-19}
 
