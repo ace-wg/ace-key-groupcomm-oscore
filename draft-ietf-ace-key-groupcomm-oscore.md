@@ -40,6 +40,7 @@ normative:
   RFC6347:
   RFC6979:
   RFC7252:
+  RFC7641:
   RFC7748:
   RFC8017:
   RFC8032:
@@ -116,7 +117,6 @@ informative:
   RFC5869:
   RFC6690:
   RFC6749:
-  RFC7641:
   RFC8392:
 
 entity:
@@ -124,7 +124,7 @@ entity:
 
 --- abstract
 
-This document defines an application profile of the Authentication and Authorization for Constrained Environments (ACE) framework, to request and provision keying material in group communication scenarios that are based on the Constrained Application Protocol (CoAP) and are secured with Group Object Security for Constrained RESTful Environments (Group OSCORE). This application profile delegates the authentication and authorization of Clients, which join an OSCORE group through a Resource Server acting as Group Manager for that group. This application profile leverages protocol-specific transport profiles of ACE to achieve communication security, server authentication, and proof of possession for a key owned by the Client and bound to an OAuth 2.0 access token.
+This document defines an application profile of the Authentication and Authorization for Constrained Environments (ACE) framework, to request and provision keying material in group communication scenarios that are based on the Constrained Application Protocol (CoAP) and are secured with Group Object Security for Constrained RESTful Environments (Group OSCORE). This application profile delegates the authentication and authorization of Clients, which join an OSCORE group through a Resource Server acting as Group Manager for that group. This application profile leverages protocol-specific transport profiles of ACE to achieve communication security, server authentication, and proof of possession of a key owned by the Client and bound to an OAuth 2.0 access token.
 
 --- middle
 
@@ -142,7 +142,7 @@ While {{RFC9594}} defines the operations and interface available at the KDC, as 
 
 This document specifies an application profile of {{RFC9594}}. Message exchanges among the participants as well as message formats and processing follow what is specified in {{RFC9594}}, and enable the provisioning and renewing of keying material in group communication scenarios, where Group OSCORE is used to protect CoAP group communication. In particular, network nodes that wish to join an OSCORE group act as ACE Clients, while the Group Manager responsible for managing the OSCORE group is the KDC acting as ACE Resource Server.
 
-This application profile leverages protocol-specific transport profiles of ACE (e.g., {{RFC9202}}{{RFC9203}}), in order to achieve communication security, server authentication, and proof of possession for a key owned by the Client and bound to an OAuth 2.0 access token.
+This application profile leverages protocol-specific transport profiles of ACE (e.g., {{RFC9202}}{{RFC9203}}), in order to achieve communication security, server authentication, and proof of possession of a key owned by the Client and bound to an OAuth 2.0 access token.
 
 {{fig-document-relationships}} overviews the relationships between this document and other related documents mentioned above.
 
@@ -974,6 +974,8 @@ In addition to what is defined in {{Section 4.1.2 of RFC9594}}, the handler veri
 
 If all verifications succeed, the handler replies with a 2.05 (Content) response, specifying the current status of the group, i.e., active or inactive. The payload of the response is formatted as defined in {{sec-status}}.
 
+The Group Manager SHOULD make the resource at /ace-group/GROUPNAME/active also observable {{RFC7641}}, thus making it possible for group members to subscribe for updates about the status of the OSCORE group, instead of limiting them to rely on polling.
+
 The method to set the current group status is out of the scope of this document, and is defined for the administrator interface of the Group Manager specified in {{I-D.ietf-ace-oscore-gm-admin}}.
 
 ## /ace-group/GROUPNAME/verif-data {#ssec-resource-verif-data}
@@ -1372,6 +1374,8 @@ The payload of the 2.05 (Content) Group Status Response includes the CBOR Simple
 Upon learning from a 2.05 (Content) Group Status Response that the group is currently inactive, the group member SHOULD stop sending messages to other group members and MUST stop processing messages from other group members, until the group becomes active again. In the meantime, the group member can still interact with the Group Manager, e.g., in order to check whether the group has become active again.
 
 Upon learning from a 2.05 (Content) Group Status Response that the group has become active again, the group member can resume taking part in communications with other group members (i.e., sending messages and processing incoming messages).
+
+Besides simply polling the endpoint /ace-group/GROUPNAME/active at the Group Manager, a group member can also use CoAP Observe {{RFC7641}} and subscribe for updates about the status of the OSCORE group.
 
 {{fig-key-status-req-resp}} gives an overview of the exchange described above, while {{fig-key-status-req-resp-ex}} shows an example of Group Status Request-Response.
 
@@ -1865,7 +1869,7 @@ When performing its normal operations, the Group Manager is expected to produce 
 
   The logged information includes:
 
-  - The reason that has triggered the group rekeying (e.g., scheduled/periodic occurrence, group joining of a new member, group leaving of a current member).
+  - The reason for the group rekeying (e.g., scheduled/periodic occurrence, group joining of a new member, group leaving of a current member).
   - A description of the group rekeying operations performed (e.g., a list of steps performed throughout the rekeying process).
   - The outcome of the group rekeying instance.
   - In case of success, the version number of the newly established group keying material and the newly established Group Identifier (Gid).
@@ -2426,6 +2430,12 @@ sign_params = 11
 
 # Document Updates # {#sec-document-updates}
 {:removeinrfc}
+
+## Version -19 to -20 ## {#sec-19-20}
+
+* Minor fixes and editorial improvements.
+
+* Defined possible use of CoAP Observe with /ace-group/GROUPNAME/active
 
 ## Version -18 to -19 ## {#sec-18-19}
 
