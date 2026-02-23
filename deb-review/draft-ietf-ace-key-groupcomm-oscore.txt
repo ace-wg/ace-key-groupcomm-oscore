@@ -5,8 +5,8 @@
 ACE Working Group                                              M. Tiloca
 Internet-Draft                                                   RISE AB
 Intended status: Standards Track                            F. Palombini
-Expires: 26 August 2026                                      Ericsson AB
-                                                        22 February 2026
+Expires: 27 August 2026                                      Ericsson AB
+                                                        23 February 2026
 
 
     Key Management for Group Object Security for Constrained RESTful
@@ -44,7 +44,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 26 August 2026.
+   This Internet-Draft will expire on 27 August 2026.
 
 Copyright Notice
 
@@ -619,14 +619,25 @@ Table of Contents
 
    *  The joining node is going to join the group exclusively as
       monitor, i.e., it is not going to send protected messages to the
-      group.
+      group.  Consequently, even if compatible with the group in
+      question, an authentication credential of such a joining node
+      plays no role in using Group OSCORE within that group.
 
-      In this case, the joining node is not required to provide its own
-      authentication credential to the Group Manager, which thus does
-      not have to perform any check related to the format of the
-      authentication credential, to a signature or ECDH algorithm, and
-      to possible parameters associated with the algorithm and the
-      public key.
+      Furthermore, such a joining node is not going to have a Sender
+      Context within its Group OSCORE Security Context, where a group
+      member stores its own private key and authentication credential
+      (see Section 2 of [I-D.ietf-core-oscore-groupcomm], where the term
+      "silent server" corresponds to the term "monitor" of the present
+      document).  Also, no member of the group will create a Recipient
+      Context associated with such a joining node, as the latter never
+      sends protected messages.
+
+      Therefore, in this case, the joining node is not required to
+      provide its own authentication credential to the Group Manager,
+      which thus does not have to perform any check related to the
+      format of the authentication credential, to a signature or ECDH
+      algorithm, and to possible parameters associated with the
+      algorithm and the public key.
 
       If the joining node still provides an authentication credential in
       the 'client_cred' parameter of the Join Request (see Section 6.1),
@@ -4786,9 +4797,9 @@ Table of Contents
               Tiloca, M., Höglund, R., Van der Stok, P., and F.
               Palombini, "Admin Interface for the OSCORE Group Manager",
               Work in Progress, Internet-Draft, draft-ietf-ace-oscore-
-              gm-admin-14, 1 February 2026,
+              gm-admin-15, 23 February 2026,
               <https://datatracker.ietf.org/doc/html/draft-ietf-ace-
-              oscore-gm-admin-14>.
+              oscore-gm-admin-15>.
 
    [I-D.ietf-core-coap-pubsub]
               Jimenez, J., Koster, M., and A. Keränen, "A publish-
@@ -5224,6 +5235,9 @@ Appendix D.  Document Updates
 D.1.  Version -19 to -20
 
    *  More consistent use of the terms "nonce" and "challenge".
+
+   *  Clarified that a monitor-only group member does not have an
+      authentication credential in the group.
 
    *  Defined possible use of CoAP Observe with /ace-group/GROUPNAME/
       active
