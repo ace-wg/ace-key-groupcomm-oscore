@@ -356,9 +356,11 @@ Upon joining an OSCORE group, a joining node is thus expected to provide its aut
 
 In the following circumstances, a joining node is not required to provide its authentication credential to the Group Manager when joining an OSCORE group.
 
-* The joining node is going to join the group exclusively as monitor, i.e., it is not going to send protected messages to the group.
+* The joining node is going to join the group exclusively as monitor, i.e., it is not going to send protected messages to the group. Consequently, even if compatible with the group in question, an authentication credential of such a joining node plays no role in using Group OSCORE within that group.
 
-  In this case, the joining node is not required to provide its own authentication credential to the Group Manager, which thus does not have to perform any check related to the format of the authentication credential, to a signature or ECDH algorithm, and to possible parameters associated with the algorithm and the public key.
+  Furthermore, such a joining node is not going to have a Sender Context within its Group OSCORE Security Context, where a group member stores its own private key and authentication credential (see {{Section 2 of I-D.ietf-core-oscore-groupcomm}}, where the term "silent server" corresponds to the term "monitor" of the present document). Also, no member of the group will create a Recipient Context associated with such a joining node, as the latter never sends protected messages.
+
+  Therefore, in this case, the joining node is not required to provide its own authentication credential to the Group Manager, which thus does not have to perform any check related to the format of the authentication credential, to a signature or ECDH algorithm, and to possible parameters associated with the algorithm and the public key.
 
   If the joining node still provides an authentication credential in the 'client_cred' parameter of the Join Request (see {{ssec-join-req-sending}}), the Group Manager silently ignores that parameter and the related parameter 'client_cred_verify'.
 
@@ -2434,6 +2436,8 @@ sign_params = 11
 ## Version -19 to -20 ## {#sec-19-20}
 
 * More consistent use of the terms "nonce" and "challenge".
+
+* Clarified that a monitor-only group member does not have an authentication credential in the group.
 
 * Defined possible use of CoAP Observe with /ace-group/GROUPNAME/active
 
