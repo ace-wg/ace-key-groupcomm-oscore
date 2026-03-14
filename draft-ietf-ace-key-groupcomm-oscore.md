@@ -106,6 +106,67 @@ normative:
     date: false
     title: COSE Header Parameters
     target: https://www.iana.org/assignments/cose/cose.xhtml#header-parameters
+  OAuth.Parameters:
+    author:
+      org: IANA
+    date: false
+    title: OAuth Parameters
+    target: https://www.iana.org/assignments/oauth-parameters/oauth-parameters.xhtml#parameters
+  OAuth.CBOR.Mappings:
+    author:
+      org: IANA
+    date: false
+    title: OAuth Parameters CBOR Mappings
+    target: https://www.iana.org/assignments/ace/ace.xhtml#oauth-parameters-cbor-mappings
+  ACE.Groupcomm.Parameters:
+    author:
+      org: IANA
+    date: false
+    title: ACE Groupcomm Parameters
+    target: https://www.iana.org/assignments/ace/ace.xhtml#ace-groupcomm-parameters
+  ACE.Groupcomm.Key.Types:
+    author:
+      org: IANA
+    date: false
+    title: ACE Groupcomm Key Types
+    target: https://www.iana.org/assignments/ace/ace.xhtml#ace-groupcomm-key-types
+  ACE.Groupcomm.Profiles:
+    author:
+      org: IANA
+    date: false
+    title: ACE Groupcomm Profiles
+    target: https://www.iana.org/assignments/ace/ace.xhtml#ace-groupcomm-profiles
+  OSCORE.Sec.Ctx.Parameters:
+    author:
+      org: IANA
+    date: false
+    title: OSCORE Security Context Parameters
+    target: https://www.iana.org/assignments/ace/ace.xhtml#oscore-security-context-parameters
+  TLS.Exporter.Labels:
+    author:
+      org: IANA
+    date: false
+    title: TLS Exporter Labels
+    target: https://www.iana.org/assignments/tls-parameters/tls-parameters.xhtml#exporter-labels
+  CoAP.Content.Formats:
+    author:
+      org: IANA
+    date: false
+    title: CoAP Content-Formats
+    target: https://www.iana.org/assignments/core-parameters/core-parameters.xhtml#content-formats
+  Resource.Type.Values:
+    author:
+      org: IANA
+    date: false
+    title: Resource Type (rt=) Link Target Attribute Values
+    target: https://www.iana.org/assignments/core-parameters/core-parameters.xhtml#rt-link-target-att-value
+  ACE.Groupcomm.Errors:
+    author:
+      org: IANA
+    date: false
+    title: ACE Groupcomm Errors
+    target: https://www.iana.org/assignments/ace/ace.xhtml#ace-groupcomm-errors
+
 
 informative:
   I-D.ietf-core-groupcomm-bis:
@@ -1994,7 +2055,7 @@ Note to RFC Editor: Please replace all occurrences of "{{&SELF}}" with the RFC n
 
 ## OAuth Parameters {#iana-kinfo}
 
-IANA is asked to register the following entries in the "OAuth Parameters" registry, following the procedure specified in {{Section 11.2 of RFC6749}}.
+IANA is asked to register the following entries in the "OAuth Parameters" registry {{OAuth.Parameters}} within the "OAuth Parameters" registry group, following the procedure specified in {{Section 11.2 of RFC6749}}.
 
 * Entry \#1
   * Name: ecdh_info
@@ -2010,7 +2071,7 @@ IANA is asked to register the following entries in the "OAuth Parameters" regist
 
 ## OAuth Parameters CBOR Mappings {#iana-kinfo-map}
 
-IANA is asked to register the following entries in the "OAuth Parameters CBOR Mappings" registry, following the procedure specified in {{Section 8.10 of RFC9200}}.
+IANA is asked to register the following entries in the "OAuth Parameters CBOR Mappings" registry {{OAuth.CBOR.Mappings}} within the "Authentication and Authorization for Constrained Environments (ACE)" registry group, following the procedure specified in {{Section 8.10 of RFC9200}}.
 
 * Entry \#1
   * Name: ecdh_info
@@ -2028,7 +2089,7 @@ IANA is asked to register the following entries in the "OAuth Parameters CBOR Ma
 
 ## ACE Groupcomm Parameters {#ssec-iana-ace-groupcomm-parameters-registry}
 
-IANA is asked to register the following entries to the "ACE Groupcomm Parameters" registry defined in {{Section 11.7 of RFC9594}}.
+IANA is asked to register the following entries to the "ACE Groupcomm Parameters" registry {{ACE.Groupcomm.Parameters}} within the "Authentication and Authorization for Constrained Environments (ACE)" registry group.
 
 * Entry \#1
   * Name: group_senderId
@@ -2062,7 +2123,7 @@ IANA is asked to register the following entries to the "ACE Groupcomm Parameters
 
 ## ACE Groupcomm Key Types {#ssec-iana-groupcomm-keys-registry}
 
-IANA is asked to register the following entry in the "ACE Groupcomm Key Types" registry defined in {{Section 11.8 of RFC9594}}.
+IANA is asked to register the following entry in the "ACE Groupcomm Key Types" registry {{ACE.Groupcomm.Key.Types}} within the "Authentication and Authorization for Constrained Environments (ACE)" registry group.
 
 * Name: Group_OSCORE_Input_Material object
 * Key Type Value: GROUPCOMM_KEY_TBD (suggested value: 1)
@@ -2072,7 +2133,7 @@ IANA is asked to register the following entry in the "ACE Groupcomm Key Types" r
 
 ## ACE Groupcomm Profiles {#ssec-iana-groupcomm-profile-registry}
 
-IANA is asked to register the following entry in the "ACE Groupcomm Profiles" registry defined in {{Section 11.9 of RFC9594}}.
+IANA is asked to register the following entry in the "ACE Groupcomm Profiles" registry {{ACE.Groupcomm.Profiles}} within the "Authentication and Authorization for Constrained Environments (ACE)" registry group.
 
 * Name: coap_group_oscore_app
 * Description: Application profile to provision keying material for participating in group communication protected with Group OSCORE as per {{I-D.ietf-core-oscore-groupcomm}}.
@@ -2081,7 +2142,7 @@ IANA is asked to register the following entry in the "ACE Groupcomm Profiles" re
 
 ## OSCORE Security Context Parameters {#ssec-iana-security-context-parameter-registry}
 
-IANA is asked to register the following entries in the "OSCORE Security Context Parameters" registry defined in {{Section 9.4 of RFC9203}}.
+IANA is asked to register the following entries in the "OSCORE Security Context Parameters" registry {{OSCORE.Sec.Ctx.Parameters}} within the "Authentication and Authorization for Constrained Environments (ACE)" registry group.
 
 * Entry \#1
   * Name: group_SenderId
@@ -2141,7 +2202,7 @@ IANA is asked to register the following entries in the "OSCORE Security Context 
 
 ## TLS Exporter Labels {#ssec-iana-tls-esporter-label-registry}
 
-IANA is asked to register the following entry in the "TLS Exporter Labels" registry defined in {{Section 6 of RFC5705}} and updated in {{Section 12 of RFC8447}}.
+IANA is asked to register the following entry in the "TLS Exporter Labels" registry {{TLS.Exporter.Labels}} within the "Transport Layer Security (TLS) Parameters" registry group, which is defined in {{Section 6 of RFC5705}} and updated in {{Section 12 of RFC8447}}.
 
 * Value: EXPORTER-ACE-Pop-Input-coap-group-oscore-app
 * DTLS-OK: Y
@@ -2166,7 +2227,7 @@ For the media-types "application/aif+cbor" and "application/aif+json" defined in
 
 ## CoAP Content-Formats {#ssec-iana-coap-content-format-registry}
 
-IANA is asked to register the following entries in the "CoAP Content-Formats" registry within the "Constrained RESTful Environments (CoRE) Parameters" registry group.
+IANA is asked to register the following entries in the "CoAP Content-Formats" registry {{CoAP.Content.Formats}} within the "Constrained RESTful Environments (CoRE) Parameters" registry group.
 
 * Entry \#1
   * Content Type: application/aif+cbor;toid=oscore-gname;tperm=oscore-gperm
@@ -2182,7 +2243,7 @@ IANA is asked to register the following entries in the "CoAP Content-Formats" re
 
 ## CoRE Resource Type # {#iana-rt}
 
-IANA is asked to register the following entry in the "Resource Type (rt=) Link Target Attribute Values" registry within the "Constrained Restful Environments (CoRE) Parameters" registry group.
+IANA is asked to register the following entry in the "Resource Type (rt=) Link Target Attribute Values" registry {{Resource.Type.Values}} within the "Constrained Restful Environments (CoRE) Parameters" registry group.
 
 * Value: "core.osc.gm"
 * Description: Group-membership resource of an OSCORE Group Manager.
@@ -2192,7 +2253,7 @@ Client applications can use this resource type to discover a group-membership re
 
 ## ACE Groupcomm Errors {#iana-ace-groupcomm-errors}
 
-IANA is asked to register the following entries in the "ACE Groupcomm Errors" registry defined in {{Section 11.12 of RFC9594}}.
+IANA is asked to register the following entries in the "ACE Groupcomm Errors" registry {{ACE.Groupcomm.Errors}} within the "Authentication and Authorization for Constrained Environments (ACE)" registry group.
 
 * Entry \#1
   * Value: 7 (suggested)
@@ -2438,6 +2499,8 @@ sign_params = 11
 ## Version -20 to -21 ## {#sec-20-21}
 
 * Separate Section 1.2 "Notations".
+
+* Added references to IANA registries.
 
 * Minor fixes and editorial improvements.
 
