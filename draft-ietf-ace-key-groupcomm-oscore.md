@@ -2280,7 +2280,7 @@ The columns of this registry are:
 
 * Name: A value that can be used in documents for easier comprehension, to identify a possible role that nodes can take in an OSCORE group.
 
-* Value: The numeric identifier for this role. Integer values greater than 65535 are marked as "Private Use", all other values use the registration policy "Expert Review" {{RFC8126}}.
+* Value: The numeric identifier for this role. These values MUST be unique. The value can be an integer greater than or equal to 0. Integer values greater than 65535 are marked as "Private Use" (see {{Section 4.1 of RFC8126}}). All other values use the registration policy "Expert Review" (see {{Section 4.5 of RFC8126}}).
 
 * Description: This field contains a brief description of the role.
 
@@ -2500,7 +2500,13 @@ sign_params = 11
 
 * Separate Section 1.2 "Notations".
 
-* Added references to IANA registries.
+* IANA considerations
+
+  * Added references to IANA registries.
+
+  * More details in the definition of a column in the new IANA registry.
+
+  * Added reference to Section 4.1 of RFC 8126.
 
 * Minor fixes and editorial improvements.
 
