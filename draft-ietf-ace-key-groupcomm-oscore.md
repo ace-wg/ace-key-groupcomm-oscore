@@ -21,7 +21,7 @@ author:
     org: RISE AB
     street: Isafjordsgatan 22
     city: Kista
-    code: SE-164 29 Stockholm
+    code: SE-164 40
     country: Sweden
     email: marco.tiloca@ri.se
 -
@@ -30,7 +30,7 @@ author:
     org: Ericsson AB
     street: Torshamnsgatan 23
     city: Kista
-    code: SE-16440 Stockholm
+    code: SE-164 40
     country: Sweden
     email: francesca.palombini@ericsson.com
 
@@ -277,7 +277,7 @@ Consistent with the above and building on {{Section 3.1 of RFC9594}}, this secti
 
 To this end, this profile uses the Authorization Information Format (AIF) {{RFC9237}}. With reference to the generic AIF model
 
-~~~~~~~~~~~
+~~~~~~~~~~~ cddl
    AIF-Generic<Toid, Tperm> = [* [Toid, Tperm]]
 ~~~~~~~~~~~
 
@@ -316,7 +316,7 @@ For the application profile of {{RFC9594}} defined in this document, a scope ent
 
 The following CDDL {{RFC8610}} notation defines a scope entry that uses the AIF-OSCORE-GROUPCOMM data model and expresses a set of Group OSCORE roles from those in {{tab-role-values}}.
 
-~~~~~~~~~~~ CDDL
+~~~~~~~~~~~ cddl
    ;# include rfc9237
 
    AIF-OSCORE-GROUPCOMM = AIF-Generic<oscore-gname, oscore-gperm>
@@ -496,7 +496,7 @@ If 'ecdh_info' is included in the Token Transfer Request, the KDC SHOULD include
 
 The CDDL notation {{RFC8610}} of the 'ecdh_info' parameter is given below.
 
-~~~~~~~~~~~ CDDL
+~~~~~~~~~~~ cddl
 ecdh_info = ecdh_info_req / ecdh_info_resp
 
 ecdh_info_req = null                  ; in the Token Transfer
@@ -543,7 +543,7 @@ If 'kdc_dh_creds' is included in the Token Transfer Request, the KDC SHOULD incl
 
 The CDDL notation {{RFC8610}} of the 'kdc_dh_creds' parameter is given below.
 
-~~~~~~~~~~~ CDDL
+~~~~~~~~~~~ cddl
 kdc_dh_creds = kdc_dh_creds_req / kdc_dh_creds_resp
 
 kdc_dh_creds_req = null                     ; in the Token Transfer
@@ -2375,7 +2375,7 @@ The format of each 'ecdh_info_entry' (see {{ssec-token-post}} and {{ecdh-info}})
 
 The CDDL notation {{RFC8610}} of the 'ecdh_info_entry' parameter is given below.
 
-~~~~~~~~~~~ CDDL
+~~~~~~~~~~~ cddl
 ecdh_info_entry =
 [
     id: gname / [+ gname],
@@ -2412,7 +2412,7 @@ The format of 'key' (see {{ssec-join-resp}}) is generalized as follows.
 # CDDL Model # {#sec-cddl-model}
 {:removeinrfc}
 
-~~~~~~~~~~~~~~~~~~~~ CDDL
+~~~~~~~~~~~~~~~~~~~~ cddl
 ; ACE Groupcomm Parameters
 sign_enc_key = 33
 
@@ -2432,6 +2432,10 @@ sign_params = 11
 
 # Document Updates # {#sec-document-updates}
 {:removeinrfc}
+
+## Version -20 to -21 ## {#sec-20-21}
+
+* Minor fixes and editorial improvements.
 
 ## Version -19 to -20 ## {#sec-19-20}
 
