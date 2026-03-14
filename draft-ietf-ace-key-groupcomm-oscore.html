@@ -4123,8 +4123,8 @@ multicast) <span class="bcp14">MUST</span> support this parameter.<a href="#sect
       <h2 id="name-default-values-for-group-co">
 <a href="#section-14" class="section-number selfRef">14. </a><a href="#name-default-values-for-group-co" class="section-name selfRef">Default Values for Group Configuration Parameters</a>
       </h2>
-<p id="section-14-1">This section defines the default values that the Group Manager assumes for the configuration parameters of an OSCORE group, unless differently specified when creating and configuring the group (for example, by means of the admin interface specified in <span>[<a href="#I-D.ietf-ace-oscore-gm-admin" class="cite xref">I-D.ietf-ace-oscore-gm-admin</a>]</span>).<a href="#section-14-1" class="pilcrow">¶</a></p>
-<p id="section-14-2">A possible reason for the Group Manager to consider default values different from those recommended in this section is to ensure that each of those are consistent with what the Group Manager supports, e.g., in terms of signature algorithm and format of authentication credentials used in the OSCORE group.<a href="#section-14-2" class="pilcrow">¶</a></p>
+<p id="section-14-1">This section defines the default values that the Group Manager refers to for the configuration parameters of an OSCORE group, in case values for those parameters are not explicitly specified when creating and configuring the group (for example, by means of the admin interface defined in <span>[<a href="#I-D.ietf-ace-oscore-gm-admin" class="cite xref">I-D.ietf-ace-oscore-gm-admin</a>]</span>). These default values are <span class="bcp14">RECOMMENDED</span> to use for the configuration parameters.<a href="#section-14-1" class="pilcrow">¶</a></p>
+<p id="section-14-2">Exceptionally, the Group Manager <span class="bcp14">MAY</span> choose different default values instead of those recommended in this section. A possible reason is to ensure that each of those are consistent with what the Group Manager supports, e.g., in terms of signature algorithm and format of authentication credentials used in the OSCORE group.<a href="#section-14-2" class="pilcrow">¶</a></p>
 <p id="section-14-3">This ensures that the Group Manager is able to perform the operations defined in this document, e.g., to achieve proof of possession of a joining node's private key (see <a href="#ssec-join-req-processing" class="auto internal xref">Section 6.2</a>), as well as to provide a joining node with its own authentication credential and the associated proof-of-possession challenge (see <a href="#ssec-join-resp" class="auto internal xref">Section 6.3</a>).<a href="#section-14-3" class="pilcrow">¶</a></p>
 <p id="section-14-4">The following builds on the "COSE Header Parameters" registry <span>[<a href="#COSE.Header.Parameters" class="cite xref">COSE.Header.Parameters</a>]</span>, the "COSE Algorithms" registry <span>[<a href="#COSE.Algorithms" class="cite xref">COSE.Algorithms</a>]</span>, the "COSE Key Types" registry <span>[<a href="#COSE.Key.Types" class="cite xref">COSE.Key.Types</a>]</span>, and the "COSE Elliptic Curves" registry <span>[<a href="#COSE.Elliptic.Curves" class="cite xref">COSE.Elliptic.Curves</a>]</span>.<a href="#section-14-4" class="pilcrow">¶</a></p>
 <div id="common">
@@ -5639,35 +5639,46 @@ sign_params = 11
             <p id="appendix-D.1-1.1.1">Separate Section 1.2 "Notations".<a href="#appendix-D.1-1.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.2">
-            <p id="appendix-D.1-1.2.1">Clarifications in the "Operational Considerations" section, also aligned with draft-ietf-ace-oscore-gm-admin:<a href="#appendix-D.1-1.2.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.2.1">Revised preamble on default values in Section 14:<a href="#appendix-D.1-1.2.1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="appendix-D.1-1.2.2.1">
-                <p id="appendix-D.1-1.2.2.1.1">Policies for log retention at the Group Manager.<a href="#appendix-D.1-1.2.2.1.1" class="pilcrow">¶</a></p>
+                <p id="appendix-D.1-1.2.2.1.1">Aligned with that in Section 5.2 of draft-ietf-ace-oscore-gm-admin-16.<a href="#appendix-D.1-1.2.2.1.1" class="pilcrow">¶</a></p>
 </li>
               <li class="normal" id="appendix-D.1-1.2.2.2">
-                <p id="appendix-D.1-1.2.2.2.1">Logged authentication credentials are not only those used within the OSCORE group.<a href="#appendix-D.1-1.2.2.2.1" class="pilcrow">¶</a></p>
-</li>
-              <li class="normal" id="appendix-D.1-1.2.2.3">
-                <p id="appendix-D.1-1.2.2.3.1">Editorial improvements.<a href="#appendix-D.1-1.2.2.3.1" class="pilcrow">¶</a></p>
+                <p id="appendix-D.1-1.2.2.2.1">Clearer in terms of recommendations and reasons to deviate.<a href="#appendix-D.1-1.2.2.2.1" class="pilcrow">¶</a></p>
 </li>
             </ul>
 </li>
           <li class="normal" id="appendix-D.1-1.3">
-            <p id="appendix-D.1-1.3.1">IANA considerations<a href="#appendix-D.1-1.3.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.3.1">Clarifications in the "Operational Considerations" section, also aligned with draft-ietf-ace-oscore-gm-admin:<a href="#appendix-D.1-1.3.1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="appendix-D.1-1.3.2.1">
-                <p id="appendix-D.1-1.3.2.1.1">Added references to IANA registries.<a href="#appendix-D.1-1.3.2.1.1" class="pilcrow">¶</a></p>
+                <p id="appendix-D.1-1.3.2.1.1">Policies for log retention at the Group Manager.<a href="#appendix-D.1-1.3.2.1.1" class="pilcrow">¶</a></p>
 </li>
               <li class="normal" id="appendix-D.1-1.3.2.2">
-                <p id="appendix-D.1-1.3.2.2.1">More details in the definition of a column in the new IANA registry.<a href="#appendix-D.1-1.3.2.2.1" class="pilcrow">¶</a></p>
+                <p id="appendix-D.1-1.3.2.2.1">Logged authentication credentials are not only those used within the OSCORE group.<a href="#appendix-D.1-1.3.2.2.1" class="pilcrow">¶</a></p>
 </li>
               <li class="normal" id="appendix-D.1-1.3.2.3">
-                <p id="appendix-D.1-1.3.2.3.1">Added reference to Section 4.1 of RFC 8126.<a href="#appendix-D.1-1.3.2.3.1" class="pilcrow">¶</a></p>
+                <p id="appendix-D.1-1.3.2.3.1">Editorial improvements.<a href="#appendix-D.1-1.3.2.3.1" class="pilcrow">¶</a></p>
 </li>
             </ul>
 </li>
           <li class="normal" id="appendix-D.1-1.4">
-            <p id="appendix-D.1-1.4.1">Minor fixes and editorial improvements.<a href="#appendix-D.1-1.4.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.4.1">IANA considerations<a href="#appendix-D.1-1.4.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-D.1-1.4.2.1">
+                <p id="appendix-D.1-1.4.2.1.1">Added references to IANA registries.<a href="#appendix-D.1-1.4.2.1.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="appendix-D.1-1.4.2.2">
+                <p id="appendix-D.1-1.4.2.2.1">More details in the definition of a column in the new IANA registry.<a href="#appendix-D.1-1.4.2.2.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="appendix-D.1-1.4.2.3">
+                <p id="appendix-D.1-1.4.2.3.1">Added reference to Section 4.1 of RFC 8126.<a href="#appendix-D.1-1.4.2.3.1" class="pilcrow">¶</a></p>
+</li>
+            </ul>
+</li>
+          <li class="normal" id="appendix-D.1-1.5">
+            <p id="appendix-D.1-1.5.1">Minor fixes and editorial improvements.<a href="#appendix-D.1-1.5.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
