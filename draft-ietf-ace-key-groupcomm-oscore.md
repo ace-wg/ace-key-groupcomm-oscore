@@ -1707,7 +1707,7 @@ If case (c) or case (d) applies, the group member can alternatively perform the 
 
 ### Retrieve Stale Sender IDs {#sec-retrieve-stale-sids}
 
-When realizing to have missed one or more group rekeying instances (see {{missed-rekeying}}), a node needs to retrieve from the Group Manager the data required to delete some of its stored group members' authentication credentials and Recipient Contexts (see {{stale-sids-fetch}}). These data are provided as an aggregated set of stale Sender IDs, which are used as specified in {{missed-rekeying}}.
+When realizing that it has missed one or more group rekeying instances (see {{missed-rekeying}}), a node needs to retrieve from the Group Manager the data required to delete some of its stored group members' authentication credentials and Recipient Contexts (see {{stale-sids-fetch}}). These data are provided as an aggregated set of stale Sender IDs, which are used as specified in {{missed-rekeying}}.
 
 That is, the node sends a CoAP FETCH request to the endpoint /ace-group/GROUPNAME/stale-sids at the Group Manager defined in {{ssec-resource-stale-sids}} of this document, where GROUPNAME is the name of the OSCORE group.
 
