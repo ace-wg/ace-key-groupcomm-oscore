@@ -330,7 +330,7 @@ With respect to what is defined in {{RFC9594}}:
 
 * In addition to those defined in {{Section 9 of RFC9594}}, additional error identifiers are defined in this document and summarized in {{error-types}}.
 
-Finally, {{profile-req}} compiles the list of requirements for this application profile of ACE and how they are fulfilled, consistently with the list of requirements defined in {{Section A of RFC9594}}.
+Finally, {{profile-req}} compiles the list of requirements for this application profile of ACE and how they are fulfilled, consistent with the list of requirements defined in {{Section A of RFC9594}}.
 
 # Format of Scope {#sec-format-scope}
 
@@ -553,7 +553,7 @@ When used in the following Token Transfer Response from the KDC (see {{Section 3
 
 * The fifth element 'cred_fmt' either is a CBOR integer indicating the format of authentication credentials used in the groups identified by the 'gname' values or is the CBOR simple value `null` (0xf6), which indicates that the KDC does not act as a repository of authentication credentials for group members. Its acceptable integer values are taken from the "Label" column of the "COSE Header Parameters" registry {{COSE.Header.Parameters}}, with some of those values also indicating the type of container to use for exchanging the authentication credentials with the KDC (e.g., a chain or bag of certificates).
 
-  For application profiles of {{RFC9594}} that use the 'ecdh_info' parameter, it is REQUIRED to define specific values to use for 'cred_fmt', consistently with the acceptable formats of authentication credentials.
+  For application profiles of {{RFC9594}} that use the 'ecdh_info' parameter, it is REQUIRED to define specific values to use for 'cred_fmt', consistent with the acceptable formats of authentication credentials.
 
 If 'ecdh_info' is included in the Token Transfer Request, the KDC SHOULD include the 'ecdh_info' parameter in the Token Transfer Response, as per the format defined above. Note that the field 'id' of each 'ecdh_info_entry' specifies the name or array of group names to which that 'ecdh_info_entry' applies. As an exception, the KDC MAY omit the 'ecdh_info' parameter in the Token Transfer Response even if 'ecdh_info' is included in the Token Transfer Request, in the case that none of the groups that the Client is authorized to join uses an ECDH algorithm to derive Diffie-Hellman secrets.
 
@@ -598,7 +598,7 @@ When used in the following Token Transfer Response from the KDC (see {{Section 3
 
 * The second element 'cred_fmt' is a CBOR integer indicating the format of the KDC's authentication credential used in the groups identified by the 'gname' values and specified by the following element 'cred'. Its acceptable integer values are taken from the "Label" column of the "COSE Header Parameters" registry {{COSE.Header.Parameters}}, with some of those values also indicating the type of container to use for exchanging the authentication credentials with the KDC (e.g., a chain or bag of certificates).
 
-  For application profiles of {{RFC9594}} that use the 'kdc_dh_creds' parameter, it is REQUIRED to define specific values to use for 'cred_fmt', consistently with the acceptable formats of the KDC's authentication credentials.
+  For application profiles of {{RFC9594}} that use the 'kdc_dh_creds' parameter, it is REQUIRED to define specific values to use for 'cred_fmt', consistent with the acceptable formats of the KDC's authentication credentials.
 
 * The third element 'cred' is a CBOR byte string encoding the original binary representation of the Diffie-Hellman authentication credential that the KDC uses in the groups identified by the 'gname' values. The authentication credential complies with the format specified by the 'cred_fmt' element.
 
@@ -789,7 +789,7 @@ If the joining node has not taken exclusively the role of monitor, the Group Man
 
 * The Group Manager selects an available OSCORE Sender ID in the OSCORE group, and exclusively assigns it to the joining node. The Group Manager MUST NOT assign an OSCORE Sender ID to the joining node if this joins the group exclusively with the role of monitor, according to what is specified in the access token (see {{ssec-auth-resp}}).
 
-   Consistently with {{Section 12.2.1.2 of I-D.ietf-core-oscore-groupcomm}}, the Group Manager MUST assign an OSCORE Sender ID that has not been used in the OSCORE group since the latest time when the current Gid value was assigned to the group. The maximum length of a Sender ID in bytes is determined as defined in {{Section 2.2 of I-D.ietf-core-oscore-groupcomm}}.
+   Consistent with {{Section 12.2.1.2 of I-D.ietf-core-oscore-groupcomm}}, the Group Manager MUST assign an OSCORE Sender ID that has not been used in the OSCORE group since the latest time when the current Gid value was assigned to the group. The maximum length of a Sender ID in bytes is determined as defined in {{Section 2.2 of I-D.ietf-core-oscore-groupcomm}}.
 
    If the joining node is recognized as a current group member, e.g., through the ongoing secure communication association that is used to protect the Join Request, then the following also applies:
 
@@ -915,7 +915,7 @@ If the following parameters were not included in the 'key' parameter of the Join
 
 * Absent the 'ecdh_alg' parameter, the parameter Pairwise Key Agreement Algorithm in the Common Context of the Group OSCORE Security Context is not set.
 
-If the following parameters were not included in the 'key' parameter of the Join Response, then the joining node considers the default values specified below, consistently with {{Section 3.2 of RFC8613}}.
+If the following parameters were not included in the 'key' parameter of the Join Response, then the joining node considers the default values specified below, consistent with {{Section 3.2 of RFC8613}}.
 
 * Absent the 'hkdf' parameter, the joining node considers HKDF SHA-256 as the HKDF Algorithm to use in the OSCORE group.
 
@@ -1209,7 +1209,7 @@ Otherwise, the Group Manager performs one of the following actions.
 
      Then, the Group Manager replies with a Key Renewal Response formatted as defined in {{Section 4.8.2 of RFC9594}}. The CBOR map in the response payload only includes the 'group_SenderId' parameter registered in {{ssec-iana-ace-groupcomm-parameters-registry}} of this document, specifying the new Sender ID of the group member encoded as a CBOR byte string (REQ27).
 
-     Consistently with {{Section 2.6.3.1 of I-D.ietf-core-oscore-groupcomm}}, the Group Manager MUST assign a new Sender ID that has not been used in the OSCORE group since the latest time when the current Gid value was assigned to the group.
+     Consistent with {{Section 2.6.3.1 of I-D.ietf-core-oscore-groupcomm}}, the Group Manager MUST assign a new Sender ID that has not been used in the OSCORE group since the latest time when the current Gid value was assigned to the group.
 
      Furthermore, the Group Manager MUST add the old, relinquished Sender ID of the group member to the most recent set of stale Sender IDs for the group (see {{sssec-stale-sender-ids}}).
 
