@@ -3478,9 +3478,9 @@ Table of Contents
 
 11.3.1.  Retrieve Stale Sender IDs
 
-   When realizing to have missed one or more group rekeying instances
-   (see Section 11.3), a node needs to retrieve from the Group Manager
-   the data required to delete some of its stored group members'
+   When realizing that it has missed one or more group rekeying
+   instances (see Section 11.3), a node needs to retrieve from the Group
+   Manager the data required to delete some of its stored group members'
    authentication credentials and Recipient Contexts (see
    Section 8.4.1).  These data are provided as an aggregated set of
    stale Sender IDs, which are used as specified in Section 11.3.
