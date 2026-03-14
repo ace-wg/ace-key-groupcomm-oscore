@@ -92,7 +92,7 @@ Table of Contents
        8.3.1.  GET Handler
      8.4.  /ace-group/GROUPNAME/stale-sids
        8.4.1.  FETCH Handler
-     8.5.  Admitted Methods
+     8.5.  Permitted Methods
        8.5.1.  Signature Verifiers
      8.6.  Operations Supported by Clients
    9.  Additional Interactions with the Group Manager
@@ -2043,7 +2043,7 @@ Table of Contents
    *  Three new sub-resources are defined (see Section 8.2, Section 8.3,
       and Section 8.4 of this document).
 
-   Section 8.5 provides a summary of the CoAP methods that are admitted
+   Section 8.5 provides a summary of the CoAP methods that are permitted
    to use for accessing different resources at the Group Manager, for
    nodes with different roles in the group or as non-members (REQ11).
 
@@ -2192,9 +2192,9 @@ Table of Contents
    [I-D.ietf-core-oscore-groupcomm].  The payload of the response is
    formatted as defined in Section 11.3.1.
 
-8.5.  Admitted Methods
+8.5.  Permitted Methods
 
-   Table 2 summarizes the CoAP methods that are admitted for accessing
+   Table 2 summarizes the CoAP methods that are permitted for accessing
    different resources at the Group Manager, for (non-)members of a
    group with group name GROUPNAME, and considering different roles.
    The last two rows of the table apply to a node with node name
@@ -2249,7 +2249,7 @@ Table of Contents
     | cred                            |       |       |       |       |
     +---------------------------------+-------+-------+-------+-------+
 
-       Table 2: Admitted CoAP Methods on the Group Manager Resources
+       Table 2: Permitted CoAP Methods on the Group Manager Resources
 
 8.5.1.  Signature Verifiers
 
@@ -5684,7 +5684,8 @@ D.13.  Version -08 to -09
 
    *  The url-path "ace-group" is used.
 
-   *  Added overview of admitted methods on the Group Manager resources.
+   *  Added overview of permitted methods on the Group Manager
+      resources.
 
    *  Added exchange of parameters relevant for the pairwise mode of
       Group OSCORE.

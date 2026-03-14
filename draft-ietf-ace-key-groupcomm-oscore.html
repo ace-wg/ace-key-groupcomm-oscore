@@ -1248,7 +1248,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
                 </ul>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.5">
-                <p id="section-toc.1-1.8.2.5.1"><a href="#section-8.5" class="auto internal xref">8.5</a>.  <a href="#name-admitted-methods" class="internal xref">Admitted Methods</a></p>
+                <p id="section-toc.1-1.8.2.5.1"><a href="#section-8.5" class="auto internal xref">8.5</a>.  <a href="#name-permitted-methods" class="internal xref">Permitted Methods</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.5.2.1">
                     <p id="section-toc.1-1.8.2.5.2.1.1"><a href="#section-8.5.1" class="auto internal xref">8.5.1</a>.  <a href="#name-signature-verifiers" class="internal xref">Signature Verifiers</a></p>
@@ -2787,7 +2787,7 @@ Due to the set of stale Sender IDs distributed through the rekeying, this ensure
           <p id="section-8-2.2.1">Three new sub-resources are defined (see <a href="#ssec-resource-active" class="auto internal xref">Section 8.2</a>, <a href="#ssec-resource-verif-data" class="auto internal xref">Section 8.3</a>, and <a href="#ssec-resource-stale-sids" class="auto internal xref">Section 8.4</a> of this document).<a href="#section-8-2.2.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
-<p id="section-8-3"><a href="#ssec-admitted-methods" class="auto internal xref">Section 8.5</a> provides a summary of the CoAP methods that are admitted to use for accessing different resources at the Group Manager, for nodes with different roles in the group or as non-members (REQ11).<a href="#section-8-3" class="pilcrow">¶</a></p>
+<p id="section-8-3"><a href="#ssec-admitted-methods" class="auto internal xref">Section 8.5</a> provides a summary of the CoAP methods that are permitted to use for accessing different resources at the Group Manager, for nodes with different roles in the group or as non-members (REQ11).<a href="#section-8-3" class="pilcrow">¶</a></p>
 <p id="section-8-4">The GROUPNAME segment of the URI path <span class="bcp14">MUST</span> match with the group name specified in the scope entry of the scope in the access token (i.e., 'gname' in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-3.1" class="relref">Section 3.1</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>) (REQ7).<a href="#section-8-4" class="pilcrow">¶</a></p>
 <p id="section-8-5">The Resource Type (rt=) Link Target Attribute value "core.osc.gm" is registered in <a href="#iana-rt" class="auto internal xref">Section 17.10</a> (REQ10), and can be used to describe group-membership resources and its sub-resources at a Group Manager, e.g., by using a CoRE link-format document <span>[<a href="#RFC6690" class="cite xref">RFC6690</a>]</span>.<a href="#section-8-5" class="pilcrow">¶</a></p>
 <p id="section-8-6">Applications can use this common resource type to discover links to group-membership resources for joining OSCORE groups, e.g., by using the approach described in <span>[<a href="#I-D.tiloca-core-oscore-discovery" class="cite xref">I-D.tiloca-core-oscore-discovery</a>]</span>.<a href="#section-8-6" class="pilcrow">¶</a></p>
@@ -2871,10 +2871,10 @@ Due to the set of stale Sender IDs distributed through the rekeying, this ensure
 </div>
 <div id="ssec-admitted-methods">
 <section id="section-8.5">
-        <h3 id="name-admitted-methods">
-<a href="#section-8.5" class="section-number selfRef">8.5. </a><a href="#name-admitted-methods" class="section-name selfRef">Admitted Methods</a>
+        <h3 id="name-permitted-methods">
+<a href="#section-8.5" class="section-number selfRef">8.5. </a><a href="#name-permitted-methods" class="section-name selfRef">Permitted Methods</a>
         </h3>
-<p id="section-8.5-1"><a href="#tab-methods" class="auto internal xref">Table 2</a> summarizes the CoAP methods that are admitted for accessing different resources at the Group Manager, for (non-)members of a group with group name GROUPNAME, and considering different roles. The last two rows of the table apply to a node with node name NODENAME.<a href="#section-8.5-1" class="pilcrow">¶</a></p>
+<p id="section-8.5-1"><a href="#tab-methods" class="auto internal xref">Table 2</a> summarizes the CoAP methods that are permitted for accessing different resources at the Group Manager, for (non-)members of a group with group name GROUPNAME, and considering different roles. The last two rows of the table apply to a node with node name NODENAME.<a href="#section-8.5-1" class="pilcrow">¶</a></p>
 <p id="section-8.5-2">The table uses the following abbreviations.<a href="#section-8.5-2" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-8.5-3.1">
@@ -2905,11 +2905,11 @@ Due to the set of stale Sender IDs distributed through the rekeying, this ensure
             <p id="section-8.5-3.9.1">* = Cannot join the group as a signature verifier<a href="#section-8.5-3.9.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<span id="name-admitted-coap-methods-on-th"></span><div id="tab-methods">
+<span id="name-permitted-coap-methods-on-t"></span><div id="tab-methods">
 <table class="center" id="table-2">
           <caption>
 <a href="#table-2" class="selfRef">Table 2</a>:
-<a href="#name-admitted-coap-methods-on-th" class="selfRef">Admitted CoAP Methods on the Group Manager Resources</a>
+<a href="#name-permitted-coap-methods-on-t" class="selfRef">Permitted CoAP Methods on the Group Manager Resources</a>
           </caption>
 <thead>
             <tr>
@@ -6208,7 +6208,7 @@ sign_params = 11
             <p id="appendix-D.13-1.1.1">The url-path "ace-group" is used.<a href="#appendix-D.13-1.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.13-1.2">
-            <p id="appendix-D.13-1.2.1">Added overview of admitted methods on the Group Manager resources.<a href="#appendix-D.13-1.2.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.13-1.2.1">Added overview of permitted methods on the Group Manager resources.<a href="#appendix-D.13-1.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.13-1.3">
             <p id="appendix-D.13-1.3.1">Added exchange of parameters relevant for the pairwise mode of Group OSCORE.<a href="#appendix-D.13-1.3.1" class="pilcrow">¶</a></p>
