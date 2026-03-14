@@ -1907,7 +1907,7 @@ This section applies if the group uses (also) the pairwise mode of Group OSCORE.
 
 # Operational Considerations
 
-This section compiles the operational considerations that hold for this document.
+In addition to the considerations already discussed in this document (e.g., regarding default values), this section compiles additional operational considerations that hold for this document.
 
 ## Logging
 
@@ -1915,20 +1915,20 @@ When performing its normal operations, the Group Manager is expected to produce 
 
 * Any event that has resulted in the Group Manager sending an error response, as a reply to a request received at any of the resources exported by the interface specified in this document.
 
-  The logged information contains a description of the error occurred in the context of the present application profile, together with a description of the event related to the error and relevant metadata about the Client that has sent the request. For instance, possible metadata include: addressing information of the Client; when applicable (an identifier of) the authentication credential of the Client and the OSCORE Sender ID that is currently assigned to the Client in the group.
+  The logged information contains a description of the error occurred in the context of the present application profile, together with a description of the event related to the error and relevant metadata about the Client that has sent the request. For instance, possible metadata include: addressing information of the Client; when applicable, the OSCORE Sender ID that is assigned to the Client in the group; when applicable, (an identifier of) the authentication credential of the Client (i.e., that the Client uses in the group or has used to authenticate itself to the Group Manager when establishing their secure communication association).
 
-  Note that, if the error response uses the format problem-details defined in {{RFC9290}}, then the optional "details" entry in the response payload is meant to convey the diagnostic description of the error, which is meant to be part of the log entry for this event. This is consistent with {{Section 4.1.2 of RFC9594}}, which says that the diagnostic description of the error should be logged.
+  Note that, if the error response uses the format problem-details defined in {{RFC9290}}, then the optional "detail" entry in the response payload is meant to convey the diagnostic description of the error, which is meant to be part of the log entry for this event. This is consistent with {{Section 4.1.2 of RFC9594}}, which states that the diagnostic description of the error should be logged.
 
 * Any event consisting in a successfully performed operation that is triggered by a request received at any of the resources exported by the interface specified in this document.
 
   Such events include:
 
-  - The (re-)joining of a group.
-  - The uploading of a new authentication credential to use in the group.
-  - The obtainment of a new OSCORE Sender ID to use in the group.
-  - The leaving of a group.
+  - A Client joining or re-joining a group.
+  - The upload of a new authentication credential for use within the group.
+  - The acquisition of a new Sender ID for use within the group.
+  - A Client leaving a group.
 
-  The logged information contains a description of the operation performed in the context of the present application profile, together with relevant metadata about the Client that has sent the request. For instance, possible metadata include: addressing information of the Client; when applicable (an identifier of) the authentication credential of the Client and the OSCORE Sender ID that is currently assigned to the Client in the group.
+  The logged information contains a description of the operation performed in the context of the present application profile, together with relevant metadata about the Client that has sent the request. For instance, possible metadata include: addressing information of the Client; when applicable, the OSCORE Sender ID that is assigned to the Client in the group; when applicable, (an identifier of) the authentication credential of the Client (i.e., that the Client uses in the group or has used to authenticate itself to the Group Manager when establishing their secure communication association).
 
 * The execution and successful/unsuccessful completion of a group rekeying instance.
 
@@ -1941,7 +1941,7 @@ When performing its normal operations, the Group Manager is expected to produce 
 
 * The addition of a group member to the group or the eviction of a group member from the group.
 
-  The logged information also contains relevant metadata about the Client that has been added to or removed from the group. For instance, possible metadata include: addressing information of the Client; when applicable (an identifier of) the authentication credential of the Client and the OSCORE Sender ID that is currently assigned to the Client that has been added to the group or latest assigned to the Client that has been removed from the group.
+  The logged information also contains relevant metadata about the Client that has been added to or removed from the group. For instance, possible metadata include: addressing information of the Client; when applicable, the OSCORE Sender ID that is currently (was latest) assigned to the Client added to (removed from) the group; when applicable, (an identifier of) the authentication credential of the Client added to or removed from the group (i.e., that the Client uses in the group or has used to authenticate itself to the Group Manager when establishing their secure communication association).
 
 * The creation, (re-)configuration, or termination of a group.
 
@@ -1961,9 +1961,11 @@ The Group Manager MUST NOT log any secret or confidential information pertaining
 
 * If applicable, administrative keying material used to protect the group rekeying process.
 
+It is up to the application to specify for how long a log entry is retained from the time of its creation and until its deletion. Different retention policies could be enforced for different groups. For a given group, the oldest log entries are expected to be those deleted first, and different retention policies could be enforced depending on whether the group currently exists or has been deleted.
+
 It is out of the scope of this document what specific semantics and data model are used by the Group Manager for producing and processing the logs. Specific semantics and data models can be defined by applications and future specifications.
 
-The Group Manager is expected to make the logs produced available to securely access for authorized, external management applications and operators.
+The Group Manager is expected to make the logs that it produces available for secure access by authorized external management applications and operators.
 
 In particular, logged information could be retrieved in the following ways.
 
@@ -1973,7 +1975,7 @@ In particular, logged information could be retrieved in the following ways.
 
 * Through notifications asynchronously sent by the Group Manager, throttling them in order to prevent congestion and duplication and to not create attack vectors.
 
-Some of the logged information can be privacy-sensitive. This especially holds for the metadata about a Client, i.e., addressing information of the Client and, when applicable, (an identifier of) the authentication credential of the Client. If external management applications and operators obtain such metadata, they become able to track a given Client, as to its interactions with one or multiple Group Managers and its membership in groups under such Group Manager(s).
+Some of the logged information can be privacy-sensitive. This especially holds for the metadata about a Client, i.e., addressing information of the Client and, when applicable, (an identifier of) the authentication credential of the Client (i.e., that the Client uses in the group or has used to authenticate itself to the Group Manager when establishing their secure communication association). If external management applications and operators obtain such metadata, they become able to track a given Client, as to its interactions with one or multiple Group Managers and its membership in groups under such Group Manager(s).
 
 Therefore, the logged information that is effectively provided to external management applications and operators SHOULD be redacted by the Group Manager, by omitting any privacy-sensitive information element that could enable or facilitate the impairment of Clients' privacy, e.g., by tracking Clients across different groups and different Group Managers. Exceptions could apply, e.g., if the Group Manager can verify that the management application or operator in question is specifically authorized to obtain such privacy-sensitive information and appropriately entitled to obtain it according to enforced privacy policies.
 
@@ -2499,6 +2501,14 @@ sign_params = 11
 ## Version -20 to -21 ## {#sec-20-21}
 
 * Separate Section 1.2 "Notations".
+
+* Clarifications in the "Operational Considerations" section, also aligned with draft-ietf-ace-oscore-gm-admin:
+
+  * Policies for log retention at the Group Manager.
+
+  * Logged authentication credentials are not only those used within the OSCORE group.
+
+  * Editorial improvements.
 
 * IANA considerations
 
