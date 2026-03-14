@@ -3163,8 +3163,8 @@ Table of Contents
       Gid to be distributed coincides with the Birth Gid of any of the
       current group members (see Section 6.3).
 
-   *  If any of such "elder members" is found in the group, then the
-      Group Manager MUST evict them from the group.  That is, the Group
+   *  If any such "elder members" are found in the group, then the Group
+      Manager MUST evict them from the group.  That is, the Group
       Manager MUST terminate their membership and MUST rekey the group
       in such a way that the new keying material is not provided to
       those evicted elder members.  This also includes adding their
@@ -3300,18 +3300,17 @@ Table of Contents
    [RFC9594] (OPT7), if provided by the intended recipient upon joining
    the group (see Section 6.1).
 
-   This distribution approach requires group members to act (also) as
-   servers, in order to correctly handle unsolicited group rekeying
-   messages from the Group Manager.  If a group member and the Group
-   Manager use OSCORE [RFC8613] to secure their pairwise communications,
-   then the group member MUST create a Replay Window in its own
-   Recipient Context upon establishing the OSCORE Security Context with
-   the Group Manager, e.g., by means of the OSCORE profile of ACE
-   [RFC9203].
+   This distribution approach requires group members to act as servers,
+   in order to correctly handle unsolicited group rekeying messages from
+   the Group Manager.  If a group member and the Group Manager use
+   OSCORE [RFC8613] to secure their pairwise communications, then the
+   group member MUST create a Replay Window in its own Recipient Context
+   upon establishing the OSCORE Security Context with the Group Manager,
+   e.g., by means of the OSCORE profile of ACE [RFC9203].
 
    Group members and the Group Manager SHOULD additionally support
    alternative distribution approaches that do not require group members
-   to act (also) as servers.  A number of such approaches are defined in
+   to act as servers.  A number of such approaches are defined in
    Section 6 of [RFC9594].  In particular, a group member may use CoAP
    Observe [RFC7641] and subscribe for updates to the group-membership
    resource of the group, at the endpoint /ace-group/GROUPNAME of the
