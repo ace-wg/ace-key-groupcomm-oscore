@@ -282,7 +282,7 @@ Additionally, this document makes use of the following terminology:
 
 * Requester: member of an OSCORE group that sends request messages to other members of the group.
 
-* Responder: member of an OSCORE group that receives request messages from other members of the group. A responder may reply back, by sending a response message to the requester which has sent the request message.
+* Responder: member of an OSCORE group that receives request messages from other members of the group. A responder may reply, by sending a response message to the requester which has sent the request message.
 
 * Monitor: member of an OSCORE group that is configured as responder and never sends response messages protected with Group OSCORE. This corresponds to the term "silent server" used in {{I-D.ietf-core-oscore-groupcomm}}.
 
@@ -308,7 +308,7 @@ Group communication for CoAP is defined in {{I-D.ietf-core-groupcomm-bis}} and c
 
 This document describes how to use {{RFC9594}} and {{RFC9200}} to perform a number of authentication, authorization, and key distribution actions as overviewed in {{Section 2 of RFC9594}}, when the considered group is specifically an OSCORE group.
 
-After joining the group as defined in this application profile, a group member communicate with other other group members using CoAP {{RFC7252}} as well as CoAP for group communication {{I-D.ietf-core-groupcomm-bis}} (REQ22). Such communications are protected using the security protocol Group OSCORE {{I-D.ietf-core-oscore-groupcomm}} (REQ23).
+After joining the group as defined in this application profile, a group member communicates with other group members using CoAP {{RFC7252}} as well as CoAP for group communication {{I-D.ietf-core-groupcomm-bis}} (REQ22). Such communications are protected using the security protocol Group OSCORE {{I-D.ietf-core-oscore-groupcomm}} (REQ23).
 
 With reference to {{RFC9594}}:
 
@@ -631,7 +631,7 @@ This section describes the interactions between the joining node and the Group M
 
 ## Send the Join Request {#ssec-join-req-sending}
 
-The joining node requests to join the OSCORE group by sending a Join Request message to the related group-membership resource at the Group Manager, as per {{Section 4.3.1.1 of RFC9594}}. Additionally to what is defined in {{Section 4.3.1 of RFC9594}}, the following applies.
+The joining node requests to join the OSCORE group by sending a Join Request message to the related group-membership resource at the Group Manager, as per {{Section 4.3.1.1 of RFC9594}}. In addition to what is defined in {{Section 4.3.1 of RFC9594}}, the following applies.
 
 * The 'scope' parameter MUST be included. Its value encodes one scope entry with the format defined in {{sec-format-scope}}, indicating the group name and the role(s) that the joining node wants to take in the group.
 
@@ -1003,7 +1003,7 @@ The Group Manager provides the interface defined in {{Section 4.1 of RFC9594}} i
 
 * Three new sub-resources are defined (see {{ssec-resource-active}}, {{ssec-resource-verif-data}}, and {{ssec-resource-stale-sids}} of this document).
 
-{{ssec-admitted-methods}} provides a summary of the CoAP methods that are admitted to use for accessing different resources at the Group Manager, for nodes with different roles in the group or as non members (REQ11).
+{{ssec-admitted-methods}} provides a summary of the CoAP methods that are admitted to use for accessing different resources at the Group Manager, for nodes with different roles in the group or as non-members (REQ11).
 
 The GROUPNAME segment of the URI path MUST match with the group name specified in the scope entry of the scope in the access token (i.e., 'gname' in {{Section 3.1 of RFC9594}}) (REQ7).
 
@@ -1587,7 +1587,7 @@ As per {{Section 12.2.1.1 of I-D.ietf-core-oscore-groupcomm}}, the Group Manager
 
 * If any of such "elder members" is found in the group, then the Group Manager MUST evict them from the group. That is, the Group Manager MUST terminate their membership and MUST rekey the group in such a way that the new keying material is not provided to those evicted elder members. This also includes adding their relinquished Sender IDs to the most recent set of stale Sender IDs for the group (see {{sssec-stale-sender-ids}}), before rekeying the group.
 
-  Until a further following group rekeying, the Group Manager MUST store the list of those latest-evicted elder members. If any of those nodes re-joins the group before a further following group rekeying occurs, the Group Manager MUST NOT rekey the group upon their re-joining. When one of those nodes re-joins the group, the Group Manager can rely, e.g., on the ongoing secure communication association to recognize the node as included in the stored list.
+  Until a further following group rekeying, the Group Manager MUST store the list of those latest-evicted elder members. If any of those nodes re-joins the group before a further following group rekeying occurs, the Group Manager MUST NOT rekey the group upon their re-joining. When one of those nodes re-joins the group, the Group Manager can rely on, e.g., the ongoing secure communication association to recognize the node as included in the stored list.
 
 Throughout the rekeying execution, the Group Manager MUST preserve the same unchanged OSCORE Sender IDs for all group members that are intended to remain in the group. This avoids affecting the retrieval of authentication credentials from the Group Manager and the verification of group messages.
 
@@ -1661,7 +1661,7 @@ Then, the following cases can occur, based on the version number V' of the new g
 
 A group member can realize to have missed one or more rekeying instances in one of the ways discussed below. In the following, V denotes the version number of the old keying material stored by the group member, while V' denotes the version number of the latest, possibly just distributed, keying material.
 
-a. The group member has participated to a rekeying process that has distributed new keying material with version number V' > (V + 1), as discussed in {{receiving-rekeying-msg}}.
+a. The group member has participated in a rekeying process that has distributed new keying material with version number V' > (V + 1), as discussed in {{receiving-rekeying-msg}}.
 
 b. The group member has obtained the latest keying material from the Group Manager, as a response to a Key Distribution Request (see {{ssec-updated-key-only}}) or to a Join Request when re-joining the group (see {{ssec-join-req-sending}}). That is, V is different than V' specified by the 'num' parameter in the response.
 
