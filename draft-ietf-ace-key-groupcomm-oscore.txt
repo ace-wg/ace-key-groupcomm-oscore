@@ -64,6 +64,7 @@ Table of Contents
 
    1.  Introduction
      1.1.  Terminology
+     1.2.  Notations
    2.  Protocol Overview
    3.  Format of Scope
    4.  Authentication Credentials
@@ -380,6 +381,8 @@ Table of Contents
 
    *  Pairwise-only group: an OSCORE group that uses only the pairwise
       mode (see Section 8 of [I-D.ietf-core-oscore-groupcomm]).
+
+1.2.  Notations
 
    Throughout this document, examples for CBOR data items are expressed
    in CBOR extended diagnostic notation as defined in Section 8 of
@@ -5234,6 +5237,8 @@ Appendix D.  Document Updates
    This section is to be removed before publishing as an RFC.
 
 D.1.  Version -20 to -21
+
+   *  Separate Section 1.2 "Notations".
 
    *  Minor fixes and editorial improvements.
 
