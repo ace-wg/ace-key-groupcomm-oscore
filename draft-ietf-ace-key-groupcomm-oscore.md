@@ -233,6 +233,8 @@ Additionally, this document makes use of the following terminology:
 
 * Pairwise-only group: an OSCORE group that uses only the pairwise mode (see {{Section 8 of I-D.ietf-core-oscore-groupcomm}}).
 
+## Notations
+
 Throughout this document, examples for CBOR data items are expressed in CBOR extended diagnostic notation as defined in {{Section 8 of RFC8949}} and {{Appendix G of RFC8610}} ("diagnostic notation"). Diagnostic notation comments are often used to provide a textual representation of the parameters' keys and values.
 
 In the CBOR diagnostic notation used in this document, constructs of the form e'SOME_NAME' are replaced by the value assigned to SOME_NAME in the CDDL model shown in {{fig-cddl-model}} of {{sec-cddl-model}}. For example, {e'gp_enc_alg': 10, e'sign_alg': -8} stands for {9: 10, 10: -8}.
@@ -2434,6 +2436,8 @@ sign_params = 11
 {:removeinrfc}
 
 ## Version -20 to -21 ## {#sec-20-21}
+
+* Separate Section 1.2 "Notations".
 
 * Minor fixes and editorial improvements.
 
