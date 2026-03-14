@@ -5044,7 +5044,7 @@ As defined in <a href="#ssec-overview-group-rekeying-process" class="auto intern
             <p id="section-17.12-4.1.1">Name: A value that can be used in documents for easier comprehension, to identify a possible role that nodes can take in an OSCORE group.<a href="#section-17.12-4.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-17.12-4.2">
-            <p id="section-17.12-4.2.1">Value: The numeric identifier for this role. Integer values greater than 65535 are marked as "Private Use", all other values use the registration policy "Expert Review" <span>[<a href="#RFC8126" class="cite xref">RFC8126</a>]</span>.<a href="#section-17.12-4.2.1" class="pilcrow">¶</a></p>
+            <p id="section-17.12-4.2.1">Value: The numeric identifier for this role. These values <span class="bcp14">MUST</span> be unique. The value can be an integer greater than or equal to 0. Integer values greater than 65535 are marked as "Private Use" (see <span><a href="https://rfc-editor.org/rfc/rfc8126#section-4.1" class="relref">Section 4.1</a> of [<a href="#RFC8126" class="cite xref">RFC8126</a>]</span>). All other values use the registration policy "Expert Review" (see <span><a href="https://rfc-editor.org/rfc/rfc8126#section-4.5" class="relref">Section 4.5</a> of [<a href="#RFC8126" class="cite xref">RFC8126</a>]</span>).<a href="#section-17.12-4.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-17.12-4.3">
             <p id="section-17.12-4.3.1">Description: This field contains a brief description of the role.<a href="#section-17.12-4.3.1" class="pilcrow">¶</a></p>
@@ -5638,7 +5638,18 @@ sign_params = 11
             <p id="appendix-D.1-1.1.1">Separate Section 1.2 "Notations".<a href="#appendix-D.1-1.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.2">
-            <p id="appendix-D.1-1.2.1">Added references to IANA registries.<a href="#appendix-D.1-1.2.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.2.1">IANA considerations<a href="#appendix-D.1-1.2.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-D.1-1.2.2.1">
+                <p id="appendix-D.1-1.2.2.1.1">Added references to IANA registries.<a href="#appendix-D.1-1.2.2.1.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="appendix-D.1-1.2.2.2">
+                <p id="appendix-D.1-1.2.2.2.1">More details in the definition of a column in the new IANA registry.<a href="#appendix-D.1-1.2.2.2.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="appendix-D.1-1.2.2.3">
+                <p id="appendix-D.1-1.2.2.3.1">Added reference to Section 4.1 of RFC 8126.<a href="#appendix-D.1-1.2.2.3.1" class="pilcrow">¶</a></p>
+</li>
+            </ul>
 </li>
           <li class="normal" id="appendix-D.1-1.3">
             <p id="appendix-D.1-1.3.1">Minor fixes and editorial improvements.<a href="#appendix-D.1-1.3.1" class="pilcrow">¶</a></p>
