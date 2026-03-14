@@ -475,9 +475,9 @@ The exchange of Token Transfer Request and Token Transfer Response is defined in
 
 * The Token Transfer Request MAY additionally contain the following parameters, which, if included, MUST have the corresponding values defined below (OPT2):
 
-   - 'ecdh_info' defined in {{ecdh-info}} of this document, with value the CBOR simple value `null` (0xf6) to request information about the ECDH algorithm, the ECDH algorithm parameters, the ECDH key parameters, and the exact format of authentication credentials used in the OSCORE groups that the Client has been authorized to join. This is relevant in case the joining node supports the pairwise mode of Group OSCORE {{I-D.ietf-core-oscore-groupcomm}}.
+   - 'ecdh_info' defined in {{ecdh-info}} of this document, with value the CBOR simple value `null` (0xf6) to request information about the ECDH algorithm, the ECDH algorithm parameters, the ECDH key parameters, and the exact format of authentication credentials used in the OSCORE groups that the Client has been authorized to join. This is relevant if the joining node supports the pairwise mode of Group OSCORE {{I-D.ietf-core-oscore-groupcomm}}.
 
-   - 'kdc_dh_creds' defined in {{gm-dh-info}} of this document, with value the CBOR simple value `null` (0xf6) to request the Diffie-Hellman authentication credentials of the Group Manager for the OSCORE groups that the Client has been authorized to join. That is, each of such authentication credentials includes a Diffie-Hellman public key of the Group Manager. This is relevant in case the joining node supports the pairwise mode of Group OSCORE {{I-D.ietf-core-oscore-groupcomm}} and the access token authorizes to join pairwise-only groups.
+   - 'kdc_dh_creds' defined in {{gm-dh-info}} of this document, with value the CBOR simple value `null` (0xf6) to request the Diffie-Hellman authentication credentials of the Group Manager for the OSCORE groups that the Client has been authorized to join. That is, each of such authentication credentials includes a Diffie-Hellman public key of the Group Manager. This is relevant if the joining node supports the pairwise mode of Group OSCORE {{I-D.ietf-core-oscore-groupcomm}} and the access token authorizes to join pairwise-only groups.
 
    Alternatively, the joining node may retrieve this information by other means.
 
@@ -513,7 +513,7 @@ The exchange of Token Transfer Request and Token Transfer Response is defined in
 
   * 'cred_fmt' takes value from the "Label" column of the "COSE Header Parameters" registry {{COSE.Header.Parameters}}. To align with {{Section 2.4 of I-D.ietf-core-oscore-groupcomm}}, acceptable values denote a format of authentication credential that provides the public key as well as a comprehensive set of information related to the public key algorithm, including, e.g., the elliptic curve used. The same considerations provided above on acceptable formats currently available for the 'cred_fmt' element of 'sign_info' apply.
 
-  The Group Manager omits the 'ecdh_info' parameter in the Token Transfer Response even if 'ecdh_info' is included in the Token Transfer Request, in case all the OSCORE groups that the Client is authorized to join are signature-only groups.
+  The Group Manager omits the 'ecdh_info' parameter in the Token Transfer Response even if 'ecdh_info' is included in the Token Transfer Request, in the case that all the OSCORE groups that the Client is authorized to join are signature-only groups.
 
 * If the 'kdc_dh_creds' parameter is present in the Token Transfer Response, the following applies for each element 'kdc_dh_creds_entry'.
 
@@ -521,7 +521,7 @@ The exchange of Token Transfer Request and Token Transfer Response is defined in
 
   * 'cred_fmt' takes value from the "Label" column of the "COSE Header Parameters" registry {{COSE.Header.Parameters}}. To align with {{Section 2.4 of I-D.ietf-core-oscore-groupcomm}}, acceptable values denote a format of authentication credential that provides the public key as well as a comprehensive set of information related to the public key algorithm, including, e.g., the elliptic curve used. The same considerations provided above on acceptable formats currently available for the 'cred_fmt' element of 'sign_info' apply.
 
-  The Group Manager omits the 'kdc_dh_creds' parameter in the Token Transfer Response even if 'ecdh_info' is included in the Token Transfer Request, in case none of the OSCORE groups that the Client is authorized to join is a pairwise-only group.
+  The Group Manager omits the 'kdc_dh_creds' parameter in the Token Transfer Response even if 'ecdh_info' is included in the Token Transfer Request, in the case that none of the OSCORE groups that the Client is authorized to join is a pairwise-only group.
 
 Note that, other than through the above parameters as defined in {{Section 3.3 of RFC9594}}, the joining node may have obtained such information by alternative means. For example, information conveyed in the 'sign_info' and 'ecdh_info' parameters may have been pre-configured, or the joining node may early retrieve it, e.g., by using the approach described in {{I-D.tiloca-core-oscore-discovery}} to discover the OSCORE group and the link to the associated group-membership resource at the Group Manager (OPT3).
 
@@ -555,7 +555,7 @@ When used in the following Token Transfer Response from the KDC (see {{Section 3
 
   For application profiles of {{RFC9594}} that use the 'ecdh_info' parameter, it is REQUIRED to define specific values to use for 'cred_fmt', consistently with the acceptable formats of authentication credentials.
 
-If 'ecdh_info' is included in the Token Transfer Request, the KDC SHOULD include the 'ecdh_info' parameter in the Token Transfer Response, as per the format defined above. Note that the field 'id' of each 'ecdh_info_entry' specifies the name or array of group names to which that 'ecdh_info_entry' applies. As an exception, the KDC MAY omit the 'ecdh_info' parameter in the Token Transfer Response even if 'ecdh_info' is included in the Token Transfer Request, in case none of the groups that the Client is authorized to join uses an ECDH algorithm to derive Diffie-Hellman secrets.
+If 'ecdh_info' is included in the Token Transfer Request, the KDC SHOULD include the 'ecdh_info' parameter in the Token Transfer Response, as per the format defined above. Note that the field 'id' of each 'ecdh_info_entry' specifies the name or array of group names to which that 'ecdh_info_entry' applies. As an exception, the KDC MAY omit the 'ecdh_info' parameter in the Token Transfer Response even if 'ecdh_info' is included in the Token Transfer Request, in the case that none of the groups that the Client is authorized to join uses an ECDH algorithm to derive Diffie-Hellman secrets.
 
 The CDDL notation {{RFC8610}} of the 'ecdh_info' parameter is given below.
 
@@ -602,7 +602,7 @@ When used in the following Token Transfer Response from the KDC (see {{Section 3
 
 * The third element 'cred' is a CBOR byte string encoding the original binary representation of the Diffie-Hellman authentication credential that the KDC uses in the groups identified by the 'gname' values. The authentication credential complies with the format specified by the 'cred_fmt' element.
 
-If 'kdc_dh_creds' is included in the Token Transfer Request, the KDC SHOULD include the 'kdc_dh_creds' parameter in the Token Transfer Response, as per the format defined above. Note that the field 'id' of each 'kdc_dh_creds_entry' specifies the name or array of group names to which that 'kdc_dh_creds_entry' applies. As an exception, the KDC MAY omit the 'kdc_dh_creds' parameter in the Token Transfer Response even if 'kdc_dh_creds' is included in the Token Transfer Request, in case the KDC does not use a Diffie-Hellman authentication credential in any of the groups that the Client is authorized to join.
+If 'kdc_dh_creds' is included in the Token Transfer Request, the KDC SHOULD include the 'kdc_dh_creds' parameter in the Token Transfer Response, as per the format defined above. Note that the field 'id' of each 'kdc_dh_creds_entry' specifies the name or array of group names to which that 'kdc_dh_creds_entry' applies. As an exception, the KDC MAY omit the 'kdc_dh_creds' parameter in the Token Transfer Response even if 'kdc_dh_creds' is included in the Token Transfer Request, in the case that the KDC does not use a Diffie-Hellman authentication credential in any of the groups that the Client is authorized to join.
 
 The CDDL notation {{RFC8610}} of the 'kdc_dh_creds' parameter is given below.
 
@@ -645,7 +645,7 @@ The joining node requests to join the OSCORE group by sending a Join Request mes
 
 * If the joining node intends to join the group exclusively as a monitor, then the 'client_cred' parameter and the 'client_cred_verify' parameter MUST be omitted.
 
-* If the joining node is currently a group member and intends to use the same authentication credential that it is currently using in the group, then the 'client_cred_verify' parameter MAY be omitted. In case the 'client_cred_verify' parameter is omitted, the value of the 'client_cred' parameter MAY specify an empty authentication credential, i.e., its value is set to the empty CBOR byte string (0x40).
+* If the joining node is currently a group member and intends to use the same authentication credential that it is currently using in the group, then the 'client_cred_verify' parameter MAY be omitted. If the 'client_cred_verify' parameter is omitted, the value of the 'client_cred' parameter MAY specify an empty authentication credential, i.e., its value is set to the empty CBOR byte string (0x40).
 
 * If the 'client_cred_verify' parameter is present, then the proof-of-possession (PoP) evidence included therein is computed as defined below (REQ14).
 
@@ -699,19 +699,19 @@ It is up to applications or future specifications to define how N_S is computed 
 
 The Group Manager processes the Join Request as defined in {{Section 4.3.1 of RFC9594}}, with the following additions. Note that the Group Manager can determine whether the joining node is a current group member, e.g., based on the ongoing secure communication association that is used to protect the Join Request.
 
-In case the joining node is going to join the group exclusively as monitor, then the Group Manager silently ignores the parameters 'client_cred' and 'client_cred_verify', if present.
+If the joining node is going to join the group exclusively as monitor, then the Group Manager silently ignores the parameters 'client_cred' and 'client_cred_verify', if present.
 
-In case the joining node is not going to join the group exclusively as monitor, it is a current member of the group, and the 'client_cred_verify' parameter is not present, then the following applies:
+If the joining node is not going to join the group exclusively as monitor, it is a current member of the group, and the 'client_cred_verify' parameter is not present, then the following applies:
 
 * If the 'client_cred' parameter does not specify the empty CBOR byte string (0x40), the Group Manager verifies that it is already storing the authentication credential specified by the parameter, as associated with the joining node in the group. If the verification fails, the Group Manager MUST reply with a 4.00 (Bad Request) error response (OPT8).
 
 * If the 'client_cred' parameter specifies the empty CBOR byte string (0x40), the Group Manager verifies that it is already storing an authentication credential, as associated with the joining node in the group. If the verification fails, the Group Manager MUST reply with a 4.00 (Bad Request) error response (OPT8).
 
-In case the joining node is not going to join the group exclusively as monitor and the 'client_cred_verify' parameter specifies the empty CBOR byte string (0x40), the Group Manager checks whether it has already achieved proof of possession of the joining node's private key associated with the authentication credential that is specified in the 'client_cred' parameter. If such verification fails, then the Group Manager MUST reply with a 4.00 (Bad Request) error response. The response MUST have Content-Format set to "application/concise-problem-details+cbor" {{RFC9290}} and is formatted as defined in {{Section 4.1.2 of RFC9594}}. Within the Custom Problem Detail entry 'ace-groupcomm-error', the value of the 'error-id' field MUST be set to 3 ("Invalid proof-of-possession evidence"). After receiving that response, the client MUST NOT specify an empty PoP evidence in the 'client_cred_verify' parameter of a follow-up Join Request for joining the same group.
+If the joining node is not going to join the group exclusively as monitor and the 'client_cred_verify' parameter specifies the empty CBOR byte string (0x40), the Group Manager checks whether it has already achieved proof of possession of the joining node's private key associated with the authentication credential that is specified in the 'client_cred' parameter. If such verification fails, then the Group Manager MUST reply with a 4.00 (Bad Request) error response. The response MUST have Content-Format set to "application/concise-problem-details+cbor" {{RFC9290}} and is formatted as defined in {{Section 4.1.2 of RFC9594}}. Within the Custom Problem Detail entry 'ace-groupcomm-error', the value of the 'error-id' field MUST be set to 3 ("Invalid proof-of-possession evidence"). After receiving that response, the client MUST NOT specify an empty PoP evidence in the 'client_cred_verify' parameter of a follow-up Join Request for joining the same group.
 
 Note to RFC Editor: Please make sure that "application/concise-problem-details+cbor" is on one line (no line wrapping) on every occurrence and delete this note.
 
-In case the joining node is not going to join the group exclusively as monitor and the 'client_cred_verify' parameter specifies a value different from the empty CBOR byte string (0x40), then the Group Manager verifies the PoP evidence therein as follows:
+If the joining node is not going to join the group exclusively as monitor and the 'client_cred_verify' parameter specifies a value different from the empty CBOR byte string (0x40), then the Group Manager verifies the PoP evidence therein as follows:
 
 * As PoP input, the Group Manager uses the value of the 'scope' parameter from the Join Request as a CBOR byte string, concatenated with N_S encoded as a CBOR byte string, concatenated with N_C encoded as a CBOR byte string. The value of N_S is determined as described in {{sssec-challenge-value}}, while N_C is the challenge provided in the 'cnonce' parameter of the Join Request.
 
@@ -739,7 +739,7 @@ The Group Manager MUST reply with a 4.00 (Bad Request) error response in the fol
 
   - The 'client_cred_verify' parameter is not present in the Join Request, and the value of the 'client_cred' parameter in the Join Request is neither set to the empty CBOR byte string (0x40) nor an eligible authentication credential (e.g., it is not of the format accepted in the group).
 
-If the Group Manager wants to prevent the acceptance and use of Ed25519 and Ed448 public keys that cannot be successfully converted to Montgomery coordinates, and thus cannot be used for the derivation of pairwise keys (see {{Section 2.5.1 of I-D.ietf-core-oscore-groupcomm}}), the Group Manager MUST reply with a 4.00 (Bad Request) error response in case all the following conditions hold:
+If the Group Manager wants to prevent the acceptance and use of Ed25519 and Ed448 public keys that cannot be successfully converted to Montgomery coordinates, and thus cannot be used for the derivation of pairwise keys (see {{Section 2.5.1 of I-D.ietf-core-oscore-groupcomm}}), the Group Manager MUST reply with a 4.00 (Bad Request) error response in the case that all the following conditions hold:
 
 * The OSCORE group uses the pairwise mode of Group OSCORE.
 
@@ -763,7 +763,7 @@ Unless it is already intended to use Content-Format "application/concise-problem
 
 * The CBOR map MAY include the 'kdcchallenge' parameter, whose CBOR label is defined in {{Section 8 of RFC9594}}. If present, this parameter is a CBOR byte string, which encodes a newly generated 'kdcchallenge' value that the Client can use when preparing a new Join Request (see {{ssec-join-req-sending}}). In such a case, the Group Manager MUST store the newly generated value as the 'kdcchallenge' value associated with the joining node, thus replacing the currently stored value, if any.
 
-The information conveyed in such a 4.00 (Bad Request) error response with Content-Format "application/ace-groupcomm+cbor" can be especially useful for the joining node, in case the provisioning of the access token to the Group Manager has not relied on a Token Transfer Request to the /authz-info endpoint (see {{ssec-token-post}}).
+The information conveyed in such a 4.00 (Bad Request) error response with Content-Format "application/ace-groupcomm+cbor" can be especially useful for the joining node, if the provisioning of the access token to the Group Manager has not relied on a Token Transfer Request to the /authz-info endpoint (see {{ssec-token-post}}).
 
 Furthermore, specifically if the group is a pairwise-only group, the error response allows the joining node to obtain the Diffie-Hellman authentication credential that the Group Manager uses in the group, as encoded by the 'kdc_dh_creds' parameter. Consequently, the joining node remains able to prove possession of its own private key upon joining the group, through a MAC used as PoP evidence and encoded by the 'client_cred_verify' parameter of the Join Request (see {{ssec-join-req-sending}}).
 
@@ -775,7 +775,7 @@ When receiving a 4.00 (Bad Request) error response, the joining node MAY send a 
 
 * The 'cnonce' parameter contains a fresh challenge N\_C newly generated by the joining node. As to the N\_C value, it is RECOMMENDED to be at least 8-byte long and it is RECOMMENDED to be a random value.
 
-* In case the joining node is not going to join the group exclusively as monitor, then the following applies:
+* If the joining node is not going to join the group exclusively as monitor, then the following applies:
 
   - The 'client_cred' parameter MUST include an authentication credential in the format indicated by the Group Manager. Also, the authentication credential as well as the included public key MUST be compatible with the signature or ECDH algorithm, and with possible associated parameters.
 
@@ -857,7 +857,7 @@ Furthermore, the following applies.
 
 * The 'creds' parameter, if present, specifies the authentication credentials requested by the joining node by means of the 'get_creds' parameter that was specified in the Join Request.
 
-  If the joining node has asked for the authentication credentials of all the group members, i.e., the 'get_creds' parameter in the Join Request had as value the CBOR Simple Value `null` (0xf6), then the Group Manager provides only the authentication credentials of the group members that are relevant to the joining node. That is, in such a case, the 'creds' parameter specifies only: i) the authentication credentials of the responders currently in the OSCORE group, in case the joining node is configured (also) as requester; and ii) the authentication credentials of the requesters currently in the OSCORE group, in case the joining node is configured (also) as responder or monitor.
+  If the joining node has asked for the authentication credentials of all the group members, i.e., the 'get_creds' parameter in the Join Request had as value the CBOR Simple Value `null` (0xf6), then the Group Manager provides only the authentication credentials of the group members that are relevant to the joining node. That is, in such a case, the 'creds' parameter specifies only: i) the authentication credentials of the responders currently in the OSCORE group, if the joining node is configured (also) as requester; and ii) the authentication credentials of the requesters currently in the OSCORE group, if the joining node is configured (also) as responder or monitor.
 
 * The 'peer_identifiers' parameter, if present, specifies the OSCORE Sender ID of each group member whose authentication credential is specified in the 'creds' parameter. That is, a group member's Sender ID is used as identifier for that group member (REQ25).
 
@@ -891,7 +891,7 @@ Furthermore, the following applies.
 
 * The 'group_rekeying' parameter MAY be omitted, if the Group Manager uses the "Point-to-Point" group rekeying scheme registered in {{Section 11.13 of RFC9594}} as rekeying scheme in the OSCORE group (OPT9). Its detailed use for this profile is defined in {{sec-group-rekeying-process}} of this document. In any other case, the 'group_rekeying' parameter MUST be included.
 
-As a last action, if the Group Manager reassigns Gid values during the group's lifetime (see {{Section 12.2.1.1 of I-D.ietf-core-oscore-groupcomm}}), then the Group Manager MUST store the Gid specified in the 'contextId' parameter of the 'key' parameter, as the Birth Gid of the joining node in the joined group (see {{Section 12.2.1.1 of I-D.ietf-core-oscore-groupcomm}}). This applies also in case the joining node is in fact re-joining the group; in such a case, the newly determined Birth Gid overwrites the one currently stored.
+As a last action, if the Group Manager reassigns Gid values during the group's lifetime (see {{Section 12.2.1.1 of I-D.ietf-core-oscore-groupcomm}}), then the Group Manager MUST store the Gid specified in the 'contextId' parameter of the 'key' parameter, as the Birth Gid of the joining node in the joined group (see {{Section 12.2.1.1 of I-D.ietf-core-oscore-groupcomm}}). This applies also if the joining node is in fact re-joining the group; in such a case, the newly determined Birth Gid overwrites the one currently stored.
 
 ## Receive the Join Response {#ssec-join-resp-processing}
 
@@ -901,9 +901,9 @@ Upon receiving the Join Response, the joining node retrieves the Group Manager's
 
 * If the group is a pairwise-only group, the PoP evidence is a MAC. The joining node recomputes the MAC through the same process that is taken by the Group Manager when computing the value of the 'kdc_cred_verify' parameter (see {{ssec-join-resp}}), with the difference that the joining node uses its own Diffie-Hellman private key and the Diffie-Hellman public key of the Group Manager from the received authentication credential. The verification succeeds if and only if the recomputed MAC is equal to the MAC conveyed as PoP evidence in the Join Response.
 
-In case of failed verification of the PoP evidence, the joining node MUST stop processing the Join Response and MAY send a new Join Request to the Group Manager (see {{ssec-join-req-sending}}).
+If the verification of the PoP evidence fails, the joining node MUST stop processing the Join Response and MAY send a new Join Request to the Group Manager (see {{ssec-join-req-sending}}).
 
-In case of successful verification of the PoP evidence, the joining node uses the information received in the Join Response to set up the Group OSCORE Security Context, as described in {{Section 2 of I-D.ietf-core-oscore-groupcomm}}. In particular, the following applies.
+If the verification of the PoP evidence succeeds, the joining node uses the information received in the Join Response to set up the Group OSCORE Security Context, as described in {{Section 2 of I-D.ietf-core-oscore-groupcomm}}. In particular, the following applies.
 
 If the following parameters were not included in the 'key' parameter of the Join Response, then the joining node performs the following actions.
 
@@ -981,7 +981,7 @@ Each set is uniquely associated with one version of the group keying material, a
 
 In the following cases, the Group Manager MUST add an element to the set X associated with the current version of the group keying material.
 
-* When a current group member obtains a new Sender ID, its old Sender ID is added to X. This happens when the Group Manager assigns a new Sender ID upon request from the group member (see {{sec-new-key}}), or in case the group member re-joins the group (see {{ssec-join-req-sending}} and {{ssec-join-resp}}), thus also obtaining a new Sender ID.
+* When a current group member obtains a new Sender ID, its old Sender ID is added to X. This happens when the Group Manager assigns a new Sender ID upon request from the group member (see {{sec-new-key}}), or when the group member re-joins the group (see {{ssec-join-req-sending}} and {{ssec-join-resp}}), thus also obtaining a new Sender ID.
 
 * When a current group member leaves the group, its current Sender ID is added to X. This happens when a group member requests to leave the group (see {{sec-leave-req}}) or is forcibly evicted from the group (see {{sec-leaving}}).
 
@@ -1021,9 +1021,9 @@ The handler expects a FETCH request, whose payload is a CBOR map including a fre
 
 In addition to what is defined in {{Section 4.1.2 of RFC9594}}, the Group Manager performs the following checks.
 
-In case the requesting Client is a current group member or is not authorized to be signature verifier for the group, the Group Manager MUST reply with a 4.03 (Forbidden) error response. The response MUST have Content-Format set to "application/concise-problem-details+cbor" {{RFC9290}} and is formatted as defined in {{Section 4.1.2 of RFC9594}}. Within the Custom Problem Detail entry 'ace-groupcomm-error', the value of the 'error-id' field MUST be set to 8 ("Operation permitted only to signature verifiers").
+If the requesting Client is a current group member or is not authorized to be signature verifier for the group, the Group Manager MUST reply with a 4.03 (Forbidden) error response. The response MUST have Content-Format set to "application/concise-problem-details+cbor" {{RFC9290}} and is formatted as defined in {{Section 4.1.2 of RFC9594}}. Within the Custom Problem Detail entry 'ace-groupcomm-error', the value of the 'error-id' field MUST be set to 8 ("Operation permitted only to signature verifiers").
 
-In case GROUPNAME denotes a pairwise-only group, the Group Manager MUST reply with a 4.00 (Bad Request) error response. The response MUST have Content-Format set to "application/concise-problem-details+cbor" {{RFC9290}} and is formatted as defined in {{Section 4.1.2 of RFC9594}}. Within the Custom Problem Detail entry 'ace-groupcomm-error', the value of the 'error-id' field MUST be set to 7 ("Signatures not used in the group").
+If GROUPNAME denotes a pairwise-only group, the Group Manager MUST reply with a 4.00 (Bad Request) error response. The response MUST have Content-Format set to "application/concise-problem-details+cbor" {{RFC9290}} and is formatted as defined in {{Section 4.1.2 of RFC9594}}. Within the Custom Problem Detail entry 'ace-groupcomm-error', the value of the 'error-id' field MUST be set to 7 ("Signatures not used in the group").
 
 If all verifications succeed, the handler replies with a 2.05 (Content) response, specifying the authentication credential of the Group Manager together with a proof-of-possession (PoP) evidence as a proof that the Group Manager possesses its own private key. The payload of the response is formatted as defined in {{sec-gm-pub-key-signature-verifier}}.
 
@@ -1053,9 +1053,9 @@ The handler expects a GET request.
 
 In addition to what is defined in {{Section 4.1.2 of RFC9594}}, the handler performs the following actions.
 
-In case the requesting Client is a current group member or is not authorized to be signature verifier for the group, the Group Manager MUST reply with a 4.03 (Forbidden) error response. The response MUST have Content-Format set to "application/concise-problem-details+cbor" {{RFC9290}} and is formatted as defined in {{Section 4.1.2 of RFC9594}}. Within the Custom Problem Detail entry 'ace-groupcomm-error', the value of the 'error-id' field MUST be set to 8 ("Operation permitted only to signature verifiers").
+If the requesting Client is a current group member or is not authorized to be signature verifier for the group, the Group Manager MUST reply with a 4.03 (Forbidden) error response. The response MUST have Content-Format set to "application/concise-problem-details+cbor" {{RFC9290}} and is formatted as defined in {{Section 4.1.2 of RFC9594}}. Within the Custom Problem Detail entry 'ace-groupcomm-error', the value of the 'error-id' field MUST be set to 8 ("Operation permitted only to signature verifiers").
 
-In case GROUPNAME denotes a pairwise-only group, the Group Manager MUST reply with a 4.00 (Bad Request) error response. The response MUST have Content-Format set to "application/concise-problem-details+cbor" {{RFC9290}} and is formatted as defined in {{Section 4.1.2 of RFC9594}}. Within the Custom Problem Detail entry 'ace-groupcomm-error', the value of the 'error-id' field MUST be set to 7 ("Signatures not used in the group").
+If GROUPNAME denotes a pairwise-only group, the Group Manager MUST reply with a 4.00 (Bad Request) error response. The response MUST have Content-Format set to "application/concise-problem-details+cbor" {{RFC9290}} and is formatted as defined in {{Section 4.1.2 of RFC9594}}. Within the Custom Problem Detail entry 'ace-groupcomm-error', the value of the 'error-id' field MUST be set to 7 ("Signatures not used in the group").
 
 If all verifications succeed, the handler replies with a 2.05 (Content) response, specifying data that allow also an external signature verifier to verify signatures of messages protected with the group mode of Group OSCORE and sent to the group (see {{Sections 7.5 and 12.3 of I-D.ietf-core-oscore-groupcomm}}). The response MUST have Content-Format set to "application/ace-groupcomm+cbor". The payload of the response is a CBOR map, which is formatted as defined in {{sec-verif-data}}.
 
@@ -1118,7 +1118,7 @@ Just like any candidate group member, a signature verifier provides the Group Ma
 
 After successfully transferring an access token to the Group Manager, a signature verifier is allowed to perform only some operations as non-member of a group, and only for the OSCORE groups specified in the validated access token. These are the operations specified in {{sec-pub-keys}}, {{sec-gm-pub-key}}, {{sec-verif-data}}, and {{sec-retrieve-gnames}}.
 
-Consistently, in case a node is not a member of the group with group name GROUPNAME and is authorized to be only signature verifier for that group, the Group Manager MUST reply with a 4.03 (Forbidden) error response if that node attempts to access any other endpoint than the following ones:
+Consistently, in the case that a node is not a member of the group with group name GROUPNAME and is authorized to be only signature verifier for that group, the Group Manager MUST reply with a 4.03 (Forbidden) error response if that node attempts to access any other endpoint than the following ones:
 
 * /ace-group
 * /ace-group/GROUPNAME/verif-data
@@ -1193,7 +1193,7 @@ When this happens, the group member MUST send a Key Renewal Request message to t
 
 Upon receiving the Key Renewal Request, the Group Manager processes it as defined in {{Section 4.8.2 of RFC9594}}, with the following additions.
 
-The Group Manager MUST return a 5.03 (Service Unavailable) response in case the OSCORE group identified by GROUPNAME is currently inactive (see {{ssec-resource-active}}). The response MUST have Content-Format set to "application/concise-problem-details+cbor" {{RFC9290}} and is formatted as defined in {{Section 4.1.2 of RFC9594}}. Within the Custom Problem Detail entry 'ace-groupcomm-error', the value of the 'error-id' field MUST be set to 9 ("Group currently not active").
+The Group Manager MUST return a 5.03 (Service Unavailable) response if the OSCORE group identified by GROUPNAME is currently inactive (see {{ssec-resource-active}}). The response MUST have Content-Format set to "application/concise-problem-details+cbor" {{RFC9290}} and is formatted as defined in {{Section 4.1.2 of RFC9594}}. Within the Custom Problem Detail entry 'ace-groupcomm-error', the value of the 'error-id' field MUST be set to 9 ("Group currently not active").
 
 Otherwise, the Group Manager performs one of the following actions.
 
@@ -1213,7 +1213,7 @@ Otherwise, the Group Manager performs one of the following actions.
 
      Furthermore, the Group Manager MUST add the old, relinquished Sender ID of the group member to the most recent set of stale Sender IDs for the group (see {{sssec-stale-sender-ids}}).
 
-     The Group Manager MUST return a 5.03 (Service Unavailable) response in case there are currently no Sender IDs available to assign in the OSCORE group. The response MUST have Content-Format set to "application/concise-problem-details+cbor" {{RFC9290}} and is formatted as defined in {{Section 4.1.2 of RFC9594}}. Within the Custom Problem Detail entry 'ace-groupcomm-error', the value of the 'error-id' field MUST be set to 4 ("No available individual keying material").
+     The Group Manager MUST return a 5.03 (Service Unavailable) response if there are currently no Sender IDs available to assign in the OSCORE group. The response MUST have Content-Format set to "application/concise-problem-details+cbor" {{RFC9290}} and is formatted as defined in {{Section 4.1.2 of RFC9594}}. Within the Custom Problem Detail entry 'ace-groupcomm-error', the value of the 'error-id' field MUST be set to 4 ("No available individual keying material").
 
 ## Retrieve Authentication Credentials of Group Members # {#sec-pub-keys}
 
@@ -1247,7 +1247,7 @@ Upon receiving the Authentication Credential Update Request, the Group Manager p
 
 * According to the same criteria defined in {{ssec-join-req-processing}} when processing a Join Request for the OSCORE group in question, the Group Manager MUST return a 4.00 (Bad Request) error response if it wants to prevent the acceptance and use of Ed25519 and Ed448 public keys that cannot be successfully converted to Montgomery coordinates.
 
-* The Group Manager MUST return a 5.03 (Service Unavailable) response in case the OSCORE group identified by GROUPNAME is currently inactive (see {{ssec-resource-active}}). The response MUST have Content-Format set to "application/concise-problem-details+cbor" {{RFC9290}} and is formatted as defined in {{Section 4.1.2 of RFC9594}}. Within the Custom Problem Detail entry 'ace-groupcomm-error', the value of the 'error-id' field MUST be set to 9 ("Group currently not active").
+* The Group Manager MUST return a 5.03 (Service Unavailable) response if the OSCORE group identified by GROUPNAME is currently inactive (see {{ssec-resource-active}}). The response MUST have Content-Format set to "application/concise-problem-details+cbor" {{RFC9290}} and is formatted as defined in {{Section 4.1.2 of RFC9594}}. Within the Custom Problem Detail entry 'ace-groupcomm-error', the value of the 'error-id' field MUST be set to 9 ("Group currently not active").
 
 * If the requesting group member has exclusively the role of monitor, the Group Manager replies with a 4.00 (Bad request) error response. The response MUST have Content-Format set to "application/concise-problem-details+cbor" {{RFC9290}} and is formatted as defined in {{Section 4.1.2 of RFC9594}}. Within the Custom Problem Detail entry 'ace-groupcomm-error', the value of the 'error-id' field MUST be set to 1 ("Request inconsistent with the current roles").
 
@@ -1293,7 +1293,7 @@ The Group Manager specifies the 'kdc_cred' field and 'kdc_nonce' field as define
 
 Upon receiving a 2.05 (Content) KDC Authentication Credential Response, the requesting Client retrieves the Group Manager's authentication credential from the 'kdc_cred' parameter. Then, it proceeds as defined in {{Section 4.5.1.1 of RFC9594}}, with the difference that it verifies the PoP evidence included in 'kdc_cred_verify' field by verifying a signature and using the PoP input defined above (REQ21)
 
-Note that a signature verifier would not receive a successful response from the Group Manager, in case GROUPNAME denotes a pairwise-only group (see {{kdc-cred-fetch}}).
+Note that a signature verifier would not receive a successful response from the Group Manager, if GROUPNAME denotes a pairwise-only group (see {{kdc-cred-fetch}}).
 
 {{fig-gm-pub-key-signature-verifier-req-resp}} gives an overview of the exchange described above,  while {{fig-gm-pub-key-signature-verifier-resp-ex}} shows an example of Signature Verification Data Request-Response.
 
@@ -1595,7 +1595,7 @@ The Group Manager MUST support the "Point-to-Point" group rekeying scheme regist
 
 It is RECOMMENDED that the Group Manager gets confirmation of successful distribution from the group members, and admits a maximum number of individual retransmissions to non-confirming group members. Once the group rekeying process has completed, the Group Manager creates a new empty set of stale Sender IDs associated with the version of the newly distributed group keying material (see {{sssec-stale-sender-ids}}).
 
-In case the rekeying terminates and some group members have not received the new keying material, such group members will not be able to correctly process following secured messages exchanged in the group. These group members will eventually contact the Group Manager, in order to retrieve the current keying material and its version.
+If the rekeying terminates and some group members have not received the new keying material, such group members will not be able to correctly process following secured messages exchanged in the group. These group members will eventually contact the Group Manager, in order to retrieve the current keying material and its version.
 
 Some of these group members may be in multiple groups, each associated with a different Group Manager. When failing to correctly process messages secured with the new keying material, these group members may not have sufficient information to determine which exact Group Manager to contact, in order to retrieve the current keying material that they are missing.
 
@@ -1673,7 +1673,7 @@ In either case, the group member MUST delete the stored keying material with ver
 
 If case (a) or case (b) applies, the group member MUST perform the following actions.
 
-1. The group member MUST NOT install the latest keying material yet, in case that was already obtained.
+1. The group member MUST NOT install the latest keying material yet, if that was already obtained.
 
 2. The group member sends a Stale Sender IDs Request to the Group Manager (see {{sec-retrieve-stale-sids}}), specifying the version number V as payload of the request.
 
@@ -1713,7 +1713,7 @@ That is, the node sends a CoAP FETCH request to the endpoint /ace-group/GROUPNAM
 
 The payload of the Stale Sender IDs Request MUST include a CBOR unsigned integer. This encodes the version number V of the most recent group keying material stored and installed by the requesting Client, which is older than the latest, possibly just distributed, keying material with version number V'.
 
-The handler MUST reply with a 4.00 (Bad Request) error response, if the request is not formatted correctly. Also, the handler MUST respond with a 4.00 (Bad Request) error response, if the specified version number V is greater or equal than the version number V' associated with the latest keying material in the group, i.e., in case V >= V'.
+The handler MUST reply with a 4.00 (Bad Request) error response, if the request is not formatted correctly. Also, the handler MUST respond with a 4.00 (Bad Request) error response, if the specified version number V is greater or equal than the version number V' associated with the latest keying material in the group, i.e., if V >= V'.
 
 Otherwise, the handler responds with a 2.05 (Content) Stale Sender IDs Response. The payload of the response is formatted as defined below, where SKEW = (V' - V + 1).
 
@@ -1837,7 +1837,7 @@ In addition to what is defined in {{Section 9 of RFC9594}}, this document define
 
 If the Client supports the problem-details format {{RFC9290}} and the Custom Problem Detail entry 'ace-groupcomm-error' defined in {{Section 4.1.2 of RFC9594}}, and is able to understand the error specified in the 'error-id' field therein, then the Client may use that information to determine what actions to take next. If the Concise Problem Details data item specified in the error response includes the 'detail' entry and the Client supports it, such an entry may provide additional context.
 
-* In case of error 7, the Client should stop sending the request in question to the Group Manager. In this application profile, this error is relevant only for a signature verifier, in case it tries to access resources related to a pairwise-only group.
+* In case of error 7, the Client should stop sending the request in question to the Group Manager. In this application profile, this error is relevant only for a signature verifier, if it tries to access resources related to a pairwise-only group.
 
 * In case of error 8, the Client should stop sending the request in question to the Group Manager.
 
@@ -2009,7 +2009,7 @@ This profile leverages the following management aspects related to OSCORE groups
 
 * Management of group keying material (see {{Section 12.2 of I-D.ietf-core-oscore-groupcomm}}). The Group Manager is responsible for the renewal and re-distribution of the keying material in the groups of its competence (rekeying).
 
-   As defined in {{ssec-overview-group-rekeying-process}}, the Group Manager performs a rekeying when one or more members leave the group, thus preserving forward security and ensuring that the security properties of Group OSCORE are fulfilled. According to the specific application requirements, the Group Manager can also rekey the group upon a new node's joining, in case backward security has also to be preserved. The Group Manager can also rekey the group for further reasons, e.g., according to an application-specific rekeying period or scheduling.
+   As defined in {{ssec-overview-group-rekeying-process}}, the Group Manager performs a rekeying when one or more members leave the group, thus preserving forward security and ensuring that the security properties of Group OSCORE are fulfilled. According to the specific application requirements, the Group Manager can also rekey the group upon a new node's joining, if backward security has also to be preserved. The Group Manager can also rekey the group for further reasons, e.g., according to an application-specific rekeying period or scheduling.
 
 * Provisioning and retrieval of authentication credentials (see {{Section 12 of I-D.ietf-core-oscore-groupcomm}}). The Group Manager acts as repository of authentication credentials of group members, and provides them upon request.
 
@@ -2380,9 +2380,9 @@ This section lists how this application profile of ACE addresses the requirement
 
 * OPT2: Optionally, specify the additional parameters used in the exchange of Token Transfer Request and Response:
 
-   - 'ecdh_info', to negotiate the ECDH algorithm, ECDH algorithm parameters, ECDH key parameters, and exact format of authentication credentials used in the group, in case the joining node supports the pairwise mode of Group OSCORE (see {{ssec-token-post}}).
+   - 'ecdh_info', to negotiate the ECDH algorithm, ECDH algorithm parameters, ECDH key parameters, and exact format of authentication credentials used in the group, in the case that the joining node supports the pairwise mode of Group OSCORE (see {{ssec-token-post}}).
 
-   - 'kdc_dh_creds', to ask for and retrieve the Group Manager's Diffie-Hellman authentication credentials, in case the joining node supports the pairwise mode of Group OSCORE and the access token authorizes to join pairwise-only groups (see {{ssec-token-post}}).
+   - 'kdc_dh_creds', to ask for and retrieve the Group Manager's Diffie-Hellman authentication credentials, in the case that the joining node supports the pairwise mode of Group OSCORE and the access token authorizes to join pairwise-only groups (see {{ssec-token-post}}).
 
 * OPT3: Optionally, specify the negotiation of parameter values for signature algorithm and signature keys, if the 'sign_info' parameter is not used: possible early discovery by using the approach based on the CoRE Resource Directory and described in {{I-D.tiloca-core-oscore-discovery}}.
 
