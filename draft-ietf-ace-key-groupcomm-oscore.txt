@@ -4177,8 +4177,9 @@ Table of Contents
 17.1.  OAuth Parameters
 
    IANA is asked to register the following entries in the "OAuth
-   Parameters" registry, following the procedure specified in
-   Section 11.2 of [RFC6749].
+   Parameters" registry [OAuth.Parameters] within the "OAuth Parameters"
+   registry group, following the procedure specified in Section 11.2 of
+   [RFC6749].
 
    *  Entry #1
 
@@ -4203,8 +4204,10 @@ Table of Contents
 17.2.  OAuth Parameters CBOR Mappings
 
    IANA is asked to register the following entries in the "OAuth
-   Parameters CBOR Mappings" registry, following the procedure specified
-   in Section 8.10 of [RFC9200].
+   Parameters CBOR Mappings" registry [OAuth.CBOR.Mappings] within the
+   "Authentication and Authorization for Constrained Environments (ACE)"
+   registry group, following the procedure specified in Section 8.10 of
+   [RFC9200].
 
    *  Entry #1
 
@@ -4233,7 +4236,9 @@ Table of Contents
 17.3.  ACE Groupcomm Parameters
 
    IANA is asked to register the following entries to the "ACE Groupcomm
-   Parameters" registry defined in Section 11.7 of [RFC9594].
+   Parameters" registry [ACE.Groupcomm.Parameters] within the
+   "Authentication and Authorization for Constrained Environments (ACE)"
+   registry group.
 
    *  Entry #1
 
@@ -4288,7 +4293,9 @@ Table of Contents
 17.4.  ACE Groupcomm Key Types
 
    IANA is asked to register the following entry in the "ACE Groupcomm
-   Key Types" registry defined in Section 11.8 of [RFC9594].
+   Key Types" registry [ACE.Groupcomm.Key.Types] within the
+   "Authentication and Authorization for Constrained Environments (ACE)"
+   registry group.
 
    *  Name: Group_OSCORE_Input_Material object
 
@@ -4305,7 +4312,9 @@ Table of Contents
 17.5.  ACE Groupcomm Profiles
 
    IANA is asked to register the following entry in the "ACE Groupcomm
-   Profiles" registry defined in Section 11.9 of [RFC9594].
+   Profiles" registry [ACE.Groupcomm.Profiles] within the
+   "Authentication and Authorization for Constrained Environments (ACE)"
+   registry group.
 
    *  Name: coap_group_oscore_app
 
@@ -4320,8 +4329,9 @@ Table of Contents
 17.6.  OSCORE Security Context Parameters
 
    IANA is asked to register the following entries in the "OSCORE
-   Security Context Parameters" registry defined in Section 9.4 of
-   [RFC9203].
+   Security Context Parameters" registry [OSCORE.Sec.Ctx.Parameters]
+   within the "Authentication and Authorization for Constrained
+   Environments (ACE)" registry group.
 
    *  Entry #1
 
@@ -4428,8 +4438,9 @@ Table of Contents
 17.7.  TLS Exporter Labels
 
    IANA is asked to register the following entry in the "TLS Exporter
-   Labels" registry defined in Section 6 of [RFC5705] and updated in
-   Section 12 of [RFC8447].
+   Labels" registry [TLS.Exporter.Labels] within the "Transport Layer
+   Security (TLS) Parameters" registry group, which is defined in
+   Section 6 of [RFC5705] and updated in Section 12 of [RFC8447].
 
    *  Value: EXPORTER-ACE-Pop-Input-coap-group-oscore-app
 
@@ -4470,8 +4481,8 @@ Table of Contents
 17.9.  CoAP Content-Formats
 
    IANA is asked to register the following entries in the "CoAP Content-
-   Formats" registry within the "Constrained RESTful Environments (CoRE)
-   Parameters" registry group.
+   Formats" registry [CoAP.Content.Formats] within the "Constrained
+   RESTful Environments (CoRE) Parameters" registry group.
 
    *  Entry #1
 
@@ -4498,8 +4509,9 @@ Table of Contents
 17.10.  CoRE Resource Type
 
    IANA is asked to register the following entry in the "Resource Type
-   (rt=) Link Target Attribute Values" registry within the "Constrained
-   Restful Environments (CoRE) Parameters" registry group.
+   (rt=) Link Target Attribute Values" registry [Resource.Type.Values]
+   within the "Constrained Restful Environments (CoRE) Parameters"
+   registry group.
 
    *  Value: "core.osc.gm"
 
@@ -4514,7 +4526,8 @@ Table of Contents
 17.11.  ACE Groupcomm Errors
 
    IANA is asked to register the following entries in the "ACE Groupcomm
-   Errors" registry defined in Section 11.12 of [RFC9594].
+   Errors" registry [ACE.Groupcomm.Errors] within the "Authentication
+   and Authorization for Constrained Environments (ACE)" registry group.
 
    *  Entry #1
 
@@ -4617,6 +4630,31 @@ Table of Contents
 
 18.1.  Normative References
 
+   [ACE.Groupcomm.Errors]
+              IANA, "ACE Groupcomm Errors",
+              <https://www.iana.org/assignments/ace/ace.xhtml#ace-
+              groupcomm-errors>.
+
+   [ACE.Groupcomm.Key.Types]
+              IANA, "ACE Groupcomm Key Types",
+              <https://www.iana.org/assignments/ace/ace.xhtml#ace-
+              groupcomm-key-types>.
+
+   [ACE.Groupcomm.Parameters]
+              IANA, "ACE Groupcomm Parameters",
+              <https://www.iana.org/assignments/ace/ace.xhtml#ace-
+              groupcomm-parameters>.
+
+   [ACE.Groupcomm.Profiles]
+              IANA, "ACE Groupcomm Profiles",
+              <https://www.iana.org/assignments/ace/ace.xhtml#ace-
+              groupcomm-profiles>.
+
+   [CoAP.Content.Formats]
+              IANA, "CoAP Content-Formats",
+              <https://www.iana.org/assignments/core-parameters/core-
+              parameters.xhtml#content-formats>.
+
    [COSE.Algorithms]
               IANA, "COSE Algorithms",
               <https://www.iana.org/assignments/cose/
@@ -4652,6 +4690,26 @@ Table of Contents
               Special Publication 800-56A, Revision 3", April 2018,
               <https://nvlpubs.nist.gov/nistpubs/SpecialPublications/
               NIST.SP.800-56Ar3.pdf>.
+
+   [OAuth.CBOR.Mappings]
+              IANA, "OAuth Parameters CBOR Mappings",
+              <https://www.iana.org/assignments/ace/ace.xhtml#oauth-
+              parameters-cbor-mappings>.
+
+   [OAuth.Parameters]
+              IANA, "OAuth Parameters",
+              <https://www.iana.org/assignments/oauth-parameters/oauth-
+              parameters.xhtml#parameters>.
+
+   [OSCORE.Sec.Ctx.Parameters]
+              IANA, "OSCORE Security Context Parameters",
+              <https://www.iana.org/assignments/ace/ace.xhtml#oscore-
+              security-context-parameters>.
+
+   [Resource.Type.Values]
+              IANA, "Resource Type (rt=) Link Target Attribute Values",
+              <https://www.iana.org/assignments/core-parameters/core-
+              parameters.xhtml#rt-link-target-att-value>.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -4794,6 +4852,11 @@ Table of Contents
               Constrained Environments (ACE)", RFC 9594,
               DOI 10.17487/RFC9594, September 2024,
               <https://www.rfc-editor.org/rfc/rfc9594>.
+
+   [TLS.Exporter.Labels]
+              IANA, "TLS Exporter Labels",
+              <https://www.iana.org/assignments/tls-parameters/tls-
+              parameters.xhtml#exporter-labels>.
 
 18.2.  Informative References
 
@@ -5239,6 +5302,8 @@ Appendix D.  Document Updates
 D.1.  Version -20 to -21
 
    *  Separate Section 1.2 "Notations".
+
+   *  Added references to IANA registries.
 
    *  Minor fixes and editorial improvements.
 
