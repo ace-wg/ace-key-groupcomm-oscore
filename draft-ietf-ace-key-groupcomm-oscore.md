@@ -284,7 +284,7 @@ Additionally, this document makes use of the following terminology:
 
 * Responder: member of an OSCORE group that receives request messages from other members of the group. A responder may reply, by sending a response message to the requester which has sent the request message.
 
-* Monitor: member of an OSCORE group that is configured as responder and never sends response messages protected with Group OSCORE. This corresponds to the term "silent server" used in {{I-D.ietf-core-oscore-groupcomm}}.
+* Monitor: member of an OSCORE group that is configured as a responder and never sends response messages protected with Group OSCORE. This corresponds to the term "silent server" used in {{I-D.ietf-core-oscore-groupcomm}}.
 
 * Signature verifier: entity external to the OSCORE group and intended to verify the signature of messages exchanged in the group that are protected with the group mode (see {{Sections 12.3, 7, and 7.5 of I-D.ietf-core-oscore-groupcomm}}).
 
@@ -419,7 +419,7 @@ Upon joining an OSCORE group, a joining node is thus expected to provide its aut
 
 In the following circumstances, a joining node is not required to provide its authentication credential to the Group Manager when joining an OSCORE group.
 
-* The joining node is going to join the group exclusively as monitor, i.e., it is not going to send protected messages to the group. Consequently, even if compatible with the group in question, an authentication credential of such a joining node plays no role in using Group OSCORE within that group.
+* The joining node is going to join the group exclusively as a monitor, i.e., it is not going to send protected messages to the group. Consequently, even if compatible with the group in question, an authentication credential of such a joining node plays no role in using Group OSCORE within that group.
 
   Furthermore, such a joining node is not going to have a Sender Context within its Group OSCORE Security Context, where a group member stores its own private key and authentication credential (see {{Section 2 of I-D.ietf-core-oscore-groupcomm}}, where the term "silent server" corresponds to the term "monitor" of the present document). Also, no member of the group will create a Recipient Context associated with such a joining node, as the latter never sends protected messages.
 
@@ -427,7 +427,7 @@ In the following circumstances, a joining node is not required to provide its au
 
   If the joining node still provides an authentication credential in the 'client_cred' parameter of the Join Request (see {{ssec-join-req-sending}}), the Group Manager silently ignores that parameter and the related parameter 'client_cred_verify'.
 
-* The joining node is currently a group member acting not exclusively as monitor, and it is re-joining the group not exclusively as monitor.
+* The joining node is currently a group member acting not exclusively as a monitor, and it is re-joining the group not exclusively as a monitor.
 
   In this case, if the joining node intends to use the same authentication credential that it is currently using in the group, i.e., its latest authentication credential provided to the Group Manager (in a previous Join Request or Authentication Credential Update Request, see {{sec-update-pub-key}}), then the joining node MAY choose to omit its current authentication credential in the Join Request. As defined in {{ssec-join-req-sending}}, this is achieved by setting the value of the 'client_cred' parameter in the Join Request to the empty CBOR byte string (0x40) and omitting the 'client_cred_verify' parameter in the Join Request (see {{Section 4.3.1.1 of RFC9594}}).
 
@@ -699,19 +699,19 @@ It is up to applications or future specifications to define how N_S is computed 
 
 The Group Manager processes the Join Request as defined in {{Section 4.3.1 of RFC9594}}, with the following additions. Note that the Group Manager can determine whether the joining node is a current group member, e.g., based on the ongoing secure communication association that is used to protect the Join Request.
 
-If the joining node is going to join the group exclusively as monitor, then the Group Manager silently ignores the parameters 'client_cred' and 'client_cred_verify', if present.
+If the joining node is going to join the group exclusively as a monitor, then the Group Manager silently ignores the parameters 'client_cred' and 'client_cred_verify', if present.
 
-If the joining node is not going to join the group exclusively as monitor, it is a current member of the group, and the 'client_cred_verify' parameter is not present, then the following applies:
+If the joining node is not going to join the group exclusively as a monitor, it is a current member of the group, and the 'client_cred_verify' parameter is not present, then the following applies:
 
 * If the 'client_cred' parameter does not specify the empty CBOR byte string (0x40), the Group Manager verifies that it is already storing the authentication credential specified by the parameter, as associated with the joining node in the group. If the verification fails, the Group Manager MUST reply with a 4.00 (Bad Request) error response (OPT8).
 
 * If the 'client_cred' parameter specifies the empty CBOR byte string (0x40), the Group Manager verifies that it is already storing an authentication credential, as associated with the joining node in the group. If the verification fails, the Group Manager MUST reply with a 4.00 (Bad Request) error response (OPT8).
 
-If the joining node is not going to join the group exclusively as monitor and the 'client_cred_verify' parameter specifies the empty CBOR byte string (0x40), the Group Manager checks whether it has already achieved proof of possession of the joining node's private key associated with the authentication credential that is specified in the 'client_cred' parameter. If such verification fails, then the Group Manager MUST reply with a 4.00 (Bad Request) error response. The response MUST have Content-Format set to "application/concise-problem-details+cbor" {{RFC9290}} and is formatted as defined in {{Section 4.1.2 of RFC9594}}. Within the Custom Problem Detail entry 'ace-groupcomm-error', the value of the 'error-id' field MUST be set to 3 ("Invalid proof-of-possession evidence"). After receiving that response, the client MUST NOT specify an empty PoP evidence in the 'client_cred_verify' parameter of a follow-up Join Request for joining the same group.
+If the joining node is not going to join the group exclusively as a monitor and the 'client_cred_verify' parameter specifies the empty CBOR byte string (0x40), the Group Manager checks whether it has already achieved proof of possession of the joining node's private key associated with the authentication credential that is specified in the 'client_cred' parameter. If such verification fails, then the Group Manager MUST reply with a 4.00 (Bad Request) error response. The response MUST have Content-Format set to "application/concise-problem-details+cbor" {{RFC9290}} and is formatted as defined in {{Section 4.1.2 of RFC9594}}. Within the Custom Problem Detail entry 'ace-groupcomm-error', the value of the 'error-id' field MUST be set to 3 ("Invalid proof-of-possession evidence"). After receiving that response, the client MUST NOT specify an empty PoP evidence in the 'client_cred_verify' parameter of a follow-up Join Request for joining the same group.
 
 Note to RFC Editor: Please make sure that "application/concise-problem-details+cbor" is on one line (no line wrapping) on every occurrence and delete this note.
 
-If the joining node is not going to join the group exclusively as monitor and the 'client_cred_verify' parameter specifies a value different from the empty CBOR byte string (0x40), then the Group Manager verifies the PoP evidence therein as follows:
+If the joining node is not going to join the group exclusively as a monitor and the 'client_cred_verify' parameter specifies a value different from the empty CBOR byte string (0x40), then the Group Manager verifies the PoP evidence therein as follows:
 
 * As PoP input, the Group Manager uses the value of the 'scope' parameter from the Join Request as a CBOR byte string, concatenated with N_S encoded as a CBOR byte string, concatenated with N_C encoded as a CBOR byte string. The value of N_S is determined as described in {{sssec-challenge-value}}, while N_C is the challenge provided in the 'cnonce' parameter of the Join Request.
 
@@ -723,7 +723,7 @@ If the joining node is not going to join the group exclusively as monitor and th
 
 The Group Manager MUST reply with a 5.03 (Service Unavailable) error response in the following cases:
 
-* There are currently no OSCORE Sender IDs available to assign in the OSCORE group and, at the same time, the joining node is not going to join the group exclusively as monitor. The response MUST have Content-Format set to "application/concise-problem-details+cbor" {{RFC9290}} and is formatted as defined in {{Section 4.1.2 of RFC9594}}. Within the Custom Problem Detail entry 'ace-groupcomm-error', the value of the 'error-id' field MUST be set to 4 ("No available individual keying material").
+* There are currently no OSCORE Sender IDs available to assign in the OSCORE group and, at the same time, the joining node is not going to join the group exclusively as a monitor. The response MUST have Content-Format set to "application/concise-problem-details+cbor" {{RFC9290}} and is formatted as defined in {{Section 4.1.2 of RFC9594}}. Within the Custom Problem Detail entry 'ace-groupcomm-error', the value of the 'error-id' field MUST be set to 4 ("No available individual keying material").
 
 * The OSCORE group that the joining node has been trying to join is currently inactive (see {{ssec-resource-active}}). The response MUST have Content-Format set to "application/concise-problem-details+cbor" {{RFC9290}} and is formatted as defined in {{Section 4.1.2 of RFC9594}}. Within the Custom Problem Detail entry 'ace-groupcomm-error', the value of the 'error-id' field MUST be set to 9 ("Group currently not active").
 
@@ -731,7 +731,7 @@ The Group Manager MUST reply with a 4.00 (Bad Request) error response in the fol
 
 * The 'scope' parameter is not present in the Join Request, or it is present and specifies any of the following sets of roles: ("requester", "monitor") and ("responder", "monitor").
 
-* The joining node is not going to join the group exclusively as monitor, and any of the following holds:
+* The joining node is not going to join the group exclusively as a monitor, and any of the following holds:
 
   - The joining node is not a current member of the group, and the 'client_cred' parameter and the 'client_cred_verify' parameter are not both present in the Join Request.
 
@@ -775,7 +775,7 @@ When receiving a 4.00 (Bad Request) error response, the joining node MAY send a 
 
 * The 'cnonce' parameter contains a fresh challenge N\_C newly generated by the joining node. As to the N\_C value, it is RECOMMENDED to be at least 8 bytes long and it is RECOMMENDED to be a random value.
 
-* If the joining node is not going to join the group exclusively as monitor, then the following applies:
+* If the joining node is not going to join the group exclusively as a monitor, then the following applies:
 
   - The 'client_cred' parameter MUST include an authentication credential in the format indicated by the Group Manager. Also, the authentication credential as well as the included public key MUST be compatible with the signature or ECDH algorithm, and with possible associated parameters.
 
@@ -857,7 +857,7 @@ Furthermore, the following applies.
 
 * The 'creds' parameter, if present, specifies the authentication credentials requested by the joining node by means of the 'get_creds' parameter that was specified in the Join Request.
 
-  If the joining node has asked for the authentication credentials of all the group members, i.e., the 'get_creds' parameter in the Join Request had as value the CBOR Simple Value `null` (0xf6), then the Group Manager provides only the authentication credentials of the group members that are relevant to the joining node. That is, in such a case, the 'creds' parameter specifies only: i) the authentication credentials of the responders currently in the OSCORE group, if the joining node is configured (also) as requester; and ii) the authentication credentials of the requesters currently in the OSCORE group, if the joining node is configured (also) as responder or monitor.
+  If the joining node has asked for the authentication credentials of all the group members, i.e., the 'get_creds' parameter in the Join Request had as value the CBOR Simple Value `null` (0xf6), then the Group Manager provides only the authentication credentials of the group members that are relevant to the joining node. That is, in such a case, the 'creds' parameter specifies only: i) the authentication credentials of the responders currently in the OSCORE group, if the joining node is configured (also) as a requester; and ii) the authentication credentials of the requesters currently in the OSCORE group, if the joining node is configured (also) as a responder or monitor.
 
 * The 'peer_identifiers' parameter, if present, specifies the OSCORE Sender ID of each group member whose authentication credential is specified in the 'creds' parameter. That is, a group member's Sender ID is used as identifier for that group member (REQ25).
 
@@ -1081,11 +1081,11 @@ The table uses the following abbreviations.
 * F = CoAP method FETCH
 * P = CoAP method POST
 * D = CoAP method DELETE
-* Type1 = Member as Requester and/or Responder
-* Type2 = Member as Monitor
+* Type1 = Member as a Requester and/or Responder
+* Type2 = Member as a Monitor
 * Type3 = Non-member (authorized to be signature verifier)
 * Type4 = Non-member (not authorized to be signature verifier)
-* \* = Cannot join the group as signature verifier
+* \* = Cannot join the group as a signature verifier
 
 | Resource                                 | Type1 | Type2 | Type3 | Type4 |
 |------------------------------------------|-------|-------|-------|-------|
