@@ -1003,7 +1003,7 @@ The Group Manager provides the interface defined in {{Section 4.1 of RFC9594}} i
 
 * Three new sub-resources are defined (see {{ssec-resource-active}}, {{ssec-resource-verif-data}}, and {{ssec-resource-stale-sids}} of this document).
 
-{{ssec-admitted-methods}} provides a summary of the CoAP methods that are admitted to use for accessing different resources at the Group Manager, for nodes with different roles in the group or as non-members (REQ11).
+{{ssec-admitted-methods}} provides a summary of the CoAP methods that are permitted to use for accessing different resources at the Group Manager, for nodes with different roles in the group or as non-members (REQ11).
 
 The GROUPNAME segment of the URI path MUST match with the group name specified in the scope entry of the scope in the access token (i.e., 'gname' in {{Section 3.1 of RFC9594}}) (REQ7).
 
@@ -1071,9 +1071,9 @@ In addition to what is defined in {{Section 4.1.2 of RFC9594}}, the handler veri
 
 If all verifications succeed, the handler replies with a 2.05 (Content) response, specifying data that allow the requesting Client to delete the Recipient Contexts and authentication credentials associated with former members of the group (see {{Section 12.2 of I-D.ietf-core-oscore-groupcomm}}. The payload of the response is formatted as defined in {{sec-retrieve-stale-sids}}.
 
-## Admitted Methods {#ssec-admitted-methods}
+## Permitted Methods {#ssec-admitted-methods}
 
-{{tab-methods}} summarizes the CoAP methods that are admitted for accessing different resources at the Group Manager, for (non-)members of a group with group name GROUPNAME, and considering different roles. The last two rows of the table apply to a node with node name NODENAME.
+{{tab-methods}} summarizes the CoAP methods that are permitted for accessing different resources at the Group Manager, for (non-)members of a group with group name GROUPNAME, and considering different roles. The last two rows of the table apply to a node with node name NODENAME.
 
 The table uses the following abbreviations.
 
@@ -1110,7 +1110,7 @@ The table uses the following abbreviations.
 | /ace-group/GROUPNAME/nodes/NODENAME      | G P D | G D   | -     | -     |
 |------------------------------------------|-------|-------|-------|-------|
 | /ace-group/GROUPNAME/nodes/NODENAME/cred | P     | -     | -     | -     |
-{: #tab-methods title="Admitted CoAP Methods on the Group Manager Resources" align="center"}
+{: #tab-methods title="Permitted CoAP Methods on the Group Manager Resources" align="center"}
 
 ### Signature Verifiers
 
@@ -2824,7 +2824,7 @@ sign_params = 11
 
 * The url-path "ace-group" is used.
 
-* Added overview of admitted methods on the Group Manager resources.
+* Added overview of permitted methods on the Group Manager resources.
 
 * Added exchange of parameters relevant for the pairwise mode of Group OSCORE.
 
