@@ -1141,7 +1141,7 @@ This section defines the possible interactions with the Group Manager, in additi
 
 ## Retrieve Updated Keying Material # {#sec-updated-key}
 
-At some point, it can happen that a group member considers the Group OSCORE Security Context invalid and to be renewed. This happens, for instance, after a number of unsuccessful security processing of incoming messages from other group members, or when the Security Context expires as specified by the 'exp' or 'exi' parameter of the Join Response.
+At some point, it can happen that a group member considers the Group OSCORE Security Context invalid and needs to renew it. This happens, for instance, after a number of unsuccessful security processing of incoming messages from other group members, or when the Security Context expires as specified by the 'exp' or 'exi' parameter of the Join Response.
 
 When this happens, the group member retrieves updated security parameters and group keying material. This can occur in the two different ways described below.
 
