@@ -360,9 +360,9 @@ Table of Contents
       by sending a response message to the requester which has sent the
       request message.
 
-   *  Monitor: member of an OSCORE group that is configured as responder
-      and never sends response messages protected with Group OSCORE.
-      This corresponds to the term "silent server" used in
+   *  Monitor: member of an OSCORE group that is configured as a
+      responder and never sends response messages protected with Group
+      OSCORE.  This corresponds to the term "silent server" used in
       [I-D.ietf-core-oscore-groupcomm].
 
    *  Signature verifier: entity external to the OSCORE group and
@@ -621,7 +621,7 @@ Table of Contents
    provide its authentication credential to the Group Manager when
    joining an OSCORE group.
 
-   *  The joining node is going to join the group exclusively as
+   *  The joining node is going to join the group exclusively as a
       monitor, i.e., it is not going to send protected messages to the
       group.  Consequently, even if compatible with the group in
       question, an authentication credential of such a joining node
@@ -649,8 +649,8 @@ Table of Contents
       parameter 'client_cred_verify'.
 
    *  The joining node is currently a group member acting not
-      exclusively as monitor, and it is re-joining the group not
-      exclusively as monitor.
+      exclusively as a monitor, and it is re-joining the group not
+      exclusively as a monitor.
 
       In this case, if the joining node intends to use the same
       authentication credential that it is currently using in the group,
@@ -1272,11 +1272,11 @@ Table of Contents
    group member, e.g., based on the ongoing secure communication
    association that is used to protect the Join Request.
 
-   If the joining node is going to join the group exclusively as
+   If the joining node is going to join the group exclusively as a
    monitor, then the Group Manager silently ignores the parameters
    'client_cred' and 'client_cred_verify', if present.
 
-   If the joining node is not going to join the group exclusively as
+   If the joining node is not going to join the group exclusively as a
    monitor, it is a current member of the group, and the
    'client_cred_verify' parameter is not present, then the following
    applies:
@@ -1295,7 +1295,7 @@ Table of Contents
       Manager MUST reply with a 4.00 (Bad Request) error response
       (OPT8).
 
-   If the joining node is not going to join the group exclusively as
+   If the joining node is not going to join the group exclusively as a
    monitor and the 'client_cred_verify' parameter specifies the empty
    CBOR byte string (0x40), the Group Manager checks whether it has
    already achieved proof of possession of the joining node's private
@@ -1315,7 +1315,7 @@ Table of Contents
    problem-details+cbor" is on one line (no line wrapping) on every
    occurrence and delete this note.
 
-   If the joining node is not going to join the group exclusively as
+   If the joining node is not going to join the group exclusively as a
    monitor and the 'client_cred_verify' parameter specifies a value
    different from the empty CBOR byte string (0x40), then the Group
    Manager verifies the PoP evidence therein as follows:
@@ -1351,8 +1351,8 @@ Table of Contents
 
    *  There are currently no OSCORE Sender IDs available to assign in
       the OSCORE group and, at the same time, the joining node is not
-      going to join the group exclusively as monitor.  The response MUST
-      have Content-Format set to "application/concise-problem-
+      going to join the group exclusively as a monitor.  The response
+      MUST have Content-Format set to "application/concise-problem-
       details+cbor" [RFC9290] and is formatted as defined in
       Section 4.1.2 of [RFC9594].  Within the Custom Problem Detail
       entry 'ace-groupcomm-error', the value of the 'error-id' field
@@ -1373,7 +1373,7 @@ Table of Contents
       present and specifies any of the following sets of roles:
       ("requester", "monitor") and ("responder", "monitor").
 
-   *  The joining node is not going to join the group exclusively as
+   *  The joining node is not going to join the group exclusively as a
       monitor, and any of the following holds:
 
       -  The joining node is not a current member of the group, and the
@@ -1490,7 +1490,7 @@ Table of Contents
       be a random value.
 
    *  If the joining node is not going to join the group exclusively as
-      monitor, then the following applies:
+      a monitor, then the following applies:
 
       -  The 'client_cred' parameter MUST include an authentication
          credential in the format indicated by the Group Manager.  Also,
@@ -1715,10 +1715,10 @@ Table of Contents
       the group members that are relevant to the joining node.  That is,
       in such a case, the 'creds' parameter specifies only: i) the
       authentication credentials of the responders currently in the
-      OSCORE group, if the joining node is configured (also) as
+      OSCORE group, if the joining node is configured (also) as a
       requester; and ii) the authentication credentials of the
       requesters currently in the OSCORE group, if the joining node is
-      configured (also) as responder or monitor.
+      configured (also) as a responder or monitor.
 
    *  The 'peer_identifiers' parameter, if present, specifies the OSCORE
       Sender ID of each group member whose authentication credential is
@@ -2210,15 +2210,15 @@ Table of Contents
 
    *  D = CoAP method DELETE
 
-   *  Type1 = Member as Requester and/or Responder
+   *  Type1 = Member as a Requester and/or Responder
 
-   *  Type2 = Member as Monitor
+   *  Type2 = Member as a Monitor
 
    *  Type3 = Non-member (authorized to be signature verifier)
 
    *  Type4 = Non-member (not authorized to be signature verifier)
 
-   *  * = Cannot join the group as signature verifier
+   *  * = Cannot join the group as a signature verifier
 
     +=================================+=======+=======+=======+=======+
     | Resource                        | Type1 | Type2 | Type3 | Type4 |
