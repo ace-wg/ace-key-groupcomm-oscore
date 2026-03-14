@@ -5,8 +5,8 @@
 ACE Working Group                                              M. Tiloca
 Internet-Draft                                                   RISE AB
 Intended status: Standards Track                            F. Palombini
-Expires: 29 August 2026                                      Ericsson AB
-                                                        25 February 2026
+Expires: 15 September 2026                                   Ericsson AB
+                                                           14 March 2026
 
 
     Key Management for Group Object Security for Constrained RESTful
@@ -44,7 +44,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 29 August 2026.
+   This Internet-Draft will expire on 15 September 2026.
 
 Copyright Notice
 
@@ -155,26 +155,27 @@ Table of Contents
      B.2.  Format of 'key'
    Appendix C.  CDDL Model
    Appendix D.  Document Updates
-     D.1.  Version -19 to -20
-     D.2.  Version -18 to -19
-     D.3.  Version -17 to -18
-     D.4.  Version -16 to -17
-     D.5.  Version -15 to -16
-     D.6.  Version -14 to -15
-     D.7.  Version -13 to -14
-     D.8.  Version -12 to -13
-     D.9.  Version -11 to -12
-     D.10. Version -10 to -11
-     D.11. Version -09 to -10
-     D.12. Version -08 to -09
-     D.13. Version -07 to -08
-     D.14. Version -06 to -07
-     D.15. Version -05 to -06
-     D.16. Version -04 to -05
-     D.17. Version -03 to -04
-     D.18. Version -02 to -03
-     D.19. Version -01 to -02
-     D.20. Version -00 to -01
+     D.1.  Version -20 to -21
+     D.2.  Version -19 to -20
+     D.3.  Version -18 to -19
+     D.4.  Version -17 to -18
+     D.5.  Version -16 to -17
+     D.6.  Version -15 to -16
+     D.7.  Version -14 to -15
+     D.8.  Version -13 to -14
+     D.9.  Version -12 to -13
+     D.10. Version -11 to -12
+     D.11. Version -10 to -11
+     D.12. Version -09 to -10
+     D.13. Version -08 to -09
+     D.14. Version -07 to -08
+     D.15. Version -06 to -07
+     D.16. Version -05 to -06
+     D.17. Version -04 to -05
+     D.18. Version -03 to -04
+     D.19. Version -02 to -03
+     D.20. Version -01 to -02
+     D.21. Version -00 to -01
    Acknowledgments
    Authors' Addresses
 
@@ -4797,17 +4798,17 @@ Table of Contents
               Tiloca, M., Höglund, R., Van der Stok, P., and F.
               Palombini, "Admin Interface for the OSCORE Group Manager",
               Work in Progress, Internet-Draft, draft-ietf-ace-oscore-
-              gm-admin-15, 23 February 2026,
+              gm-admin-16, 12 March 2026,
               <https://datatracker.ietf.org/doc/html/draft-ietf-ace-
-              oscore-gm-admin-15>.
+              oscore-gm-admin-16>.
 
    [I-D.ietf-core-coap-pubsub]
               Jimenez, J., Koster, M., and A. Keränen, "A publish-
               subscribe architecture for the Constrained Application
               Protocol (CoAP)", Work in Progress, Internet-Draft, draft-
-              ietf-core-coap-pubsub-18, 28 February 2025,
+              ietf-core-coap-pubsub-19, 2 March 2026,
               <https://datatracker.ietf.org/doc/html/draft-ietf-core-
-              coap-pubsub-18>.
+              coap-pubsub-19>.
 
    [I-D.ietf-core-groupcomm-bis]
               Dijk, E. and M. Tiloca, "Group Communication for the
@@ -4821,17 +4822,17 @@ Table of Contents
               Mattsson, J. P., Selander, G., Raza, S., Höglund, J., and
               M. Furuhed, "CBOR Encoded X.509 Certificates (C509
               Certificates)", Work in Progress, Internet-Draft, draft-
-              ietf-cose-cbor-encoded-cert-16, 25 January 2026,
+              ietf-cose-cbor-encoded-cert-17, 2 March 2026,
               <https://datatracker.ietf.org/doc/html/draft-ietf-cose-
-              cbor-encoded-cert-16>.
+              cbor-encoded-cert-17>.
 
    [I-D.tiloca-core-oscore-discovery]
               Tiloca, M., Amsüss, C., and P. Van der Stok, "Discovery of
               OSCORE Groups with the CoRE Resource Directory", Work in
               Progress, Internet-Draft, draft-tiloca-core-oscore-
-              discovery-18, 3 September 2025,
+              discovery-19, 2 March 2026,
               <https://datatracker.ietf.org/doc/html/draft-tiloca-core-
-              oscore-discovery-18>.
+              oscore-discovery-19>.
 
    [RFC5280]  Cooper, D., Santesson, S., Farrell, S., Boeyen, S.,
               Housley, R., and W. Polk, "Internet X.509 Public Key
@@ -5232,7 +5233,11 @@ Appendix D.  Document Updates
 
    This section is to be removed before publishing as an RFC.
 
-D.1.  Version -19 to -20
+D.1.  Version -20 to -21
+
+   *  Minor fixes and editorial improvements.
+
+D.2.  Version -19 to -20
 
    *  More consistent use of the terms "nonce" and "challenge".
 
@@ -5247,7 +5252,7 @@ D.1.  Version -19 to -20
 
    *  Minor fixes and editorial improvements.
 
-D.2.  Version -18 to -19
+D.3.  Version -18 to -19
 
    *  Extended introduction: clarified relationships between this
       document and related documents.
@@ -5299,7 +5304,7 @@ D.2.  Version -18 to -19
 
    *  Minor fixes and editorial improvements.
 
-D.3.  Version -17 to -18
+D.4.  Version -17 to -18
 
    *  Avoid unnecessary normative language.
 
@@ -5322,7 +5327,7 @@ D.3.  Version -17 to -18
 
    *  Clarifications and editorial improvements.
 
-D.4.  Version -16 to -17
+D.5.  Version -16 to -17
 
    *  CBOR diagnostic notation uses placeholders from a CDDL model.
 
@@ -5406,7 +5411,7 @@ D.4.  Version -16 to -17
 
    *  Clarifications and editorial fixes.
 
-D.5.  Version -15 to -16
+D.6.  Version -15 to -16
 
    *  Early mentioning of invalid combinations of roles.
 
@@ -5420,7 +5425,7 @@ D.5.  Version -15 to -16
 
    *  Clarifications and editorial fixes.
 
-D.6.  Version -14 to -15
+D.7.  Version -14 to -15
 
    *  Alignment with renaming in draft-ietf-ace-key-groupcomm.
 
@@ -5432,7 +5437,7 @@ D.6.  Version -14 to -15
 
    *  Editorial fixes.
 
-D.7.  Version -13 to -14
+D.8.  Version -13 to -14
 
    *  Major reordering of the document sections.
 
@@ -5444,7 +5449,7 @@ D.7.  Version -13 to -14
 
    *  Clarifications and editorial improvements.
 
-D.8.  Version -12 to -13
+D.9.  Version -12 to -13
 
    *  Renamed parameters about authentication credentials.
 
@@ -5458,7 +5463,7 @@ D.8.  Version -12 to -13
    *  Updated textual description of registered ACE Scope Semantics
       value.
 
-D.9.  Version -11 to -12
+D.10.  Version -11 to -12
 
    *  Clarified semantics of 'ecdh_info' and 'kdc_dh_creds'.
 
@@ -5495,7 +5500,7 @@ D.9.  Version -11 to -12
 
    *  Fixes and editorial improvements.
 
-D.10.  Version -10 to -11
+D.11.  Version -10 to -11
 
    *  Removed redundancy of key type capabilities, from 'sign_info',
       'ecdh_info' and 'key'.
@@ -5542,7 +5547,7 @@ D.10.  Version -10 to -11
    *  General format of parameters related to COSE capabilities,
       supporting future registered COSE algorithms (new Appendix).
 
-D.11.  Version -09 to -10
+D.12.  Version -09 to -10
 
    *  Updated non-recycling policy of Sender IDs.
 
@@ -5562,7 +5567,7 @@ D.11.  Version -09 to -10
 
    *  Renumbered requirements.
 
-D.12.  Version -08 to -09
+D.13.  Version -08 to -09
 
    *  The url-path "ace-group" is used.
 
@@ -5596,7 +5601,7 @@ D.12.  Version -08 to -09
 
    *  Clarifications and editorial revision.
 
-D.13.  Version -07 to -08
+D.14.  Version -07 to -08
 
    *  AIF data model to express scope entries.
 
@@ -5615,7 +5620,7 @@ D.13.  Version -07 to -08
 
    *  IANA registrations to support the AIF data model.
 
-D.14.  Version -06 to -07
+D.15.  Version -06 to -07
 
    *  Alignments with draft-ietf-core-oscore-groupcomm.
 
@@ -5628,7 +5633,7 @@ D.14.  Version -06 to -07
 
    *  Editorial revision.
 
-D.15.  Version -05 to -06
+D.16.  Version -05 to -06
 
    *  Added role of external signature verifier.
 
@@ -5658,7 +5663,7 @@ D.15.  Version -05 to -06
 
    *  Editorial improvements.
 
-D.16.  Version -04 to -05
+D.17.  Version -04 to -05
 
    *  Nonce N_S also in error responses to the Join Requests.
 
@@ -5688,7 +5693,7 @@ D.16.  Version -04 to -05
 
    *  Added CBOR values to abbreviate role identifiers in the group.
 
-D.17.  Version -03 to -04
+D.18.  Version -03 to -04
 
    *  New abstract.
 
@@ -5710,7 +5715,7 @@ D.17.  Version -03 to -04
 
    *  Editorial improvements.
 
-D.18.  Version -02 to -03
+D.19.  Version -02 to -03
 
    *  New sections, aligned with the interface of ace-key-groupcomm .
 
@@ -5733,7 +5738,7 @@ D.18.  Version -02 to -03
 
    *  More fulfilled profile requirements (Appendix A).
 
-D.19.  Version -01 to -02
+D.20.  Version -01 to -02
 
    *  Editorial fixes.
 
@@ -5772,7 +5777,7 @@ D.19.  Version -01 to -02
    *  Registered one public key encoding in the "ACE Public Key
       Encoding" IANA registry (Section 9).
 
-D.20.  Version -00 to -01
+D.21.  Version -00 to -01
 
    *  Changed name of 'req_aud' to 'audience' in the Authorization
       Request (Section 3.1).
@@ -5812,7 +5817,7 @@ Authors' Addresses
    Marco Tiloca
    RISE AB
    Isafjordsgatan 22
-   SE-164 29 Stockholm Kista
+   SE-164 40 Kista
    Sweden
    Email: marco.tiloca@ri.se
 
@@ -5820,6 +5825,6 @@ Authors' Addresses
    Francesca Palombini
    Ericsson AB
    Torshamnsgatan 23
-   SE-16440 Stockholm Kista
+   SE-164 40 Kista
    Sweden
    Email: francesca.palombini@ericsson.com
