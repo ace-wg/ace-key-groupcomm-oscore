@@ -5802,9 +5802,10 @@ Acknowledgments
    document.
 
    The authors sincerely thank Christian Amsüss, Santiago Aragón, Stefan
-   Beck, Carsten Bormann, Deb Cooley, Thomas Graf, Martin Gunnarsson,
-   Russ Housley, Rikard Höglund, Watson Ladd, Daniel Migault, Yoav Nir,
-   Jim Schaad, Ludwig Seitz, Göran Selander, Peter van der Stok, and
+   Beck, Mike Bishop, Carsten Bormann, Mohamed Boucadair, Deb Cooley,
+   Thomas Graf, Martin Gunnarsson, Russ Housley, Rikard Höglund, Watson
+   Ladd, Daniel Migault, Yoav Nir, Jim Schaad, Ludwig Seitz, Göran
+   Selander, Gunter Van de Velde, Peter van der Stok, Éric Vyncke, and
    Paul Wouters for their comments and feedback.
 
    The work on this document has been partly supported by the Sweden's
