@@ -1845,9 +1845,9 @@ If the Client supports the problem-details format {{RFC9290}} and the Custom Pro
 
 # Default Values for Group Configuration Parameters {#default-values}
 
-This section defines the default values that the Group Manager assumes for the configuration parameters of an OSCORE group, unless differently specified when creating and configuring the group (for example, by means of the admin interface specified in {{I-D.ietf-ace-oscore-gm-admin}}).
+This section defines the default values that the Group Manager refers to for the configuration parameters of an OSCORE group, in case values for those parameters are not explicitly specified when creating and configuring the group (for example, by means of the admin interface defined in {{I-D.ietf-ace-oscore-gm-admin}}). These default values are RECOMMENDED to use for the configuration parameters.
 
-A possible reason for the Group Manager to consider default values different from those recommended in this section is to ensure that each of those are consistent with what the Group Manager supports, e.g., in terms of signature algorithm and format of authentication credentials used in the OSCORE group.
+Exceptionally, the Group Manager MAY choose different default values instead of those recommended in this section. A possible reason is to ensure that each of those are consistent with what the Group Manager supports, e.g., in terms of signature algorithm and format of authentication credentials used in the OSCORE group.
 
 This ensures that the Group Manager is able to perform the operations defined in this document, e.g., to achieve proof of possession of a joining node's private key (see {{ssec-join-req-processing}}), as well as to provide a joining node with its own authentication credential and the associated proof-of-possession challenge (see {{ssec-join-resp}}).
 
@@ -2501,6 +2501,12 @@ sign_params = 11
 ## Version -20 to -21 ## {#sec-20-21}
 
 * Separate Section 1.2 "Notations".
+
+* Revised preamble on default values in Section 14:
+
+  * Aligned with that in Section 5.2 of draft-ietf-ace-oscore-gm-admin-16.
+
+  * Clearer in terms of recommendations and reasons to deviate.
 
 * Clarifications in the "Operational Considerations" section, also aligned with draft-ietf-ace-oscore-gm-admin:
 
