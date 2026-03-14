@@ -463,7 +463,7 @@ Table of Contents
       Section 13.
 
    Finally, Appendix A compiles the list of requirements for this
-   application profile of ACE and how they are fulfilled, consistently
+   application profile of ACE and how they are fulfilled, consistent
    with the list of requirements defined in Appendix A of [RFC9594].
 
 3.  Format of Scope
@@ -971,7 +971,7 @@ Table of Contents
 
       For application profiles of [RFC9594] that use the 'ecdh_info'
       parameter, it is REQUIRED to define specific values to use for
-      'cred_fmt', consistently with the acceptable formats of
+      'cred_fmt', consistent with the acceptable formats of
       authentication credentials.
 
    If 'ecdh_info' is included in the Token Transfer Request, the KDC
@@ -1060,7 +1060,7 @@ Table of Contents
 
       For application profiles of [RFC9594] that use the 'kdc_dh_creds'
       parameter, it is REQUIRED to define specific values to use for
-      'cred_fmt', consistently with the acceptable formats of the KDC's
+      'cred_fmt', consistent with the acceptable formats of the KDC's
       authentication credentials.
 
    *  The third element 'cred' is a CBOR byte string encoding the
@@ -1525,7 +1525,7 @@ Table of Contents
       according to what is specified in the access token (see
       Section 5.2).
 
-      Consistently with Section 12.2.1.2 of
+      Consistent with Section 12.2.1.2 of
       [I-D.ietf-core-oscore-groupcomm], the Group Manager MUST assign an
       OSCORE Sender ID that has not been used in the OSCORE group since
       the latest time when the current Gid value was assigned to the
@@ -1853,7 +1853,7 @@ Table of Contents
 
    If the following parameters were not included in the 'key' parameter
    of the Join Response, then the joining node considers the default
-   values specified below, consistently with Section 3.2 of [RFC8613].
+   values specified below, consistent with Section 3.2 of [RFC8613].
 
    *  Absent the 'hkdf' parameter, the joining node considers HKDF
       SHA-256 as the HKDF Algorithm to use in the OSCORE group.
@@ -2471,7 +2471,7 @@ Table of Contents
           specifying the new Sender ID of the group member encoded as a
           CBOR byte string (REQ27).
 
-          Consistently with Section 2.6.3.1 of
+          Consistent with Section 2.6.3.1 of
           [I-D.ietf-core-oscore-groupcomm], the Group Manager MUST
           assign a new Sender ID that has not been used in the OSCORE
           group since the latest time when the current Gid value was
