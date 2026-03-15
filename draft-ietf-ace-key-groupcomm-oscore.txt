@@ -568,9 +568,9 @@ Table of Contents
 
       scope_entry = [oscore-gname, oscore-gperm]
 
-   Future specifications that define new Group OSCORE roles MUST
+   Future specifications that define new Group OSCORE roles must
    register a corresponding numeric identifier in the "Group OSCORE
-   Roles" registry.
+   Roles" registry defined in Section 17.12 of this document.
 
    Note that the value 0 is not available to use as numeric identifier
    to specify a Group OSCORE role.  It follows that, when expressing
@@ -5337,6 +5337,8 @@ D.1.  Version -20 to -21
 
    *  Clarified that group names are consistent with the semantics of
       URI path segments.
+
+   *  Removed unnecessary normative language.
 
    *  Revised preamble on default values in Section 14:
 

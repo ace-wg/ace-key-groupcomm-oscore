@@ -1940,7 +1940,7 @@ An authorized signature verifier does not join the OSCORE group as an actual mem
    scope_entry = [oscore-gname, oscore-gperm]
 </pre><a href="#section-3-13" class="pilcrow">¶</a>
 </div>
-<p id="section-3-14">Future specifications that define new Group OSCORE roles <span class="bcp14">MUST</span> register a corresponding numeric identifier in the "Group OSCORE Roles" registry.<a href="#section-3-14" class="pilcrow">¶</a></p>
+<p id="section-3-14">Future specifications that define new Group OSCORE roles must register a corresponding numeric identifier in the "Group OSCORE Roles" registry defined in <a href="#ssec-iana-group-oscore-roles-registry" class="auto internal xref">Section 17.12</a> of this document.<a href="#section-3-14" class="pilcrow">¶</a></p>
 <p id="section-3-15">Note that the value 0 is not available to use as numeric identifier to specify a Group OSCORE role. It follows that, when expressing Group OSCORE roles to take in a group as per this document, a scope entry has the least significant bit of "Tperm" always set to 0.<a href="#section-3-15" class="pilcrow">¶</a></p>
 <p id="section-3-16">This is an explicit feature of the AIF-OSCORE-GROUPCOMM data model. That is, for each scope entry, the least significant bit of "Tperm" set to 0 explicitly identifies the scope entry as exactly expressing a set of Group OSCORE roles ("Tperm"), which pertains to a single group whose name is specified by the string literal in "Toid".<a href="#section-3-16" class="pilcrow">¶</a></p>
 <p id="section-3-17">Instead, by relying on the same AIF-OSCORE-GROUPCOMM data model, <span>[<a href="#I-D.ietf-ace-oscore-gm-admin" class="cite xref">I-D.ietf-ace-oscore-gm-admin</a>]</span> defines the format of scope entries for Administrator Clients that wish to access an admin interface at the Group Manager. In such scope entries, the least significant bit of "Tperm" is always set to 1.<a href="#section-3-17" class="pilcrow">¶</a></p>
@@ -5646,46 +5646,49 @@ sign_params = 11
             <p id="appendix-D.1-1.2.1">Clarified that group names are consistent with the semantics of URI path segments.<a href="#appendix-D.1-1.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.3">
-            <p id="appendix-D.1-1.3.1">Revised preamble on default values in Section 14:<a href="#appendix-D.1-1.3.1" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="appendix-D.1-1.3.2.1">
-                <p id="appendix-D.1-1.3.2.1.1">Aligned with that in Section 5.2 of draft-ietf-ace-oscore-gm-admin-16.<a href="#appendix-D.1-1.3.2.1.1" class="pilcrow">¶</a></p>
-</li>
-              <li class="normal" id="appendix-D.1-1.3.2.2">
-                <p id="appendix-D.1-1.3.2.2.1">Clearer in terms of recommendations and reasons to deviate.<a href="#appendix-D.1-1.3.2.2.1" class="pilcrow">¶</a></p>
-</li>
-            </ul>
+            <p id="appendix-D.1-1.3.1">Removed unnecessary normative language.<a href="#appendix-D.1-1.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.4">
-            <p id="appendix-D.1-1.4.1">Clarifications in the "Operational Considerations" section, also aligned with draft-ietf-ace-oscore-gm-admin:<a href="#appendix-D.1-1.4.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.4.1">Revised preamble on default values in Section 14:<a href="#appendix-D.1-1.4.1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="appendix-D.1-1.4.2.1">
-                <p id="appendix-D.1-1.4.2.1.1">Policies for log retention at the Group Manager.<a href="#appendix-D.1-1.4.2.1.1" class="pilcrow">¶</a></p>
+                <p id="appendix-D.1-1.4.2.1.1">Aligned with that in Section 5.2 of draft-ietf-ace-oscore-gm-admin-16.<a href="#appendix-D.1-1.4.2.1.1" class="pilcrow">¶</a></p>
 </li>
               <li class="normal" id="appendix-D.1-1.4.2.2">
-                <p id="appendix-D.1-1.4.2.2.1">Logged authentication credentials are not only those used within the OSCORE group.<a href="#appendix-D.1-1.4.2.2.1" class="pilcrow">¶</a></p>
-</li>
-              <li class="normal" id="appendix-D.1-1.4.2.3">
-                <p id="appendix-D.1-1.4.2.3.1">Editorial improvements.<a href="#appendix-D.1-1.4.2.3.1" class="pilcrow">¶</a></p>
+                <p id="appendix-D.1-1.4.2.2.1">Clearer in terms of recommendations and reasons to deviate.<a href="#appendix-D.1-1.4.2.2.1" class="pilcrow">¶</a></p>
 </li>
             </ul>
 </li>
           <li class="normal" id="appendix-D.1-1.5">
-            <p id="appendix-D.1-1.5.1">IANA considerations<a href="#appendix-D.1-1.5.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.5.1">Clarifications in the "Operational Considerations" section, also aligned with draft-ietf-ace-oscore-gm-admin:<a href="#appendix-D.1-1.5.1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="appendix-D.1-1.5.2.1">
-                <p id="appendix-D.1-1.5.2.1.1">Added references to IANA registries.<a href="#appendix-D.1-1.5.2.1.1" class="pilcrow">¶</a></p>
+                <p id="appendix-D.1-1.5.2.1.1">Policies for log retention at the Group Manager.<a href="#appendix-D.1-1.5.2.1.1" class="pilcrow">¶</a></p>
 </li>
               <li class="normal" id="appendix-D.1-1.5.2.2">
-                <p id="appendix-D.1-1.5.2.2.1">More details in the definition of a column in the new IANA registry.<a href="#appendix-D.1-1.5.2.2.1" class="pilcrow">¶</a></p>
+                <p id="appendix-D.1-1.5.2.2.1">Logged authentication credentials are not only those used within the OSCORE group.<a href="#appendix-D.1-1.5.2.2.1" class="pilcrow">¶</a></p>
 </li>
               <li class="normal" id="appendix-D.1-1.5.2.3">
-                <p id="appendix-D.1-1.5.2.3.1">Added reference to Section 4.1 of RFC 8126.<a href="#appendix-D.1-1.5.2.3.1" class="pilcrow">¶</a></p>
+                <p id="appendix-D.1-1.5.2.3.1">Editorial improvements.<a href="#appendix-D.1-1.5.2.3.1" class="pilcrow">¶</a></p>
 </li>
             </ul>
 </li>
           <li class="normal" id="appendix-D.1-1.6">
-            <p id="appendix-D.1-1.6.1">Minor fixes and editorial improvements.<a href="#appendix-D.1-1.6.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.6.1">IANA considerations<a href="#appendix-D.1-1.6.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-D.1-1.6.2.1">
+                <p id="appendix-D.1-1.6.2.1.1">Added references to IANA registries.<a href="#appendix-D.1-1.6.2.1.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="appendix-D.1-1.6.2.2">
+                <p id="appendix-D.1-1.6.2.2.1">More details in the definition of a column in the new IANA registry.<a href="#appendix-D.1-1.6.2.2.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="appendix-D.1-1.6.2.3">
+                <p id="appendix-D.1-1.6.2.3.1">Added reference to Section 4.1 of RFC 8126.<a href="#appendix-D.1-1.6.2.3.1" class="pilcrow">¶</a></p>
+</li>
+            </ul>
+</li>
+          <li class="normal" id="appendix-D.1-1.7">
+            <p id="appendix-D.1-1.7.1">Minor fixes and editorial improvements.<a href="#appendix-D.1-1.7.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
