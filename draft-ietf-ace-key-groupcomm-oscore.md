@@ -398,7 +398,7 @@ The following CDDL {{RFC8610}} notation defines a scope entry that uses the AIF-
    scope_entry = [oscore-gname, oscore-gperm]
 ~~~~~~~~~~~
 
-Future specifications that define new Group OSCORE roles MUST register a corresponding numeric identifier in the "Group OSCORE Roles" registry.
+Future specifications that define new Group OSCORE roles must register a corresponding numeric identifier in the "Group OSCORE Roles" registry defined in {{ssec-iana-group-oscore-roles-registry}} of this document.
 
 Note that the value 0 is not available to use as numeric identifier to specify a Group OSCORE role. It follows that, when expressing Group OSCORE roles to take in a group as per this document, a scope entry has the least significant bit of "Tperm" always set to 0.
 
@@ -2504,6 +2504,8 @@ sign_params = 11
 * Separate Section 1.2 "Notations".
 
 * Clarified that group names are consistent with the semantics of URI path segments.
+
+* Removed unnecessary normative language.
 
 * Revised preamble on default values in Section 14:
 
