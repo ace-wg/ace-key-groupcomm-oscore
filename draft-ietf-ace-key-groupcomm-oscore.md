@@ -35,6 +35,7 @@ author:
     email: francesca.palombini@ericsson.com
 
 normative:
+  RFC3986:
   RFC5246:
   RFC5705:
   RFC6347:
@@ -356,7 +357,7 @@ For each scope entry:
 
 For the application profile of {{RFC9594}} defined in this document, a scope entry includes the name of an OSCORE group and the set of roles to take in that OSCORE group as a set of permissions. Specifically:
 
-* The object identifier ("Toid") is a CBOR text string, specifying the group name for the scope entry.
+* The object identifier ("Toid") is a CBOR text string, specifying the group name for the scope entry. As defined later in {{sec-interface-GM}}, a group's name matches with the GROUPNAME segment within the URI path of the group-membership resource and corresponding sub-resources that are associated with that group and hosted at the Group Manager. Therefore, a group name has to be consistent with the semantics of URI path segments (see {{Section 3.3 of RFC3986}}).
 
 * The permission set ("Tperm") is a CBOR unsigned integer with value R, specifying the role(s) that the Client wishes to take in the group (REQ1). The value R is computed as follows.
 
@@ -1005,7 +1006,7 @@ The Group Manager provides the interface defined in {{Section 4.1 of RFC9594}} i
 
 {{ssec-admitted-methods}} provides a summary of the CoAP methods that are permitted to use for accessing different resources at the Group Manager, for nodes with different roles in the group or as non-members (REQ11).
 
-The GROUPNAME segment of the URI path MUST match with the group name specified in the scope entry of the scope in the access token (i.e., 'gname' in {{Section 3.1 of RFC9594}}) (REQ7).
+The GROUPNAME segment of the URI path MUST match with the group name specified in the scope entry of the scope in the access token (i.e., 'gname' in {{Section 3.1 of RFC9594}}) (REQ7). Therefore, a group name has to be consistent with the semantics of URI path segments (see {{Section 3.3 of RFC3986}}).
 
 The Resource Type (rt=) Link Target Attribute value "core.osc.gm" is registered in {{iana-rt}} (REQ10), and can be used to describe group-membership resources and its sub-resources at a Group Manager, e.g., by using a CoRE link-format document {{RFC6690}}.
 
@@ -2501,6 +2502,8 @@ sign_params = 11
 ## Version -20 to -21 ## {#sec-20-21}
 
 * Separate Section 1.2 "Notations".
+
+* Clarified that group names are consistent with the semantics of URI path segments.
 
 * Revised preamble on default values in Section 14:
 
