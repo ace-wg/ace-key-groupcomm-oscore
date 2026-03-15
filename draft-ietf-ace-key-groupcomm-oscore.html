@@ -1050,7 +1050,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Tiloca &amp; Palombini</td>
-<td class="center">Expires 15 September 2026</td>
+<td class="center">Expires 16 September 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1063,12 +1063,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-ace-key-groupcomm-oscore-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-03-14" class="published">14 March 2026</time>
+<time datetime="2026-03-15" class="published">15 March 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-09-15">15 September 2026</time></dd>
+<dd class="expires"><time datetime="2026-09-16">16 September 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1106,7 +1106,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 15 September 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 16 September 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1864,7 +1864,7 @@ An authorized signature verifier does not join the OSCORE group as an actual mem
 <p id="section-3-9">For the application profile of <span>[<a href="#RFC9594" class="cite xref">RFC9594</a>]</span> defined in this document, a scope entry includes the name of an OSCORE group and the set of roles to take in that OSCORE group as a set of permissions. Specifically:<a href="#section-3-9" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-3-10.1">
-          <p id="section-3-10.1.1">The object identifier ("Toid") is a CBOR text string, specifying the group name for the scope entry.<a href="#section-3-10.1.1" class="pilcrow">¶</a></p>
+          <p id="section-3-10.1.1">The object identifier ("Toid") is a CBOR text string, specifying the group name for the scope entry. As defined later in <a href="#sec-interface-GM" class="auto internal xref">Section 8</a>, a group's name matches with the GROUPNAME segment within the URI path of the group-membership resource and corresponding sub-resources that are associated with that group and hosted at the Group Manager. Therefore, a group name has to be consistent with the semantics of URI path segments (see <span><a href="https://rfc-editor.org/rfc/rfc3986#section-3.3" class="relref">Section 3.3</a> of [<a href="#RFC3986" class="cite xref">RFC3986</a>]</span>).<a href="#section-3-10.1.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="section-3-10.2">
           <p id="section-3-10.2.1">The permission set ("Tperm") is a CBOR unsigned integer with value R, specifying the role(s) that the Client wishes to take in the group (REQ1). The value R is computed as follows.<a href="#section-3-10.2.1" class="pilcrow">¶</a></p>
@@ -2788,7 +2788,7 @@ Due to the set of stale Sender IDs distributed through the rekeying, this ensure
 </li>
       </ul>
 <p id="section-8-3"><a href="#ssec-admitted-methods" class="auto internal xref">Section 8.5</a> provides a summary of the CoAP methods that are permitted to use for accessing different resources at the Group Manager, for nodes with different roles in the group or as non-members (REQ11).<a href="#section-8-3" class="pilcrow">¶</a></p>
-<p id="section-8-4">The GROUPNAME segment of the URI path <span class="bcp14">MUST</span> match with the group name specified in the scope entry of the scope in the access token (i.e., 'gname' in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-3.1" class="relref">Section 3.1</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>) (REQ7).<a href="#section-8-4" class="pilcrow">¶</a></p>
+<p id="section-8-4">The GROUPNAME segment of the URI path <span class="bcp14">MUST</span> match with the group name specified in the scope entry of the scope in the access token (i.e., 'gname' in <span><a href="https://rfc-editor.org/rfc/rfc9594#section-3.1" class="relref">Section 3.1</a> of [<a href="#RFC9594" class="cite xref">RFC9594</a>]</span>) (REQ7). Therefore, a group name has to be consistent with the semantics of URI path segments (see <span><a href="https://rfc-editor.org/rfc/rfc3986#section-3.3" class="relref">Section 3.3</a> of [<a href="#RFC3986" class="cite xref">RFC3986</a>]</span>).<a href="#section-8-4" class="pilcrow">¶</a></p>
 <p id="section-8-5">The Resource Type (rt=) Link Target Attribute value "core.osc.gm" is registered in <a href="#iana-rt" class="auto internal xref">Section 17.10</a> (REQ10), and can be used to describe group-membership resources and its sub-resources at a Group Manager, e.g., by using a CoRE link-format document <span>[<a href="#RFC6690" class="cite xref">RFC6690</a>]</span>.<a href="#section-8-5" class="pilcrow">¶</a></p>
 <p id="section-8-6">Applications can use this common resource type to discover links to group-membership resources for joining OSCORE groups, e.g., by using the approach described in <span>[<a href="#I-D.tiloca-core-oscore-discovery" class="cite xref">I-D.tiloca-core-oscore-discovery</a>]</span>.<a href="#section-8-6" class="pilcrow">¶</a></p>
 <div id="sec-gm-pub-key-fetch">
@@ -5159,6 +5159,10 @@ Entries that do not meet these objectives of clarity and completeness should not
         <dd>
 <span class="refAuthor">Bradner, S.</span>, <span class="refTitle">"Key words for use in RFCs to Indicate Requirement Levels"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 2119</span>, <span class="seriesInfo">DOI 10.17487/RFC2119</span>, <time datetime="1997-03" class="refDate">March 1997</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc2119">https://www.rfc-editor.org/rfc/rfc2119</a>&gt;</span>. </dd>
 <dd class="break"></dd>
+<dt id="RFC3986">[RFC3986]</dt>
+        <dd>
+<span class="refAuthor">Berners-Lee, T.</span>, <span class="refAuthor">Fielding, R.</span>, and <span class="refAuthor">L. Masinter</span>, <span class="refTitle">"Uniform Resource Identifier (URI): Generic Syntax"</span>, <span class="seriesInfo">STD 66</span>, <span class="seriesInfo">RFC 3986</span>, <span class="seriesInfo">DOI 10.17487/RFC3986</span>, <time datetime="2005-01" class="refDate">January 2005</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc3986">https://www.rfc-editor.org/rfc/rfc3986</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC5246">[RFC5246]</dt>
         <dd>
 <span class="refAuthor">Dierks, T.</span> and <span class="refAuthor">E. Rescorla</span>, <span class="refTitle">"The Transport Layer Security (TLS) Protocol Version 1.2"</span>, <span class="seriesInfo">RFC 5246</span>, <span class="seriesInfo">DOI 10.17487/RFC5246</span>, <time datetime="2008-08" class="refDate">August 2008</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc5246">https://www.rfc-editor.org/rfc/rfc5246</a>&gt;</span>. </dd>
@@ -5639,46 +5643,49 @@ sign_params = 11
             <p id="appendix-D.1-1.1.1">Separate Section 1.2 "Notations".<a href="#appendix-D.1-1.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.2">
-            <p id="appendix-D.1-1.2.1">Revised preamble on default values in Section 14:<a href="#appendix-D.1-1.2.1" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="appendix-D.1-1.2.2.1">
-                <p id="appendix-D.1-1.2.2.1.1">Aligned with that in Section 5.2 of draft-ietf-ace-oscore-gm-admin-16.<a href="#appendix-D.1-1.2.2.1.1" class="pilcrow">¶</a></p>
-</li>
-              <li class="normal" id="appendix-D.1-1.2.2.2">
-                <p id="appendix-D.1-1.2.2.2.1">Clearer in terms of recommendations and reasons to deviate.<a href="#appendix-D.1-1.2.2.2.1" class="pilcrow">¶</a></p>
-</li>
-            </ul>
+            <p id="appendix-D.1-1.2.1">Clarified that group names are consistent with the semantics of URI path segments.<a href="#appendix-D.1-1.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-D.1-1.3">
-            <p id="appendix-D.1-1.3.1">Clarifications in the "Operational Considerations" section, also aligned with draft-ietf-ace-oscore-gm-admin:<a href="#appendix-D.1-1.3.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.3.1">Revised preamble on default values in Section 14:<a href="#appendix-D.1-1.3.1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="appendix-D.1-1.3.2.1">
-                <p id="appendix-D.1-1.3.2.1.1">Policies for log retention at the Group Manager.<a href="#appendix-D.1-1.3.2.1.1" class="pilcrow">¶</a></p>
+                <p id="appendix-D.1-1.3.2.1.1">Aligned with that in Section 5.2 of draft-ietf-ace-oscore-gm-admin-16.<a href="#appendix-D.1-1.3.2.1.1" class="pilcrow">¶</a></p>
 </li>
               <li class="normal" id="appendix-D.1-1.3.2.2">
-                <p id="appendix-D.1-1.3.2.2.1">Logged authentication credentials are not only those used within the OSCORE group.<a href="#appendix-D.1-1.3.2.2.1" class="pilcrow">¶</a></p>
-</li>
-              <li class="normal" id="appendix-D.1-1.3.2.3">
-                <p id="appendix-D.1-1.3.2.3.1">Editorial improvements.<a href="#appendix-D.1-1.3.2.3.1" class="pilcrow">¶</a></p>
+                <p id="appendix-D.1-1.3.2.2.1">Clearer in terms of recommendations and reasons to deviate.<a href="#appendix-D.1-1.3.2.2.1" class="pilcrow">¶</a></p>
 </li>
             </ul>
 </li>
           <li class="normal" id="appendix-D.1-1.4">
-            <p id="appendix-D.1-1.4.1">IANA considerations<a href="#appendix-D.1-1.4.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.4.1">Clarifications in the "Operational Considerations" section, also aligned with draft-ietf-ace-oscore-gm-admin:<a href="#appendix-D.1-1.4.1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="appendix-D.1-1.4.2.1">
-                <p id="appendix-D.1-1.4.2.1.1">Added references to IANA registries.<a href="#appendix-D.1-1.4.2.1.1" class="pilcrow">¶</a></p>
+                <p id="appendix-D.1-1.4.2.1.1">Policies for log retention at the Group Manager.<a href="#appendix-D.1-1.4.2.1.1" class="pilcrow">¶</a></p>
 </li>
               <li class="normal" id="appendix-D.1-1.4.2.2">
-                <p id="appendix-D.1-1.4.2.2.1">More details in the definition of a column in the new IANA registry.<a href="#appendix-D.1-1.4.2.2.1" class="pilcrow">¶</a></p>
+                <p id="appendix-D.1-1.4.2.2.1">Logged authentication credentials are not only those used within the OSCORE group.<a href="#appendix-D.1-1.4.2.2.1" class="pilcrow">¶</a></p>
 </li>
               <li class="normal" id="appendix-D.1-1.4.2.3">
-                <p id="appendix-D.1-1.4.2.3.1">Added reference to Section 4.1 of RFC 8126.<a href="#appendix-D.1-1.4.2.3.1" class="pilcrow">¶</a></p>
+                <p id="appendix-D.1-1.4.2.3.1">Editorial improvements.<a href="#appendix-D.1-1.4.2.3.1" class="pilcrow">¶</a></p>
 </li>
             </ul>
 </li>
           <li class="normal" id="appendix-D.1-1.5">
-            <p id="appendix-D.1-1.5.1">Minor fixes and editorial improvements.<a href="#appendix-D.1-1.5.1" class="pilcrow">¶</a></p>
+            <p id="appendix-D.1-1.5.1">IANA considerations<a href="#appendix-D.1-1.5.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-D.1-1.5.2.1">
+                <p id="appendix-D.1-1.5.2.1.1">Added references to IANA registries.<a href="#appendix-D.1-1.5.2.1.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="appendix-D.1-1.5.2.2">
+                <p id="appendix-D.1-1.5.2.2.1">More details in the definition of a column in the new IANA registry.<a href="#appendix-D.1-1.5.2.2.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="appendix-D.1-1.5.2.3">
+                <p id="appendix-D.1-1.5.2.3.1">Added reference to Section 4.1 of RFC 8126.<a href="#appendix-D.1-1.5.2.3.1" class="pilcrow">¶</a></p>
+</li>
+            </ul>
+</li>
+          <li class="normal" id="appendix-D.1-1.6">
+            <p id="appendix-D.1-1.6.1">Minor fixes and editorial improvements.<a href="#appendix-D.1-1.6.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>

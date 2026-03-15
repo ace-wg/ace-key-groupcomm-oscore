@@ -5,8 +5,8 @@
 ACE Working Group                                              M. Tiloca
 Internet-Draft                                                   RISE AB
 Intended status: Standards Track                            F. Palombini
-Expires: 15 September 2026                                   Ericsson AB
-                                                           14 March 2026
+Expires: 16 September 2026                                   Ericsson AB
+                                                           15 March 2026
 
 
     Key Management for Group Object Security for Constrained RESTful
@@ -44,7 +44,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 15 September 2026.
+   This Internet-Draft will expire on 16 September 2026.
 
 Copyright Notice
 
@@ -505,7 +505,13 @@ Table of Contents
    to take in that OSCORE group as a set of permissions.  Specifically:
 
    *  The object identifier ("Toid") is a CBOR text string, specifying
-      the group name for the scope entry.
+      the group name for the scope entry.  As defined later in
+      Section 8, a group's name matches with the GROUPNAME segment
+      within the URI path of the group-membership resource and
+      corresponding sub-resources that are associated with that group
+      and hosted at the Group Manager.  Therefore, a group name has to
+      be consistent with the semantics of URI path segments (see
+      Section 3.3 of [RFC3986]).
 
    *  The permission set ("Tperm") is a CBOR unsigned integer with value
       R, specifying the role(s) that the Client wishes to take in the
@@ -2049,7 +2055,9 @@ Table of Contents
 
    The GROUPNAME segment of the URI path MUST match with the group name
    specified in the scope entry of the scope in the access token (i.e.,
-   'gname' in Section 3.1 of [RFC9594]) (REQ7).
+   'gname' in Section 3.1 of [RFC9594]) (REQ7).  Therefore, a group name
+   has to be consistent with the semantics of URI path segments (see
+   Section 3.3 of [RFC3986]).
 
    The Resource Type (rt=) Link Target Attribute value "core.osc.gm" is
    registered in Section 17.10 (REQ10), and can be used to describe
@@ -4735,6 +4743,11 @@ Table of Contents
               DOI 10.17487/RFC2119, March 1997,
               <https://www.rfc-editor.org/rfc/rfc2119>.
 
+   [RFC3986]  Berners-Lee, T., Fielding, R., and L. Masinter, "Uniform
+              Resource Identifier (URI): Generic Syntax", STD 66,
+              RFC 3986, DOI 10.17487/RFC3986, January 2005,
+              <https://www.rfc-editor.org/rfc/rfc3986>.
+
    [RFC5246]  Dierks, T. and E. Rescorla, "The Transport Layer Security
               (TLS) Protocol Version 1.2", RFC 5246,
               DOI 10.17487/RFC5246, August 2008,
@@ -5321,6 +5334,9 @@ Appendix D.  Document Updates
 D.1.  Version -20 to -21
 
    *  Separate Section 1.2 "Notations".
+
+   *  Clarified that group names are consistent with the semantics of
+      URI path segments.
 
    *  Revised preamble on default values in Section 14:
 
